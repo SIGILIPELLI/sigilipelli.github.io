@@ -99,6 +99,27 @@
   .promo-title { display: block; font-weight: 600; font-size: 0.98rem; }
   .promo-desc { display: block; color: var(--sub); font-size: 0.88rem; margin-top: 2px; }
   .promo-cta { flex: none; color: var(--link); font-weight: 600; font-size: 0.92rem; }
+  .search-wrap { position: relative; margin: 0 0 34px; }
+  .search-input {
+    width: 100%; padding: 13px 16px; font-size: 1rem; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--card); color: var(--ink);
+    font-family: inherit;
+  }
+  .search-input:focus { outline: none; border-color: var(--accent); }
+  .search-results {
+    position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 20;
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    max-height: 420px; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+  .search-results a {
+    display: block; padding: 10px 16px; text-decoration: none; color: var(--ink);
+    border-bottom: 1px solid var(--border);
+  }
+  .search-results a:last-child { border-bottom: none; }
+  .search-results a:hover, .search-results a.active { background: var(--bg); }
+  .search-result-title { font-size: 0.94rem; }
+  .search-result-site { display: block; font-size: 0.78rem; color: var(--sub); margin-top: 1px; }
+  .search-empty { padding: 14px 16px; color: var(--sub); font-size: 0.9rem; }
   h2.category {
     font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em;
     color: var(--accent); margin: 30px 0 12px; font-weight: 700;
@@ -153,6 +174,11 @@
   </div>
   <p class="byline">— Vinod Bhanuja</p>
   <p class="yt-line">🎥 Prefer video? Watch the <a href="https://youtube.com/@sigilipelli">Mastery Path video series</a> on YouTube — Shorts and full walkthroughs of these lessons.</p>
+
+  <div class="search-wrap">
+    <input id="mp-search" class="search-input" type="search" placeholder="Search all 2,600+ lessons across 64 courses…" autocomplete="off" aria-label="Search all Mastery Path lessons">
+    <div id="mp-search-results" class="search-results" hidden></div>
+  </div>
 
   <div class="layout">
   <div class="main-col">
@@ -287,5 +313,72 @@
   </footer>
 
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+<script>
+(function () {
+  var input = document.getElementById("mp-search");
+  var results = document.getElementById("mp-search-results");
+  var fuse = null;
+  var activeIndex = -1;
+
+  fetch("search-index.json")
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      fuse = new Fuse(data, { keys: ["title", "site"], threshold: 0.35, minMatchCharLength: 2 });
+    })
+    .catch(function () { /* index unavailable — search stays a no-op */ });
+
+  function render(items) {
+    activeIndex = -1;
+    if (!items.length) {
+      results.innerHTML = '<div class="search-empty">No lessons found.</div>';
+      results.hidden = false;
+      return;
+    }
+    var html = items.slice(0, 25).map(function (r) {
+      var e = r.item;
+      return '<a href="' + e.url + '"><span class="search-result-title">' + escapeHtml(e.title) +
+        '</span><span class="search-result-site">' + escapeHtml(e.site) + '</span></a>';
+    }).join("");
+    results.innerHTML = html;
+    results.hidden = false;
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  input.addEventListener("input", function () {
+    var q = input.value.trim();
+    if (!fuse || q.length < 2) { results.hidden = true; return; }
+    render(fuse.search(q));
+  });
+
+  input.addEventListener("keydown", function (e) {
+    var links = results.querySelectorAll("a");
+    if (!links.length || results.hidden) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      activeIndex = Math.min(activeIndex + 1, links.length - 1);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      activeIndex = Math.max(activeIndex - 1, 0);
+    } else if (e.key === "Enter" && activeIndex >= 0) {
+      links[activeIndex].click();
+      return;
+    } else {
+      return;
+    }
+    links.forEach(function (l, i) { l.classList.toggle("active", i === activeIndex); });
+    links[activeIndex].scrollIntoView({ block: "nearest" });
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!results.contains(e.target) && e.target !== input) results.hidden = true;
+  });
+})();
+</script>
 </body>
 </html>
