@@ -61,7 +61,16 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.55;
   }
-  .wrap { max-width: 1040px; margin: 0 auto; padding: 40px 20px 80px; }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 40px 20px 80px; }
+  .layout { display: flex; gap: 32px; align-items: flex-start; }
+  .main-col { flex: 7 1 0; min-width: 0; }
+  .side-col { flex: 3 1 0; min-width: 0; position: sticky; top: 24px; }
+  .side-col .promo-card { flex-direction: column; align-items: flex-start; margin: 0 0 16px; }
+  .side-col .promo-cta { margin-top: 4px; }
+  @media (max-width: 820px) {
+    .layout { flex-direction: column; }
+    .side-col { position: static; width: 100%; }
+  }
   header.hero {
     display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
     padding-bottom: 28px; border-bottom: 1px solid var(--border); margin-bottom: 28px;
@@ -75,6 +84,21 @@
   .yt-line { margin: 0 0 34px; font-size: 0.98rem; }
   .yt-line a { color: var(--link); font-weight: 600; text-decoration: none; }
   .yt-line a:hover { text-decoration: underline; }
+  .promo-card {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 18px; margin: 0 0 30px; text-decoration: none; color: var(--ink);
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  .promo-card:hover { border-color: var(--accent-2); transform: translateY(-1px); }
+  .promo-tag {
+    flex: none; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--sub); border: 1px solid var(--border); border-radius: 6px; padding: 2px 7px;
+  }
+  .promo-body { flex: 1 1 260px; min-width: 0; }
+  .promo-title { display: block; font-weight: 600; font-size: 0.98rem; }
+  .promo-desc { display: block; color: var(--sub); font-size: 0.88rem; margin-top: 2px; }
+  .promo-cta { flex: none; color: var(--link); font-weight: 600; font-size: 0.92rem; }
   h2.category {
     font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em;
     color: var(--accent); margin: 30px 0 12px; font-weight: 700;
@@ -129,6 +153,9 @@
   </div>
   <p class="byline">— Vinod Bhanuja</p>
   <p class="yt-line">🎥 Prefer video? Watch the <a href="https://youtube.com/@sigilipelli">Mastery Path video series</a> on YouTube — Shorts and full walkthroughs of these lessons.</p>
+
+  <div class="layout">
+  <div class="main-col">
 
   <h2 class="category">Languages</h2>
   <div class="grid">
@@ -236,6 +263,19 @@
     <a href="https://sigilipelli.github.io/kubernetes-mastery-path/">☸️ Kubernetes</a>
     <a href="https://sigilipelli.github.io/docker-mastery-path/">🐳 Docker</a>
     <a href="https://sigilipelli.github.io/github-mastery-path/">🐙 GitHub &amp; Git</a>
+  </div>
+
+  </div>
+  <div class="side-col">
+    <a class="promo-card" href="https://dl.flipkart.com/s/h!Nn8MuuuN" rel="sponsored noopener" target="_blank">
+      <span class="promo-tag">Sponsored</span>
+      <span class="promo-body">
+        <span class="promo-title">Titan Evoke 2.0 Smartwatch</span>
+        <span class="promo-desc">1.32" AMOLED display, magnetic strap, IP68, Bluetooth calling — ₹7,649 on Flipkart</span>
+      </span>
+      <span class="promo-cta">View deal →</span>
+    </a>
+  </div>
   </div>
 
   <footer>
