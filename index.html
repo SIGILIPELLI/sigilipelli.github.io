@@ -6,6 +6,7 @@
 <title>Mastery Path — Free Module-Wise Training in 64 Languages, Platforms &amp; Disciplines</title>
 <meta name="description" content="Mastery Path is a free, structured, module-wise learning library by Vinod Bhanuja — 64 self-paced courses across programming languages, cloud, AI/ML, data, embedded systems, security, testing and leadership, each with runnable examples and real projects.">
 <link rel="canonical" href="https://sigilipelli.github.io/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="alternate" type="application/rss+xml" title="Mastery Path — What's New" href="https://sigilipelli.github.io/feed.xml">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Mastery Path — Free Module-Wise Training in 64 Languages, Platforms & Disciplines">
@@ -83,6 +84,50 @@
   .globe { width: 64px; height: 64px; flex: none; }
   h1 { font-size: 1.9rem; margin: 0 0 4px; letter-spacing: -0.01em; }
   .tagline { color: var(--sub); font-size: 1.02rem; margin: 0; }
+  .mp-mark { display: block; }
+  .mp-bar { transform-origin: center bottom; }
+  .mp-dot { transform-box: fill-box; transform-origin: center; }
+  @keyframes mp-dot-jump {
+    0%    { transform: translate(0px, 0px);      opacity: 1; }
+    18%   { transform: translate(0px, 0px);       opacity: 1; }
+    21.5% { transform: translate(11.5px, -30px);  opacity: 1; }
+    25%   { transform: translate(23px, -16px);    opacity: 1; }
+    43%   { transform: translate(23px, -16px);    opacity: 1; }
+    46.5% { transform: translate(34.5px, -50px);  opacity: 1; }
+    50%   { transform: translate(46px, -34px);    opacity: 1; }
+    68%   { transform: translate(46px, -34px);    opacity: 1; }
+    71.5% { transform: translate(57.5px, -68px);  opacity: 1; }
+    75%   { transform: translate(69px, -52px);    opacity: 1; }
+    93%   { transform: translate(69px, -52px);    opacity: 1; }
+    96%   { transform: translate(69px, -52px);    opacity: 0; }
+    97%   { transform: translate(0px, 0px);       opacity: 0; }
+    100%  { transform: translate(0px, 0px);       opacity: 1; }
+  }
+  .mp-dot { animation: mp-dot-jump 4s ease-in-out infinite; }
+  @keyframes mp-glow-1 {
+    0%, 20%   { filter: brightness(1.4) drop-shadow(0 0 6px #2FA98D); }
+    25%, 97%  { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+    100%      { filter: brightness(1.4) drop-shadow(0 0 6px #2FA98D); }
+  }
+  @keyframes mp-glow-2 {
+    0%, 23%, 48%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+    25%, 43%           { filter: brightness(1.4) drop-shadow(0 0 6px #7FC9B7); }
+  }
+  @keyframes mp-glow-3 {
+    0%, 48.5%, 69.5%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+    50%, 68%               { filter: brightness(1.4) drop-shadow(0 0 6px #E0B457); }
+  }
+  @keyframes mp-glow-4 {
+    0%, 73.5%, 94.5%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+    75%, 93%               { filter: brightness(1.4) drop-shadow(0 0 6px #C97B4A); }
+  }
+  .mp-bar-1 { animation: mp-glow-1 4s ease-in-out infinite; }
+  .mp-bar-2 { animation: mp-glow-2 4s ease-in-out infinite; }
+  .mp-bar-3 { animation: mp-glow-3 4s ease-in-out infinite; }
+  .mp-bar-4 { animation: mp-glow-4 4s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    .mp-dot, .mp-bar-1, .mp-bar-2, .mp-bar-3, .mp-bar-4 { animation: none; }
+  }
   .intro { max-width: 720px; color: var(--ink); font-size: 1.05rem; }
   .intro p { margin: 0 0 14px; }
   .byline { color: var(--sub); font-size: 0.92rem; margin: 0 0 34px; }
@@ -168,13 +213,13 @@
 <div class="wrap">
 
   <header class="hero">
-    <svg class="globe" viewBox="0 0 160 160" role="img" aria-label="Mastery Path globe mark">
+    <svg class="globe mp-mark" viewBox="0 0 160 160" role="img" aria-label="Mastery Path logo">
       <circle cx="80" cy="80" r="74" fill="#FAF7EF" stroke="#2FA98D" stroke-width="4"/>
-      <path d="M62,18 Q78,14 92,20 Q98,30 92,42 Q84,50 74,46 Q64,40 62,28 Z" fill="#2FA98D"/>
-      <path d="M58,42 Q80,36 96,46 Q100,58 90,68 Q76,74 64,66 Q56,56 58,42 Z" fill="#E0B457"/>
-      <path d="M76,86 Q92,82 102,94 Q108,110 100,126 Q92,138 80,136 Q72,124 74,108 Q72,96 76,86 Z" fill="#E0B457"/>
-      <path d="M92,100 Q104,98 108,110 Q106,122 96,124 Q88,118 90,108 Z" fill="#7FC9B7"/>
-      <circle cx="128" cy="34" r="7" fill="#C97B4A"/>
+      <rect class="mp-bar mp-bar-1" x="36" y="90" width="17" height="24" rx="5" fill="#2FA98D"/>
+      <rect class="mp-bar mp-bar-2" x="59" y="74" width="17" height="40" rx="5" fill="#7FC9B7"/>
+      <rect class="mp-bar mp-bar-3" x="82" y="56" width="17" height="58" rx="5" fill="#E0B457"/>
+      <rect class="mp-bar mp-bar-4" x="105" y="38" width="17" height="76" rx="5" fill="#C97B4A"/>
+      <circle class="mp-dot" cx="44.5" cy="82" r="7" fill="#22261f"/>
     </svg>
     <div>
       <h1>Mastery Path</h1>
