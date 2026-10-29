@@ -10,7 +10,7 @@
 <link rel="alternate" type="application/rss+xml" title="Mastery Path — What's New" href="https://sigilipelli.github.io/feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-05VBGCXN12"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -55,14 +55,16 @@
     --border: #e6e0d0;
     --accent: #2FA98D;
     --accent-2: #E0B457;
+    --accent-3: #C97B4A;
     --link: #1f7a63;
-    --radius-lg: 16px;
+    --radius-lg: 18px;
     --radius: 12px;
     --radius-sm: 8px;
     --shadow-sm: 0 1px 2px rgba(34,38,31,0.05), 0 1px 1px rgba(34,38,31,0.04);
     --shadow-md: 0 6px 20px rgba(34,38,31,0.07);
     --shadow-lg: 0 16px 40px rgba(34,38,31,0.12);
     --font-head: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -73,6 +75,7 @@
       --border: #2c3225;
       --accent: #4fd6b3;
       --accent-2: #f0c877;
+      --accent-3: #e2996a;
       --link: #6fe3c4;
       --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
       --shadow-md: 0 6px 20px rgba(0,0,0,0.35);
@@ -90,7 +93,7 @@
   }
   .topline {
     height: 4px;
-    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 50%, #C98B4A 100%);
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
   }
   .wrap { max-width: 1320px; margin: 0 auto; padding: 48px 20px 90px; }
   .layout { display: flex; gap: 36px; align-items: flex-start; }
@@ -103,21 +106,36 @@
     .side-col { position: static; width: 100%; }
   }
 
+  /* ---------- Hero ---------- */
   header.hero {
     position: relative;
     display: flex; align-items: center; gap: 26px; flex-wrap: wrap;
-    padding: 30px 32px; margin-bottom: 20px;
+    padding: 38px 36px; margin-bottom: 28px;
     border-radius: var(--radius-lg);
-    background:
-      radial-gradient(640px 220px at 8% 0%, rgba(47,169,141,0.14), transparent 60%),
-      radial-gradient(520px 200px at 100% 100%, rgba(224,180,87,0.14), transparent 60%),
-      var(--card);
+    background: var(--card);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-md);
     overflow: hidden;
   }
+  .aurora {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    opacity: 0.55;
+  }
+  .aurora span {
+    position: absolute; border-radius: 50%; filter: blur(46px);
+    opacity: 0.5; animation: aurora-drift 18s ease-in-out infinite;
+  }
+  .aurora span:nth-child(1) { width: 320px; height: 220px; left: -60px; top: -80px; background: var(--accent); animation-delay: 0s; }
+  .aurora span:nth-child(2) { width: 280px; height: 220px; right: -40px; top: -60px; background: var(--accent-2); animation-delay: -6s; }
+  .aurora span:nth-child(3) { width: 260px; height: 200px; right: 20%; bottom: -100px; background: var(--accent-3); animation-delay: -12s; }
+  @keyframes aurora-drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(24px, 18px) scale(1.12); }
+  }
+  @media (prefers-reduced-motion: reduce) { .aurora span { animation: none; } }
+  header.hero > * { position: relative; z-index: 1; }
   .logo-tile {
-    flex: none; width: 76px; height: 76px; border-radius: 18px;
+    flex: none; width: 78px; height: 78px; border-radius: 20px;
     display: flex; align-items: center; justify-content: center;
     background: var(--bg); border: 1px solid var(--border); box-shadow: var(--shadow-sm);
   }
@@ -166,8 +184,12 @@
   @media (prefers-reduced-motion: reduce) {
     .mp-dot, .mp-bar-1, .mp-bar-2, .mp-bar-3, .mp-bar-4 { animation: none; }
   }
-  h1 { font-family: var(--font-head); font-weight: 800; font-size: 2rem; margin: 0 0 4px; letter-spacing: -0.015em; }
-  .tagline { color: var(--sub); font-size: 1.04rem; margin: 0; }
+  h1 {
+    font-family: var(--font-serif); font-weight: 600; font-size: 2.6rem; margin: 0 0 4px;
+    letter-spacing: -0.015em; line-height: 1.05;
+  }
+  h1 em { font-style: italic; font-weight: 500; color: var(--accent); }
+  .tagline { color: var(--sub); font-size: 1.05rem; margin: 0; }
   .stat-strip {
     display: flex; flex-wrap: wrap; gap: 10px; margin-left: auto;
   }
@@ -175,14 +197,25 @@
     background: var(--bg); border: 1px solid var(--border); border-radius: 999px;
     padding: 7px 14px; font-size: 0.82rem; color: var(--sub); white-space: nowrap;
   }
-  .stat-chip b { color: var(--ink); font-weight: 700; }
+  .stat-chip b { color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
 
-  .intro { max-width: 740px; color: var(--ink); font-size: 1.05rem; margin-top: 30px; }
+  /* ---------- Intro + pull-quote ---------- */
+  .intro { max-width: 740px; color: var(--ink); font-size: 1.05rem; margin-top: 8px; }
   .intro p { margin: 0 0 14px; }
   .byline { color: var(--sub); font-size: 0.92rem; margin: 0 0 6px; font-weight: 600; }
-  .yt-line { margin: 0 0 28px; font-size: 0.98rem; }
+  .yt-line { margin: 0 0 32px; font-size: 0.98rem; }
   .yt-line a { color: var(--link); font-weight: 600; text-decoration: none; }
   .yt-line a:hover { text-decoration: underline; }
+
+  .manifesto {
+    margin: 0 0 40px; padding: 4px 0 4px 26px; border-left: 3px solid var(--accent-2);
+  }
+  .manifesto p {
+    font-family: var(--font-serif); font-style: italic; font-weight: 500;
+    font-size: 1.5rem; line-height: 1.35; margin: 0 0 8px; color: var(--ink);
+    max-width: 620px;
+  }
+  .manifesto cite { font-style: normal; color: var(--sub); font-size: 0.85rem; font-weight: 600; }
 
   .quicknav { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 28px; }
   .quicknav a {
@@ -191,6 +224,84 @@
     padding: 6px 13px; transition: border-color .15s ease, color .15s ease, transform .15s ease;
   }
   .quicknav a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+  /* ---------- Start Here (featured row) ---------- */
+  .start-here { margin: 0 0 42px; }
+  .start-here h2 {
+    font-family: var(--font-head); font-size: 0.8rem; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--accent); margin: 0 0 14px; font-weight: 800;
+  }
+  .start-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .start-card {
+    display: block; text-decoration: none; color: var(--ink); position: relative;
+    padding: 20px 20px 18px; border-radius: var(--radius); border: 1px solid var(--border);
+    background: var(--card); box-shadow: var(--shadow-sm); overflow: hidden;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .start-card::before {
+    content: ""; position: absolute; inset: 0; opacity: 0.08; pointer-events: none;
+    background: var(--sc-color, var(--accent));
+  }
+  .start-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--sc-color, var(--accent)); }
+  .start-emoji { font-size: 1.6rem; display: block; margin-bottom: 10px; }
+  .start-title {
+    font-family: var(--font-head); font-weight: 700; font-size: 1.05rem; display: block; margin-bottom: 4px;
+  }
+  .start-desc { color: var(--sub); font-size: 0.88rem; display: block; margin-bottom: 10px; }
+  .start-arrow { color: var(--sc-color, var(--link)); font-weight: 700; font-size: 0.85rem; }
+
+  /* ---------- Category flashcards ---------- */
+  .flash-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin-bottom: 10px; }
+  details.flashcard {
+    --cc: var(--accent);
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: var(--shadow-sm); overflow: hidden; scroll-margin-top: 20px;
+    transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+  }
+  details.flashcard.c2 { --cc: var(--accent-2); }
+  details.flashcard.c3 { --cc: var(--accent-3); }
+  details.flashcard[open],
+  details.flashcard:hover {
+    border-color: var(--cc); box-shadow: var(--shadow-md);
+  }
+  details.flashcard > summary {
+    display: flex; align-items: center; gap: 14px; padding: 16px 18px;
+    cursor: pointer; list-style: none; user-select: none;
+  }
+  details.flashcard > summary::-webkit-details-marker { display: none; }
+  details.flashcard > summary::marker { content: ""; }
+  .fc-icon {
+    flex: none; width: 42px; height: 42px; border-radius: 11px;
+    display: flex; align-items: center; justify-content: center; font-size: 1.25rem;
+    background: var(--bg); border: 1px solid var(--border);
+  }
+  .fc-text { flex: 1 1 auto; min-width: 0; }
+  .fc-title {
+    font-family: var(--font-head); font-weight: 700; font-size: 1rem; color: var(--ink);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .fc-count {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 600; font-size: 0.72rem; color: var(--cc);
+    background: var(--bg); border: 1px solid var(--border); border-radius: 999px; padding: 1px 8px;
+  }
+  .fc-desc { display: block; color: var(--sub); font-size: 0.85rem; margin-top: 2px; }
+  .fc-chevron {
+    flex: none; color: var(--sub); font-size: 0.85rem; transition: transform .25s ease, color .25s ease;
+  }
+  details.flashcard[open] .fc-chevron { transform: rotate(180deg); color: var(--cc); }
+  .fc-panel {
+    display: block; max-height: 0; opacity: 0; overflow: hidden;
+    transition: max-height .35s ease, opacity .25s ease;
+    padding: 0 18px;
+  }
+  details.flashcard[open] .fc-panel { max-height: 900px; opacity: 1; padding: 0 18px 18px; }
+  .fc-panel .grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+  .fc-panel .grid a { background: var(--bg); box-shadow: none; }
+  .fc-panel .grid a:hover { border-color: var(--cc); }
+  @media (prefers-reduced-motion: reduce) {
+    details.flashcard, .fc-panel, .fc-chevron { transition: none; }
+  }
 
   .promo-card {
     display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
@@ -266,20 +377,6 @@
   .search-result-site { display: block; font-size: 0.78rem; color: var(--sub); margin-top: 1px; }
   .search-empty { padding: 14px 16px; color: var(--sub); font-size: 0.9rem; }
 
-  h2.category {
-    font-family: var(--font-head);
-    display: flex; align-items: baseline; gap: 10px;
-    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--accent); margin: 36px 0 14px; font-weight: 800;
-    scroll-margin-top: 20px;
-  }
-  h2.category:first-of-type { margin-top: 0; }
-  h2.category .count {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    text-transform: none; letter-spacing: normal; font-weight: 600;
-    color: var(--sub); background: var(--card); border: 1px solid var(--border);
-    border-radius: 999px; padding: 1px 9px; font-size: 0.72rem;
-  }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
   .grid a {
     display: block; padding: 12px 14px; background: var(--card); border: 1px solid var(--border);
@@ -288,13 +385,14 @@
     box-shadow: var(--shadow-sm);
     transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
   }
-  .grid a:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .grid a:hover { border-color: var(--cc); transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
   footer {
     margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border);
-    color: var(--sub); font-size: 0.85rem; display: flex; gap: 20px; flex-wrap: wrap;
-    align-items: center;
+    color: var(--sub); font-size: 0.85rem;
   }
+  .footer-note { font-family: var(--font-serif); font-style: italic; font-size: 1rem; color: var(--ink); margin: 0 0 16px; }
+  .footer-links { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
   footer a { color: var(--sub); text-decoration: none; }
   footer a:hover { color: var(--accent); }
   footer .credit { font-weight: 600; color: var(--ink); }
@@ -305,6 +403,7 @@
 <div class="wrap">
 
   <header class="hero">
+    <div class="aurora"><span></span><span></span><span></span></div>
     <div class="logo-tile">
       <svg class="globe mp-mark" viewBox="0 0 160 160" role="img" aria-label="Mastery Path logo">
         <circle cx="80" cy="80" r="74" fill="#FAF7EF" stroke="#2FA98D" stroke-width="4"/>
@@ -316,13 +415,13 @@
       </svg>
     </div>
     <div>
-      <h1>Mastery Path</h1>
+      <h1>Mastery <em>Path</em></h1>
       <p class="tagline">A free, structured, module-wise training library</p>
     </div>
     <div class="stat-strip">
-      <span class="stat-chip"><b>98</b> courses</span>
-      <span class="stat-chip"><b>3,600+</b> lessons</span>
-      <span class="stat-chip"><b>15</b> categories</span>
+      <span class="stat-chip"><b data-count="98">98</b> courses</span>
+      <span class="stat-chip"><b data-count="3600" data-suffix="+">3,600+</b> lessons</span>
+      <span class="stat-chip"><b data-count="15">15</b> categories</span>
       <span class="stat-chip"><b>$0</b> cost, always</span>
     </div>
   </header>
@@ -345,6 +444,11 @@
   </div>
   <p class="byline">— Vinod Bhanuja</p>
   <p class="yt-line">🎥 Prefer video? Watch the <a href="https://youtube.com/@sigilipelli">Mastery Path video series</a> on YouTube — Shorts and full walkthroughs of these lessons.</p>
+
+  <blockquote class="manifesto">
+    <p>"Structured enough to finish. Deep enough to matter."</p>
+    <cite>— why every course here follows the same four levels</cite>
+  </blockquote>
 
   <div class="search-wrap">
     <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -373,162 +477,357 @@
   <div class="layout">
   <div class="main-col">
 
-  <h2 class="category" id="languages">Languages <span class="count">20</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/python-mastery-path/">🐍 Python</a>
-    <a href="https://sigilipelli.github.io/java-mastery-path/">☕ Java</a>
-    <a href="https://sigilipelli.github.io/javascript-mastery-path/">🟨 JavaScript</a>
-    <a href="https://sigilipelli.github.io/typescript-mastery-path/">🔷 TypeScript</a>
-    <a href="https://sigilipelli.github.io/csharp-mastery-path/">🔵 C#</a>
-    <a href="https://sigilipelli.github.io/shell-mastery-path/">🐚 Shell/Bash</a>
-    <a href="https://sigilipelli.github.io/powershell-mastery-path/">💻 PowerShell</a>
-    <a href="https://sigilipelli.github.io/c-mastery-path/">🇨 C</a>
-    <a href="https://sigilipelli.github.io/cpp-mastery-path/">➕ C++</a>
-    <a href="https://sigilipelli.github.io/go-mastery-path/">🐹 Go</a>
-    <a href="https://sigilipelli.github.io/rust-mastery-path/">🦀 Rust</a>
-    <a href="https://sigilipelli.github.io/sql-mastery-path/">🗄️ SQL</a>
-    <a href="https://sigilipelli.github.io/ruby-mastery-path/">💎 Ruby</a>
-    <a href="https://sigilipelli.github.io/php-mastery-path/">🐘 PHP</a>
-    <a href="https://sigilipelli.github.io/kotlin-mastery-path/">🟣 Kotlin</a>
-    <a href="https://sigilipelli.github.io/swift-mastery-path/">🐦 Swift</a>
-    <a href="https://sigilipelli.github.io/dart-mastery-path/">🎯 Dart</a>
-    <a href="https://sigilipelli.github.io/scala-mastery-path/">🔴 Scala</a>
-    <a href="https://sigilipelli.github.io/r-mastery-path/">📊 R</a>
-    <a href="https://sigilipelli.github.io/matlab-mastery-path/">🟧 MATLAB</a>
-  </div>
+  <section class="start-here">
+    <h2>Popular starting points</h2>
+    <div class="start-grid">
+      <a class="start-card" style="--sc-color:#2FA98D" href="https://sigilipelli.github.io/python-mastery-path/">
+        <span class="start-emoji">🐍</span>
+        <span class="start-title">Python</span>
+        <span class="start-desc">Syntax to production-grade APIs in four levels.</span>
+        <span class="start-arrow">Start Level 1 →</span>
+      </a>
+      <a class="start-card" style="--sc-color:#E0B457" href="https://sigilipelli.github.io/javascript-mastery-path/">
+        <span class="start-emoji">🟨</span>
+        <span class="start-title">JavaScript</span>
+        <span class="start-desc">The web's core language, from basics to async mastery.</span>
+        <span class="start-arrow">Start Level 1 →</span>
+      </a>
+      <a class="start-card" style="--sc-color:#C97B4A" href="https://sigilipelli.github.io/aws-mastery-path/">
+        <span class="start-emoji">☁️</span>
+        <span class="start-title">AWS</span>
+        <span class="start-desc">Cloud fundamentals through real architecture patterns.</span>
+        <span class="start-arrow">Start Level 1 →</span>
+      </a>
+      <a class="start-card" style="--sc-color:#2FA98D" href="https://sigilipelli.github.io/ai-ml-mastery-path/">
+        <span class="start-emoji">🤖</span>
+        <span class="start-title">AI / ML</span>
+        <span class="start-desc">Models, pipelines and practice — not just theory.</span>
+        <span class="start-arrow">Start Level 1 →</span>
+      </a>
+      <a class="start-card" style="--sc-color:#E0B457" href="https://sigilipelli.github.io/react-mastery-path/">
+        <span class="start-emoji">⚛️</span>
+        <span class="start-title">React</span>
+        <span class="start-desc">Build modern, interactive UIs the idiomatic way.</span>
+        <span class="start-arrow">Start Level 1 →</span>
+      </a>
+      <a class="start-card" style="--sc-color:#C97B4A" href="https://sigilipelli.github.io/system-design-mastery-path/">
+        <span class="start-emoji">🏗️</span>
+        <span class="start-title">System Design</span>
+        <span class="start-desc">Ace the interview, then build at real scale.</span>
+        <span class="start-arrow">Start Level 1 →</span>
+      </a>
+    </div>
+  </section>
 
-  <h2 class="category" id="web-frameworks">Web Frameworks <span class="count">11</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/react-mastery-path/">⚛️ React</a>
-    <a href="https://sigilipelli.github.io/nextjs-mastery-path/">▲ Next.js</a>
-    <a href="https://sigilipelli.github.io/angular-mastery-path/">🅰️ Angular</a>
-    <a href="https://sigilipelli.github.io/vue-mastery-path/">💚 Vue.js</a>
-    <a href="https://sigilipelli.github.io/html-css-mastery-path/">🎨 HTML &amp; CSS</a>
-    <a href="https://sigilipelli.github.io/tailwind-mastery-path/">🌬️ Tailwind CSS</a>
-    <a href="https://sigilipelli.github.io/django-mastery-path/">🎸 Django</a>
-    <a href="https://sigilipelli.github.io/fastapi-mastery-path/">🚀 FastAPI</a>
-    <a href="https://sigilipelli.github.io/graphql-mastery-path/">🕸️ GraphQL</a>
-    <a href="https://sigilipelli.github.io/nodejs-mastery-path/">🟩 Node.js</a>
-    <a href="https://sigilipelli.github.io/spring-boot-mastery-path/">🍃 Spring Boot</a>
-  </div>
-
-  <h2 class="category" id="mobile">Mobile <span class="count">2</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/flutter-mastery-path/">💙 Flutter</a>
-    <a href="https://sigilipelli.github.io/react-native-mastery-path/">📲 React Native</a>
-  </div>
-
-  <h2 class="category" id="testing-qa">Testing &amp; QA <span class="count">6</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/java-testing-mastery-path/">🧪 Java Testing</a>
-    <a href="https://sigilipelli.github.io/cpp-testing-mastery-path/">🧪 C/C++ Testing</a>
-    <a href="https://sigilipelli.github.io/python-testing-mastery-path/">🧪 Python Testing</a>
-    <a href="https://sigilipelli.github.io/automotive-testing-mastery-path/">🚗 Automotive Testing</a>
-    <a href="https://sigilipelli.github.io/selenium-mastery-path/">🧭 Selenium</a>
-    <a href="https://sigilipelli.github.io/cypress-mastery-path/">🌲 Cypress</a>
-  </div>
-
-  <h2 class="category" id="security">Security <span class="count">2</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/cybersecurity-mastery-path/">🛡️ Cybersecurity</a>
-    <a href="https://sigilipelli.github.io/ethical-hacking-mastery-path/">🎯 Ethical Hacking</a>
-  </div>
-
-  <h2 class="category" id="cloud">Cloud Platforms <span class="count">5</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/aws-mastery-path/">☁️ AWS</a>
-    <a href="https://sigilipelli.github.io/azure-mastery-path/">☁️ Azure</a>
-    <a href="https://sigilipelli.github.io/gcp-mastery-path/">☁️ GCP</a>
-    <a href="https://sigilipelli.github.io/ibm-cloud-mastery-path/">☁️ IBM Cloud</a>
-    <a href="https://sigilipelli.github.io/adobe-mastery-path/">🎨 Adobe</a>
-  </div>
-
-  <h2 class="category" id="data-analytics">Data &amp; Analytics <span class="count">7</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/data-engineering-mastery-path/">🛠️ Data Engineering</a>
-    <a href="https://sigilipelli.github.io/data-science-mastery-path/">📈 Data Science</a>
-    <a href="https://sigilipelli.github.io/tableau-mastery-path/">📊 Tableau</a>
-    <a href="https://sigilipelli.github.io/excel-mastery-path/">📗 Excel</a>
-    <a href="https://sigilipelli.github.io/pyspark-mastery-path/">⚡ PySpark</a>
-    <a href="https://sigilipelli.github.io/etl-datalake-mastery-path/">🏞️ ETL &amp; Data Lake</a>
-    <a href="https://sigilipelli.github.io/power-bi-mastery-path/">📉 Power BI</a>
-  </div>
-
-  <h2 class="category" id="databases">Databases <span class="count">5</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/postgresql-mastery-path/">🐘 PostgreSQL</a>
-    <a href="https://sigilipelli.github.io/mongodb-mastery-path/">🍃 MongoDB</a>
-    <a href="https://sigilipelli.github.io/redis-mastery-path/">🟥 Redis</a>
-    <a href="https://sigilipelli.github.io/snowflake-mastery-path/">❄️ Snowflake</a>
-    <a href="https://sigilipelli.github.io/databricks-mastery-path/">🧱 Databricks</a>
-  </div>
-
-  <h2 class="category" id="ai-ml-llm">AI / ML / LLM <span class="count">11</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/ai-ml-mastery-path/">🤖 AI/ML</a>
-    <a href="https://sigilipelli.github.io/llm-dev-mastery-path/">🧠 LLM Dev</a>
-    <a href="https://sigilipelli.github.io/rag-mastery-path/">📚 RAG</a>
-    <a href="https://sigilipelli.github.io/edge-ai-mastery-path/">📱 Edge AI</a>
-    <a href="https://sigilipelli.github.io/claude-training-mastery-path/">🔶 Claude Training</a>
-    <a href="https://sigilipelli.github.io/ai-tools-mastery-path/">🧰 AI Tools</a>
-    <a href="https://sigilipelli.github.io/ml-math-mastery-path/">➗ ML Math Foundations</a>
-    <a href="https://sigilipelli.github.io/prompt-engineering-mastery-path/">✍️ Prompt Engineering</a>
-    <a href="https://sigilipelli.github.io/ai-agents-mastery-path/">🕹️ AI Agents</a>
-    <a href="https://sigilipelli.github.io/mlops-mastery-path/">🔁 MLOps</a>
-    <a href="https://sigilipelli.github.io/computer-vision-mastery-path/">👁️ Computer Vision</a>
-  </div>
-
-  <h2 class="category" id="embedded">Embedded Systems <span class="count">5</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/embedded-mastery-path/">🔌 Embedded</a>
-    <a href="https://sigilipelli.github.io/embedded-linux-mastery-path/">🐧 Embedded Linux</a>
-    <a href="https://sigilipelli.github.io/embedded-python-mastery-path/">🐍 Embedded Python</a>
-    <a href="https://sigilipelli.github.io/freertos-mastery-path/">⏱️ FreeRTOS</a>
-    <a href="https://sigilipelli.github.io/s32k-mastery-path/">🔧 S32K</a>
-  </div>
-
-  <h2 class="category" id="leadership">Leadership &amp; Management <span class="count">5</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/product-manager-mastery-path/">📋 Product Manager</a>
-    <a href="https://sigilipelli.github.io/product-lead-mastery-path/">🧭 Product Lead</a>
-    <a href="https://sigilipelli.github.io/project-manager-mastery-path/">📅 Project Manager</a>
-    <a href="https://sigilipelli.github.io/ai-manager-mastery-path/">🤖 AI Manager</a>
-    <a href="https://sigilipelli.github.io/servant-leadership-mastery-path/">🤝 Servant Leadership</a>
-  </div>
-
-  <h2 class="category" id="professional-skills">Professional Skills <span class="count">2</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/english-fluency-mastery-path/">🗣️ English Fluency &amp; IELTS</a>
-    <a href="https://sigilipelli.github.io/workday-mastery-path/">🧑‍💼 Workday</a>
-  </div>
-
-  <h2 class="category" id="careers">Careers &amp; Interviews <span class="count">2</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/dsa-interview-mastery-path/">🧩 DSA &amp; Coding Interviews</a>
-    <a href="https://sigilipelli.github.io/system-design-mastery-path/">🏗️ System Design</a>
-  </div>
-
-  <h2 class="category" id="process-apis">Process &amp; APIs <span class="count">3</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/agile-mastery-path/">🔄 Agile/Scrum/Kanban</a>
-    <a href="https://sigilipelli.github.io/rest-api-mastery-path/">🔗 REST API</a>
-    <a href="https://sigilipelli.github.io/playwright-mastery-path/">🎭 Playwright</a>
-  </div>
-
-  <h2 class="category" id="infra-ops">Infrastructure &amp; Ops <span class="count">12</span></h2>
-  <div class="grid">
-    <a href="https://sigilipelli.github.io/server-ops-mastery-path/">🖥️ Server Ops</a>
-    <a href="https://sigilipelli.github.io/linux-mastery-path/">🐧 Linux</a>
-    <a href="https://sigilipelli.github.io/nodemcu-mastery-path/">📶 NodeMCU/IoT</a>
-    <a href="https://sigilipelli.github.io/terraform-mastery-path/">🌍 Terraform</a>
-    <a href="https://sigilipelli.github.io/kubernetes-mastery-path/">☸️ Kubernetes</a>
-    <a href="https://sigilipelli.github.io/docker-mastery-path/">🐳 Docker</a>
-    <a href="https://sigilipelli.github.io/github-mastery-path/">🐙 GitHub &amp; Git</a>
-    <a href="https://sigilipelli.github.io/cicd-mastery-path/">🔁 CI/CD</a>
-    <a href="https://sigilipelli.github.io/ansible-mastery-path/">🤖 Ansible</a>
-    <a href="https://sigilipelli.github.io/kafka-mastery-path/">📨 Kafka</a>
-    <a href="https://sigilipelli.github.io/microservices-mastery-path/">🧩 Microservices</a>
-    <a href="https://sigilipelli.github.io/observability-mastery-path/">📈 Observability</a>
+  <div class="flash-grid">
+  <details class="flashcard c1" id="languages">
+    <summary>
+      <span class="fc-icon">💻</span>
+      <span class="fc-text">
+        <span class="fc-title">Languages <span class="fc-count">20</span></span>
+        <span class="fc-desc">20 languages, start to finish.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/python-mastery-path/">🐍 Python</a>
+      <a href="https://sigilipelli.github.io/java-mastery-path/">☕ Java</a>
+      <a href="https://sigilipelli.github.io/javascript-mastery-path/">🟨 JavaScript</a>
+      <a href="https://sigilipelli.github.io/typescript-mastery-path/">🔷 TypeScript</a>
+      <a href="https://sigilipelli.github.io/csharp-mastery-path/">🔵 C#</a>
+      <a href="https://sigilipelli.github.io/shell-mastery-path/">🐚 Shell/Bash</a>
+      <a href="https://sigilipelli.github.io/powershell-mastery-path/">💻 PowerShell</a>
+      <a href="https://sigilipelli.github.io/c-mastery-path/">🇨 C</a>
+      <a href="https://sigilipelli.github.io/cpp-mastery-path/">➕ C++</a>
+      <a href="https://sigilipelli.github.io/go-mastery-path/">🐹 Go</a>
+      <a href="https://sigilipelli.github.io/rust-mastery-path/">🦀 Rust</a>
+      <a href="https://sigilipelli.github.io/sql-mastery-path/">🗄️ SQL</a>
+      <a href="https://sigilipelli.github.io/ruby-mastery-path/">💎 Ruby</a>
+      <a href="https://sigilipelli.github.io/php-mastery-path/">🐘 PHP</a>
+      <a href="https://sigilipelli.github.io/kotlin-mastery-path/">🟣 Kotlin</a>
+      <a href="https://sigilipelli.github.io/swift-mastery-path/">🐦 Swift</a>
+      <a href="https://sigilipelli.github.io/dart-mastery-path/">🎯 Dart</a>
+      <a href="https://sigilipelli.github.io/scala-mastery-path/">🔴 Scala</a>
+      <a href="https://sigilipelli.github.io/r-mastery-path/">📊 R</a>
+      <a href="https://sigilipelli.github.io/matlab-mastery-path/">🟧 MATLAB</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c2" id="web-frameworks">
+    <summary>
+      <span class="fc-icon">🌐</span>
+      <span class="fc-text">
+        <span class="fc-title">Web Frameworks <span class="fc-count">11</span></span>
+        <span class="fc-desc">Build and ship on the modern web stack.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/react-mastery-path/">⚛️ React</a>
+      <a href="https://sigilipelli.github.io/nextjs-mastery-path/">▲ Next.js</a>
+      <a href="https://sigilipelli.github.io/angular-mastery-path/">🅰️ Angular</a>
+      <a href="https://sigilipelli.github.io/vue-mastery-path/">💚 Vue.js</a>
+      <a href="https://sigilipelli.github.io/html-css-mastery-path/">🎨 HTML & CSS</a>
+      <a href="https://sigilipelli.github.io/tailwind-mastery-path/">🌬️ Tailwind CSS</a>
+      <a href="https://sigilipelli.github.io/django-mastery-path/">🎸 Django</a>
+      <a href="https://sigilipelli.github.io/fastapi-mastery-path/">🚀 FastAPI</a>
+      <a href="https://sigilipelli.github.io/graphql-mastery-path/">🕸️ GraphQL</a>
+      <a href="https://sigilipelli.github.io/nodejs-mastery-path/">🟩 Node.js</a>
+      <a href="https://sigilipelli.github.io/spring-boot-mastery-path/">🍃 Spring Boot</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c3" id="mobile">
+    <summary>
+      <span class="fc-icon">📱</span>
+      <span class="fc-text">
+        <span class="fc-title">Mobile <span class="fc-count">2</span></span>
+        <span class="fc-desc">Native and cross-platform app development.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/flutter-mastery-path/">💙 Flutter</a>
+      <a href="https://sigilipelli.github.io/react-native-mastery-path/">📲 React Native</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c1" id="testing-qa">
+    <summary>
+      <span class="fc-icon">🧪</span>
+      <span class="fc-text">
+        <span class="fc-title">Testing & QA <span class="fc-count">6</span></span>
+        <span class="fc-desc">Automated testing across languages and stacks.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/java-testing-mastery-path/">🧪 Java Testing</a>
+      <a href="https://sigilipelli.github.io/cpp-testing-mastery-path/">🧪 C/C++ Testing</a>
+      <a href="https://sigilipelli.github.io/python-testing-mastery-path/">🧪 Python Testing</a>
+      <a href="https://sigilipelli.github.io/automotive-testing-mastery-path/">🚗 Automotive Testing</a>
+      <a href="https://sigilipelli.github.io/selenium-mastery-path/">🧭 Selenium</a>
+      <a href="https://sigilipelli.github.io/cypress-mastery-path/">🌲 Cypress</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c2" id="security">
+    <summary>
+      <span class="fc-icon">🛡️</span>
+      <span class="fc-text">
+        <span class="fc-title">Security <span class="fc-count">2</span></span>
+        <span class="fc-desc">Defense and offense, hands-on.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/cybersecurity-mastery-path/">🛡️ Cybersecurity</a>
+      <a href="https://sigilipelli.github.io/ethical-hacking-mastery-path/">🎯 Ethical Hacking</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c3" id="cloud">
+    <summary>
+      <span class="fc-icon">☁️</span>
+      <span class="fc-text">
+        <span class="fc-title">Cloud Platforms <span class="fc-count">5</span></span>
+        <span class="fc-desc">AWS, Azure, GCP and more, from first principles.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/aws-mastery-path/">☁️ AWS</a>
+      <a href="https://sigilipelli.github.io/azure-mastery-path/">☁️ Azure</a>
+      <a href="https://sigilipelli.github.io/gcp-mastery-path/">☁️ GCP</a>
+      <a href="https://sigilipelli.github.io/ibm-cloud-mastery-path/">☁️ IBM Cloud</a>
+      <a href="https://sigilipelli.github.io/adobe-mastery-path/">🎨 Adobe</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c1" id="data-analytics">
+    <summary>
+      <span class="fc-icon">📊</span>
+      <span class="fc-text">
+        <span class="fc-title">Data & Analytics <span class="fc-count">7</span></span>
+        <span class="fc-desc">Pipelines, warehousing, and real-world analysis.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/data-engineering-mastery-path/">🛠️ Data Engineering</a>
+      <a href="https://sigilipelli.github.io/data-science-mastery-path/">📈 Data Science</a>
+      <a href="https://sigilipelli.github.io/tableau-mastery-path/">📊 Tableau</a>
+      <a href="https://sigilipelli.github.io/excel-mastery-path/">📗 Excel</a>
+      <a href="https://sigilipelli.github.io/pyspark-mastery-path/">⚡ PySpark</a>
+      <a href="https://sigilipelli.github.io/etl-datalake-mastery-path/">🏞️ ETL & Data Lake</a>
+      <a href="https://sigilipelli.github.io/power-bi-mastery-path/">📉 Power BI</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c2" id="databases">
+    <summary>
+      <span class="fc-icon">🗄️</span>
+      <span class="fc-text">
+        <span class="fc-title">Databases <span class="fc-count">5</span></span>
+        <span class="fc-desc">Relational, document, cache, and lakehouse.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/postgresql-mastery-path/">🐘 PostgreSQL</a>
+      <a href="https://sigilipelli.github.io/mongodb-mastery-path/">🍃 MongoDB</a>
+      <a href="https://sigilipelli.github.io/redis-mastery-path/">🟥 Redis</a>
+      <a href="https://sigilipelli.github.io/snowflake-mastery-path/">❄️ Snowflake</a>
+      <a href="https://sigilipelli.github.io/databricks-mastery-path/">🧱 Databricks</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c3" id="ai-ml-llm">
+    <summary>
+      <span class="fc-icon">🤖</span>
+      <span class="fc-text">
+        <span class="fc-title">AI / ML / LLM <span class="fc-count">11</span></span>
+        <span class="fc-desc">Models, agents, and applied ML engineering.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/ai-ml-mastery-path/">🤖 AI/ML</a>
+      <a href="https://sigilipelli.github.io/llm-dev-mastery-path/">🧠 LLM Dev</a>
+      <a href="https://sigilipelli.github.io/rag-mastery-path/">📚 RAG</a>
+      <a href="https://sigilipelli.github.io/edge-ai-mastery-path/">📱 Edge AI</a>
+      <a href="https://sigilipelli.github.io/claude-training-mastery-path/">🔶 Claude Training</a>
+      <a href="https://sigilipelli.github.io/ai-tools-mastery-path/">🧰 AI Tools</a>
+      <a href="https://sigilipelli.github.io/ml-math-mastery-path/">➗ ML Math Foundations</a>
+      <a href="https://sigilipelli.github.io/prompt-engineering-mastery-path/">✍️ Prompt Engineering</a>
+      <a href="https://sigilipelli.github.io/ai-agents-mastery-path/">🕹️ AI Agents</a>
+      <a href="https://sigilipelli.github.io/mlops-mastery-path/">🔁 MLOps</a>
+      <a href="https://sigilipelli.github.io/computer-vision-mastery-path/">👁️ Computer Vision</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c1" id="embedded">
+    <summary>
+      <span class="fc-icon">🔧</span>
+      <span class="fc-text">
+        <span class="fc-title">Embedded Systems <span class="fc-count">5</span></span>
+        <span class="fc-desc">Firmware, RTOS, and hardware-close code.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/embedded-mastery-path/">🔌 Embedded</a>
+      <a href="https://sigilipelli.github.io/embedded-linux-mastery-path/">🐧 Embedded Linux</a>
+      <a href="https://sigilipelli.github.io/embedded-python-mastery-path/">🐍 Embedded Python</a>
+      <a href="https://sigilipelli.github.io/freertos-mastery-path/">⏱️ FreeRTOS</a>
+      <a href="https://sigilipelli.github.io/s32k-mastery-path/">🔧 S32K</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c2" id="leadership">
+    <summary>
+      <span class="fc-icon">🧭</span>
+      <span class="fc-text">
+        <span class="fc-title">Leadership & Management <span class="fc-count">5</span></span>
+        <span class="fc-desc">Product, project, and people leadership.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/product-manager-mastery-path/">📋 Product Manager</a>
+      <a href="https://sigilipelli.github.io/product-lead-mastery-path/">🧭 Product Lead</a>
+      <a href="https://sigilipelli.github.io/project-manager-mastery-path/">📅 Project Manager</a>
+      <a href="https://sigilipelli.github.io/ai-manager-mastery-path/">🤖 AI Manager</a>
+      <a href="https://sigilipelli.github.io/servant-leadership-mastery-path/">🤝 Servant Leadership</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c3" id="professional-skills">
+    <summary>
+      <span class="fc-icon">🗣️</span>
+      <span class="fc-text">
+        <span class="fc-title">Professional Skills <span class="fc-count">2</span></span>
+        <span class="fc-desc">Communication and workplace fluency.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/english-fluency-mastery-path/">🗣️ English Fluency & IELTS</a>
+      <a href="https://sigilipelli.github.io/workday-mastery-path/">🧑‍💼 Workday</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c1" id="careers">
+    <summary>
+      <span class="fc-icon">🏆</span>
+      <span class="fc-text">
+        <span class="fc-title">Careers & Interviews <span class="fc-count">2</span></span>
+        <span class="fc-desc">Interview and career prep that works.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/dsa-interview-mastery-path/">🧩 DSA & Coding Interviews</a>
+      <a href="https://sigilipelli.github.io/system-design-mastery-path/">🏗️ System Design</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c2" id="process-apis">
+    <summary>
+      <span class="fc-icon">🔗</span>
+      <span class="fc-text">
+        <span class="fc-title">Process & APIs <span class="fc-count">3</span></span>
+        <span class="fc-desc">Agile delivery and API design in practice.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/agile-mastery-path/">🔄 Agile/Scrum/Kanban</a>
+      <a href="https://sigilipelli.github.io/rest-api-mastery-path/">🔗 REST API</a>
+      <a href="https://sigilipelli.github.io/playwright-mastery-path/">🎭 Playwright</a>
+    </div>
+    </div>
+  </details>
+  <details class="flashcard c3" id="infra-ops">
+    <summary>
+      <span class="fc-icon">⚙️</span>
+      <span class="fc-text">
+        <span class="fc-title">Infrastructure & Ops <span class="fc-count">12</span></span>
+        <span class="fc-desc">Containers, CI/CD, and running it in prod.</span>
+      </span>
+      <span class="fc-chevron" aria-hidden="true">&#9662;</span>
+    </summary>
+    <div class="fc-panel">
+    <div class="grid">
+      <a href="https://sigilipelli.github.io/server-ops-mastery-path/">🖥️ Server Ops</a>
+      <a href="https://sigilipelli.github.io/linux-mastery-path/">🐧 Linux</a>
+      <a href="https://sigilipelli.github.io/nodemcu-mastery-path/">📶 NodeMCU/IoT</a>
+      <a href="https://sigilipelli.github.io/terraform-mastery-path/">🌍 Terraform</a>
+      <a href="https://sigilipelli.github.io/kubernetes-mastery-path/">☸️ Kubernetes</a>
+      <a href="https://sigilipelli.github.io/docker-mastery-path/">🐳 Docker</a>
+      <a href="https://sigilipelli.github.io/github-mastery-path/">🐙 GitHub & Git</a>
+      <a href="https://sigilipelli.github.io/cicd-mastery-path/">🔁 CI/CD</a>
+      <a href="https://sigilipelli.github.io/ansible-mastery-path/">🤖 Ansible</a>
+      <a href="https://sigilipelli.github.io/kafka-mastery-path/">📨 Kafka</a>
+      <a href="https://sigilipelli.github.io/microservices-mastery-path/">🧩 Microservices</a>
+      <a href="https://sigilipelli.github.io/observability-mastery-path/">📈 Observability</a>
+    </div>
+    </div>
+  </details>
   </div>
 
   </div>
@@ -556,11 +855,14 @@
   </div>
 
   <footer>
-    <span class="credit">© 2026 Vinod Bhanuja</span>
-    <a href="https://sigilipelli.github.io/privacy.html">Privacy Policy</a>
-    <a href="https://sigilipelli.github.io/license.html">License</a>
-    <a href="https://github.com/sigilipelli">GitHub</a>
-    <a href="https://youtube.com/@sigilipelli">YouTube</a>
+    <p class="footer-note">Built solo, kept free, updated by hand — one course at a time.</p>
+    <div class="footer-links">
+      <span class="credit">© 2026 Vinod Bhanuja</span>
+      <a href="https://sigilipelli.github.io/privacy.html">Privacy Policy</a>
+      <a href="https://sigilipelli.github.io/license.html">License</a>
+      <a href="https://github.com/sigilipelli">GitHub</a>
+      <a href="https://youtube.com/@sigilipelli">YouTube</a>
+    </div>
   </footer>
 
 </div>
@@ -628,6 +930,70 @@
 
   document.addEventListener("click", function (e) {
     if (!results.contains(e.target) && e.target !== input) results.hidden = true;
+  });
+})();
+
+// Count-up stat chips. The HTML already shows the correct final number
+// (98, 3,600+, 15) as its static content, so anyone without JS, on a
+// slow connection, or crawling the page always sees the real values —
+// this only adds a brief count-up flourish on top when JS does run.
+(function () {
+  var nodes = document.querySelectorAll(".stat-chip b[data-count]");
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) return;
+  nodes.forEach(function (node) {
+    var target = parseInt(node.getAttribute("data-count"), 10);
+    var suffix = node.getAttribute("data-suffix") || "";
+    var start = null;
+    var duration = 700;
+    function step(ts) {
+      if (start === null) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var value = Math.round(target * eased);
+      node.textContent = value.toLocaleString() + suffix;
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        node.textContent = target.toLocaleString() + suffix;
+      }
+    }
+    requestAnimationFrame(step);
+  });
+})();
+
+// Category flashcards: on hover-capable pointers (desktop mouse), hovering
+// a card expands it; moving away collapses it. On touch and keyboard —
+// where there is no real hover — the native <details>/<summary> click and
+// Enter/Space toggle is the interaction, which works with zero JS too.
+// The cards and their links are always present in the DOM either way, so
+// nothing here hides content from screen readers or search crawlers.
+(function () {
+  var cards = document.querySelectorAll("details.flashcard");
+  if (!cards.length) return;
+
+  if (window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    cards.forEach(function (card) {
+      card.addEventListener("mouseenter", function () { card.open = true; });
+      card.addEventListener("mouseleave", function () { card.open = false; });
+    });
+  }
+
+  // Quick-nav / deep links: opening a card when its anchor is targeted.
+  function openFromHash() {
+    var id = location.hash.slice(1);
+    if (!id) return;
+    var target = document.getElementById(id);
+    if (target && target.tagName === "DETAILS") target.open = true;
+  }
+  window.addEventListener("hashchange", openFromHash);
+  openFromHash();
+  document.querySelectorAll('.quicknav a[href^="#"]').forEach(function (link) {
+    link.addEventListener("click", function () {
+      var id = link.getAttribute("href").slice(1);
+      var target = document.getElementById(id);
+      if (target && target.tagName === "DETAILS") target.open = true;
+    });
   });
 })();
 </script>
