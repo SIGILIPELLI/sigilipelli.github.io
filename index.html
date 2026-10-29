@@ -8,6 +8,9 @@
 <link rel="canonical" href="https://sigilipelli.github.io/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="alternate" type="application/rss+xml" title="Mastery Path — What's New" href="https://sigilipelli.github.io/feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-05VBGCXN12"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -53,6 +56,13 @@
     --accent: #2FA98D;
     --accent-2: #E0B457;
     --link: #1f7a63;
+    --radius-lg: 16px;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 2px rgba(34,38,31,0.05), 0 1px 1px rgba(34,38,31,0.04);
+    --shadow-md: 0 6px 20px rgba(34,38,31,0.07);
+    --shadow-lg: 0 16px 40px rgba(34,38,31,0.12);
+    --font-head: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -64,33 +74,54 @@
       --accent: #4fd6b3;
       --accent-2: #f0c877;
       --link: #6fe3c4;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+      --shadow-md: 0 6px 20px rgba(0,0,0,0.35);
+      --shadow-lg: 0 16px 40px rgba(0,0,0,0.5);
     }
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     margin: 0;
     background: var(--bg);
     color: var(--ink);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.55;
+    line-height: 1.6;
   }
-  .wrap { max-width: 1320px; margin: 0 auto; padding: 40px 20px 80px; }
-  .layout { display: flex; gap: 32px; align-items: flex-start; }
+  .topline {
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 50%, #C98B4A 100%);
+  }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 48px 20px 90px; }
+  .layout { display: flex; gap: 36px; align-items: flex-start; }
   .main-col { flex: 7 1 0; min-width: 0; }
   .side-col { flex: 3 1 0; min-width: 0; position: sticky; top: 24px; }
-  .side-col .promo-card { flex-direction: column; align-items: flex-start; margin: 0 0 16px; }
+  .side-col .promo-card { flex-direction: column; align-items: flex-start; margin: 0 0 18px; }
   .side-col .promo-cta { margin-top: 4px; }
   @media (max-width: 820px) {
     .layout { flex-direction: column; }
     .side-col { position: static; width: 100%; }
   }
+
   header.hero {
-    display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
-    padding-bottom: 28px; border-bottom: 1px solid var(--border); margin-bottom: 28px;
+    position: relative;
+    display: flex; align-items: center; gap: 26px; flex-wrap: wrap;
+    padding: 30px 32px; margin-bottom: 20px;
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(640px 220px at 8% 0%, rgba(47,169,141,0.14), transparent 60%),
+      radial-gradient(520px 200px at 100% 100%, rgba(224,180,87,0.14), transparent 60%),
+      var(--card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
   }
-  .globe { width: 64px; height: 64px; flex: none; }
-  h1 { font-size: 1.9rem; margin: 0 0 4px; letter-spacing: -0.01em; }
-  .tagline { color: var(--sub); font-size: 1.02rem; margin: 0; }
+  .logo-tile {
+    flex: none; width: 76px; height: 76px; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg); border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+  }
+  .globe { width: 54px; height: 54px; flex: none; }
   .mp-mark { display: block; }
   .mp-bar { transform-origin: center bottom; }
   .mp-dot { transform-box: fill-box; transform-origin: center; }
@@ -135,62 +166,98 @@
   @media (prefers-reduced-motion: reduce) {
     .mp-dot, .mp-bar-1, .mp-bar-2, .mp-bar-3, .mp-bar-4 { animation: none; }
   }
-  .intro { max-width: 720px; color: var(--ink); font-size: 1.05rem; }
+  h1 { font-family: var(--font-head); font-weight: 800; font-size: 2rem; margin: 0 0 4px; letter-spacing: -0.015em; }
+  .tagline { color: var(--sub); font-size: 1.04rem; margin: 0; }
+  .stat-strip {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-left: auto;
+  }
+  .stat-chip {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 999px;
+    padding: 7px 14px; font-size: 0.82rem; color: var(--sub); white-space: nowrap;
+  }
+  .stat-chip b { color: var(--ink); font-weight: 700; }
+
+  .intro { max-width: 740px; color: var(--ink); font-size: 1.05rem; margin-top: 30px; }
   .intro p { margin: 0 0 14px; }
-  .byline { color: var(--sub); font-size: 0.92rem; margin: 0 0 34px; }
-  .yt-line { margin: 0 0 34px; font-size: 0.98rem; }
+  .byline { color: var(--sub); font-size: 0.92rem; margin: 0 0 6px; font-weight: 600; }
+  .yt-line { margin: 0 0 28px; font-size: 0.98rem; }
   .yt-line a { color: var(--link); font-weight: 600; text-decoration: none; }
   .yt-line a:hover { text-decoration: underline; }
+
+  .quicknav { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 28px; }
+  .quicknav a {
+    font-size: 0.82rem; font-weight: 600; color: var(--sub); text-decoration: none;
+    background: var(--card); border: 1px solid var(--border); border-radius: 999px;
+    padding: 6px 13px; transition: border-color .15s ease, color .15s ease, transform .15s ease;
+  }
+  .quicknav a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
   .promo-card {
     display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-    padding: 14px 18px; margin: 0 0 30px; text-decoration: none; color: var(--ink);
-    transition: border-color .15s ease, transform .15s ease;
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 15px 18px; margin: 0 0 30px; text-decoration: none; color: var(--ink);
+    box-shadow: var(--shadow-sm);
+    transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
   }
-  .promo-card:hover { border-color: var(--accent-2); transform: translateY(-1px); }
+  .promo-card:hover { border-color: var(--accent-2); transform: translateY(-2px); box-shadow: var(--shadow-md); }
   .promo-tag {
-    flex: none; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em;
+    flex: none; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.07em;
     color: var(--sub); border: 1px solid var(--border); border-radius: 6px; padding: 2px 7px;
+    font-weight: 700;
   }
   .promo-body { flex: 1 1 260px; min-width: 0; }
-  .promo-title { display: block; font-weight: 600; font-size: 0.98rem; }
+  .promo-title { display: block; font-weight: 700; font-size: 0.98rem; font-family: var(--font-head); }
   .promo-desc { display: block; color: var(--sub); font-size: 0.88rem; margin-top: 2px; }
-  .promo-cta { flex: none; color: var(--link); font-weight: 600; font-size: 0.92rem; }
+  .promo-cta { flex: none; color: var(--link); font-weight: 700; font-size: 0.92rem; }
+
   .whats-new {
-    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-    padding: 16px 18px;
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 18px 20px; box-shadow: var(--shadow-sm);
   }
   .whats-new h3 {
-    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em;
-    color: var(--accent); margin: 0 0 10px; font-weight: 700;
+    font-family: var(--font-head);
+    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--accent); margin: 0 0 12px; font-weight: 800;
     display: flex; align-items: center; justify-content: space-between;
   }
   .feed-link {
-    font-size: 0.68rem; color: var(--sub); border: 1px solid var(--border);
+    font-size: 0.66rem; color: var(--sub); border: 1px solid var(--border);
     border-radius: 6px; padding: 1px 6px; text-decoration: none; letter-spacing: 0.04em;
+    font-weight: 700;
   }
   .feed-link:hover { border-color: var(--accent); color: var(--accent); }
   .whats-new ul { list-style: none; margin: 0; padding: 0; }
   .whats-new li {
-    font-size: 0.85rem; color: var(--ink); padding: 8px 0;
+    font-size: 0.85rem; color: var(--ink); padding: 9px 0 9px 16px; position: relative;
     border-top: 1px solid var(--border);
   }
-  .whats-new li:first-child { border-top: none; padding-top: 0; }
-  .wn-date { display: block; color: var(--sub); font-size: 0.72rem; margin-bottom: 2px; }
-  .search-wrap { position: relative; margin: 0 0 34px; }
-  .search-input {
-    width: 100%; padding: 13px 16px; font-size: 1rem; border-radius: 10px;
-    border: 1px solid var(--border); background: var(--card); color: var(--ink);
-    font-family: inherit;
+  .whats-new li::before {
+    content: ""; position: absolute; left: 0; top: 17px; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--accent-2);
   }
-  .search-input:focus { outline: none; border-color: var(--accent); }
+  .whats-new li:first-child { border-top: none; padding-top: 0; }
+  .whats-new li:first-child::before { top: 6px; }
+  .wn-date { display: block; color: var(--sub); font-size: 0.72rem; margin-bottom: 2px; font-weight: 600; }
+
+  .search-wrap { position: relative; margin: 0 0 34px; }
+  .search-icon {
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    color: var(--sub); pointer-events: none;
+  }
+  .search-input {
+    width: 100%; padding: 14px 16px 14px 44px; font-size: 1rem; border-radius: var(--radius);
+    border: 1px solid var(--border); background: var(--card); color: var(--ink);
+    font-family: inherit; box-shadow: var(--shadow-sm);
+    transition: box-shadow .15s ease, border-color .15s ease;
+  }
+  .search-input:focus { outline: none; border-color: var(--accent); box-shadow: var(--shadow-md); }
   .search-results {
-    position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 20;
-    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
-    max-height: 420px; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 20;
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    max-height: 420px; overflow-y: auto; box-shadow: var(--shadow-lg);
   }
   .search-results a {
-    display: block; padding: 10px 16px; text-decoration: none; color: var(--ink);
+    display: block; padding: 11px 16px; text-decoration: none; color: var(--ink);
     border-bottom: 1px solid var(--border);
   }
   .search-results a:last-child { border-bottom: none; }
@@ -198,39 +265,65 @@
   .search-result-title { font-size: 0.94rem; }
   .search-result-site { display: block; font-size: 0.78rem; color: var(--sub); margin-top: 1px; }
   .search-empty { padding: 14px 16px; color: var(--sub); font-size: 0.9rem; }
+
   h2.category {
-    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--accent); margin: 30px 0 12px; font-weight: 700;
+    font-family: var(--font-head);
+    display: flex; align-items: baseline; gap: 10px;
+    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--accent); margin: 36px 0 14px; font-weight: 800;
+    scroll-margin-top: 20px;
+  }
+  h2.category:first-of-type { margin-top: 0; }
+  h2.category .count {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    text-transform: none; letter-spacing: normal; font-weight: 600;
+    color: var(--sub); background: var(--card); border: 1px solid var(--border);
+    border-radius: 999px; padding: 1px 9px; font-size: 0.72rem;
   }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
   .grid a {
-    display: block; padding: 11px 14px; background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; color: var(--ink); text-decoration: none; font-size: 0.94rem;
-    transition: border-color .15s ease, transform .15s ease;
+    display: block; padding: 12px 14px; background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); color: var(--ink); text-decoration: none; font-size: 0.94rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+    transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
   }
-  .grid a:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .grid a:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
   footer {
-    margin-top: 50px; padding-top: 20px; border-top: 1px solid var(--border);
-    color: var(--sub); font-size: 0.85rem; display: flex; gap: 18px; flex-wrap: wrap;
+    margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border);
+    color: var(--sub); font-size: 0.85rem; display: flex; gap: 20px; flex-wrap: wrap;
+    align-items: center;
   }
-  footer a { color: var(--sub); }
+  footer a { color: var(--sub); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+  footer .credit { font-weight: 600; color: var(--ink); }
 </style>
 </head>
 <body>
+<div class="topline"></div>
 <div class="wrap">
 
   <header class="hero">
-    <svg class="globe mp-mark" viewBox="0 0 160 160" role="img" aria-label="Mastery Path logo">
-      <circle cx="80" cy="80" r="74" fill="#FAF7EF" stroke="#2FA98D" stroke-width="4"/>
-      <rect class="mp-bar mp-bar-1" x="36" y="90" width="17" height="24" rx="5" fill="#2FA98D"/>
-      <rect class="mp-bar mp-bar-2" x="59" y="74" width="17" height="40" rx="5" fill="#7FC9B7"/>
-      <rect class="mp-bar mp-bar-3" x="82" y="56" width="17" height="58" rx="5" fill="#E0B457"/>
-      <rect class="mp-bar mp-bar-4" x="105" y="38" width="17" height="76" rx="5" fill="#C98B4A"/>
-      <circle class="mp-dot" cx="44.5" cy="82" r="7" fill="#22261f"/>
-    </svg>
+    <div class="logo-tile">
+      <svg class="globe mp-mark" viewBox="0 0 160 160" role="img" aria-label="Mastery Path logo">
+        <circle cx="80" cy="80" r="74" fill="#FAF7EF" stroke="#2FA98D" stroke-width="4"/>
+        <rect class="mp-bar mp-bar-1" x="36" y="90" width="17" height="24" rx="5" fill="#2FA98D"/>
+        <rect class="mp-bar mp-bar-2" x="59" y="74" width="17" height="40" rx="5" fill="#7FC9B7"/>
+        <rect class="mp-bar mp-bar-3" x="82" y="56" width="17" height="58" rx="5" fill="#E0B457"/>
+        <rect class="mp-bar mp-bar-4" x="105" y="38" width="17" height="76" rx="5" fill="#C98B4A"/>
+        <circle class="mp-dot" cx="44.5" cy="82" r="7" fill="#22261f"/>
+      </svg>
+    </div>
     <div>
       <h1>Mastery Path</h1>
       <p class="tagline">A free, structured, module-wise training library</p>
+    </div>
+    <div class="stat-strip">
+      <span class="stat-chip"><b>98</b> courses</span>
+      <span class="stat-chip"><b>3,600+</b> lessons</span>
+      <span class="stat-chip"><b>15</b> categories</span>
+      <span class="stat-chip"><b>$0</b> cost, always</span>
     </div>
   </header>
 
@@ -254,14 +347,33 @@
   <p class="yt-line">🎥 Prefer video? Watch the <a href="https://youtube.com/@sigilipelli">Mastery Path video series</a> on YouTube — Shorts and full walkthroughs of these lessons.</p>
 
   <div class="search-wrap">
+    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <input id="mp-search" class="search-input" type="search" placeholder="Search all 3,600+ lessons across 98 courses…" autocomplete="off" aria-label="Search all Mastery Path lessons">
     <div id="mp-search-results" class="search-results" hidden></div>
   </div>
 
+  <nav class="quicknav" aria-label="Jump to category">
+    <a href="#languages">Languages</a>
+    <a href="#web-frameworks">Web Frameworks</a>
+    <a href="#mobile">Mobile</a>
+    <a href="#testing-qa">Testing &amp; QA</a>
+    <a href="#security">Security</a>
+    <a href="#cloud">Cloud</a>
+    <a href="#data-analytics">Data &amp; Analytics</a>
+    <a href="#databases">Databases</a>
+    <a href="#ai-ml-llm">AI / ML / LLM</a>
+    <a href="#embedded">Embedded</a>
+    <a href="#leadership">Leadership</a>
+    <a href="#professional-skills">Professional Skills</a>
+    <a href="#careers">Careers</a>
+    <a href="#process-apis">Process &amp; APIs</a>
+    <a href="#infra-ops">Infra &amp; Ops</a>
+  </nav>
+
   <div class="layout">
   <div class="main-col">
 
-  <h2 class="category">Languages</h2>
+  <h2 class="category" id="languages">Languages <span class="count">20</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/python-mastery-path/">🐍 Python</a>
     <a href="https://sigilipelli.github.io/java-mastery-path/">☕ Java</a>
@@ -285,7 +397,7 @@
     <a href="https://sigilipelli.github.io/matlab-mastery-path/">🟧 MATLAB</a>
   </div>
 
-  <h2 class="category">Web Frameworks</h2>
+  <h2 class="category" id="web-frameworks">Web Frameworks <span class="count">11</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/react-mastery-path/">⚛️ React</a>
     <a href="https://sigilipelli.github.io/nextjs-mastery-path/">▲ Next.js</a>
@@ -300,13 +412,13 @@
     <a href="https://sigilipelli.github.io/spring-boot-mastery-path/">🍃 Spring Boot</a>
   </div>
 
-  <h2 class="category">Mobile</h2>
+  <h2 class="category" id="mobile">Mobile <span class="count">2</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/flutter-mastery-path/">💙 Flutter</a>
     <a href="https://sigilipelli.github.io/react-native-mastery-path/">📲 React Native</a>
   </div>
 
-  <h2 class="category">Testing &amp; QA</h2>
+  <h2 class="category" id="testing-qa">Testing &amp; QA <span class="count">6</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/java-testing-mastery-path/">🧪 Java Testing</a>
     <a href="https://sigilipelli.github.io/cpp-testing-mastery-path/">🧪 C/C++ Testing</a>
@@ -316,13 +428,13 @@
     <a href="https://sigilipelli.github.io/cypress-mastery-path/">🌲 Cypress</a>
   </div>
 
-  <h2 class="category">Security</h2>
+  <h2 class="category" id="security">Security <span class="count">2</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/cybersecurity-mastery-path/">🛡️ Cybersecurity</a>
     <a href="https://sigilipelli.github.io/ethical-hacking-mastery-path/">🎯 Ethical Hacking</a>
   </div>
 
-  <h2 class="category">Cloud Platforms</h2>
+  <h2 class="category" id="cloud">Cloud Platforms <span class="count">5</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/aws-mastery-path/">☁️ AWS</a>
     <a href="https://sigilipelli.github.io/azure-mastery-path/">☁️ Azure</a>
@@ -331,7 +443,7 @@
     <a href="https://sigilipelli.github.io/adobe-mastery-path/">🎨 Adobe</a>
   </div>
 
-  <h2 class="category">Data &amp; Analytics</h2>
+  <h2 class="category" id="data-analytics">Data &amp; Analytics <span class="count">7</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/data-engineering-mastery-path/">🛠️ Data Engineering</a>
     <a href="https://sigilipelli.github.io/data-science-mastery-path/">📈 Data Science</a>
@@ -342,7 +454,7 @@
     <a href="https://sigilipelli.github.io/power-bi-mastery-path/">📉 Power BI</a>
   </div>
 
-  <h2 class="category">Databases</h2>
+  <h2 class="category" id="databases">Databases <span class="count">5</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/postgresql-mastery-path/">🐘 PostgreSQL</a>
     <a href="https://sigilipelli.github.io/mongodb-mastery-path/">🍃 MongoDB</a>
@@ -351,7 +463,7 @@
     <a href="https://sigilipelli.github.io/databricks-mastery-path/">🧱 Databricks</a>
   </div>
 
-  <h2 class="category">AI / ML / LLM</h2>
+  <h2 class="category" id="ai-ml-llm">AI / ML / LLM <span class="count">11</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/ai-ml-mastery-path/">🤖 AI/ML</a>
     <a href="https://sigilipelli.github.io/llm-dev-mastery-path/">🧠 LLM Dev</a>
@@ -366,7 +478,7 @@
     <a href="https://sigilipelli.github.io/computer-vision-mastery-path/">👁️ Computer Vision</a>
   </div>
 
-  <h2 class="category">Embedded Systems</h2>
+  <h2 class="category" id="embedded">Embedded Systems <span class="count">5</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/embedded-mastery-path/">🔌 Embedded</a>
     <a href="https://sigilipelli.github.io/embedded-linux-mastery-path/">🐧 Embedded Linux</a>
@@ -375,7 +487,7 @@
     <a href="https://sigilipelli.github.io/s32k-mastery-path/">🔧 S32K</a>
   </div>
 
-  <h2 class="category">Leadership &amp; Management</h2>
+  <h2 class="category" id="leadership">Leadership &amp; Management <span class="count">5</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/product-manager-mastery-path/">📋 Product Manager</a>
     <a href="https://sigilipelli.github.io/product-lead-mastery-path/">🧭 Product Lead</a>
@@ -384,26 +496,26 @@
     <a href="https://sigilipelli.github.io/servant-leadership-mastery-path/">🤝 Servant Leadership</a>
   </div>
 
-  <h2 class="category">Professional Skills</h2>
+  <h2 class="category" id="professional-skills">Professional Skills <span class="count">2</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/english-fluency-mastery-path/">🗣️ English Fluency &amp; IELTS</a>
     <a href="https://sigilipelli.github.io/workday-mastery-path/">🧑‍💼 Workday</a>
   </div>
 
-  <h2 class="category">Careers &amp; Interviews</h2>
+  <h2 class="category" id="careers">Careers &amp; Interviews <span class="count">2</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/dsa-interview-mastery-path/">🧩 DSA &amp; Coding Interviews</a>
     <a href="https://sigilipelli.github.io/system-design-mastery-path/">🏗️ System Design</a>
   </div>
 
-  <h2 class="category">Process &amp; APIs</h2>
+  <h2 class="category" id="process-apis">Process &amp; APIs <span class="count">3</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/agile-mastery-path/">🔄 Agile/Scrum/Kanban</a>
     <a href="https://sigilipelli.github.io/rest-api-mastery-path/">🔗 REST API</a>
     <a href="https://sigilipelli.github.io/playwright-mastery-path/">🎭 Playwright</a>
   </div>
 
-  <h2 class="category">Infrastructure &amp; Ops</h2>
+  <h2 class="category" id="infra-ops">Infrastructure &amp; Ops <span class="count">12</span></h2>
   <div class="grid">
     <a href="https://sigilipelli.github.io/server-ops-mastery-path/">🖥️ Server Ops</a>
     <a href="https://sigilipelli.github.io/linux-mastery-path/">🐧 Linux</a>
@@ -444,7 +556,7 @@
   </div>
 
   <footer>
-    <span>© 2026 Vinod Bhanuja</span>
+    <span class="credit">© 2026 Vinod Bhanuja</span>
     <a href="https://sigilipelli.github.io/privacy.html">Privacy Policy</a>
     <a href="https://sigilipelli.github.io/license.html">License</a>
     <a href="https://github.com/sigilipelli">GitHub</a>
