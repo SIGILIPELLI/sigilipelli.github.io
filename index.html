@@ -2823,19 +2823,17 @@
 
   fetch("search-index.json").then(function (r) { return r.json(); }).then(function (data) {
     var catalogMap = JSON.parse(document.getElementById("mp-catalog-map").textContent);
-    // Sorted longest-first so a nested course's own slug (e.g.
-    // "vector-databases-mastery-path") wins over the repo it's hosted
-    // under (e.g. "python-mastery-path") when both appear in a URL.
-    var repoSlugs = Object.keys(catalogMap).sort(function (a, b) { return b.length - a.length; });
     var byRepo = {};
     data.forEach(function (entry) {
-      var lessonMatch = entry.url.match(/(level-\d+)\/([^/]+)\/?$/);
-      if (!lessonMatch) return;
-      var repo = repoSlugs.filter(function (slug) {
-        return entry.url.indexOf("/" + slug + "/") !== -1;
-      })[0];
-      if (!repo) return;
-      var slug = lessonMatch[1] + "/" + lessonMatch[2];
+      // The repo is whatever path segment sits directly in front of
+      // "level-N/lesson" — true regardless of how many parent segments
+      // come before it, so a nested course (e.g. ".../python-mastery-path/
+      // vector-databases-mastery-path/level-1/...") resolves to its own
+      // slug, not the repo it happens to be hosted under.
+      var m = entry.url.match(/\/([a-z0-9-]+)\/(level-\d+)\/([^/]+)\/?$/);
+      if (!m) return;
+      var repo = m[1];
+      var slug = m[2] + "/" + m[3];
       if (!byRepo[repo]) byRepo[repo] = [];
       byRepo[repo].push({ slug: slug, title: entry.title, url: entry.url });
     });
