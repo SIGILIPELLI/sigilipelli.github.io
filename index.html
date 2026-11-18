@@ -31,12 +31,6 @@
 <meta name="twitter:image" content="https://learnmasterypath.com/og-image.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9440969811959397"
    crossorigin="anonymous"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-9440969811959397",
-    enable_page_level_ads: true
-  });
-</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -2635,14 +2629,6 @@
 
   </div>
   <div class="side-col">
-    <a class="promo-card" href="https://dl.flipkart.com/s/h!Nn8MuuuN" rel="sponsored noopener" target="_blank">
-      <span class="promo-tag">Sponsored</span>
-      <span class="promo-body">
-        <span class="promo-title">Titan Evoke 2.0 Smartwatch</span>
-        <span class="promo-desc">1.32" AMOLED display, magnetic strap, IP68, Bluetooth calling — ₹7,649 on Flipkart</span>
-      </span>
-      <span class="promo-cta">View deal →</span>
-    </a>
 
     <div class="whats-new">
       <h3>What's new <a class="feed-link" href="https://learnmasterypath.com/feed.xml" title="RSS feed">RSS</a></h3>
@@ -2680,12 +2666,22 @@
   var fuse = null;
   var activeIndex = -1;
 
-  fetch("search-index.json")
-    .then(function (r) { return r.json(); })
-    .then(function (data) {
-      fuse = new Fuse(data, { keys: ["title", "site"], threshold: 0.35, minMatchCharLength: 2 });
-    })
-    .catch(function () { /* index unavailable — search stays a no-op */ });
+  // Load the 700 KB lesson index only when someone starts searching,
+  // so ordinary page views stay light and fast.
+  var indexLoading = null;
+  function loadIndex() {
+    if (indexLoading) return indexLoading;
+    indexLoading = fetch("search-index.json")
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        fuse = new Fuse(data, { keys: ["title", "site"], threshold: 0.35, minMatchCharLength: 2 });
+        if (input.value.trim().length >= 2) input.dispatchEvent(new Event("input"));
+      })
+      .catch(function () { /* index unavailable — search stays a no-op */ });
+    return indexLoading;
+  }
+  input.addEventListener("focus", loadIndex);
+  input.addEventListener("input", loadIndex);
 
   function render(items) {
     activeIndex = -1;
