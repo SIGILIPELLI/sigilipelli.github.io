@@ -262,7 +262,7 @@
       <p class="muted small">Payment ID: <code>${esc(p.payment_id)}</code></p>
     </div>
     <ol class="m-steps">${steps.map((s, i) => `<li class="${i < active ? 'done' : i === active ? 'active' : ''}"><span class="dot">${i < active ? '✓' : i === active ? '' : ''}</span>${esc(s)}</li>`).join('')}</ol>
-    <p class="m-foot muted small"><span class="m-spinner sm"></span> Preparing your ${esc(label(p.tier))}… ${elapsed}s · usually 20–60 seconds. Please keep this page open.</p>`;
+    <p class="m-foot muted small"><span class="m-spinner sm"></span> Preparing your ${esc(label(p.tier))}… ${elapsed}s · usually ${p.tier === 'report' ? '20–60 seconds' : '1–2 minutes (we check and raise your ATS score before delivering)'}. Please keep this page open.</p>`;
   }
 
   async function fulfill(p, justPaid = false) {
@@ -287,7 +287,7 @@
       const data = await api('/api/fulfill', { ...p, resume: v.resume, job: v.job });
       clearInterval(modalTimer);
       store.del(KEYS.pending);
-      const saved = { tier: data.tier, result: data.result, payment_id: p.payment_id, at: Date.now() };
+      const saved = { tier: data.tier, result: data.result, payment_id: p.payment_id, at: Date.now(), job: v.job, resume_in: v.resume };
       store.set(KEYS.last, saved);
       render(saved, false);
       const docBtns = data.tier === 'report' ? '' : data.tier === 'pack'
@@ -374,6 +374,45 @@
   const safeName = (s) => String(s || 'resume').replace(/[^\w -]+/g, '').trim().replace(/\s+/g, '_') || 'resume';
   const docButtons = (kind) => `<div class="downloads"><button class="btn small" data-dl="${kind}">Download Word</button><button class="btn small ghost" data-pdf="${kind}">Save as PDF</button><button class="btn small ghost" data-copy="${kind}">Copy text</button></div>`;
 
+  // Plain text of a structured resume, the same text the server scores (keep in sync with resumeToText in the Worker).
+  function resumeText(r) {
+    if (!r) return '';
+    const out = [r.full_name, r.headline, (r.contact || []).join(' | ')];
+    if (r.summary) out.push('Summary', r.summary);
+    if (r.skills?.length) out.push('Skills', ...r.skills.map((g) => `${g.group ? `${g.group}: ` : ''}${(g.items || []).join(', ')}`));
+    if (r.experience?.length) { out.push('Experience'); for (const e of r.experience) out.push(`${e.title}${e.company ? ` - ${e.company}` : ''}`, [e.location, e.dates].filter(Boolean).join(' | '), ...(e.bullets || [])); }
+    if (r.projects?.length) { out.push('Projects'); for (const p of r.projects) out.push(p.name, ...(p.bullets || [])); }
+    if (r.education?.length) { out.push('Education'); for (const e of r.education) out.push(`${e.credential}${e.school ? ` - ${e.school}` : ''}`, e.dates, ...(e.details || [])); }
+    if (r.certifications?.length) out.push('Certifications', ...r.certifications);
+    return out.filter(Boolean).join('\n');
+  }
+
+  // Before/after ATS score for tailored results, scored with the same free scanner the customer used.
+  function atsPanel(saved) {
+    const r = saved.result;
+    const job = saved.job || (jobEl.value.trim().length >= 150 ? jobEl.value.trim() : '');
+    const srv = r.ats;
+    const after = job ? window.MPATS.atsScan(resumeText(r.resume), job) : srv && { score: srv.after.score, matched: srv.after.matched, missing: srv.after.missing };
+    const before = srv?.before || (saved.resume_in && job ? window.MPATS.atsScan(saved.resume_in, job) : null);
+    if (!after) return '';
+    const added = before ? after.matched.filter((k) => !before.matched.includes(k)) : [];
+    const skipped = new Map((r.keywords_skipped || []).map((k) => [String(k.keyword).toLowerCase(), k.reason]));
+    const gain = before ? after.score - before.score : 0;
+    // Show short acronyms (gl, erp, ifrs, r2r) in capitals; the scanner works in lower case.
+    const kw = (k) => (/^[a-z0-9/&+#]{2,5}$/.test(k) && !/^(sql|java)$/.test(k) ? k.toUpperCase() : k);
+    return `<div class="ats-gain">
+      <div class="ats-scores">
+        ${before ? `<div class="ats-col"><div class="score sm" style="--p:${before.score}"><span>${before.score}</span></div><small>Before</small></div><div class="ats-arrow">→</div>` : ''}
+        <div class="ats-col"><div class="score sm good" style="--p:${after.score}"><span>${after.score}</span></div><small>After</small></div>
+        <div class="ats-txt"><strong>ATS score for this job${before ? `: +${Math.max(0, gain)} points` : ''}</strong><br><span class="muted small">Scored with the same free ATS check on this page. ${after.matched.length} of ${after.matched.length + after.missing.length} job keywords now in your resume.</span></div>
+      </div>
+      ${added.length ? `<h4>Keywords added for this job</h4>${chips(added.map(kw), 'good')}` : ''}
+      ${after.missing.length ? `<h4>Still missing</h4><p class="muted small">We only add skills your resume supports. If you really have one of these, tick it and we'll add it to your Skills section and re-score.</p>
+        <ul class="kw-add">${after.missing.map((k) => `<li><label><input type="checkbox" data-addkw="${esc(k)}"> <strong>${esc(kw(k))}</strong>${skipped.get(k) ? ` <span class="muted small">— ${esc(skipped.get(k))}</span>` : ''}</label></li>`).join('')}</ul>
+        <button class="btn small" data-addkw-go>Add ticked skills &amp; re-score</button>` : '<p class="small">✓ Every job keyword is now in your resume.</p>'}
+    </div>`;
+  }
+
   function render(saved, scroll = true) {
     const { tier, result: r } = saved;
     const out = $('#result');
@@ -390,7 +429,7 @@
         <p><a class="btn" href="#plans">Get it rewritten for you · ₹44</a></p>`]];
     } else {
       tabs = [
-        ['resume', 'Resume', docButtons('resume') + `<div class="doc">${resumeHtml(r.resume)}</div>`],
+        ['resume', 'Resume', atsPanel(saved) + docButtons('resume') + `<div class="doc">${resumeHtml(r.resume)}</div>`],
         ['letter', 'Cover letter', docButtons('letter') + `<div class="doc letter">${esc(r.cover_letter)}</div>`],
       ];
       if (tier === 'pack') {
@@ -428,6 +467,22 @@
       const text = k === 'letter' ? r.cover_letter : k === 'linkedin' ? `${r.linkedin.headline}\n\n${r.linkedin.about}` : $(`[data-panel="resume"] .doc`, out).innerText;
       copyText(text, b);
     }));
+    // "I have this skill": add ticked keywords to the Skills section, re-score and keep the change.
+    $('[data-addkw-go]', out)?.addEventListener('click', () => {
+      // Use the job description's own capitalisation (e.g. "GCC") for the added skill.
+      const jobLower = String(saved.job || jobEl.value || '');
+      const cased = (k) => { const i = jobLower.toLowerCase().indexOf(k.toLowerCase()); return i >= 0 ? jobLower.slice(i, i + k.length) : k; };
+      const picked = $$('[data-addkw]:checked', out).map((c) => cased(c.dataset.addkw));
+      if (!picked.length) return toast('Tick the skills you really have first.', 'info', 3000);
+      const skills = [...(r.resume.skills || [])];
+      const i = skills.findIndex((g) => /additional skills/i.test(g.group));
+      if (i >= 0) skills[i] = { ...skills[i], items: [...skills[i].items, ...picked] };
+      else skills.push({ group: 'Additional Skills', items: picked });
+      r.resume = { ...r.resume, skills };
+      store.set(KEYS.last, saved);
+      render(saved, false);
+      toast(`Added ${picked.length} skill${picked.length > 1 ? 's' : ''} and re-scored`, 'ok', 3000);
+    });
     jumpBtn.hidden = false;
     if (scroll) out.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
