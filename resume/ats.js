@@ -14,7 +14,7 @@ opportunity opportunities environment related relevant various multiple across k
 we're you'll you're it's they're who'll will be minimum least degree equivalent field fields demonstrated proven
 successful success global world leading join apply salary benefits remote hybrid office location full time part-time
 part full-time contract within other others able ideal ideally across one two three four five six seven eight nine ten
-like want need needs needed get gets also may might etc. eg e.g. i.e. ie wide range senior junior`.split(/\s+/));
+like want need needs needed get gets also may might etc. eg e.g. i.e. ie wide range senior junior prior hands-on hands on region regions ideal comfortable exposure practical preferably preferred strongly candidate's looking seeking must-have nice-to-have plus bonus excellent proficiency proficient familiarity familiar knowledge working environment ensure various day-to-day`.split(/\s+/));
 
 // Multi-word and special-character skills the tokenizer would otherwise split.
 const PHRASES = [
@@ -32,12 +32,18 @@ const PHRASES = [
   'team leadership', 'people management', 'budget management', 'quality assurance', 'technical support',
   'network security', 'information security', 'penetration testing', 'incident response', 'devops',
   'site reliability', 'infrastructure as code', 'large language models', 'generative ai', 'prompt engineering',
+  'shared services', 'shared service center', 'global capability center', 'record to report', 'r2r', 'rtr',
+  'procure to pay', 'order to cash', 'p2p', 'o2c', 'month-end close', 'month end close', 'year-end close', 'year end close',
+  'month-end', 'year-end', 'intercompany', 'intercompany accounting', 'journal entries', 'balance sheet reconciliations',
+  'balance sheet', 'bank reconciliation', 'financial reporting', 'financial statements', 'fixed assets', 'cost accounting',
+  'international accounting', 'statutory audit', 'internal audit', 'variance analysis', 'cash flow', 'gaap', 'us gaap', 'ind as',
+  'stakeholder management', 'erp', 'sap', 'oracle', 'netsuite', 'tally', 'blackline', 'emea', 'apac', 'ifrs', 'gst', 'tds',
   'sales pipeline', 'lead generation', 'cold calling', 'b2b sales', 'saas', 'crm', 'erp', 'kpi', 'kpis', 'okrs',
   'go-to-market', 'p&l', 'accounts payable', 'accounts receivable', 'general ledger', 'patient care',
   'electronic health records', 'lesson planning', 'classroom management', 'curriculum development',
 ];
 
-const norm = (s) => ` ${String(s || '').toLowerCase().replace(/[‘’]/g, "'").replace(/[^a-z0-9+#./&' -]+/g, ' ').replace(/\s+/g, ' ')} `;
+const norm = (s) => ` ${String(s || '').toLowerCase().replace(/[‘’]/g, "'").replace(/[^a-z0-9+#./&' -]+/g, ' ').replace(/[.,/](\s|$)/g, ' ').replace(/\s+/g, ' ')} `;
 
 function tokens(text) {
   return norm(text)
@@ -79,7 +85,8 @@ function extractKeywords(job, max = 25) {
   const picked = [];
   for (const k of ranked) {
     // Skip single words already covered by a picked phrase, and vice versa.
-    if (picked.some((p) => p.includes(` ${k} `) || ` ${p} `.includes(` ${k} `) || ` ${k} `.includes(` ${p} `))) continue;
+    const squash = (t) => t.split(/\s+/).filter((w) => !STOP.has(w)).join(' ');
+    if (picked.some((p) => ` ${p} `.includes(` ${k} `) || ` ${k} `.includes(` ${p} `) || squash(p) === k)) continue;
     picked.push(k);
     if (picked.length >= max) break;
   }
