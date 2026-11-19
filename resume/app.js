@@ -21,6 +21,17 @@
     pack: ['Payment verified', 'Reading your resume and the job', 'Tailoring your resume', 'Writing your cover letter', 'LinkedIn headline & About', 'Interview questions & answer guides'],
   };
   const SUPPORT = 'contact@learnmasterypath.com';
+  const label = (t) => LABELS[t] || 'result';
+  const priceTxt = (t) => (PRICES[t] ? `₹${PRICES[t]} · ` : '');
+  const stepsFor = (t) => STEPS[t] || ['Payment verified', 'Reading your resume and the job', 'Preparing your result', 'Final checks'];
+
+  // Loads a script once, on demand (keeps the page light until it is needed).
+  const loaded = {};
+  const loadScript = (src) => loaded[src] || (loaded[src] = new Promise((res, rej) => {
+    const el = document.createElement('script');
+    el.src = src; el.onload = res; el.onerror = () => { delete loaded[src]; rej(new Error('Could not load the file reader. Check your connection and try again.')); };
+    document.head.appendChild(el);
+  }));
 
   const resumeEl = $('#resume');
   const jobEl = $('#job');
@@ -54,9 +65,24 @@
       $('.modal-x', modal).addEventListener('click', closeModal);
       modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
     }
-    requestAnimationFrame(() => modal && modal.classList.add('show'));
+    lastFocus = document.activeElement;
+    requestAnimationFrame(() => { if (modal) { modal.classList.add('show'); focusFirst(); } });
     return modal;
   }
+  let lastFocus = null;
+  function focusFirst() {
+    const el = modal && (modal.querySelector('.modal-body .btn, .modal-body a, .modal-body button') || modal.querySelector('.modal-x'));
+    if (el) el.focus({ preventScroll: true });
+  }
+  // Keep Tab inside the open pop-up.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab' || !modal) return;
+    const f = [...modal.querySelectorAll('button, a[href], input, [tabindex]:not([tabindex="-1"])')].filter((x) => !x.disabled && x.offsetParent !== null);
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
   function setModal(html, { dismissable = true } = {}) {
     if (!modal) return openModal(html, { dismissable });
     const x = $('.modal-x', modal);
@@ -69,6 +95,7 @@
     }
     if (!dismissable && x) x.remove();
     $('.modal-body', modal).innerHTML = html;
+    if (!modal.contains(document.activeElement) || document.activeElement === document.body) focusFirst();
     return modal;
   }
   function closeModal() {
@@ -79,6 +106,7 @@
     m.classList.remove('show');
     document.body.classList.remove('no-scroll');
     setTimeout(() => m.remove(), 200);
+    if (lastFocus && document.contains(lastFocus)) lastFocus.focus({ preventScroll: true });
   }
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal && $('.modal-x', modal)) closeModal(); });
 
@@ -136,6 +164,7 @@
       const buf = await file.arrayBuffer();
       let text = '';
       if (/\.pdf$/i.test(file.name) || file.type === 'application/pdf') {
+        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
         const lib = window.pdfjsLib;
         lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
         const pdf = await lib.getDocument({ data: buf }).promise;
@@ -146,11 +175,12 @@
           text += line + '\n';
         }
       } else if (/\.docx$/i.test(file.name)) {
+        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js');
         text = (await window.mammoth.extractRawText({ arrayBuffer: buf })).value;
       } else {
         text = new TextDecoder().decode(buf);
       }
-      text = text.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+      text = text.replace(/[ \t]{2,}/g, ' ').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
       if (text.length < 50) throw new Error('We could not read text from that file. If it is a scanned image, paste the text instead.');
       resumeEl.value = text.slice(0, 20000);
       count();
@@ -224,15 +254,15 @@
   $$('[data-buy]').forEach((b) => b.addEventListener('click', () => buy(b.dataset.buy)));
 
   function progressHtml(p, justPaid, elapsed, active) {
-    const steps = STEPS[p.tier];
+    const steps = stepsFor(p.tier);
     return `<div class="m-center">
       <div class="m-icon ok">✓</div>
-      <h2>${justPaid ? 'Payment successful' : 'Payment found'}</h2>
-      <p class="m-amount">₹${PRICES[p.tier]} · ${esc(LABELS[p.tier])}</p>
+      <h2>${justPaid ? 'Payment successful' : p.tier ? 'Payment found' : 'Checking your payment'}</h2>
+      ${p.tier ? `<p class="m-amount">${priceTxt(p.tier)}${esc(label(p.tier))}</p>` : ''}
       <p class="muted small">Payment ID: <code>${esc(p.payment_id)}</code></p>
     </div>
     <ol class="m-steps">${steps.map((s, i) => `<li class="${i < active ? 'done' : i === active ? 'active' : ''}"><span class="dot">${i < active ? '✓' : i === active ? '' : ''}</span>${esc(s)}</li>`).join('')}</ol>
-    <p class="m-foot muted small"><span class="m-spinner sm"></span> Preparing your ${esc(LABELS[p.tier])}… ${elapsed}s · usually 20–60 seconds. Please keep this page open.</p>`;
+    <p class="m-foot muted small"><span class="m-spinner sm"></span> Preparing your ${esc(label(p.tier))}… ${elapsed}s · usually 20–60 seconds. Please keep this page open.</p>`;
   }
 
   async function fulfill(p, justPaid = false) {
@@ -243,7 +273,7 @@
       return;
     }
     const t0 = Date.now();
-    const steps = STEPS[p.tier];
+    const steps = stepsFor(p.tier);
     // Advance the visible steps on a timer; the last step stays active until the result arrives.
     const paint = () => {
       const s = Math.round((Date.now() - t0) / 1000);
@@ -260,7 +290,9 @@
       const saved = { tier: data.tier, result: data.result, payment_id: p.payment_id, at: Date.now() };
       store.set(KEYS.last, saved);
       render(saved, false);
-      const docBtns = data.tier === 'report' ? '' : `<button class="btn ghost" data-m="word">Download resume (Word)</button>`;
+      const docBtns = data.tier === 'report' ? '' : data.tier === 'pack'
+        ? `<button class="btn ghost" data-m="all">Download everything (Word)</button>`
+        : `<button class="btn ghost" data-m="word">Download resume (Word)</button>`;
       setModal(`<div class="m-center">
         <div class="m-icon ok big">✓</div>
         <h2>Your ${esc(LABELS[data.tier])} is ready</h2>
@@ -270,6 +302,7 @@
       </div>`);
       $('[data-m="view"]', modal).addEventListener('click', () => { closeModal(); $('#result').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
       $('[data-m="word"]', modal)?.addEventListener('click', () => $('[data-dl="resume"]')?.click());
+      $('[data-m="all"]', modal)?.addEventListener('click', () => $('[data-dl="all"]')?.click());
       if (window.gtag) gtag('event', 'result_delivered', { tier: data.tier });
     } catch (err) {
       clearInterval(modalTimer);
@@ -361,12 +394,13 @@
         ['letter', 'Cover letter', docButtons('letter') + `<div class="doc letter">${esc(r.cover_letter)}</div>`],
       ];
       if (tier === 'pack') {
+        tabs[0][2] = `<div class="downloads"><button class="btn small" data-dl="all">Download everything (Word)</button></div>` + tabs[0][2];
         tabs.push(['linkedin', 'LinkedIn', `<div class="qa"><h4>Headline</h4><p>${esc(r.linkedin.headline)}</p></div><div class="qa"><h4>About</h4><p class="letter">${esc(r.linkedin.about)}</p></div><button class="btn small ghost" data-copy="linkedin">Copy LinkedIn text</button>`]);
         tabs.push(['interview', 'Interview prep', r.interview.map((q, i) => `<div class="qa"><h4>${i + 1}. ${esc(q.question)}</h4><p class="small muted">Why they ask: ${esc(q.why_they_ask)}</p><p>${esc(q.answer_guide)}</p></div>`).join('')]);
       }
       tabs.push(['notes', 'What changed', `<h3>Changes made</h3><ul>${r.changes.map((c) => `<li>${esc(c)}</li>`).join('')}</ul><h3>Gaps to address honestly</h3>${r.gaps.length ? `<ul>${r.gaps.map((g) => `<li>${esc(g)}</li>`).join('')}</ul>` : '<p class="muted">None found.</p>'}<p class="small muted">Always review the result before sending. You know your experience best.</p>`]);
     }
-    out.innerHTML = `<div class="card result-card"><div class="result-head"><h2>Your ${esc(LABELS[tier])}</h2>${saved.payment_id ? `<span class="paid-badge">✓ Paid · ₹${PRICES[tier]}</span>` : ''}</div>
+    out.innerHTML = `<div class="card result-card"><div class="result-head"><h2>Your ${esc(label(tier))}</h2>${saved.payment_id ? `<span class="paid-badge">✓ Paid · ₹${PRICES[tier]}</span>` : ''}</div>
       <div class="tabs" role="tablist">${tabs.map(([k, l], i) => `<button class="tab" role="tab" data-tab="${k}" aria-selected="${i === 0}">${esc(l)}</button>`).join('')}</div>
       ${tabs.map(([k, , html], i) => `<div data-panel="${k}" ${i ? 'hidden' : ''}>${html}</div>`).join('')}
     </div>`;
@@ -375,8 +409,19 @@
       $$('[data-panel]', out).forEach((p) => { p.hidden = p.dataset.panel !== t.dataset.tab; });
     }));
     const name = safeName(r.resume?.full_name);
-    const innerFor = (kind) => (kind === 'letter' ? `<div class="letter">${esc(r.cover_letter)}</div>` : resumeHtml(r.resume));
-    $$('[data-dl]', out).forEach((b) => b.addEventListener('click', () => download(`${name}_${b.dataset.dl === 'letter' ? 'cover_letter' : 'resume'}.doc`, docPage(name, innerFor(b.dataset.dl)))));
+    const brk = '<br style="page-break-before:always" clear="all">';
+    const innerFor = (kind) => {
+      if (kind === 'letter') return `<div class="letter">${esc(r.cover_letter)}</div>`;
+      if (kind === 'all') {
+        return resumeHtml(r.resume) + brk + `<h4>Cover letter</h4><div class="letter">${esc(r.cover_letter)}</div>` + brk +
+          `<h4>LinkedIn headline</h4><p>${esc(r.linkedin.headline)}</p><h4>LinkedIn About</h4><div class="letter">${esc(r.linkedin.about)}</div>` + brk +
+          `<h4>Interview preparation</h4>${r.interview.map((q, i) => `<p><strong>${i + 1}. ${esc(q.question)}</strong></p><p><em>Why they ask:</em> ${esc(q.why_they_ask)}</p><p>${esc(q.answer_guide)}</p>`).join('')}` + brk +
+          `<h4>Gaps to address honestly</h4><ul>${r.gaps.map((g) => `<li>${esc(g)}</li>`).join('')}</ul>`;
+      }
+      return resumeHtml(r.resume);
+    };
+    const fileFor = { letter: 'cover_letter', all: 'complete_job_pack', resume: 'resume' };
+    $$('[data-dl]', out).forEach((b) => b.addEventListener('click', () => download(`${name}_${fileFor[b.dataset.dl] || 'resume'}.doc`, docPage(name, innerFor(b.dataset.dl)))));
     $$('[data-pdf]', out).forEach((b) => b.addEventListener('click', () => printPdf(name, innerFor(b.dataset.pdf))));
     $$('[data-copy]', out).forEach((b) => b.addEventListener('click', () => {
       const k = b.dataset.copy;
@@ -386,6 +431,46 @@
     jumpBtn.hidden = false;
     if (scroll) out.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
+
+  // ---------- samples (fictional candidate) ----------
+  const SAMPLE_RESUME = {
+    full_name: 'Priya Sharma', headline: 'Data Analyst | SQL, Power BI & Python | Sales and Operations Reporting',
+    contact: ['priya.sharma@example.com', '+91 90000 00000', 'Pune'],
+    summary: 'Data analyst with 4 years of experience turning sales and operations data into dashboards and decisions. Builds SQL data models and Power BI reports used by regional managers, and automates recurring reporting with Python.',
+    skills: [{ group: 'Analytics', items: ['SQL', 'Power BI', 'Excel (Power Query, pivots)', 'Python (pandas)'] }, { group: 'Business', items: ['Sales reporting', 'KPI design', 'Stakeholder presentations'] }],
+    experience: [{ title: 'Data Analyst', company: 'Northwind Retail', location: 'Pune', dates: '2022 – Present', bullets: ['Built a Power BI sales dashboard used weekly by 14 regional managers to track targets.', 'Rewrote monthly reporting in SQL and Python, cutting preparation time from two days to three hours.', 'Presented store-level insights to leadership that guided the festive-season stock plan.'] }],
+    education: [{ credential: 'B.Sc. Statistics', school: 'Savitribai Phule Pune University', dates: '2020', details: [] }], projects: [], certifications: ['Microsoft PL-300 (Power BI Data Analyst)'],
+  };
+  const SAMPLES = {
+    report: () => `${ring(64, 'Estimated fit for this job')}<p style="margin-top:10px">Strong SQL and Power BI match for this role, but the resume does not show experience with Tableau or A/B testing, which the job lists as required.</p>
+      <h3>Top actions</h3><ol><li>Move the Power BI dashboard work to the first bullet and name the business result.</li><li>Add the exact phrase "stakeholder reporting" where you already do it.</li><li>Mention Tableau training if you have it; do not claim it otherwise.</li></ol>
+      <h3>Bullet point to improve</h3><div class="qa"><p class="muted small">Before: Worked on reports for managers.</p><p><strong>After:</strong> Built weekly Power BI sales reports used by 14 regional managers to track targets.</p></div>`,
+    tailor: () => `<div class="doc sample-doc">${resumeHtml(SAMPLE_RESUME)}</div><p class="muted small">You also get a matching cover letter, a list of what changed, and Word/PDF downloads.</p>`,
+    pack: () => `<div class="qa"><h4>LinkedIn headline</h4><p>Data Analyst · SQL, Power BI & Python · Turning sales data into decisions</p></div>
+      <div class="qa"><h4>Interview question 1 of 10: Tell us about a dashboard that changed a decision.</h4><p class="small muted">Why they ask: to see business impact, not just tools.</p><p>Use the Northwind sales dashboard: the situation (managers lacked weekly target visibility), what you built, and the result (used weekly by 14 managers). Close with what you would improve next.</p></div>
+      <p class="muted small">Plus the full tailored resume and cover letter, the LinkedIn About section, and 9 more interview questions with answer guides.</p>`,
+  };
+  $$('[data-sample]').forEach((b) => b.addEventListener('click', () => {
+    const t = b.dataset.sample;
+    openModal(`<h2 class="m-title">Sample: ${esc(label(t))} <span class="muted small">· ₹${PRICES[t]}</span></h2><p class="muted small">Example for a fictional candidate. Yours is written from your own resume and job post.</p>${SAMPLES[t]()}<div class="m-actions"><button class="btn" data-m="buy">Get mine · ₹${PRICES[t]}</button><button class="btn ghost" data-m="close">Close</button></div>`);
+    $('.modal', modal).classList.add('wide');
+    $('[data-m="buy"]', modal).addEventListener('click', () => { closeModal(); buy(t); });
+    $('[data-m="close"]', modal).addEventListener('click', closeModal);
+  }));
+
+  // ---------- recover a paid result by payment ID ----------
+  $('#recover-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const id = $('#recover-id').value.trim();
+    if (!/^pay_[A-Za-z0-9]{6,40}$/.test(id)) {
+      toast('Enter the payment ID from your Razorpay receipt. It starts with pay_', 'error');
+      $('#recover-id').focus();
+      return;
+    }
+    const saved = store.get(KEYS.pending);
+    fulfill(saved && saved.payment_id === id ? saved : { payment_id: id, at: Date.now() }, false);
+  });
 
   // ---------- floating "jump to result" button ----------
   const jumpBtn = document.createElement('button');

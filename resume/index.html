@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/resume/style.css?v=2">
+<link rel="stylesheet" href="/resume/style.css?v=3">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-05VBGCXN12"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -48,6 +48,18 @@
     <h1>Got the skills? Get the <em>interview.</em></h1>
     <p class="lead">Paste your resume and the job you want. See your ATS match for free, then get a resume rewritten for that job, from your real experience. Nothing invented.</p>
   </header>
+
+  <ol class="how">
+    <li><span class="n">1</span><div><strong>Paste or upload</strong><br><span class="muted small">Your resume (PDF, Word or text) and the job post.</span></div></li>
+    <li><span class="n">2</span><div><strong>See your match free</strong><br><span class="muted small">Instant ATS keyword scan, right in your browser.</span></div></li>
+    <li><span class="n">3</span><div><strong>Get it fixed for this job</strong><br><span class="muted small">Pay once by UPI. Your result is ready in about a minute.</span></div></li>
+  </ol>
+  <ul class="trust">
+    <li>🔒 Secure payment by Razorpay · UPI, cards, net banking</li>
+    <li>⚡ Ready in about a minute</li>
+    <li>✋ No signup, no subscription</li>
+    <li>↩ <a href="/refunds.html">Refund if it fails</a></li>
+  </ul>
 
   <section class="tool card" id="tool">
     <div class="grid2">
@@ -86,6 +98,7 @@
           <li>Top fixes in priority order</li>
         </ul>
         <button class="btn" data-buy="report">Get report · ₹11</button>
+        <button class="link-btn" data-sample="report">See a sample</button>
       </article>
       <article class="plan best">
         <span class="tag">Most popular</span>
@@ -98,6 +111,7 @@
           <li>Word &amp; PDF download</li>
         </ul>
         <button class="btn" data-buy="tailor">Tailor my resume · ₹44</button>
+        <button class="link-btn" data-sample="tailor">See a sample</button>
       </article>
       <article class="plan">
         <div class="plan-price">₹77</div>
@@ -109,9 +123,21 @@
           <li>Built from your real experience</li>
         </ul>
         <button class="btn" data-buy="pack">Get the full pack · ₹77</button>
+        <button class="link-btn" data-sample="pack">See a sample</button>
       </article>
     </div>
     <p class="muted small center">Sold by Learnmasterypath. Secure payment by Razorpay: UPI, cards, net banking and wallets. Prices include all charges. See <a href="/terms.html">Terms</a>, <a href="/refunds.html">Refund policy</a> and <a href="/delivery.html">Delivery policy</a>.</p>
+  </section>
+
+  <section class="recover card" id="recover">
+    <div>
+      <h2>Already paid? Get your result again</h2>
+      <p class="muted small">Closed the page or changed phone? Enter the payment ID from your Razorpay receipt (SMS or email, starts with <code>pay_</code>). Keep your resume and job description in the boxes above.</p>
+    </div>
+    <form id="recover-form" class="recover-form">
+      <input id="recover-id" name="payment" placeholder="pay_XXXXXXXXXXXX" autocomplete="off" spellcheck="false" aria-label="Payment ID">
+      <button class="btn" type="submit">Get my result</button>
+    </form>
   </section>
 
   <section id="result" hidden></section>
@@ -120,7 +146,7 @@
     <h2>Questions</h2>
     <details><summary>Does it make things up?</summary><p>No. The AI is instructed to use only facts from your resume. It rewords, reorders and emphasizes what you already did to match the job, and lists requirements you don't yet show so you can address them honestly.</p></details>
     <details><summary>How fast is it?</summary><p>Results appear on this page within about a minute of payment. Keep this page open until your result shows.</p></details>
-    <details><summary>What if something goes wrong after I pay?</summary><p>If the result fails to generate, you can retry with the same payment. If it still fails, email <a href="mailto:contact@learnmasterypath.com">contact@learnmasterypath.com</a> with your payment ID and we will refund you.</p></details>
+    <details><summary>What if something goes wrong after I pay?</summary><p>If the result fails to generate, you can retry with the same payment, or use "Already paid? Get your result again" with your payment ID. If it still fails, email <a href="mailto:contact@learnmasterypath.com">contact@learnmasterypath.com</a> with your payment ID and we will refund you.</p></details>
     <details><summary>Do you store my resume?</summary><p>No. Your resume and the job post are used only to produce your result and are not saved on our servers. Your latest result is kept only in your own browser.</p></details>
     <details><summary>Do I need an account?</summary><p>No account and no subscription. You pay once for each result.</p></details>
   </section>
@@ -136,10 +162,8 @@
   <a href="/privacy.html">Privacy</a>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js" defer></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
-<script src="/resume/ats.js?v=2" defer></script>
-<script src="/resume/app.js?v=2" defer></script>
+<script src="/resume/ats.js?v=3" defer></script>
+<script src="/resume/app.js?v=3" defer></script>
 </body>
 </html>

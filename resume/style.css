@@ -147,3 +147,26 @@ textarea.attention { outline: 3px solid #E0B457; outline-offset: 2px; animation:
 .result-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .result-head h2 { margin: 0; }
 .paid-badge { background: var(--good-soft); color: var(--link); font: 700 .8rem var(--font-head); padding: 4px 10px; border-radius: 999px; }
+
+/* ---------- how it works & trust ---------- */
+.how { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0; margin: 4px 0 12px; }
+.how li { display: flex; gap: 10px; align-items: flex-start; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; }
+.how .n { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--good-soft); color: var(--link); display: grid; place-items: center; font: 800 .85rem var(--font-head); }
+@media (max-width: 760px) { .how { grid-template-columns: 1fr; } }
+.trust { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 0; margin: 0 0 18px; font-size: .84rem; color: var(--sub); }
+.link-btn { margin-top: 8px; background: none; border: 0; color: var(--link); font: 600 .88rem var(--font-head); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; padding: 4px; }
+
+/* ---------- recover ---------- */
+.recover { margin-top: 26px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; align-items: center; }
+.recover h2 { font-size: 1.15rem; margin: 0 0 4px; }
+.recover p { margin: 0; }
+.recover-form { display: flex; gap: 8px; }
+.recover-form input { flex: 1; min-width: 0; padding: 11px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--ink); font: .95rem ui-monospace, Menlo, monospace; }
+.recover-form input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+@media (max-width: 760px) { .recover { grid-template-columns: 1fr; } }
+
+/* ---------- sample pop-up ---------- */
+.modal.wide { max-width: 640px; }
+.m-title { margin: 0 24px 4px 0; font-size: 1.2rem; }
+.sample-doc { max-height: 46vh; overflow: auto; font-size: .85rem; padding: 18px; }
+.btn:focus-visible, .link-btn:focus-visible, .tab:focus-visible, .modal-x:focus-visible { outline: 3px solid #E0B457; outline-offset: 2px; }
