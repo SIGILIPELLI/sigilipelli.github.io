@@ -81,7 +81,7 @@
   function renderHome() {
     var host = content(); if (!host || host.dataset.mplHome) return;
     host.dataset.mplHome = '1';
-    Promise.all([model(), quizzes(), getJSON(HUB + 'search/courses.json').catch(function () { return []; })]).then(function (r) {
+    Promise.all([model(), quizzes(), getJSON(HUB + 'search/courses.json').catch(function () { return []; }), getJSON(HUB + 'search/meta.json').catch(function () { return {}; })]).then(function (r) {
       var M = r[0], Q = r[1], courses = r[2];
       if (!M.lessons.length) return;
       var total = M.lessons.length, minutes = M.lessons.reduce(function (s, l) { return s + l.minutes; }, 0);
@@ -95,12 +95,12 @@
       // outcomes: each level's goal (or its focus line from the course table)
       var outcomes = [1, 2, 3, 4].map(function (n) {
         var g = (M.levels[n] && M.levels[n].goal) || levelFocus(M.home, n);
-        return g ? '<li><b>Level ' + n + ' · ' + LEVEL_NAMES[n] + ':</b> ' + esc(g.replace(/\s*Modules.*$/, '')) + '</li>' : '';
+        g = g.replace(/\s*Modules.*$/, ''); return g ? '<li><b>Level ' + n + ' · ' + LEVEL_NAMES[n] + ':</b> ' + esc(g.charAt(0).toUpperCase() + g.slice(1)) + '</li>' : '';
       }).join('');
       // skills: lesson topics (projects excluded), a few per level
       var skills = [];
       [1, 2, 3, 4].forEach(function (n) { M.lessons.filter(function (l) { return l.level === n && !isProject(l.slug); }).slice(0, 4).forEach(function (l) { skills.push(l.title); }); });
-      var need = M.home.need ? M.home.need.split(/(?<=[.!?])\s+/).slice(0, 2).join(' ') : 'No prior experience needed. Level 1 starts from the basics.';
+      var need = M.home.need ? esc(M.home.need.split(/(?<=[.!?])\s+/).slice(0, 2).join(' ')) : prereqFromPaths(r[3], courses);
 
       var levelStats = [1, 2, 3, 4].map(function (n) {
         var ls = M.lessons.filter(function (l) { return l.level === n; });
@@ -122,7 +122,7 @@
         '</div>' +
         '<div class="mpl-cols">' +
           '<div><h2>What you will learn</h2><ul class="mpl-outcomes">' + outcomes + '</ul>' +
-          '<h2>Prerequisites</h2><p>' + esc(need) + '</p>' + recommended(me, courses) + '</div>' +
+          '<h2>Prerequisites</h2><p>' + need + '</p>' + recommended(me, courses) + '</div>' +
           '<div class="mpl-progress-card"><h2>Your progress</h2>' + progressHtml(done.length, total, levelStats, avg, scores.length) +
             '<a class="mpl-btn" href="' + esc(next ? next.url : M.lessons[0].url) + '">' + (done.length ? (next ? 'Continue: ' + esc(next.title) : 'Review the course') : 'Start Level 1') + ' →</a>' +
             '<p class="mpl-small">Progress is saved in this browser only. No account needed.</p></div>' +
@@ -136,6 +136,19 @@
       if (after) host.insertBefore(sec, after.nextSibling); else host.prepend(sec);
       bindCurriculum(sec);
     }).catch(function () {});
+  }
+  // Prerequisites when the course page states none: the courses just before this one on its career paths.
+  function prereqFromPaths(meta, courses) {
+    var byId = {}; courses.forEach(function (c) { byId[c.id] = c; });
+    var before = [];
+    Object.keys((meta && meta.paths) || {}).forEach(function (p) {
+      var ids = meta.paths[p], i = ids.indexOf(META.id);
+      if (i > 0 && before.indexOf(ids[i - 1]) < 0) before.push(ids[i - 1]);
+    });
+    before = before.filter(function (id) { return byId[id]; }).slice(0, 3);
+    if (!before.length) return 'No prior experience needed. Level 1 starts from the basics.';
+    return 'Recommended first: ' + before.map(function (id) { return '<a href="' + esc(byId[id].url) + '">' + esc(byId[id].short) + '</a>'; }).join(', ') +
+      ' (the step before this course on its career paths). Level 1 still starts from the fundamentals of this subject.';
   }
   function fact(label, value, sub) { return '<div class="mpl-fact"><span>' + esc(label) + '</span><b>' + esc(value) + '</b><small>' + esc(sub) + '</small></div>'; }
   function recommended(me, courses) {

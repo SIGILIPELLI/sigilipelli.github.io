@@ -145,7 +145,7 @@ out.mkdir(exist_ok=True)
 cats = sorted({(c['cat'], c['catName']) for c in course_list}, key=lambda x: x[1])
 meta = {'built': datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%MZ'), 'courses': len(course_list), 'lessons': len(lesson_list),
         'categories': [{'id': a, 'name': b} for a, b in cats], 'types': sorted({c['type'] for c in course_list}),
-        'careers': sorted(tracks), 'levels': LEVELS, 'suggested': cfg['suggested']}
+        'careers': sorted(tracks), 'paths': tracks, 'levels': LEVELS, 'suggested': cfg['suggested']}
 (out / 'meta.json').write_text(json.dumps(meta, ensure_ascii=False, indent=1))
 legacy = [{'title': x[2], 'url': course_list[x[0]]['url'] + f'level-{x[1]}/' + x[3], 'site': course_list[x[0]]['short']} for x in lesson_list]
 (ROOT / 'search-index.json').write_text(json.dumps(legacy, ensure_ascii=False, indent=2) + '\n')
