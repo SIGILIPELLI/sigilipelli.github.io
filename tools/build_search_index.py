@@ -73,9 +73,12 @@ for m in re.finditer(r'<details class="flashcard[^"]*" id="([^"]+)">.*?fc-title"
 
 # career paths: the home page's learning tracks + config extras
 tracks = {}
-for m in re.finditer(r'<div class="track-title">([^<]+)</div>.*?<div class="track-steps">(.*?)</div>', hub, re.S):
-    tracks[html.unescape(m.group(1)).strip()] = [u.rstrip('/').split('/')[-1] for u in re.findall(r'href="(https://learnmasterypath\.com/[^"]+)"', m.group(2))]
-tracks.update(cfg['career_paths'])
+for m in re.finditer(r'<(\w+) class="track-title">([^<]+)</\1>.*?<(\w+) class="track-steps">(.*?)</\3>', hub, re.S):
+    tracks[html.unescape(m.group(2)).strip()] = [u.rstrip('/').split('/')[-1] for u in re.findall(r'href="(https://learnmasterypath\.com/[^"]+)"', m.group(4))]
+if len(tracks) < 3:
+    sys.exit('Could not read the learning paths from index.html; keeping the previous index.')
+for name, ids in cfg['career_paths'].items():  # extras extend a home-page path of the same name
+    tracks[name] = list(dict.fromkeys(tracks.get(name, []) + ids))
 for name, ids in tracks.items():
     for cid in ids:
         if cid in courses and name not in courses[cid]['careers']:
