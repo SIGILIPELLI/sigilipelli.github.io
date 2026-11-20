@@ -113,3 +113,15 @@
 .md-typeset .mpl-checklist li { margin-left: 0; font-size: .74rem; }
 .mpl-checklist label { display: flex; gap: .5rem; align-items: flex-start; cursor: pointer; }
 .mpl-checklist input { margin-top: .3rem; accent-color: var(--mpl-ok); }
+
+/* Neutralise Material's admonition styling on our own <details> elements */
+.md-typeset details.mpl-level, .md-typeset details.mpl-notes, .md-typeset details.mpl-sol { border: 1px solid var(--mpl-line); border-left-width: 1px; box-shadow: none; padding: 0; font-size: inherit; background: transparent; }
+.md-typeset details.mpl-notes, .md-typeset details.mpl-sol { border: 0; margin: .6rem 0 0; overflow: visible; }
+.md-typeset details.mpl-level > summary, .md-typeset details.mpl-notes > summary, .md-typeset details.mpl-sol > summary { background: transparent; padding: .6rem .8rem; margin: 0; font-weight: inherit; border-top-left-radius: .6rem; border-top-right-radius: .6rem; }
+.md-typeset details.mpl-notes > summary, .md-typeset details.mpl-sol > summary { padding: .3rem 0; font-weight: 700; font-size: .74rem; color: var(--md-typeset-a-color); }
+.md-typeset details[class^="mpl-"] > summary::before { display: none; }
+.md-typeset details[class^="mpl-"] > summary::after { top: 50%; transform: translateY(-50%) rotate(0deg); right: .8rem; }
+.md-typeset details[class^="mpl-"][open] > summary::after { transform: translateY(-50%) rotate(90deg); }
+.md-typeset details.mpl-level > summary { padding-right: 2.2rem; }
+.md-typeset details.mpl-notes > summary::after, .md-typeset details.mpl-sol > summary::after { display: none; }
+.md-typeset details.mpl-level:focus-within { box-shadow: none; }
