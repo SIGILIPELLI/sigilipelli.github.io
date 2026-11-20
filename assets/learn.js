@@ -34,6 +34,8 @@
   function words(t) { return (t.match(/\S+/g) || []).length; }
   function track(name, params) { try { if (window.gtag) window.gtag('event', name, params || {}); } catch (e) {} }
   function content() { return $('.md-content__inner'); }
+  // Where lesson add-ons go: right after the lesson text, before related courses / sign-up / mark-complete.
+  function endAnchor(host) { return $('.mp-related', host) || $('#mp-signup', host) || $('.mp-mark-done', host); }
   function isProject(slug) { return /project|capstone/i.test(slug || ''); }
 
   // ---------- course model from the course's own search index ----------
@@ -288,8 +290,8 @@
       }).join('') +
       '<div class="mpl-qactions"><button type="submit" class="mpl-btn">Check answers</button><button type="button" class="mpl-retry mpl-btn ghost" hidden>Retry quiz</button><p class="mpl-score" role="status" aria-live="polite"></p></div></form>' +
       (data.challenge ? challengeHtml(data.challenge) : '');
-    var banner = $('.mp-mark-done', host);
-    if (banner) host.insertBefore(wrap, banner); else host.appendChild(wrap);
+    var anchor = endAnchor(host);
+    if (anchor && anchor.parentNode === host) host.insertBefore(wrap, anchor); else host.appendChild(wrap);
     var form = $('.mpl-qform', wrap), score = $('.mpl-score', wrap), retry = $('.mpl-retry', wrap), submit = $('button[type=submit]', wrap);
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -372,8 +374,8 @@
       '</ul><p class="mpl-small mpl-cl-count" aria-live="polite"></p>';
     var h1 = $('h1', host), tb = $('.mpl-toolbar', host);
     (tb || h1).insertAdjacentElement('afterend', box);
-    var end = $('.mpl-quiz', host) || $('.mp-mark-done', host);
-    if (end) host.insertBefore(cl, end); else host.appendChild(cl);
+    var end = $('.mpl-quiz', host) || endAnchor(host);
+    if (end && end.parentNode === host) host.insertBefore(cl, end); else host.appendChild(cl);
     var count = function () { var all = $$('input', cl), on = all.filter(function (i) { return i.checked; }).length; $('.mpl-cl-count', cl).textContent = on + ' of ' + all.length + ' criteria met' + (on === all.length && all.length ? ' — great work!' : ''); };
     cl.addEventListener('change', function (e) { if (e.target.dataset.i == null) return; saved[e.target.dataset.i] = e.target.checked; storeJSON(key, saved); count(); });
     count();
