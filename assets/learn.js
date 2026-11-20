@@ -347,7 +347,7 @@
   var GENERIC = /^(how it actually works|stretch goals?|see this in another language|cheat sheet|summary|what you learned|next steps|further reading|🔀)/i;
   function renderProject(host) {
     if ($('.mpl-project', host)) return;
-    var h2s = $$('h2', host).filter(function (h) { return !h.closest('.mpl-exercise, .mpl-quiz'); });
+    var h2s = $$('h2', host).filter(function (h) { return !h.closest('.mpl-exercise, .mpl-quiz, .mp-related, .mp-su, nav'); });
     var title = function (h) { return h.textContent.replace('¶', '').trim(); };
     var objectiveH = h2s.filter(function (h) { return /what you('|’)?ll build|objective|goal|overview|scenario/i.test(title(h)); })[0];
     var objective = objectiveH ? sectionAfter(objectiveH).filter(function (n) { return n.tagName === 'P'; })[0] : $('h1 ~ p', host);
