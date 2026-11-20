@@ -64,6 +64,8 @@ const dec = top('python decorators');
 ok(dec.lessons.slice(0, 3).some((x) => /decorator/i.test(x.title + x.topics)), 'python decorators lesson');
 const hooks = top('react hooks');
 ok(hooks.lessons.slice(0, 3).some((x) => x.courseShort === 'React'), 'react hooks -> React lesson');
+const typo2 = top('pyhton decoratr');
+ok(typo2.lessons.slice(0, 3).some((x) => /decorator/i.test(x.title)), `typo "pyhton decoratr" -> decorators lesson (got ${typo2.lessons.slice(0, 3).map((x) => x.title)})`);
 const typoLesson = top('pivot tabels');
 ok(typoLesson.lessons.slice(0, 5).some((x) => /pivot/i.test(x.title)), 'typo "pivot tabels" finds PivotTables');
 

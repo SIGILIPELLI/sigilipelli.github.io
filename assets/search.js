@@ -69,7 +69,7 @@
         var title = r[2].replace(/^\d+\s*·\s*/, '');
         docs.push({ kind: 'lesson', c: r[0], l: r[1], title: title, url: c.url + 'level-' + r[1] + '/' + r[3], desc: r[4], topics: r[5], titleN: norm(title) });
         addField(d, title, 7); addField(d, r[5], 3.5); addField(d, r[4], 1.5);
-        addField(d, c.short, 2.5); addField(d, c.aliases.join(' '), 1.2);
+        addField(d, c.short, 4); addField(d, c.aliases.join(' '), 1.5);
       });
       rebuildVocab();
     });
@@ -113,7 +113,7 @@
       var max = qt.length >= 8 ? 2 : 1;
       for (var k = 0; k < vocab.length; k++) {
         var w = vocab[k];
-        if (w !== qt && w[0] === qt[0] && within(qt, w, max)) out.push([w, max === 2 ? 0.5 : 0.62]);
+        if (w !== qt && w[0] === qt[0] && within(qt, w, max)) out.push([w, within(qt, w, 1) ? 0.62 : 0.5]);
       }
     }
     termCache.set(key, out);
