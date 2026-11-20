@@ -2064,6 +2064,13 @@
     border-bottom: 1px solid var(--border);
   }
   .search-results a:last-child { border-bottom: none; }
+  .search-results .mps-head { padding: 8px 14px 4px; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--sub); display: flex; justify-content: space-between; }
+  .search-results .mps-head button { border: 0; background: none; color: var(--sub); font-size: .72rem; cursor: pointer; text-decoration: underline; text-transform: none; letter-spacing: 0; }
+  .search-results .mps-all { font-weight: 600; }
+  .search-results mark { background: #fbe7a8; color: inherit; border-radius: 2px; }
+  @media (prefers-color-scheme: dark) { .search-results mark { background: #5b4a12; } }
+  .search-input { font-size: 16px; }
+
   .search-results a:hover, .search-results a.active { background: var(--bg); }
   .search-result-title { font-size: 0.94rem; }
   .search-result-site { display: block; font-size: 0.78rem; color: var(--sub); margin-top: 1px; }
@@ -2186,7 +2193,7 @@
 
   <div class="search-wrap">
     <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input id="mp-search" class="search-input" type="search" placeholder="Search all 3,600+ lessons across 102 courses…" autocomplete="off" aria-label="Search all Mastery Path lessons">
+    <input id="mp-search" class="search-input" type="search" placeholder="Search 102 courses &amp; 4,000+ lessons: a language, tool, topic or job role…" autocomplete="off" aria-label="Search all Mastery Path courses and lessons">
     <div id="mp-search-results" class="search-results" hidden></div>
   </div>
 
@@ -2747,82 +2754,10 @@
 
 </div>
 <script type="application/json" id="mp-catalog-map">{"python-mastery-path": "🐍 Python", "java-mastery-path": "☕ Java", "javascript-mastery-path": "🟨 JavaScript", "typescript-mastery-path": "🔷 TypeScript", "csharp-mastery-path": "🔵 C#", "shell-mastery-path": "🐚 Shell/Bash", "powershell-mastery-path": "💻 PowerShell", "c-mastery-path": "🇨 C", "cpp-mastery-path": "➕ C++", "go-mastery-path": "🐹 Go", "rust-mastery-path": "🦀 Rust", "sql-mastery-path": "🗄️ SQL", "ruby-mastery-path": "💎 Ruby", "php-mastery-path": "🐘 PHP", "kotlin-mastery-path": "🟣 Kotlin", "swift-mastery-path": "🐦 Swift", "dart-mastery-path": "🎯 Dart", "scala-mastery-path": "🔴 Scala", "r-mastery-path": "📊 R", "matlab-mastery-path": "🟧 MATLAB", "react-mastery-path": "⚛️ React", "nextjs-mastery-path": "▲ Next.js", "angular-mastery-path": "🅰️ Angular", "vue-mastery-path": "💚 Vue.js", "html-css-mastery-path": "🎨 HTML & CSS", "tailwind-mastery-path": "🌬️ Tailwind CSS", "django-mastery-path": "🎸 Django", "fastapi-mastery-path": "🚀 FastAPI", "graphql-mastery-path": "🕸️ GraphQL", "nodejs-mastery-path": "🟩 Node.js", "spring-boot-mastery-path": "🍃 Spring Boot", "flutter-mastery-path": "💙 Flutter", "react-native-mastery-path": "📲 React Native", "java-testing-mastery-path": "🧪 Java Testing", "cpp-testing-mastery-path": "🧪 C/C++ Testing", "python-testing-mastery-path": "🧪 Python Testing", "automotive-testing-mastery-path": "🚗 Automotive Testing", "selenium-mastery-path": "🧭 Selenium", "cypress-mastery-path": "🌲 Cypress", "cybersecurity-mastery-path": "🛡️ Cybersecurity", "ethical-hacking-mastery-path": "🎯 Ethical Hacking", "aws-mastery-path": "☁️ AWS", "azure-mastery-path": "☁️ Azure", "gcp-mastery-path": "☁️ GCP", "ibm-cloud-mastery-path": "☁️ IBM Cloud", "adobe-mastery-path": "🎨 Adobe", "data-engineering-mastery-path": "🛠️ Data Engineering", "data-science-mastery-path": "📈 Data Science", "tableau-mastery-path": "📊 Tableau", "excel-mastery-path": "📗 Excel", "digital-marketing-mastery-path": "📣 Digital Marketing & SEO", "tally-gst-mastery-path": "🧾 Tally Prime & GST", "pyspark-mastery-path": "⚡ PySpark", "etl-datalake-mastery-path": "🏞️ ETL & Data Lake", "power-bi-mastery-path": "📉 Power BI", "postgresql-mastery-path": "🐘 PostgreSQL", "mongodb-mastery-path": "🍃 MongoDB", "redis-mastery-path": "🟥 Redis", "snowflake-mastery-path": "❄️ Snowflake", "databricks-mastery-path": "🧱 Databricks", "ai-ml-mastery-path": "🤖 AI/ML", "llm-dev-mastery-path": "🧠 LLM Dev", "rag-mastery-path": "📚 RAG", "edge-ai-mastery-path": "📱 Edge AI", "claude-training-mastery-path": "🔶 Claude Training", "ai-tools-mastery-path": "🧰 AI Tools", "ml-math-mastery-path": "➗ ML Math Foundations", "prompt-engineering-mastery-path": "✍️ Prompt Engineering", "ai-agents-mastery-path": "🕹️ AI Agents", "mlops-mastery-path": "🔁 MLOps", "computer-vision-mastery-path": "👁️ Computer Vision", "embedded-mastery-path": "🔌 Embedded", "embedded-linux-mastery-path": "🐧 Embedded Linux", "embedded-python-mastery-path": "🐍 Embedded Python", "freertos-mastery-path": "⏱️ FreeRTOS", "s32k-mastery-path": "🔧 S32K", "product-manager-mastery-path": "📋 Product Manager", "product-lead-mastery-path": "🧭 Product Lead", "project-manager-mastery-path": "📅 Project Manager", "ai-manager-mastery-path": "🤖 AI Manager", "servant-leadership-mastery-path": "🤝 Servant Leadership", "english-fluency-mastery-path": "🗣️ English Fluency & IELTS", "workday-mastery-path": "🧑‍💼 Workday", "dsa-interview-mastery-path": "🧩 DSA & Coding Interviews", "system-design-mastery-path": "🏗️ System Design", "agile-mastery-path": "🔄 Agile/Scrum/Kanban", "rest-api-mastery-path": "🔗 REST API", "playwright-mastery-path": "🎭 Playwright", "server-ops-mastery-path": "🖥️ Server Ops", "linux-mastery-path": "🐧 Linux", "nodemcu-mastery-path": "📶 NodeMCU/IoT", "terraform-mastery-path": "🌍 Terraform", "kubernetes-mastery-path": "☸️ Kubernetes", "docker-mastery-path": "🐳 Docker", "github-mastery-path": "🐙 GitHub & Git", "cicd-mastery-path": "🔁 CI/CD", "ansible-mastery-path": "🤖 Ansible", "kafka-mastery-path": "📨 Kafka", "microservices-mastery-path": "🧩 Microservices", "observability-mastery-path": "📈 Observability", "vector-databases-mastery-path": "🧭 Vector Databases", "mcp-mastery-path": "🔌 MCP"}</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+<script src="/assets/search.js"></script>
 <script>
-(function () {
-  var input = document.getElementById("mp-search");
-  var results = document.getElementById("mp-search-results");
-  var fuse = null;
-  var activeIndex = -1;
-
-  // Load the 700 KB lesson index only when someone starts searching,
-  // so ordinary page views stay light and fast.
-  var indexLoading = null;
-  function loadIndex() {
-    if (indexLoading) return indexLoading;
-    indexLoading = fetch("search-index.json")
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        fuse = new Fuse(data, { keys: ["title", "site"], threshold: 0.35, minMatchCharLength: 2 });
-        if (input.value.trim().length >= 2) input.dispatchEvent(new Event("input"));
-      })
-      .catch(function () { /* index unavailable — search stays a no-op */ });
-    return indexLoading;
-  }
-  input.addEventListener("focus", loadIndex);
-  input.addEventListener("input", loadIndex);
-
-  function render(items) {
-    activeIndex = -1;
-    if (!items.length) {
-      results.innerHTML = '<div class="search-empty">No lessons found.</div>';
-      results.hidden = false;
-      return;
-    }
-    var html = items.slice(0, 25).map(function (r) {
-      var e = r.item;
-      return '<a href="' + e.url + '"><span class="search-result-title">' + escapeHtml(e.title) +
-        '</span><span class="search-result-site">' + escapeHtml(e.site) + '</span></a>';
-    }).join("");
-    results.innerHTML = html;
-    results.hidden = false;
-  }
-
-  function escapeHtml(s) {
-    return s.replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
-  }
-
-  input.addEventListener("input", function () {
-    var q = input.value.trim();
-    if (!fuse || q.length < 2) { results.hidden = true; return; }
-    render(fuse.search(q));
-  });
-
-  input.addEventListener("keydown", function (e) {
-    var links = results.querySelectorAll("a");
-    if (!links.length || results.hidden) return;
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      activeIndex = Math.min(activeIndex + 1, links.length - 1);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      activeIndex = Math.max(activeIndex - 1, 0);
-    } else if (e.key === "Enter" && activeIndex >= 0) {
-      links[activeIndex].click();
-      return;
-    } else {
-      return;
-    }
-    links.forEach(function (l, i) { l.classList.toggle("active", i === activeIndex); });
-    links[activeIndex].scrollIntoView({ block: "nearest" });
-  });
-
-  document.addEventListener("click", function (e) {
-    if (!results.contains(e.target) && e.target !== input) results.hidden = true;
-  });
-})();
+// Site search: instant course + lesson suggestions, typo tolerance, recent searches, full results at /search/.
+MPSearch.attachSuggest(document.getElementById("mp-search"), document.getElementById("mp-search-results"));
 
 // Count-up stat chips. The HTML already shows the correct final number
 // (102, 3,600+, 15) as its static content, so anyone without JS, on a

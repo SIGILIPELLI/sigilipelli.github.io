@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search 100+ Free Courses &amp; 4,000 Lessons – Mastery Path</title>
+<meta name="description" content="Search every Mastery Path course and lesson by course, language, technology, topic, skill or career role. Filter by level, category and career path. Free, no login.">
+<link rel="canonical" href="https://learnmasterypath.com/search/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mastery Path">
+<meta property="og:title" content="Search 100+ Free Courses &amp; 4,000 Lessons – Mastery Path">
+<meta property="og:description" content="Find the exact lesson you need across 102 free courses: search by topic, skill, technology or career role.">
+<meta property="og:url" content="https://learnmasterypath.com/search/">
+<meta property="og:image" content="https://learnmasterypath.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-05VBGCXN12"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-05VBGCXN12');</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Mastery Path","item":"https://learnmasterypath.com/"},{"@type":"ListItem","position":2,"name":"Search","item":"https://learnmasterypath.com/search/"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/search/courses.json" as="fetch" crossorigin>
+<style>
+  :root { --ink:#22261f; --sub:#565f52; --bg:#FAF7EF; --card:#ffffff; --border:#e6e0d0; --accent:#2FA98D; --link:#1f7a63; --chip:#eef6f2; --mark:#fbe7a8; }
+  @media (prefers-color-scheme: dark) { :root { --ink:#eef0e8; --sub:#b7bfae; --bg:#14170f; --card:#1c2017; --border:#2c3225; --accent:#4fd6b3; --link:#6fe3c4; --chip:#17352b; --mark:#5b4a12; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.55; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 28px 16px 72px; }
+  a { color: var(--link); }
+  .crumbs { font-size:.9rem; color:var(--sub); margin:0 0 14px; }
+  h1 { font-size: 1.7rem; margin: 0 0 4px; line-height:1.2; }
+  .lede { color: var(--sub); margin: 0 0 16px; }
+  .box { position: relative; }
+  #q { width: 100%; font-size: 1.05rem; padding: 14px 44px 14px 16px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--card); color: var(--ink); }
+  #q:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }
+  #q-clear { position:absolute; right:8px; top:50%; transform:translateY(-50%); border:0; background:none; color:var(--sub); font-size:1.4rem; cursor:pointer; padding:4px 8px; line-height:1; }
+  .filters { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 8px; margin: 12px 0 6px; }
+  .filters label { display:grid; gap:2px; font-size:.75rem; color:var(--sub); font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
+  .filters select { font-size: .95rem; padding: 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--ink); min-width:0; text-transform:none; letter-spacing:0; font-weight:400; }
+  .status { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; color:var(--sub); font-size:.88rem; margin: 10px 0 14px; min-height: 1.5em; }
+  .status button { border:0; background:none; color:var(--link); cursor:pointer; font-size:.88rem; padding:0; text-decoration: underline; }
+  h2 { font-size: 1.05rem; margin: 22px 0 8px; }
+  .courses { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+  .course { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; min-width:0; }
+  .course h3 { margin:0 0 4px; font-size:1rem; }
+  .course p { margin: 4px 0 6px; font-size:.88rem; color: var(--sub); }
+  .badges { display:flex; flex-wrap:wrap; gap:4px; }
+  .badge { font-size:.72rem; padding: 1px 8px; border-radius: 999px; background: var(--chip); color: var(--ink); white-space: nowrap; }
+  .badge.lvl { background: transparent; border: 1px solid var(--border); }
+  .lessons { list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+  .lesson { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }
+  .lesson a.t { font-weight: 600; font-size: 1rem; text-decoration: none; }
+  .lesson a.t:hover { text-decoration: underline; }
+  .lesson .m { font-size:.8rem; color: var(--sub); margin: 2px 0 4px; display:flex; flex-wrap:wrap; gap:4px 8px; align-items:center; }
+  .lesson p { margin: 2px 0; font-size:.9rem; }
+  .lesson .k { font-size:.8rem; color: var(--sub); }
+  mark { background: var(--mark); color: inherit; border-radius: 2px; padding: 0 1px; }
+  .more { display:block; margin: 14px auto 0; padding: 10px 18px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--ink); font-size:.95rem; cursor:pointer; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin: 6px 0 4px; padding:0; list-style:none; }
+  .chips button, .chips a { font-size:.88rem; padding: 6px 12px; border-radius: 999px; border:1px solid var(--border); background: var(--card); color: var(--ink); cursor:pointer; text-decoration:none; }
+  .chips button:hover, .chips a:hover { border-color: var(--accent); }
+  .empty { background: var(--card); border:1px dashed var(--border); border-radius:12px; padding: 16px 18px; }
+  .empty h2 { margin-top: 0; }
+  .hist-head { display:flex; justify-content:space-between; align-items:baseline; }
+  .hist-head button { border:0; background:none; color:var(--sub); font-size:.8rem; cursor:pointer; text-decoration:underline; }
+  .noscript { padding: 12px; border:1px solid var(--border); border-radius: 10px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (max-width: 480px) { h1 { font-size: 1.4rem; } .filters { grid-template-columns: 1fr 1fr; } }
+  @media (prefers-reduced-motion: no-preference) { .lesson, .course { transition: border-color .15s; } .lesson:hover, .course:hover { border-color: var(--accent); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav aria-label="Breadcrumb" class="crumbs"><a href="https://learnmasterypath.com/">Mastery Path</a> › <span aria-current="page">Search</span></nav>
+<main id="content">
+  <h1>Search all courses and lessons</h1>
+  <p class="lede">Search 102 free courses and 4,000+ lessons by course, language, technology, topic, skill or career role.</p>
+  <form id="f" role="search" class="box" autocomplete="off">
+    <label for="q" class="visually-hidden" style="position:absolute;left:-9999px">Search Mastery Path</label>
+    <input id="q" name="q" type="search" placeholder="Try “python decorators”, “vlookup”, “data analyst”, “kubernetes”…" enterkeyhint="search" autocapitalize="off" spellcheck="false">
+    <button type="button" id="q-clear" aria-label="Clear search" hidden>×</button>
+  </form>
+  <div class="filters" id="filters">
+    <label for="f-cat">Category<select id="f-cat" data-k="cat"><option value="">All categories</option></select></label>
+    <label for="f-level">Difficulty<select id="f-level" data-k="level"><option value="">All levels</option></select></label>
+    <label for="f-career">Career path<select id="f-career" data-k="career"><option value="">All career paths</option></select></label>
+    <label for="f-type">Course type<select id="f-type" data-k="type"><option value="">All course types</option></select></label>
+    <label for="f-tech">Technology<select id="f-tech" data-k="tech"><option value="">All technologies</option></select></label>
+  </div>
+  <div class="status" id="status" aria-live="polite"></div>
+  <div id="results"><p class="noscript">Loading search…</p></div>
+  <noscript><p class="noscript">Search needs JavaScript. You can browse every course on the <a href="https://learnmasterypath.com/">home page</a>.</p></noscript>
+</main>
+<p class="lede" style="margin-top:36px;font-size:.85rem">Search runs in your browser: nothing you type is sent anywhere, and recent searches stay on this device. <a href="https://learnmasterypath.com/privacy.html">Privacy</a></p>
+</div>
+<script src="/assets/search.js"></script>
+<script>
+(function () {
+  var S = window.MPSearch, esc = S.esc;
+  var $ = function (s) { return document.querySelector(s); };
+  var q = $('#q'), out = $('#results'), status = $('#status'), clearBtn = $('#q-clear');
+  var selects = Array.prototype.slice.call(document.querySelectorAll('#filters select'));
+  var PAGE = 30, shown = PAGE, timer = null, lastLogged = '';
+
+  function state() {
+    var f = {}; selects.forEach(function (s) { if (s.value) f[s.dataset.k] = s.value; }); return f;
+  }
+  function syncUrl() {
+    var p = new URLSearchParams(); if (q.value.trim()) p.set('q', q.value.trim());
+    var f = state(); Object.keys(f).forEach(function (k) { p.set(k, f[k]); });
+    var s = p.toString(); history.replaceState(null, '', location.pathname + (s ? '?' + s : ''));
+  }
+  function fill(sel, items) { items.forEach(function (it) { var o = document.createElement('option'); o.value = it[0]; o.textContent = it[1]; sel.appendChild(o); }); }
+
+  function courseCard(x) {
+    return '<article class="course"><h3><a href="' + esc(x.url) + '">' + esc(x.emoji) + ' ' + S.highlight(x.course, x.terms) + '</a></h3>' +
+      '<div class="badges"><span class="badge">' + esc(x.category) + '</span><span class="badge lvl">' + esc(x.level) + '</span><span class="badge lvl">' + x.lessons + ' lessons</span></div>' +
+      '<p>' + S.highlight(x.desc, x.terms) + '</p>' +
+      (x.careers.length ? '<div class="badges">' + x.careers.slice(0, 3).map(function (c) { return '<span class="badge lvl">' + esc(c) + '</span>'; }).join('') + '</div>' : '') + '</article>';
+  }
+  function lessonItem(x) {
+    return '<li class="lesson"><a class="t" href="' + esc(x.url) + '">' + S.highlight(x.title, x.terms) + '</a>' +
+      '<div class="m"><a href="' + esc(x.courseUrl) + '">' + esc(x.emoji) + ' ' + esc(x.course) + '</a><span class="badge lvl">' + esc(x.level) + '</span><span class="badge">' + esc(x.category) + '</span></div>' +
+      '<p>' + S.highlight(x.desc, x.terms) + '</p>' + (x.topics ? '<div class="k">Topics: ' + S.highlight(x.topics, x.terms) + '</div>' : '') + '</li>';
+  }
+  function chips(list, attr) { return '<ul class="chips">' + list.map(function (v) { return '<li><button type="button" ' + attr + '="' + esc(v) + '">' + esc(v) + '</button></li>'; }).join('') + '</ul>'; }
+
+  function emptyState() {
+    var m = S.meta(), h = S.history.get();
+    return '<div class="empty">' +
+      (h.length ? '<div class="hist-head"><h2>Recent searches</h2><button type="button" id="hist-clear">Clear history</button></div>' + chips(h, 'data-q') : '') +
+      '<h2>Popular searches</h2>' + chips(m.suggested, 'data-q') +
+      '<h2>Browse by career path</h2>' + chips(m.careers, 'data-career') +
+      '<h2>Browse by category</h2>' + chips(m.categories.map(function (c) { return c.name; }), 'data-catname') + '</div>';
+  }
+  function noResults(text) {
+    var f = state(), hasF = Object.keys(f).length;
+    return '<div class="empty"><h2>No results for “' + esc(text) + '”' + (hasF ? ' with these filters' : '') + '</h2>' +
+      '<p>Check the spelling, use a broader word (a language or tool name), or search for a related skill.</p>' +
+      (hasF ? '<p><button type="button" class="more" id="drop-filters" style="margin:6px 0">Search without filters</button></p>' : '') +
+      '<h2>Try one of these</h2>' + chips(S.meta().suggested, 'data-q') + '</div>';
+  }
+
+  function render() {
+    var text = q.value.trim(), f = state();
+    clearBtn.hidden = !text;
+    syncUrl();
+    if (!text && !Object.keys(f).length) { out.innerHTML = emptyState(); status.textContent = ''; return; }
+    var r = S.query(text, f, {});
+    if (!r.courses.length && !r.lessons.length) {
+      out.innerHTML = r.lessonsLoaded ? noResults(text) : '<p class="lede">Searching lessons…</p>';
+      status.textContent = r.lessonsLoaded ? 'No results' : ''; return;
+    }
+    var html = '';
+    if (r.courses.length) html += '<h2>Courses <span class="lede" style="font-weight:400">(' + r.totalCourses + ')</span></h2><div class="courses">' + r.courses.slice(0, text ? 6 : 200).map(courseCard).join('') + '</div>';
+    if (r.lessons.length) html += '<h2>Lessons <span class="lede" style="font-weight:400">(' + r.totalLessons.toLocaleString() + ')</span></h2><ol class="lessons">' + r.lessons.slice(0, shown).map(lessonItem).join('') + '</ol>' +
+      (r.totalLessons > shown ? '<button type="button" class="more" id="more">Show more lessons (' + (r.totalLessons - shown).toLocaleString() + ' more)</button>' : '');
+    out.innerHTML = html;
+    status.innerHTML = '<span>' + r.totalCourses + ' course' + (r.totalCourses === 1 ? '' : 's') + ' · ' + r.totalLessons.toLocaleString() + ' lesson' + (r.totalLessons === 1 ? '' : 's') + (r.corrected ? ' · including close spellings' : '') + ' · ' + Math.max(1, Math.round(r.ms)) + ' ms</span>' +
+      (Object.keys(f).length ? '<button type="button" id="reset">Clear filters</button>' : '');
+    if (text && text !== lastLogged && window.gtag) { lastLogged = text; clearTimeout(render.t); render.t = setTimeout(function () { gtag('event', 'search', { search_term: text }); }, 1500); }
+  }
+
+  out.addEventListener('click', function (e) {
+    var b = e.target.closest('button, a'); if (!b) return;
+    if (b.dataset.q) { q.value = b.dataset.q; S.history.add(b.dataset.q); shown = PAGE; render(); q.focus(); }
+    else if (b.dataset.career) { $('#f-career').value = b.dataset.career; shown = PAGE; render(); }
+    else if (b.dataset.catname) { var o = Array.prototype.find.call($('#f-cat').options, function (o) { return o.textContent === b.dataset.catname; }); if (o) $('#f-cat').value = o.value; render(); }
+    else if (b.id === 'more') { shown += PAGE; render(); }
+    else if (b.id === 'drop-filters') { selects.forEach(function (s) { s.value = ''; }); render(); }
+    else if (b.id === 'hist-clear') { S.history.clear(); render(); }
+    else if (b.tagName === 'A' && q.value.trim()) S.history.add(q.value.trim());
+  });
+  status.addEventListener('click', function (e) { if (e.target.id === 'reset') { selects.forEach(function (s) { s.value = ''; }); render(); } });
+  q.addEventListener('input', function () { shown = PAGE; clearTimeout(timer); timer = setTimeout(render, 70); });
+  $('#f').addEventListener('submit', function (e) { e.preventDefault(); S.history.add(q.value); render(); var first = out.querySelector('a.t, .course a'); if (first && window.matchMedia('(max-width: 640px)').matches) q.blur(); });
+  clearBtn.addEventListener('click', function () { q.value = ''; render(); q.focus(); });
+  selects.forEach(function (s) { s.addEventListener('change', function () { shown = PAGE; render(); }); });
+  document.addEventListener('keydown', function (e) { if (e.key === '/' && document.activeElement !== q && !/input|select|textarea/i.test(document.activeElement.tagName)) { e.preventDefault(); q.focus(); } });
+
+  S.ready().then(function () {
+    var m = S.meta();
+    fill($('#f-cat'), m.categories.map(function (c) { return [c.id, c.name]; }));
+    fill($('#f-level'), [['1', 'Beginner (Level 1)'], ['2', 'Intermediate (Level 2)'], ['3', 'Advanced (Level 3)'], ['4', 'Expert (Level 4)']]);
+    fill($('#f-career'), m.careers.map(function (c) { return [c, c]; }));
+    fill($('#f-type'), m.types.map(function (t) { return [t, t]; }));
+    fill($('#f-tech'), S.courses().slice().sort(function (a, b) { return a.short.localeCompare(b.short); }).map(function (c) { return [c.id, c.short]; }));
+    var p = new URLSearchParams(location.search);
+    q.value = p.get('q') || '';
+    selects.forEach(function (s) { var v = p.get(s.dataset.k); if (v) s.value = v; });
+    if (q.value) S.history.add(q.value);
+    render();
+    S.loadLessons().then(render);
+    if (!q.value && !window.matchMedia('(max-width: 640px)').matches) q.focus();
+  }).catch(function () { out.innerHTML = '<div class="empty"><h2>Search could not load</h2><p>Check your connection and reload. You can also browse every course on the <a href="https://learnmasterypath.com/">home page</a>.</p></div>'; });
+})();
+</script>
+</body>
+</html>
