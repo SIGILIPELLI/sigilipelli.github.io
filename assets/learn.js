@@ -350,7 +350,8 @@
     var h2s = $$('h2', host).filter(function (h) { return !h.closest('.mpl-exercise, .mpl-quiz, .mp-related, .mp-su, nav'); });
     var title = function (h) { return h.textContent.replace('¶', '').trim(); };
     var objectiveH = h2s.filter(function (h) { return /what you('|’)?ll build|objective|goal|overview|scenario/i.test(title(h)); })[0];
-    var objective = objectiveH ? sectionAfter(objectiveH).filter(function (n) { return n.tagName === 'P'; })[0] : $('h1 ~ p', host);
+    // Only from an explicit objective section; otherwise the intro paragraph right below already says it.
+    var objective = objectiveH ? sectionAfter(objectiveH).filter(function (n) { return n.tagName === 'P'; })[0] : null;
     var steps = h2s.filter(function (h) { return !GENERIC.test(title(h)) && h !== objectiveH && !/verif|expected|output|final numbers|running it|checklist/i.test(title(h)); });
     var verify = h2s.filter(function (h) { return /verif|expected|output|final numbers|running it|test it|check it/i.test(title(h)); })[0];
     // checklist: the page's own "[ ]" task items, otherwise one item per implementation step
