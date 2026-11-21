@@ -1,0 +1,1927 @@
+{
+ "course": "sql-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup-first-queries": {
+   "questions": [
+    {
+     "q": "How does the sqlite3 shell treat dot-commands such as .tables versus SQL statements?",
+     "options": [
+      "Dot-commands need no semicolon; SQL statements end with a semicolon",
+      "Neither needs one",
+      "Both end with a semicolon",
+      "Dot-commands need a semicolon; SQL does not"
+     ],
+     "answer": 0,
+     "explain": "Dot-commands are shell-specific; SQL statements are ended by the semicolon."
+    },
+    {
+     "q": "What is a SQLite database?",
+     "options": [
+      "A single file on disk",
+      "A cloud service",
+      "A server process",
+      "A folder of CSVs"
+     ],
+     "answer": 0,
+     "explain": "There is no server to install and no accounts or network needed."
+    },
+    {
+     "q": "Which dot-command shows the CREATE TABLE statement for the students table?",
+     "options": [
+      ".mode column",
+      ".tables students",
+      ".headers on",
+      ".schema students"
+     ],
+     "answer": 3,
+     "explain": ".tables lists tables; .schema shows how a table was defined."
+    },
+    {
+     "q": "What ends a SQL statement in the shell?",
+     "options": [
+      "The semicolon, not the newline",
+      "The word END",
+      "A blank line",
+      "A newline"
+     ],
+     "answer": 0,
+     "explain": "Statements can span multiple lines; indentation is only for human readability."
+    }
+   ]
+  },
+  "level-1/02-select-basics-data-types": {
+   "questions": [
+    {
+     "q": "Why list exact columns instead of SELECT * in application code?",
+     "options": [
+      "It's explicit and doesn't break or change behavior if a column is added",
+      "It is always faster by 10x",
+      "SELECT * is invalid SQL",
+      "It encrypts the data"
+     ],
+     "answer": 0,
+     "explain": "SELECT * is fine for quick exploration in the shell."
+    },
+    {
+     "q": "What does AS do in SELECT title AS book_title?",
+     "options": [
+      "Renames the column in the table",
+      "Deletes the column",
+      "Sorts by it",
+      "Gives the column an alias in the result"
+     ],
+     "answer": 3,
+     "explain": "AS is optional but improves readability, and aliases are essential for expressions."
+    },
+    {
+     "q": "Which query computes a 10% discounted price column?",
+     "options": [
+      "UPDATE books SET price = 0.9;",
+      "SELECT discount(price) FROM books;",
+      "SELECT title, price - 0.9 FROM books;",
+      "SELECT title, price * 0.9 AS discounted_price FROM books;"
+     ],
+     "answer": 3,
+     "explain": "You can compute values in SELECT, not just read stored columns."
+    },
+    {
+     "q": "What does the lesson say SELECT retrieves?",
+     "options": [
+      "Table structures only",
+      "Only the first row",
+      "Users",
+      "Data, and most of SQL revolves around shaping a SELECT"
+     ],
+     "answer": 3,
+     "explain": "Getting comfortable with SELECT's anatomy pays off for the rest of the course."
+    }
+   ]
+  },
+  "level-1/03-filtering-where": {
+   "questions": [
+    {
+     "q": "Which operator has higher precedence, AND or OR?",
+     "options": [
+      "AND binds tighter than OR",
+      "Neither",
+      "OR binds tighter than AND",
+      "They are equal"
+     ],
+     "answer": 0,
+     "explain": "Use parentheses whenever you mix them, since relying on precedence is a common source of bugs."
+    },
+    {
+     "q": "Is BETWEEN 1960 AND 1990 inclusive?",
+     "options": [
+      "Yes, both endpoints are included",
+      "No, both are excluded",
+      "Only the upper endpoint",
+      "Only the lower endpoint"
+     ],
+     "answer": 0,
+     "explain": "It equals >= 1960 AND <= 1990."
+    },
+    {
+     "q": "Which clause matches a column against a set of values?",
+     "options": [
+      "LIMIT",
+      "DISTINCT",
+      "BETWEEN",
+      "IN ('Fantasy', 'Cyberpunk')"
+     ],
+     "answer": 3,
+     "explain": "IN is a shorthand for several OR comparisons on the same column."
+    },
+    {
+     "q": "When is WHERE evaluated?",
+     "options": [
+      "After grouping",
+      "Only at the end",
+      "After sorting",
+      "Per row, before any grouping or sorting"
+     ],
+     "answer": 3,
+     "explain": "WHERE narrows the result set down to rows that match."
+    }
+   ]
+  },
+  "level-1/04-sorting-limiting": {
+   "questions": [
+    {
+     "q": "Without ORDER BY, what does SQL guarantee about row order?",
+     "options": [
+      "Alphabetical order",
+      "Primary key order",
+      "Insertion order",
+      "Nothing; the order can vary between runs"
+     ],
+     "answer": 3,
+     "explain": "The database may return rows in whatever order is convenient internally."
+    },
+    {
+     "q": "What does ORDER BY genre ASC, price DESC do?",
+     "options": [
+      "Sorts genres A–Z, and within each genre sorts price highest to lowest",
+      "Sorts genres Z–A",
+      "Sorts randomly",
+      "Sorts everything by price only"
+     ],
+     "answer": 0,
+     "explain": "Ties in the first column are broken by the next, each with its own direction."
+    },
+    {
+     "q": "Why avoid ORDER BY 2 in real code?",
+     "options": [
+      "It is invalid in SQLite",
+      "It sorts descending",
+      "It ignores NULLs",
+      "Adding or reordering selected columns silently changes what it sorts by"
+     ],
+     "answer": 3,
+     "explain": "Sort by column name instead."
+    },
+    {
+     "q": "Where does SQLite place NULLs in ascending order?",
+     "options": [
+      "They are removed",
+      "Random",
+      "Last",
+      "First, before any real value"
+     ],
+     "answer": 3,
+     "explain": "Other databases differ: Postgres defaults to NULLS LAST for ASC."
+    }
+   ]
+  },
+  "level-1/05-aggregates-group-by": {
+   "questions": [
+    {
+     "q": "What is the difference between COUNT(*) and COUNT(genre)?",
+     "options": [
+      "COUNT(genre) counts all rows",
+      "COUNT(*) counts all rows; COUNT(genre) counts only rows where genre is not NULL",
+      "They are identical",
+      "COUNT(*) skips NULLs"
+     ],
+     "answer": 1,
+     "explain": "COUNT(column) ignores NULLs in that column."
+    },
+    {
+     "q": "What rule applies to non-aggregated columns in a SELECT with GROUP BY?",
+     "options": [
+      "Each must appear in the GROUP BY",
+      "They can be anything",
+      "They must be sorted",
+      "They must be numeric"
+     ],
+     "answer": 0,
+     "explain": "SELECT genre, title, AVG(price) ... GROUP BY genre is invalid because SQL wouldn't know which title to show."
+    },
+    {
+     "q": "What does GROUP BY genre with COUNT(*) return?",
+     "options": [
+      "Every book",
+      "One row total",
+      "Only the largest genre",
+      "One row per genre with the number of books in it"
+     ],
+     "answer": 3,
+     "explain": "It splits rows into buckets by value and computes the aggregate for each."
+    },
+    {
+     "q": "Which function returns the highest price?",
+     "options": [
+      "MAX(price)",
+      "LARGEST(price)",
+      "HIGH(price)",
+      "TOP(price)"
+     ],
+     "answer": 0,
+     "explain": "The five core aggregates are COUNT, SUM, AVG, MIN and MAX."
+    }
+   ]
+  },
+  "level-1/06-joins-basics": {
+   "questions": [
+    {
+     "q": "Why is The Lathe of Heaven missing from the INNER JOIN result?",
+     "options": [
+      "INNER JOIN drops the last row",
+      "Its author_id is NULL, so it has no match in authors",
+      "Its price is too low",
+      "It is out of print"
+     ],
+     "answer": 1,
+     "explain": "INNER JOIN returns only rows where both sides match."
+    },
+    {
+     "q": "What does LEFT JOIN do with a left row that has no match?",
+     "options": [
+      "Duplicates it",
+      "Keeps it and fills the right table's columns with NULL",
+      "Drops it",
+      "Errors"
+     ],
+     "answer": 1,
+     "explain": "It keeps every row from the left table."
+    },
+    {
+     "q": "How do you find only books with no known author after a LEFT JOIN?",
+     "options": [
+      "HAVING authors.id = 0",
+      "WHERE authors.id IS NULL",
+      "WHERE books.id IS NULL",
+      "WHERE authors.id = NULL"
+     ],
+     "answer": 1,
+     "explain": "Filtering for NULL on the right table's key exposes the unmatched rows."
+    },
+    {
+     "q": "When are table aliases required?",
+     "options": [
+      "Only for views",
+      "When two tables share a column name such as id, and they keep long queries readable",
+      "Never",
+      "Only with LEFT JOIN"
+     ],
+     "answer": 1,
+     "explain": "For example, books AS b and authors AS a."
+    }
+   ]
+  },
+  "level-1/07-working-with-null": {
+   "questions": [
+    {
+     "q": "What does SELECT * FROM books WHERE price = NULL return?",
+     "options": [
+      "An error",
+      "Zero rows, always",
+      "Rows where price is missing",
+      "All rows"
+     ],
+     "answer": 1,
+     "explain": "Comparing unknown to anything yields unknown, which SQL treats as not true."
+    },
+    {
+     "q": "What is the correct way to find rows with no price?",
+     "options": [
+      "WHERE price = ''",
+      "WHERE price IS NULL",
+      "WHERE price == NULL",
+      "WHERE price = 0"
+     ],
+     "answer": 1,
+     "explain": "Use IS NULL and IS NOT NULL."
+    },
+    {
+     "q": "What does COALESCE(discontinued_reason, 'still in print') return for a NULL reason?",
+     "options": [
+      "An error",
+      "NULL",
+      "'still in print'",
+      "An empty string"
+     ],
+     "answer": 2,
+     "explain": "COALESCE returns the first argument that isn't NULL."
+    },
+    {
+     "q": "What does price + 1 give when price is NULL?",
+     "options": [
+      "An error",
+      "0",
+      "NULL",
+      "1"
+     ],
+     "answer": 2,
+     "explain": "NULL propagates through arithmetic instead of being treated as zero."
+    }
+   ]
+  },
+  "level-1/08-creating-tables": {
+   "questions": [
+    {
+     "q": "What does CREATE TABLE produce?",
+     "options": [
+      "An index only",
+      "A table with sample data",
+      "An empty table: the structure with no rows",
+      "A view"
+     ],
+     "answer": 2,
+     "explain": "It defines columns, types and rules."
+    },
+    {
+     "q": "What happens on INSERT INTO books (price) VALUES (9.99) when title is NOT NULL?",
+     "options": [
+      "It inserts with an empty title",
+      "It fails with a NOT NULL constraint error",
+      "It deletes the table",
+      "It inserts NULL"
+     ],
+     "answer": 1,
+     "explain": "Error: NOT NULL constraint failed: books.title."
+    },
+    {
+     "q": "What is special about INTEGER PRIMARY KEY in SQLite?",
+     "options": [
+      "It auto-increments and aliases the internal row ID",
+      "It allows duplicates",
+      "It must be text",
+      "It is stored as a blob"
+     ],
+     "answer": 0,
+     "explain": "AUTOINCREMENT is only for edge cases where IDs must never be reused."
+    },
+    {
+     "q": "What does a DEFAULT value allow?",
+     "options": [
+      "Omitting the column from INSERT so SQLite fills it in",
+      "Making it unique",
+      "Renaming the column",
+      "Skipping NOT NULL globally"
+     ],
+     "answer": 0,
+     "explain": "For example in_stock INTEGER NOT NULL DEFAULT 1."
+    }
+   ]
+  },
+  "level-1/09-insert-update-delete": {
+   "questions": [
+    {
+     "q": "What happens if you run UPDATE books SET price = 0 with no WHERE clause?",
+     "options": [
+      "It errors",
+      "Every row's price becomes 0",
+      "Only the first row changes",
+      "Nothing changes"
+     ],
+     "answer": 1,
+     "explain": "Verify with an equivalent SELECT ... WHERE first."
+    },
+    {
+     "q": "Why list column names explicitly in INSERT?",
+     "options": [
+      "It is required by SQLite",
+      "It allows NULLs",
+      "It makes inserts faster",
+      "It is self-documenting and doesn't break if column order changes"
+     ],
+     "answer": 3,
+     "explain": "INSERT INTO books (title, author, price) is preferred over relying on column order."
+    },
+    {
+     "q": "What does DELETE FROM books; do?",
+     "options": [
+      "Deletes the database",
+      "Drops the table",
+      "Removes every row, but the table itself still exists",
+      "Does nothing without WHERE"
+     ],
+     "answer": 2,
+     "explain": "The table remains, now empty."
+    },
+    {
+     "q": "What does INSERT OR REPLACE do when the primary key already exists?",
+     "options": [
+      "Inserts a duplicate",
+      "Replaces the existing row",
+      "Deletes the table",
+      "Fails always"
+     ],
+     "answer": 1,
+     "explain": "In the settings example, theme becomes 'light'."
+    }
+   ]
+  },
+  "level-1/10-project-library-database": {
+   "questions": [
+    {
+     "q": "Why does query 2 use LEFT JOIN?",
+     "options": [
+      "Books with no known author still appear",
+      "To count authors",
+      "INNER JOIN is invalid",
+      "It is faster"
+     ],
+     "answer": 0,
+     "explain": "'Unknown Author Book' has a NULL author_id."
+    },
+    {
+     "q": "What does HAVING COUNT(*) >= 2 do in query 4?",
+     "options": [
+      "Filters rows before grouping",
+      "Sorts the result",
+      "Counts NULLs",
+      "Keeps only authors with two or more books"
+     ],
+     "answer": 3,
+     "explain": "HAVING filters groups after aggregation."
+    },
+    {
+     "q": "Which tables make up the project database?",
+     "options": [
+      "students and courses",
+      "users and orders",
+      "authors and books",
+      "books only"
+     ],
+     "answer": 2,
+     "explain": "It's a two-table library database."
+    },
+    {
+     "q": "What does in_stock INTEGER NOT NULL DEFAULT 1 mean?",
+     "options": [
+      "The column is optional with no default",
+      "It auto-increments",
+      "It is a text column",
+      "Every book must have a value, and it defaults to 1 (in stock)"
+     ],
+     "answer": 3,
+     "explain": "The seed data uses 0 for out-of-stock books."
+    }
+   ]
+  },
+  "level-2/01-advanced-joins": {
+   "questions": [
+    {
+     "q": "Why does the employee/manager self-join use LEFT JOIN?",
+     "options": [
+      "INNER JOIN is invalid for self-joins",
+      "LEFT JOIN is faster",
+      "Alice has no manager, and INNER JOIN would drop her",
+      "To show departments"
+     ],
+     "answer": 2,
+     "explain": "manager_id IS NULL for Alice."
+    },
+    {
+     "q": "What does a self-join require?",
+     "options": [
+      "A view",
+      "A subquery",
+      "Two distinct aliases for the same table",
+      "A primary key"
+     ],
+     "answer": 2,
+     "explain": "Without aliases SQL can't tell which copy a column belongs to."
+    },
+    {
+     "q": "Why is WHERE d.active = 1 wrong in the LEFT JOIN example?",
+     "options": [
+      "It filters out unmatched rows, turning the LEFT JOIN into an INNER JOIN",
+      "It is a syntax error",
+      "It sorts rows",
+      "It duplicates rows"
+     ],
+     "answer": 0,
+     "explain": "Alice, Carol and Frank vanished; put the active check in ON instead."
+    },
+    {
+     "q": "What is the single most common LEFT JOIN bug per the lesson?",
+     "options": [
+      "Using ORDER BY",
+      "The WHERE-vs-ON trap",
+      "Using NULL",
+      "Missing aliases"
+     ],
+     "answer": 1,
+     "explain": "Conditions on the right table belong in ON to preserve unmatched left rows."
+    }
+   ]
+  },
+  "level-2/02-subqueries": {
+   "questions": [
+    {
+     "q": "What is a scalar subquery?",
+     "options": [
+      "One that creates tables",
+      "One that returns a list",
+      "One that modifies data",
+      "One that returns exactly one row and one column"
+     ],
+     "answer": 3,
+     "explain": "If it returns more than one row, SQLite raises an error."
+    },
+    {
+     "q": "What does WHERE id IN (SELECT customer_id FROM orders) return?",
+     "options": [
+      "Orders",
+      "Customers with no orders",
+      "Customers who have at least one order",
+      "All customers"
+     ],
+     "answer": 2,
+     "explain": "Dave has never ordered, so he's excluded."
+    },
+    {
+     "q": "What makes a subquery correlated?",
+     "options": [
+      "It references a column from the outer query, so it runs for each outer row",
+      "It returns a list",
+      "It uses IN",
+      "It has no WHERE"
+     ],
+     "answer": 0,
+     "explain": "It can't be evaluated once up front."
+    },
+    {
+     "q": "In the AVG example, how many times does the inner query run?",
+     "options": [
+      "Never",
+      "Once; the outer query compares every amount to that single value",
+      "Twice",
+      "Once per order"
+     ],
+     "answer": 1,
+     "explain": "It's uncorrelated, so it computes the average once."
+    }
+   ]
+  },
+  "level-2/03-set-operations": {
+   "questions": [
+    {
+     "q": "How do set operations combine results compared with joins?",
+     "options": [
+      "They add columns",
+      "They delete rows",
+      "Horizontally, like joins",
+      "Vertically, stacking rows of two SELECTs; joins combine horizontally"
+     ],
+     "answer": 3,
+     "explain": "Set operations are the SQL equivalent of union, intersection and difference."
+    },
+    {
+     "q": "What is the rule for SELECTs combined with a set operator?",
+     "options": [
+      "Column names must match",
+      "They must use the same table",
+      "They must return the same number of columns with compatible types",
+      "They must have WHERE clauses"
+     ],
+     "answer": 2,
+     "explain": "The result uses the first query's column names; mismatched counts fail with a parse error."
+    },
+    {
+     "q": "How do UNION and UNION ALL differ?",
+     "options": [
+      "They are identical",
+      "UNION ALL sorts",
+      "UNION keeps duplicates",
+      "UNION removes duplicates; UNION ALL keeps every row"
+     ],
+     "answer": 3,
+     "explain": "UNION ALL gives accurate row counts and is faster on large sets."
+    },
+    {
+     "q": "Where must ORDER BY go in a UNION query?",
+     "options": [
+      "Before UNION",
+      "Inside the first SELECT",
+      "It isn't allowed",
+      "After the last SELECT, applying to the combined result"
+     ],
+     "answer": 3,
+     "explain": "It is not attached to an individual query."
+    }
+   ]
+  },
+  "level-2/04-string-date-functions": {
+   "questions": [
+    {
+     "q": "Why does LENGTH('  Alice Nguyen  ') return 16 while the name looks like 12 characters?",
+     "options": [
+      "SQLite counts bytes",
+      "Whitespace is invisible but counted",
+      "NULL padding",
+      "Emoji"
+     ],
+     "answer": 1,
+     "explain": "TRIM brings it back to 12."
+    },
+    {
+     "q": "What does SUBSTR(string, start, length) do, and how is it indexed?",
+     "options": [
+      "Extracts part of a string, 1-indexed",
+      "Extracts, 0-indexed",
+      "Replaces text",
+      "Finds the position"
+     ],
+     "answer": 0,
+     "explain": "Combined with INSTR you can pull out a first name."
+    },
+    {
+     "q": "Why normalize case with LOWER() before comparing user-entered text?",
+     "options": [
+      "'Alice' and 'alice' are different strings for = in most databases",
+      "UPPER is invalid",
+      "LOWER speeds up queries",
+      "It removes spaces"
+     ],
+     "answer": 0,
+     "explain": "SQLite comparison is case-sensitive by default."
+    },
+    {
+     "q": "Which function strips leading and trailing whitespace?",
+     "options": [
+      "LENGTH",
+      "TRIM",
+      "LTRIM only",
+      "INSTR"
+     ],
+     "answer": 1,
+     "explain": "LTRIM and RTRIM do one side only."
+    }
+   ]
+  },
+  "level-2/05-case-expressions": {
+   "questions": [
+    {
+     "q": "How is a searched CASE evaluated?",
+     "options": [
+      "All branches run",
+      "Top to bottom, stopping at the first matching WHEN",
+      "Randomly",
+      "Bottom to top"
+     ],
+     "answer": 1,
+     "explain": "Order matters; put the narrowest condition first."
+    },
+    {
+     "q": "What does CASE return when no WHEN matches and there is no ELSE?",
+     "options": [
+      "An error",
+      "NULL",
+      "An empty string",
+      "0"
+     ],
+     "answer": 1,
+     "explain": "Order 3 with status_code 3 shows NULL in the example."
+    },
+    {
+     "q": "When is the simple CASE form useful?",
+     "options": [
+      "When using subqueries",
+      "When updating",
+      "When every branch compares the same expression against specific values",
+      "When conditions use ranges"
+     ],
+     "answer": 2,
+     "explain": "CASE status_code WHEN 1 THEN ... is equivalent to repeated equality tests."
+    },
+    {
+     "q": "Where can CASE be used?",
+     "options": [
+      "Only in views",
+      "Only in CREATE",
+      "Only in SELECT",
+      "In SELECT, WHERE or ORDER BY"
+     ],
+     "answer": 3,
+     "explain": "It is SQL's inline if/else."
+    }
+   ]
+  },
+  "level-2/06-views": {
+   "questions": [
+    {
+     "q": "What is a view?",
+     "options": [
+      "An index",
+      "A SELECT query saved under a name, queryable like a table",
+      "A trigger",
+      "A copy of the table's data"
+     ],
+     "answer": 1,
+     "explain": "It doesn't store data itself."
+    },
+    {
+     "q": "When does a view's underlying query run?",
+     "options": [
+      "Never",
+      "Once when created",
+      "Once a day",
+      "Every time you query the view"
+     ],
+     "answer": 3,
+     "explain": "It runs fresh against the real tables."
+    },
+    {
+     "q": "What is a key benefit of the category_revenue view?",
+     "options": [
+      "It deletes old sales",
+      "It makes data permanent",
+      "It speeds up inserts",
+      "The join and GROUP BY logic is defined once and can be fixed in one place"
+     ],
+     "answer": 3,
+     "explain": "Views hide complexity."
+    },
+    {
+     "q": "Why is Mechanical Keyboard missing from in_stock_products?",
+     "options": [
+      "Its price is high",
+      "It's a different category",
+      "It was deleted",
+      "Its stock is 0 and the view filters WHERE stock > 0"
+     ],
+     "answer": 3,
+     "explain": "The WHERE filter is applied automatically every time."
+    }
+   ]
+  },
+  "level-2/07-indexes-basics": {
+   "questions": [
+    {
+     "q": "What does a SCAN in EXPLAIN QUERY PLAN mean?",
+     "options": [
+      "SQLite checked every row in the table",
+      "It joined tables",
+      "It cached the result",
+      "It used an index"
+     ],
+     "answer": 0,
+     "explain": "On 5 million rows that would be very slow; SEARCH ... USING INDEX jumps almost directly to the match."
+    },
+    {
+     "q": "What is an index, per the lesson?",
+     "options": [
+      "A copy of the table",
+      "A view",
+      "A separate sorted structure that lets the database find rows without checking every row",
+      "A constraint"
+     ],
+     "answer": 2,
+     "explain": "It is like a book's index."
+    },
+    {
+     "q": "Does the idx_<table>_<column> naming pattern affect how an index works?",
+     "options": [
+      "No, it's just a common readable habit",
+      "Yes, it makes it unique",
+      "Yes, it's required syntax",
+      "Yes, it enables composites"
+     ],
+     "answer": 0,
+     "explain": "Any valid name works."
+    },
+    {
+     "q": "What does the order of columns in a composite index determine?",
+     "options": [
+      "Nothing",
+      "Only the file size",
+      "What the index is useful for",
+      "The table's column order"
+     ],
+     "answer": 2,
+     "explain": "The country, signup_date index suits filtering by country first, then signup_date."
+    }
+   ]
+  },
+  "level-2/08-constraints": {
+   "questions": [
+    {
+     "q": "What is the SQLite surprise about foreign keys?",
+     "options": [
+      "They aren't supported",
+      "They need an index",
+      "They're parsed but not enforced unless you turn enforcement on",
+      "They're always enforced"
+     ],
+     "answer": 2,
+     "explain": "The Ghost Book with author_id 999 was inserted without error."
+    },
+    {
+     "q": "How do you enable foreign key enforcement?",
+     "options": [
+      "PRAGMA foreign_keys = ON; on every connection",
+      "It cannot be enabled",
+      "ALTER TABLE ENFORCE",
+      "CREATE INDEX"
+     ],
+     "answer": 0,
+     "explain": "The setting isn't persisted in the database file."
+    },
+    {
+     "q": "What does ON DELETE CASCADE do?",
+     "options": [
+      "Blocks the delete",
+      "Deletes child rows automatically when the parent row is deleted",
+      "Sets children to NULL",
+      "Duplicates the parent"
+     ],
+     "answer": 1,
+     "explain": "Deleting Asimov removed both of his books."
+    },
+    {
+     "q": "What do constraints do in general?",
+     "options": [
+      "Create views",
+      "Run backups",
+      "Speed up queries",
+      "Reject bad data at insert or update time"
+     ],
+     "answer": 3,
+     "explain": "They stop bad data causing bugs later."
+    }
+   ]
+  },
+  "level-2/09-transactions-acid": {
+   "questions": [
+    {
+     "q": "What does a transaction provide?",
+     "options": [
+      "Automatic indexes",
+      "Faster reads",
+      "Encryption",
+      "An all-or-nothing unit of work across several statements"
+     ],
+     "answer": 3,
+     "explain": "It prevents inconsistent states such as money debited but never credited."
+    },
+    {
+     "q": "What does ROLLBACK do?",
+     "options": [
+      "Restarts the database",
+      "Discards every change since BEGIN",
+      "Saves a backup",
+      "Commits the changes"
+     ],
+     "answer": 1,
+     "explain": "It is as if the transaction never happened."
+    },
+    {
+     "q": "In SQLite's default mode, what happens when a statement fails mid-transaction due to a constraint?",
+     "options": [
+      "Everything commits",
+      "Only that statement is aborted; the transaction stays open with earlier changes pending",
+      "The database closes",
+      "The whole transaction is rolled back automatically"
+     ],
+     "answer": 1,
+     "explain": "You must issue ROLLBACK (or handle it) yourself."
+    },
+    {
+     "q": "What happens outside an explicit BEGIN?",
+     "options": [
+      "Nothing runs",
+      "Statements are queued",
+      "Everything is one transaction",
+      "Each statement runs in its own implicit one-statement transaction"
+     ],
+     "answer": 3,
+     "explain": "This is insufficient for multi-step changes like a transfer."
+    }
+   ]
+  },
+  "level-2/10-project-ecommerce-reporting": {
+   "questions": [
+    {
+     "q": "Why does the schema have an order_items table?",
+     "options": [
+      "To log errors",
+      "To hold indexes",
+      "To store customers",
+      "One order has many products and a product appears in many orders: a many-to-many relationship via a junction table"
+     ],
+     "answer": 3,
+     "explain": "It uses a composite PRIMARY KEY of (order_id, product_id)."
+    },
+    {
+     "q": "Why is unit_price stored on order_items instead of looked up from products?",
+     "options": [
+      "It's required by SQLite",
+      "To avoid joins",
+      "Historical orders stay accurate if a product's price later changes",
+      "To save space"
+     ],
+     "answer": 2,
+     "explain": "The price at the time of sale is preserved."
+    },
+    {
+     "q": "Which four tables does the project use?",
+     "options": [
+      "students, courses, grades, teachers",
+      "users, posts, comments, likes",
+      "customers, products, orders and order_items",
+      "accounts, balances, logs, indexes"
+     ],
+     "answer": 2,
+     "explain": "The schema is realistic enough to need joins, subqueries, views, CASE and transactions."
+    },
+    {
+     "q": "What does CHECK (price > 0) enforce?",
+     "options": [
+      "Prices must be positive",
+      "Prices are text",
+      "Prices are indexed",
+      "Prices are unique"
+     ],
+     "answer": 0,
+     "explain": "Constraints reject bad data at insert or update time."
+    }
+   ]
+  },
+  "level-3/01-window-functions": {
+   "questions": [
+    {
+     "q": "How does a window function differ from GROUP BY?",
+     "options": [
+      "Each input row keeps its own line while gaining a computed column",
+      "It deletes duplicates",
+      "It collapses rows into one per group",
+      "It only works on one table"
+     ],
+     "answer": 0,
+     "explain": "Window functions handle top-N per group, running totals and period comparisons that GROUP BY cannot express."
+    },
+    {
+     "q": "What does PARTITION BY region do?",
+     "options": [
+      "Splits rows into independent windows, one per region, each restarting numbering",
+      "Sorts rows",
+      "Joins tables",
+      "Filters region"
+     ],
+     "answer": 0,
+     "explain": "ORDER BY inside OVER decides the order within each partition."
+    },
+    {
+     "q": "For Bob's two tied 800.0 rows in West, what do RANK and DENSE_RANK show?",
+     "options": [
+      "4 and 4 for both",
+      "1 and 2",
+      "4 and 5",
+      "NULL"
+     ],
+     "answer": 0,
+     "explain": "ROW_NUMBER still gives 4 and 5, since it always assigns unique sequential numbers."
+    },
+    {
+     "q": "What syntax marks a function as a window function?",
+     "options": [
+      "PARTITION ONLY",
+      "WINDOW BY",
+      "OVER (...)",
+      "GROUP (...)"
+     ],
+     "answer": 2,
+     "explain": "Every window function is a normal function followed by OVER (...)."
+    }
+   ]
+  },
+  "level-3/02-ctes-recursive-queries": {
+   "questions": [
+    {
+     "q": "What is a CTE?",
+     "options": [
+      "An index",
+      "A permanent table",
+      "A named temporary result set defined with WITH and used like a table in that query",
+      "A trigger"
+     ],
+     "answer": 2,
+     "explain": "CTEs make complex queries readable, naming each step instead of nesting subqueries."
+    },
+    {
+     "q": "What can a recursive CTE do that a normal one cannot?",
+     "options": [
+      "Reference itself, walking hierarchies of unknown depth",
+      "Run faster always",
+      "Create indexes",
+      "Update tables"
+     ],
+     "answer": 0,
+     "explain": "It is the standard SQL way to walk org charts, category trees and folders."
+    },
+    {
+     "q": "What does the self-referencing manager_id make the employees data?",
+     "options": [
+      "Sorted",
+      "Invalid",
+      "Hierarchical rather than flat",
+      "Encrypted"
+     ],
+     "answer": 2,
+     "explain": "It points to another row in the same table."
+    },
+    {
+     "q": "Can CTEs reference each other in one query?",
+     "options": [
+      "No, only one CTE is allowed",
+      "Only recursive ones",
+      "Yes, chained with commas, each with its own name",
+      "Only in views"
+     ],
+     "answer": 2,
+     "explain": "This avoids another indentation level for each step."
+    }
+   ]
+  },
+  "level-3/03-query-optimization-explain": {
+   "questions": [
+    {
+     "q": "What does EXPLAIN QUERY PLAN do?",
+     "options": [
+      "Runs and times the query",
+      "Shows the plan SQLite would use without running the query",
+      "Deletes the cache",
+      "Creates an index"
+     ],
+     "answer": 1,
+     "explain": "It tells you whether SQLite scans many rows or uses an index."
+    },
+    {
+     "q": "What is the single most common optimization per the lesson?",
+     "options": [
+      "Index the columns your WHERE clauses filter on",
+      "Add more JOINs",
+      "Add LIMIT everywhere",
+      "Use SELECT *"
+     ],
+     "answer": 0,
+     "explain": "It changes SCAN into SEARCH ... USING INDEX."
+    },
+    {
+     "q": "What does SEARCH ... USING INDEX mean?",
+     "options": [
+      "A temporary table",
+      "A B-tree lookup instead of a full scan",
+      "A rollback",
+      "A full table scan"
+     ],
+     "answer": 1,
+     "explain": "SQLite jumps directly to the matching rows."
+    },
+    {
+     "q": "In the join example, why did SQLite make customers the outer loop?",
+     "options": [
+      "It is required by syntax",
+      "Orders had no index",
+      "It has only 5 rows, so it scans them and searches orders by index for each match",
+      "Customers comes first alphabetically"
+     ],
+     "answer": 2,
+     "explain": "Plan order matters in joins."
+    }
+   ]
+  },
+  "level-3/04-stored-procedures-concepts": {
+   "questions": [
+    {
+     "q": "Does SQLite have stored procedures?",
+     "options": [
+      "Yes, via CALL",
+      "Only in memory",
+      "No, there is no CREATE PROCEDURE",
+      "Yes, in version 3 only"
+     ],
+     "answer": 2,
+     "explain": "The lesson refuses to show syntax that doesn't run."
+    },
+    {
+     "q": "What does SQLite offer instead, per the lesson?",
+     "options": [
+      "Nothing",
+      "Transactions driven from application code and user-defined functions",
+      "Macros",
+      "Triggers only"
+     ],
+     "answer": 1,
+     "explain": "The transfer_funds example does this in Python."
+    },
+    {
+     "q": "Why does the 'reduce round-trips' reason mostly not apply to SQLite?",
+     "options": [
+      "It's too slow",
+      "It is embedded and in-process, with no separate server",
+      "It uses a cache",
+      "It has no network at all"
+     ],
+     "answer": 1,
+     "explain": "There's no server to send a CALL to."
+    },
+    {
+     "q": "What does the transfer_funds example guarantee?",
+     "options": [
+      "The debit and credit run as one atomic SQL transaction",
+      "No locks",
+      "Auto indexes",
+      "Faster queries"
+     ],
+     "answer": 0,
+     "explain": "It checks the balance, updates both accounts, and commits (rolling back on failure)."
+    }
+   ]
+  },
+  "level-3/05-triggers": {
+   "questions": [
+    {
+     "q": "Inside a trigger body, what do OLD and NEW refer to?",
+     "options": [
+      "The first and last rows",
+      "The old and new table",
+      "The row before the change and the row after it",
+      "Two different databases"
+     ],
+     "answer": 2,
+     "explain": "In the audit trigger, OLD.stock is 50 and NEW.stock is 45."
+    },
+    {
+     "q": "What does AFTER UPDATE OF stock mean?",
+     "options": [
+      "It fires on any update",
+      "The trigger fires only when the stock column changes, after the change is made",
+      "It fires on inserts",
+      "It fires before the update"
+     ],
+     "answer": 1,
+     "explain": "Updating name alone wouldn't fire it."
+    },
+    {
+     "q": "How does the BEFORE trigger block a bad write?",
+     "options": [
+      "DELETE FROM products",
+      "SELECT RAISE(ABORT, 'message') when the WHEN condition is true",
+      "ROLLBACK TO NOWHERE",
+      "DROP TRIGGER"
+     ],
+     "answer": 1,
+     "explain": "BEFORE runs before the row is written, so it can veto the change."
+    },
+    {
+     "q": "Does SQLite support triggers?",
+     "options": [
+      "Only through Python",
+      "Only AFTER triggers",
+      "Yes, fully, with real CREATE TRIGGER syntax",
+      "No"
+     ],
+     "answer": 2,
+     "explain": "Unlike stored procedures, triggers are natively supported."
+    }
+   ]
+  },
+  "level-3/06-normalization-schema-design": {
+   "questions": [
+    {
+     "q": "What is the update anomaly?",
+     "options": [
+      "A slow update",
+      "One real-world fact needing multiple easy-to-miss writes, leaving inconsistent copies",
+      "A deleted table",
+      "A failed constraint"
+     ],
+     "answer": 1,
+     "explain": "Nadia ended up with two different emails depending on the row."
+    },
+    {
+     "q": "What does 1NF require?",
+     "options": [
+      "All tables have indexes",
+      "No transitive dependencies",
+      "Each column holds a single atomic value",
+      "Every non-key column depends on the whole key"
+     ],
+     "answer": 2,
+     "explain": "No comma-separated lists crammed into one field."
+    },
+    {
+     "q": "What is normalization's goal per the lesson?",
+     "options": [
+      "Store each fact in exactly one place",
+      "Remove all keys",
+      "Add more columns",
+      "Make tables bigger"
+     ],
+     "answer": 0,
+     "explain": "The payoff is that updates, inserts and deletes can't silently corrupt data."
+    },
+    {
+     "q": "What does 3NF require of non-key columns?",
+     "options": [
+      "They are indexed",
+      "They are all NULL",
+      "They depend on the key and nothing but the key",
+      "They depend on part of a composite key"
+     ],
+     "answer": 2,
+     "explain": "2NF requires dependence on the whole primary key."
+    }
+   ]
+  },
+  "level-3/07-json-in-sql": {
+   "questions": [
+    {
+     "q": "How does SQLite store JSON?",
+     "options": [
+      "In separate files",
+      "As blobs only",
+      "As plain TEXT, parsed on demand by JSON functions",
+      "In a dedicated JSON column type"
+     ],
+     "answer": 2,
+     "explain": "SQLite has no dedicated JSON column type."
+    },
+    {
+     "q": "What does the ->> operator return compared with ->?",
+     "options": [
+      "-> unquotes; ->> keeps JSON",
+      "->> unquotes the result into plain SQL text; -> keeps it as JSON",
+      "->> deletes the key",
+      "They're identical"
+     ],
+     "answer": 1,
+     "explain": "-> is useful when passing the result into another JSON function."
+    },
+    {
+     "q": "How can you guarantee well-formed JSON at write time?",
+     "options": [
+      "Use TRIM",
+      "Nothing can",
+      "Use LIKE",
+      "Use json_valid() in a CHECK constraint"
+     ],
+     "answer": 3,
+     "explain": "SQLite stores text with no schema enforcement otherwise."
+    },
+    {
+     "q": "What does json_each do?",
+     "options": [
+      "Validates JSON",
+      "Turns a JSON array into one row per element",
+      "Merges objects",
+      "Deletes keys"
+     ],
+     "answer": 1,
+     "explain": "It's a table-valued function, used with a comma join per source row."
+    }
+   ]
+  },
+  "level-3/08-full-text-search": {
+   "questions": [
+    {
+     "q": "Why is LIKE '%database%' a poor choice for text search?",
+     "options": [
+      "It's invalid SQL",
+      "It's case-insensitive",
+      "It can't rank by relevance and a leading % forces a full scan",
+      "It only matches numbers"
+     ],
+     "answer": 2,
+     "explain": "FTS5 provides word indexing, ranking, phrase and prefix queries."
+    },
+    {
+     "q": "How do you create a full-text searchable table?",
+     "options": [
+      "CREATE INDEX FULLTEXT",
+      "ALTER TABLE ADD SEARCH",
+      "CREATE VIRTUAL TABLE ... USING fts5(...)",
+      "CREATE TABLE FTS"
+     ],
+     "answer": 2,
+     "explain": "It looks like a normal table but is backed by an inverted index."
+    },
+    {
+     "q": "How do you query an FTS5 table for a word?",
+     "options": [
+      "WHERE body = 'database'",
+      "WHERE body LIKE",
+      "SEARCH articles 'database'",
+      "WHERE articles MATCH 'database'"
+     ],
+     "answer": 3,
+     "explain": "MATCH performs a real word-index lookup."
+    },
+    {
+     "q": "In FTS5's rank column, which values are more relevant?",
+     "options": [
+      "More negative values",
+      "Random",
+      "Zero only",
+      "Larger positive values"
+     ],
+     "answer": 0,
+     "explain": "ORDER BY rank without DESC gives best-match-first (BM25)."
+    }
+   ]
+  },
+  "level-3/09-data-migration-patterns": {
+   "questions": [
+    {
+     "q": "Why does ADD COLUMN with NOT NULL require a DEFAULT in SQLite?",
+     "options": [
+      "SQLite must backfill existing rows with something",
+      "It makes the column unique",
+      "It speeds up reads",
+      "NOT NULL is not allowed otherwise"
+     ],
+     "answer": 0,
+     "explain": "Existing rows immediately get the default (e.g. 'active')."
+    },
+    {
+     "q": "What must you do when renaming a column with RENAME COLUMN?",
+     "options": [
+      "Update application code that references the old name at the same time",
+      "Nothing",
+      "Rebuild the table",
+      "Drop all indexes"
+     ],
+     "answer": 0,
+     "explain": "Reads and writes against the old column name fail once the migration runs."
+    },
+    {
+     "q": "Which change still needs the table-rebuild pattern?",
+     "options": [
+      "Adding a column with a default",
+      "Adding a CHECK constraint to an existing table",
+      "Renaming a column",
+      "Dropping a column on recent SQLite"
+     ],
+     "answer": 1,
+     "explain": "ALTER TABLE can't add a CHECK, change a column type, or add UNIQUE/FOREIGN KEY to an existing table."
+    },
+    {
+     "q": "What is the rebuild pattern's outline?",
+     "options": [
+      "Create a new table in the desired shape, copy the data across, then swap names",
+      "Rename every column",
+      "Add triggers",
+      "Delete the database"
+     ],
+     "answer": 0,
+     "explain": "The lesson runs it inside a transaction with foreign keys temporarily off."
+    }
+   ]
+  },
+  "level-3/10-project-normalized-schema-analytics": {
+   "questions": [
+    {
+     "q": "Why does the project index every foreign key column?",
+     "options": [
+      "Indexes are required by SQLite",
+      "To make tables unique",
+      "To enable triggers",
+      "Every one of them gets joined on"
+     ],
+     "answer": 3,
+     "explain": "Examples: idx_orders_customer_id and idx_order_items_product_id."
+    },
+    {
+     "q": "What is order_items' role in the schema?",
+     "options": [
+      "Lookup table for countries",
+      "Junction table for the many-to-many between orders and products, carrying quantity",
+      "View",
+      "Audit log"
+     ],
+     "answer": 1,
+     "explain": "quantity is data specific to that pairing."
+    },
+    {
+     "q": "Why does the schema have a separate categories table?",
+     "options": [
+      "Normalization: each category fact is stored once",
+      "To store prices",
+      "Because SQLite requires it",
+      "To avoid joins"
+     ],
+     "answer": 0,
+     "explain": "products reference it with category_id."
+    },
+    {
+     "q": "What does categories.name UNIQUE enforce?",
+     "options": [
+      "Names are optional",
+      "Names are numeric",
+      "No two categories share a name",
+      "Names are sorted"
+     ],
+     "answer": 2,
+     "explain": "It is a constraint on the data."
+    }
+   ]
+  },
+  "level-4/01-advanced-indexing-strategies": {
+   "questions": [
+    {
+     "q": "Can an index on (dept, last_name) speed up a query filtering only on last_name?",
+     "options": [
+      "No, it falls back to a SCAN (leftmost-prefix rule)",
+      "Only with LIMIT",
+      "Yes, fully",
+      "Only with ORDER BY"
+     ],
+     "answer": 0,
+     "explain": "A B-tree is sorted by its first column first, like a phone book sorted by city then name."
+    },
+    {
+     "q": "What is a covering index?",
+     "options": [
+      "A unique index",
+      "A temporary index",
+      "An index containing all the columns the query needs, so the table is never opened",
+      "An index on every column"
+     ],
+     "answer": 2,
+     "explain": "SELECT dept, salary with an index on (dept, salary) shows USING COVERING INDEX."
+    },
+    {
+     "q": "What breaks a covering index?",
+     "options": [
+      "Using WHERE",
+      "Using a number",
+      "Using ORDER BY",
+      "Selecting a column not in the index, e.g. SELECT *"
+     ],
+     "answer": 3,
+     "explain": "The plan reverts to a normal SEARCH that also visits the table row."
+    },
+    {
+     "q": "Which column should come first in a composite index?",
+     "options": [
+      "The longest column",
+      "The primary key always",
+      "Any column",
+      "The one your queries filter on most consistently"
+     ],
+     "answer": 3,
+     "explain": "That is the leftmost-prefix rule."
+    }
+   ]
+  },
+  "level-4/02-performance-tuning-at-scale": {
+   "questions": [
+    {
+     "q": "Why was one transaction about 239x faster than 2000 separate commits?",
+     "options": [
+      "The table was smaller",
+      "Python is faster",
+      "Indexes were added",
+      "Each COMMIT forces a durable disk flush, and one transaction does it once"
+     ],
+     "answer": 3,
+     "explain": "Batching related writes is the single highest-leverage performance fix."
+    },
+    {
+     "q": "What does WAL mode change for concurrency?",
+     "options": [
+      "Readers can keep reading the last-committed state while a write happens",
+      "It disables writes",
+      "It makes the database read-only",
+      "It locks everything"
+     ],
+     "answer": 0,
+     "explain": "The default delete journal mode locks the database file during a write, blocking readers."
+    },
+    {
+     "q": "Does PRAGMA journal_mode=WAL matter for an in-memory database?",
+     "options": [
+      "No, there is no file to journal",
+      "Yes, greatly",
+      "Only on Windows",
+      "Only for reads"
+     ],
+     "answer": 0,
+     "explain": "It matters for file-backed databases under concurrent load."
+    },
+    {
+     "q": "What does cache_size control?",
+     "options": [
+      "How many pages SQLite keeps cached in memory",
+      "Number of rows",
+      "Disk size",
+      "Connection count"
+     ],
+     "answer": 0,
+     "explain": "A negative value is interpreted as an amount of memory rather than a page count."
+    }
+   ]
+  },
+  "level-4/03-partitioning-concepts": {
+   "questions": [
+    {
+     "q": "Does SQLite have built-in partitioning?",
+     "options": [
+      "Yes, automatic",
+      "Yes, via PARTITION BY",
+      "Yes, via CREATE PARTITION",
+      "No; the manual pattern is separate tables presented via a view"
+     ],
+     "answer": 3,
+     "explain": "Postgres and MySQL have native support; SQLite does not."
+    },
+    {
+     "q": "Why is dropping a partition better than DELETE ... WHERE for old data?",
+     "options": [
+      "It avoids finding and removing matching rows one at a time",
+      "It is reversible",
+      "It reindexes automatically",
+      "It is safer"
+     ],
+     "answer": 0,
+     "explain": "Retention becomes a drop-the-partition operation."
+    },
+    {
+     "q": "What is partition pruning?",
+     "options": [
+      "Compressing partitions",
+      "Joining partitions",
+      "Deleting old partitions",
+      "The planner skipping partitions irrelevant to the query"
+     ],
+     "answer": 3,
+     "explain": "A query for this month's orders only touches this month's partition."
+    },
+    {
+     "q": "In the manual SQLite pattern, how does application code see the data?",
+     "options": [
+      "As one events view built with UNION ALL over the separate tables",
+      "As separate tables only",
+      "As an index",
+      "As a trigger"
+     ],
+     "answer": 0,
+     "explain": "The view hides that two tables back it, but you manage routing yourself."
+    }
+   ]
+  },
+  "level-4/04-replication-backup-concepts": {
+   "questions": [
+    {
+     "q": "What is the difference between replication and backup?",
+     "options": [
+      "Backup is for scaling",
+      "Replication is only for SQLite",
+      "Replication keeps live copies in sync for availability and read scaling; backup is a restorable snapshot against data loss",
+      "They are the same"
+     ],
+     "answer": 2,
+     "explain": "SQLite has no replication but supports backup well."
+    },
+    {
+     "q": "What does .backup produce?",
+     "options": [
+      "A consistent point-in-time copy of the database file, safe while it's in use",
+      "An index",
+      "A SQL text file",
+      "A log"
+     ],
+     "answer": 0,
+     "explain": "Rows inserted afterward do not appear in backup.db."
+    },
+    {
+     "q": "How does .dump differ from .backup?",
+     "options": [
+      "It encrypts the data",
+      "It deletes rows",
+      "It produces portable, readable SQL, but restores slower for large databases",
+      "It makes a binary copy"
+     ],
+     "answer": 2,
+     "explain": "Restore with sqlite3 new.db < dump.sql."
+    },
+    {
+     "q": "Which statement fits the checklist?",
+     "options": [
+      "Backups needn't be tested",
+      "Backups should be manual",
+      "Keep backups on the same disk",
+      "Test restores, not just backups"
+     ],
+     "answer": 3,
+     "explain": "An untested backup is an assumption, not a guarantee."
+    }
+   ]
+  },
+  "level-4/05-security-sql-injection": {
+   "questions": [
+    {
+     "q": "How did the attacker log in as admin with the input admin'--?",
+     "options": [
+      "They guessed the password",
+      "The quote closed the string and -- commented out the password check",
+      "They dropped the table",
+      "They used a trigger"
+     ],
+     "answer": 1,
+     "explain": "The database never evaluated the AND password = ... part."
+    },
+    {
+     "q": "What is the fix demonstrated?",
+     "options": [
+      "Using LIKE",
+      "Disabling comments",
+      "Parameterized queries with ? placeholders",
+      "Longer passwords"
+     ],
+     "answer": 2,
+     "explain": "The same malicious input returns an empty result."
+    },
+    {
+     "q": "Why does string concatenation make injection possible?",
+     "options": [
+      "Strings are too long",
+      "Input becomes literal SQL text instead of a value",
+      "It slows queries",
+      "SQL can't read strings"
+     ],
+     "answer": 1,
+     "explain": "Anything a caller passes becomes part of the query itself."
+    },
+    {
+     "q": "Which are other injection shapes the lesson mentions?",
+     "options": [
+      "SELECT * only",
+      "UNION ALL only",
+      "ORDER BY 1",
+      "' OR '1'='1 and '; DROP TABLE users;--"
+     ],
+     "answer": 3,
+     "explain": "One matches every row; the other runs a second destructive statement."
+    }
+   ]
+  },
+  "level-4/06-nosql-vs-sql": {
+   "questions": [
+    {
+     "q": "Which describes NoSQL accurately?",
+     "options": [
+      "A SQL dialect",
+      "Only MongoDB",
+      "One specific product",
+      "An umbrella for document, key-value, wide-column and graph databases"
+     ],
+     "answer": 3,
+     "explain": "Each trades away parts of the relational model for something else."
+    },
+    {
+     "q": "How do relationships typically differ between SQL and document stores?",
+     "options": [
+      "SQL embeds",
+      "Document stores forbid data",
+      "SQL uses JOINs across normalized tables; document stores usually embed related data (denormalized)",
+      "Both use joins"
+     ],
+     "answer": 2,
+     "explain": "From the lesson's comparison table."
+    },
+    {
+     "q": "What does Priya's extra preferences object show in the JSON example?",
+     "options": [
+      "A foreign key",
+      "A broken schema",
+      "Per-row fields without a schema migration",
+      "An error"
+     ],
+     "answer": 2,
+     "explain": "It's the flexibility of a document store, achieved via a JSON TEXT column."
+    },
+    {
+     "q": "Which is generally easier to scale horizontally?",
+     "options": [
+      "Neither",
+      "SQLite",
+      "Traditional SQL databases",
+      "Many NoSQL systems, designed to scale out from day one"
+     ],
+     "answer": 3,
+     "explain": "Relational systems traditionally scale up on a bigger server."
+    }
+   ]
+  },
+  "level-4/07-sql-from-application-code": {
+   "questions": [
+    {
+     "q": "What does setting conn.row_factory = sqlite3.Row allow?",
+     "options": [
+      "Disabling transactions",
+      "Accessing columns by name (and dict(row) for JSON-ready output)",
+      "Returning only one row",
+      "Faster queries"
+     ],
+     "answer": 1,
+     "explain": "By default sqlite3 returns plain tuples, which get unreadable fast."
+    },
+    {
+     "q": "How should values be passed into SQL from application code?",
+     "options": [
+      "With concatenation",
+      "With f-strings",
+      "With eval",
+      "With ? placeholders, never string formatting"
+     ],
+     "answer": 3,
+     "explain": "It's the same parameterization from the security module."
+    },
+    {
+     "q": "What does executemany do?",
+     "options": [
+      "Creates tables",
+      "Runs many databases",
+      "Merges rows",
+      "Runs one INSERT per tuple in a list, the idiomatic way to batch inserts"
+     ],
+     "answer": 3,
+     "explain": "Still wrap it in a single transaction rather than committing after each."
+    },
+    {
+     "q": "Why does the lesson use Python's sqlite3 as the example?",
+     "options": [
+      "It's required for SQL",
+      "It is the only driver",
+      "It's the fastest",
+      "Its patterns map onto other languages' drivers (psycopg2, JDBC, mysql2)"
+     ],
+     "answer": 3,
+     "explain": "Parameterized queries, connections/cursors and transaction handling are common patterns."
+    }
+   ]
+  },
+  "level-4/08-data-warehousing-concepts": {
+   "questions": [
+    {
+     "q": "What is OLTP optimized for compared to OLAP?",
+     "options": [
+      "Identical goals",
+      "Fast, small, frequent reads/writes; OLAP is for large scans over history",
+      "Large scans; OLAP is for small writes",
+      "Only backups"
+     ],
+     "answer": 1,
+     "explain": "OLTP: 'record this order'; OLAP: 'total revenue by region, last 8 quarters'."
+    },
+    {
+     "q": "What is the fact table in a star schema?",
+     "options": [
+      "A lookup of names",
+      "An index",
+      "One row per measurable event, holding numeric measures and foreign keys to dimensions",
+      "A temporary table"
+     ],
+     "answer": 2,
+     "explain": "fact_sales holds quantity and revenue with keys to dim_customer, dim_product and dim_date."
+    },
+    {
+     "q": "What does a dimension table describe?",
+     "options": [
+      "One axis you'd want to slice by, such as customer, product or date",
+      "The measures",
+      "The transactions",
+      "The indexes"
+     ],
+     "answer": 0,
+     "explain": "They surround the fact table, like the points of a star."
+    },
+    {
+     "q": "How does schema shape differ between OLTP and OLAP?",
+     "options": [
+      "Both normalized",
+      "Both star",
+      "OLAP has no keys",
+      "OLTP is normalized for fast writes; OLAP is denormalized (star) for scanning and aggregation"
+     ],
+     "answer": 3,
+     "explain": "Data freshness also differs: warehouses often load in batches."
+    }
+   ]
+  },
+  "level-4/09-testing-database-code": {
+   "questions": [
+    {
+     "q": "Why use an in-memory SQLite database rather than a mock to test database code?",
+     "options": [
+      "It avoids tests",
+      "It's a real database that enforces constraints and transactions, so tests catch real violations",
+      "Mocks are illegal",
+      "It's slower but safer"
+     ],
+     "answer": 1,
+     "explain": "A mock only tests that you call the right methods."
+    },
+    {
+     "q": "What does an in-memory database do when the connection closes?",
+     "options": [
+      "It is saved",
+      "It syncs to cloud",
+      "It corrupts",
+      "It disappears, giving isolation between test runs"
+     ],
+     "answer": 3,
+     "explain": "It's fast (no disk I/O) and isolated."
+    },
+    {
+     "q": "What does transfer() do when funds are insufficient?",
+     "options": [
+      "Silently continues",
+      "Raises ValueError after rolling back",
+      "Commits partial changes",
+      "Deletes the account"
+     ],
+     "answer": 1,
+     "explain": "The except block calls conn.rollback() and re-raises."
+    },
+    {
+     "q": "Why does the test's setUp create the schema and seed rows each time?",
+     "options": [
+      "To slow down tests",
+      "Each test starts from a known clean state",
+      "To test indexes",
+      "To avoid assertions"
+     ],
+     "answer": 1,
+     "explain": "It uses sqlite3.connect(\":memory:\") with executescript."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "Why does unit_price on order_items deliberately duplicate products.price?",
+     "options": [
+      "products.price can change later, but an order must keep the price the customer paid",
+      "To save space",
+      "It's required by FTS",
+      "It's a mistake"
+     ],
+     "answer": 0,
+     "explain": "The lesson calls this the correct call, not an oversight."
+    },
+    {
+     "q": "What does the CHECK on orders.status enforce?",
+     "options": [
+      "Status is optional",
+      "Status is numeric",
+      "Only pending, paid, shipped or cancelled are allowed",
+      "Status is unique"
+     ],
+     "answer": 2,
+     "explain": "It is a constraint with an IN list."
+    },
+    {
+     "q": "What is order_audit maintained by?",
+     "options": [
+      "A trigger recording status changes",
+      "A view",
+      "The application only",
+      "An index"
+     ],
+     "answer": 0,
+     "explain": "The capstone includes a trigger that maintains an audit trail."
+    },
+    {
+     "q": "Which pieces does the capstone combine?",
+     "options": [
+      "Only CSV imports",
+      "Normalized schema, indexes, trigger, full-text search, JSON metadata and a verified query plan",
+      "Only views",
+      "Only SELECTs"
+     ],
+     "answer": 1,
+     "explain": "It is a complete small order-management database run end to end."
+    }
+   ]
+  }
+ }
+}
