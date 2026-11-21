@@ -2,7 +2,1928 @@
  "course": "r-mastery-path",
  "version": 1,
  "pass_pct": 70,
- "lessons": {},
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What is R mainly used for?",
+     "options": [
+      "Games",
+      "Mobile apps",
+      "Web servers",
+      "Statistical computing, data analysis and visualization"
+     ],
+     "answer": 3,
+     "explain": "Data-focused language."
+    },
+    {
+     "q": "What does CRAN host?",
+     "options": [
+      "Data",
+      "Courses",
+      "Servers",
+      "The Comprehensive R Archive Network of packages and R itself"
+     ],
+     "answer": 3,
+     "explain": "install.packages()."
+    },
+    {
+     "q": "Which tool is the popular R IDE?",
+     "options": [
+      "RStudio (Posit)",
+      "Vim only",
+      "Eclipse",
+      "Xcode"
+     ],
+     "answer": 0,
+     "explain": "Also VS Code."
+    },
+    {
+     "q": "How run a script from the terminal?",
+     "options": [
+      "R run",
+      "Rscript script.R",
+      "python",
+      "node"
+     ],
+     "answer": 1,
+     "explain": "Non-interactive."
+    }
+   ]
+  },
+  "level-1/02-variables-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nx <- c(1L, 2L); y <- 2.5; z <- \"7\"\ncat(class(x), class(y), class(z), class(TRUE), class(NULL), \"\\n\")\ncat(as.integer(z) + 1L, is.na(as.numeric(\"abc\")), 5 %/% 2, 5 %% 2, \"\\n\")\n```\n",
+     "options": [
+      "numeric numeric character logical NULL \n8 TRUE 2.5 1",
+      "Error",
+      "integer double character logical NULL \n8 TRUE 2 1",
+      "integer numeric character logical NULL \n8 TRUE 2 1"
+     ],
+     "answer": 3,
+     "explain": "class() of a double is numeric; as.numeric('abc') gives NA with a warning. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```r\nx <- 5\nf <- function() { x <- 10; x }\ncat(f(), x, \"\\n\")\ncat(identical(1L, 1), 1L == 1, \"\\n\")\n```\n",
+     "options": [
+      "10 5 \nFALSE TRUE",
+      "10 10 \nFALSE TRUE",
+      "5 5 \nTRUE TRUE",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Local vs global; identical checks type too. Verified by compiling and running it."
+    },
+    {
+     "q": "What is the assignment operator preferred in R style?",
+     "options": [
+      "->>",
+      "<-",
+      ":=",
+      "="
+     ],
+     "answer": 1,
+     "explain": "= also works at top level."
+    },
+    {
+     "q": "What does NA mean?",
+     "options": [
+      "Null",
+      "Empty string",
+      "Zero",
+      "A missing value (not available), propagating through most calculations"
+     ],
+     "answer": 3,
+     "explain": "Use na.rm = TRUE."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nx <- 7\nr <- if (x > 5) \"big\" else \"small\"\ns <- 0\nfor (i in 1:10) { if (i %% 2 == 0) next; if (i > 7) break; s <- s + i }\ni <- 0; while (TRUE) { i <- i + 1; if (i >= 3) break }\ncat(r, s, i, \"\\n\")\ncat(ifelse(c(1, 5, 10) > 4, \"hi\", \"lo\"), \"\\n\")\n```\n",
+     "options": [
+      "Error",
+      "big 25 3 \nlo hi hi",
+      "small 16 3 \nlo hi hi",
+      "big 16 3 \nlo hi hi"
+     ],
+     "answer": 3,
+     "explain": "next, break and vectorized ifelse. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```r\nsw <- function(x) switch(x, a = \"A\", b = , c = \"BC\", \"other\")\ncat(sw(\"a\"), sw(\"b\"), sw(\"z\"), \"\\n\")\ncat(length(seq_len(0)), \"\\n\")\n```\n",
+     "options": [
+      "A BC other \n0",
+      "A c other \n0",
+      "Error",
+      "A BC other \n1"
+     ],
+     "answer": 0,
+     "explain": "switch falls through empty arms; seq_len(0) is empty. Verified by compiling and running it."
+    },
+    {
+     "q": "Why prefer seq_along(x) to 1:length(x)?",
+     "options": [
+      "Law",
+      "1:length(x) misbehaves on empty vectors (gives 1,0)",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Safe loops."
+    },
+    {
+     "q": "What does the vectorized if-else function do?",
+     "options": [
+      "ifelse() evaluates a condition elementwise over a vector",
+      "while",
+      "if",
+      "switch"
+     ],
+     "answer": 0,
+     "explain": "Avoid loops."
+    }
+   ]
+  },
+  "level-1/04-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nf <- function(x, y = 2, ...) { extras <- list(...); x * y + length(extras) }\ncat(f(3), f(3, 4), f(3, y = 1, 99, 100), \"\\n\")\ncompose <- function(f, g) function(x) g(f(x))\nh <- compose(sqrt, function(v) v + 1)\ncat(h(16), \"\\n\")\n```\n",
+     "options": [
+      "6 12 5 \n17",
+      "6 12 3 \n5",
+      "Error",
+      "6 12 5 \n5"
+     ],
+     "answer": 3,
+     "explain": "Defaults, dots and closures. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```r\nmake_counter <- function() { n <- 0; function() { n <<- n + 1; n } }\nc1 <- make_counter(); c2 <- make_counter()\ninvisible(c1()); invisible(c1())\ncat(c1(), c2(), \"\\n\")\ncat(sapply(1:3, function(i) i^2), \"\\n\")\n```\n",
+     "options": [
+      "2 1 \n1 4 9",
+      "3 3 \n1 4 9",
+      "Error",
+      "3 1 \n1 4 9"
+     ],
+     "answer": 3,
+     "explain": "<<- modifies the enclosing environment. Verified by compiling and running it."
+    },
+    {
+     "q": "What does a function return by default?",
+     "options": [
+      "print",
+      "The value of its last evaluated expression",
+      "Error",
+      "NULL"
+     ],
+     "answer": 1,
+     "explain": "return() is optional."
+    },
+    {
+     "q": "What does `...` pass along?",
+     "options": [
+      "Dots",
+      "Loops",
+      "Vectors",
+      "Extra arguments to other functions"
+     ],
+     "answer": 3,
+     "explain": "Wrapper functions."
+    }
+   ]
+  },
+  "level-1/05-vectors-data-structures": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nv <- c(a = 1, b = 2, c = 3)\ncat(v[\"b\"], v[-1], v[v > 1], \"\\n\")\nprint(rev(v))\nl <- list(x = 1, y = \"a\", z = 1:3)\ncat(length(l), l$z[2], class(l[[\"y\"]]), class(l[\"y\"]), \"\\n\")\nm <- matrix(1:6, nrow = 2)\ncat(dim(m), m[2, 3], \"\\n\")\n```\n",
+     "options": [
+      "2 2 3 2 3 \nc b a \n3 2 1 \n3 2 character list \n2 3 6",
+      "2 2 3 2 3 \nc b a \n3 2 1 \n3 2 character character \n2 3 6",
+      "Error",
+      "2 1 2 2 3 \na b c \n1 2 3 \n3 2 character list \n2 3 6"
+     ],
+     "answer": 0,
+     "explain": "[[ extracts the element; [ keeps a list. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```r\nx <- 1:10\ncat(sum(x[x %% 2 == 0]), mean(x), median(c(5, 1, 9, 3)), \"\\n\")\ncat(1:3 + c(10, 20, 30), 1:6 + 1:2, \"\\n\")\ncat(which(c(F, T, T)), any(x > 9), all(x > 0), \"\\n\")\n```\n",
+     "options": [
+      "Error",
+      "30 5.5 4 \n11 22 33 2 4 4 6 6 8 \n2 3 TRUE TRUE",
+      "30 5.5 5 \n11 22 33 2 4 4 6 6 8 \n2 3 TRUE TRUE",
+      "30 5.5 4 \n11 22 33 2 3 4 5 6 7 \n2 3 TRUE TRUE"
+     ],
+     "answer": 1,
+     "explain": "Vectorized arithmetic with recycling. Verified by compiling and running it."
+    },
+    {
+     "q": "What is recycling?",
+     "options": [
+      "Sorting",
+      "Shorter vectors are repeated to match the longer one's length",
+      "Memory",
+      "Errors"
+     ],
+     "answer": 1,
+     "explain": "Warns if not a multiple."
+    },
+    {
+     "q": "Difference between list and vector?",
+     "options": [
+      "A vector holds one type; a list can hold mixed types and structures",
+      "Same",
+      "None",
+      "Reverse"
+     ],
+     "answer": 0,
+     "explain": "Atomic vs generic."
+    }
+   ]
+  },
+  "level-1/06-data-frames-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\ndf <- data.frame(g = c(\"a\",\"a\",\"b\",\"b\",\"c\"), v = c(1, 2, 3, NA, 5), stringsAsFactors = FALSE)\ncat(nrow(df), ncol(df), names(df), \"\\n\")\ncat(mean(df$v), mean(df$v, na.rm = TRUE), sum(is.na(df$v)), \"\\n\")\nprint(df[df$g == \"a\", ])\nprint(subset(df, v > 2, select = v))\n```\n",
+     "options": [
+      "Error",
+      "5 2 g v \n2.75 2.75 1 \n  g v\n1 a 1\n2 a 2\n  v\n3 3\n5 5",
+      "5 2 g v \nNA 2.75 1 \n  g v\n1 a 1\n2 a 2\n  v\n3 3\n5 5",
+      "5 2 g v \nNA 2.75 1 \n  g v\n1 a 1\n2 a 2\n  v\n3 3\n4 NA\n5 5"
+     ],
+     "answer": 2,
+     "explain": "Subsetting drops NA rows in subset() but df[ , ] would keep NA rows. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```r\ndf <- data.frame(x = 1:3, y = c(\"a\", \"b\", \"c\"))\ndf$z <- df$x * 2\ndf <- rbind(df, data.frame(x = 4L, y = \"d\", z = 8))\nprint(df[order(-df$x), ][1:2, ])\nstr(df)\n```\n",
+     "options": [
+      "Error",
+      "x y z\n4 4 d 8\n3 3 c 6\n'data.frame':\t4 obs. of  3 variables:\n $ x: int  1 2 3 4\n $ y: chr  \"a\" \"b\" \"c\" \"d\"\n $ z: num  2 4 6 8",
+      "x y z\n4 4 d 8\n3 3 c 6\n'data.frame':\t3 obs. of  3 variables:\n $ x: int  1 2 3\n $ y: chr  \"a\" \"b\" \"c\"\n $ z: num  2 4 6",
+      "x y z\n1 1 a 2\n2 2 b 4\n'data.frame':\t4 obs. of  3 variables:\n $ x: int  1 2 3 4\n $ y: chr  \"a\" \"b\" \"c\" \"d\"\n $ z: num  2 4 6 8"
+     ],
+     "answer": 1,
+     "explain": "Adding columns, binding rows and sorting. Verified by compiling and running it."
+    },
+    {
+     "q": "What does str(df) show?",
+     "options": [
+      "Plot",
+      "Summary stats",
+      "Structure: dimensions, column types and sample values",
+      "Head"
+     ],
+     "answer": 2,
+     "explain": "Quick inspection."
+    },
+    {
+     "q": "Difference between head(df) and summary(df)?",
+     "options": [
+      "None",
+      "Same",
+      "head shows the first rows; summary gives per-column statistics",
+      "Reverse"
+     ],
+     "answer": 2,
+     "explain": "Explore data."
+    }
+   ]
+  },
+  "level-1/07-reading-data": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\ntmp <- tempfile(fileext = \".csv\")\nwriteLines(c(\"id,name,score\", \"1,Ann,3.5\", \"2,Bob,NA\", \"3,Cy,4\"), tmp)\nd <- read.csv(tmp)\nstr(d)\ncat(sum(is.na(d$score)), mean(d$score, na.rm = TRUE), \"\\n\")\nd2 <- read.csv(tmp, colClasses = c(\"character\", \"character\", \"numeric\"))\ncat(class(d2$id), \"\\n\")\n```\n",
+     "options": [
+      "'data.frame':\t3 obs. of  3 variables:\n $ id   : chr  \"1\" \"2\" \"3\"\n $ name : chr  \"Ann\" \"Bob\" \"Cy\"\n $ score: num  3.5 NA 4\n1 3.75 \ncharacter",
+      "'data.frame':\t3 obs. of  3 variables:\n $ id   : int  1 2 3\n $ name : chr  \"Ann\" \"Bob\" \"Cy\"\n $ score: num  3.5 NA 4\n1 3.75 \ncharacter",
+      "Error",
+      "'data.frame':\t3 obs. of  3 variables:\n $ id   : int  1 2 3\n $ name : chr  \"Ann\" \"Bob\" \"Cy\"\n $ score: int  3 NA 4\n1 3.75 \ninteger"
+     ],
+     "answer": 1,
+     "explain": "read.csv infers types; colClasses overrides. Verified by compiling and running it."
+    },
+    {
+     "q": "What does readr::read_csv do differently from read.csv?",
+     "options": [
+      "It is faster, never converts strings to factors and prints a column spec",
+      "Same",
+      "Slower",
+      "Excel"
+     ],
+     "answer": 0,
+     "explain": "tidyverse."
+    },
+    {
+     "q": "How read an Excel file?",
+     "options": [
+      "readxl::read_excel()",
+      "read.xlsx base",
+      "import",
+      "read.excel"
+     ],
+     "answer": 0,
+     "explain": "Package needed."
+    },
+    {
+     "q": "Why set stringsAsFactors explicitly in older R?",
+     "options": [
+      "Before R 4.0 strings were converted to factors by default",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Changed in R 4.0."
+    }
+   ]
+  },
+  "level-1/08-basic-plotting": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nx <- c(2, 4, 4, 4, 5, 5, 7, 9)\nh <- hist(x, breaks = c(0, 3, 6, 9), plot = FALSE)\ncat(h$counts, \"\\n\")\nb <- boxplot.stats(c(1, 2, 3, 4, 100))\ncat(b$stats, b$out, \"\\n\")\ncat(round(quantile(x, c(.25, .75)), 2), \"\\n\")\n```\n",
+     "options": [
+      "Error",
+      "1 5 2 \n1 2 3 4 4 100 \n4 5.5",
+      "1 5 2 \n1 2 3 4 100 \n4 5",
+      "2 4 2 \n1 2 3 4 4 100 \n4 5.5"
+     ],
+     "answer": 1,
+     "explain": "Histogram bin counts, outliers and quantiles. Verified by compiling and running it."
+    },
+    {
+     "q": "Which base function draws a scatter plot?",
+     "options": [
+      "draw()",
+      "plot(x, y)",
+      "chart()",
+      "scatter()"
+     ],
+     "answer": 1,
+     "explain": "Base graphics."
+    },
+    {
+     "q": "When is a histogram appropriate?",
+     "options": [
+      "To show the distribution of one numeric variable",
+      "Categories",
+      "Time",
+      "Two vars"
+     ],
+     "answer": 0,
+     "explain": "Binning."
+    },
+    {
+     "q": "Why label axes and titles?",
+     "options": [
+      "Law",
+      "Style",
+      "So a plot is understandable without extra explanation",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Communication."
+    }
+   ]
+  },
+  "level-1/09-packages": {
+   "questions": [
+    {
+     "q": "How install and load a package?",
+     "options": [
+      "require only",
+      "install.packages('x') once, then library(x) in each session",
+      "library only",
+      "install only"
+     ],
+     "answer": 1,
+     "explain": "Two steps."
+    },
+    {
+     "q": "What does renv do?",
+     "options": [
+      "Cache",
+      "Tests",
+      "Plots",
+      "Records and restores project-specific package versions"
+     ],
+     "answer": 3,
+     "explain": "Reproducibility."
+    },
+    {
+     "q": "What does dplyr::filter mask?",
+     "options": [
+      "graphics",
+      "stats::filter — use dplyr::filter() if conflicts matter",
+      "Nothing",
+      "base"
+     ],
+     "answer": 1,
+     "explain": "Namespace."
+    },
+    {
+     "q": "What does `pkg::fun()` do?",
+     "options": [
+      "Calls a function without attaching the package",
+      "Installs",
+      "Plots",
+      "Loads"
+     ],
+     "answer": 0,
+     "explain": "Explicit namespaces."
+    }
+   ]
+  },
+  "level-1/10-project-data-analysis": {
+   "questions": [
+    {
+     "q": "What does the data analysis project combine?",
+     "options": [
+      "Only stats",
+      "Only plots",
+      "Reading data, cleaning, summarizing and plotting with a short report",
+      "Only cleaning"
+     ],
+     "answer": 2,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How make the analysis reproducible?",
+     "options": [
+      "Copy",
+      "Clicks",
+      "Notes",
+      "A script (or R Markdown) that runs top to bottom from raw data"
+     ],
+     "answer": 3,
+     "explain": "No manual steps."
+    },
+    {
+     "q": "How validate cleaned data?",
+     "options": [
+      "Check counts, ranges and missingness before and after",
+      "Trust",
+      "Skip",
+      "Eyeball"
+     ],
+     "answer": 0,
+     "explain": "Sanity checks."
+    },
+    {
+     "q": "What belongs in the conclusion?",
+     "options": [
+      "Code",
+      "Opinions",
+      "Plots only",
+      "Findings with caveats and the data limitations"
+     ],
+     "answer": 3,
+     "explain": "Honesty."
+    }
+   ]
+  },
+  "level-2/01-dplyr-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nsuppressPackageStartupMessages(library(dplyr))\ndf <- data.frame(g = c(\"a\",\"a\",\"b\",\"b\",\"c\"), v = c(1, 2, 3, 4, 5))\nr <- df %>% filter(v > 1) %>% group_by(g) %>% summarise(n = n(), total = sum(v), .groups = \"drop\") %>% arrange(desc(total))\nprint(as.data.frame(r))\nprint(df %>% mutate(share = round(v / sum(v), 2)) %>% slice_max(v, n = 2) %>% as.data.frame())\n```\n",
+     "options": [
+      "Error",
+      "g n total\n1 a 1     2\n2 b 2     7\n3 c 1     5\n  g v share\n1 c 5  0.33\n2 b 4  0.27",
+      "g n total\n1 b 2     7\n2 c 1     5\n3 a 2     3\n  g v share\n1 c 5  0.33\n2 b 4  0.27",
+      "g n total\n1 b 2     7\n2 c 1     5\n3 a 1     2\n  g v share\n1 c 5  0.33\n2 b 4  0.27"
+     ],
+     "answer": 3,
+     "explain": "filter, group_by, summarise, arrange, mutate, slice_max. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```r\nsuppressPackageStartupMessages(library(dplyr))\na <- data.frame(id = 1:3, x = c(\"p\", \"q\", \"r\"))\nb <- data.frame(id = c(2, 3, 4), y = c(20, 30, 40))\nprint(left_join(a, b, by = \"id\"))\ncat(nrow(inner_join(a, b, by = \"id\")), nrow(full_join(a, b, by = \"id\")), nrow(anti_join(a, b, by = \"id\")), \"\\n\")\n```\n",
+     "options": [
+      "id x  y\n1  2 q 20\n2  3 r 30\n2 4 1",
+      "id x  y\n1  1 p NA\n2  2 q 20\n3  3 r 30\n3 4 1",
+      "Error",
+      "id x  y\n1  1 p NA\n2  2 q 20\n3  3 r 30\n2 4 1"
+     ],
+     "answer": 3,
+     "explain": "Join types. Verified by compiling and running it."
+    },
+    {
+     "q": "What does the pipe %>% (or |>) do?",
+     "options": [
+      "Plots",
+      "Assigns",
+      "Loops",
+      "Passes the left result as the first argument of the next function"
+     ],
+     "answer": 3,
+     "explain": "Readable pipelines."
+    },
+    {
+     "q": "What does group_by() change?",
+     "options": [
+      "Join",
+      "Filter",
+      "Subsequent summaries run per group",
+      "Sort"
+     ],
+     "answer": 2,
+     "explain": "Grouped data."
+    }
+   ]
+  },
+  "level-2/02-data-cleaning": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nx <- c(\" Ann \", \"bob\", NA, \"Cy\", \"\")\nclean <- trimws(x)\nclean[clean == \"\"] <- NA\ncat(sum(is.na(clean)), toupper(substr(clean, 1, 1))[1:2], \"\\n\")\nd <- c(10, 12, 11, 400, 9)\nq1 <- quantile(d, .25); q3 <- quantile(d, .75); iqr <- q3 - q1\ncat(d[d < q1 - 1.5 * iqr | d > q3 + 1.5 * iqr], \"\\n\")\ncat(complete.cases(data.frame(a = c(1, NA), b = c(2, 3))), \"\\n\")\n```\n",
+     "options": [
+      "Error",
+      "2 A B \n400 \nTRUE FALSE",
+      "2 A B \n9 400 \nTRUE FALSE",
+      "1 A B \n400 \nTRUE FALSE"
+     ],
+     "answer": 1,
+     "explain": "Trim, recode blanks, IQR outliers. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```r\nf <- factor(c(\"lo\", \"hi\", \"mid\", \"hi\"), levels = c(\"lo\", \"mid\", \"hi\"))\ncat(as.integer(f), levels(f), \"\\n\")\nprint(table(f))\ncat(duplicated(c(1, 2, 1, 3, 2)), \"\\n\")\n```\n",
+     "options": [
+      "1 3 2 3 lo mid hi \nf\n hi  lo mid \n  2   1   1 \nFALSE FALSE TRUE FALSE TRUE",
+      "3 1 2 3 lo mid hi \nf\n lo mid  hi \n  1   1   2 \nFALSE FALSE TRUE FALSE TRUE",
+      "1 3 2 3 lo mid hi \nf\n lo mid  hi \n  1   1   2 \nFALSE FALSE TRUE FALSE TRUE",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Factor levels define order. Verified by compiling and running it."
+    },
+    {
+     "q": "What is tidy data?",
+     "options": [
+      "Each variable is a column, each observation a row, each value a cell",
+      "Clean",
+      "Wide",
+      "Small"
+     ],
+     "answer": 0,
+     "explain": "Wickham."
+    },
+    {
+     "q": "Why not silently drop NAs?",
+     "options": [
+      "It can bias results; understand why values are missing first",
+      "Speed",
+      "Cost",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Missingness."
+    }
+   ]
+  },
+  "level-2/03-apply-family-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nx <- list(a = 1:3, b = 4:6)\nprint(sapply(x, sum))\nprint(lapply(1:2, function(i) i * 10))\nprint(vapply(c(\"a\", \"bb\", \"ccc\"), nchar, integer(1)))\nprint(mapply(function(a, b) a + b, 1:3, 4:6))\nprint(Map(`+`, 1:2, 3:4))\n```\n",
+     "options": [
+      "a  b \n 6 15 \n[[1]]\n[1] 10\n\n[[2]]\n[1] 20\n\n a bb ccc \n 1  2   3 \n[1] 5 7 9\n[[1]]\n[1] 4\n\n[[2]]\n[1] 6",
+      "Error",
+      "[1]  6 15\n[[1]]\n[1] 10\n\n[[2]]\n[1] 20\n\n[1] 1 2 3\n[1] 5 7 9\n[[1]]\n[1] 4\n\n[[2]]\n[1] 6",
+      "a  b \n 6 15 \n[[1]]\n[1] 10\n\n[[2]]\n[1] 20\n\n  a  bb ccc \n  1   2   3 \n[1] 5 7 9\n[[1]]\n[1] 4\n\n[[2]]\n[1] 6"
+     ],
+     "answer": 3,
+     "explain": "sapply simplifies; vapply enforces the result type. Verified by compiling and running it."
+    },
+    {
+     "q": "Why prefer vapply over sapply in packages?",
+     "options": [
+      "It guarantees the return type and fails loudly otherwise",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Type safety."
+    },
+    {
+     "q": "What does apply(m, 1, f) do?",
+     "options": [
+      "Columns",
+      "Applies f to each row of a matrix",
+      "Cells",
+      "Lists"
+     ],
+     "answer": 1,
+     "explain": "MARGIN 1 = rows."
+    },
+    {
+     "q": "What does Reduce do?",
+     "options": [
+      "Filter",
+      "Sort",
+      "Combines elements of a vector or list pairwise into one value",
+      "Map"
+     ],
+     "answer": 2,
+     "explain": "Fold."
+    }
+   ]
+  },
+  "level-2/04-ggplot2-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nsuppressPackageStartupMessages(library(ggplot2))\np <- ggplot(mtcars, aes(wt, mpg, colour = factor(cyl))) + geom_point() + geom_smooth(method = \"lm\", se = FALSE) + labs(title = \"MPG vs weight\", x = \"Weight\", y = \"MPG\")\ncat(length(p$layers), sapply(p$layers, function(l) class(l$geom)[1]), \"\\n\")\n```\n",
+     "options": [
+      "Error",
+      "2 GeomPoint GeomSmooth",
+      "2 GeomPoint GeomPoint",
+      "1 GeomPoint"
+     ],
+     "answer": 1,
+     "explain": "A ggplot is built from layers. Verified by compiling and running it."
+    },
+    {
+     "q": "What are the core parts of a ggplot?",
+     "options": [
+      "Only data",
+      "Data, aesthetic mappings and geoms (layers)",
+      "Themes",
+      "Colors"
+     ],
+     "answer": 1,
+     "explain": "Grammar of graphics."
+    },
+    {
+     "q": "What does aes() do?",
+     "options": [
+      "Draws",
+      "Maps data columns to visual properties",
+      "Themes",
+      "Facets"
+     ],
+     "answer": 1,
+     "explain": "Mapping."
+    },
+    {
+     "q": "What does facet_wrap do?",
+     "options": [
+      "Sorts",
+      "Fits",
+      "Splits a plot into small multiples by a variable",
+      "Joins"
+     ],
+     "answer": 2,
+     "explain": "Comparisons."
+    }
+   ]
+  },
+  "level-2/05-strings-stringr": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nsuppressPackageStartupMessages(library(stringr))\ns <- c(\"order-123 shipped\", \"order-45 pending\", \"no id\")\ncat(str_extract(s, \"\\\\d+\"), \"\\n\")\ncat(str_detect(s, \"ship\"), str_length(s), \"\\n\")\ncat(str_replace_all(\"a-b-c\", \"-\", \"+\"), str_to_title(\"hello world\"), str_pad(\"7\", 3, pad = \"0\"), \"\\n\")\ncat(unlist(str_split(\"a,b,c\", \",\")), str_sub(\"abcdef\", 2, 4), \"\\n\")\n```\n",
+     "options": [
+      "123 45 NA \nTRUE FALSE FALSE 17 16 6 \na+b+c Hello World 007 \na b c bcd",
+      "123 45 NA \nTRUE FALSE FALSE 18 16 5 \na+b+c Hello World 007 \na b c bcd",
+      "Error",
+      "123 45 NA \nTRUE FALSE FALSE 17 16 5 \na+b+c Hello World 007 \na b c bcd"
+     ],
+     "answer": 3,
+     "explain": "stringr verbs. Verified by compiling and running it."
+    },
+    {
+     "q": "What do regex special characters need in R strings?",
+     "options": [
+      "Double backslashes, e.g. \"\\\\d+\"",
+      "None",
+      "Triple",
+      "Single"
+     ],
+     "answer": 0,
+     "explain": "Escape twice."
+    },
+    {
+     "q": "What is the advantage of stringr over base?",
+     "options": [
+      "Consistent function names and argument order",
+      "Speed",
+      "Memory",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Readable."
+    },
+    {
+     "q": "What does str_detect return?",
+     "options": [
+      "Text",
+      "Count",
+      "Index",
+      "A logical vector (one per string)"
+     ],
+     "answer": 3,
+     "explain": "Filtering."
+    }
+   ]
+  },
+  "level-2/06-statistical-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nset.seed(1)\nx <- c(2.1, 2.5, 3.0, 3.2, 3.8); y <- c(4.2, 5.1, 6.2, 6.4, 7.7)\nm <- lm(y ~ x)\ncat(round(coef(m), 3), round(summary(m)$r.squared, 3), \"\\n\")\ncat(round(cor(x, y), 3), round(sd(x), 3), round(var(x), 3), \"\\n\")\nt <- t.test(c(5.1, 4.9, 5.6, 5.8, 6.0), mu = 5)\ncat(round(t$statistic, 3), round(t$p.value, 3), \"\\n\")\n```\n",
+     "options": [
+      "Error",
+      "2.036 -0.026 0.996 \n0.998 0.653 0.427 \n2.304 0.083",
+      "-0.026 2.036 0.996 \n0.998 0.653 0.427 \n2.304 0.083",
+      "-0.026 2.036 0.998 \n0.998 0.653 0.427 \n2.304 0.083"
+     ],
+     "answer": 2,
+     "explain": "lm coefficients are intercept then slope. Verified by compiling and running it."
+    },
+    {
+     "q": "What does a p-value of 0.03 mean?",
+     "options": [
+      "Effect size",
+      "97% true",
+      "Importance",
+      "If the null were true, results this extreme would occur about 3% of the time"
+     ],
+     "answer": 3,
+     "explain": "Not the probability the null is true."
+    },
+    {
+     "q": "What does R-squared measure?",
+     "options": [
+      "Accuracy",
+      "The share of variance in y explained by the model",
+      "Cause",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Fit, not causality."
+    },
+    {
+     "q": "Correlation vs causation?",
+     "options": [
+      "Correlation doesn't imply that one variable causes the other",
+      "None",
+      "Reverse",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "Confounders."
+    }
+   ]
+  },
+  "level-2/07-functions-package-structure": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nclamp <- function(x, lo = 0, hi = 1) {\n  stopifnot(is.numeric(x), lo <= hi)\n  pmin(pmax(x, lo), hi)\n}\ncat(clamp(c(-1, 0.5, 2)), \"\\n\")\nr <- tryCatch(clamp(\"a\"), error = function(e) conditionMessage(e))\ncat(r, \"\\n\")\n#' Add two numbers\n#' @param a first\n#' @export\nadd <- function(a, b) a + b\ncat(add(1, 2), \"\\n\")\n```\n",
+     "options": [
+      "0 0.5 1 \nis.numeric(x) is not TRUE \n3",
+      "-1 0.5 2 \nis.numeric(x) is not TRUE \n3",
+      "Error",
+      "0 0.5 1 \nx must be numeric \n3"
+     ],
+     "answer": 0,
+     "explain": "stopifnot gives a default message. Verified by compiling and running it."
+    },
+    {
+     "q": "What is the standard layout of an R package?",
+     "options": [
+      "DESCRIPTION, NAMESPACE, R/ for code, man/ for docs, tests/",
+      "src only",
+      "bin/",
+      "one file"
+     ],
+     "answer": 0,
+     "explain": "Conventions."
+    },
+    {
+     "q": "What generates docs from comments?",
+     "options": [
+      "roxygen2",
+      "testthat",
+      "knitr",
+      "devtools"
+     ],
+     "answer": 0,
+     "explain": "#' comments."
+    },
+    {
+     "q": "What does devtools::load_all() do?",
+     "options": [
+      "Check",
+      "Install",
+      "Loads the package code for interactive development without installing",
+      "Build"
+     ],
+     "answer": 2,
+     "explain": "Fast iteration."
+    }
+   ]
+  },
+  "level-2/08-testing-testthat": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nsuppressPackageStartupMessages(library(testthat))\nsq <- function(x) x^2\nexpect_equal(sq(3), 9)\nexpect_equal(sq(-2), 4)\ncat(TRUE, \"\\n\")\nr <- tryCatch(expect_equal(sq(3), 10), error = function(e) \"failed\")\ncat(r, \"\\n\")\nexpect_error(stop(\"boom\"), \"boom\")\nexpect_true(all(sq(1:3) == c(1, 4, 9)))\ncat(\"done\\n\")\n```\n",
+     "options": [
+      "Error",
+      "TRUE \npassed \ndone",
+      "FALSE \nfailed \ndone",
+      "TRUE \nfailed \ndone"
+     ],
+     "answer": 3,
+     "explain": "expect_* throw an error on failure (test_that groups them and reports instead). Verified by compiling and running it."
+    },
+    {
+     "q": "Where do testthat tests live?",
+     "options": [
+      "data/",
+      "tests/testthat/test-*.R",
+      "R/",
+      "man/"
+     ],
+     "answer": 1,
+     "explain": "Conventions."
+    },
+    {
+     "q": "Which expectation compares numbers with tolerance?",
+     "options": [
+      "expect_identical",
+      "expect_true",
+      "expect_equal",
+      "expect_null"
+     ],
+     "answer": 2,
+     "explain": "Floating point."
+    },
+    {
+     "q": "What does expect_error check?",
+     "options": [
+      "That code throws an error (optionally matching a message)",
+      "Warning",
+      "Output",
+      "Type"
+     ],
+     "answer": 0,
+     "explain": "Negative tests."
+    }
+   ]
+  },
+  "level-2/09-dates-lubridate": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nsuppressPackageStartupMessages(library(lubridate))\nd <- ymd(\"2026-01-31\")\ncat(format(d + months(1), \"%Y-%m-%d\"), format(d %m+% months(1), \"%Y-%m-%d\"), \"\\n\")\ncat(as.character(wday(d, label = TRUE)), month(d), as.integer(ymd(\"2026-03-01\") - d), \"\\n\")\ncat(format(floor_date(ymd_hms(\"2026-05-17 13:45:10\"), \"hour\"), \"%H:%M\"), \"\\n\")\n```\n",
+     "options": [
+      "Error",
+      "2026-03-03 2026-02-28 \nSat 1 29 \n13:00",
+      "NA 2026-02-28 \nSun 1 29 \n13:00",
+      "NA 2026-02-28 \nSat 1 29 \n13:00"
+     ],
+     "answer": 3,
+     "explain": "Adding months to Jan 31 gives NA; %m+% rolls back to month end. Verified by compiling and running it."
+    },
+    {
+     "q": "What does ymd() do?",
+     "options": [
+      "Parses year-month-day strings into Date objects",
+      "Round",
+      "Sort",
+      "Format"
+     ],
+     "answer": 0,
+     "explain": "Parsers by order."
+    },
+    {
+     "q": "Why store timestamps in UTC?",
+     "options": [
+      "Style",
+      "Law",
+      "Avoids time zone and DST confusion",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Convert for display."
+    },
+    {
+     "q": "What does difftime compute?",
+     "options": [
+      "The difference between two dates/times with units",
+      "Parse",
+      "Add",
+      "Sort"
+     ],
+     "answer": 0,
+     "explain": "units argument."
+    }
+   ]
+  },
+  "level-2/10-project-cleaning-pipeline": {
+   "questions": [
+    {
+     "q": "What does the cleaning pipeline project combine?",
+     "options": [
+      "Only stats",
+      "Only plots",
+      "Reading messy data, standardizing, validating and documenting a reproducible pipeline",
+      "Only joins"
+     ],
+     "answer": 2,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How document cleaning decisions?",
+     "options": [
+      "In code comments and a log of rows changed/dropped",
+      "None",
+      "Memory",
+      "Notes"
+     ],
+     "answer": 0,
+     "explain": "Auditability."
+    },
+    {
+     "q": "What do you check after each step?",
+     "options": [
+      "Colors",
+      "Types",
+      "Names",
+      "Row counts, missingness and value ranges"
+     ],
+     "answer": 3,
+     "explain": "Validation."
+    },
+    {
+     "q": "Why keep raw data untouched?",
+     "options": [
+      "So the pipeline can be re-run and audited from source",
+      "Law",
+      "Speed",
+      "Space"
+     ],
+     "answer": 0,
+     "explain": "Immutability."
+    }
+   ]
+  },
+  "level-3/01-advanced-dplyr-tidyr": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nsuppressPackageStartupMessages(library(dplyr))\nsuppressPackageStartupMessages(library(tidyr))\nw <- data.frame(id = 1:2, q1 = c(10, 20), q2 = c(15, 25))\nl <- pivot_longer(w, c(q1, q2), names_to = \"quarter\", values_to = \"sales\")\nprint(l)\nprint(pivot_wider(l, names_from = quarter, values_from = sales))\nd <- data.frame(g = c(\"a\",\"a\",\"b\"), v = c(1, 5, 3))\nprint(d %>% group_by(g) %>% mutate(rank = row_number(desc(v)), prev = lag(v)) %>% as.data.frame())\n```\n",
+     "options": [
+      "# A tibble: 4 × 3\n     id quarter sales\n  <int> <chr>   <dbl>\n1     1 q1         10\n2     1 q2         15\n3     2 q1         20\n4     2 q2         25\n# A tibble: 2 × 3\n     id    q1    q2\n  <int> <dbl> <dbl>\n1     1    10    15\n2     2    20    25\n  g v rank prev\n1 a 1    1   NA\n2 a 5    2    1\n3 b 3    1   NA",
+      "# A tibble: 4 × 3\n     id quarter sales\n  <int> <chr>   <dbl>\n1     1 q1         10\n2     1 q2         15\n3     2 q1         20\n4     2 q2         25\n# A tibble: 2 × 3\n     id    q1    q2\n  <int> <dbl> <dbl>\n1     1    10    15\n2     2    20    25\n  g v rank prev\n1 a 1    2   NA\n2 a 5    1    1\n3 b 3    1   NA",
+      "Error",
+      "# A tibble: 4 × 3\n     id quarter sales\n  <int> <chr>   <dbl>\n1     1 q1         10\n2     2 q1         20\n3     1 q2         15\n4     2 q2         25\n# A tibble: 2 × 3\n     id    q1    q2\n  <int> <dbl> <dbl>\n1     1    10    15\n2     2    20    25\n  g v rank prev\n1 a 1    2   NA\n2 a 5    1    1\n3 b 3    1   NA"
+     ],
+     "answer": 1,
+     "explain": "pivot_longer/pivot_wider and grouped window functions. Verified by compiling and running it."
+    },
+    {
+     "q": "Why use pivot_longer?",
+     "options": [
+      "Sorting",
+      "Speed",
+      "To turn wide columns into tidy key/value rows for plotting and grouping",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Tidy data."
+    },
+    {
+     "q": "What does across() do?",
+     "options": [
+      "Joins",
+      "Applies functions to multiple columns inside mutate/summarise",
+      "Sorts",
+      "Plots"
+     ],
+     "answer": 1,
+     "explain": "Less repetition."
+    },
+    {
+     "q": "What is a window function?",
+     "options": [
+      "Join",
+      "Filter",
+      "One that computes per row using related rows (lag, rank, cumsum)",
+      "Aggregate"
+     ],
+     "answer": 2,
+     "explain": "Within groups."
+    }
+   ]
+  },
+  "level-3/02-advanced-ggplot2": {
+   "questions": [
+    {
+     "q": "What does scale_colour_viridis_d give?",
+     "options": [
+      "A colour-blind-friendly discrete palette",
+      "Pastel",
+      "Dark",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Accessibility."
+    },
+    {
+     "q": "How highlight a subset in ggplot2?",
+     "options": [
+      "Loop",
+      "Edit",
+      "Copy",
+      "Layer a second geom with a filtered data argument"
+     ],
+     "answer": 3,
+     "explain": "Layered grammar."
+    },
+    {
+     "q": "What does theme() control?",
+     "options": [
+      "Data",
+      "Layers",
+      "Stats",
+      "Non-data styling: fonts, grid lines, legend position"
+     ],
+     "answer": 3,
+     "explain": "Appearance."
+    },
+    {
+     "q": "What does ggsave do?",
+     "options": [
+      "Saves a plot to a file at a chosen size and resolution",
+      "Load",
+      "Print",
+      "Edit"
+     ],
+     "answer": 0,
+     "explain": "Reproducible output."
+    }
+   ]
+  },
+  "level-3/03-statistical-modeling": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nfit <- lm(mpg ~ wt + hp, data = mtcars)\ncat(round(coef(fit), 3), \"\\n\")\ncat(round(summary(fit)$r.squared, 3), round(summary(fit)$adj.r.squared, 3), \"\\n\")\nnew <- data.frame(wt = 3, hp = 120)\ncat(round(predict(fit, new), 2), \"\\n\")\ng <- glm(am ~ wt, data = mtcars, family = binomial)\ncat(round(coef(g), 3), round(predict(g, data.frame(wt = 3), type = \"response\"), 3), \"\\n\")\n```\n",
+     "options": [
+      "Error",
+      "-3.878 37.227 -0.032 \n0.827 0.815 \n21.78 \n12.04 -4.024 0.492",
+      "37.227 -3.878 -0.032 \n0.827 0.815 \n21.78 \n12.04 -4.024 0.492",
+      "37.227 -3.878 -0.032 \n0.827 0.815 \n22.79 \n12.04 -4.024 0.311"
+     ],
+     "answer": 2,
+     "explain": "Linear and logistic models. Verified by compiling and running it."
+    },
+    {
+     "q": "What does a residual plot check?",
+     "options": [
+      "Speed",
+      "Cause",
+      "Whether model assumptions (linearity, constant variance) hold",
+      "Size"
+     ],
+     "answer": 2,
+     "explain": "Diagnostics."
+    },
+    {
+     "q": "When use logistic regression?",
+     "options": [
+      "For a binary outcome, modelling log-odds",
+      "Counts",
+      "Time",
+      "Continuous"
+     ],
+     "answer": 0,
+     "explain": "Classification."
+    },
+    {
+     "q": "What is overfitting?",
+     "options": [
+      "Bias",
+      "Good",
+      "A model that fits noise and generalizes poorly; use validation",
+      "Slow"
+     ],
+     "answer": 2,
+     "explain": "Train/test."
+    }
+   ]
+  },
+  "level-3/04-r-markdown-reports": {
+   "questions": [
+    {
+     "q": "What does R Markdown produce?",
+     "options": [
+      "Data",
+      "Apps",
+      "Documents that combine text and executed R code (HTML, PDF, Word)",
+      "Packages"
+     ],
+     "answer": 2,
+     "explain": "Reproducible reports."
+    },
+    {
+     "q": "What does knitr do?",
+     "options": [
+      "Plots",
+      "Executes code chunks and weaves output into the document",
+      "Joins",
+      "Tests"
+     ],
+     "answer": 1,
+     "explain": "Engine."
+    },
+    {
+     "q": "How hide code but show output?",
+     "options": [
+      "include",
+      "Chunk option echo = FALSE",
+      "cache",
+      "eval"
+     ],
+     "answer": 1,
+     "explain": "Chunk options."
+    },
+    {
+     "q": "Why parameterized reports?",
+     "options": [
+      "Law",
+      "Generate many versions from one template (e.g. per region)",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "params in YAML."
+    }
+   ]
+  },
+  "level-3/05-shiny-basics": {
+   "questions": [
+    {
+     "q": "What are the two parts of a Shiny app?",
+     "options": [
+      "Client DB",
+      "Input output",
+      "UI (layout) and server (logic)",
+      "Model view"
+     ],
+     "answer": 2,
+     "explain": "Reactive."
+    },
+    {
+     "q": "What is reactivity?",
+     "options": [
+      "Refresh",
+      "Loops",
+      "Polling",
+      "Outputs automatically update when the inputs they depend on change"
+     ],
+     "answer": 3,
+     "explain": "Dependency graph."
+    },
+    {
+     "q": "What does reactive() do?",
+     "options": [
+      "Creates a cached expression that recomputes only when dependencies change",
+      "Runs once",
+      "Plots",
+      "Inputs"
+     ],
+     "answer": 0,
+     "explain": "Efficiency."
+    },
+    {
+     "q": "Why avoid heavy work inside render functions?",
+     "options": [
+      "Law",
+      "Cost",
+      "It reruns on every dependency change; cache or precompute",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Performance."
+    }
+   ]
+  },
+  "level-3/06-performance-vectorization": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nx <- 1:100000\nf_loop <- function(x) { out <- numeric(length(x)); for (i in seq_along(x)) out[i] <- x[i]^2; out }\nf_vec <- function(x) x^2\ncat(identical(f_loop(x), f_vec(x)), \"\\n\")\ng <- function(n) { v <- c(); for (i in 1:n) v <- c(v, i); length(v) }\ncat(g(1000), \"\\n\")\ncat(is.na(sum(c(1, NA))), sum(c(1, NA), na.rm = TRUE), \"\\n\")\ncat(system.time(for(i in 1:10) NULL)[[\"elapsed\"]] >= 0, \"\\n\")\n```\n",
+     "options": [
+      "TRUE \n1000 \nTRUE 1 \nTRUE",
+      "TRUE \n1000 \nFALSE 1 \nTRUE",
+      "Error",
+      "FALSE \n1000 \nTRUE 1 \nTRUE"
+     ],
+     "answer": 0,
+     "explain": "Vectorized and preallocated code give the same result faster. Verified by compiling and running it."
+    },
+    {
+     "q": "Why preallocate vectors?",
+     "options": [
+      "Style",
+      "Law",
+      "Growing a vector in a loop copies it each time",
+      "Typing"
+     ],
+     "answer": 2,
+     "explain": "O(n²)."
+    },
+    {
+     "q": "Which tool profiles R code?",
+     "options": [
+      "knitr",
+      "lintr",
+      "testthat",
+      "profvis or Rprof"
+     ],
+     "answer": 3,
+     "explain": "Measure first."
+    },
+    {
+     "q": "What is vectorization?",
+     "options": [
+      "Operating on whole vectors with optimized compiled code instead of loops",
+      "Cache",
+      "Typing",
+      "Parallel"
+     ],
+     "answer": 0,
+     "explain": "Idiomatic R."
+    }
+   ]
+  },
+  "level-3/07-package-development-basics": {
+   "questions": [
+    {
+     "q": "What does DESCRIPTION list?",
+     "options": [
+      "Docs",
+      "Tests",
+      "Code",
+      "Package name, version, authors, license and dependencies"
+     ],
+     "answer": 3,
+     "explain": "Metadata."
+    },
+    {
+     "q": "What does R CMD check do?",
+     "options": [
+      "Runs a comprehensive set of package checks (docs, tests, examples)",
+      "Install",
+      "Build",
+      "Load"
+     ],
+     "answer": 0,
+     "explain": "CRAN readiness."
+    },
+    {
+     "q": "What does NAMESPACE control?",
+     "options": [
+      "Names",
+      "Docs",
+      "Which functions are exported and which are imported",
+      "Tests"
+     ],
+     "answer": 2,
+     "explain": "Generated by roxygen2."
+    },
+    {
+     "q": "Where do user-facing docs live?",
+     "options": [
+      "data/",
+      "tests/",
+      "R/",
+      "man/*.Rd generated from roxygen comments"
+     ],
+     "answer": 3,
+     "explain": "Maintainability."
+    }
+   ]
+  },
+  "level-3/08-apis-httr": {
+   "questions": [
+    {
+     "q": "Which package makes HTTP requests?",
+     "options": [
+      "stringr",
+      "dplyr",
+      "tidyr",
+      "httr (or httr2)"
+     ],
+     "answer": 3,
+     "explain": "APIs."
+    },
+    {
+     "q": "What does this print?\n```r\nsuppressPackageStartupMessages(library(jsonlite))\nj <- '{\"name\":\"Ann\",\"tags\":[\"a\",\"b\"],\"n\":{\"k\":1.5}}'\nx <- fromJSON(j)\ncat(x$name, x$tags, x$n$k, \"\\n\")\ncat(toJSON(list(a = 1, b = \"x\"), auto_unbox = TRUE), \"\\n\")\ncat(toJSON(data.frame(i = 1:2, s = c(\"p\", \"q\"))), \"\\n\")\n```\n",
+     "options": [
+      "Ann a b 1.5 \n{\"a\":1,\"b\":\"x\"} \n[{\"i\":1,\"s\":\"p\"},{\"i\":2,\"s\":\"q\"}]",
+      "Ann a 1.5 \n{\"a\":[1],\"b\":[\"x\"]} \n[{\"i\":1,\"s\":\"p\"},{\"i\":2,\"s\":\"q\"}]",
+      "Ann a b 1.5 \n{\"a\":1,\"b\":\"x\"} \n{\"i\":[1,2],\"s\":[\"p\",\"q\"]}",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "JSON conversion helpers. Verified by compiling and running it."
+    },
+    {
+     "q": "How handle API errors?",
+     "options": [
+      "Check status codes and use retry/backoff",
+      "Ignore",
+      "Skip",
+      "Wrap"
+     ],
+     "answer": 0,
+     "explain": "Robustness."
+    },
+    {
+     "q": "Where store API keys?",
+     "options": [
+      "Git",
+      "Environment variables (e.g. in .Renviron), never in code",
+      "Code",
+      "Reports"
+     ],
+     "answer": 1,
+     "explain": "Security."
+    }
+   ]
+  },
+  "level-3/09-testing-advanced": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nsuppressPackageStartupMessages(library(testthat))\nlibrary(testthat)\nfake_get <- function(url) list(status = 200, body = \"{\\\"n\\\": 3}\")\nfetch_n <- function(url, get = fake_get) {\n  r <- get(url)\n  if (r$status != 200) stop(\"HTTP \", r$status)\n  jsonlite::fromJSON(r$body)$n\n}\nexpect_equal(fetch_n(\"x\"), 3)\nbad <- function(url) list(status = 500, body = \"\")\nexpect_error(fetch_n(\"x\", bad), \"HTTP 500\")\nres <- testthat::with_reporter(\"silent\", { test_that(\"ok\", { expect_true(TRUE) }) })\ncat(\"passed\\n\")\n```\n",
+     "options": [
+      "passed",
+      "failed",
+      "NULL",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Dependency injection makes HTTP code testable. Verified by compiling and running it."
+    },
+    {
+     "q": "What does a test fixture/helper provide?",
+     "options": [
+      "Reusable setup shared across tests",
+      "Plots",
+      "Docs",
+      "Mocks"
+     ],
+     "answer": 0,
+     "explain": "helper-*.R."
+    },
+    {
+     "q": "What is snapshot testing?",
+     "options": [
+      "Cache",
+      "Comparing output to a stored reference (expect_snapshot)",
+      "Photo",
+      "Mock"
+     ],
+     "answer": 1,
+     "explain": "Detect changes."
+    },
+    {
+     "q": "What are mocks for?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Replacing external dependencies (network) with controlled stand-ins"
+     ],
+     "answer": 3,
+     "explain": "testthat::local_mocked_bindings."
+    }
+   ]
+  },
+  "level-3/10-project-shiny-dashboard": {
+   "questions": [
+    {
+     "q": "What does the Shiny dashboard project combine?",
+     "options": [
+      "Only server",
+      "Only UI",
+      "Data loading, reactive filters, plots/tables and deployment",
+      "Only data"
+     ],
+     "answer": 2,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How deploy a Shiny app?",
+     "options": [
+      "Print",
+      "shinyapps.io, Posit Connect or a server with Shiny Server/Docker",
+      "Email",
+      "USB"
+     ],
+     "answer": 1,
+     "explain": "Hosting."
+    },
+    {
+     "q": "How keep it fast?",
+     "options": [
+      "Precompute data, cache reactives and avoid recomputation",
+      "Loops",
+      "More inputs",
+      "More UI"
+     ],
+     "answer": 0,
+     "explain": "Performance."
+    },
+    {
+     "q": "How test it?",
+     "options": [
+      "shinytest2 and unit tests for helper functions",
+      "None",
+      "Manual",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "Reliability."
+    }
+   ]
+  },
+  "level-4/01-advanced-statistical-methods": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nset.seed(42)\nx <- rnorm(100, mean = 5, sd = 2)\nb <- replicate(500, mean(sample(x, replace = TRUE)))\nci <- quantile(b, c(.025, .975))\ncat(length(b), round(mean(x), 2), ci[1] < mean(x) && mean(x) < ci[2], \"\\n\")\nw <- wilcox.test(c(1.1, 2.3, 3.2, 4.8), c(2.0, 3.9, 5.1, 6.4))\ncat(round(w$p.value, 3), \"\\n\")\n```\n",
+     "options": [
+      "500 5.0 TRUE \n0.034",
+      "100 5.07 TRUE \n0.343",
+      "Error",
+      "500 5.07 TRUE \n0.343"
+     ],
+     "answer": 3,
+     "explain": "Bootstrapping and non-parametric tests. Verified by compiling and running it."
+    },
+    {
+     "q": "When prefer a bootstrap?",
+     "options": [
+      "When the sampling distribution is unknown or complex",
+      "Always",
+      "Small",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Resampling."
+    },
+    {
+     "q": "What is multiple-comparison correction for?",
+     "options": [
+      "Cost",
+      "Speed",
+      "Controlling false positives when running many tests",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "p.adjust."
+    },
+    {
+     "q": "What is a confidence interval?",
+     "options": [
+      "Probability",
+      "A range of plausible values for a parameter given the data and method",
+      "Error",
+      "Bound"
+     ],
+     "answer": 1,
+     "explain": "Interpretation."
+    }
+   ]
+  },
+  "level-4/02-production-plumber": {
+   "questions": [
+    {
+     "q": "What does plumber do?",
+     "options": [
+      "Docs",
+      "Plots",
+      "Tests",
+      "Turns R functions into HTTP API endpoints via annotations"
+     ],
+     "answer": 3,
+     "explain": "#* @get /path."
+    },
+    {
+     "q": "What should a production API return on bad input?",
+     "options": [
+      "500",
+      "A 4xx status with a clear error message",
+      "None",
+      "200"
+     ],
+     "answer": 1,
+     "explain": "Validation."
+    },
+    {
+     "q": "How run plumber in production?",
+     "options": [
+      "Cron",
+      "In a container behind a reverse proxy with logging and health checks",
+      "Laptop",
+      "R console"
+     ],
+     "answer": 1,
+     "explain": "Deployment."
+    },
+    {
+     "q": "How version an API?",
+     "options": [
+      "Hide",
+      "Overwrite",
+      "Path prefixes or headers and a deprecation policy",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Compatibility."
+    }
+   ]
+  },
+  "level-4/03-shiny-at-scale": {
+   "questions": [
+    {
+     "q": "How scale a Shiny app?",
+     "options": [
+      "Loops",
+      "More inputs",
+      "Bigger plots",
+      "Cache, use async/future, split modules and run multiple processes"
+     ],
+     "answer": 3,
+     "explain": "Architecture."
+    },
+    {
+     "q": "What are Shiny modules?",
+     "options": [
+      "Packages",
+      "Themes",
+      "Reusable UI+server components with namespaced IDs",
+      "Tests"
+     ],
+     "answer": 2,
+     "explain": "Organize big apps."
+    },
+    {
+     "q": "What does promises/future allow?",
+     "options": [
+      "Cache",
+      "UI",
+      "Running slow work asynchronously so the app stays responsive",
+      "Sync"
+     ],
+     "answer": 2,
+     "explain": "Concurrency."
+    },
+    {
+     "q": "What should be monitored?",
+     "options": [
+      "Colors",
+      "Names",
+      "Fonts",
+      "Load time, errors and active sessions"
+     ],
+     "answer": 3,
+     "explain": "Operations."
+    }
+   ]
+  },
+  "level-4/04-testing-at-scale-ci": {
+   "questions": [
+    {
+     "q": "What should CI run for an R package?",
+     "options": [
+      "R CMD check, tests and lintr/styler on multiple R versions",
+      "Nothing",
+      "Deploy",
+      "Only lint"
+     ],
+     "answer": 0,
+     "explain": "usethis::use_github_action."
+    },
+    {
+     "q": "What does covr measure?",
+     "options": [
+      "Test coverage of package code",
+      "Docs",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Quality signal."
+    },
+    {
+     "q": "Why test on multiple OSes?",
+     "options": [
+      "Behavior and dependencies can differ across platforms",
+      "Style",
+      "Law",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "Matrix builds."
+    },
+    {
+     "q": "What gates a release?",
+     "options": [
+      "Passing checks and reviewed NEWS/documentation",
+      "None",
+      "Date",
+      "Opinion"
+     ],
+     "answer": 0,
+     "explain": "Process."
+    }
+   ]
+  },
+  "level-4/05-performance-rcpp": {
+   "questions": [
+    {
+     "q": "What does Rcpp let you do?",
+     "options": [
+      "Test",
+      "Plot",
+      "Format",
+      "Call fast C++ code from R"
+     ],
+     "answer": 3,
+     "explain": "Performance."
+    },
+    {
+     "q": "When is Rcpp worth it?",
+     "options": [
+      "Small",
+      "Always",
+      "Never",
+      "For tight loops that can't be vectorized, after profiling"
+     ],
+     "answer": 3,
+     "explain": "Measure first."
+    },
+    {
+     "q": "What does sourceCpp do?",
+     "options": [
+      "Compiles and loads a C++ file for use in R",
+      "Install",
+      "Run R",
+      "Plot"
+     ],
+     "answer": 0,
+     "explain": "Quick iteration."
+    },
+    {
+     "q": "What is a cost of Rcpp?",
+     "options": [
+      "None",
+      "Compilation toolchain and C++ maintenance burden",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Trade-offs."
+    }
+   ]
+  },
+  "level-4/06-reproducible-research": {
+   "questions": [
+    {
+     "q": "What makes research reproducible?",
+     "options": [
+      "Notes",
+      "Folders",
+      "Version-controlled code, pinned dependencies and a documented run order",
+      "Memory"
+     ],
+     "answer": 2,
+     "explain": "renv + git."
+    },
+    {
+     "q": "What does set.seed() do?",
+     "options": [
+      "Speed",
+      "Makes random number generation repeatable",
+      "Plot",
+      "Sort"
+     ],
+     "answer": 1,
+     "explain": "Simulations."
+    },
+    {
+     "q": "What does a targets pipeline give you?",
+     "options": [
+      "Plots",
+      "Tests",
+      "Reports",
+      "Dependency-aware rebuilds so only changed steps rerun"
+     ],
+     "answer": 3,
+     "explain": "Workflow."
+    },
+    {
+     "q": "What belongs in a research compendium?",
+     "options": [
+      "Notes",
+      "Plots",
+      "Data (or access instructions), code, environment and docs",
+      "Slides"
+     ],
+     "answer": 2,
+     "explain": "Share."
+    }
+   ]
+  },
+  "level-4/07-data-viz-at-scale": {
+   "questions": [
+    {
+     "q": "How plot millions of points?",
+     "options": [
+      "Scatter",
+      "Aggregate or bin (hexbin, ggplot2 stat_bin2d) or use rasterization",
+      "Loop",
+      "Facet"
+     ],
+     "answer": 1,
+     "explain": "Overplotting."
+    },
+    {
+     "q": "What does ggrepel solve?",
+     "options": [
+      "Colors",
+      "Axes",
+      "Overlapping text labels",
+      "Facets"
+     ],
+     "answer": 2,
+     "explain": "Readability."
+    },
+    {
+     "q": "Why use consistent themes?",
+     "options": [
+      "Law",
+      "Cost",
+      "Visual coherence across reports and dashboards",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Branding."
+    },
+    {
+     "q": "How make plots accessible?",
+     "options": [
+      "Bright",
+      "3D",
+      "Animation",
+      "Colour-blind-safe palettes, contrast and alt text"
+     ],
+     "answer": 3,
+     "explain": "Inclusion."
+    }
+   ]
+  },
+  "level-4/08-big-data-datatable": {
+   "questions": [
+    {
+     "q": "What does this print?\n```r\nsuppressPackageStartupMessages(library(data.table))\ndt <- data.table(g = c(\"a\",\"a\",\"b\",\"b\",\"c\"), v = c(1, 2, 3, 4, 5))\nprint(dt[v > 1, .(n = .N, total = sum(v)), by = g][order(-total)])\ndt[, w := v * 2]\ncat(names(dt), \"\\n\")\nsetkey(dt, g)\nprint(dt[\"b\"])\n```\n",
+     "options": [
+      "g     n total\n   <char> <int> <num>\n1:      b     2     7\n2:      c     1     5\n3:      a     1     2\ng v \n        g     v     w\n   <char> <num> <num>\n1:      b     3     6\n2:      b     4     8",
+      "g     n total\n   <char> <int> <num>\n1:      b     2     7\n2:      c     1     5\n3:      a     1     2\ng v w \nKey: <g>\n        g     v     w\n   <char> <num> <num>\n1:      b     3     6\n2:      b     4     8",
+      "g     n total\n   <char> <int> <num>\n1:      a     1     2\n2:      b     2     7\n3:      c     1     5\ng v w \n        g     v     w\n   <char> <num> <num>\n1:      b     3     6\n2:      b     4     8",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "data.table: concise grouping and by-reference updates. Verified by compiling and running it."
+    },
+    {
+     "q": "Why is data.table fast on big data?",
+     "options": [
+      "Magic",
+      "Cache",
+      "Python",
+      "Optimized C code, keys/indexes and modification by reference"
+     ],
+     "answer": 3,
+     "explain": "Memory efficiency."
+    },
+    {
+     "q": "What does := do?",
+     "options": [
+      "Compare",
+      "Assign var",
+      "Adds or updates columns by reference without copying",
+      "Join"
+     ],
+     "answer": 2,
+     "explain": "Careful with side effects."
+    },
+    {
+     "q": "What is arrow useful for?",
+     "options": [
+      "Tests",
+      "Reading Parquet/large files lazily and efficiently",
+      "Plots",
+      "Docs"
+     ],
+     "answer": 1,
+     "explain": "Larger-than-memory."
+    }
+   ]
+  },
+  "level-4/09-package-publishing-cran": {
+   "questions": [
+    {
+     "q": "What does CRAN require of packages?",
+     "options": [
+      "Passing R CMD check with no errors or warnings, plus docs and a license",
+      "Votes",
+      "Fees",
+      "Ads"
+     ],
+     "answer": 0,
+     "explain": "Policies."
+    },
+    {
+     "q": "What does usethis help with?",
+     "options": [
+      "Plots",
+      "Stats",
+      "Joins",
+      "Automating package setup tasks like tests, docs and CI"
+     ],
+     "answer": 3,
+     "explain": "Workflow."
+    },
+    {
+     "q": "What should a NEWS file record?",
+     "options": [
+      "User-visible changes per version",
+      "Names",
+      "Code",
+      "Bugs"
+     ],
+     "answer": 0,
+     "explain": "Communication."
+    },
+    {
+     "q": "What does semantic versioning communicate?",
+     "options": [
+      "Author",
+      "Date",
+      "Size",
+      "Compatibility: major breaking, minor features, patch fixes"
+     ],
+     "answer": 3,
+     "explain": "Expectations."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only plots",
+      "Only stats",
+      "Only app",
+      "Data pipeline, analysis, tests, package/app and reproducible reporting"
+     ],
+     "answer": 3,
+     "explain": "Level 4 project."
+    },
+    {
+     "q": "How prove it is reproducible?",
+     "options": [
+      "Run it from scratch in a clean environment (CI or container)",
+      "Notes",
+      "Trust",
+      "Skim"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "README, usage examples and a data dictionary",
+      "None",
+      "Slides",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Onboarding."
+    },
+    {
+     "q": "What sustains a project?",
+     "options": [
+      "Tools",
+      "Silence",
+      "Tests, dependency updates and clear ownership",
+      "Luck"
+     ],
+     "answer": 2,
+     "explain": "Maintenance."
+    }
+   ]
+  }
+ },
  "final": {
   "questions": [
    {
