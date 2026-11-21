@@ -1,0 +1,487 @@
+{
+ "course": "javascript-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What does REPL stand for, and what is it for in Node?",
+     "options": [
+      "Run-Execute-Package-Load, a build step",
+      "Read-Eval-Print Loop, an interactive shell for quick experiments",
+      "Remote Execution Protocol Layer, a network tool",
+      "Read-Export-Publish List, a package index"
+     ],
+     "answer": 1,
+     "explain": "Typing node with no file opens the REPL, where each expression is evaluated and its result printed."
+    },
+    {
+     "q": "Which command runs a file named hello.js with Node?",
+     "options": [
+      "npm hello.js",
+      "node hello.js",
+      "node --install hello.js",
+      "js run hello"
+     ],
+     "answer": 1,
+     "explain": "Pass the file path to the node binary."
+    },
+    {
+     "q": "In the lesson's explanation, which engine does Node use to run JavaScript, and what is libuv for?",
+     "options": [
+      "Chrome runs it; libuv draws the page",
+      "SpiderMonkey runs it; libuv compiles TypeScript",
+      "V8 runs the JavaScript; libuv provides the event loop, thread pool and non-blocking I/O",
+      "V8 provides the event loop; libuv parses code"
+     ],
+     "answer": 2,
+     "explain": "Node is a C++ shell around V8 plus libuv; V8 runs pure JavaScript while Node adds I/O and timers."
+    },
+    {
+     "q": "Why can the same hello.js run in Node and in a browser page?",
+     "options": [
+      "Browsers contain Node",
+      "It is the same JavaScript, as long as it avoids Node-only or browser-only APIs",
+      "Files ending in .js are converted automatically",
+      "Node contains a browser"
+     ],
+     "answer": 1,
+     "explain": "The language is shared; APIs such as the DOM or file system are provided by the host environment."
+    }
+   ]
+  },
+  "level-1/02-variables-data-types": {
+   "questions": [
+    {
+     "q": "Which declaration should you prefer by default?",
+     "options": [
+      "const",
+      "let always",
+      "var",
+      "No keyword"
+     ],
+     "answer": 0,
+     "explain": "Use const by default, let when the value must change, and avoid var."
+    },
+    {
+     "q": "What does typeof null return?",
+     "options": [
+      "\"undefined\"",
+      "\"null\"",
+      "\"number\"",
+      "\"object\""
+     ],
+     "answer": 3,
+     "explain": "This is a famous long-standing JavaScript quirk."
+    },
+    {
+     "q": "What is the result of 5 === \"5\"?",
+     "options": [
+      "false",
+      "undefined",
+      "TypeError",
+      "true"
+     ],
+     "answer": 0,
+     "explain": "Strict equality checks type as well as value; loose == would coerce and return true."
+    },
+    {
+     "q": "Which value is truthy?",
+     "options": [
+      "0",
+      "\"x\" (a non-empty string)",
+      "\"\" (an empty string)",
+      "NaN"
+     ],
+     "answer": 1,
+     "explain": "The falsy values are false, 0, \"\", null, undefined and NaN; everything else is truthy."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does a do...while loop guarantee that a while loop does not?",
+     "options": [
+      "It iterates over object keys",
+      "The condition is skipped",
+      "The body runs at least once",
+      "The loop never ends"
+     ],
+     "answer": 2,
+     "explain": "do...while checks its condition after the body, so the body runs once even when the condition is false."
+    },
+    {
+     "q": "Which loop is preferred for iterating over the values of an array?",
+     "options": [
+      "switch",
+      "for...of",
+      "do...while",
+      "for...in"
+     ],
+     "answer": 1,
+     "explain": "for...of gives values; for...in gives keys or indexes and is mainly for objects."
+    },
+    {
+     "q": "In a switch, what happens if a case has no break or return?",
+     "options": [
+      "The switch exits",
+      "A SyntaxError is thrown",
+      "The default case runs",
+      "Execution falls through to the next case"
+     ],
+     "answer": 3,
+     "explain": "Falling through is intentional when grouping cases such as \"Sat\" and \"Sun\"."
+    },
+    {
+     "q": "What does `continue` do inside a loop?",
+     "options": [
+      "Restarts the program",
+      "Pauses the loop",
+      "Exits the loop",
+      "Skips the rest of the current iteration and moves to the next"
+     ],
+     "answer": 3,
+     "explain": "In the lesson it skips odd numbers; break is what exits the loop."
+    }
+   ]
+  },
+  "level-1/04-functions-scope": {
+   "questions": [
+    {
+     "q": "What does a rest parameter such as ...numbers provide?",
+     "options": [
+      "A default value",
+      "A string of arguments",
+      "The arguments object",
+      "A real array containing the extra arguments"
+     ],
+     "answer": 3,
+     "explain": "Rest parameters gather the remaining arguments into an actual array."
+    },
+    {
+     "q": "What happens if you reference a let variable before its declaration?",
+     "options": [
+      "ReferenceError (temporal dead zone)",
+      "It is created automatically",
+      "undefined",
+      "It returns 0"
+     ],
+     "answer": 0,
+     "explain": "let and const are hoisted but not initialized, so access before declaration throws."
+    },
+    {
+     "q": "What does typeof a var variable return when read before its assignment line?",
+     "options": [
+      "\"undefined\"",
+      "\"number\"",
+      "\"object\"",
+      "ReferenceError"
+     ],
+     "answer": 0,
+     "explain": "var is hoisted as a declaration only, so its value is undefined until the assignment runs."
+    },
+    {
+     "q": "Which statement about arrow functions is true, according to the lesson?",
+     "options": [
+      "They are always hoisted with their body",
+      "They cannot take parameters",
+      "They must use the function keyword",
+      "They do not have their own this"
+     ],
+     "answer": 3,
+     "explain": "Arrow functions offer shorter syntax and do not bind their own this."
+    }
+   ]
+  },
+  "level-1/05-arrays-objects": {
+   "questions": [
+    {
+     "q": "Which statement about map, filter and reduce is correct?",
+     "options": [
+      "They return nothing",
+      "They only work on objects",
+      "They mutate the original array in place",
+      "They return new arrays or values without mutating the original"
+     ],
+     "answer": 3,
+     "explain": "Prefer them over manual loops for transformations."
+    },
+    {
+     "q": "Why does the lesson write [...numbers].sort(...) instead of numbers.sort(...)?",
+     "options": [
+      "sort cannot take a comparison function",
+      "sort only works on copies",
+      "sort mutates the array, so sorting a copy protects the original",
+      "spread makes it faster"
+     ],
+     "answer": 2,
+     "explain": "Array.sort sorts in place; copying first leaves the original unchanged."
+    },
+    {
+     "q": "What does nested.profile?.social?.twitter return when social is null?",
+     "options": [
+      "\"none\"",
+      "undefined, with no error",
+      "A TypeError",
+      "null"
+     ],
+     "answer": 1,
+     "explain": "Optional chaining short-circuits to undefined; adding ?? \"none\" supplies a fallback."
+    },
+    {
+     "q": "How do you read the last element of an array with modern syntax?",
+     "options": [
+      "fruits.last()",
+      "fruits.end",
+      "fruits.at(-1)",
+      "fruits[-1]"
+     ],
+     "answer": 2,
+     "explain": "at(-1) is cleaner than fruits[fruits.length - 1]."
+    }
+   ]
+  },
+  "level-1/06-strings-template-literals": {
+   "questions": [
+    {
+     "q": "What does `str.toUpperCase();` on its own line do to str?",
+     "options": [
+      "Nothing to str; it returns a new string you must assign",
+      "Deletes str",
+      "Throws an error",
+      "Changes str in place"
+     ],
+     "answer": 0,
+     "explain": "Strings are immutable, so every modification returns a new string."
+    },
+    {
+     "q": "Which syntax inserts a variable into a template literal?",
+     "options": [
+      "`#{value}`",
+      "'%value%'",
+      "\"{value}\"",
+      "`${value}`"
+     ],
+     "answer": 3,
+     "explain": "Template literals use backticks and ${} for embedded expressions."
+    },
+    {
+     "q": "What does \"hello\".startsWith(\"he\") return?",
+     "options": [
+      "\"he\"",
+      "undefined",
+      "false",
+      "true"
+     ],
+     "answer": 3,
+     "explain": "startsWith tests whether the string begins with the given text."
+    },
+    {
+     "q": "Which method pads a string on the left to a given width?",
+     "options": [
+      "padStart",
+      "trim",
+      "split",
+      "slice"
+     ],
+     "answer": 0,
+     "explain": "padStart(n) pads at the start; padEnd(n) pads at the end."
+    }
+   ]
+  },
+  "level-1/07-dom-events": {
+   "questions": [
+    {
+     "q": "Which method returns all elements matching a CSS selector?",
+     "options": [
+      "document.querySelector()",
+      "document.createElement()",
+      "document.getElementById()",
+      "document.querySelectorAll()"
+     ],
+     "answer": 3,
+     "explain": "querySelectorAll returns a NodeList of every match; querySelector returns only the first."
+    },
+    {
+     "q": "What is event delegation?",
+     "options": [
+      "Delaying an event with a timer",
+      "Cancelling an event",
+      "Attaching one listener to a parent and checking event.target for the child that was clicked",
+      "Attaching a listener to every child"
+     ],
+     "answer": 2,
+     "explain": "It scales better, especially when children are added or removed dynamically."
+    },
+    {
+     "q": "Which event fires as a user types in a form field?",
+     "options": [
+      "load",
+      "input",
+      "submit",
+      "DOMContentLoaded"
+     ],
+     "answer": 1,
+     "explain": "input fires whenever the field's value changes; submit fires when the form is submitted."
+    },
+    {
+     "q": "Why can't the DOM snippets run in Node.js?",
+     "options": [
+      "They need a database",
+      "They need TypeScript",
+      "Node blocks all events",
+      "Node.js has no DOM; they only apply in the browser"
+     ],
+     "answer": 3,
+     "explain": "The DOM is provided by the browser, not by the JavaScript language or Node."
+    }
+   ]
+  },
+  "level-1/08-error-handling": {
+   "questions": [
+    {
+     "q": "What does a finally block do?",
+     "options": [
+      "Runs only if an error occurs",
+      "Runs only if no error occurs",
+      "Catches the error",
+      "Runs whether or not an error was thrown, for cleanup"
+     ],
+     "answer": 3,
+     "explain": "The lesson notes it always runs, no matter what."
+    },
+    {
+     "q": "How do you raise your own error?",
+     "options": [
+      "raise Error(\"message\")",
+      "return Error",
+      "throw new Error(\"message\")",
+      "catch Error"
+     ],
+     "answer": 2,
+     "explain": "throw with an Error object, as in the withdraw example for insufficient funds."
+    },
+    {
+     "q": "What does JSON.parse(\"not valid json\") do?",
+     "options": [
+      "Returns an empty object",
+      "Returns undefined silently",
+      "Throws an error that a try/catch can handle",
+      "Returns null"
+     ],
+     "answer": 2,
+     "explain": "The catch block receives the error and can read error.message."
+    },
+    {
+     "q": "Why is a bare catch that silently swallows everything a problem?",
+     "options": [
+      "It slows the code down",
+      "It is a syntax error",
+      "It prevents finally from running",
+      "It hides bugs; you should inspect what you catch"
+     ],
+     "answer": 3,
+     "explain": "JavaScript has no typed catch clauses, so check the error inside the block."
+    }
+   ]
+  },
+  "level-1/09-modules-npm": {
+   "questions": [
+    {
+     "q": "How do you make Node treat .js files as ES modules?",
+     "options": [
+      "Use require at the top",
+      "Add \"type\": \"commonjs\"",
+      "Nothing; it is the default",
+      "Add \"type\": \"module\" to package.json (or name files .mjs)"
+     ],
+     "answer": 3,
+     "explain": "Node treats .js files as CommonJS by default."
+    },
+    {
+     "q": "How many default exports can an ES module file have?",
+     "options": [
+      "None",
+      "Unlimited",
+      "One",
+      "Two"
+     ],
+     "answer": 2,
+     "explain": "A file may have many named exports but only one default export."
+    },
+    {
+     "q": "What is package-lock.json for?",
+     "options": [
+      "Storing your passwords",
+      "Compiling code",
+      "Listing your scripts",
+      "Pinning exact versions so installs are reproducible across machines"
+     ],
+     "answer": 3,
+     "explain": "npm install records dependencies in package.json and exact versions in the lock file."
+    },
+    {
+     "q": "What does npm run start do?",
+     "options": [
+      "Runs the \"start\" script defined in package.json",
+      "Deletes node_modules",
+      "Publishes the package",
+      "Installs all packages"
+     ],
+     "answer": 0,
+     "explain": "npm scripts are named commands defined in package.json."
+    }
+   ]
+  },
+  "level-1/10-project-todo-app": {
+   "questions": [
+    {
+     "q": "Which browser feature does the to-do project use to keep tasks between visits?",
+     "options": [
+      "A SQL server",
+      "localStorage",
+      "Cookies set by Node",
+      "The DOM alone"
+     ],
+     "answer": 1,
+     "explain": "The project combines DOM, events, error handling and localStorage persistence."
+    },
+    {
+     "q": "Why does the project use event delegation on the task list?",
+     "options": [
+      "Browsers forbid listeners on items",
+      "It makes tasks sort automatically",
+      "Tasks are added and removed dynamically, so one parent listener handles clicks",
+      "It is required for localStorage"
+     ],
+     "answer": 2,
+     "explain": "One listener on the parent checking event.target works for children added later."
+    },
+    {
+     "q": "Which of these is a feature of the to-do app?",
+     "options": [
+      "Add, mark done, and delete tasks",
+      "User login with passwords",
+      "Video playback",
+      "Payment checkout"
+     ],
+     "answer": 0,
+     "explain": "The app adds tasks from an input, lists them with status, marks them done and deletes them."
+    },
+    {
+     "q": "Which Level 1 topics does the project combine?",
+     "options": [
+      "Functions, arrays and objects, strings, DOM, events, error handling and localStorage",
+      "Only CSS",
+      "Only npm",
+      "Only classes"
+     ],
+     "answer": 0,
+     "explain": "It is an end-to-end project tying together everything from Level 1."
+    }
+   ]
+  }
+ }
+}
