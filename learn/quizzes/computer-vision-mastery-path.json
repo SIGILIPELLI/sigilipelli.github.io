@@ -1,0 +1,1927 @@
+{
+ "course": "computer-vision-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-images-as-arrays": {
+   "questions": [
+    {
+     "q": "A color photo loaded as a NumPy array has shape (512, 512, 3). What does that mean?",
+     "options": [
+      "A single-channel image",
+      "3 rows of 512 pixels",
+      "512 rows, 512 columns and 3 color channels per pixel",
+      "512 images of 3 pixels"
+     ],
+     "answer": 2,
+     "explain": "Images are 3-D arrays of integers (height, width, channels)."
+    },
+    {
+     "q": "OpenCV loads color images as BGR while most other libraries assume RGB. What's the classic symptom if you forget?",
+     "options": [
+      "The image is flipped",
+      "The image is blurry",
+      "The image is smaller",
+      "Colors look wrong: reds and blues swapped"
+     ],
+     "answer": 3,
+     "explain": "Convert with cv2.cvtColor when passing images between libraries."
+    },
+    {
+     "q": "What is the usual dtype and value range of an 8-bit image?",
+     "options": [
+      "int32, -1 to 1",
+      "float64, 0 to 1",
+      "bool",
+      "uint8, 0 to 255"
+     ],
+     "answer": 3,
+     "explain": "Arithmetic on uint8 can overflow or wrap, so convert before math."
+    },
+    {
+     "q": "Why is HSV useful for color-based segmentation?",
+     "options": [
+      "It's the camera format",
+      "It's smaller",
+      "It's faster to load",
+      "It separates hue from brightness, so a color can be selected more robustly under lighting changes"
+     ],
+     "answer": 3,
+     "explain": "Hue/saturation/value are easier to threshold than RGB."
+    }
+   ]
+  },
+  "level-1/02-image-io-resizing-colorspaces": {
+   "questions": [
+    {
+     "q": "Which interpolation is the usual choice for shrinking an image?",
+     "options": [
+      "INTER_CUBIC always",
+      "INTER_NEAREST only",
+      "INTER_AREA",
+      "No interpolation"
+     ],
+     "answer": 2,
+     "explain": "Area averaging reduces aliasing when downscaling."
+    },
+    {
+     "q": "You resize 1000x500 to 200x200. What goes wrong?",
+     "options": [
+      "The aspect ratio is distorted; compute the other dimension from the ratio",
+      "Channels are lost",
+      "Colors change",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Preserve aspect ratio or pad."
+    },
+    {
+     "q": "Why measure interpolation quality with MSE against the original?",
+     "options": [
+      "MSE counts pixels",
+      "It gives a number for how much detail was lost after downscale-then-upscale",
+      "MSE detects faces",
+      "MSE measures speed"
+     ],
+     "answer": 1,
+     "explain": "Lower error means closer to the original."
+    },
+    {
+     "q": "Does an RGB to HSV and back round trip return the original?",
+     "options": [
+      "It becomes grayscale",
+      "Essentially yes, within small rounding differences",
+      "It halves the size",
+      "No, it destroys color"
+     ],
+     "answer": 1,
+     "explain": "Rounding to integers causes tiny differences."
+    }
+   ]
+  },
+  "level-1/03-filtering-convolution": {
+   "questions": [
+    {
+     "q": "What does convolving an image with a 3x3 box kernel do?",
+     "options": [
+      "Detects corners",
+      "Sharpens edges",
+      "Averages each pixel with its neighbours, blurring the image",
+      "Inverts colors"
+     ],
+     "answer": 2,
+     "explain": "The kernel slides across the image computing weighted sums."
+    },
+    {
+     "q": "Why did the hand-written convolution disagree with cv2.filter2D at first?",
+     "options": [
+      "Floating point only",
+      "OpenCV is wrong",
+      "Border handling and correlation versus convolution details differ; padding mode must match",
+      "The kernel was empty"
+     ],
+     "answer": 2,
+     "explain": "The lesson investigated and resolved it."
+    },
+    {
+     "q": "Which kernel type responds strongly at edges?",
+     "options": [
+      "A gradient kernel such as Sobel",
+      "Box blur",
+      "Gaussian blur",
+      "Identity"
+     ],
+     "answer": 0,
+     "explain": "Edges are places where intensity changes quickly."
+    },
+    {
+     "q": "What does sharpening do conceptually?",
+     "options": [
+      "Thresholds",
+      "Boosts high-frequency detail by subtracting a blurred version or using a center-weighted kernel",
+      "Resizes",
+      "Blurs"
+     ],
+     "answer": 1,
+     "explain": "It amplifies local differences."
+    }
+   ]
+  },
+  "level-1/04-thresholding-morphology": {
+   "questions": [
+    {
+     "q": "What advantage does Otsu's method have over a fixed threshold of 127?",
+     "options": [
+      "It needs labels",
+      "It computes a threshold from the image's own histogram instead of guessing",
+      "It blurs",
+      "It's always 127"
+     ],
+     "answer": 1,
+     "explain": "Data-computed beats guessed."
+    },
+    {
+     "q": "When is adaptive thresholding better than a global threshold?",
+     "options": [
+      "Never",
+      "For color images only",
+      "When lighting varies across the image",
+      "When lighting is uniform"
+     ],
+     "answer": 2,
+     "explain": "It computes a threshold per neighbourhood."
+    },
+    {
+     "q": "What does morphological opening do?",
+     "options": [
+      "Dilation then erosion",
+      "Blur",
+      "Resize",
+      "Erosion followed by dilation, removing small isolated noise"
+     ],
+     "answer": 3,
+     "explain": "Closing fills small holes."
+    },
+    {
+     "q": "What's morphological closing for?",
+     "options": [
+      "Filling small gaps and holes inside foreground objects",
+      "Detecting edges",
+      "Counting",
+      "Removing specks"
+     ],
+     "answer": 0,
+     "explain": "Dilation followed by erosion."
+    }
+   ]
+  },
+  "level-1/05-contours-shape-analysis": {
+   "questions": [
+    {
+     "q": "Why did area filtering alone not give the right coin count?",
+     "options": [
+      "Coins have no area",
+      "Contours can't be counted",
+      "Non-coin blobs of similar area passed, so a shape measure like circularity was needed",
+      "OpenCV limits to 10"
+     ],
+     "answer": 2,
+     "explain": "Combine area and circularity filters."
+    },
+    {
+     "q": "What does cv2.RETR_EXTERNAL return?",
+     "options": [
+      "All nested contours",
+      "Only holes",
+      "Only the outermost contours",
+      "No contours"
+     ],
+     "answer": 2,
+     "explain": "Others retrieve hierarchy."
+    },
+    {
+     "q": "What does circularity (4*pi*area/perimeter^2) equal for a perfect circle?",
+     "options": [
+      "2",
+      "0",
+      "1",
+      "pi"
+     ],
+     "answer": 2,
+     "explain": "Lower values mean less round shapes."
+    },
+    {
+     "q": "What does the raw contour count include besides real objects?",
+     "options": [
+      "Only holes",
+      "Only coins",
+      "Nothing",
+      "Noise blobs and fragments, which is why filtering matters"
+     ],
+     "answer": 3,
+     "explain": "The lesson started at 33 raw contours."
+    }
+   ]
+  },
+  "level-1/06-feature-detection": {
+   "questions": [
+    {
+     "q": "What is a good keypoint?",
+     "options": [
+      "A flat region",
+      "A random pixel",
+      "The image border",
+      "A distinctive location (corner or blob) that can be found again in another view"
+     ],
+     "answer": 3,
+     "explain": "Descriptors then describe it for matching."
+    },
+    {
+     "q": "What does ORB provide that Harris corners alone don't?",
+     "options": [
+      "Labels",
+      "Keypoints plus binary descriptors for matching",
+      "Colors",
+      "Depth"
+     ],
+     "answer": 1,
+     "explain": "Harris just finds corner responses."
+    },
+    {
+     "q": "The lesson measured ORB under 45-degree rotation and 2x scale. Why measure instead of assume?",
+     "options": [
+      "ORB is perfect",
+      "Textbook invariance claims can be weaker in practice, especially for large scale changes",
+      "Rotation is unsupported",
+      "Scale always works"
+     ],
+     "answer": 1,
+     "explain": "Measure robustness."
+    },
+    {
+     "q": "What distinguishes SIFT from ORB?",
+     "options": [
+      "SIFT uses floating-point descriptors and is heavier; ORB is fast with binary descriptors",
+      "SIFT is binary",
+      "ORB is heavier",
+      "They are identical"
+     ],
+     "answer": 0,
+     "explain": "Trade accuracy against speed."
+    }
+   ]
+  },
+  "level-1/07-feature-matching-homography": {
+   "questions": [
+    {
+     "q": "What does RANSAC do in findHomography?",
+     "options": [
+      "Fits the transform to inlier matches while ignoring outlier (wrong) matches",
+      "Blurs the image",
+      "Detects keypoints",
+      "Resizes"
+     ],
+     "answer": 0,
+     "explain": "Random sampling finds a consensus model."
+    },
+    {
+     "q": "What does a homography represent?",
+     "options": [
+      "A color map",
+      "A kernel",
+      "A 3x3 projective transform mapping points between two views of a plane",
+      "A histogram"
+     ],
+     "answer": 2,
+     "explain": "Used for stitching and document alignment."
+    },
+    {
+     "q": "Why compare the recovered homography to a known ground truth?",
+     "options": [
+      "To label data",
+      "To speed it up",
+      "To train it",
+      "To measure how accurately the algorithm recovers a transform it was never told"
+     ],
+     "answer": 3,
+     "explain": "Known truth gives real accuracy."
+    },
+    {
+     "q": "What happens if many matches are wrong and you skip RANSAC?",
+     "options": [
+      "It is exact",
+      "It improves",
+      "Nothing",
+      "The estimated transform can be badly distorted by outliers"
+     ],
+     "answer": 3,
+     "explain": "Outliers need rejecting."
+    }
+   ]
+  },
+  "level-1/08-image-augmentation": {
+   "questions": [
+    {
+     "q": "Why use augmentation when training?",
+     "options": [
+      "To enlarge images",
+      "To speed training",
+      "To expose the model to plausible variations and improve generalization",
+      "To label"
+     ],
+     "answer": 2,
+     "explain": "Flips, crops and jitter simulate real variation."
+    },
+    {
+     "q": "What does SSIM measure?",
+     "options": [
+      "File size",
+      "Color count",
+      "Speed",
+      "Structural similarity between two images (1 is identical)"
+     ],
+     "answer": 3,
+     "explain": "It's a standard image-similarity metric."
+    },
+    {
+     "q": "What does cutout do?",
+     "options": [
+      "Resizes",
+      "Crops",
+      "Flips",
+      "Masks a random patch so the model can't rely on one region"
+     ],
+     "answer": 3,
+     "explain": "It acts as a regularizer."
+    },
+    {
+     "q": "When is a horizontal flip a bad augmentation?",
+     "options": [
+      "When orientation carries meaning, such as digits or text",
+      "For landscapes",
+      "For clothing",
+      "For animals"
+     ],
+     "answer": 0,
+     "explain": "Choose augmentations that preserve the label."
+    }
+   ]
+  },
+  "level-1/09-classical-object-detection": {
+   "questions": [
+    {
+     "q": "What did the lesson find about Haar cascades in OpenCV 5.0?",
+     "options": [
+      "They got faster",
+      "This install no longer exposes CascadeClassifier",
+      "They need a GPU",
+      "They're default"
+     ],
+     "answer": 1,
+     "explain": "An honest, current finding."
+    },
+    {
+     "q": "Where does template matching break?",
+     "options": [
+      "With scale and rotation changes of the target",
+      "With exact copies",
+      "With small images",
+      "With grayscale"
+     ],
+     "answer": 0,
+     "explain": "It compares raw pixels at a fixed scale and orientation."
+    },
+    {
+     "q": "What does cv2.matchTemplate return?",
+     "options": [
+      "A homography",
+      "A mask",
+      "A class label",
+      "A similarity map whose peak marks the best location"
+     ],
+     "answer": 3,
+     "explain": "Use minMaxLoc to find the peak."
+    },
+    {
+     "q": "Why is template matching dangerous when pushed beyond its limits?",
+     "options": [
+      "It blurs",
+      "It crashes",
+      "It's slow",
+      "It can return a confident-looking location that is wrong"
+     ],
+     "answer": 3,
+     "explain": "Always sanity-check peak scores."
+    }
+   ]
+  },
+  "level-1/10-project-document-scanner": {
+   "questions": [
+    {
+     "q": "What are the document scanner's main steps?",
+     "options": [
+      "Train a CNN",
+      "Blur then resize",
+      "Edges, find the page contour, order its four corners, perspective-warp, then threshold",
+      "OCR only"
+     ],
+     "answer": 2,
+     "explain": "A classical pipeline."
+    },
+    {
+     "q": "Why order the four corners consistently?",
+     "options": [
+      "The perspective transform needs matched source and destination corner order",
+      "For color",
+      "For OCR",
+      "For speed"
+     ],
+     "answer": 0,
+     "explain": "Typically top-left, top-right, bottom-right, bottom-left."
+    },
+    {
+     "q": "The project used a synthetic scene. What does the lesson say about that?",
+     "options": [
+      "It hides it",
+      "It ignores it",
+      "It states plainly that the input is synthetic while the pipeline is real",
+      "It claims real photos"
+     ],
+     "answer": 2,
+     "explain": "Honesty about inputs."
+    },
+    {
+     "q": "What does getPerspectiveTransform produce?",
+     "options": [
+      "A histogram",
+      "A 3x3 matrix mapping four source points to four destination points",
+      "A kernel",
+      "A mask"
+     ],
+     "answer": 1,
+     "explain": "warpPerspective applies it."
+    }
+   ]
+  },
+  "level-2/01-why-cnns": {
+   "questions": [
+    {
+     "q": "Why can a Conv2d layer reproduce a Sobel filter?",
+     "options": [
+      "It uses color",
+      "It can't",
+      "A convolution layer applies a learned kernel; setting its weights to Sobel gives the same operation",
+      "It uses time"
+     ],
+     "answer": 2,
+     "explain": "CNNs learn kernels instead of hand-designing them."
+    },
+    {
+     "q": "For input size W, kernel K, padding P and stride S, what's the output size?",
+     "options": [
+      "floor((W - K + 2P) / S) + 1",
+      "W/K",
+      "W+K",
+      "W*K"
+     ],
+     "answer": 0,
+     "explain": "The standard formula."
+    },
+    {
+     "q": "What does max pooling provide?",
+     "options": [
+      "Larger images",
+      "Labels",
+      "Down-sampling and some tolerance to small shifts",
+      "Color"
+     ],
+     "answer": 2,
+     "explain": "It keeps the strongest response in each window."
+    },
+    {
+     "q": "What is a receptive field?",
+     "options": [
+      "The region of the input that influences a unit; it grows with stacked layers",
+      "The loss",
+      "A kernel size only",
+      "The batch"
+     ],
+     "answer": 0,
+     "explain": "Deeper layers see more."
+    }
+   ]
+  },
+  "level-2/02-building-a-cnn": {
+   "questions": [
+    {
+     "q": "Why does weight sharing make convolutions parameter-efficient?",
+     "options": [
+      "The same kernel is reused at every position instead of one weight per pixel connection",
+      "Kernels are smaller images",
+      "It prunes data",
+      "It drops layers"
+     ],
+     "answer": 0,
+     "explain": "Compare a conv layer with an equivalent fully connected one."
+    },
+    {
+     "q": "How do you count a Conv2d layer's parameters?",
+     "options": [
+      "out_channels * (in_channels * kh * kw) + out_channels bias terms",
+      "batch size",
+      "in*out only",
+      "kh*kw only"
+     ],
+     "answer": 0,
+     "explain": "E.g. 1->8 channels, 3x3 kernel: 8*9+8 = 80."
+    },
+    {
+     "q": "Why run a random batch through a new model first?",
+     "options": [
+      "To tune lr",
+      "To train",
+      "To save",
+      "To confirm tensor shapes before training"
+     ],
+     "answer": 3,
+     "explain": "Shape errors show up immediately."
+    },
+    {
+     "q": "What does flattening do before fully connected layers?",
+     "options": [
+      "Augments",
+      "Reshapes feature maps into a vector",
+      "Normalizes",
+      "Pools"
+     ],
+     "answer": 1,
+     "explain": "The linear layer expects a fixed size."
+    }
+   ]
+  },
+  "level-2/03-training-a-real-classifier": {
+   "questions": [
+    {
+     "q": "Why evaluate on a test set the model never saw?",
+     "options": [
+      "Training accuracy can be inflated by memorization; test accuracy estimates generalization",
+      "Training can't be measured",
+      "It's faster",
+      "It's required by PyTorch"
+     ],
+     "answer": 0,
+     "explain": "Held-out data is the honest estimate."
+    },
+    {
+     "q": "Why did the lesson switch from CIFAR-10 to FashionMNIST?",
+     "options": [
+      "FashionMNIST is bigger",
+      "CIFAR is private",
+      "The CIFAR-10 mirror was too slow to download in that environment",
+      "CIFAR is color only"
+     ],
+     "answer": 2,
+     "explain": "The lesson states this honestly."
+    },
+    {
+     "q": "What does the loss function do during training?",
+     "options": [
+      "Augments",
+      "Measures how wrong predictions are so gradients can update weights",
+      "Splits data",
+      "Reports accuracy"
+     ],
+     "answer": 1,
+     "explain": "Cross-entropy is typical for classification."
+    },
+    {
+     "q": "Why shuffle training data each epoch?",
+     "options": [
+      "For speed",
+      "So batches aren't ordered and the model doesn't learn order artefacts",
+      "To label",
+      "To pad"
+     ],
+     "answer": 1,
+     "explain": "Shuffling improves SGD behaviour."
+    }
+   ]
+  },
+  "level-2/04-augmentation-regularization": {
+   "questions": [
+    {
+     "q": "What gap signals overfitting?",
+     "options": [
+      "Both low",
+      "Test above training",
+      "Training accuracy much higher than test accuracy",
+      "Equal"
+     ],
+     "answer": 2,
+     "explain": "The gap grows over epochs without regularization."
+    },
+    {
+     "q": "What does dropout do?",
+     "options": [
+      "Resizes",
+      "Normalizes",
+      "Removes layers",
+      "Randomly zeroes activations during training to reduce co-adaptation"
+     ],
+     "answer": 3,
+     "explain": "Disabled at evaluation."
+    },
+    {
+     "q": "What did the lesson learn about heavy regularization on this dataset?",
+     "options": [
+      "It can trade off accuracy by underfitting; regularization isn't free",
+      "It never helps",
+      "It always wins",
+      "It breaks training"
+     ],
+     "answer": 0,
+     "explain": "Measure the trade-off."
+    },
+    {
+     "q": "Why seed both models identically?",
+     "options": [
+      "For labels",
+      "For speed",
+      "For color",
+      "So differences come from regularization, not random initialization"
+     ],
+     "answer": 3,
+     "explain": "A fair comparison."
+    }
+   ]
+  },
+  "level-2/05-cnn-architectures-resnet": {
+   "questions": [
+    {
+     "q": "What problem do residual (skip) connections address?",
+     "options": [
+      "Memory",
+      "Training very deep networks by letting gradients flow through identity shortcuts",
+      "Color",
+      "Labels"
+     ],
+     "answer": 1,
+     "explain": "They ease optimization."
+    },
+    {
+     "q": "ResNet-50 vs ResNet-18: what differs?",
+     "options": [
+      "Fewer layers",
+      "ResNet-50 is deeper with many more parameters",
+      "Smaller input",
+      "No residuals"
+     ],
+     "answer": 1,
+     "explain": "Counted directly in the lesson."
+    },
+    {
+     "q": "Both ResNets predicted something wrong for the astronaut photo. What does the lesson conclude?",
+     "options": [
+      "The photo is corrupted",
+      "Training failed",
+      "ImageNet has no 'person' class, so they're forced to pick something else: out-of-distribution input",
+      "The models are broken"
+     ],
+     "answer": 2,
+     "explain": "Reported honestly."
+    },
+    {
+     "q": "What is a pretrained backbone?",
+     "options": [
+      "An untrained net",
+      "A loss",
+      "A network already trained on a large dataset (e.g. ImageNet), reused as a feature extractor",
+      "A dataset"
+     ],
+     "answer": 2,
+     "explain": "Basis for transfer learning."
+    }
+   ]
+  },
+  "level-2/06-transfer-learning": {
+   "questions": [
+    {
+     "q": "What's frozen-backbone transfer learning?",
+     "options": [
+      "Train everything",
+      "Keep pretrained layers fixed and train only the new final layer",
+      "Remove the backbone",
+      "Freeze the data"
+     ],
+     "answer": 1,
+     "explain": "Fast but limited."
+    },
+    {
+     "q": "When does full fine-tuning tend to beat frozen features?",
+     "options": [
+      "With zero data",
+      "With one class",
+      "When the target domain differs and you have enough data to adapt all layers",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Compare the two runs."
+    },
+    {
+     "q": "Why adapt ResNet-18 for FashionMNIST input?",
+     "options": [
+      "Images are huge",
+      "The dataset is grayscale (1 channel) while ResNet expects 3",
+      "It speeds data loading",
+      "Labels differ"
+     ],
+     "answer": 1,
+     "explain": "Change the first conv or replicate channels."
+    },
+    {
+     "q": "What is a sensible lr for fine-tuning pretrained layers?",
+     "options": [
+      "Smaller than training from scratch, to avoid destroying useful features",
+      "Identical",
+      "Larger",
+      "Zero"
+     ],
+     "answer": 0,
+     "explain": "Gentle updates preserve learned features."
+    }
+   ]
+  },
+  "level-2/07-evaluating-vision-models": {
+   "questions": [
+    {
+     "q": "Why isn't a single accuracy figure enough?",
+     "options": [
+      "It can hide that some classes are much worse than others",
+      "It's random",
+      "It's too precise",
+      "It's slow"
+     ],
+     "answer": 0,
+     "explain": "Use per-class metrics."
+    },
+    {
+     "q": "What does a confusion matrix show?",
+     "options": [
+      "Pixels",
+      "Weights",
+      "How often each true class is predicted as each class",
+      "Loss over time"
+     ],
+     "answer": 2,
+     "explain": "Off-diagonal entries are mistakes."
+    },
+    {
+     "q": "Precision for a class means...",
+     "options": [
+      "Training loss",
+      "Of everything predicted as that class, the share that was right",
+      "Of all true members, the share found",
+      "Total accuracy"
+     ],
+     "answer": 1,
+     "explain": "Recall is the share of true members found."
+    },
+    {
+     "q": "Why reload the saved checkpoint to re-evaluate?",
+     "options": [
+      "To save space",
+      "To independently confirm the number instead of trusting the training script's print",
+      "To change data",
+      "To train more"
+     ],
+     "answer": 1,
+     "explain": "Independent verification."
+    }
+   ]
+  },
+  "level-2/08-visualizing-cnn-features": {
+   "questions": [
+    {
+     "q": "What does an input-gradient saliency map show?",
+     "options": [
+      "Labels",
+      "Which input pixels most affect the prediction",
+      "Weights",
+      "Loss"
+     ],
+     "answer": 1,
+     "explain": "Raw gradients can be noisy."
+    },
+    {
+     "q": "What is Grad-CAM-style visualization based on?",
+     "options": [
+      "Batch size",
+      "Last convolutional layer activations weighted by gradients, giving a coarse heat map",
+      "Pixel colors",
+      "Dropout"
+     ],
+     "answer": 1,
+     "explain": "It highlights regions."
+    },
+    {
+     "q": "Why check attention maps against real pixel content?",
+     "options": [
+      "They're color",
+      "A heat map story can sound plausible but not hold up (e.g. attention on background)",
+      "They're always right",
+      "They're random"
+     ],
+     "answer": 1,
+     "explain": "Quantify center versus border."
+    },
+    {
+     "q": "What was the lesson's first result?",
+     "options": [
+      "Perfect",
+      "Empty",
+      "Hidden",
+      "Surprising, so it was investigated rather than accepted"
+     ],
+     "answer": 3,
+     "explain": "Honest reporting."
+    }
+   ]
+  },
+  "level-2/09-class-imbalance-vision": {
+   "questions": [
+    {
+     "q": "A class has 30 training images versus ~6,000 for the others. What's the expected effect?",
+     "options": [
+      "No effect",
+      "Better recall",
+      "Faster training",
+      "The minority class is poorly learned and under-predicted with a standard loss"
+     ],
+     "answer": 3,
+     "explain": "The model optimizes the majority."
+    },
+    {
+     "q": "What does a class-weighted loss do?",
+     "options": [
+      "Drops data",
+      "Adds noise",
+      "Penalizes minority-class mistakes more heavily",
+      "Removes classes"
+     ],
+     "answer": 2,
+     "explain": "It can raise minority recall."
+    },
+    {
+     "q": "What's a risk of heavy class weights?",
+     "options": [
+      "Faster training",
+      "More false positives for the minority class (lower precision)",
+      "Overfitting zero",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Look at precision and recall."
+    },
+    {
+     "q": "Other fixes for imbalance include...",
+     "options": [
+      "More dropout only",
+      "Resampling and targeted augmentation of the minority class",
+      "Delete data",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Combine approaches."
+    }
+   ]
+  },
+  "level-2/10-project-real-classifier": {
+   "questions": [
+    {
+     "q": "How was the capstone configuration chosen?",
+     "options": [
+      "By guessing",
+      "From earlier findings: heavy augmentation and dropout underfit, so use a lighter touch",
+      "Randomly",
+      "From a paper title"
+     ],
+     "answer": 1,
+     "explain": "Evidence-based."
+    },
+    {
+     "q": "What does independent final evaluation add?",
+     "options": [
+      "More labels",
+      "More training",
+      "Lower loss",
+      "An unbiased estimate on held-out test data"
+     ],
+     "answer": 3,
+     "explain": "Don't tune on the test set."
+    },
+    {
+     "q": "Why track train and test curves every epoch?",
+     "options": [
+      "For charts",
+      "For speed",
+      "For logs only",
+      "To see overfitting or underfitting as it develops"
+     ],
+     "answer": 3,
+     "explain": "Diagnose, don't guess."
+    },
+    {
+     "q": "What's flip-only augmentation's rationale for FashionMNIST?",
+     "options": [
+      "They rotate",
+      "Horizontal flips preserve clothing labels",
+      "They blur",
+      "They change labels"
+     ],
+     "answer": 1,
+     "explain": "Label-preserving."
+    }
+   ]
+  },
+  "level-3/01-object-detection-fundamentals": {
+   "questions": [
+    {
+     "q": "What is IoU?",
+     "options": [
+      "Intersection plus union",
+      "Box area",
+      "Confidence",
+      "Intersection over Union: overlap area divided by combined area of two boxes"
+     ],
+     "answer": 3,
+     "explain": "1 is a perfect match."
+    },
+    {
+     "q": "Two 10x10 boxes overlap by half (x from 0-10 and 5-15). What's the IoU?",
+     "options": [
+      "1/2",
+      "1/3 (intersection 50, union 150)",
+      "1",
+      "2/3"
+     ],
+     "answer": 1,
+     "explain": "Half overlap is only IoU 0.33."
+    },
+    {
+     "q": "What are anchors?",
+     "options": [
+      "Labels",
+      "Predefined boxes of several scales and ratios that a detector refines",
+      "Final outputs",
+      "Kernels"
+     ],
+     "answer": 1,
+     "explain": "The standard set has 9 anchors."
+    },
+    {
+     "q": "Why verify IoU against hand-computed cases first?",
+     "options": [
+      "It's needed for color",
+      "It's optional",
+      "Wrong IoU would quietly corrupt every later metric",
+      "It's slow"
+     ],
+     "answer": 2,
+     "explain": "Trust but verify."
+    }
+   ]
+  },
+  "level-3/02-running-a-real-detector": {
+   "questions": [
+    {
+     "q": "Faster R-CNN trained on COCO detects how many classes?",
+     "options": [
+      "3",
+      "1000",
+      "10",
+      "91 category ids (80 used) in COCO's label space"
+     ],
+     "answer": 3,
+     "explain": "The lesson cites 91 classes."
+    },
+    {
+     "q": "What does a detection output include?",
+     "options": [
+      "Only masks",
+      "Only pixels",
+      "Boxes, class labels and confidence scores",
+      "Only labels"
+     ],
+     "answer": 2,
+     "explain": "Filter by score threshold."
+    },
+    {
+     "q": "How should a detector behave on a blank image?",
+     "options": [
+      "Detect objects",
+      "Crash",
+      "Ideally return no confident detections, unlike a classifier that always picks a class",
+      "Return a person"
+     ],
+     "answer": 2,
+     "explain": "Detectors can say nothing."
+    },
+    {
+     "q": "Why threshold detections by score?",
+     "options": [
+      "To color",
+      "For speed only",
+      "To drop low-confidence boxes that are likely false positives",
+      "To resize"
+     ],
+     "answer": 2,
+     "explain": "Trade recall for precision."
+    }
+   ]
+  },
+  "level-3/03-semantic-segmentation-fundamentals": {
+   "questions": [
+    {
+     "q": "What does semantic segmentation output?",
+     "options": [
+      "A caption",
+      "A class label for every pixel",
+      "A box",
+      "An image label"
+     ],
+     "answer": 1,
+     "explain": "A dense prediction."
+    },
+    {
+     "q": "Why isn't pixel accuracy enough?",
+     "options": [
+      "It's random",
+      "It's slow",
+      "It's too strict",
+      "Large background classes dominate, hiding bad performance on small objects"
+     ],
+     "answer": 3,
+     "explain": "Per-class IoU is stricter."
+    },
+    {
+     "q": "How is per-class IoU computed?",
+     "options": [
+      "Loss",
+      "Pixels correct for the class divided by the union of predicted and true pixels of that class",
+      "Correct pixels over all",
+      "Boxes"
+     ],
+     "answer": 1,
+     "explain": "Mean IoU averages classes."
+    },
+    {
+     "q": "Why use tiny hand-verifiable examples?",
+     "options": [
+      "So every number can be checked by eye",
+      "They're colorful",
+      "They're fast",
+      "They're real"
+     ],
+     "answer": 0,
+     "explain": "Verify metrics before trusting them."
+    }
+   ]
+  },
+  "level-3/04-running-a-real-segmentation-model": {
+   "questions": [
+    {
+     "q": "DeepLabV3 outputs what compared with a detector?",
+     "options": [
+      "Boxes",
+      "A per-pixel class map instead of bounding boxes",
+      "Captions",
+      "Keypoints"
+     ],
+     "answer": 1,
+     "explain": "argmax over the class channel."
+    },
+    {
+     "q": "How do you get the mask from output logits?",
+     "options": [
+      "argmax over the class dimension",
+      "mean",
+      "max pool",
+      "sum"
+     ],
+     "answer": 0,
+     "explain": "Each pixel gets the highest-scoring class."
+    },
+    {
+     "q": "How many classes does the VOC-trained model use?",
+     "options": [
+      "10",
+      "91",
+      "21 (20 objects plus background)",
+      "80"
+     ],
+     "answer": 2,
+     "explain": "PASCAL VOC."
+    },
+    {
+     "q": "What does segmentation give that detection doesn't?",
+     "options": [
+      "The object's exact shape, not just a rectangle",
+      "Confidence",
+      "Labels",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "At more compute cost."
+    }
+   ]
+  },
+  "level-3/05-instance-vs-semantic-segmentation": {
+   "questions": [
+    {
+     "q": "Two people stand side by side. What does semantic segmentation say?",
+     "options": [
+      "Boxes",
+      "Person 1 and 2",
+      "Both are 'person' pixels with no separation between individuals",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "It labels classes, not instances."
+    },
+    {
+     "q": "What does Mask R-CNN add?",
+     "options": [
+      "Depth",
+      "A separate mask per detected instance",
+      "Only classes",
+      "Only boxes"
+     ],
+     "answer": 1,
+     "explain": "It separates the two people."
+    },
+    {
+     "q": "When do you need instance segmentation?",
+     "options": [
+      "Never",
+      "Only scenes",
+      "Only background",
+      "When you must count or track individual objects of the same class"
+     ],
+     "answer": 3,
+     "explain": "Semantic can't count touching objects."
+    },
+    {
+     "q": "What's the cost of instance segmentation?",
+     "options": [
+      "No cost",
+      "Less accuracy always",
+      "Fewer outputs",
+      "More compute and a more complex model"
+     ],
+     "answer": 3,
+     "explain": "Choose per need."
+    }
+   ]
+  },
+  "level-3/06-pose-estimation-keypoints": {
+   "questions": [
+    {
+     "q": "How many keypoints does COCO pose use?",
+     "options": [
+      "17",
+      "33",
+      "5",
+      "100"
+     ],
+     "answer": 0,
+     "explain": "Nose, eyes, ears, shoulders, elbows, wrists, hips, knees, ankles."
+    },
+    {
+     "q": "The astronaut photo is cropped at chest height. What did confidence scores reveal?",
+     "options": [
+      "All visible",
+      "Nothing",
+      "Which keypoints were actually visible versus guessed",
+      "Only eyes"
+     ],
+     "answer": 2,
+     "explain": "Low scores mean forced guesses."
+    },
+    {
+     "q": "Why filter keypoints by confidence?",
+     "options": [
+      "For size",
+      "For speed",
+      "For color",
+      "Low-confidence points can be wildly wrong"
+     ],
+     "answer": 3,
+     "explain": "Don't draw guesses as facts."
+    },
+    {
+     "q": "What can pose estimation feed?",
+     "options": [
+      "Image resizing",
+      "Activity recognition and gesture analysis",
+      "Printing",
+      "Compression"
+     ],
+     "answer": 1,
+     "explain": "Keypoint sequences describe motion."
+    }
+   ]
+  },
+  "level-3/07-optical-flow": {
+   "questions": [
+    {
+     "q": "What does optical flow estimate?",
+     "options": [
+      "Depth",
+      "Class",
+      "Apparent motion of pixels between frames",
+      "Color"
+     ],
+     "answer": 2,
+     "explain": "A motion vector per point or pixel."
+    },
+    {
+     "q": "What's the difference between Lucas-Kanade and dense flow?",
+     "options": [
+      "Dense is sparse",
+      "Same",
+      "LK is dense",
+      "Lucas-Kanade tracks sparse points; dense flow estimates motion for every pixel"
+     ],
+     "answer": 3,
+     "explain": "Choose by need."
+    },
+    {
+     "q": "Why use a known exact pixel shift as a test?",
+     "options": [
+      "It trains",
+      "It provides ground truth to measure algorithm accuracy",
+      "It's faster",
+      "It's real video"
+     ],
+     "answer": 1,
+     "explain": "Real video rarely gives truth."
+    },
+    {
+     "q": "What assumption does flow rely on?",
+     "options": [
+      "Color only",
+      "Brightness constancy and small motion between frames",
+      "Static camera only",
+      "No lighting"
+     ],
+     "answer": 1,
+     "explain": "It fails with large jumps."
+    }
+   ]
+  },
+  "level-3/08-object-tracking": {
+   "questions": [
+    {
+     "q": "What did OpenCV 5.0 no longer expose?",
+     "options": [
+      "The classic CSRT and KCF trackers",
+      "Webcam",
+      "Everything",
+      "TrackerMIL"
+     ],
+     "answer": 0,
+     "explain": "Same kind of removal as Haar cascades."
+    },
+    {
+     "q": "Why was an identical-looking distractor placed close to the target?",
+     "options": [
+      "To speed",
+      "To help",
+      "To decorate",
+      "To test whether tracking survives visual ambiguity"
+     ],
+     "answer": 3,
+     "explain": "Appearance trackers can jump."
+    },
+    {
+     "q": "What helps trackers survive ambiguity?",
+     "options": [
+      "Motion models and re-detection or association logic",
+      "More blur",
+      "Fewer frames",
+      "More color"
+     ],
+     "answer": 0,
+     "explain": "Combine detection and tracking."
+    },
+    {
+     "q": "Why use a synthetic video with a known trajectory?",
+     "options": [
+      "It trains",
+      "You can measure tracking error exactly",
+      "It's popular",
+      "It's real"
+     ],
+     "answer": 1,
+     "explain": "Ground truth."
+    }
+   ]
+  },
+  "level-3/09-ocr-text-detection-recognition": {
+   "questions": [
+    {
+     "q": "What's the first OCR check in the lesson?",
+     "options": [
+      "Blur it",
+      "Rotate it",
+      "Add noise",
+      "Exact match on clean rendered text, to establish a baseline"
+     ],
+     "answer": 3,
+     "explain": "Then degrade systematically."
+    },
+    {
+     "q": "Which degradations did the lesson apply?",
+     "options": [
+      "Color",
+      "Crop",
+      "Only blur",
+      "Blur, rotation and noise, measuring character accuracy"
+     ],
+     "answer": 3,
+     "explain": "Find where OCR breaks."
+    },
+    {
+     "q": "Does OCR degrade uniformly?",
+     "options": [
+      "Only noise",
+      "Yes",
+      "No, different degradations break it at different points",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "That's why you measure."
+    },
+    {
+     "q": "How do you improve OCR before recognition?",
+     "options": [
+      "Add color",
+      "Shrink",
+      "Flip",
+      "Deskew, denoise and threshold the image"
+     ],
+     "answer": 3,
+     "explain": "Preprocessing matters."
+    }
+   ]
+  },
+  "level-3/10-project-multi-stage-pipeline": {
+   "questions": [
+    {
+     "q": "What are the pipeline's stages?",
+     "options": [
+      "Train, test, deploy",
+      "Detect the sign, track it across frames, then OCR its text",
+      "Label, split, shuffle",
+      "Blur, resize, save"
+     ],
+     "answer": 1,
+     "explain": "Detect, track, read."
+    },
+    {
+     "q": "Why track instead of detecting every frame?",
+     "options": [
+      "Detection is impossible",
+      "Tracking is more accurate always",
+      "Tracking is cheaper and keeps identity across frames",
+      "No reason"
+     ],
+     "answer": 2,
+     "explain": "Detect periodically, track between."
+    },
+    {
+     "q": "The video is synthetic. Is that disclosed?",
+     "options": [
+      "No",
+      "Hidden",
+      "Yes: stages are real, the input video is synthetic, stated plainly",
+      "Claimed real"
+     ],
+     "answer": 2,
+     "explain": "Honesty."
+    },
+    {
+     "q": "What can go wrong in multi-stage pipelines?",
+     "options": [
+      "Errors cancel",
+      "Errors compound: a bad detection ruins tracking and OCR",
+      "Speed only",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Evaluate each stage and the whole."
+    }
+   ]
+  },
+  "level-4/01-vision-transformers": {
+   "questions": [
+    {
+     "q": "How does ViT-B/16 turn an image into tokens?",
+     "options": [
+      "It flattens whole image",
+      "It uses convolutions only",
+      "It splits it into 16x16 patches and embeds each patch linearly",
+      "It uses edges"
+     ],
+     "answer": 2,
+     "explain": "Patches become a sequence."
+    },
+    {
+     "q": "The astronaut photo is out-of-distribution for ImageNet classifiers. Why?",
+     "options": [
+      "ImageNet has no 'person' class, so any prediction is forced into another class",
+      "Photo too small",
+      "Wrong channels",
+      "Model broken"
+     ],
+     "answer": 0,
+     "explain": "The coffee cup is in-distribution ('espresso')."
+    },
+    {
+     "q": "What's a trade-off of ViTs versus CNNs?",
+     "options": [
+      "No attention",
+      "Less compute always",
+      "Smaller",
+      "ViTs have fewer inductive biases and usually need more data or pretraining"
+     ],
+     "answer": 3,
+     "explain": "CNNs bake in locality."
+    },
+    {
+     "q": "What does self-attention let a ViT do?",
+     "options": [
+      "Relate every patch to every other patch globally",
+      "Only neighbors",
+      "Only color",
+      "Only edges"
+     ],
+     "answer": 0,
+     "explain": "Global context from the first layer."
+    }
+   ]
+  },
+  "level-4/02-image-embeddings-similarity-search": {
+   "questions": [
+    {
+     "q": "What's an image embedding?",
+     "options": [
+      "A label",
+      "A vector from a network's penultimate layer capturing visual features",
+      "A pixel copy",
+      "A filename"
+     ],
+     "answer": 1,
+     "explain": "Used for similarity."
+    },
+    {
+     "q": "What does cosine similarity compare?",
+     "options": [
+      "Distances only",
+      "The angle between two vectors, ignoring length",
+      "Sizes",
+      "Pixels"
+     ],
+     "answer": 1,
+     "explain": "1 means the same direction."
+    },
+    {
+     "q": "Why can nearest neighbours look counter-intuitive?",
+     "options": [
+      "They're random",
+      "They're pixels",
+      "They're perfect",
+      "Embeddings capture what the network learned, which may not match human notions of similarity"
+     ],
+     "answer": 3,
+     "explain": "The lesson investigated an unexpected pattern."
+    },
+    {
+     "q": "How would you scale similarity search to millions of images?",
+     "options": [
+      "Sorting files",
+      "Linear scan",
+      "An approximate nearest-neighbour index (e.g. a vector database)",
+      "Zip them"
+     ],
+     "answer": 2,
+     "explain": "Exact scan is O(n) per query."
+    }
+   ]
+  },
+  "level-4/03-self-supervised-few-shot": {
+   "questions": [
+    {
+     "q": "How does a prototypical classifier classify with few labels?",
+     "options": [
+      "Random",
+      "Train from scratch",
+      "Average each class's support embeddings into a prototype and assign the nearest",
+      "Use a big loss"
+     ],
+     "answer": 2,
+     "explain": "It reuses learned embeddings."
+    },
+    {
+     "q": "Why is it 'remarkably effective' here?",
+     "options": [
+      "Good pretrained embeddings already separate classes; few examples just locate prototypes",
+      "Magic",
+      "Bigger model",
+      "More data"
+     ],
+     "answer": 0,
+     "explain": "The embedding does the work."
+    },
+    {
+     "q": "What's self-supervised learning?",
+     "options": [
+      "Reinforcement",
+      "Supervised only",
+      "Labels from humans",
+      "Learning representations from unlabeled data using a pretext task"
+     ],
+     "answer": 3,
+     "explain": "E.g. contrastive learning."
+    },
+    {
+     "q": "When does few-shot fail?",
+     "options": [
+      "With GPUs",
+      "Never",
+      "When embeddings don't capture the distinction the new classes need",
+      "With many classes only"
+     ],
+     "answer": 2,
+     "explain": "Domain gaps hurt."
+    }
+   ]
+  },
+  "level-4/04-image-generation-basics": {
+   "questions": [
+    {
+     "q": "In a GAN, what do the two networks do?",
+     "options": [
+      "Both generate",
+      "One resizes",
+      "The generator makes fakes; the discriminator tries to tell fake from real",
+      "Both classify"
+     ],
+     "answer": 2,
+     "explain": "They're trained adversarially."
+    },
+    {
+     "q": "The lesson's discriminator was still winning after 10 epochs. What does that suggest?",
+     "options": [
+      "Perfect generator",
+      "Bug",
+      "Dataset empty",
+      "Training hadn't reached balance, so generation quality was still limited"
+     ],
+     "answer": 3,
+     "explain": "An honest trajectory."
+    },
+    {
+     "q": "Why evaluate the generator with an independent trained classifier?",
+     "options": [
+      "It's cheaper",
+      "It's faster",
+      "It's required",
+      "Judging by eye is subjective; a classifier gives a quantitative signal"
+     ],
+     "answer": 3,
+     "explain": "Independent evaluation."
+    },
+    {
+     "q": "What's the core idea of diffusion models?",
+     "options": [
+      "Learn to reverse a gradual noising process to generate images",
+      "Compression",
+      "Edge detection",
+      "Adversarial game"
+     ],
+     "answer": 0,
+     "explain": "Iterative denoising."
+    }
+   ]
+  },
+  "level-4/05-evaluating-generative-retrieval": {
+   "questions": [
+    {
+     "q": "Precision@k means...",
+     "options": [
+      "Loss",
+      "Speed",
+      "Share of relevant found",
+      "Of the top k results, the share that are relevant"
+     ],
+     "answer": 3,
+     "explain": "Recall@k is the share of all relevant items found in the top k."
+    },
+    {
+     "q": "Recall@k means...",
+     "options": [
+      "Share of top k correct",
+      "Latency",
+      "Of all relevant items, the share found in the top k",
+      "Accuracy"
+     ],
+     "answer": 2,
+     "explain": "Both depend on k."
+    },
+    {
+     "q": "What is mode collapse?",
+     "options": [
+      "High resolution",
+      "Fast training",
+      "More classes",
+      "A generator producing a few repeated patterns instead of varied outputs"
+     ],
+     "answer": 3,
+     "explain": "Check diversity."
+    },
+    {
+     "q": "How did the lesson measure diversity?",
+     "options": [
+      "By eye",
+      "By file size",
+      "Pairwise embedding distances among generated images",
+      "By colors"
+     ],
+     "answer": 2,
+     "explain": "Quantitative, not visual."
+    }
+   ]
+  },
+  "level-4/06-scaling-vision-inference": {
+   "questions": [
+    {
+     "q": "Why does batching raise throughput?",
+     "options": [
+      "Smaller images",
+      "Lower precision",
+      "Less data",
+      "Hardware processes many images in parallel, amortizing overhead"
+     ],
+     "answer": 3,
+     "explain": "256 single calls versus one batched call."
+    },
+    {
+     "q": "What's the trade-off of large batches?",
+     "options": [
+      "Higher cost only",
+      "Higher per-request latency and diminishing returns past a peak",
+      "Lower accuracy",
+      "No trade-off"
+     ],
+     "answer": 1,
+     "explain": "The lesson measured a peak."
+    },
+    {
+     "q": "Why measure rather than assume throughput?",
+     "options": [
+      "It's easier",
+      "Docs are wrong",
+      "Hardware and model details create real peaks and plateaus",
+      "It's required"
+     ],
+     "answer": 2,
+     "explain": "Measure, don't assume."
+    },
+    {
+     "q": "Which metric matters for an interactive app?",
+     "options": [
+      "Disk size",
+      "Parameters",
+      "Throughput only",
+      "Tail latency (e.g. p95) for single requests"
+     ],
+     "answer": 3,
+     "explain": "Users feel latency."
+    }
+   ]
+  },
+  "level-4/07-vision-model-robustness": {
+   "questions": [
+    {
+     "q": "What is an FGSM attack?",
+     "options": [
+      "Random noise",
+      "Cropping",
+      "Resizing",
+      "Adding a small perturbation in the direction of the loss gradient's sign to fool the model"
+     ],
+     "answer": 3,
+     "explain": "Tiny, imperceptible changes can flip predictions."
+    },
+    {
+     "q": "What does adversarial vulnerability imply?",
+     "options": [
+      "Models can fail on inputs humans find nearly identical",
+      "Only noise matters",
+      "Models are perfect",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Robustness isn't accuracy."
+    },
+    {
+     "q": "Which common failure mode is distribution shift?",
+     "options": [
+      "Bigger batch",
+      "More data",
+      "Label noise only",
+      "Test data differing from training (lighting, camera, domain)"
+     ],
+     "answer": 3,
+     "explain": "Validate on realistic conditions."
+    },
+    {
+     "q": "How can you improve robustness?",
+     "options": [
+      "Augmentation, adversarial training and testing under realistic perturbations",
+      "Use smaller images",
+      "Hide the model",
+      "Skip tests"
+     ],
+     "answer": 0,
+     "explain": "Measure robustness explicitly."
+    }
+   ]
+  },
+  "level-4/08-bias-fairness-in-cv": {
+   "questions": [
+    {
+     "q": "What's a well-documented bias mechanism the lesson tested?",
+     "options": [
+      "Faster inference",
+      "Compression",
+      "Differential accuracy under varied conditions such as brightness",
+      "Bigger labels"
+     ],
+     "answer": 2,
+     "explain": "Performance gaps across groups or conditions."
+    },
+    {
+     "q": "Why report accuracy per subgroup?",
+     "options": [
+      "An overall average can hide large gaps for some groups",
+      "It's shorter",
+      "It's faster",
+      "It's required by OpenCV"
+     ],
+     "answer": 0,
+     "explain": "Disaggregate."
+    },
+    {
+     "q": "What's a common source of bias in vision systems?",
+     "options": [
+      "Fast code",
+      "Color maps",
+      "Unrepresentative training data",
+      "Large GPUs"
+     ],
+     "answer": 2,
+     "explain": "Data coverage matters."
+    },
+    {
+     "q": "What should you do when you find a gap?",
+     "options": [
+      "Hide",
+      "Ignore",
+      "Document it, improve data/model and decide whether the use is appropriate",
+      "Ship"
+     ],
+     "answer": 2,
+     "explain": "Scale care with harm."
+    }
+   ]
+  },
+  "level-4/09-choosing-the-right-approach": {
+   "questions": [
+    {
+     "q": "When is a classical CV pipeline the right choice?",
+     "options": [
+      "Only with GPUs",
+      "Never",
+      "Always",
+      "Controlled setting, simple well-defined task and little data (e.g. a document scanner)"
+     ],
+     "answer": 3,
+     "explain": "Simple beats complex when it works."
+    },
+    {
+     "q": "When do you reach for a pretrained deep model?",
+     "options": [
+      "Simple rules",
+      "Tiny images",
+      "Complex variation and enough data or a good pretrained backbone",
+      "No data"
+     ],
+     "answer": 2,
+     "explain": "Transfer learning is the default."
+    },
+    {
+     "q": "What should you try first on a new problem?",
+     "options": [
+      "Train from scratch",
+      "The biggest model",
+      "The simplest baseline that could work, then measure",
+      "Diffusion"
+     ],
+     "answer": 2,
+     "explain": "Establish a baseline."
+    },
+    {
+     "q": "What factors guide the choice?",
+     "options": [
+      "Popularity",
+      "Color",
+      "Name only",
+      "Data available, accuracy needs, latency, hardware and maintainability"
+     ],
+     "answer": 3,
+     "explain": "Match method to constraints."
+    }
+   ]
+  },
+  "level-4/10-capstone-end-to-end-cv-application": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only GANs",
+      "A trained classifier within an automated quality-control pipeline",
+      "Only ViT",
+      "Only OCR"
+     ],
+     "answer": 1,
+     "explain": "End to end."
+    },
+    {
+     "q": "Why define metrics before deployment?",
+     "options": [
+      "For slides",
+      "For size",
+      "So pass/fail decisions and costs of errors are explicit",
+      "For speed"
+     ],
+     "answer": 2,
+     "explain": "False passes and false rejects cost differently."
+    },
+    {
+     "q": "How should a QC system handle low-confidence items?",
+     "options": [
+      "Auto-fail",
+      "Ignore",
+      "Auto-pass",
+      "Route them to human review"
+     ],
+     "answer": 3,
+     "explain": "Use confidence thresholds."
+    },
+    {
+     "q": "What should you monitor after deployment?",
+     "options": [
+      "Only uptime",
+      "Input drift and accuracy against periodic labeled samples",
+      "Only speed",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Models degrade as data shifts."
+    }
+   ]
+  }
+ }
+}
