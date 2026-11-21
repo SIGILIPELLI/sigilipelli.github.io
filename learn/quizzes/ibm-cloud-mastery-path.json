@@ -1,0 +1,2159 @@
+{
+ "course": "ibm-cloud-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup-cli": {
+   "questions": [
+    {
+     "q": "What does `ibmcloud login` do?",
+     "options": [
+      "Deploys",
+      "Billing",
+      "Authenticates the CLI to your IBM Cloud account",
+      "Creates account"
+     ],
+     "answer": 2,
+     "explain": "Use SSO or API keys."
+    },
+    {
+     "q": "What does `ibmcloud target -g <group> -r <region>` do?",
+     "options": [
+      "Login",
+      "Sets the resource group and region for commands",
+      "Create",
+      "Delete"
+     ],
+     "answer": 1,
+     "explain": "Context."
+    },
+    {
+     "q": "What's a resource group?",
+     "options": [
+      "A zone",
+      "A region",
+      "A VPC",
+      "A logical container for organizing resources and access control"
+     ],
+     "answer": 3,
+     "explain": "Required for most resources."
+    },
+    {
+     "q": "What does the free/Lite tier caution include?",
+     "options": [
+      "No limits",
+      "Resources can bill if upgraded; delete practice resources",
+      "No bills",
+      "Free forever"
+     ],
+     "answer": 1,
+     "explain": "Check plans."
+    }
+   ]
+  },
+  "level-1/02-iam-security": {
+   "questions": [
+    {
+     "q": "What does IAM decide?",
+     "options": [
+      "Billing",
+      "Networks",
+      "Region",
+      "Who (user, service ID) can do what (role) on which resource"
+     ],
+     "answer": 3,
+     "explain": "Policies."
+    },
+    {
+     "q": "What are service IDs for?",
+     "options": [
+      "Humans",
+      "Billing",
+      "Groups",
+      "Identities for applications/automation rather than people"
+     ],
+     "answer": 3,
+     "explain": "With API keys."
+    },
+    {
+     "q": "What are the platform vs service access roles?",
+     "options": [
+      "Platform roles manage resources; service roles control data access inside services",
+      "None",
+      "Reverse",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "Viewer/Editor/Administrator and Reader/Writer/Manager."
+    },
+    {
+     "q": "Why use access groups?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Assign policies to groups and add users, instead of per-user policies"
+     ],
+     "answer": 3,
+     "explain": "Scalable."
+    }
+   ]
+  },
+  "level-1/03-virtual-servers-vpc": {
+   "questions": [
+    {
+     "q": "What is a VSI?",
+     "options": [
+      "Virtual Server Instance in a VPC",
+      "Container",
+      "Function",
+      "Bucket"
+     ],
+     "answer": 0,
+     "explain": "IaaS compute."
+    },
+    {
+     "q": "What do you need before launching a VSI?",
+     "options": [
+      "Function",
+      "Bucket",
+      "A VPC, subnet, SSH key and image/profile",
+      "DB"
+     ],
+     "answer": 2,
+     "explain": "Network first."
+    },
+    {
+     "q": "What's a profile?",
+     "options": [
+      "Key",
+      "Image",
+      "The instance's vCPU/RAM size family (e.g. bx2-2x8)",
+      "Zone"
+     ],
+     "answer": 2,
+     "explain": "Balanced/compute/memory."
+    },
+    {
+     "q": "How reach a private VSI?",
+     "options": [
+      "None",
+      "Open all",
+      "Floating IP, bastion/VPN or Transit Gateway",
+      "Public key"
+     ],
+     "answer": 2,
+     "explain": "Least exposure."
+    }
+   ]
+  },
+  "level-1/04-cloud-object-storage": {
+   "questions": [
+    {
+     "q": "What is COS?",
+     "options": [
+      "DB",
+      "Block",
+      "S3-compatible object storage with buckets and objects",
+      "File"
+     ],
+     "answer": 2,
+     "explain": "Cloud Object Storage."
+    },
+    {
+     "q": "What do storage classes represent?",
+     "options": [
+      "Keys",
+      "Zones",
+      "Sizes",
+      "Cost/performance for access frequency (Smart, Standard, Vault, Cold)"
+     ],
+     "answer": 3,
+     "explain": "Lifecycle."
+    },
+    {
+     "q": "How should apps access COS?",
+     "options": [
+      "Using service credentials/IAM with HMAC or API keys, least privilege",
+      "Share root",
+      "Public",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Rotate keys."
+    },
+    {
+     "q": "What does bucket versioning protect against?",
+     "options": [
+      "Cost",
+      "Latency",
+      "Accidental deletes and overwrites",
+      "Egress"
+     ],
+     "answer": 2,
+     "explain": "Immutable history."
+    }
+   ]
+  },
+  "level-1/05-vpc-networking": {
+   "questions": [
+    {
+     "q": "What's a VPC subnet?",
+     "options": [
+      "An IP range in one zone for placing instances",
+      "Image",
+      "Region",
+      "Account"
+     ],
+     "answer": 0,
+     "explain": "Zone-scoped."
+    },
+    {
+     "q": "What's a security group?",
+     "options": [
+      "Router",
+      "ACL",
+      "Gateway",
+      "A stateful firewall at the instance/interface level"
+     ],
+     "answer": 3,
+     "explain": "Allow rules."
+    },
+    {
+     "q": "What's a network ACL?",
+     "options": [
+      "Instance",
+      "Stateful",
+      "DNS",
+      "A stateless subnet-level rule list (allow/deny)"
+     ],
+     "answer": 3,
+     "explain": "Ordered rules."
+    },
+    {
+     "q": "What does a public gateway do?",
+     "options": [
+      "DNS",
+      "Inbound",
+      "VPN",
+      "Gives instances in a subnet outbound internet access"
+     ],
+     "answer": 3,
+     "explain": "NAT-like."
+    }
+   ]
+  },
+  "level-1/06-cloud-databases": {
+   "questions": [
+    {
+     "q": "What does a managed database service handle?",
+     "options": [
+      "Queries",
+      "Apps",
+      "Provisioning, backups, patching and scaling for you",
+      "Schema"
+     ],
+     "answer": 2,
+     "explain": "Databases for PostgreSQL."
+    },
+    {
+     "q": "Which connection practice is right?",
+     "options": [
+      "TLS with credentials from service credentials/Secrets Manager",
+      "Shared",
+      "Plain",
+      "Public"
+     ],
+     "answer": 0,
+     "explain": "Private endpoints preferred."
+    },
+    {
+     "q": "What do private endpoints do?",
+     "options": [
+      "Public",
+      "Mirror",
+      "Cache",
+      "Keep traffic on IBM's private network"
+     ],
+     "answer": 3,
+     "explain": "Reduce exposure."
+    },
+    {
+     "q": "Why enable backups/PITR?",
+     "options": [
+      "Law",
+      "Style",
+      "Recover from corruption or mistakes",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Test restores."
+    }
+   ]
+  },
+  "level-1/07-cloud-functions": {
+   "questions": [
+    {
+     "q": "What is Cloud Functions' programming model?",
+     "options": [
+      "Event-driven actions triggered by HTTP, events or schedules",
+      "Containers only",
+      "Servers",
+      "VMs"
+     ],
+     "answer": 0,
+     "explain": "OpenWhisk based."
+    },
+    {
+     "q": "What's a cold start?",
+     "options": [
+      "Error",
+      "Crash",
+      "Latency when a new runtime container starts",
+      "Retry"
+     ],
+     "answer": 2,
+     "explain": "Keep warm if needed."
+    },
+    {
+     "q": "What are triggers and rules?",
+     "options": [
+      "Logs",
+      "Types",
+      "Keys",
+      "Triggers emit events; rules connect them to actions"
+     ],
+     "answer": 3,
+     "explain": "Wiring."
+    },
+    {
+     "q": "What limits actions?",
+     "options": [
+      "Law",
+      "None",
+      "Memory, timeouts and payload size",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Design stateless."
+    }
+   ]
+  },
+  "level-1/08-monitoring-log-analysis": {
+   "questions": [
+    {
+     "q": "What does IBM Cloud Logs/Log Analysis collect?",
+     "options": [
+      "Logs from services and apps for search and alerting",
+      "DNS",
+      "Billing",
+      "IAM"
+     ],
+     "answer": 0,
+     "explain": "Agent or integration."
+    },
+    {
+     "q": "What do Monitoring metrics show?",
+     "options": [
+      "Keys",
+      "Logs",
+      "Bills",
+      "Resource and app performance over time"
+     ],
+     "answer": 3,
+     "explain": "Dashboards/alerts."
+    },
+    {
+     "q": "Why alert on symptoms?",
+     "options": [
+      "Style",
+      "Users feel symptoms; avoid noise from causes",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Actionable."
+    },
+    {
+     "q": "What does Activity Tracker record?",
+     "options": [
+      "Metrics",
+      "Costs",
+      "Who did what to which resource (audit events)",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Compliance."
+    }
+   ]
+  },
+  "level-1/09-schematics-iac": {
+   "questions": [
+    {
+     "q": "What is Schematics?",
+     "options": [
+      "Container",
+      "DNS",
+      "IBM's managed Terraform service (workspaces)",
+      "DB"
+     ],
+     "answer": 2,
+     "explain": "IaC."
+    },
+    {
+     "q": "What does a workspace hold?",
+     "options": [
+      "VMs",
+      "A Terraform configuration, variables and state",
+      "Logs",
+      "Keys"
+     ],
+     "answer": 1,
+     "explain": "Plan/apply."
+    },
+    {
+     "q": "Why use IaC?",
+     "options": [
+      "Speed",
+      "Style",
+      "Repeatable, reviewable, versioned infrastructure",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "No console drift."
+    },
+    {
+     "q": "What does `plan` show?",
+     "options": [
+      "Log",
+      "Apply",
+      "Changes Terraform would make",
+      "Destroy"
+     ],
+     "answer": 2,
+     "explain": "Review first."
+    }
+   ]
+  },
+  "level-1/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the visit counter capstone combine?",
+     "options": [
+      "Only COS",
+      "Only VM",
+      "Only DB",
+      "Cloud Functions/Code, a database, COS and Schematics with monitoring"
+     ],
+     "answer": 3,
+     "explain": "End to end."
+    },
+    {
+     "q": "How protect credentials?",
+     "options": [
+      "Code",
+      "Service IDs with least privilege and Secrets Manager",
+      "Email",
+      "Repo"
+     ],
+     "answer": 1,
+     "explain": "Hygiene."
+    },
+    {
+     "q": "How verify it works?",
+     "options": [
+      "Guess",
+      "Hope",
+      "Assume",
+      "Test the endpoint and check logs/metrics"
+     ],
+     "answer": 3,
+     "explain": "Observe."
+    },
+    {
+     "q": "What after finishing?",
+     "options": [
+      "Share",
+      "Nothing",
+      "Keep",
+      "Destroy resources via Schematics to avoid cost"
+     ],
+     "answer": 3,
+     "explain": "Clean up."
+    }
+   ]
+  },
+  "level-2/01-vpc-design-deep-dive": {
+   "questions": [
+    {
+     "q": "Why use multiple zones in a VPC?",
+     "options": [
+      "Survive a zone failure with subnets and instances spread across zones",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "HA."
+    },
+    {
+     "q": "What does address prefix management control?",
+     "options": [
+      "The CIDR ranges available to subnets in each zone",
+      "DNS",
+      "IAM",
+      "NAT"
+     ],
+     "answer": 0,
+     "explain": "Plan ranges."
+    },
+    {
+     "q": "What's Transit Gateway for?",
+     "options": [
+      "DNS",
+      "CDN",
+      "Connecting multiple VPCs and on-prem networks through a hub",
+      "LB"
+     ],
+     "answer": 2,
+     "explain": "Scale connectivity."
+    },
+    {
+     "q": "What's a good practice for CIDR planning?",
+     "options": [
+      "Avoid overlaps across VPCs and on-prem",
+      "Reuse",
+      "Overlap",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Connectivity later."
+    }
+   ]
+  },
+  "level-2/02-load-balancing-autoscaling": {
+   "questions": [
+    {
+     "q": "What do VPC load balancers provide?",
+     "options": [
+      "Distributing traffic across healthy instances (ALB/NLB)",
+      "Storage",
+      "Auth",
+      "DNS"
+     ],
+     "answer": 0,
+     "explain": "Health checks."
+    },
+    {
+     "q": "What's an instance group?",
+     "options": [
+      "A zone",
+      "A VPC",
+      "One VSI",
+      "A set of identical VSIs with autoscaling from a template"
+     ],
+     "answer": 3,
+     "explain": "Elastic."
+    },
+    {
+     "q": "What triggers autoscaling policies?",
+     "options": [
+      "Colors",
+      "Users",
+      "Names",
+      "Metrics like CPU or memory utilization"
+     ],
+     "answer": 3,
+     "explain": "Targets."
+    },
+    {
+     "q": "What's draining?",
+     "options": [
+      "Kill",
+      "Letting in-flight requests finish before removing an instance",
+      "Cache",
+      "Retry"
+     ],
+     "answer": 1,
+     "explain": "Graceful."
+    }
+   ]
+  },
+  "level-2/03-kubernetes-service-basics": {
+   "questions": [
+    {
+     "q": "What is IKS?",
+     "options": [
+      "IBM Cloud Kubernetes Service, a managed Kubernetes",
+      "DB",
+      "Function",
+      "VM"
+     ],
+     "answer": 0,
+     "explain": "Workers in your VPC."
+    },
+    {
+     "q": "What does the managed control plane mean?",
+     "options": [
+      "None",
+      "IBM runs and patches the Kubernetes masters",
+      "Nodes",
+      "You do"
+     ],
+     "answer": 1,
+     "explain": "You manage workers/workloads."
+    },
+    {
+     "q": "What's a worker pool?",
+     "options": [
+      "A set of worker nodes with the same flavor",
+      "Secret",
+      "Namespace",
+      "Pod"
+     ],
+     "answer": 0,
+     "explain": "Scale pools."
+    },
+    {
+     "q": "How expose apps?",
+     "options": [
+      "Ingress/ALB or LoadBalancer services",
+      "None",
+      "NodePort only",
+      "ClusterIP"
+     ],
+     "answer": 0,
+     "explain": "Routing."
+    }
+   ]
+  },
+  "level-2/04-code-engine": {
+   "questions": [
+    {
+     "q": "What's Code Engine?",
+     "options": [
+      "Kubernetes only",
+      "A serverless platform for containers, jobs and apps scaling to zero",
+      "Functions only",
+      "VMs"
+     ],
+     "answer": 1,
+     "explain": "Simple deploy."
+    },
+    {
+     "q": "What are Code Engine jobs?",
+     "options": [
+      "Ingress",
+      "Run-to-completion batch workloads",
+      "Services",
+      "Servers"
+     ],
+     "answer": 1,
+     "explain": "Batch."
+    },
+    {
+     "q": "What's built into it?",
+     "options": [
+      "LB",
+      "VMs",
+      "None",
+      "Source-to-image builds from Git or Dockerfile"
+     ],
+     "answer": 3,
+     "explain": "Builds."
+    },
+    {
+     "q": "When prefer Code Engine over IKS?",
+     "options": [
+      "Complex",
+      "Never",
+      "Always",
+      "When you want less cluster operation for simple workloads"
+     ],
+     "answer": 3,
+     "explain": "Trade-offs."
+    }
+   ]
+  },
+  "level-2/05-cloud-databases-deep-dive": {
+   "questions": [
+    {
+     "q": "What's high availability for a managed DB?",
+     "options": [
+      "Snapshots",
+      "Backups",
+      "Scripts",
+      "Multi-member deployments across zones with automatic failover"
+     ],
+     "answer": 3,
+     "explain": "Replication."
+    },
+    {
+     "q": "What do read replicas help?",
+     "options": [
+      "Scale reads and offload reporting",
+      "Backups",
+      "Writes",
+      "Failover"
+     ],
+     "answer": 0,
+     "explain": "Lag."
+    },
+    {
+     "q": "What does scaling a DB involve?",
+     "options": [
+      "Rewrite",
+      "Adjusting memory/disk/CPU per member (with possible rolling restarts)",
+      "Restart apps",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Plan windows."
+    },
+    {
+     "q": "Why test restores?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Backups are unproven until restored"
+     ],
+     "answer": 3,
+     "explain": "DR confidence."
+    }
+   ]
+  },
+  "level-2/06-object-storage-lifecycle-security": {
+   "questions": [
+    {
+     "q": "What do COS lifecycle rules do?",
+     "options": [
+      "Replicate",
+      "Lock",
+      "Transition or expire objects automatically by age",
+      "Encrypt"
+     ],
+     "answer": 2,
+     "explain": "Cost control."
+    },
+    {
+     "q": "What does immutable object storage (WORM) provide?",
+     "options": [
+      "Hash",
+      "Cache",
+      "Speed",
+      "Retention locks preventing deletion/modification for a period"
+     ],
+     "answer": 3,
+     "explain": "Compliance."
+    },
+    {
+     "q": "How encrypt COS data?",
+     "options": [
+      "Base64",
+      "Plain",
+      "Default at rest; use Key Protect/HPCS for customer-managed keys",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Control."
+    },
+    {
+     "q": "What does bucket firewall do?",
+     "options": [
+      "Encrypt",
+      "Restricts access to allowed IP ranges/networks",
+      "Log",
+      "Cache"
+     ],
+     "answer": 1,
+     "explain": "Defense."
+    }
+   ]
+  },
+  "level-2/07-iam-access-policies-deep-dive": {
+   "questions": [
+    {
+     "q": "What are access policies composed of?",
+     "options": [
+      "Keys",
+      "Names",
+      "Subject, role(s) and resource (with optional attributes/conditions)",
+      "Tags"
+     ],
+     "answer": 2,
+     "explain": "Fine grained."
+    },
+    {
+     "q": "What's the best practice for admin access?",
+     "options": [
+      "Wide",
+      "Share",
+      "Least privilege and separate admin identities with MFA",
+      "Root"
+     ],
+     "answer": 2,
+     "explain": "Reduce risk."
+    },
+    {
+     "q": "What do trusted profiles do?",
+     "options": [
+      "DNS",
+      "Tags",
+      "Let compute resources/federated users assume roles without API keys",
+      "Billing"
+     ],
+     "answer": 2,
+     "explain": "Keyless."
+    },
+    {
+     "q": "What does context-based restriction do?",
+     "options": [
+      "Cost",
+      "Names",
+      "Limit access by network location/context",
+      "Keys"
+     ],
+     "answer": 2,
+     "explain": "Zero trust."
+    }
+   ]
+  },
+  "level-2/08-cicd-toolchains": {
+   "questions": [
+    {
+     "q": "What does an IBM Cloud toolchain automate?",
+     "options": [
+      "Build, test and deploy via Continuous Delivery pipelines",
+      "Network",
+      "DNS",
+      "Billing"
+     ],
+     "answer": 0,
+     "explain": "Tekton pipelines."
+    },
+    {
+     "q": "What's Tekton?",
+     "options": [
+      "LB",
+      "VM",
+      "Kubernetes-native pipeline resources (tasks, pipelines)",
+      "DB"
+     ],
+     "answer": 2,
+     "explain": "Cloud-native CI/CD."
+    },
+    {
+     "q": "What should pipelines use for secrets?",
+     "options": [
+      "Secrets Manager/credentials store, not plain variables",
+      "Logs",
+      "Repo",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Protect."
+    },
+    {
+     "q": "What gate should deploys have?",
+     "options": [
+      "None",
+      "Tests and approvals for production",
+      "Speed",
+      "Skip"
+     ],
+     "answer": 1,
+     "explain": "Safe delivery."
+    }
+   ]
+  },
+  "level-2/09-schematics-workspaces-modules": {
+   "questions": [
+    {
+     "q": "Why split Schematics workspaces by environment/layer?",
+     "options": [
+      "Style",
+      "Isolate state and blast radius",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Network vs app."
+    },
+    {
+     "q": "What are Terraform modules?",
+     "options": [
+      "Reusable parameterized configuration blocks",
+      "Plans",
+      "State",
+      "Providers"
+     ],
+     "answer": 0,
+     "explain": "DRY."
+    },
+    {
+     "q": "What shares values between workspaces?",
+     "options": [
+      "Email",
+      "Copy",
+      "Docs",
+      "Outputs consumed via remote state or variables"
+     ],
+     "answer": 3,
+     "explain": "Layering."
+    },
+    {
+     "q": "What does drift detection show?",
+     "options": [
+      "Cost",
+      "Perf",
+      "Differences between deployed resources and configuration",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Fix drift."
+    }
+   ]
+  },
+  "level-2/10-project-ha-web-app": {
+   "questions": [
+    {
+     "q": "What does the HA web app project combine?",
+     "options": [
+      "One VM",
+      "One zone",
+      "Multi-zone VPC, load balancer, autoscaling instance group and managed DB",
+      "One DB"
+     ],
+     "answer": 2,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How prove zone-failure survival?",
+     "options": [
+      "Guess",
+      "Assume",
+      "Disable/stop a zone's instances and verify service continues",
+      "Hope"
+     ],
+     "answer": 2,
+     "explain": "Chaos test."
+    },
+    {
+     "q": "What health checks matter?",
+     "options": [
+      "LB checks on the app's real health endpoint",
+      "Ping",
+      "Port",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Meaningful."
+    },
+    {
+     "q": "What monitors availability?",
+     "options": [
+      "Names",
+      "Logs",
+      "Synthetic checks and alerts on error rate/latency",
+      "Fonts"
+     ],
+     "answer": 2,
+     "explain": "SLOs."
+    }
+   ]
+  },
+  "level-3/01-openshift-on-ibm-cloud": {
+   "questions": [
+    {
+     "q": "What is Red Hat OpenShift on IBM Cloud (ROKS)?",
+     "options": [
+      "LB",
+      "VM",
+      "A managed OpenShift (enterprise Kubernetes) service",
+      "DB"
+     ],
+     "answer": 2,
+     "explain": "Operators, routes."
+    },
+    {
+     "q": "What does OpenShift add to Kubernetes?",
+     "options": [
+      "Nodes",
+      "Containers",
+      "Nothing",
+      "Built-in CI/CD, routes, security context constraints and an operator ecosystem"
+     ],
+     "answer": 3,
+     "explain": "Platform."
+    },
+    {
+     "q": "What are Routes?",
+     "options": [
+      "Pods",
+      "OpenShift's way to expose services externally",
+      "Secrets",
+      "Volumes"
+     ],
+     "answer": 1,
+     "explain": "Ingress alternative."
+    },
+    {
+     "q": "What are SCCs?",
+     "options": [
+      "Builds",
+      "Security Context Constraints controlling pod privileges",
+      "Quotas",
+      "Routes"
+     ],
+     "answer": 1,
+     "explain": "Hardening."
+    }
+   ]
+  },
+  "level-3/02-advanced-networking": {
+   "questions": [
+    {
+     "q": "What do Direct Link and VPN provide?",
+     "options": [
+      "CDN",
+      "Public",
+      "Private or encrypted connectivity between on-prem and IBM Cloud",
+      "DNS"
+     ],
+     "answer": 2,
+     "explain": "Hybrid."
+    },
+    {
+     "q": "What's a VPC peering alternative at scale?",
+     "options": [
+      "Public",
+      "Transit Gateway hub-and-spoke",
+      "Peer all",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Transitive."
+    },
+    {
+     "q": "What does Cloud Internet Services (CIS) provide?",
+     "options": [
+      "Compute",
+      "DNS, global load balancing, WAF and DDoS protection",
+      "Storage",
+      "IAM"
+     ],
+     "answer": 1,
+     "explain": "Edge."
+    },
+    {
+     "q": "What limits blast radius in networks?",
+     "options": [
+      "Flat",
+      "None",
+      "Open",
+      "Segmentation with subnets, ACLs and security groups"
+     ],
+     "answer": 3,
+     "explain": "Defense."
+    }
+   ]
+  },
+  "level-3/03-security-compliance": {
+   "questions": [
+    {
+     "q": "What does Key Protect/HPCS provide?",
+     "options": [
+      "Key management with BYOK/KYOK for envelope encryption",
+      "Network",
+      "Billing",
+      "Logs"
+     ],
+     "answer": 0,
+     "explain": "Control."
+    },
+    {
+     "q": "What does Security and Compliance Center do?",
+     "options": [
+      "LB",
+      "DB",
+      "Build",
+      "Continuous posture and compliance scanning against profiles"
+     ],
+     "answer": 3,
+     "explain": "Findings."
+    },
+    {
+     "q": "What's shared responsibility?",
+     "options": [
+      "IBM all",
+      "You all",
+      "None",
+      "IBM secures the platform; you secure configuration and data"
+     ],
+     "answer": 3,
+     "explain": "Know the line."
+    },
+    {
+     "q": "What does Secrets Manager do?",
+     "options": [
+      "Network",
+      "DB",
+      "Stores and rotates secrets and certificates",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Central."
+    }
+   ]
+  },
+  "level-3/04-event-driven-architecture": {
+   "questions": [
+    {
+     "q": "What does Event Streams provide?",
+     "options": [
+      "REST",
+      "Managed Kafka for event streaming",
+      "DB",
+      "LB"
+     ],
+     "answer": 1,
+     "explain": "Pub/sub."
+    },
+    {
+     "q": "Why event-driven architecture?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Loose coupling and asynchronous scalability"
+     ],
+     "answer": 3,
+     "explain": "Decoupled services."
+    },
+    {
+     "q": "What must consumers be?",
+     "options": [
+      "Fast",
+      "Single",
+      "Stateful",
+      "Idempotent because delivery can repeat"
+     ],
+     "answer": 3,
+     "explain": "At-least-once."
+    },
+    {
+     "q": "What's a dead-letter pattern?",
+     "options": [
+      "Drop",
+      "Retry",
+      "Routing repeatedly failing messages aside for inspection",
+      "Cache"
+     ],
+     "answer": 2,
+     "explain": "Safe handling."
+    }
+   ]
+  },
+  "level-3/05-observability-at-scale": {
+   "questions": [
+    {
+     "q": "What does observability at scale require?",
+     "options": [
+      "Metrics",
+      "Alerts",
+      "Logs, metrics and traces correlated across services",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Context."
+    },
+    {
+     "q": "What's distributed tracing for?",
+     "options": [
+      "Following a request across microservices to find latency",
+      "DNS",
+      "Auth",
+      "Billing"
+     ],
+     "answer": 0,
+     "explain": "Instana/OTel."
+    },
+    {
+     "q": "What's alert fatigue?",
+     "options": [
+      "Lag",
+      "Cost",
+      "Few",
+      "Too many low-value alerts causing real issues to be missed"
+     ],
+     "answer": 3,
+     "explain": "Tune."
+    },
+    {
+     "q": "What do SLOs drive?",
+     "options": [
+      "Cost",
+      "Logs",
+      "Network",
+      "Alerting and reliability targets tied to users"
+     ],
+     "answer": 3,
+     "explain": "Error budgets."
+    }
+   ]
+  },
+  "level-3/06-multi-region-dr": {
+   "questions": [
+    {
+     "q": "What does multi-region DR need?",
+     "options": [
+      "Backups",
+      "Zones",
+      "Replicated data, deployable infrastructure and tested failover",
+      "Scripts"
+     ],
+     "answer": 2,
+     "explain": "RTO/RPO."
+    },
+    {
+     "q": "What are RTO and RPO?",
+     "options": [
+      "Cost",
+      "Region",
+      "Time to recover and acceptable data loss window",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Drive design."
+    },
+    {
+     "q": "Which DR strategy is cheapest?",
+     "options": [
+      "Backup and restore (slowest RTO)",
+      "Pilot",
+      "Warm",
+      "Active-active"
+     ],
+     "answer": 0,
+     "explain": "Trade-offs."
+    },
+    {
+     "q": "How validate DR?",
+     "options": [
+      "Never",
+      "Docs",
+      "Assume",
+      "Regular failover tests/game days"
+     ],
+     "answer": 3,
+     "explain": "Prove it."
+    }
+   ]
+  },
+  "level-3/07-cost-management-governance": {
+   "questions": [
+    {
+     "q": "How track IBM Cloud cost?",
+     "options": [
+      "Annual",
+      "Ignore",
+      "Billing/usage reports, tags and budgets with alerts",
+      "Guess"
+     ],
+     "answer": 2,
+     "explain": "FinOps."
+    },
+    {
+     "q": "What does tagging enable?",
+     "options": [
+      "Law",
+      "Style",
+      "Cost allocation by team/project",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Showback."
+    },
+    {
+     "q": "What are quick savings?",
+     "options": [
+      "Ignore",
+      "Delete idle resources and right-size",
+      "Grow",
+      "Buy more"
+     ],
+     "answer": 1,
+     "explain": "Hygiene."
+    },
+    {
+     "q": "What governance control limits spend?",
+     "options": [
+      "Budgets, resource quotas and policies",
+      "None",
+      "Hope",
+      "Manual"
+     ],
+     "answer": 0,
+     "explain": "Guardrails."
+    }
+   ]
+  },
+  "level-3/08-advanced-schematics-terraform": {
+   "questions": [
+    {
+     "q": "What does a Terraform CI check include?",
+     "options": [
+      "Apply only",
+      "Docs",
+      "fmt, validate, lint/security scan and plan review",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Pipeline."
+    },
+    {
+     "q": "What does remote state locking prevent?",
+     "options": [
+      "Speed",
+      "Concurrent applies corrupting state",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Safety."
+    },
+    {
+     "q": "Why pin provider versions?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Reproducible plans"
+     ],
+     "answer": 3,
+     "explain": "Stability."
+    },
+    {
+     "q": "What are policy-as-code checks?",
+     "options": [
+      "Manual",
+      "None",
+      "Automated guardrails evaluated on plans (OPA/Sentinel-like)",
+      "Docs"
+     ],
+     "answer": 2,
+     "explain": "Compliance."
+    }
+   ]
+  },
+  "level-3/09-api-management": {
+   "questions": [
+    {
+     "q": "What does API Connect/API Gateway provide?",
+     "options": [
+      "Storage",
+      "Compute",
+      "Publishing, securing and governing APIs with plans, quotas and analytics",
+      "DB"
+     ],
+     "answer": 2,
+     "explain": "API management."
+    },
+    {
+     "q": "How secure APIs?",
+     "options": [
+      "Open",
+      "None",
+      "AuthN/Z, rate limits, validation and TLS",
+      "Keys only"
+     ],
+     "answer": 2,
+     "explain": "Defense."
+    },
+    {
+     "q": "What are API plans?",
+     "options": [
+      "Usage tiers/quotas for consumers",
+      "Networks",
+      "Types",
+      "Billing"
+     ],
+     "answer": 0,
+     "explain": "Monetize/limit."
+    },
+    {
+     "q": "Why version APIs?",
+     "options": [
+      "Law",
+      "Speed",
+      "Evolve without breaking consumers",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Compatibility."
+    }
+   ]
+  },
+  "level-3/10-project-microservices-platform": {
+   "questions": [
+    {
+     "q": "What does the microservices platform combine?",
+     "options": [
+      "Only DR",
+      "Only events",
+      "Only ROKS",
+      "ROKS, networking, security, events, observability and DR"
+     ],
+     "answer": 3,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How prove resilience?",
+     "options": [
+      "Slides",
+      "Demo",
+      "Hope",
+      "Failure injection and monitored recovery"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What's the delivery model?",
+     "options": [
+      "Email",
+      "Manual",
+      "Ad hoc",
+      "GitOps/CI-CD with automated tests"
+     ],
+     "answer": 3,
+     "explain": "Repeatable."
+    },
+    {
+     "q": "What should be documented?",
+     "options": [
+      "None",
+      "Code",
+      "Architecture, runbooks and ownership",
+      "Slides"
+     ],
+     "answer": 2,
+     "explain": "Operate."
+    }
+   ]
+  },
+  "level-4/01-enterprise-account-iam-at-scale": {
+   "questions": [
+    {
+     "q": "Why enterprise accounts?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Central governance and billing across multiple accounts"
+     ],
+     "answer": 3,
+     "explain": "Account hierarchy."
+    },
+    {
+     "q": "What does IAM at scale rely on?",
+     "options": [
+      "Root",
+      "Shared",
+      "Access groups, trusted profiles and consistent policy templates",
+      "Per-user"
+     ],
+     "answer": 2,
+     "explain": "Automation."
+    },
+    {
+     "q": "What's account separation for?",
+     "options": [
+      "Style",
+      "Law",
+      "Isolating environments/teams with guardrails",
+      "Cost"
+     ],
+     "answer": 2,
+     "explain": "Blast radius."
+    },
+    {
+     "q": "How manage across accounts?",
+     "options": [
+      "Enterprise-level policies and service ID/automation",
+      "Manual",
+      "Per-user",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Consistency."
+    }
+   ]
+  },
+  "level-4/02-landing-zone-architecture": {
+   "questions": [
+    {
+     "q": "What's a landing zone?",
+     "options": [
+      "VM",
+      "A secured, pre-configured multi-account foundation with networking and IAM",
+      "Bucket",
+      "Subnet"
+     ],
+     "answer": 1,
+     "explain": "Deployable architecture."
+    },
+    {
+     "q": "What does it include?",
+     "options": [
+      "Docs",
+      "Code",
+      "Network segmentation, IAM, logging, key management and guardrails",
+      "Apps"
+     ],
+     "answer": 2,
+     "explain": "Secure by default."
+    },
+    {
+     "q": "Why deploy it with IaC?",
+     "options": [
+      "Speed",
+      "Style",
+      "Repeatable and auditable foundations",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Terraform."
+    },
+    {
+     "q": "What's a management/workload VPC split?",
+     "options": [
+      "One VPC",
+      "Separate admin and app networks connected via Transit Gateway",
+      "Public",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Isolation."
+    }
+   ]
+  },
+  "level-4/03-hybrid-cloud-satellite": {
+   "questions": [
+    {
+     "q": "What is IBM Cloud Satellite?",
+     "options": [
+      "Extends IBM Cloud services to on-prem/edge locations managed from the cloud",
+      "DNS",
+      "VPC",
+      "DB"
+     ],
+     "answer": 0,
+     "explain": "Hybrid."
+    },
+    {
+     "q": "Why hybrid cloud?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "Data residency, latency or existing infrastructure"
+     ],
+     "answer": 3,
+     "explain": "Constraints."
+    },
+    {
+     "q": "What's a Satellite location?",
+     "options": [
+      "VPC",
+      "Zone",
+      "Region",
+      "Your own infrastructure registered as a control-plane-managed location"
+     ],
+     "answer": 3,
+     "explain": "Hosts connect."
+    },
+    {
+     "q": "What's the operational trade-off?",
+     "options": [
+      "Cost",
+      "You manage the hardware and connectivity",
+      "None",
+      "IBM all"
+     ],
+     "answer": 1,
+     "explain": "Responsibility."
+    }
+   ]
+  },
+  "level-4/04-data-ai-services": {
+   "questions": [
+    {
+     "q": "What do data and AI services include?",
+     "options": [
+      "Databases, analytics and watsonx services",
+      "Only VM",
+      "Only DNS",
+      "Only LB"
+     ],
+     "answer": 0,
+     "explain": "Platform."
+    },
+    {
+     "q": "What does watsonx.ai provide?",
+     "options": [
+      "IAM",
+      "Network",
+      "Storage",
+      "Foundation models and tools to build generative AI"
+     ],
+     "answer": 3,
+     "explain": "Prompt/tune."
+    },
+    {
+     "q": "What's data governance in AI?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Lineage, access control and quality for training data"
+     ],
+     "answer": 3,
+     "explain": "Trust."
+    },
+    {
+     "q": "How protect sensitive data in AI?",
+     "options": [
+      "Copy",
+      "Share",
+      "Ignore",
+      "Minimize, mask and control access with encryption"
+     ],
+     "answer": 3,
+     "explain": "Privacy."
+    }
+   ]
+  },
+  "level-4/05-performance-scalability-engineering": {
+   "questions": [
+    {
+     "q": "What drives performance engineering?",
+     "options": [
+      "Rewrite",
+      "Guess",
+      "Buy",
+      "Measure, find bottlenecks, then scale or optimize"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What does load testing reveal?",
+     "options": [
+      "Cost",
+      "Docs",
+      "Capacity and failure behavior under stress",
+      "Names"
+     ],
+     "answer": 2,
+     "explain": "Before launch."
+    },
+    {
+     "q": "What's horizontal scaling?",
+     "options": [
+      "Tune",
+      "Adding instances instead of bigger ones",
+      "Resize",
+      "Restart"
+     ],
+     "answer": 1,
+     "explain": "Elastic."
+    },
+    {
+     "q": "What does caching reduce?",
+     "options": [
+      "Cost only",
+      "Security",
+      "Types",
+      "Latency and backend load"
+     ],
+     "answer": 3,
+     "explain": "Careful invalidation."
+    }
+   ]
+  },
+  "level-4/06-security-deep-dive": {
+   "questions": [
+    {
+     "q": "What does defense in depth mean here?",
+     "options": [
+      "Layers: IAM, network controls, encryption, monitoring and response",
+      "One wall",
+      "None",
+      "Trust"
+     ],
+     "answer": 0,
+     "explain": "Overlap."
+    },
+    {
+     "q": "What does CBR add?",
+     "options": [
+      "Types",
+      "Compute",
+      "Network-context rules limiting where API calls may originate",
+      "Billing"
+     ],
+     "answer": 2,
+     "explain": "Perimeter."
+    },
+    {
+     "q": "How detect threats?",
+     "options": [
+      "Security services, logs and anomaly alerts into a SIEM",
+      "None",
+      "Hope",
+      "Guess"
+     ],
+     "answer": 0,
+     "explain": "Visibility."
+    },
+    {
+     "q": "What's key rotation for?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Limit exposure from compromised keys"
+     ],
+     "answer": 3,
+     "explain": "Lifecycle."
+    }
+   ]
+  },
+  "level-4/07-automation-pipelines-at-scale": {
+   "questions": [
+    {
+     "q": "What does pipeline automation at scale need?",
+     "options": [
+      "Manual",
+      "Ad hoc",
+      "Copy",
+      "Reusable templates, policy checks and secure credentials"
+     ],
+     "answer": 3,
+     "explain": "Standardize."
+    },
+    {
+     "q": "What's a golden pipeline?",
+     "options": [
+      "Cheap",
+      "A standard pipeline teams reuse with built-in checks",
+      "Fast",
+      "Secret"
+     ],
+     "answer": 1,
+     "explain": "Paved road."
+    },
+    {
+     "q": "Why gate on security scans?",
+     "options": [
+      "Law",
+      "Speed",
+      "Stop vulnerable artifacts from deploying",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Shift left."
+    },
+    {
+     "q": "How handle approvals?",
+     "options": [
+      "Automated checks plus human gates for prod",
+      "Always manual",
+      "Skip",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Balance."
+    }
+   ]
+  },
+  "level-4/08-finops-cost-optimization": {
+   "questions": [
+    {
+     "q": "What's FinOps?",
+     "options": [
+      "Accounting",
+      "Cross-team practice to optimize cloud spend with visibility and accountability",
+      "Billing",
+      "Cuts"
+     ],
+     "answer": 1,
+     "explain": "Culture."
+    },
+    {
+     "q": "What lowers cost safely?",
+     "options": [
+      "Grow",
+      "Ignore",
+      "Right-sizing, reservations/savings plans and cleanup",
+      "Delete prod"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What's showback vs chargeback?",
+     "options": [
+      "None",
+      "Reverse",
+      "Same",
+      "Showing teams their costs vs billing them"
+     ],
+     "answer": 3,
+     "explain": "Accountability."
+    },
+    {
+     "q": "What's a cost anomaly?",
+     "options": [
+      "Unexpected spend spike needing investigation",
+      "Normal",
+      "Profit",
+      "Discount"
+     ],
+     "answer": 0,
+     "explain": "Alerts."
+    }
+   ]
+  },
+  "level-4/09-sre-on-ibm-cloud": {
+   "questions": [
+    {
+     "q": "What does SRE on IBM Cloud emphasize?",
+     "options": [
+      "Ticketing",
+      "Heroics",
+      "SLOs, error budgets, automation and blameless postmortems",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Reliability."
+    },
+    {
+     "q": "What's an error budget?",
+     "options": [
+      "Bugs",
+      "Money",
+      "The allowed unreliability that balances velocity and stability",
+      "Tickets"
+     ],
+     "answer": 2,
+     "explain": "Policy."
+    },
+    {
+     "q": "What makes a good postmortem?",
+     "options": [
+      "Short",
+      "Secret",
+      "Timeline, root cause and follow-up actions without blame",
+      "Blame"
+     ],
+     "answer": 2,
+     "explain": "Learn."
+    },
+    {
+     "q": "What reduces toil?",
+     "options": [
+      "Automating repetitive operational tasks",
+      "More tickets",
+      "Manual",
+      "Overtime"
+     ],
+     "answer": 0,
+     "explain": "SRE goal."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only VM",
+      "Only LB",
+      "Only DB",
+      "Landing zone, security, hybrid, automation, FinOps and SRE practices"
+     ],
+     "answer": 3,
+     "explain": "Enterprise platform."
+    },
+    {
+     "q": "How prove readiness?",
+     "options": [
+      "Slides",
+      "Demo",
+      "Hope",
+      "DR drills, security review, cost report and SLO dashboards"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "Architecture decisions, runbooks and ownership maps",
+      "None",
+      "Slides",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Operate."
+    },
+    {
+     "q": "What sustains the platform?",
+     "options": [
+      "Luck",
+      "Governance, automation and continuous improvement",
+      "Silence",
+      "Tools"
+     ],
+     "answer": 1,
+     "explain": "Lifecycle."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A VSI in a private subnet needs to be managed from your laptop. What's the least-exposed approach?",
+    "options": [
+     "Floating IP open to the world",
+     "Open SSH to 0.0.0.0/0",
+     "Share the key",
+     "A VPN/bastion (or Transit Gateway/private access) rather than a public IP on the instance"
+    ],
+    "answer": 3,
+    "explain": "Minimize attack surface."
+   },
+   {
+    "q": "An application needs to write to Cloud Object Storage. What identity and role?",
+    "options": [
+     "Your personal API key",
+     "Public bucket",
+     "Administrator on the account",
+     "A service ID with a service access role Writer on that bucket/instance, using its API key from Secrets Manager"
+    ],
+    "answer": 3,
+    "explain": "Least privilege."
+   },
+   {
+    "q": "What's the difference between platform and service access roles?",
+    "options": [
+     "Same",
+     "Platform roles manage the resource (create/configure); service roles control data/operations inside the service",
+     "None",
+     "Reverse"
+    ],
+    "answer": 1,
+    "explain": "Both are needed in different situations."
+   },
+   {
+    "q": "Which structure lets you survive the loss of one availability zone?",
+    "options": [
+     "One zone",
+     "Bigger VM",
+     "One big subnet",
+     "Subnets and instances spread across at least two zones behind a load balancer"
+    ],
+    "answer": 3,
+    "explain": "Multi-zone VPC."
+   },
+   {
+    "q": "A VPC's subnets overlap with the on-prem network. What problem will you hit?",
+    "options": [
+     "You can't route between them via Direct Link/VPN/Transit Gateway; plan non-overlapping CIDRs",
+     "None",
+     "Slow",
+     "DNS"
+    ],
+    "answer": 0,
+    "explain": "Plan addressing early."
+   },
+   {
+    "q": "How many usable addresses does a /24 IBM Cloud VPC subnet have (5 reserved)?\n```python\nprint(2**8-5)\n```\n",
+    "options": [
+     "256",
+     "251",
+     "252",
+     "254"
+    ],
+    "answer": 1,
+    "explain": "Five addresses are reserved per subnet. Verified by running it."
+   },
+   {
+    "q": "A security group and a network ACL both apply. Which is stateful?",
+    "options": [
+     "Both",
+     "Neither",
+     "ACL",
+     "The security group (the ACL is stateless)"
+    ],
+    "answer": 3,
+    "explain": "Return traffic handling."
+   },
+   {
+    "q": "Where should database credentials for a Code Engine app come from?",
+    "options": [
+     "Service credentials bound to the app or Secrets Manager, never in the image or Git",
+     "Git",
+     "README",
+     "Dockerfile"
+    ],
+    "answer": 0,
+    "explain": "Rotate and scope."
+   },
+   {
+    "q": "A function must react to new objects in COS. Which model fits?",
+    "options": [
+     "Polling cron",
+     "VM",
+     "Manual",
+     "Event-driven: a trigger/notification invoking an action"
+    ],
+    "answer": 3,
+    "explain": "Loose coupling."
+   },
+   {
+    "q": "Queue consumers sometimes get the same message twice. What must handlers be?",
+    "options": [
+     "Idempotent",
+     "Stateful",
+     "Single",
+     "Faster"
+    ],
+    "answer": 0,
+    "explain": "At-least-once delivery."
+   },
+   {
+    "q": "Traffic is spiky and mostly idle. Which compute option minimizes cost?",
+    "options": [
+     "Large always-on VSI",
+     "Reserved cluster",
+     "Bare metal",
+     "Serverless (Code Engine/Functions) scaling to zero"
+    ],
+    "answer": 3,
+    "explain": "Pay for use."
+   },
+   {
+    "q": "A deployment drifted because someone edited a resource in the console. How do you prevent this?",
+    "options": [
+     "Ignore",
+     "Ban the console",
+     "Snapshots",
+     "Manage infrastructure through Schematics/Terraform and detect/fix drift"
+    ],
+    "answer": 3,
+    "explain": "Infrastructure as code."
+   },
+   {
+    "q": "Terraform applies run concurrently and corrupt state. What helps?",
+    "options": [
+     "Git state",
+     "Local state",
+     "Remote state with locking (Schematics workspaces serialize runs)",
+     "More engineers"
+    ],
+    "answer": 2,
+    "explain": "Safety."
+   },
+   {
+    "q": "Which encryption approach gives you control of the keys?",
+    "options": [
+     "Base64",
+     "Bring your own key with Key Protect or HPCS (customer-managed keys)",
+     "Default only",
+     "None"
+    ],
+    "answer": 1,
+    "explain": "Envelope encryption."
+   },
+   {
+    "q": "Which target defines how much data loss is acceptable after a disaster?",
+    "options": [
+     "RTO",
+     "SLA",
+     "SLO",
+     "RPO (RTO is the recovery time)"
+    ],
+    "answer": 3,
+    "explain": "Design replication to meet it."
+   },
+   {
+    "q": "An audit asks 'who deleted this bucket?'. Which service answers it?",
+    "options": [
+     "Billing",
+     "Log Analysis",
+     "Monitoring",
+     "Activity Tracker (audit events)"
+    ],
+    "answer": 3,
+    "explain": "Who did what."
+   },
+   {
+    "q": "Monthly cost doubled. What do you check first?",
+    "options": [
+     "Usage/billing reports by tag and resource, then idle or oversized resources",
+     "Add regions",
+     "Buy more",
+     "Add users"
+    ],
+    "answer": 0,
+    "explain": "FinOps basics."
+   },
+   {
+    "q": "Which practice makes a landing zone repeatable and auditable?",
+    "options": [
+     "Deploy it as code with reviewed pipelines",
+     "Wiki",
+     "Scripts on laptops",
+     "Console clicks"
+    ],
+    "answer": 0,
+    "explain": "Deployable architectures."
+   },
+   {
+    "q": "What does an SRE error budget do?",
+    "options": [
+     "Sets prices",
+     "Counts bugs",
+     "Balances release velocity against reliability, pausing risky changes when the budget is spent",
+     "Funds hardware"
+    ],
+    "answer": 2,
+    "explain": "Policy tool."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Plan a multi-zone VPC",
+    "prompt": "Implement plan_vpc(zones, tiers): carve a /18 address prefix per zone from 10.240.0.0/16 and allocate one /24 subnet per tier inside each zone's prefix, in order. Verify there are no overlaps and compute usable addresses per subnet (IBM Cloud reserves 5).",
+    "starter": "import ipaddress\n\ndef plan_vpc(zones, tiers, prefix_len=24, base=\"10.240.0.0/16\"):\n    # give each zone its own /18 address prefix carved from base; inside each zone's prefix allocate one\n    # /prefix_len subnet per tier (in order). Return {zone: {tier: cidr}}; raise ValueError if\n    # there are too many zones or tiers to fit.\n    return {}\n\nplan = plan_vpc([\"us-south-1\", \"us-south-2\", \"us-south-3\"], [\"web\", \"app\", \"db\"])\nfor z, tiers in plan.items():\n    print(z, tiers)\nnets = [ipaddress.ip_network(c) for t in plan.values() for c in t.values()]\nprint(\"subnets:\", len(nets), \"overlaps:\", any(a.overlaps(b) for i, a in enumerate(nets) for b in nets[i + 1:]))\nprint(\"usable per subnet:\", nets[0].num_addresses - 5)\n",
+    "expected": "us-south-1 {'web': '10.240.0.0/24', 'app': '10.240.1.0/24', 'db': '10.240.2.0/24'}\nus-south-2 {'web': '10.240.64.0/24', 'app': '10.240.65.0/24', 'db': '10.240.66.0/24'}\nus-south-3 {'web': '10.240.128.0/24', 'app': '10.240.129.0/24', 'db': '10.240.130.0/24'}\nsubnets: 9 overlaps: False\nusable per subnet: 251",
+    "solution": "import ipaddress\n\ndef plan_vpc(zones, tiers, prefix_len=24, base=\"10.240.0.0/16\"):\n    \"\"\"One subnet per tier per zone, taken from per-zone address prefixes of the VPC (like IBM Cloud\n    address prefixes), never overlapping. Returns {zone: {tier: cidr}}.\"\"\"\n    base_net = ipaddress.ip_network(base)\n    zone_prefix = 18                                   # each zone owns a /18 address prefix\n    zone_nets = list(base_net.subnets(new_prefix=zone_prefix))\n    if len(zones) > len(zone_nets):\n        raise ValueError(\"too many zones\")\n    plan = {}\n    for zone, znet in zip(zones, zone_nets):\n        subs = list(znet.subnets(new_prefix=prefix_len))\n        if len(tiers) > len(subs):\n            raise ValueError(\"too many tiers\")\n        plan[zone] = {tier: str(sub) for tier, sub in zip(tiers, subs)}\n    return plan\n\nplan = plan_vpc([\"us-south-1\", \"us-south-2\", \"us-south-3\"], [\"web\", \"app\", \"db\"])\nfor z, tiers in plan.items():\n    print(z, tiers)\nnets = [ipaddress.ip_network(c) for t in plan.values() for c in t.values()]\nprint(\"subnets:\", len(nets), \"overlaps:\", any(a.overlaps(b) for i, a in enumerate(nets) for b in nets[i + 1:]))\nprint(\"usable per subnet:\", nets[0].num_addresses - 5)\n",
+    "explain": "Giving each zone its own address prefix and subnetting inside it keeps zones isolated and the plan non-overlapping. IBM Cloud reserves five addresses per subnet, so a /24 has 251 usable. Verified by running the solution."
+   },
+   {
+    "title": "Evaluate IAM access policies",
+    "prompt": "Implement allowed(user, kind, service, group, needed_role): subjects are the user's access groups (or the user/service ID itself); a policy matches by subject, kind (platform vs service role), service and resource group (\"*\" matches anything) and grants if its role's rank is at least the needed role's rank.",
+    "starter": "ROLE_RANK = {\"Viewer\": 1, \"Reader\": 1, \"Operator\": 2, \"Writer\": 2, \"Editor\": 3, \"Manager\": 3, \"Administrator\": 4}\n\nPOLICIES = [\n    # (subject, kind, role, service, resource_group)  kind: platform manages the service, service accesses its data\n    (\"group:devs\",   \"service\",  \"Writer\",  \"cloud-object-storage\", \"dev\"),\n    (\"group:devs\",   \"platform\", \"Editor\",  \"is\",                   \"dev\"),\n    (\"group:ops\",    \"platform\", \"Administrator\", \"is\",              \"*\"),\n    (\"group:audit\",  \"platform\", \"Viewer\",  \"*\",                    \"*\"),\n    (\"serviceid:ci\", \"service\",  \"Writer\",  \"cloud-object-storage\", \"dev\"),\n]\nMEMBERS = {\"ada\": [\"group:devs\"], \"bo\": [\"group:ops\"], \"cy\": [\"group:audit\"], \"dan\": []}\n\ndef allowed(user, kind, service, group, needed_role):\n    # a user's subjects are MEMBERS[user] (their access groups) or [user] itself (e.g. a service ID).\n    # allow if any POLICY matches subject, kind, service (\"*\" matches any) and resource group (\"*\" any)\n    # with a role whose rank is >= the needed role's rank (platform and service roles are separate \"kinds\")\n    return False\n\nchecks = [\n    (\"ada\", \"service\", \"cloud-object-storage\", \"dev\", \"Writer\"),\n    (\"ada\", \"service\", \"cloud-object-storage\", \"prod\", \"Writer\"),\n    (\"ada\", \"platform\", \"is\", \"dev\", \"Editor\"),\n    (\"ada\", \"platform\", \"is\", \"dev\", \"Administrator\"),\n    (\"bo\", \"platform\", \"is\", \"prod\", \"Operator\"),\n    (\"cy\", \"platform\", \"cloud-object-storage\", \"prod\", \"Viewer\"),\n    (\"cy\", \"service\", \"cloud-object-storage\", \"prod\", \"Reader\"),\n    (\"dan\", \"platform\", \"is\", \"dev\", \"Viewer\"),\n    (\"serviceid:ci\", \"service\", \"cloud-object-storage\", \"dev\", \"Reader\"),\n]\nfor c in checks:\n    print((\"ALLOW\" if allowed(*c) else \"DENY \").ljust(6), *c)\n",
+    "expected": "ALLOW  ada service cloud-object-storage dev Writer\nDENY   ada service cloud-object-storage prod Writer\nALLOW  ada platform is dev Editor\nDENY   ada platform is dev Administrator\nALLOW  bo platform is prod Operator\nALLOW  cy platform cloud-object-storage prod Viewer\nDENY   cy service cloud-object-storage prod Reader\nDENY   dan platform is dev Viewer\nALLOW  serviceid:ci service cloud-object-storage dev Reader",
+    "solution": "ROLE_RANK = {\"Viewer\": 1, \"Reader\": 1, \"Operator\": 2, \"Writer\": 2, \"Editor\": 3, \"Manager\": 3, \"Administrator\": 4}\n\nPOLICIES = [\n    # (subject, kind, role, service, resource_group)  kind: platform manages the service, service accesses its data\n    (\"group:devs\",   \"service\",  \"Writer\",  \"cloud-object-storage\", \"dev\"),\n    (\"group:devs\",   \"platform\", \"Editor\",  \"is\",                   \"dev\"),\n    (\"group:ops\",    \"platform\", \"Administrator\", \"is\",              \"*\"),\n    (\"group:audit\",  \"platform\", \"Viewer\",  \"*\",                    \"*\"),\n    (\"serviceid:ci\", \"service\",  \"Writer\",  \"cloud-object-storage\", \"dev\"),\n]\nMEMBERS = {\"ada\": [\"group:devs\"], \"bo\": [\"group:ops\"], \"cy\": [\"group:audit\"], \"dan\": []}\n\ndef allowed(user, kind, service, group, needed_role):\n    subjects = MEMBERS.get(user, [user])\n    for subject, k, role, svc, rg in POLICIES:\n        if subject not in subjects or k != kind:\n            continue\n        if svc not in (\"*\", service) or rg not in (\"*\", group):\n            continue\n        if ROLE_RANK[role] >= ROLE_RANK[needed_role]:\n            return True\n    return False\n\nchecks = [\n    (\"ada\", \"service\", \"cloud-object-storage\", \"dev\", \"Writer\"),\n    (\"ada\", \"service\", \"cloud-object-storage\", \"prod\", \"Writer\"),\n    (\"ada\", \"platform\", \"is\", \"dev\", \"Editor\"),\n    (\"ada\", \"platform\", \"is\", \"dev\", \"Administrator\"),\n    (\"bo\", \"platform\", \"is\", \"prod\", \"Operator\"),\n    (\"cy\", \"platform\", \"cloud-object-storage\", \"prod\", \"Viewer\"),\n    (\"cy\", \"service\", \"cloud-object-storage\", \"prod\", \"Reader\"),\n    (\"dan\", \"platform\", \"is\", \"dev\", \"Viewer\"),\n    (\"serviceid:ci\", \"service\", \"cloud-object-storage\", \"dev\", \"Reader\"),\n]\nfor c in checks:\n    print((\"ALLOW\" if allowed(*c) else \"DENY \").ljust(6), *c)\n",
+    "explain": "Policies attach to groups and service IDs, scope to a service and resource group, and platform roles are separate from service roles. A user with no group gets nothing by default (deny by default). This is a simplified model of IBM Cloud IAM. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
