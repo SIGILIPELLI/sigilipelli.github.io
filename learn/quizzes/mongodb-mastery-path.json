@@ -1,0 +1,2159 @@
+{
+ "course": "mongodb-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-architecture-and-setup": {
+   "questions": [
+    {
+     "q": "What is MongoDB's data model?",
+     "options": [
+      "Flexible JSON-like (BSON) documents grouped into collections",
+      "Graphs",
+      "Tables and rows",
+      "Key-value only"
+     ],
+     "answer": 0,
+     "explain": "Schema flexibility."
+    },
+    {
+     "q": "What's the hierarchy?",
+     "options": [
+      "Deployment, database, collection, document",
+      "Table, row",
+      "Index, doc",
+      "Bucket, key"
+     ],
+     "answer": 0,
+     "explain": "Namespaces."
+    },
+    {
+     "q": "What does mongod do?",
+     "options": [
+      "Driver",
+      "Runs the database server process",
+      "Backup",
+      "Client shell"
+     ],
+     "answer": 1,
+     "explain": "mongosh is the shell."
+    },
+    {
+     "q": "What is a replica set?",
+     "options": [
+      "Backups",
+      "Shards",
+      "Indexes",
+      "A group of mongod instances maintaining the same data for availability"
+     ],
+     "answer": 3,
+     "explain": "Primary plus secondaries."
+    }
+   ]
+  },
+  "level-1/02-mongosh-like-a-pro": {
+   "questions": [
+    {
+     "q": "What does `use shop` do in mongosh?",
+     "options": [
+      "Drops",
+      "Creates tables",
+      "Switches the current database (created lazily on first write)",
+      "Connects"
+     ],
+     "answer": 2,
+     "explain": "Lazy creation."
+    },
+    {
+     "q": "What does `db.items.find().pretty()` style output help with?",
+     "options": [
+      "Readable formatted results",
+      "Writes",
+      "Indexes",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "mongosh formats by default."
+    },
+    {
+     "q": "What is mongosh?",
+     "options": [
+      "The modern MongoDB shell, a JavaScript environment",
+      "Compass",
+      "Server",
+      "Driver"
+     ],
+     "answer": 0,
+     "explain": "Scripting."
+    },
+    {
+     "q": "How run a script file in mongosh?",
+     "options": [
+      "run",
+      "exec",
+      "mongosh -x",
+      "mongosh --file script.js (or load())"
+     ],
+     "answer": 3,
+     "explain": "Automation."
+    }
+   ]
+  },
+  "level-1/03-documents-bson-types": {
+   "questions": [
+    {
+     "q": "What is the _id field?",
+     "options": [
+      "A unique primary key for every document (ObjectId by default)",
+      "Version",
+      "Optional",
+      "Index name"
+     ],
+     "answer": 0,
+     "explain": "Immutable."
+    },
+    {
+     "q": "What does an ObjectId embed?",
+     "options": [
+      "Region",
+      "Hash of data",
+      "A timestamp, random value and counter",
+      "Name"
+     ],
+     "answer": 2,
+     "explain": "Roughly time-ordered."
+    },
+    {
+     "q": "Which BSON types exist beyond JSON?",
+     "options": [
+      "Only strings",
+      "XML",
+      "Only numbers",
+      "Date, ObjectId, Decimal128, Int32/Int64 and binary"
+     ],
+     "answer": 3,
+     "explain": "Richer types."
+    },
+    {
+     "q": "Why use Decimal128 for money?",
+     "options": [
+      "Floating point can't represent decimals exactly",
+      "Smaller",
+      "Law",
+      "Faster"
+     ],
+     "answer": 0,
+     "explain": "Avoid rounding errors."
+    }
+   ]
+  },
+  "level-1/04-insert-and-query": {
+   "questions": [
+    {
+     "q": "What does `insertOne` return?",
+     "options": [
+      "An acknowledgement with the inserted _id",
+      "Count",
+      "Cursor",
+      "The document"
+     ],
+     "answer": 0,
+     "explain": "insertedId."
+    },
+    {
+     "q": "What does `find({age: {$gt: 30}})` do?",
+     "options": [
+      "Deletes",
+      "Updates",
+      "Counts",
+      "Returns documents where age is greater than 30"
+     ],
+     "answer": 3,
+     "explain": "Query operators."
+    },
+    {
+     "q": "What does a projection do?",
+     "options": [
+      "Indexes",
+      "Limits which fields are returned",
+      "Sorts",
+      "Filters rows"
+     ],
+     "answer": 1,
+     "explain": "find({}, {name:1})."
+    },
+    {
+     "q": "What does `sort({age: -1})` mean?",
+     "options": [
+      "Random",
+      "Group",
+      "Descending by age",
+      "Ascending"
+     ],
+     "answer": 2,
+     "explain": "1 is ascending."
+    }
+   ]
+  },
+  "level-1/05-arrays-embedded-queries": {
+   "questions": [
+    {
+     "q": "How query a field inside an embedded document?",
+     "options": [
+      "address->city",
+      "address[city]",
+      "address:city",
+      "Dot notation: find({\"address.city\": \"Oslo\"})"
+     ],
+     "answer": 3,
+     "explain": "Quotes required."
+    },
+    {
+     "q": "What does `{tags: \"mongo\"}` match for an array field?",
+     "options": [
+      "Strings only",
+      "None",
+      "Equal arrays",
+      "Documents whose array contains that element"
+     ],
+     "answer": 3,
+     "explain": "Array containment."
+    },
+    {
+     "q": "What does $elemMatch do?",
+     "options": [
+      "Projection",
+      "Sort",
+      "Index",
+      "Matches array elements satisfying multiple conditions together"
+     ],
+     "answer": 3,
+     "explain": "Same-element conditions."
+    },
+    {
+     "q": "What does $size do?",
+     "options": [
+      "Matches arrays with an exact length",
+      "Sort",
+      "Count docs",
+      "Limit"
+     ],
+     "answer": 0,
+     "explain": "Not a range."
+    }
+   ]
+  },
+  "level-1/06-update-operators": {
+   "questions": [
+    {
+     "q": "Which operator changes a field's value?",
+     "options": [
+      "$inc",
+      "$push",
+      "$unset",
+      "$set"
+     ],
+     "answer": 3,
+     "explain": "Plus others."
+    },
+    {
+     "q": "What does $inc do?",
+     "options": [
+      "Pulls",
+      "Pushes",
+      "Atomically increments a numeric field",
+      "Sets"
+     ],
+     "answer": 2,
+     "explain": "Counters."
+    },
+    {
+     "q": "What does $push do?",
+     "options": [
+      "Appends a value to an array",
+      "Replaces",
+      "Removes",
+      "Sorts"
+     ],
+     "answer": 0,
+     "explain": "$addToSet avoids duplicates."
+    },
+    {
+     "q": "What does upsert: true do?",
+     "options": [
+      "Ignores",
+      "Errors",
+      "Deletes",
+      "Inserts a document if none matches"
+     ],
+     "answer": 3,
+     "explain": "Update or insert."
+    }
+   ]
+  },
+  "level-1/07-deletes-replaces-bulk": {
+   "questions": [
+    {
+     "q": "What does `deleteMany({})` do?",
+     "options": [
+      "Drops indexes",
+      "Nothing",
+      "Deletes every document in the collection",
+      "One"
+     ],
+     "answer": 2,
+     "explain": "Dangerous."
+    },
+    {
+     "q": "What's the difference between replaceOne and updateOne?",
+     "options": [
+      "Reverse",
+      "replaceOne swaps the whole document (except _id); updateOne applies operators",
+      "Same",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Be careful."
+    },
+    {
+     "q": "What's bulkWrite for?",
+     "options": [
+      "Join",
+      "Index",
+      "Backups",
+      "Sending many operations in one round trip"
+     ],
+     "answer": 3,
+     "explain": "Efficiency."
+    },
+    {
+     "q": "What does ordered: false do in bulk?",
+     "options": [
+      "Retries",
+      "Continues after an error, running remaining operations",
+      "Sorts",
+      "Stops"
+     ],
+     "answer": 1,
+     "explain": "Throughput."
+    }
+   ]
+  },
+  "level-1/08-drivers": {
+   "questions": [
+    {
+     "q": "What does an official driver provide?",
+     "options": [
+      "UI",
+      "Shell",
+      "A language API to connect, query and manage MongoDB",
+      "Server"
+     ],
+     "answer": 2,
+     "explain": "Node, Python, Java."
+    },
+    {
+     "q": "What's a connection string?",
+     "options": [
+      "Key",
+      "Path",
+      "Password",
+      "A URI like mongodb://host:27017/db with options"
+     ],
+     "answer": 3,
+     "explain": "+srv for Atlas."
+    },
+    {
+     "q": "Why reuse one MongoClient?",
+     "options": [
+      "Style",
+      "It manages a connection pool; creating many is wasteful",
+      "Speed only",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Create once."
+    },
+    {
+     "q": "What should you do with credentials?",
+     "options": [
+      "Keep them in environment/config, never in code",
+      "Code",
+      "Git",
+      "README"
+     ],
+     "answer": 0,
+     "explain": "Secrets."
+    }
+   ]
+  },
+  "level-1/09-import-export-dump": {
+   "questions": [
+    {
+     "q": "What does mongodump produce?",
+     "options": [
+      "A BSON binary export of data",
+      "SQL",
+      "CSV",
+      "JSON"
+     ],
+     "answer": 0,
+     "explain": "mongorestore reloads."
+    },
+    {
+     "q": "What does mongoexport produce?",
+     "options": [
+      "BSON",
+      "SQL",
+      "Dump",
+      "JSON or CSV of a collection"
+     ],
+     "answer": 3,
+     "explain": "mongoimport."
+    },
+    {
+     "q": "When use dump/restore vs export/import?",
+     "options": [
+      "Dump for faithful backups (types/indexes); export for interchange",
+      "Same",
+      "None",
+      "Reverse"
+     ],
+     "answer": 0,
+     "explain": "Types preserved."
+    },
+    {
+     "q": "What's lost in JSON export?",
+     "options": [
+      "Nothing",
+      "Some BSON type fidelity unless extended JSON is used",
+      "IDs",
+      "Fields"
+     ],
+     "answer": 1,
+     "explain": "Use canonical mode."
+    }
+   ]
+  },
+  "level-1/10-project-recipe-box": {
+   "questions": [
+    {
+     "q": "What does the recipe box project combine?",
+     "options": [
+      "CRUD, embedded ingredients/steps, queries, updates and import/export",
+      "Only reads",
+      "Only aggregation",
+      "Only indexes"
+     ],
+     "answer": 0,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How model ingredients?",
+     "options": [
+      "Join table",
+      "Separate collection",
+      "An embedded array of subdocuments",
+      "String"
+     ],
+     "answer": 2,
+     "explain": "Read together."
+    },
+    {
+     "q": "How find recipes by ingredient?",
+     "options": [
+      "Query the array with dot notation or $elemMatch",
+      "Join",
+      "Scan app",
+      "Regex"
+     ],
+     "answer": 0,
+     "explain": "Index it later."
+    },
+    {
+     "q": "How avoid duplicates?",
+     "options": [
+      "Hope",
+      "App check only",
+      "Sort",
+      "A unique index or upsert on a natural key"
+     ],
+     "answer": 3,
+     "explain": "Constraint."
+    }
+   ]
+  },
+  "level-2/01-embed-or-reference": {
+   "questions": [
+    {
+     "q": "When embed related data?",
+     "options": [
+      "Unbounded",
+      "When it's read together, bounded in size and owned by the parent",
+      "Never",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "One read."
+    },
+    {
+     "q": "When reference instead?",
+     "options": [
+      "Large, unbounded or independently accessed/shared data",
+      "Small",
+      "Bounded",
+      "Owned"
+     ],
+     "answer": 0,
+     "explain": "Avoid huge documents."
+    },
+    {
+     "q": "What's the document size limit?",
+     "options": [
+      "16 MB",
+      "Unlimited",
+      "1 MB",
+      "64 MB"
+     ],
+     "answer": 0,
+     "explain": "Design around it."
+    },
+    {
+     "q": "What antipattern grows unboundedly?",
+     "options": [
+      "Referencing",
+      "Embedding ever-growing arrays in a document",
+      "Subdocs",
+      "Indexes"
+     ],
+     "answer": 1,
+     "explain": "Use buckets/references."
+    }
+   ]
+  },
+  "level-2/02-modeling-relationships": {
+   "questions": [
+    {
+     "q": "How model one-to-many with few children?",
+     "options": [
+      "Join",
+      "Index",
+      "Embed them in the parent document",
+      "Separate"
+     ],
+     "answer": 2,
+     "explain": "Simple."
+    },
+    {
+     "q": "How model many-to-many?",
+     "options": [
+      "Join table",
+      "Embed all",
+      "Arrays of references on one or both sides",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Design by queries."
+    },
+    {
+     "q": "What guides modeling?",
+     "options": [
+      "Normal forms",
+      "Tables",
+      "Names",
+      "The application's access patterns"
+     ],
+     "answer": 3,
+     "explain": "Query-driven."
+    },
+    {
+     "q": "What's the trade-off of duplication?",
+     "options": [
+      "Cost",
+      "Faster reads versus harder updates",
+      "None",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Controlled denormalization."
+    }
+   ]
+  },
+  "level-2/03-schema-design-patterns": {
+   "questions": [
+    {
+     "q": "What does the bucket pattern do?",
+     "options": [
+      "Indexes",
+      "Splits docs",
+      "Joins",
+      "Groups many small related records (e.g. time series) into one document"
+     ],
+     "answer": 3,
+     "explain": "Fewer documents."
+    },
+    {
+     "q": "What's the computed pattern?",
+     "options": [
+      "Index",
+      "Sort",
+      "Storing precomputed values to avoid expensive recomputation",
+      "Join"
+     ],
+     "answer": 2,
+     "explain": "Read-heavy."
+    },
+    {
+     "q": "What's the subset pattern?",
+     "options": [
+      "Shard",
+      "Index",
+      "Copy",
+      "Keeping the hot subset in the main document and the rest elsewhere"
+     ],
+     "answer": 3,
+     "explain": "Working set."
+    },
+    {
+     "q": "What's the extended reference pattern?",
+     "options": [
+      "Copying frequently needed fields from a referenced doc to avoid joins",
+      "Index",
+      "Reference",
+      "Embed all"
+     ],
+     "answer": 0,
+     "explain": "Denormalize wisely."
+    }
+   ]
+  },
+  "level-2/04-schema-validation": {
+   "questions": [
+    {
+     "q": "What does $jsonSchema validation do?",
+     "options": [
+      "Indexes",
+      "Backups",
+      "Enforces document structure and types on writes",
+      "Joins"
+     ],
+     "answer": 2,
+     "explain": "Collection validator."
+    },
+    {
+     "q": "What does validationAction: warn do?",
+     "options": [
+      "Rejects",
+      "Logs violations without rejecting writes",
+      "Ignores",
+      "Deletes"
+     ],
+     "answer": 1,
+     "explain": "Migrations."
+    },
+    {
+     "q": "Why validate if MongoDB is flexible?",
+     "options": [
+      "Style",
+      "Catch bad data early while keeping flexibility where needed",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Guardrails."
+    },
+    {
+     "q": "When does validation apply?",
+     "options": [
+      "On inserts and updates (validationLevel controls existing docs)",
+      "Reads",
+      "Backups",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Configurable."
+    }
+   ]
+  },
+  "level-2/05-indexes-compound": {
+   "questions": [
+    {
+     "q": "What is a compound index?",
+     "options": [
+      "Many indexes",
+      "An index on multiple fields in a specific order",
+      "Text",
+      "Hashed"
+     ],
+     "answer": 1,
+     "explain": "Order matters."
+    },
+    {
+     "q": "What's the ESR guideline?",
+     "options": [
+      "Equality, Sort, Range for ordering compound index fields",
+      "Fast",
+      "Safe",
+      "Easy"
+     ],
+     "answer": 0,
+     "explain": "Query shape."
+    },
+    {
+     "q": "What does a covered query do?",
+     "options": [
+      "Answers from the index alone without reading documents",
+      "Sorts",
+      "Joins",
+      "Caches"
+     ],
+     "answer": 0,
+     "explain": "Fast."
+    },
+    {
+     "q": "What's the cost of indexes?",
+     "options": [
+      "Slower writes and more storage/memory",
+      "Faster writes",
+      "None",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Index only what's needed."
+    }
+   ]
+  },
+  "level-2/06-index-types": {
+   "questions": [
+    {
+     "q": "What are TTL indexes?",
+     "options": [
+      "Indexes that automatically delete documents after a time",
+      "Geo",
+      "Unique",
+      "Text"
+     ],
+     "answer": 0,
+     "explain": "Expiring data."
+    },
+    {
+     "q": "What does a partial index do?",
+     "options": [
+      "Text",
+      "None",
+      "Indexes only documents matching a filter",
+      "All"
+     ],
+     "answer": 2,
+     "explain": "Smaller index."
+    },
+    {
+     "q": "What does a unique index enforce?",
+     "options": [
+      "No duplicate values for the indexed field(s)",
+      "Types",
+      "Order",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Constraint."
+    },
+    {
+     "q": "What does a text index support?",
+     "options": [
+      "TTL",
+      "Joins",
+      "Geo",
+      "Full-text search over string fields"
+     ],
+     "answer": 3,
+     "explain": "$text."
+    }
+   ]
+  },
+  "level-2/07-reading-explain": {
+   "questions": [
+    {
+     "q": "What does explain('executionStats') show?",
+     "options": [
+      "Schema",
+      "Users",
+      "How a query ran: plan, docs examined and returned, time",
+      "Backups"
+     ],
+     "answer": 2,
+     "explain": "Diagnosis."
+    },
+    {
+     "q": "What's a COLLSCAN?",
+     "options": [
+      "Sort",
+      "Cache",
+      "A full collection scan (usually needs an index)",
+      "Index scan"
+     ],
+     "answer": 2,
+     "explain": "Slow at scale."
+    },
+    {
+     "q": "What ratio signals an inefficient query?",
+     "options": [
+      "Small",
+      "Equal",
+      "Zero",
+      "docsExamined much larger than nReturned"
+     ],
+     "answer": 3,
+     "explain": "Selectivity."
+    },
+    {
+     "q": "What's IXSCAN?",
+     "options": [
+      "Sort",
+      "A scan using an index",
+      "Fetch",
+      "Collscan"
+     ],
+     "answer": 1,
+     "explain": "Good sign."
+    }
+   ]
+  },
+  "level-2/08-query-planner": {
+   "questions": [
+    {
+     "q": "What does the query planner do?",
+     "options": [
+      "Routes",
+      "Chooses an execution plan by trialing candidate indexes",
+      "Backs up",
+      "Writes"
+     ],
+     "answer": 1,
+     "explain": "Plan cache."
+    },
+    {
+     "q": "What is a winning plan?",
+     "options": [
+      "Largest",
+      "First",
+      "Random",
+      "The candidate that returned results fastest in the trial"
+     ],
+     "answer": 3,
+     "explain": "Cached."
+    },
+    {
+     "q": "What can force an index?",
+     "options": [
+      "force",
+      "hint() (use sparingly)",
+      "use",
+      "index()"
+     ],
+     "answer": 1,
+     "explain": "Debugging."
+    },
+    {
+     "q": "Why might a plan become bad?",
+     "options": [
+      "Data distribution changes make the cached plan inefficient",
+      "Cost",
+      "Never",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Replan."
+    }
+   ]
+  },
+  "level-2/09-time-series-capped": {
+   "questions": [
+    {
+     "q": "What are time series collections for?",
+     "options": [
+      "Efficiently storing measurements over time with automatic bucketing",
+      "Text",
+      "Documents",
+      "Graphs"
+     ],
+     "answer": 0,
+     "explain": "IoT/metrics."
+    },
+    {
+     "q": "What's a capped collection?",
+     "options": [
+      "A fixed-size collection that overwrites oldest documents",
+      "Sharded",
+      "Indexed",
+      "Unlimited"
+     ],
+     "answer": 0,
+     "explain": "Logs."
+    },
+    {
+     "q": "What defines a time series collection?",
+     "options": [
+      "timeField, metaField and granularity",
+      "Index",
+      "Key",
+      "Schema"
+     ],
+     "answer": 0,
+     "explain": "Options."
+    },
+    {
+     "q": "What's a capped collection's limit?",
+     "options": [
+      "None",
+      "Users",
+      "Time",
+      "Max size (and optionally document count) with insertion-order retention"
+     ],
+     "answer": 3,
+     "explain": "No deletes."
+    }
+   ]
+  },
+  "level-2/10-project-store-catalog": {
+   "questions": [
+    {
+     "q": "What does the store catalog project combine?",
+     "options": [
+      "Only backups",
+      "Modeling, validation, indexes and explain-driven tuning",
+      "Only CRUD",
+      "Only shards"
+     ],
+     "answer": 1,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How justify an index?",
+     "options": [
+      "Hope",
+      "Always",
+      "Guess",
+      "By explain output showing improvement for real queries"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "How model product variants?",
+     "options": [
+      "Tables",
+      "Embedded variants array or attribute pattern",
+      "Join",
+      "Strings"
+     ],
+     "answer": 1,
+     "explain": "Flexible."
+    },
+    {
+     "q": "How enforce SKU uniqueness?",
+     "options": [
+      "App",
+      "A unique index on sku",
+      "Sort",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Constraint."
+    }
+   ]
+  },
+  "level-3/01-aggregation-fundamentals": {
+   "questions": [
+    {
+     "q": "What is an aggregation pipeline?",
+     "options": [
+      "A query",
+      "An index",
+      "A sequence of stages transforming documents",
+      "A shard"
+     ],
+     "answer": 2,
+     "explain": "$match, $group."
+    },
+    {
+     "q": "Which stage filters documents early?",
+     "options": [
+      "$group",
+      "$match (put it first to use indexes)",
+      "$sort",
+      "$project"
+     ],
+     "answer": 1,
+     "explain": "Performance."
+    },
+    {
+     "q": "What does $group do?",
+     "options": [
+      "Filter",
+      "Sort",
+      "Groups documents by a key and computes accumulators",
+      "Limit"
+     ],
+     "answer": 2,
+     "explain": "_id is the key."
+    },
+    {
+     "q": "What does $unwind do?",
+     "options": [
+      "Sort",
+      "Merge",
+      "Deconstructs an array into one document per element",
+      "Index"
+     ],
+     "answer": 2,
+     "explain": "Flatten."
+    }
+   ]
+  },
+  "level-3/02-reshaping-expressions": {
+   "questions": [
+    {
+     "q": "What does $project/$addFields do?",
+     "options": [
+      "Filter",
+      "Reshape documents by selecting or computing fields",
+      "Sort",
+      "Group"
+     ],
+     "answer": 1,
+     "explain": "Expressions."
+    },
+    {
+     "q": "What does $cond do?",
+     "options": [
+      "Group",
+      "Sort",
+      "Join",
+      "Evaluates an if/then/else expression"
+     ],
+     "answer": 3,
+     "explain": "Conditional fields."
+    },
+    {
+     "q": "What does $map do?",
+     "options": [
+      "Filter",
+      "Applies an expression to each array element",
+      "Sort",
+      "Merge"
+     ],
+     "answer": 1,
+     "explain": "Array transform."
+    },
+    {
+     "q": "What does $facet do?",
+     "options": [
+      "Runs multiple sub-pipelines on the same input",
+      "Lookup",
+      "Join",
+      "Index"
+     ],
+     "answer": 0,
+     "explain": "Dashboards."
+    }
+   ]
+  },
+  "level-3/03-lookup-joins": {
+   "questions": [
+    {
+     "q": "What does $lookup do?",
+     "options": [
+      "Index",
+      "Inner join",
+      "Merge",
+      "A left outer join with another collection"
+     ],
+     "answer": 3,
+     "explain": "Join-like."
+    },
+    {
+     "q": "Why index the foreign field?",
+     "options": [
+      "Law",
+      "Style",
+      "Otherwise each lookup scans the other collection",
+      "Speed only"
+     ],
+     "answer": 2,
+     "explain": "Performance."
+    },
+    {
+     "q": "When prefer embedding over $lookup?",
+     "options": [
+      "Always",
+      "Rare",
+      "Never",
+      "When data is read together so no join is needed"
+     ],
+     "answer": 3,
+     "explain": "Model for access."
+    },
+    {
+     "q": "What does $unwind after $lookup do?",
+     "options": [
+      "Index",
+      "Group",
+      "Sort",
+      "Flattens the joined array into documents"
+     ],
+     "answer": 3,
+     "explain": "Common pairing."
+    }
+   ]
+  },
+  "level-3/04-analytics-windows": {
+   "questions": [
+    {
+     "q": "What do window functions ($setWindowFields) add?",
+     "options": [
+      "Indexes",
+      "Joins",
+      "Running totals, moving averages and ranks without collapsing documents",
+      "Shards"
+     ],
+     "answer": 2,
+     "explain": "Analytics."
+    },
+    {
+     "q": "What does $bucket do?",
+     "options": [
+      "Filter",
+      "Join",
+      "Groups values into ranges",
+      "Index"
+     ],
+     "answer": 2,
+     "explain": "Histograms."
+    },
+    {
+     "q": "What does $dateTrunc do?",
+     "options": [
+      "Truncates dates to units like day or hour",
+      "Sort",
+      "Round",
+      "Join"
+     ],
+     "answer": 0,
+     "explain": "Time grouping."
+    },
+    {
+     "q": "What does $sortByCount do?",
+     "options": [
+      "Index",
+      "Groups by a value and sorts by frequency",
+      "Join",
+      "Sort"
+     ],
+     "answer": 1,
+     "explain": "Top-N."
+    }
+   ]
+  },
+  "level-3/05-pipeline-performance": {
+   "questions": [
+    {
+     "q": "How speed up pipelines?",
+     "options": [
+      "More stages",
+      "Big groups",
+      "Filter and limit early and use indexes for the first stages",
+      "Late $match"
+     ],
+     "answer": 2,
+     "explain": "Reduce data."
+    },
+    {
+     "q": "What does allowDiskUse do?",
+     "options": [
+      "Shard",
+      "Lets stages spill to disk beyond memory limits",
+      "Index",
+      "Faster"
+     ],
+     "answer": 1,
+     "explain": "100MB stage limit."
+    },
+    {
+     "q": "What is stage memory limit?",
+     "options": [
+      "None",
+      "10 MB",
+      "1 GB",
+      "100 MB per blocking stage by default"
+     ],
+     "answer": 3,
+     "explain": "Plan for it."
+    },
+    {
+     "q": "What prevents index use in $match?",
+     "options": [
+      "Indexed",
+      "Simple",
+      "Early",
+      "Placing it after stages that change fields"
+     ],
+     "answer": 3,
+     "explain": "Order matters."
+    }
+   ]
+  },
+  "level-3/06-transactions": {
+   "questions": [
+    {
+     "q": "What do multi-document transactions provide?",
+     "options": [
+      "Speed",
+      "ACID across multiple documents/collections",
+      "Sharding",
+      "Indexes"
+     ],
+     "answer": 1,
+     "explain": "Replica sets/shards."
+    },
+    {
+     "q": "When avoid transactions?",
+     "options": [
+      "When a single-document atomic update suffices (embedding)",
+      "Never",
+      "Sharding",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Cost."
+    },
+    {
+     "q": "What do transactions require?",
+     "options": [
+      "Nothing",
+      "Standalone",
+      "Capped",
+      "Replica set (or sharded cluster) and a session"
+     ],
+     "answer": 3,
+     "explain": "Setup."
+    },
+    {
+     "q": "What's a write conflict?",
+     "options": [
+      "Success",
+      "Deadlock",
+      "None",
+      "Concurrent transactions modifying the same document; one aborts and retries"
+     ],
+     "answer": 3,
+     "explain": "Retry logic."
+    }
+   ]
+  },
+  "level-3/07-change-streams": {
+   "questions": [
+    {
+     "q": "What do change streams provide?",
+     "options": [
+      "Backups",
+      "Indexes",
+      "Real-time notifications of data changes",
+      "Queries"
+     ],
+     "answer": 2,
+     "explain": "Event-driven."
+    },
+    {
+     "q": "What do they require?",
+     "options": [
+      "Capped",
+      "Index",
+      "Standalone",
+      "A replica set or sharded cluster (oplog)"
+     ],
+     "answer": 3,
+     "explain": "Backed by oplog."
+    },
+    {
+     "q": "What are resume tokens for?",
+     "options": [
+      "Resuming a stream after a disconnect without missing events",
+      "Sort",
+      "Index",
+      "Auth"
+     ],
+     "answer": 0,
+     "explain": "Reliability."
+    },
+    {
+     "q": "Use case?",
+     "options": [
+      "Sort",
+      "Joins",
+      "Backups",
+      "Syncing caches, triggering workflows and auditing"
+     ],
+     "answer": 3,
+     "explain": "Reactive."
+    }
+   ]
+  },
+  "level-3/08-geospatial": {
+   "questions": [
+    {
+     "q": "Which index supports geospatial queries?",
+     "options": [
+      "Text",
+      "TTL",
+      "Hashed",
+      "2dsphere"
+     ],
+     "answer": 3,
+     "explain": "GeoJSON."
+    },
+    {
+     "q": "What does $near do?",
+     "options": [
+      "Finds documents near a point, sorted by distance",
+      "Groups",
+      "Counts",
+      "Joins"
+     ],
+     "answer": 0,
+     "explain": "Maxdistance."
+    },
+    {
+     "q": "What does $geoWithin do?",
+     "options": [
+      "Near",
+      "Sort",
+      "Finds documents inside a shape/polygon",
+      "Index"
+     ],
+     "answer": 2,
+     "explain": "Areas."
+    },
+    {
+     "q": "What coordinate order does GeoJSON use?",
+     "options": [
+      "[lat, lon]",
+      "[longitude, latitude]",
+      "None",
+      "x,y"
+     ],
+     "answer": 1,
+     "explain": "Common bug."
+    }
+   ]
+  },
+  "level-3/09-text-search-collation": {
+   "questions": [
+    {
+     "q": "What does a text index support?",
+     "options": [
+      "Word-based search with stemming and ranking",
+      "Geo",
+      "Joins",
+      "Regex"
+     ],
+     "answer": 0,
+     "explain": "$text, $meta textScore."
+    },
+    {
+     "q": "What is collation?",
+     "options": [
+      "TTL",
+      "Language-specific string comparison and sorting rules",
+      "Index",
+      "Shard"
+     ],
+     "answer": 1,
+     "explain": "Case/accent."
+    },
+    {
+     "q": "What's Atlas Search?",
+     "options": [
+      "Driver",
+      "Shell",
+      "Text index",
+      "Lucene-based search with relevance features"
+     ],
+     "answer": 3,
+     "explain": "Richer."
+    },
+    {
+     "q": "When is regex slow?",
+     "options": [
+      "Anchored",
+      "Unanchored or case-insensitive patterns can't use indexes efficiently",
+      "Always",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Prefer text search."
+    }
+   ]
+  },
+  "level-3/10-project-order-analytics": {
+   "questions": [
+    {
+     "q": "What does the order analytics project combine?",
+     "options": [
+      "Only CRUD",
+      "Only security",
+      "Aggregation stages, lookups, windows and performance tuning",
+      "Only shards"
+     ],
+     "answer": 2,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How validate pipeline performance?",
+     "options": [
+      "Guess",
+      "Time only",
+      "Hope",
+      "explain on aggregations and check index use"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "How present results?",
+     "options": [
+      "Grouped totals, trends and top customers",
+      "Raw",
+      "Logs",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Insight."
+    },
+    {
+     "q": "How keep it maintainable?",
+     "options": [
+      "One line",
+      "Guess",
+      "None",
+      "Named stages, comments and tests with sample data"
+     ],
+     "answer": 3,
+     "explain": "Clarity."
+    }
+   ]
+  },
+  "level-4/01-replica-sets": {
+   "questions": [
+    {
+     "q": "What does a replica set provide?",
+     "options": [
+      "Sharding",
+      "Search",
+      "High availability and redundancy via automatic failover",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Elections."
+    },
+    {
+     "q": "How many voting members tolerate one failure?",
+     "options": [
+      "1",
+      "2",
+      "3 (a majority of 2 remain)",
+      "4"
+     ],
+     "answer": 2,
+     "explain": "Odd numbers."
+    },
+    {
+     "q": "What's the oplog?",
+     "options": [
+      "Index",
+      "A capped collection of operations replicated to secondaries",
+      "Cache",
+      "Backup"
+     ],
+     "answer": 1,
+     "explain": "Replication source."
+    },
+    {
+     "q": "What's an arbiter?",
+     "options": [
+      "Secondary",
+      "Hidden",
+      "Primary",
+      "A voting member holding no data (generally avoid)"
+     ],
+     "answer": 3,
+     "explain": "Prefer data-bearing."
+    }
+   ]
+  },
+  "level-4/02-read-write-concerns": {
+   "questions": [
+    {
+     "q": "What does w: \"majority\" ensure?",
+     "options": [
+      "All",
+      "Writes are acknowledged by a majority of voting members",
+      "One node",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Durability."
+    },
+    {
+     "q": "What does readConcern majority return?",
+     "options": [
+      "Latest",
+      "Local",
+      "Stale",
+      "Data acknowledged by a majority (won't roll back)"
+     ],
+     "answer": 3,
+     "explain": "Consistency."
+    },
+    {
+     "q": "What's the risk of w:1?",
+     "options": [
+      "None",
+      "Speed",
+      "Acknowledged writes can be lost after failover",
+      "Cost"
+     ],
+     "answer": 2,
+     "explain": "Trade-off."
+    },
+    {
+     "q": "What does readPreference secondary risk?",
+     "options": [
+      "Stale reads due to replication lag",
+      "Slow",
+      "Locks",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Choose carefully."
+    }
+   ]
+  },
+  "level-4/03-sharding-architecture": {
+   "questions": [
+    {
+     "q": "What does sharding do?",
+     "options": [
+      "Replicas",
+      "Indexes",
+      "Backups",
+      "Distributes data across shards for horizontal scale"
+     ],
+     "answer": 3,
+     "explain": "Scale out."
+    },
+    {
+     "q": "What are the main components?",
+     "options": [
+      "Only mongod",
+      "Arbiter",
+      "Shards, mongos routers and config servers",
+      "Primary"
+     ],
+     "answer": 2,
+     "explain": "Architecture."
+    },
+    {
+     "q": "What does mongos do?",
+     "options": [
+      "Stores",
+      "Backs up",
+      "Elects",
+      "Routes queries to the right shards"
+     ],
+     "answer": 3,
+     "explain": "Client entry."
+    },
+    {
+     "q": "What do config servers store?",
+     "options": [
+      "Logs",
+      "Cluster metadata and chunk ranges",
+      "Indexes",
+      "Data"
+     ],
+     "answer": 1,
+     "explain": "Replica set."
+    }
+   ]
+  },
+  "level-4/04-shard-keys": {
+   "questions": [
+    {
+     "q": "What makes a good shard key?",
+     "options": [
+      "High cardinality, even distribution and aligned with query patterns",
+      "Low cardinality",
+      "Monotonic",
+      "Random only"
+     ],
+     "answer": 0,
+     "explain": "Avoid hotspots."
+    },
+    {
+     "q": "Why is a monotonically increasing key bad?",
+     "options": [
+      "All inserts hit one shard (hotspot)",
+      "Even",
+      "Fast",
+      "Safe"
+     ],
+     "answer": 0,
+     "explain": "Hashed keys help."
+    },
+    {
+     "q": "What's a hashed shard key for?",
+     "options": [
+      "Range",
+      "Geo",
+      "Even distribution at the cost of range queries",
+      "Text"
+     ],
+     "answer": 2,
+     "explain": "Trade-off."
+    },
+    {
+     "q": "Can you change the shard key?",
+     "options": [
+      "Free",
+      "Easy",
+      "Never",
+      "Yes in recent versions (resharding), but it's costly"
+     ],
+     "answer": 3,
+     "explain": "Choose carefully."
+    }
+   ]
+  },
+  "level-4/05-security": {
+   "questions": [
+    {
+     "q": "What does authentication verify?",
+     "options": [
+      "Encryption",
+      "Who the client is (SCRAM, x.509, LDAP)",
+      "Network",
+      "Permissions"
+     ],
+     "answer": 1,
+     "explain": "Enable it."
+    },
+    {
+     "q": "What do roles control?",
+     "options": [
+      "TLS",
+      "Disk",
+      "Login",
+      "What authenticated users can do (RBAC)"
+     ],
+     "answer": 3,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "What does TLS protect?",
+     "options": [
+      "Data in transit",
+      "Indexes",
+      "Roles",
+      "At rest"
+     ],
+     "answer": 0,
+     "explain": "Encrypt connections."
+    },
+    {
+     "q": "What protects data at rest?",
+     "options": [
+      "Roles",
+      "Encrypted storage engine/disk encryption and KMS",
+      "TLS",
+      "Index"
+     ],
+     "answer": 1,
+     "explain": "Compliance."
+    }
+   ]
+  },
+  "level-4/06-backup-restore": {
+   "questions": [
+    {
+     "q": "What backup methods exist?",
+     "options": [
+      "None",
+      "Snapshots, mongodump and continuous cloud backup",
+      "Copy files live",
+      "Export only"
+     ],
+     "answer": 1,
+     "explain": "Consistent."
+    },
+    {
+     "q": "Why test restores?",
+     "options": [
+      "A backup is unproven until restored",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Drills."
+    },
+    {
+     "q": "What does point-in-time recovery need?",
+     "options": [
+      "None",
+      "Dump",
+      "Oplog/continuous backup to replay to a moment",
+      "Snapshot"
+     ],
+     "answer": 2,
+     "explain": "Fine recovery."
+    },
+    {
+     "q": "What's a consistent backup?",
+     "options": [
+      "A snapshot with the oplog or from a quiesced node",
+      "Rsync",
+      "Dump live",
+      "Any copy"
+     ],
+     "answer": 0,
+     "explain": "Avoid corruption."
+    }
+   ]
+  },
+  "level-4/07-monitoring-profiler": {
+   "questions": [
+    {
+     "q": "What does the profiler record?",
+     "options": [
+      "All logs",
+      "Users",
+      "Errors",
+      "Slow operations above a threshold"
+     ],
+     "answer": 3,
+     "explain": "db.setProfilingLevel."
+    },
+    {
+     "q": "Which metrics matter?",
+     "options": [
+      "Names",
+      "Fonts",
+      "Colors",
+      "Opcounters, replication lag, cache usage and connections"
+     ],
+     "answer": 3,
+     "explain": "Health."
+    },
+    {
+     "q": "What's replication lag?",
+     "options": [
+      "How far a secondary is behind the primary",
+      "Load",
+      "Latency",
+      "Size"
+     ],
+     "answer": 0,
+     "explain": "Alert."
+    },
+    {
+     "q": "What tools monitor?",
+     "options": [
+      "Spreadsheet",
+      "None",
+      "Atlas, Ops Manager, Prometheus exporters",
+      "Email"
+     ],
+     "answer": 2,
+     "explain": "Dashboards."
+    }
+   ]
+  },
+  "level-4/08-performance-tuning": {
+   "questions": [
+    {
+     "q": "First step in tuning?",
+     "options": [
+      "Shard",
+      "Find slow queries with the profiler and explain",
+      "Add RAM",
+      "Guess"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What is the working set?",
+     "options": [
+      "Frequently accessed data and indexes that should fit in RAM",
+      "Logs",
+      "Backups",
+      "Disk"
+     ],
+     "answer": 0,
+     "explain": "Performance."
+    },
+    {
+     "q": "What reduces document size?",
+     "options": [
+      "Shorter field names and avoiding unnecessary fields",
+      "Larger",
+      "Embedding all",
+      "Indexes"
+     ],
+     "answer": 0,
+     "explain": "Efficiency."
+    },
+    {
+     "q": "What helps write throughput?",
+     "options": [
+      "Fewer indexes and bulk operations",
+      "Transactions",
+      "More indexes",
+      "Single inserts"
+     ],
+     "answer": 0,
+     "explain": "Trade-off."
+    }
+   ]
+  },
+  "level-4/09-upgrades-migrations": {
+   "questions": [
+    {
+     "q": "How upgrade a replica set?",
+     "options": [
+      "All at once",
+      "Offline",
+      "Rolling: secondaries first, step down the primary, then upgrade it",
+      "Delete"
+     ],
+     "answer": 2,
+     "explain": "Zero downtime."
+    },
+    {
+     "q": "What is featureCompatibilityVersion?",
+     "options": [
+      "Driver",
+      "Index",
+      "Schema",
+      "A setting gating new features until the whole cluster is upgraded"
+     ],
+     "answer": 3,
+     "explain": "Safety."
+    },
+    {
+     "q": "What should precede upgrades?",
+     "options": [
+      "Nothing",
+      "Names",
+      "Backups and testing in staging",
+      "Docs"
+     ],
+     "answer": 2,
+     "explain": "Risk."
+    },
+    {
+     "q": "What helps migrating data?",
+     "options": [
+      "None",
+      "Email",
+      "Copy",
+      "mongodump/restore, live migration tools or change streams"
+     ],
+     "answer": 3,
+     "explain": "Plan cutover."
+    }
+   ]
+  },
+  "level-4/10-capstone-sharded-cluster": {
+   "questions": [
+    {
+     "q": "What does the sharded cluster capstone combine?",
+     "options": [
+      "Only security",
+      "Sharding, replication, security, monitoring and backups",
+      "Only shards",
+      "Only backups"
+     ],
+     "answer": 1,
+     "explain": "Production."
+    },
+    {
+     "q": "How prove readiness?",
+     "options": [
+      "Demo",
+      "Failure drills, load tests and restore tests",
+      "Slides",
+      "Hope"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "Topology, runbooks and access policies",
+      "Slides",
+      "None",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Operate."
+    },
+    {
+     "q": "What sustains it?",
+     "options": [
+      "Monitoring, capacity planning and regular upgrades",
+      "Silence",
+      "Tools",
+      "Luck"
+     ],
+     "answer": 0,
+     "explain": "Lifecycle."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A document model fits when related data is read together and bounded. What does MongoDB recommend?",
+    "options": [
+     "Always reference",
+     "Always embed",
+     "Embed it in one document; reference when data is unbounded or shared",
+     "Always normalize"
+    ],
+    "answer": 2,
+    "explain": "Model for access patterns."
+   },
+   {
+    "q": "An array in a document grows forever with every event. What's the risk and fix?",
+    "options": [
+     "None",
+     "The 16 MB document limit and slow updates; use the bucket pattern or references",
+     "Add RAM",
+     "Index it"
+    ],
+    "answer": 1,
+    "explain": "Unbounded arrays."
+   },
+   {
+    "q": "How do you query a field inside an embedded document?",
+    "options": [
+     "Dot notation, e.g. find({\"address.city\": \"Oslo\"})",
+     "address:city",
+     "address[city]",
+     "address->city"
+    ],
+    "answer": 0,
+    "explain": "Quotes are required."
+   },
+   {
+    "q": "You need an element that satisfies two conditions at once ( sku = pen AND qty > 5). Which operator?",
+    "options": [
+     "$in",
+     "$elemMatch",
+     "$and across fields",
+     "$all"
+    ],
+    "answer": 1,
+    "explain": "Conditions apply to the same element."
+   },
+   {
+    "q": "What happens if `updateOne` is used with upsert: true and nothing matches?",
+    "options": [
+     "Update all",
+     "Error",
+     "A new document is inserted",
+     "Nothing"
+    ],
+    "answer": 2,
+    "explain": "Update-or-insert."
+   },
+   {
+    "q": "How do you atomically increment a counter?",
+    "options": [
+     "$push",
+     "$inc",
+     "$max",
+     "$set after read"
+    ],
+    "answer": 1,
+    "explain": "No read-modify-write race."
+   },
+   {
+    "q": "Why use Decimal128 for prices?",
+    "options": [
+     "Law",
+     "Smaller",
+     "Faster",
+     "Binary floating point can't represent decimal fractions exactly"
+    ],
+    "answer": 3,
+    "explain": "Avoid rounding errors."
+   },
+   {
+    "q": "A query is slow and explain shows COLLSCAN with docsExamined 1,000,000 and nReturned 10. What now?",
+    "options": [
+     "More RAM",
+     "Limit 10",
+     "Shard",
+     "Add an index matching the query (equality, sort, range)"
+    ],
+    "answer": 3,
+    "explain": "Selectivity."
+   },
+   {
+    "q": "A compound index {status:1, createdAt:-1} serves which query best?",
+    "options": [
+     "Text search",
+     "Filter status = x sorted by createdAt descending",
+     "Filter createdAt only",
+     "Regex on status"
+    ],
+    "answer": 1,
+    "explain": "Equality then sort."
+   },
+   {
+    "q": "Which index automatically removes old documents?",
+    "options": [
+     "Hashed",
+     "Partial",
+     "Unique",
+     "A TTL index"
+    ],
+    "answer": 3,
+    "explain": "expireAfterSeconds."
+   },
+   {
+    "q": "A pipeline filters with $match after a $group. How can it be faster?",
+    "options": [
+     "Add $sort",
+     "Move $match first so it can use an index and reduce documents",
+     "Add $project",
+     "Remove $group"
+    ],
+    "answer": 1,
+    "explain": "Filter early."
+   },
+   {
+    "q": "What does $lookup do and what should be indexed?",
+    "options": [
+     "Inner join; nothing",
+     "Union; _id",
+     "Merge; none",
+     "A left outer join; index the foreign field to avoid repeated scans"
+    ],
+    "answer": 3,
+    "explain": "Or embed to avoid joins."
+   },
+   {
+    "q": "When do you need a multi-document transaction?",
+    "options": [
+     "For reads",
+     "When several documents/collections must change atomically (single-document updates are already atomic)",
+     "Always",
+     "Never"
+    ],
+    "answer": 1,
+    "explain": "Embedding often avoids them."
+   },
+   {
+    "q": "A service must react to changes in a collection in real time. What fits?",
+    "options": [
+     "Triggers in SQL",
+     "Polling",
+     "Cron",
+     "Change streams (with resume tokens)"
+    ],
+    "answer": 3,
+    "explain": "Requires a replica set."
+   },
+   {
+    "q": "Which write concern avoids losing acknowledged writes after a failover?",
+    "options": [
+     "w: 1",
+     "w: \"majority\"",
+     "j: false",
+     "w: 0"
+    ],
+    "answer": 1,
+    "explain": "Durability trade-off."
+   },
+   {
+    "q": "Why avoid a monotonically increasing shard key?",
+    "options": [
+     "Costly",
+     "Too slow",
+     "All new inserts hit one shard (a hotspot)",
+     "Too random"
+    ],
+    "answer": 2,
+    "explain": "Hashed keys spread writes."
+   },
+   {
+    "q": "Which shard key trait is essential?",
+    "options": [
+     "High cardinality and even distribution aligned with queries",
+     "Low cardinality",
+     "Always growing",
+     "Boolean"
+    ],
+    "answer": 0,
+    "explain": "Avoid jumbo chunks."
+   },
+   {
+    "q": "A replica set has 3 voting members. How many failures can it tolerate and still elect a primary?",
+    "options": [
+     "Three",
+     "One (a majority of two must remain)",
+     "Zero",
+     "Two"
+    ],
+    "answer": 1,
+    "explain": "Use odd numbers."
+   },
+   {
+    "q": "How do you know a backup works?",
+    "options": [
+     "Check file size",
+     "Trust",
+     "Restore it regularly in a drill",
+     "Copy it"
+    ],
+    "answer": 2,
+    "explain": "Unrestored backups are unproven."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A mini query and aggregation engine",
+    "prompt": "Implement matches (dot paths, comparison operators, $in, $elemMatch and array containment) and aggregate with $match, $unwind, $group ($sum, $max), $sort and $limit. The script exercises them on four orders.",
+    "starter": "import operator\n\nOPS = {\"$gt\": operator.gt, \"$gte\": operator.ge, \"$lt\": operator.lt, \"$lte\": operator.le,\n       \"$eq\": operator.eq, \"$ne\": operator.ne}\n\ndef get(doc, path):\n    for part in path.split(\".\"):\n        if isinstance(doc, dict) and part in doc:\n            doc = doc[part]\n        else:\n            return None\n    return doc\n\ndef matches(doc, query):\n    # supports equality, dot paths (via get), comparison operators, $in, $elemMatch, and array containment\n    # ({tags: \"gift\"} matches when \"gift\" is in the array). Return True/False.\n    return False\n\ndef aggregate(docs, pipeline):\n    # support stages $match, $unwind, $group ($sum of 1 or a field, $max), $sort and $limit\n    return docs\n\norders = [\n    {\"_id\": 1, \"customer\": \"ada\", \"status\": \"paid\", \"items\": [{\"sku\": \"pen\", \"qty\": 3}, {\"sku\": \"book\", \"qty\": 1}], \"total\": 24.5, \"tags\": [\"gift\"]},\n    {\"_id\": 2, \"customer\": \"bo\", \"status\": \"paid\", \"items\": [{\"sku\": \"pen\", \"qty\": 10}], \"total\": 15.0, \"tags\": []},\n    {\"_id\": 3, \"customer\": \"ada\", \"status\": \"refunded\", \"items\": [{\"sku\": \"book\", \"qty\": 2}], \"total\": 40.0, \"tags\": [\"gift\", \"late\"]},\n    {\"_id\": 4, \"customer\": \"cy\", \"status\": \"paid\", \"items\": [{\"sku\": \"lamp\", \"qty\": 1}], \"total\": 60.0, \"tags\": []},\n]\nprint([d[\"_id\"] for d in orders if matches(d, {\"status\": \"paid\", \"total\": {\"$gte\": 20}})])\nprint([d[\"_id\"] for d in orders if matches(d, {\"tags\": \"gift\"})])\nprint([d[\"_id\"] for d in orders if matches(d, {\"items\": {\"$elemMatch\": {\"sku\": \"pen\", \"qty\": {\"$gt\": 5}}}})])\nprint(aggregate(orders, [{\"$match\": {\"status\": \"paid\"}}, {\"$group\": {\"_id\": \"$customer\", \"spent\": {\"$sum\": \"$total\"}}}, {\"$sort\": {\"spent\": -1}}]))\nlines = aggregate(orders, [{\"$unwind\": \"$items\"}])\nflat = [{\"sku\": d[\"items\"][\"sku\"], \"qty\": d[\"items\"][\"qty\"]} for d in lines]\nprint(aggregate(flat, [{\"$group\": {\"_id\": \"$sku\", \"units\": {\"$sum\": \"$qty\"}}}, {\"$sort\": {\"units\": -1, \"_id\": 1}}, {\"$limit\": 2}]))\n",
+    "expected": "[1, 4]\n[1, 3]\n[2]\n[{'_id': 'cy', 'spent': 60.0}, {'_id': 'ada', 'spent': 24.5}, {'_id': 'bo', 'spent': 15.0}]\n[{'_id': 'pen', 'units': 13}, {'_id': 'book', 'units': 3}]",
+    "solution": "import operator\n\nOPS = {\"$gt\": operator.gt, \"$gte\": operator.ge, \"$lt\": operator.lt, \"$lte\": operator.le,\n       \"$eq\": operator.eq, \"$ne\": operator.ne}\n\ndef get(doc, path):\n    for part in path.split(\".\"):\n        if isinstance(doc, dict) and part in doc:\n            doc = doc[part]\n        else:\n            return None\n    return doc\n\ndef matches(doc, query):\n    for field, cond in query.items():\n        value = get(doc, field)\n        if isinstance(cond, dict):\n            for op, arg in cond.items():\n                if op == \"$in\":\n                    ok = value in arg\n                elif op == \"$elemMatch\":\n                    ok = isinstance(value, list) and any(matches(e, arg) for e in value)\n                else:\n                    ok = value is not None and OPS[op](value, arg)\n                if not ok:\n                    return False\n        elif isinstance(value, list):\n            if cond not in value:                      # array containment, like {tags: \"x\"}\n                return False\n        elif value != cond:\n            return False\n    return True\n\ndef aggregate(docs, pipeline):\n    for stage in pipeline:\n        (name, spec), = stage.items()\n        if name == \"$match\":\n            docs = [d for d in docs if matches(d, spec)]\n        elif name == \"$unwind\":\n            field = spec.lstrip(\"$\")\n            docs = [{**d, field: v} for d in docs for v in d.get(field, [])]\n        elif name == \"$group\":\n            groups = {}\n            for d in docs:\n                key = d[spec[\"_id\"].lstrip(\"$\")]\n                g = groups.setdefault(key, {\"_id\": key})\n                for out, acc in spec.items():\n                    if out == \"_id\":\n                        continue\n                    (op, arg), = acc.items()\n                    if op == \"$sum\":\n                        g[out] = g.get(out, 0) + (1 if arg == 1 else d[arg.lstrip(\"$\")])\n                    elif op == \"$max\":\n                        v = d[arg.lstrip(\"$\")]; g[out] = v if out not in g else max(g[out], v)\n            docs = list(groups.values())\n        elif name == \"$sort\":\n            for field, direction in reversed(list(spec.items())):\n                docs = sorted(docs, key=lambda d: d[field], reverse=direction < 0)\n        elif name == \"$limit\":\n            docs = docs[:spec]\n    return docs\n\norders = [\n    {\"_id\": 1, \"customer\": \"ada\", \"status\": \"paid\", \"items\": [{\"sku\": \"pen\", \"qty\": 3}, {\"sku\": \"book\", \"qty\": 1}], \"total\": 24.5, \"tags\": [\"gift\"]},\n    {\"_id\": 2, \"customer\": \"bo\", \"status\": \"paid\", \"items\": [{\"sku\": \"pen\", \"qty\": 10}], \"total\": 15.0, \"tags\": []},\n    {\"_id\": 3, \"customer\": \"ada\", \"status\": \"refunded\", \"items\": [{\"sku\": \"book\", \"qty\": 2}], \"total\": 40.0, \"tags\": [\"gift\", \"late\"]},\n    {\"_id\": 4, \"customer\": \"cy\", \"status\": \"paid\", \"items\": [{\"sku\": \"lamp\", \"qty\": 1}], \"total\": 60.0, \"tags\": []},\n]\nprint([d[\"_id\"] for d in orders if matches(d, {\"status\": \"paid\", \"total\": {\"$gte\": 20}})])\nprint([d[\"_id\"] for d in orders if matches(d, {\"tags\": \"gift\"})])\nprint([d[\"_id\"] for d in orders if matches(d, {\"items\": {\"$elemMatch\": {\"sku\": \"pen\", \"qty\": {\"$gt\": 5}}}})])\nprint(aggregate(orders, [{\"$match\": {\"status\": \"paid\"}}, {\"$group\": {\"_id\": \"$customer\", \"spent\": {\"$sum\": \"$total\"}}}, {\"$sort\": {\"spent\": -1}}]))\nlines = aggregate(orders, [{\"$unwind\": \"$items\"}])\nflat = [{\"sku\": d[\"items\"][\"sku\"], \"qty\": d[\"items\"][\"qty\"]} for d in lines]\nprint(aggregate(flat, [{\"$group\": {\"_id\": \"$sku\", \"units\": {\"$sum\": \"$qty\"}}}, {\"$sort\": {\"units\": -1, \"_id\": 1}}, {\"$limit\": 2}]))\n",
+    "explain": "MongoDB's query language is a set of predicates over documents and arrays, and aggregation is a pipeline of stages each transforming the document list. This toy engine mirrors the semantics, not the implementation. Verified by running the solution."
+   },
+   {
+    "title": "Why shard-key choice matters",
+    "prompt": "Implement shard_for for hashed and ranged strategies and compare how historical and new monotonically increasing keys distribute across three shards. Observe the hotspot with ranged keys and the even spread with hashed keys.",
+    "starter": "import hashlib\nfrom collections import Counter\n\ndef shard_for(key, shards, strategy, ranges=None):\n    # \"hashed\": md5 of str(key) as an int, modulo shards; \"ranged\": index of the first upper bound\n    # greater than key (the last shard when above every bound); ValueError for unknown strategies\n    return 0\n\ndef distribution(keys, shards, strategy, ranges=None):\n    c = Counter(shard_for(k, shards, strategy, ranges) for k in keys)\n    return [c.get(i, 0) for i in range(shards)]\n\ndef imbalance(counts):\n    return round(max(counts) / (sum(counts) / len(counts)), 2)\n\nN = 3000\nmonotonic = list(range(N))                      # an ever-increasing key, e.g. a timestamp or counter\nranges = [1000, 2000]                           # 3 chunks created from the initial data\nprint(\"ranged, historical data:\", distribution(monotonic, 3, \"ranged\", ranges))\nnew_inserts = list(range(N, N + 900))           # new writes are all above the highest range\nprint(\"ranged, new inserts:    \", distribution(new_inserts, 3, \"ranged\", ranges), \"-> hotspot\")\nprint(\"hashed, new inserts:    \", distribution(new_inserts, 3, \"hashed\"))\nprint(\"imbalance ranged/hashed:\", imbalance(distribution(new_inserts, 3, \"ranged\", ranges)), imbalance(distribution(new_inserts, 3, \"hashed\")))\nstatus = [\"paid\"] * 2900 + [\"refunded\"] * 100   # a low-cardinality key can't spread\nprint(\"low cardinality key:\", sorted(set(status)), \"-> at most\", len(set(status)), \"chunks\")\n",
+    "expected": "ranged, historical data: [1000, 1000, 1000]\nranged, new inserts:     [0, 0, 900] -> hotspot\nhashed, new inserts:     [285, 293, 322]\nimbalance ranged/hashed: 3.0 1.07\nlow cardinality key: ['paid', 'refunded'] -> at most 2 chunks",
+    "solution": "import hashlib\nfrom collections import Counter\n\ndef shard_for(key, shards, strategy, ranges=None):\n    if strategy == \"hashed\":\n        h = int(hashlib.md5(str(key).encode()).hexdigest(), 16)\n        return h % shards\n    if strategy == \"ranged\":\n        for i, upper in enumerate(ranges):\n            if key < upper:\n                return i\n        return len(ranges)\n    raise ValueError(strategy)\n\ndef distribution(keys, shards, strategy, ranges=None):\n    c = Counter(shard_for(k, shards, strategy, ranges) for k in keys)\n    return [c.get(i, 0) for i in range(shards)]\n\ndef imbalance(counts):\n    return round(max(counts) / (sum(counts) / len(counts)), 2)\n\nN = 3000\nmonotonic = list(range(N))                      # an ever-increasing key, e.g. a timestamp or counter\nranges = [1000, 2000]                           # 3 chunks created from the initial data\nprint(\"ranged, historical data:\", distribution(monotonic, 3, \"ranged\", ranges))\nnew_inserts = list(range(N, N + 900))           # new writes are all above the highest range\nprint(\"ranged, new inserts:    \", distribution(new_inserts, 3, \"ranged\", ranges), \"-> hotspot\")\nprint(\"hashed, new inserts:    \", distribution(new_inserts, 3, \"hashed\"))\nprint(\"imbalance ranged/hashed:\", imbalance(distribution(new_inserts, 3, \"ranged\", ranges)), imbalance(distribution(new_inserts, 3, \"hashed\")))\nstatus = [\"paid\"] * 2900 + [\"refunded\"] * 100   # a low-cardinality key can't spread\nprint(\"low cardinality key:\", sorted(set(status)), \"-> at most\", len(set(status)), \"chunks\")\n",
+    "explain": "With a ranged, ever-increasing key every new insert lands in the last chunk and one shard takes all the writes, while a hashed key spreads them evenly (at the cost of efficient range queries). A low-cardinality key can't be split into more chunks than it has values. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
