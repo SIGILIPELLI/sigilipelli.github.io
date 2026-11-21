@@ -482,6 +482,1494 @@
      "explain": "It is an end-to-end project tying together everything from Level 1."
     }
    ]
+  },
+  "level-2/01-closures-scope": {
+   "questions": [
+    {
+     "q": "What is a closure?",
+     "options": [
+      "A function combined with the lexical environment it was declared in",
+      "A function with no parameters",
+      "A block that closes a file",
+      "A copy of variables taken at call time"
+     ],
+     "answer": 0,
+     "explain": "The inner function keeps a live reference to the outer variables, not a snapshot."
+    },
+    {
+     "q": "In makeCounter, why can't you read counter.count directly?",
+     "options": [
+      "Objects cannot have numbers",
+      "count is a const",
+      "count is private state held in the closure, not a property of the returned object",
+      "count is deleted after return"
+     ],
+     "answer": 2,
+     "explain": "Only the returned methods can reach count; counter.count is undefined."
+    },
+    {
+     "q": "counterA and counterB come from two calls to makeCounter(). Are their counts shared?",
+     "options": [
+      "Only when both increment",
+      "Yes, they share one count",
+      "No, each call creates a brand-new independent count",
+      "Only after reset()"
+     ],
+     "answer": 2,
+     "explain": "Each call creates a separate closure, so counterA and counterB advance independently."
+    },
+    {
+     "q": "What determines a function's scope chain?",
+     "options": [
+      "The order of arguments",
+      "Where it is called from",
+      "The file name",
+      "Where it is written in the source, not where it is called from"
+     ],
+     "answer": 3,
+     "explain": "JavaScript uses lexical scope."
+    }
+   ]
+  },
+  "level-2/02-prototypes-classes": {
+   "questions": [
+    {
+     "q": "What does Object.create(animal) do?",
+     "options": [
+      "Deletes animal",
+      "Makes a new object whose prototype is animal",
+      "Copies animal's properties into a new object",
+      "Makes animal a class"
+     ],
+     "answer": 1,
+     "explain": "The new object looks up missing properties on animal through its prototype."
+    },
+    {
+     "q": "Why put methods on Person.prototype rather than inside the constructor?",
+     "options": [
+      "It runs them automatically",
+      "Every instance shares one copy of the function in memory",
+      "It makes them private",
+      "Constructors cannot define methods"
+     ],
+     "answer": 1,
+     "explain": "ada.greet === grace.greet is true because both use the same prototype function."
+    },
+    {
+     "q": "What does typeof Animal return for a class Animal?",
+     "options": [
+      "\"prototype\"",
+      "\"class\"",
+      "\"function\"",
+      "\"object\""
+     ],
+     "answer": 2,
+     "explain": "class is syntactic sugar; classes are functions under the hood."
+    },
+    {
+     "q": "In a subclass constructor, what must happen before using this?",
+     "options": [
+      "The class must be exported",
+      "new must be called again",
+      "Object.create must be called",
+      "super(...) must be called"
+     ],
+     "answer": 3,
+     "explain": "super calls the parent constructor and must run before this is used."
+    }
+   ]
+  },
+  "level-2/03-async-javascript-i": {
+   "questions": [
+    {
+     "q": "In the lesson's setTimeout(..., 0) example, when does the callback run?",
+     "options": [
+      "Never",
+      "After all synchronous code finishes, once the call stack is empty",
+      "Immediately, before the next line",
+      "Before the first console.log"
+     ],
+     "answer": 1,
+     "explain": "Even with a delay of 0, the callback waits for the call stack to empty."
+    },
+    {
+     "q": "What is a callback?",
+     "options": [
+      "A function that returns itself",
+      "A loop",
+      "A function passed as an argument to be called later",
+      "An error handler only"
+     ],
+     "answer": 2,
+     "explain": "Callbacks are often called after an operation such as a timer or request finishes."
+    },
+    {
+     "q": "Which queue does the event loop fully drain before the task queue?",
+     "options": [
+      "The microtask queue (Promise callbacks)",
+      "The render queue",
+      "The timer table",
+      "The stack queue"
+     ],
+     "answer": 0,
+     "explain": "Promise callbacks and async/await continuations go into the microtask queue."
+    },
+    {
+     "q": "What does the call stack do with function calls?",
+     "options": [
+      "Runs them in parallel",
+      "Pushes each call on and pops it off when it returns",
+      "Sorts them alphabetically",
+      "Caches results"
+     ],
+     "answer": 1,
+     "explain": "JavaScript runs one thing at a time; each call waits for the ones it invokes to finish."
+    }
+   ]
+  },
+  "level-2/04-promises-async-await": {
+   "questions": [
+    {
+     "q": "Which are the three states of a Promise?",
+     "options": [
+      "pending, fulfilled, rejected",
+      "open, closed, locked",
+      "new, active, done",
+      "start, run, stop"
+     ],
+     "answer": 0,
+     "explain": "Once it settles (fulfilled or rejected) it never changes again."
+    },
+    {
+     "q": "What does each .then return?",
+     "options": [
+      "A string",
+      "Nothing",
+      "The original Promise",
+      "A new Promise, enabling chaining"
+     ],
+     "answer": 3,
+     "explain": "Chaining replaces the nested callback pyramid."
+    },
+    {
+     "q": "What does an async function always return?",
+     "options": [
+      "An array",
+      "A Promise",
+      "A callback",
+      "undefined"
+     ],
+     "answer": 1,
+     "explain": "async/await is syntax sugar over Promises."
+    },
+    {
+     "q": "What does await do inside an async function?",
+     "options": [
+      "Runs code in parallel threads",
+      "Blocks the whole thread",
+      "Cancels the Promise",
+      "Pauses that function until the Promise settles, without blocking the rest of the program"
+     ],
+     "answer": 3,
+     "explain": "Execution inside the function resumes once the awaited Promise settles."
+    }
+   ]
+  },
+  "level-2/05-json-fetch": {
+   "questions": [
+    {
+     "q": "What does JSON.stringify do with a function-valued or undefined property?",
+     "options": [
+      "Converts it to a string",
+      "Throws an error",
+      "Omits it from the output",
+      "Converts it to null"
+     ],
+     "answer": 2,
+     "explain": "Functions and undefined keys are silently dropped; null is preserved and Dates become ISO strings."
+    },
+    {
+     "q": "Why wrap JSON.parse in try/catch for outside data?",
+     "options": [
+      "It is asynchronous",
+      "It cannot parse objects",
+      "It returns undefined for bad input",
+      "It throws a SyntaxError on invalid input"
+     ],
+     "answer": 3,
+     "explain": "Data from a network response, user or file may be malformed."
+    },
+    {
+     "q": "What does fetch return, and when does it resolve?",
+     "options": [
+      "The parsed JSON directly",
+      "A Promise that resolves to a Response once the headers arrive; the body is read separately",
+      "A string",
+      "A Promise that resolves after the body is fully parsed"
+     ],
+     "answer": 1,
+     "explain": "You then call methods such as response.json(), which also returns a Promise."
+    },
+    {
+     "q": "What does JSON.stringify(user, null, 2) produce?",
+     "options": [
+      "A minified string",
+      "A pretty-printed JSON string with 2-space indentation",
+      "A string with only two keys",
+      "An error"
+     ],
+     "answer": 1,
+     "explain": "The extra arguments handle filtering and pretty-printing."
+    }
+   ]
+  },
+  "level-2/06-regular-expressions": {
+   "questions": [
+    {
+     "q": "What does the g flag do?",
+     "options": [
+      "Finds all matches, not just the first",
+      "Matches across lines only",
+      "Ignores case",
+      "Makes the match lazy"
+     ],
+     "answer": 0,
+     "explain": "The i flag ignores case; g finds every match."
+    },
+    {
+     "q": "Which pattern matches exactly 5 digits across the whole string?",
+     "options": [
+      "/\\w+/",
+      "/\\d+/",
+      "/\\d{5}/g",
+      "/^\\d{5}$/"
+     ],
+     "answer": 3,
+     "explain": "^ and $ anchor to the start and end, and {5} requires exactly five repetitions."
+    },
+    {
+     "q": "What does \\w match?",
+     "options": [
+      "Whitespace",
+      "A word character: letters, digits or underscore",
+      "Any single digit",
+      "Any character except a newline"
+     ],
+     "answer": 1,
+     "explain": "\\d is a digit, \\s whitespace and . any character except a newline."
+    },
+    {
+     "q": "How does exec() differ from test()?",
+     "options": [
+      "exec only works without flags",
+      "exec returns match details (or null); test returns a boolean",
+      "They are identical",
+      "test returns details; exec a boolean"
+     ],
+     "answer": 1,
+     "explain": "With the g flag, exec can be called repeatedly to step through all matches."
+    }
+   ]
+  },
+  "level-2/07-error-handling-advanced": {
+   "questions": [
+    {
+     "q": "Why create custom Error subclasses?",
+     "options": [
+      "So calling code can distinguish failure kinds by type instead of parsing messages",
+      "They are required by Node",
+      "They avoid try/catch",
+      "They run faster"
+     ],
+     "answer": 0,
+     "explain": "Subclasses like ValidationError can carry extra context such as a field."
+    },
+    {
+     "q": "What does error instanceof ValidationError let a catch block do?",
+     "options": [
+      "Handle different failures differently",
+      "Stop the error",
+      "Ignore all errors",
+      "Convert it to a string"
+     ],
+     "answer": 0,
+     "explain": "Branch on type, and re-throw errors you don't know how to handle."
+    },
+    {
+     "q": "In the signup example, why does the catch block re-throw unknown errors?",
+     "options": [
+      "It doesn't know how to handle them",
+      "To avoid finally",
+      "To log them twice",
+      "To hide them"
+     ],
+     "answer": 0,
+     "explain": "Swallowing unknown errors would hide bugs."
+    },
+    {
+     "q": "What does try/catch around await catch?",
+     "options": [
+      "Only synchronous throws",
+      "Both synchronous throws and rejected Promises",
+      "Nothing",
+      "Only network errors"
+     ],
+     "answer": 1,
+     "explain": "That is a main reason async/await is easier to reason about than raw .then() chains."
+    }
+   ]
+  },
+  "level-2/08-testing-jest": {
+   "questions": [
+    {
+     "q": "Which file names does Jest look for by default?",
+     "options": [
+      "*.test.js or files inside a __tests__ folder",
+      "test.json",
+      "Only index.js",
+      "*.jest"
+     ],
+     "answer": 0,
+     "explain": "Each test is a test() or it() call with a description and assertions."
+    },
+    {
+     "q": "Which matcher checks deep equality of objects?",
+     "options": [
+      "toBeNull",
+      "toMatch",
+      "toEqual",
+      "toBe"
+     ],
+     "answer": 2,
+     "explain": "toBe is strict equality (===); toEqual compares objects and arrays deeply."
+    },
+    {
+     "q": "What does describe do?",
+     "options": [
+      "Mocks a module",
+      "Runs a test twice",
+      "Installs Jest",
+      "Groups related tests for readable output and shared setup"
+     ],
+     "answer": 3,
+     "explain": "It organizes tests into named groups."
+    },
+    {
+     "q": "How should you test async code in Jest?",
+     "options": [
+      "Use a long setTimeout",
+      "Return or await the promise inside the test",
+      "Ignore the promise",
+      "Use console.log"
+     ],
+     "answer": 1,
+     "explain": "Jest waits for the promise before deciding pass/fail, so async bugs aren't silently ignored."
+    }
+   ]
+  },
+  "level-2/09-build-tooling": {
+   "questions": [
+    {
+     "q": "What does a bundler do?",
+     "options": [
+      "Writes HTML",
+      "Follows imports from an entry file and combines everything into a few output files",
+      "Runs tests",
+      "Installs Node"
+     ],
+     "answer": 1,
+     "explain": "It resolves the dependency graph so the browser needn't make dozens of separate requests."
+    },
+    {
+     "q": "What is tree-shaking?",
+     "options": [
+      "Renaming variables",
+      "Removing exported code that is never imported anywhere",
+      "Adding polyfills",
+      "Splitting files by folder"
+     ],
+     "answer": 1,
+     "explain": "Minifying strips whitespace and shortens names; tree-shaking drops unused exports."
+    },
+    {
+     "q": "In \"verify\": \"npm run lint && npm run test && npm run build\", what happens if lint fails?",
+     "options": [
+      "It stops at the first failure and does not run the rest",
+      "Only build runs",
+      "Tests run twice",
+      "All three still run"
+     ],
+     "answer": 0,
+     "explain": "&& only continues when the previous command succeeds."
+    },
+    {
+     "q": "Which npm script names can run without the word run?",
+     "options": [
+      "lint and verify",
+      "test and start",
+      "dev and build",
+      "Every script"
+     ],
+     "answer": 1,
+     "explain": "npm test and npm start are special shortcuts; others need npm run <name>."
+    }
+   ]
+  },
+  "level-2/10-project-weather-dashboard": {
+   "questions": [
+    {
+     "q": "Which API does the weather dashboard project use, and does it need a key?",
+     "options": [
+      "A paid API with a key",
+      "Open-Meteo, with no API key required",
+      "No API at all",
+      "A database"
+     ],
+     "answer": 1,
+     "explain": "The project uses the free Open-Meteo API."
+    },
+    {
+     "q": "Why does weather.js contain no DOM code or fetch calls?",
+     "options": [
+      "Browsers forbid it",
+      "To make it load faster",
+      "So its data transformation can be unit tested with Jest without real network calls",
+      "It is generated automatically"
+     ],
+     "answer": 2,
+     "explain": "A pure data-transformation module is easy to test."
+    },
+    {
+     "q": "How should the app behave when the API fails?",
+     "options": [
+      "Show nothing",
+      "Crash",
+      "Reload the page endlessly",
+      "Show a readable error instead of a blank page"
+     ],
+     "answer": 3,
+     "explain": "Graceful failure handling is a stated requirement."
+    },
+    {
+     "q": "Why do latitude and longitude default to London?",
+     "options": [
+      "The API only supports London",
+      "So the form works immediately without a geocoding step",
+      "Browsers require it",
+      "To avoid CSS"
+     ],
+     "answer": 1,
+     "explain": "The defaults remove the need for a geocoding lookup."
+    }
+   ]
+  },
+  "level-3/01-advanced-async-patterns": {
+   "questions": [
+    {
+     "q": "What does Promise.all do if one promise rejects?",
+     "options": [
+      "Waits for all, then resolves",
+      "Rejects immediately with that error",
+      "Retries it",
+      "Ignores the rejection"
+     ],
+     "answer": 1,
+     "explain": "The other promises keep running, but their results are discarded."
+    },
+    {
+     "q": "What does Promise.allSettled return?",
+     "options": [
+      "Only the first result",
+      "Only successes",
+      "A single boolean",
+      "The outcome of every promise, fulfilled or rejected, never short-circuiting"
+     ],
+     "answer": 3,
+     "explain": "Use it when partial results are useful, such as checking which services are up."
+    },
+    {
+     "q": "In loadDashboard, why is the total wait about 50ms rather than 80ms?",
+     "options": [
+      "Both requests run concurrently via Promise.all",
+      "The 30ms request is dropped",
+      "Caching",
+      "The timers are skipped"
+     ],
+     "answer": 0,
+     "explain": "Concurrent execution takes as long as the slowest request."
+    },
+    {
+     "q": "In what order does Promise.all return results?",
+     "options": [
+      "Reverse order",
+      "Order of completion",
+      "The same order the promises were passed in",
+      "Random order"
+     ],
+     "answer": 2,
+     "explain": "The array of results matches input order regardless of which finishes first."
+    }
+   ]
+  },
+  "level-3/02-nodejs-fundamentals": {
+   "questions": [
+    {
+     "q": "Which is true about require() and ES modules?",
+     "options": [
+      "They are interchangeable",
+      "You can't require() an ES module, but ESM can import most CommonJS packages",
+      "require() can load any ES module",
+      "ESM cannot import CommonJS at all"
+     ],
+     "answer": 1,
+     "explain": "The lesson's \"mixing systems\" section covers this."
+    },
+    {
+     "q": "How do you get __dirname in an ES module?",
+     "options": [
+      "It is built in",
+      "Use require.main",
+      "Derive it from import.meta.url using fileURLToPath and dirname",
+      "Use process.cwd() only"
+     ],
+     "answer": 2,
+     "explain": "__dirname and __filename exist only in CommonJS."
+    },
+    {
+     "q": "Is the file extension required in ESM imports in Node?",
+     "options": [
+      "Yes, e.g. ./math.js",
+      "No, never",
+      "Only for JSON",
+      "Only for .mjs"
+     ],
+     "answer": 0,
+     "explain": "In CommonJS the extension is optional; in ES modules it is required."
+    },
+    {
+     "q": "Why was ESM introduced, per the lesson?",
+     "options": [
+      "Browsers needed require",
+      "It is faster at everything",
+      "CommonJS was removed",
+      "CommonJS require is synchronous and can be called anywhere, whereas ESM has stricter static import rules"
+     ],
+     "answer": 3,
+     "explain": "require calls can happen conditionally anywhere in a file."
+    }
+   ]
+  },
+  "level-3/03-rest-api-express": {
+   "questions": [
+    {
+     "q": "What does app.use(express.json()) do?",
+     "options": [
+      "Parses JSON request bodies into req.body",
+      "Starts the server",
+      "Sends JSON responses automatically",
+      "Validates the route"
+     ],
+     "answer": 0,
+     "explain": "Without it, req.body would not hold the parsed JSON body."
+    },
+    {
+     "q": "Which HTTP status code does the lesson return when a new note is created?",
+     "options": [
+      "404 Not Found",
+      "201 Created",
+      "200 OK",
+      "500 Server Error"
+     ],
+     "answer": 1,
+     "explain": "The POST route responds with res.status(201).json(note)."
+    },
+    {
+     "q": "For the route /notes/:id, how do you read the id?",
+     "options": [
+      "req.params.id",
+      "req.query.id",
+      "req.body.id",
+      "req.id"
+     ],
+     "answer": 0,
+     "explain": "Route params use req.params; query strings use req.query; JSON bodies use req.body."
+    },
+    {
+     "q": "A client POSTs to /notes without a text field. What does the lesson's route return?",
+     "options": [
+      "404",
+      "400 with an error that text is required",
+      "201 with an empty note",
+      "The server crashes"
+     ],
+     "answer": 1,
+     "explain": "The handler validates input and returns res.status(400).json({ error: \"text is required\" })."
+    }
+   ]
+  },
+  "level-3/04-databases": {
+   "questions": [
+    {
+     "q": "Why use prepared statements with ? placeholders?",
+     "options": [
+      "They create indexes",
+      "They avoid needing a schema",
+      "They are the standard defense against SQL injection",
+      "They make tables larger"
+     ],
+     "answer": 2,
+     "explain": "Never build SQL strings from user input with template literals."
+    },
+    {
+     "q": "What is true of better-sqlite3 according to the lesson?",
+     "options": [
+      "It is asynchronous only",
+      "It is synchronous, so no promises are needed",
+      "It requires a separate server",
+      "It only supports MongoDB"
+     ],
+     "answer": 1,
+     "explain": "It is also very fast for typical app workloads."
+    },
+    {
+     "q": "What does an in-memory array lack compared with SQLite?",
+     "options": [
+      "It has no length",
+      "It does not survive a restart",
+      "It cannot hold objects",
+      "It is read-only"
+     ],
+     "answer": 1,
+     "explain": "SQLite stores data in a file on disk, so it persists."
+    },
+    {
+     "q": "How does MongoDB differ from SQLite in structure?",
+     "options": [
+      "It uses SQL",
+      "It is a file on disk only",
+      "Flexible documents (schema-optional) rather than fixed columns per table",
+      "It has fixed columns"
+     ],
+     "answer": 2,
+     "explain": "MongoDB suits rapidly changing or nested data and uses a JSON-like query language."
+    }
+   ]
+  },
+  "level-3/05-design-patterns": {
+   "questions": [
+    {
+     "q": "What is the goal of the module pattern?",
+     "options": [
+      "Observe events",
+      "Compile code",
+      "Create many instances",
+      "Encapsulation: hide internal state and expose a small public interface"
+     ],
+     "answer": 3,
+     "explain": "ES modules give file-level encapsulation, and closures give it within a file."
+    },
+    {
+     "q": "What does a singleton guarantee?",
+     "options": [
+      "Many instances",
+      "Async execution",
+      "Exactly one shared instance with a global access point",
+      "Immutable data"
+     ],
+     "answer": 2,
+     "explain": "In the lesson, connectionA === connectionB is true for the database connection."
+    },
+    {
+     "q": "Which four patterns does the module cover?",
+     "options": [
+      "Class, object, array and map",
+      "Module, singleton, factory and observer",
+      "Promise, async, await and fetch",
+      "MVC, REST, SQL and CSS"
+     ],
+     "answer": 1,
+     "explain": "These are described as four of the most common patterns."
+    },
+    {
+     "q": "In a module, why is a non-exported variable like count private?",
+     "options": [
+      "It is deleted after use",
+      "It is unreachable from outside that file",
+      "It is hoisted globally",
+      "It is a constant"
+     ],
+     "answer": 1,
+     "explain": "Only exported functions can access or change it."
+    }
+   ]
+  },
+  "level-3/06-intro-typescript": {
+   "questions": [
+    {
+     "q": "What does TypeScript compile to?",
+     "options": [
+      "WebAssembly only",
+      "Plain JavaScript",
+      "Python",
+      "Machine code"
+     ],
+     "answer": 1,
+     "explain": "Types only help catch mistakes before running the code."
+    },
+    {
+     "q": "Why is unknown safer than any?",
+     "options": [
+      "It only holds strings",
+      "It is faster",
+      "It must be narrowed (e.g. with typeof) before use",
+      "It disables checking"
+     ],
+     "answer": 2,
+     "explain": "any disables type checking and should be a last resort."
+    },
+    {
+     "q": "What does ? mean in isAdmin?: boolean?",
+     "options": [
+      "The property is nullable only",
+      "The property is private",
+      "The property is a promise",
+      "The property is optional"
+     ],
+     "answer": 3,
+     "explain": "Optional properties may be omitted without a compile error."
+    },
+    {
+     "q": "What does an interface describe?",
+     "options": [
+      "The shape of an object: required properties and their types",
+      "A loop",
+      "A database table",
+      "A runtime class"
+     ],
+     "answer": 0,
+     "explain": "TypeScript checks that values used as that type match the shape."
+    }
+   ]
+  },
+  "level-3/07-testing-deep-dive": {
+   "questions": [
+    {
+     "q": "Why mock a dependency such as an email service in a test?",
+     "options": [
+      "Mocks are required by Express",
+      "Real services cannot be called from Node",
+      "Mocks make code run in production",
+      "Tests stay fast and don't depend on network or external state"
+     ],
+     "answer": 3,
+     "explain": "A mock replaces the real dependency with a fake version you control."
+    },
+    {
+     "q": "What does jest.spyOn(logger, \"info\") do?",
+     "options": [
+      "Runs the test twice",
+      "Deletes the method",
+      "Creates a new module",
+      "Wraps the method so you can assert on calls, optionally keeping the real behavior"
+     ],
+     "answer": 3,
+     "explain": "Call mockRestore() afterward to restore the original implementation."
+    },
+    {
+     "q": "Which assertion checks a mock was called with specific arguments?",
+     "options": [
+      "toHaveBeenCalledWith",
+      "toContain",
+      "toMatch",
+      "toBeNull"
+     ],
+     "answer": 0,
+     "explain": "toHaveBeenCalledTimes(1) checks how many times it was called."
+    },
+    {
+     "q": "What is supertest used for in this module?",
+     "options": [
+      "Mocking the file system",
+      "Integration tests that exercise a real Express API",
+      "Linting",
+      "Bundling code"
+     ],
+     "answer": 1,
+     "explain": "The module goes beyond unit tests to integration tests against an Express app."
+    }
+   ]
+  },
+  "level-3/08-performance-memory": {
+   "questions": [
+    {
+     "q": "What is the first rule of performance work?",
+     "options": [
+      "Use more loops",
+      "Add caching everywhere",
+      "Measure, don't guess",
+      "Rewrite in C++"
+     ],
+     "answer": 2,
+     "explain": "console.time gives quick rough timings; profilers show real bottlenecks."
+    },
+    {
+     "q": "What does a memory leak mean in a Node process?",
+     "options": [
+      "References to objects are kept alive unintentionally, so the garbage collector can't reclaim them",
+      "Files are deleted",
+      "The network drops",
+      "The CPU overheats"
+     ],
+     "answer": 0,
+     "explain": "Memory grows over the process's life until it crashes."
+    },
+    {
+     "q": "Which command lets Chrome DevTools attach for flame charts and heap snapshots?",
+     "options": [
+      "node --inspect server.js",
+      "npm run devtools",
+      "node --prof-only",
+      "node --heap"
+     ],
+     "answer": 0,
+     "explain": "Then open chrome://inspect and click inspect under Remote Target."
+    },
+    {
+     "q": "What can high GC time in a profile signal?",
+     "options": [
+      "Too many files",
+      "A slow disk",
+      "A DNS problem",
+      "Too many short-lived objects being allocated"
+     ],
+     "answer": 3,
+     "explain": "It points to a memory-usage problem rather than a raw CPU one."
+    }
+   ]
+  },
+  "level-3/09-security-basics": {
+   "questions": [
+    {
+     "q": "What is the safe way to insert untrusted text into the page?",
+     "options": [
+      "Use document.write",
+      "Set textContent, which is treated as plain text",
+      "Use innerHTML",
+      "Use eval"
+     ],
+     "answer": 1,
+     "explain": "textContent is never parsed as HTML, avoiding XSS."
+    },
+    {
+     "q": "What does CSRF do?",
+     "options": [
+      "Tricks a logged-in user's browser into submitting a request they didn't intend, using their session cookie",
+      "Crashes the server",
+      "Injects SQL",
+      "Steals the database"
+     ],
+     "answer": 0,
+     "explain": "For example, a hidden auto-submitting form on an attacker's page pointed at POST /transfer."
+    },
+    {
+     "q": "In EJS, which tag is the dangerous unescaped one?",
+     "options": [
+      "<%= value %>",
+      "<%- value %>",
+      "<%# value %>",
+      "<% value %>"
+     ],
+     "answer": 1,
+     "explain": "<%= escapes by default; the raw <%- helper on untrusted input is the danger."
+    },
+    {
+     "q": "What does npm audit help with?",
+     "options": [
+      "Minifying files",
+      "Formatting code",
+      "Catching known-vulnerable dependencies",
+      "Running tests"
+     ],
+     "answer": 2,
+     "explain": "It is one of the practices covered alongside input sanitization."
+    }
+   ]
+  },
+  "level-3/10-build-bundling": {
+   "questions": [
+    {
+     "q": "What does Vite use during development vs. production?",
+     "options": [
+      "Babel only",
+      "No bundler ever",
+      "Native ES modules in development and Rollup for the production bundle",
+      "webpack in both"
+     ],
+     "answer": 2,
+     "explain": "This gives instant startup in dev and an optimized bundle for production."
+    },
+    {
+     "q": "Why use [contenthash] in webpack's output filename?",
+     "options": [
+      "The hash changes when content changes, busting the browser cache",
+      "It minifies code",
+      "It enables hot reload",
+      "It shrinks the file"
+     ],
+     "answer": 0,
+     "explain": "New content gets a new filename, so browsers fetch the update."
+    },
+    {
+     "q": "What does the Vite server.proxy option for \"/api\" do?",
+     "options": [
+      "Forwards API calls to a backend during dev",
+      "Caches API calls forever",
+      "Blocks API calls",
+      "Converts API to GraphQL"
+     ],
+     "answer": 0,
+     "explain": "In the example it forwards to http://localhost:3000."
+    },
+    {
+     "q": "What is code splitting for?",
+     "options": [
+      "Removing comments",
+      "Compiling TypeScript",
+      "So users only download what a given page needs",
+      "Making files larger"
+     ],
+     "answer": 2,
+     "explain": "It is one of the techniques that most affects real-world load performance."
+    }
+   ]
+  },
+  "level-3/11-project-rest-api-db": {
+   "questions": [
+    {
+     "q": "Why does the project use an in-memory database (:memory:) for tests?",
+     "options": [
+      "It avoids Jest",
+      "Tests never touch catalog.db on disk while the same schema and logic are exercised",
+      "It is faster to install",
+      "SQLite cannot use files in tests"
+     ],
+     "answer": 1,
+     "explain": "A real file is used by the running app, :memory: by the tests."
+    },
+    {
+     "q": "Which route updates an existing book?",
+     "options": [
+      "DELETE /books",
+      "POST /books",
+      "GET /books/:id",
+      "PUT /books/:id"
+     ],
+     "answer": 3,
+     "explain": "The API offers full CRUD: list, get one, create, update and delete."
+    },
+    {
+     "q": "What does the centralized error-handling middleware achieve?",
+     "options": [
+      "It logs users in",
+      "It disables validation",
+      "Errors are handled in one place so nothing crashes the server",
+      "It creates tables"
+     ],
+     "answer": 2,
+     "explain": "The project lists it as a requirement alongside validation."
+    },
+    {
+     "q": "Which test libraries cover every route in the project?",
+     "options": [
+      "Mocha and Chai only",
+      "Jest and supertest",
+      "Playwright",
+      "Cypress"
+     ],
+     "answer": 1,
+     "explain": "The suite uses Jest with supertest against the Express app."
+    }
+   ]
+  },
+  "level-4/01-fullstack-architecture": {
+   "questions": [
+    {
+     "q": "In the layered architecture, which layer is the only one that knows about SQL or an ORM?",
+     "options": [
+      "repositories",
+      "services",
+      "controllers",
+      "routes"
+     ],
+     "answer": 0,
+     "explain": "Routes handle HTTP, services hold business logic, and repositories handle data access."
+    },
+    {
+     "q": "Why is the users service easy to unit test?",
+     "options": [
+      "It uses global variables",
+      "It depends on an abstract repository, so a fake can replace Postgres (dependency injection)",
+      "It calls the database directly",
+      "It has no logic"
+     ],
+     "answer": 1,
+     "explain": "Business logic stays independent of HTTP and SQL."
+    },
+    {
+     "q": "What is a monorepo?",
+     "options": [
+      "One package per repository",
+      "Multiple related packages in one repository with one history",
+      "A database",
+      "A single huge file"
+     ],
+     "answer": 1,
+     "explain": "A polyrepo splits each package into its own repository; neither is universally right."
+    },
+    {
+     "q": "What should controllers do in this structure?",
+     "options": [
+      "Render CSS",
+      "Run SQL",
+      "Hold all business rules",
+      "Act as thin glue translating HTTP to service calls"
+     ],
+     "answer": 3,
+     "explain": "The controller calls the service and maps results or errors to HTTP responses."
+    }
+   ]
+  },
+  "level-4/02-advanced-typescript": {
+   "questions": [
+    {
+     "q": "What is the benefit of function first<T>(arr: T[]): T | undefined over using any?",
+     "options": [
+      "It runs faster",
+      "It avoids compilation",
+      "It accepts anything",
+      "The return type is tied to the input type"
+     ],
+     "answer": 3,
+     "explain": "first([1,2,3]) is number | undefined, while an any version loses type information."
+    },
+    {
+     "q": "What does Partial<Product> produce?",
+     "options": [
+      "A readonly type",
+      "A type without price",
+      "A type with only required fields",
+      "A type where every field is optional"
+     ],
+     "answer": 3,
+     "explain": "It is useful for PATCH-style update payloads."
+    },
+    {
+     "q": "What does Omit<Product, \"price\"> produce?",
+     "options": [
+      "Only the price field",
+      "Product with all fields optional",
+      "Product without the price field",
+      "A map of prices"
+     ],
+     "answer": 2,
+     "explain": "Pick selects named fields; Omit removes them."
+    },
+    {
+     "q": "What does <T extends HasId> do?",
+     "options": [
+      "Removes id",
+      "Makes T optional",
+      "Makes T readonly",
+      "Restricts T to types that have an id"
+     ],
+     "answer": 3,
+     "explain": "It is a generic constraint that guarantees a known shape."
+    }
+   ]
+  },
+  "level-4/03-microservices-serverless": {
+   "questions": [
+    {
+     "q": "What is the most common microservices mistake?",
+     "options": [
+      "Splitting by technical layer instead of business capability",
+      "Having too few tests",
+      "Using queues",
+      "Using HTTP"
+     ],
+     "answer": 0,
+     "explain": "Good boundaries are business capabilities, such as orders, inventory and notifications."
+    },
+    {
+     "q": "What is a distributed monolith?",
+     "options": [
+      "A serverless function",
+      "A queue",
+      "Services that can't deploy independently, combining microservices' operational cost with a monolith's coupling",
+      "A single server"
+     ],
+     "answer": 2,
+     "explain": "If another team's release can block you, it isn't really an independent service."
+    },
+    {
+     "q": "What is the trade-off of asynchronous messaging between services?",
+     "options": [
+      "It decouples availability but adds eventual consistency",
+      "It removes the need for events",
+      "It is always faster",
+      "It requires HTTP"
+     ],
+     "answer": 0,
+     "explain": "Synchronous HTTP/gRPC is simpler but couples availability."
+    },
+    {
+     "q": "What does serverless mean in this lesson?",
+     "options": [
+      "A database without tables",
+      "Servers are physical only",
+      "No code is written",
+      "A cloud platform runs individual functions on demand"
+     ],
+     "answer": 3,
+     "explain": "It is one of two paths when a monolith outgrows a single deployable unit."
+    }
+   ]
+  },
+  "level-4/04-advanced-security": {
+   "questions": [
+    {
+     "q": "What is the difference between authentication and authorization?",
+     "options": [
+      "Authorization is login; authentication is permissions",
+      "Both only apply to passwords",
+      "They mean the same",
+      "Authentication verifies who you are; authorization decides what you may do"
+     ],
+     "answer": 3,
+     "explain": "A valid token doesn't automatically mean the request should be allowed."
+    },
+    {
+     "q": "Which status code does the lesson's requireRole return when the role doesn't match?",
+     "options": [
+      "403 forbidden",
+      "401 unauthorized",
+      "200 OK",
+      "404 not found"
+     ],
+     "answer": 0,
+     "explain": "401 is used for a missing or invalid token; 403 for lacking permission."
+    },
+    {
+     "q": "Why are access tokens short-lived (15m)?",
+     "options": [
+      "Short tokens are smaller",
+      "Browsers require it",
+      "JWTs are hard to revoke early, so a short life limits exposure",
+      "bcrypt needs it"
+     ],
+     "answer": 2,
+     "explain": "A JWT can be verified without a database lookup, but can't easily be revoked before expiry."
+    },
+    {
+     "q": "Where should the JWT signing secret come from?",
+     "options": [
+      "An environment variable, never hardcoded",
+      "The source code",
+      "The JWT payload",
+      "The URL"
+     ],
+     "answer": 0,
+     "explain": "The code reads process.env.JWT_ACCESS_SECRET."
+    }
+   ]
+  },
+  "level-4/05-testing-at-scale": {
+   "questions": [
+    {
+     "q": "What shape does the testing pyramid recommend?",
+     "options": [
+      "Only E2E tests",
+      "Equal numbers of each",
+      "Many unit tests, fewer integration tests and a small number of high-value E2E tests",
+      "Only integration tests"
+     ],
+     "answer": 2,
+     "explain": "Covering every click path would be slow and brittle."
+    },
+    {
+     "q": "What can E2E tests catch that unit tests structurally cannot?",
+     "options": [
+      "Missing semicolons",
+      "Slow loops",
+      "CSS hiding a button or a bug only in Safari",
+      "Typos in function names"
+     ],
+     "answer": 2,
+     "explain": "Playwright drives a real browser, so it sees rendered output."
+    },
+    {
+     "q": "Which tool drives Chromium, Firefox and WebKit in this lesson?",
+     "options": [
+      "supertest",
+      "Vite",
+      "Jest",
+      "Playwright"
+     ],
+     "answer": 3,
+     "explain": "Cypress is mentioned as another E2E option."
+    },
+    {
+     "q": "Why does the config set retries only when process.env.CI is set?",
+     "options": [
+      "To speed up tests",
+      "To skip tests",
+      "Flaky E2E tests get automatic retries in CI",
+      "Retries are illegal locally"
+     ],
+     "answer": 2,
+     "explain": "retries: process.env.CI ? 2 : 0."
+    }
+   ]
+  },
+  "level-4/06-scaling-nodejs": {
+   "questions": [
+    {
+     "q": "What does CPU-heavy synchronous work do in Node?",
+     "options": [
+      "Speeds up requests",
+      "Runs on a separate core automatically",
+      "Blocks the entire event loop and stalls every other request",
+      "Is ignored"
+     ],
+     "answer": 2,
+     "explain": "Offload it to a worker thread to keep the event loop free."
+    },
+    {
+     "q": "What does the cluster module do?",
+     "options": [
+      "Joins databases",
+      "Forks multiple copies of the process, one per CPU core, sharing a port",
+      "Caches pages",
+      "Compresses responses"
+     ],
+     "answer": 1,
+     "explain": "A crashed worker doesn't take down the whole app."
+    },
+    {
+     "q": "In the cluster example, what happens when a worker dies?",
+     "options": [
+      "The app exits",
+      "The primary logs it and forks a replacement",
+      "All workers restart",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "cluster.fork() keeps the pool at full strength."
+    },
+    {
+     "q": "Why does Node handle many concurrent I/O requests well on one thread?",
+     "options": [
+      "I/O such as database and HTTP calls is non-blocking",
+      "It forks per request",
+      "It uses a thread per request",
+      "It disables the event loop"
+     ],
+     "answer": 0,
+     "explain": "Scaling beyond one core needs clustering, caching and load balancing."
+    }
+   ]
+  },
+  "level-4/07-realtime-applications": {
+   "questions": [
+    {
+     "q": "Why are WebSockets better than polling for live features?",
+     "options": [
+      "They poll faster",
+      "They are one-way",
+      "They need more requests",
+      "One long-lived two-way connection pushes data the instant it's available"
+     ],
+     "answer": 3,
+     "explain": "Polling wastes requests and adds latency equal to the interval."
+    },
+    {
+     "q": "In the counter example, why does the server call broadcast?",
+     "options": [
+      "To close connections",
+      "To push the new value to every connected client, not just the sender",
+      "To log in",
+      "To poll"
+     ],
+     "answer": 1,
+     "explain": "The server loops over all clients whose readyState is OPEN."
+    },
+    {
+     "q": "What does Socket.IO add on top of WebSockets?",
+     "options": [
+      "HTML rendering",
+      "Fallback to HTTP long-polling and extras such as rooms",
+      "A database",
+      "TypeScript"
+     ],
+     "answer": 1,
+     "explain": "It falls back to long-polling when needed."
+    },
+    {
+     "q": "Why does the server check client.readyState === client.OPEN before sending?",
+     "options": [
+      "To count clients",
+      "To avoid sending to connections that aren't open",
+      "To compress data",
+      "To authenticate"
+     ],
+     "answer": 1,
+     "explain": "Sending on closed sockets would fail."
+    }
+   ]
+  },
+  "level-4/08-cicd": {
+   "questions": [
+    {
+     "q": "What is the main difference between Continuous Delivery and Continuous Deployment?",
+     "options": [
+      "Deployment needs approval; Delivery doesn't",
+      "Delivery skips tests",
+      "They are identical",
+      "Delivery needs a human to approve the deploy; Deployment ships automatically on merge"
+     ],
+     "answer": 3,
+     "explain": "Most teams use continuous delivery for production and full deployment for staging or preview."
+    },
+    {
+     "q": "What does the matrix strategy in the test job do?",
+     "options": [
+      "Runs tests against multiple Node versions (18, 20, 22)",
+      "Deploys three times",
+      "Skips lint",
+      "Runs tests in random order"
+     ],
+     "answer": 0,
+     "explain": "It verifies the code on each supported Node version."
+    },
+    {
+     "q": "What does needs: lint do on the test job?",
+     "options": [
+      "The test job waits for the lint job to succeed first",
+      "Lint is optional",
+      "They run in parallel",
+      "Lint runs after tests"
+     ],
+     "answer": 0,
+     "explain": "Jobs form a lint → test → build → deploy chain."
+    },
+    {
+     "q": "Why does the deploy job have if: github.ref == 'refs/heads/main'?",
+     "options": [
+      "To skip builds",
+      "Only deploy from main, never from PR branches",
+      "To enable caching",
+      "To speed up lint"
+     ],
+     "answer": 1,
+     "explain": "The production environment can also require manual approval."
+    }
+   ]
+  },
+  "level-4/09-observability": {
+   "questions": [
+    {
+     "q": "Why use structured (JSON) logs instead of free-form text?",
+     "options": [
+      "They avoid levels",
+      "They are shorter",
+      "Log aggregators can filter and query them reliably",
+      "They need no logger"
+     ],
+     "answer": 2,
+     "explain": "Examples of aggregators are Datadog, CloudWatch and Elastic."
+    },
+    {
+     "q": "How does winston differ from pino in the lesson?",
+     "options": [
+      "More configurable, with multiple transports, at the cost of more overhead",
+      "Faster and simpler",
+      "It has no JSON",
+      "It only logs to a file"
+     ],
+     "answer": 0,
+     "explain": "pino is very low-overhead; winston can write to Console and File and other transports at once."
+    },
+    {
+     "q": "What does req.log.info({ orderId }, \"fetching order\") demonstrate?",
+     "options": [
+      "Setting a header",
+      "Sending an email",
+      "Writing to a database",
+      "Logging structured fields instead of string concatenation"
+     ],
+     "answer": 3,
+     "explain": "pino-http attaches request-scoped logging."
+    },
+    {
+     "q": "Why can't you rely on a debugger in production across multiple instances?",
+     "options": [
+      "You can't attach and step through a running system, so you use logs, metrics and health checks",
+      "Debuggers are banned",
+      "Node has no debugger",
+      "Logs are slower"
+     ],
+     "answer": 0,
+     "explain": "Observability explains what a running system is doing without interrupting it."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What is the capstone project?",
+     "options": [
+      "A weather app",
+      "A to-do list in the browser",
+      "A Task Tracker API with JWT-protected REST routes backed by SQLite",
+      "A chat app"
+     ],
+     "answer": 2,
+     "explain": "Users register, log in and manage their own tasks."
+    },
+    {
+     "q": "Why can the database be swapped for Postgres or MySQL without changing business logic?",
+     "options": [
+      "The repository layer is the only place that knows about SQL",
+      "Express handles SQL",
+      "Docker converts SQL",
+      "JWT stores data"
+     ],
+     "answer": 0,
+     "explain": "The layering keeps business logic independent of the data store."
+    },
+    {
+     "q": "How does config.js choose the database path under test?",
+     "options": [
+      "Reads from the JWT",
+      "Uses :memory: when NODE_ENV is test",
+      "Always uses a file",
+      "Uses Postgres"
+     ],
+     "answer": 1,
+     "explain": "Otherwise it uses ./data/tasks.db unless DB_PATH is set."
+    },
+    {
+     "q": "Which pieces does the capstone bring together?",
+     "options": [
+      "Only a front end",
+      "Only Docker",
+      "REST API, data layer, JWT auth, tests, container image and CI pipeline",
+      "Only CSS and HTML"
+     ],
+     "answer": 2,
+     "explain": "It is the final production-shaped project of the whole JavaScript course."
+    }
+   ]
   }
  }
 }
