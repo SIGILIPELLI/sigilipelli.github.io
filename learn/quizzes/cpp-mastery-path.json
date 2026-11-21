@@ -1,0 +1,2148 @@
+{
+ "course": "cpp-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What does `g++ -std=c++20 hello.cpp -o hello` do?",
+     "options": [
+      "Installs g++",
+      "Compiles hello.cpp as C++20 into an executable named hello",
+      "Interprets the file",
+      "Runs hello.cpp"
+     ],
+     "answer": 1,
+     "explain": "C++ compiles straight to native code with no VM."
+    },
+    {
+     "q": "What does `#include <iostream>` provide?",
+     "options": [
+      "The main function",
+      "Memory management",
+      "Declarations for std::cout and std::cin",
+      "A VM"
+     ],
+     "answer": 2,
+     "explain": "It's a preprocessor include."
+    },
+    {
+     "q": "What does `return 0;` in main signal?",
+     "options": [
+      "A pointer",
+      "An error",
+      "The program length",
+      "Successful exit status to the operating system"
+     ],
+     "answer": 3,
+     "explain": "Non-zero indicates failure."
+    },
+    {
+     "q": "Why is C++ 'statically typed'?",
+     "options": [
+      "There are no types",
+      "Types are chosen at runtime",
+      "Types change freely",
+      "Every variable's type is fixed at compile time"
+     ],
+     "answer": 3,
+     "explain": "Type errors appear at compile time."
+    }
+   ]
+  },
+  "level-1/02-variables-types-operators": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nint main(){ int a=7,b=2; cout<<a/b<<' '<<a%b<<' '<<double(a)/b; }\n```\n",
+     "options": [
+      "3 1 3",
+      "3.5 1 3.5",
+      "4 1 3.5",
+      "3 1 3.5"
+     ],
+     "answer": 3,
+     "explain": "Integer division truncates. Verified by compiling and running."
+    },
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nint main(){ auto x=5; auto y=2.0; auto z=x*y; cout<<z<<' '<<sizeof(z); }\n```\n",
+     "options": [
+      "10 5",
+      "10 8",
+      "10 4",
+      "5 8"
+     ],
+     "answer": 1,
+     "explain": "int * double is double (8 bytes). Verified by compiling and running."
+    },
+    {
+     "q": "What does `const int n = 5;` guarantee?",
+     "options": [
+      "n can't be modified after initialization",
+      "n can change",
+      "n is global",
+      "n is on the heap"
+     ],
+     "answer": 0,
+     "explain": "Prefer const by default."
+    },
+    {
+     "q": "Why prefer brace initialization `int x{3.5};`?",
+     "options": [
+      "It's faster",
+      "It rejects narrowing conversions at compile time",
+      "It's older",
+      "It allocates"
+     ],
+     "answer": 1,
+     "explain": "Narrowing becomes an error."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nint main(){ int s=0; for(int i=1;i<=10;i++){ if(i%2==0) continue; if(i>7) break; s+=i; } cout<<s; }\n```\n",
+     "options": [
+      "25",
+      "28",
+      "16",
+      "10"
+     ],
+     "answer": 2,
+     "explain": "Odd numbers 1+3+5+7 = 16; 9 breaks. Verified by compiling and running."
+    },
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nint main(){ vector<int> v{1,2,3}; int t=0; for(auto x: v) t+=x*x; cout<<t; }\n```\n",
+     "options": [
+      "36",
+      "14",
+      "9",
+      "6"
+     ],
+     "answer": 1,
+     "explain": "Range-for over a vector. Verified by compiling and running."
+    },
+    {
+     "q": "What happens if a switch case lacks break?",
+     "options": [
+      "It stops",
+      "It restarts",
+      "Execution falls through to the next case",
+      "Compile error"
+     ],
+     "answer": 2,
+     "explain": "Use [[fallthrough]] to mark intentional cases."
+    },
+    {
+     "q": "Which loop runs at least once?",
+     "options": [
+      "while",
+      "range-for",
+      "do { } while (cond);",
+      "for"
+     ],
+     "answer": 2,
+     "explain": "The condition is checked after the body."
+    }
+   ]
+  },
+  "level-1/04-functions-overloading": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nvoid f(int){cout<<\"int\";}\nvoid f(double){cout<<\"double\";}\nvoid f(const string&){cout<<\"string\";}\nint main(){ f(1); f(1.0); f(string(\"a\")); }\n```\n",
+     "options": [
+      "intintstring",
+      "Compile error",
+      "intdoublestring",
+      "doubledoubledouble"
+     ],
+     "answer": 2,
+     "explain": "The overload with the best-matching parameter type is chosen. Verified by compiling and running."
+    },
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nvoid inc(int& x){ x++; }\nint main(){ int a=1; inc(a); inc(a); cout<<a; }\n```\n",
+     "options": [
+      "2",
+      "1",
+      "0",
+      "3"
+     ],
+     "answer": 3,
+     "explain": "A reference parameter aliases the caller's variable. Verified by compiling and running."
+    },
+    {
+     "q": "Can you overload functions by return type alone?",
+     "options": [
+      "No: parameter lists must differ",
+      "Only for void",
+      "Yes",
+      "Only for templates"
+     ],
+     "answer": 0,
+     "explain": "The return type isn't part of overload resolution."
+    },
+    {
+     "q": "What does a default argument `void f(int x = 5)` allow?",
+     "options": [
+      "Skipping the type",
+      "Overloading by value",
+      "Returning early",
+      "Calling f() with the default used for x"
+     ],
+     "answer": 3,
+     "explain": "Defaults go on the right-most parameters."
+    }
+   ]
+  },
+  "level-1/05-arrays-vector-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nint main(){ vector<int> v; for(int i=0;i<5;i++) v.push_back(i*i); cout<<v.size()<<' '<<v.back()<<' '<<v[2]; }\n```\n",
+     "options": [
+      "5 16 2",
+      "4 16 4",
+      "5 16 4",
+      "5 25 4"
+     ],
+     "answer": 2,
+     "explain": "push_back appends; indices start at 0. Verified by compiling and running."
+    },
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nint main(){ vector<int> v{1,2,3}; try{ v.at(5); }catch(const out_of_range&){ cout<<\"caught\"; } }\n```\n",
+     "options": [
+      "Crash",
+      "0",
+      "caught",
+      "1"
+     ],
+     "answer": 2,
+     "explain": "at() checks bounds; operator[] does not. Verified by compiling and running."
+    },
+    {
+     "q": "What happens when a vector exceeds its capacity?",
+     "options": [
+      "It crashes",
+      "It truncates",
+      "Nothing",
+      "It allocates a bigger buffer, moves elements and invalidates iterators/pointers"
+     ],
+     "answer": 3,
+     "explain": "Reserve to avoid reallocations."
+    },
+    {
+     "q": "Why prefer std::vector over a raw C array?",
+     "options": [
+      "It tracks its size, manages memory and can grow",
+      "It's faster at everything",
+      "It's older",
+      "It's smaller"
+     ],
+     "answer": 0,
+     "explain": "RAII manages the buffer."
+    }
+   ]
+  },
+  "level-1/06-strings": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nint main(){ string s=\"hello\"; s+=\" world\"; cout<<s.size()<<' '<<s.substr(6)<<' '<<s.find('o'); }\n```\n",
+     "options": [
+      "11 world 4",
+      "5 world 4",
+      "11 world 5",
+      "11 hello 4"
+     ],
+     "answer": 0,
+     "explain": "find returns the first index. Verified by compiling and running."
+    },
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nint main(){ string a=\"abc\",b=\"abd\"; cout<<(a<b)<<(a==\"abc\"); }\n```\n",
+     "options": [
+      "01",
+      "00",
+      "11",
+      "10"
+     ],
+     "answer": 2,
+     "explain": "std::string compares lexicographically with ==, <. Verified by compiling and running."
+    },
+    {
+     "q": "What does `std::string::npos` mean?",
+     "options": [
+      "End of line",
+      "Empty string",
+      "Null terminator",
+      "find found nothing"
+     ],
+     "answer": 3,
+     "explain": "Compare find's result to npos."
+    },
+    {
+     "q": "Why is std::string safer than char arrays?",
+     "options": [
+      "It's unchangeable",
+      "It's smaller",
+      "It manages memory and length, avoiding manual overflow bugs",
+      "It's static"
+     ],
+     "answer": 2,
+     "explain": "No manual terminator handling."
+    }
+   ]
+  },
+  "level-1/07-classes-objects": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nclass C{ int n; public: C(int x):n(x){ cout<<\"ctor\"<<n; } ~C(){ cout<<\"dtor\"<<n; } };\nint main(){ C a(1); { C b(2); } cout<<\"end\"; }\n```\n",
+     "options": [
+      "ctor1ctor2enddtor1dtor2",
+      "ctor1dtor1",
+      "ctor1ctor2dtor2enddtor1",
+      "ctor1ctor2dtor1dtor2end"
+     ],
+     "answer": 2,
+     "explain": "Objects are destroyed at the end of their scope, in reverse order. Verified by compiling and running."
+    },
+    {
+     "q": "What does `private` mean?",
+     "options": [
+      "Hidden from the compiler",
+      "Read-only",
+      "Members are accessible only inside the class (and friends)",
+      "Static"
+     ],
+     "answer": 2,
+     "explain": "Encapsulation hides representation."
+    },
+    {
+     "q": "What does `const` after a member function signature mean?",
+     "options": [
+      "It's static",
+      "It's inline",
+      "It returns const",
+      "The function doesn't modify the object"
+     ],
+     "answer": 3,
+     "explain": "const objects can call only const members."
+    },
+    {
+     "q": "What does the member initializer list do?",
+     "options": [
+      "Allocates only",
+      "Initializes members before the constructor body runs",
+      "Assigns after",
+      "Declares"
+     ],
+     "answer": 1,
+     "explain": "Required for const and reference members."
+    }
+   ]
+  },
+  "level-1/08-references-pointers": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nint main(){ int a=1; int& r=a; int* p=&a; r=5; *p+=1; cout<<a<<r<<*p; }\n```\n",
+     "options": [
+      "516",
+      "156",
+      "666",
+      "161"
+     ],
+     "answer": 2,
+     "explain": "r and p both refer to a. Verified by compiling and running."
+    },
+    {
+     "q": "How does a reference differ from a pointer?",
+     "options": [
+      "It is bigger",
+      "It can be null",
+      "It must be bound at initialization, can't be reseated and can't be null",
+      "It can be reseated"
+     ],
+     "answer": 2,
+     "explain": "Use pointers for optional or reseatable."
+    },
+    {
+     "q": "What does dereferencing nullptr do?",
+     "options": [
+      "Throws",
+      "Nothing",
+      "Returns 0",
+      "Undefined behavior"
+     ],
+     "answer": 3,
+     "explain": "Check before use."
+    },
+    {
+     "q": "Why pass big objects by const reference?",
+     "options": [
+      "It changes types",
+      "It's required",
+      "It's shorter",
+      "It avoids copying while promising not to modify"
+     ],
+     "answer": 3,
+     "explain": "A common default parameter style."
+    }
+   ]
+  },
+  "level-1/09-exception-handling": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\n#include <stdexcept>\nint main(){ try{ throw runtime_error(\"boom\"); }catch(const exception& e){ cout<<e.what(); } }\n```\n",
+     "options": [
+      "runtime_error",
+      "0",
+      "boom",
+      "Crash"
+     ],
+     "answer": 2,
+     "explain": "Catch by const reference. Verified by compiling and running."
+    },
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\n#include <stdexcept>\nstruct R{ ~R(){ cout<<\"cleanup \"; } };\nint main(){ try{ R r; throw 1; }catch(int){ cout<<\"caught\"; } }\n```\n",
+     "options": [
+      "cleanup caught",
+      "cleanup",
+      "caught",
+      "caught cleanup"
+     ],
+     "answer": 0,
+     "explain": "Stack unwinding destroys locals before the handler runs. Verified by compiling and running."
+    },
+    {
+     "q": "Why catch by const reference?",
+     "options": [
+      "It avoids slicing and copying",
+      "It's faster to type",
+      "It's required",
+      "It rethrows"
+     ],
+     "answer": 0,
+     "explain": "Catch polymorphic exceptions by reference."
+    },
+    {
+     "q": "What does an uncaught exception do?",
+     "options": [
+      "Calls std::terminate, ending the program",
+      "Is ignored",
+      "Retries",
+      "Returns 0"
+     ],
+     "answer": 0,
+     "explain": "Handle exceptions where you can recover."
+    }
+   ]
+  },
+  "level-1/10-project-bank-account-cli": {
+   "questions": [
+    {
+     "q": "Why validate a withdrawal against the balance?",
+     "options": [
+      "To keep the invariant that a balance never goes negative",
+      "For speed",
+      "For style",
+      "Withdrawals are free"
+     ],
+     "answer": 0,
+     "explain": "Reject or throw on invalid operations."
+    },
+    {
+     "q": "Why store money in integer cents rather than double?",
+     "options": [
+      "Floating-point can't represent many decimals exactly",
+      "Doubles are slow",
+      "Ints are bigger",
+      "It's shorter"
+     ],
+     "answer": 0,
+     "explain": "Avoid rounding drift."
+    },
+    {
+     "q": "Why wrap the account's data as private?",
+     "options": [
+      "For style",
+      "For size",
+      "So all changes go through methods that enforce the rules",
+      "For speed"
+     ],
+     "answer": 2,
+     "explain": "Encapsulation."
+    },
+    {
+     "q": "How should invalid user input be handled?",
+     "options": [
+      "Assume ok",
+      "Crash",
+      "Check the stream state and re-prompt instead of assuming success",
+      "Ignore"
+     ],
+     "answer": 2,
+     "explain": "cin can fail."
+    }
+   ]
+  },
+  "level-2/01-oop-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nstruct B{ virtual void f(){cout<<\"B\";} virtual ~B()=default; };\nstruct D:B{ void f() override {cout<<\"D\";} };\nint main(){ unique_ptr<B> p=make_unique<D>(); p->f(); }\n```\n",
+     "options": [
+      "D",
+      "B",
+      "Compile error",
+      "BD"
+     ],
+     "answer": 0,
+     "explain": "A virtual call dispatches on the dynamic type. Verified by compiling and running."
+    },
+    {
+     "q": "What does this print (no virtual)?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nstruct B{ void f(){cout<<\"B\";} };\nstruct D:B{ void f(){cout<<\"D\";} };\nint main(){ D d; B* p=&d; p->f(); }\n```\n",
+     "options": [
+      "B",
+      "BD",
+      "D",
+      "Compile error"
+     ],
+     "answer": 0,
+     "explain": "Without virtual, the static type decides. Verified by compiling and running."
+    },
+    {
+     "q": "Why give a polymorphic base class a virtual destructor?",
+     "options": [
+      "To copy",
+      "It's optional",
+      "For speed",
+      "Deleting a derived object through a base pointer would otherwise be undefined behavior"
+     ],
+     "answer": 3,
+     "explain": "Make base destructors virtual."
+    },
+    {
+     "q": "What does `= 0` after a virtual function mean?",
+     "options": [
+      "It's pure virtual, making the class abstract",
+      "It's static",
+      "It returns zero",
+      "It's deleted"
+     ],
+     "answer": 0,
+     "explain": "Derived classes must implement it."
+    }
+   ]
+  },
+  "level-2/02-templates-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\ntemplate<typename T> T mx(T a,T b){ return a>b?a:b; }\nint main(){ cout<<mx(3,7)<<' '<<mx(2.5,1.5)<<' '<<mx<string>(\"a\",\"b\"); }\n```\n",
+     "options": [
+      "7 2.5 b",
+      "7 2 b",
+      "3 1.5 a",
+      "Compile error"
+     ],
+     "answer": 0,
+     "explain": "The compiler generates a version per type. Verified by compiling and running."
+    },
+    {
+     "q": "When are templates instantiated?",
+     "options": [
+      "At link only",
+      "At runtime",
+      "Never",
+      "At compile time for each type used"
+     ],
+     "answer": 3,
+     "explain": "Errors can appear in instantiated code."
+    },
+    {
+     "q": "What does a class template look like?",
+     "options": [
+      "template Stack;",
+      "template<typename T> class Stack { ... };",
+      "class Stack<T>;",
+      "Stack<T> as macro"
+     ],
+     "answer": 1,
+     "explain": "Use Stack<int> to instantiate."
+    },
+    {
+     "q": "Where are template definitions usually placed?",
+     "options": [
+      "Only in .cpp",
+      "In the linker",
+      "In headers, since the compiler needs the full definition to instantiate",
+      "In main"
+     ],
+     "answer": 2,
+     "explain": "Otherwise you get link errors."
+    }
+   ]
+  },
+  "level-2/03-stl-containers": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nint main(){ map<string,int> m; m[\"b\"]=2; m[\"a\"]=1; m[\"b\"]+=5; for(auto&[k,v]:m) cout<<k<<v<<' '; }\n```\n",
+     "options": [
+      "a1 b2",
+      "b7 a1",
+      "b2 a1",
+      "a1 b7"
+     ],
+     "answer": 3,
+     "explain": "std::map keeps keys sorted. Verified by compiling and running."
+    },
+    {
+     "q": "Which container gives average O(1) lookup by key?",
+     "options": [
+      "std::map",
+      "std::list",
+      "std::unordered_map",
+      "std::vector"
+     ],
+     "answer": 2,
+     "explain": "map is O(log n) but ordered."
+    },
+    {
+     "q": "When is std::vector the right default?",
+     "options": [
+      "Key lookup",
+      "Sorted keys",
+      "When you want contiguous storage and fast iteration",
+      "Constant middle inserts"
+     ],
+     "answer": 2,
+     "explain": "It's the default sequence container."
+    },
+    {
+     "q": "What does map's operator[] do for a missing key?",
+     "options": [
+      "Nothing",
+      "Throws",
+      "Inserts a default-constructed value",
+      "Returns end"
+     ],
+     "answer": 2,
+     "explain": "Use find or at to avoid insertion."
+    }
+   ]
+  },
+  "level-2/04-stl-algorithms-iterators": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\n#include <algorithm>\n#include <numeric>\nint main(){ vector<int> v{5,2,9,1}; sort(v.begin(),v.end()); cout<<v[0]<<v[3]<<' '<<accumulate(v.begin(),v.end(),0)<<' '<<count_if(v.begin(),v.end(),[](int x){return x>2;}); }\n```\n",
+     "options": [
+      "19 17 3",
+      "19 17 2",
+      "19 16 2",
+      "91 17 2"
+     ],
+     "answer": 1,
+     "explain": "sort ascending; sum 17; two elements > 2. Verified by compiling and running."
+    },
+    {
+     "q": "What do begin() and end() denote?",
+     "options": [
+      "A half-open range: end points one past the last element",
+      "Sizes",
+      "Inclusive range",
+      "Two arrays"
+     ],
+     "answer": 0,
+     "explain": "Never dereference end()."
+    },
+    {
+     "q": "What does erase-remove idiom do?",
+     "options": [
+      "Deletes in place only",
+      "Sorts",
+      "remove shifts kept elements forward, then erase trims the tail",
+      "Reverses"
+     ],
+     "answer": 2,
+     "explain": "remove doesn't shrink the container."
+    },
+    {
+     "q": "Why prefer algorithms over hand-written loops?",
+     "options": [
+      "They avoid templates",
+      "They're always faster",
+      "They express intent and are well tested",
+      "They need no includes"
+     ],
+     "answer": 2,
+     "explain": "Use <algorithm>."
+    }
+   ]
+  },
+  "level-2/05-operator-overloading": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nstruct V{ int x,y; V operator+(const V&o)const{ return {x+o.x,y+o.y}; } bool operator==(const V&o)const{ return x==o.x&&y==o.y; } };\nint main(){ V a{1,2},b{3,4}; V c=a+b; cout<<c.x<<c.y<<(c==V{4,6}); }\n```\n",
+     "options": [
+      "461",
+      "460",
+      "46",
+      "24"
+     ],
+     "answer": 0,
+     "explain": "Operators are ordinary functions with special names. Verified by compiling and running."
+    },
+    {
+     "q": "Which operator is usually overloaded as a non-member for streams?",
+     "options": [
+      "operator<< for std::ostream",
+      "operator()",
+      "operator+=",
+      "operator[]"
+     ],
+     "answer": 0,
+     "explain": "The stream is the left operand."
+    },
+    {
+     "q": "What rule applies when overloading operators?",
+     "options": [
+      "Use macros",
+      "Keep their conventional meaning so code stays intuitive",
+      "Avoid const",
+      "Change meaning"
+     ],
+     "answer": 1,
+     "explain": "Don't surprise users."
+    },
+    {
+     "q": "Why mark operator== const?",
+     "options": [
+      "So it works on const objects",
+      "Required by syntax",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Comparison shouldn't modify."
+    }
+   ]
+  },
+  "level-2/06-smart-pointers": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\nint main(){ auto a=make_shared<int>(5); auto b=a; cout<<a.use_count(); b.reset(); cout<<a.use_count(); }\n```\n",
+     "options": [
+      "21",
+      "12",
+      "22",
+      "11"
+     ],
+     "answer": 0,
+     "explain": "shared_ptr counts owners. Verified by compiling and running."
+    },
+    {
+     "q": "What does unique_ptr express?",
+     "options": [
+      "Shared ownership",
+      "Exclusive ownership: movable but not copyable",
+      "Weak reference",
+      "No ownership"
+     ],
+     "answer": 1,
+     "explain": "Default smart pointer."
+    },
+    {
+     "q": "What problem does weak_ptr solve?",
+     "options": [
+      "Threading",
+      "Breaking shared_ptr reference cycles",
+      "Casting",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "It doesn't own."
+    },
+    {
+     "q": "Why prefer make_unique over `new`?",
+     "options": [
+      "It's exception-safe and avoids raw owning pointers",
+      "It's faster always",
+      "It's older",
+      "It copies"
+     ],
+     "answer": 0,
+     "explain": "No manual delete."
+    }
+   ]
+  },
+  "level-2/07-file-io-streams": {
+   "questions": [
+    {
+     "q": "Which class reads from files?",
+     "options": [
+      "std::ifstream",
+      "std::cout",
+      "std::ofstream",
+      "std::stringstream only"
+     ],
+     "answer": 0,
+     "explain": "ofstream writes."
+    },
+    {
+     "q": "What should you check after opening a file?",
+     "options": [
+      "Nothing",
+      "The name",
+      "Whether it opened successfully (e.g. if (!file))",
+      "The size"
+     ],
+     "answer": 2,
+     "explain": "Failed opens are silent otherwise."
+    },
+    {
+     "q": "What closes a std::fstream automatically?",
+     "options": [
+      "The OS only",
+      "Nothing",
+      "Its destructor at the end of scope (RAII)",
+      "A GC"
+     ],
+     "answer": 2,
+     "explain": "No explicit close is needed."
+    },
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\nusing namespace std;\n#include <sstream>\nint main(){ istringstream in(\"3 4 5\"); int a,b,c; in>>a>>b>>c; cout<<a+b+c; }\n```\n",
+     "options": [
+      "0",
+      "3",
+      "345",
+      "12"
+     ],
+     "answer": 3,
+     "explain": "String streams parse like files. Verified by compiling and running."
+    }
+   ]
+  },
+  "level-2/08-error-handling-exceptions": {
+   "questions": [
+    {
+     "q": "Which is a good use of exceptions?",
+     "options": [
+      "Reporting failures a caller can't ignore or handle locally",
+      "Sorting",
+      "Every branch",
+      "Normal loop exit"
+     ],
+     "answer": 0,
+     "explain": "Don't use them for ordinary control flow."
+    },
+    {
+     "q": "What does `noexcept` promise?",
+     "options": [
+      "It never fails",
+      "The function won't throw; if it does, std::terminate runs",
+      "It returns early",
+      "It's constexpr"
+     ],
+     "answer": 1,
+     "explain": "Move operations should be noexcept."
+    },
+    {
+     "q": "What is RAII's role in exception safety?",
+     "options": [
+      "Catching",
+      "Logging",
+      "Throwing",
+      "Destructors release resources during stack unwinding"
+     ],
+     "answer": 3,
+     "explain": "No leaks even when exceptions fly."
+    },
+    {
+     "q": "Why define custom exception types?",
+     "options": [
+      "For style",
+      "For length",
+      "Required",
+      "So callers can catch specific failures"
+     ],
+     "answer": 3,
+     "explain": "Derive from std::exception."
+    }
+   ]
+  },
+  "level-2/09-build-tools-cmake": {
+   "questions": [
+    {
+     "q": "What does `target_link_libraries(app PRIVATE calc_lib)` do?",
+     "options": [
+      "Links the library into app and uses its PUBLIC properties",
+      "Compiles calc_lib",
+      "Runs tests",
+      "Installs it"
+     ],
+     "answer": 0,
+     "explain": "CMake targets carry usage requirements."
+    },
+    {
+     "q": "What does PUBLIC mean for an include directory?",
+     "options": [
+      "Only the library",
+      "Only tests",
+      "Anything linking the library also gets that include directory",
+      "Nobody"
+     ],
+     "answer": 2,
+     "explain": "PRIVATE is internal only."
+    },
+    {
+     "q": "Why build out of source (a separate build dir)?",
+     "options": [
+      "Colors",
+      "Required",
+      "It keeps generated files out of the source tree",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "cmake -S . -B build."
+    },
+    {
+     "q": "What generates the build system?",
+     "options": [
+      "CMake generates Makefiles or Ninja files",
+      "g++ alone",
+      "Git",
+      "make alone"
+     ],
+     "answer": 0,
+     "explain": "A meta-build system."
+    }
+   ]
+  },
+  "level-2/10-project-library-management": {
+   "questions": [
+    {
+     "q": "Why model Book and Member as separate classes?",
+     "options": [
+      "Style only",
+      "Required",
+      "Each has its own data and responsibilities (single responsibility)",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "It keeps code cohesive."
+    },
+    {
+     "q": "How should lending prevent double-lending?",
+     "options": [
+      "Delete it",
+      "Ignore",
+      "Check the book's state and reject or throw on a second loan",
+      "Copy the book"
+     ],
+     "answer": 2,
+     "explain": "Enforce invariants."
+    },
+    {
+     "q": "Which container suits lookup of books by ISBN?",
+     "options": [
+      "A set of ints",
+      "An unordered_map keyed by ISBN",
+      "A raw array",
+      "A queue"
+     ],
+     "answer": 1,
+     "explain": "Average O(1) lookup."
+    },
+    {
+     "q": "Why use smart pointers for owned records?",
+     "options": [
+      "Required by STL",
+      "Speed",
+      "To manage lifetimes without manual delete",
+      "Smaller code size"
+     ],
+     "answer": 2,
+     "explain": "Prefer unique_ptr."
+    }
+   ]
+  },
+  "level-3/01-advanced-templates": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\ntemplate<typename T> struct IsInt{ static constexpr bool v=false; };\ntemplate<> struct IsInt<int>{ static constexpr bool v=true; };\nint main(){ cout<<IsInt<int>::v<<IsInt<double>::v; }\n```\n",
+     "options": [
+      "11",
+      "01",
+      "10",
+      "00"
+     ],
+     "answer": 2,
+     "explain": "A specialization overrides the primary template for one type. Verified by compiling and running."
+    },
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\ntemplate<typename... A> int count(A... a){ return sizeof...(a); }\nint main(){ cout<<count()<<count(1)<<count(1,'a',2.0); }\n```\n",
+     "options": [
+      "003",
+      "123",
+      "013x",
+      "013"
+     ],
+     "answer": 3,
+     "explain": "A variadic pack's size is known at compile time. Verified by compiling and running."
+    },
+    {
+     "q": "What does `if constexpr` do?",
+     "options": [
+      "Discards the untaken branch at compile time inside a template",
+      "Is a macro",
+      "Runs at runtime",
+      "Loops"
+     ],
+     "answer": 0,
+     "explain": "Branches may then use type-specific code."
+    },
+    {
+     "q": "What do concepts (C++20) provide?",
+     "options": [
+      "Runtime checks",
+      "Named constraints on template parameters with clearer errors",
+      "Inheritance",
+      "Macros"
+     ],
+     "answer": 1,
+     "explain": "requires clauses restrict types."
+    }
+   ]
+  },
+  "level-3/02-move-semantics-rvalue-references": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\nstruct S{ S(){cout<<\"c\";} S(const S&){cout<<\"copy\";} S(S&&)noexcept{cout<<\"move\";} };\nint main(){ S a; S b=move(a); S c=b; }\n```\n",
+     "options": [
+      "cmovemove",
+      "cmovecopy",
+      "ccc",
+      "ccopycopy"
+     ],
+     "answer": 1,
+     "explain": "std::move casts to an rvalue so the move constructor is chosen. Verified by compiling and running."
+    },
+    {
+     "q": "What does moving a std::vector do?",
+     "options": [
+      "Frees it",
+      "Transfers its buffer pointer instead of copying elements",
+      "Sorts",
+      "Deep copies"
+     ],
+     "answer": 1,
+     "explain": "The source is left valid but unspecified."
+    },
+    {
+     "q": "Why mark move constructors noexcept?",
+     "options": [
+      "Speed only",
+      "It's required",
+      "Style",
+      "vector uses move on reallocation only if it can't throw"
+     ],
+     "answer": 3,
+     "explain": "Otherwise it copies for safety."
+    },
+    {
+     "q": "What is the rule of five?",
+     "options": [
+      "Five templates",
+      "Five members only",
+      "If you define a destructor, copy ctor/assign or move ctor/assign, consider defining all five",
+      "Five files"
+     ],
+     "answer": 2,
+     "explain": "Or follow the rule of zero."
+    }
+   ]
+  },
+  "level-3/03-concurrency": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\nint main(){ int x=0; mutex m; auto f=[&]{ for(int i=0;i<1000;i++){ lock_guard<mutex> g(m); x++; } }; thread a(f),b(f); a.join(); b.join(); cout<<x; }\n```\n",
+     "options": [
+      "0",
+      "Undefined",
+      "2000",
+      "1000"
+     ],
+     "answer": 2,
+     "explain": "A mutex makes the increment safe. Verified by compiling and running."
+    },
+    {
+     "q": "What is a data race?",
+     "options": [
+      "Two reads",
+      "Unsynchronized concurrent access with at least one write: undefined behavior",
+      "A slow thread",
+      "A deadlock"
+     ],
+     "answer": 1,
+     "explain": "Use mutexes or atomics."
+    },
+    {
+     "q": "Why prefer std::lock_guard over manual lock/unlock?",
+     "options": [
+      "Required",
+      "It unlocks automatically even if an exception is thrown (RAII)",
+      "Shorter",
+      "Faster"
+     ],
+     "answer": 1,
+     "explain": "Avoids leaks of the lock."
+    },
+    {
+     "q": "What does a std::thread destructor do if still joinable?",
+     "options": [
+      "Detaches",
+      "Ignores",
+      "Joins",
+      "Calls std::terminate; join or detach first"
+     ],
+     "answer": 3,
+     "explain": "std::jthread joins automatically."
+    }
+   ]
+  },
+  "level-3/04-raii-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\nstruct G{ string n; G(string s):n(s){cout<<\"+\"<<n;} ~G(){cout<<\"-\"<<n;} };\nint main(){ G a(\"a\"); G b(\"b\"); }\n```\n",
+     "options": [
+      "+a+b-a-b",
+      "+a+b",
+      "+a-a+b-b",
+      "+a+b-b-a"
+     ],
+     "answer": 3,
+     "explain": "Destruction runs in reverse construction order. Verified by compiling and running."
+    },
+    {
+     "q": "What is RAII?",
+     "options": [
+      "Resource acquisition is initialization: tie a resource's lifetime to an object's",
+      "A macro",
+      "A pattern for threads",
+      "A compiler flag"
+     ],
+     "answer": 0,
+     "explain": "Locks, files and memory use it."
+    },
+    {
+     "q": "Why is RAII exception-safe?",
+     "options": [
+      "Exceptions are ignored",
+      "It retries",
+      "It catches",
+      "Destructors run during stack unwinding, releasing resources"
+     ],
+     "answer": 3,
+     "explain": "No manual cleanup paths."
+    },
+    {
+     "q": "What should a RAII class do about copying?",
+     "options": [
+      "Make it public",
+      "Copy blindly",
+      "Delete or define copy semantics so ownership stays clear",
+      "Ignore"
+     ],
+     "answer": 2,
+     "explain": "Often move-only."
+    }
+   ]
+  },
+  "level-3/05-design-patterns": {
+   "questions": [
+    {
+     "q": "What does the Observer pattern provide?",
+     "options": [
+      "Wrapping",
+      "Single instance",
+      "Subjects notify registered observers of changes without tight coupling",
+      "Object copies"
+     ],
+     "answer": 2,
+     "explain": "Event systems use it."
+    },
+    {
+     "q": "What does the Strategy pattern do?",
+     "options": [
+      "Hides memory",
+      "Creates singletons",
+      "Swaps interchangeable algorithms behind a common interface",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "std::function can implement it."
+    },
+    {
+     "q": "What risk does a Singleton add?",
+     "options": [
+      "Global state that makes testing and dependencies harder",
+      "Memory",
+      "Nothing",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Prefer injection."
+    },
+    {
+     "q": "What does the Factory pattern centralize?",
+     "options": [
+      "Object creation, returning a base interface",
+      "Destruction",
+      "Locking",
+      "Printing"
+     ],
+     "answer": 0,
+     "explain": "Callers don't name concrete types."
+    }
+   ]
+  },
+  "level-3/06-networking-basics": {
+   "questions": [
+    {
+     "q": "In a TCP client the order is...",
+     "options": [
+      "socket, connect, send/recv, close",
+      "listen only",
+      "send only",
+      "bind, listen, accept"
+     ],
+     "answer": 0,
+     "explain": "Servers use bind, listen and accept."
+    },
+    {
+     "q": "Why must you handle partial sends/reads?",
+     "options": [
+      "Messages are atomic",
+      "TCP is a byte stream, and calls may transfer fewer bytes than requested",
+      "It's fast",
+      "Sockets are files"
+     ],
+     "answer": 1,
+     "explain": "Loop until all bytes move."
+    },
+    {
+     "q": "What does htons do?",
+     "options": [
+      "Converts a 16-bit value to network byte order",
+      "Hashes",
+      "Opens ports",
+      "Encrypts"
+     ],
+     "answer": 0,
+     "explain": "Network order is big-endian."
+    },
+    {
+     "q": "What's blocking I/O's downside for servers?",
+     "options": [
+      "Memory",
+      "One slow client can stall a thread; use threads or event loops",
+      "Speed",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Scale with epoll/kqueue or async."
+    }
+   ]
+  },
+  "level-3/07-sqlite": {
+   "questions": [
+    {
+     "q": "Why use prepared statements with bound parameters?",
+     "options": [
+      "They avoid indices",
+      "They are async",
+      "They're shorter",
+      "They prevent SQL injection and reuse the parsed query"
+     ],
+     "answer": 3,
+     "explain": "Never concatenate user input into SQL."
+    },
+    {
+     "q": "What does a transaction give you?",
+     "options": [
+      "Atomic all-or-nothing changes",
+      "Locks only",
+      "Speed only",
+      "Backups"
+     ],
+     "answer": 0,
+     "explain": "BEGIN ... COMMIT or ROLLBACK."
+    },
+    {
+     "q": "Why wrap sqlite3 handles in RAII?",
+     "options": [
+      "Style",
+      "Speed",
+      "To close/finalize them on every exit path",
+      "Required"
+     ],
+     "answer": 2,
+     "explain": "No leaks on exceptions."
+    },
+    {
+     "q": "What should you check after sqlite3_step?",
+     "options": [
+      "Nothing",
+      "The filename",
+      "Its return code (SQLITE_ROW, SQLITE_DONE or an error)",
+      "The count"
+     ],
+     "answer": 2,
+     "explain": "Handle errors."
+    }
+   ]
+  },
+  "level-3/08-testing-googletest": {
+   "questions": [
+    {
+     "q": "What's the difference between EXPECT_EQ and ASSERT_EQ?",
+     "options": [
+      "No difference",
+      "EXPECT continues after a failure; ASSERT aborts the current test",
+      "ASSERT continues",
+      "EXPECT aborts"
+     ],
+     "answer": 1,
+     "explain": "Use ASSERT when later code needs the check."
+    },
+    {
+     "q": "What does a test fixture do?",
+     "options": [
+      "Links",
+      "Shares setup/teardown across tests",
+      "Mocks",
+      "Runs the compiler"
+     ],
+     "answer": 1,
+     "explain": "TEST_F uses it."
+    },
+    {
+     "q": "What makes a good unit test?",
+     "options": [
+      "Fast, isolated and deterministic",
+      "Order-dependent",
+      "Random",
+      "Depends on the network"
+     ],
+     "answer": 0,
+     "explain": "Flaky tests erode trust."
+    },
+    {
+     "q": "What do mocks replace?",
+     "options": [
+      "Collaborators so you can test a unit in isolation",
+      "The CPU",
+      "The compiler",
+      "The test runner"
+     ],
+     "answer": 0,
+     "explain": "GoogleMock expects calls."
+    }
+   ]
+  },
+  "level-3/09-performance-profiling": {
+   "questions": [
+    {
+     "q": "What's the first rule of optimization?",
+     "options": [
+      "Guess",
+      "Rewrite in asm",
+      "Measure with a profiler and optimize the hot spot",
+      "Inline all"
+     ],
+     "answer": 2,
+     "explain": "Benchmark in release builds."
+    },
+    {
+     "q": "Why does cache locality matter?",
+     "options": [
+      "Contiguous data (like vector) is faster to iterate than pointer-chasing",
+      "Cache is small",
+      "Lists are faster",
+      "It doesn't"
+     ],
+     "answer": 0,
+     "explain": "Prefer vector."
+    },
+    {
+     "q": "What does -O2 do?",
+     "options": [
+      "Links statics",
+      "Enables optimizations in the compiler",
+      "Adds debug info",
+      "Disables inlining"
+     ],
+     "answer": 1,
+     "explain": "Profile optimized builds."
+    },
+    {
+     "q": "What's a pitfall of microbenchmarks?",
+     "options": [
+      "Speed",
+      "The optimizer may eliminate the work; prevent that with sinks or benchmark libraries",
+      "Colors",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Check what's measured."
+    }
+   ]
+  },
+  "level-3/10-project-task-processor": {
+   "questions": [
+    {
+     "q": "What synchronizes producers and consumers of a task queue?",
+     "options": [
+      "A sleep",
+      "Nothing",
+      "A mutex plus a condition variable",
+      "A global"
+     ],
+     "answer": 2,
+     "explain": "The consumer waits for work."
+    },
+    {
+     "q": "Why should a worker wait in a loop on the condition variable?",
+     "options": [
+      "Required by syntax",
+      "Speed",
+      "Spurious wakeups mean the predicate must be rechecked",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Use wait with a predicate."
+    },
+    {
+     "q": "How do you shut a thread pool down cleanly?",
+     "options": [
+      "Detach",
+      "Exit main",
+      "Kill threads",
+      "Signal stop, notify all workers and join them"
+     ],
+     "answer": 3,
+     "explain": "Avoid dangling threads."
+    },
+    {
+     "q": "What should tasks never do?",
+     "options": [
+      "Capture",
+      "Leak exceptions out of the worker thread, which would call std::terminate",
+      "Use lambdas",
+      "Run quickly"
+     ],
+     "answer": 1,
+     "explain": "Catch inside the worker."
+    }
+   ]
+  },
+  "level-4/01-modern-cpp-features": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\n#include <optional>\n#include <variant>\nint main(){ optional<int> o; cout<<o.value_or(7); variant<int,string> v=string(\"hi\"); cout<<get<string>(v); auto [a,b]=pair{1,2}; cout<<a+b; }\n```\n",
+     "options": [
+      "7hi12",
+      "7hi3",
+      "0hi3",
+      "7hi"
+     ],
+     "answer": 1,
+     "explain": "optional, variant and structured bindings are C++17. Verified by compiling and running."
+    },
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\n#include <string_view>\nint main(){ string_view sv=\"hello world\"; cout<<sv.substr(0,5)<<sv.size(); }\n```\n",
+     "options": [
+      "world11",
+      "hello5",
+      "hello11",
+      "hello"
+     ],
+     "answer": 2,
+     "explain": "string_view is a non-owning view. Verified by compiling and running."
+    },
+    {
+     "q": "What is the danger of string_view?",
+     "options": [
+      "Copies",
+      "Nothing",
+      "It can dangle if the underlying string is destroyed",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Mind lifetimes."
+    },
+    {
+     "q": "What do ranges (C++20) add?",
+     "options": [
+      "Composable lazy views over sequences",
+      "Macros",
+      "A new container",
+      "Threads"
+     ],
+     "answer": 0,
+     "explain": "std::views::filter and transform."
+    }
+   ]
+  },
+  "level-4/02-advanced-concurrency": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\n#include <future>\nint main(){ auto f=async(launch::async,[]{ return 6*7; }); cout<<f.get(); }\n```\n",
+     "options": [
+      "Undefined",
+      "42",
+      "6",
+      "0"
+     ],
+     "answer": 1,
+     "explain": "future::get waits for the result. Verified by compiling and running."
+    },
+    {
+     "q": "What does std::atomic provide?",
+     "options": [
+      "Threads",
+      "Memory",
+      "Mutexes",
+      "Lock-free (where available) indivisible operations on a variable"
+     ],
+     "answer": 3,
+     "explain": "fetch_add avoids data races."
+    },
+    {
+     "q": "What is a deadlock?",
+     "options": [
+      "A race",
+      "A crash",
+      "A leak",
+      "Threads waiting on each other's locks forever; lock in a consistent order or use std::scoped_lock"
+     ],
+     "answer": 3,
+     "explain": "scoped_lock locks several mutexes safely."
+    },
+    {
+     "q": "What does memory_order_relaxed guarantee?",
+     "options": [
+      "Nothing",
+      "Full ordering",
+      "Locking",
+      "Atomicity only, not ordering with other memory operations"
+     ],
+     "answer": 3,
+     "explain": "Use stronger orders when ordering matters."
+    }
+   ]
+  },
+  "level-4/03-compile-time-computation": {
+   "questions": [
+    {
+     "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\nconstexpr int fact(int n){ return n<=1?1:n*fact(n-1); }\nint main(){ constexpr int f=fact(5); static_assert(f==120); cout<<f; }\n```\n",
+     "options": [
+      "120",
+      "Compile error",
+      "24",
+      "5"
+     ],
+     "answer": 0,
+     "explain": "constexpr functions can run at compile time. Verified by compiling and running."
+    },
+    {
+     "q": "What does static_assert do?",
+     "options": [
+      "Checks a condition at compile time and fails the build if false",
+      "Logging",
+      "Test runner",
+      "Runtime check"
+     ],
+     "answer": 0,
+     "explain": "Great for size and trait checks."
+    },
+    {
+     "q": "What does consteval require?",
+     "options": [
+      "Templates",
+      "Runtime evaluation",
+      "Threads",
+      "The function be evaluated at compile time"
+     ],
+     "answer": 3,
+     "explain": "Immediate functions."
+    },
+    {
+     "q": "Why use constexpr tables?",
+     "options": [
+      "Smaller code always",
+      "They're computed at compile time with zero runtime cost",
+      "Dynamic",
+      "Slower"
+     ],
+     "answer": 1,
+     "explain": "Moves work to build."
+    }
+   ]
+  },
+  "level-4/04-systems-programming-patterns": {
+   "questions": [
+    {
+     "q": "What does mmap give you?",
+     "options": [
+      "Sorting",
+      "Network",
+      "File contents mapped into memory for pointer-style access",
+      "Threads"
+     ],
+     "answer": 2,
+     "explain": "Great for large read-mostly files."
+    },
+    {
+     "q": "Why use RAII wrappers for file descriptors?",
+     "options": [
+      "Required",
+      "To close them on every path",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Avoid leaks."
+    },
+    {
+     "q": "What does epoll/kqueue enable?",
+     "options": [
+      "Faster CPUs",
+      "Compression",
+      "Handling many sockets with one thread via event notification",
+      "Encryption"
+     ],
+     "answer": 2,
+     "explain": "Scalable servers."
+    },
+    {
+     "q": "What's a zero-copy goal?",
+     "options": [
+      "Zero threads",
+      "Zero memory",
+      "Avoid copying buffers between layers",
+      "Zero code"
+     ],
+     "answer": 2,
+     "explain": "sendfile and views."
+    }
+   ]
+  },
+  "level-4/05-security-best-practices": {
+   "questions": [
+    {
+     "q": "Which is safer than strcpy?",
+     "options": [
+      "strcat",
+      "sprintf",
+      "std::string or bounded copies with sizes checked",
+      "gets"
+     ],
+     "answer": 2,
+     "explain": "Avoid raw buffers."
+    },
+    {
+     "q": "What compiler options help catch bugs?",
+     "options": [
+      "-Wall -Wextra and sanitizers (-fsanitize=address,undefined)",
+      "-O0 only",
+      "-w",
+      "-s"
+     ],
+     "answer": 0,
+     "explain": "Use in CI."
+    },
+    {
+     "q": "Why validate all external input?",
+     "options": [
+      "Untrusted sizes and formats cause overflows and injection",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Never trust the network or files."
+    },
+    {
+     "q": "What does `-fstack-protector` do?",
+     "options": [
+      "Encrypts",
+      "Adds canaries that detect stack smashing",
+      "Compresses",
+      "Speeds"
+     ],
+     "answer": 1,
+     "explain": "Hardening, not a fix."
+    }
+   ]
+  },
+  "level-4/06-large-scale-build-systems": {
+   "questions": [
+    {
+     "q": "Why use precompiled headers or unity builds?",
+     "options": [
+      "Safety",
+      "To reduce compile time for large projects",
+      "Smaller binaries",
+      "Speed at runtime"
+     ],
+     "answer": 1,
+     "explain": "Trade-offs exist."
+    },
+    {
+     "q": "What does ccache do?",
+     "options": [
+      "Runs tests",
+      "Links",
+      "Formats",
+      "Caches compiler outputs keyed by inputs to skip rebuilds"
+     ],
+     "answer": 3,
+     "explain": "Speeds incremental and CI builds."
+    },
+    {
+     "q": "Why prefer target-based CMake?",
+     "options": [
+      "Faster runtime",
+      "Shorter",
+      "Required",
+      "Usage requirements propagate cleanly through dependencies"
+     ],
+     "answer": 3,
+     "explain": "Avoid global include_directories."
+    },
+    {
+     "q": "What does Ninja improve over Make?",
+     "options": [
+      "Tests",
+      "Language",
+      "Faster incremental builds and parallelism",
+      "Packaging"
+     ],
+     "answer": 2,
+     "explain": "CMake can generate Ninja."
+    }
+   ]
+  },
+  "level-4/07-cross-platform-development": {
+   "questions": [
+    {
+     "q": "Why avoid platform-specific headers in shared code?",
+     "options": [
+      "Style",
+      "Speed",
+      "They break builds elsewhere; isolate them behind an interface",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Use #ifdef sparingly."
+    },
+    {
+     "q": "What differs between platforms that bites binary file formats?",
+     "options": [
+      "Colors",
+      "Fonts",
+      "Endianness and type sizes",
+      "Names"
+     ],
+     "answer": 2,
+     "explain": "Use fixed-width types."
+    },
+    {
+     "q": "What does <filesystem> provide?",
+     "options": [
+      "Sorting",
+      "Threads",
+      "Networking",
+      "A portable API for paths and directories"
+     ],
+     "answer": 3,
+     "explain": "C++17."
+    },
+    {
+     "q": "How do you verify cross-platform support?",
+     "options": [
+      "Ask users",
+      "Build and test on each target in CI",
+      "Assume",
+      "Only Linux"
+     ],
+     "answer": 1,
+     "explain": "Matrix builds."
+    }
+   ]
+  },
+  "level-4/08-testing-at-scale-ci": {
+   "questions": [
+    {
+     "q": "What should block a merge in CI?",
+     "options": [
+      "Failing build, tests and sanitizer/lint checks",
+      "Opinions",
+      "Weather",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Make the gate automatic."
+    },
+    {
+     "q": "Why run tests under sanitizers?",
+     "options": [
+      "They find memory errors and UB that normal runs miss",
+      "Fewer tests",
+      "Faster",
+      "Smaller"
+     ],
+     "answer": 0,
+     "explain": "ASan, UBSan, TSan."
+    },
+    {
+     "q": "What is test flakiness?",
+     "options": [
+      "Tests that pass and fail without code changes",
+      "Slow tests",
+      "Failed tests",
+      "New tests"
+     ],
+     "answer": 0,
+     "explain": "Fix or quarantine."
+    },
+    {
+     "q": "What does code coverage tell you?",
+     "options": [
+      "Correctness",
+      "Speed",
+      "Security",
+      "Which code ran during tests, not whether behavior was checked"
+     ],
+     "answer": 3,
+     "explain": "Strong asserts matter."
+    }
+   ]
+  },
+  "level-4/09-performance-at-scale": {
+   "questions": [
+    {
+     "q": "What's usually the biggest win for data-heavy code?",
+     "options": [
+      "More threads",
+      "Better algorithms and data layout (contiguous, cache-friendly)",
+      "Micro-tweaks",
+      "Bigger types"
+     ],
+     "answer": 1,
+     "explain": "Measure first."
+    },
+    {
+     "q": "What is false sharing?",
+     "options": [
+      "Threads writing different variables on the same cache line, hurting performance",
+      "A race",
+      "A leak",
+      "A bug in STL"
+     ],
+     "answer": 0,
+     "explain": "Pad or separate hot data."
+    },
+    {
+     "q": "What does reserve() on a vector avoid?",
+     "options": [
+      "Copies of ints only",
+      "Exceptions",
+      "Repeated reallocations while growing",
+      "Sorting"
+     ],
+     "answer": 2,
+     "explain": "Know sizes up front."
+    },
+    {
+     "q": "When is parallelism worthwhile?",
+     "options": [
+      "For tiny tasks",
+      "When work is big enough to outweigh synchronization overhead",
+      "Never",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "Amdahl's law limits gains."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone integrate?",
+     "options": [
+      "Only tests",
+      "Only syntax",
+      "Only CMake",
+      "Templates, RAII, concurrency, testing, CMake and profiling in one project"
+     ],
+     "answer": 3,
+     "explain": "It ties the course together."
+    },
+    {
+     "q": "What's a sound structure for a C++ project?",
+     "options": [
+      "No tests",
+      "One giant file",
+      "A library target, an executable and tests, built with CMake",
+      "Header only"
+     ],
+     "answer": 2,
+     "explain": "Separate concerns."
+    },
+    {
+     "q": "How should errors flow in the design?",
+     "options": [
+      "Ignore",
+      "Exceptions or error types with RAII cleanup, documented per API",
+      "Crash",
+      "Print only"
+     ],
+     "answer": 1,
+     "explain": "Consistency."
+    },
+    {
+     "q": "How do you validate the finished project?",
+     "options": [
+      "Nothing",
+      "It compiles",
+      "Tests, sanitizers, profiling and CI on clean builds",
+      "Manual run"
+     ],
+     "answer": 2,
+     "explain": "Layered checks."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does `g++ -std=c++20 main.cpp -o app` produce?",
+    "options": [
+     "An interpreted script",
+     "A bytecode file",
+     "A library only",
+     "A native executable named app, compiled directly from C++ source"
+    ],
+    "answer": 3,
+    "explain": "C++ has no VM."
+   },
+   {
+    "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\nint main(){ int a=7,b=2; cout<<a/b<<' '<<double(a)/b; }\n```\n",
+    "options": [
+     "3.5 3.5",
+     "3 3",
+     "3 3.5",
+     "4 3.5"
+    ],
+    "answer": 2,
+    "explain": "Integer division truncates. Verified by compiling and running."
+   },
+   {
+    "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\nvoid f(int){cout<<'i';} void f(double){cout<<'d';}\nint main(){ f(1); f(1.5); f('a'); }\n```\n",
+    "options": [
+     "ddd",
+     "idi",
+     "Compile error",
+     "iii"
+    ],
+    "answer": 1,
+    "explain": "char promotes to int, which is the better match. Verified by compiling and running."
+   },
+   {
+    "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\nstruct B{ virtual void f(){cout<<'B';} virtual ~B()=default; };\nstruct D:B{ void f() override {cout<<'D';} };\nint main(){ B* p=new D; p->f(); delete p; }\n```\n",
+    "options": [
+     "BD",
+     "Compile error",
+     "D",
+     "B"
+    ],
+    "answer": 2,
+    "explain": "Virtual dispatch uses the dynamic type. Verified by compiling and running."
+   },
+   {
+    "q": "A base class has no virtual destructor and you `delete` a Derived through a Base*. What happens?",
+    "options": [
+     "It works",
+     "Undefined behavior: the derived destructor may not run",
+     "Memory leak only",
+     "Compile error"
+    ],
+    "answer": 1,
+    "explain": "Give polymorphic bases a virtual destructor."
+   },
+   {
+    "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\nint main(){ vector<int> v{1,2,3}; for(int i=0;i<3;i++) v.push_back(v[i]*2); cout<<v.size()<<v.back(); }\n```\n",
+    "options": [
+     "66",
+     "64",
+     "Crash",
+     "36"
+    ],
+    "answer": 0,
+    "explain": "The vector grows to 6 elements and the last is 3*2 = 6. Verified by compiling and running."
+   },
+   {
+    "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\nstruct G{ string n; G(string s):n(s){cout<<'+'<<n;} ~G(){cout<<'-'<<n;} };\nint main(){ G a(\"a\"); { G b(\"b\"); } G c(\"c\"); }\n```\n",
+    "options": [
+     "+a+b-b-a+c-c",
+     "+a+b+c-a-b-c",
+     "+a-a+b-b+c-c",
+     "+a+b-b+c-c-a"
+    ],
+    "answer": 3,
+    "explain": "Scope exit destroys b; c and a are destroyed in reverse order. Verified by compiling and running."
+   },
+   {
+    "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\nint main(){ auto p=make_shared<int>(1); auto q=p; weak_ptr<int> w=p; p.reset(); cout<<q.use_count()<<w.expired(); q.reset(); cout<<w.expired(); }\n```\n",
+    "options": [
+     "201",
+     "111",
+     "100",
+     "101"
+    ],
+    "answer": 3,
+    "explain": "One owner remains, then none: the weak_ptr expires. Verified by compiling and running."
+   },
+   {
+    "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\nstruct S{ S(){cout<<'c';} S(const S&){cout<<'k';} S(S&&)noexcept{cout<<'m';} };\nS make(){ S s; return s; }\nint main(){ S a=make(); S b=move(a); S c=b; }\n```\n",
+    "options": [
+     "ckkk",
+     "cmm",
+     "cckm",
+     "cmk"
+    ],
+    "answer": 3,
+    "explain": "Returning a local is elided; move and copy are chosen by value category. Verified by compiling and running."
+   },
+   {
+    "q": "A std::vector<T> reallocates. Which T operation matters for performance?",
+    "options": [
+     "operator==",
+     "The default constructor",
+     "The destructor",
+     "A noexcept move constructor, so elements are moved rather than copied"
+    ],
+    "answer": 3,
+    "explain": "vector uses move_if_noexcept."
+   },
+   {
+    "q": "Which is the correct way to protect a shared counter incremented by many threads?",
+    "options": [
+     "Use sleep",
+     "Use std::mutex with lock_guard, or std::atomic",
+     "Nothing, ints are safe",
+     "Use volatile"
+    ],
+    "answer": 1,
+    "explain": "Otherwise it's a data race (undefined behavior)."
+   },
+   {
+    "q": "What does this print?\n```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <memory>\n#include <map>\n#include <thread>\n#include <mutex>\n#include <atomic>\nusing namespace std;\nint main(){ atomic<int> n{0}; vector<thread> t; for(int i=0;i<4;i++) t.emplace_back([&]{ for(int j=0;j<1000;j++) n++; }); for(auto&x:t) x.join(); cout<<n; }\n```\n",
+    "options": [
+     "4000",
+     "Undefined",
+     "0",
+     "Less than 4000"
+    ],
+    "answer": 0,
+    "explain": "atomic increments can't lose updates. Verified by compiling and running."
+   },
+   {
+    "q": "A std::thread goes out of scope while still joinable. What happens?",
+    "options": [
+     "std::terminate is called; join or detach it first (or use std::jthread)",
+     "It joins automatically",
+     "Nothing",
+     "It's detached"
+    ],
+    "answer": 0,
+    "explain": "Always manage thread lifetimes."
+   },
+   {
+    "q": "Why wait on a condition variable with a predicate?",
+    "options": [
+     "Style",
+     "Required by syntax",
+     "Spurious wakeups and missed notifications mean the condition must be rechecked",
+     "Speed"
+    ],
+    "answer": 2,
+    "explain": "cv.wait(lock, pred)."
+   },
+   {
+    "q": "A function template is defined only in a .cpp file but used elsewhere. What happens?",
+    "options": [
+     "A warning",
+     "It's slower",
+     "Typically a link error: the compiler needs the definition to instantiate it",
+     "It works"
+    ],
+    "answer": 2,
+    "explain": "Put template definitions in headers."
+   },
+   {
+    "q": "What does `if constexpr` do inside a template?",
+    "options": [
+     "Defers to runtime",
+     "Discards the untaken branch at compile time",
+     "Checks types at runtime",
+     "Runs a loop"
+    ],
+    "answer": 1,
+    "explain": "Branches can use type-specific code."
+   },
+   {
+    "q": "Which tooling combination best catches memory and UB bugs in tests?",
+    "options": [
+     "Compile with -fsanitize=address,undefined and run the test suite",
+     "-w",
+     "-s",
+     "-O3"
+    ],
+    "answer": 0,
+    "explain": "Use them in CI."
+   },
+   {
+    "q": "How do you target-link a library so dependents also get its include path in CMake?",
+    "options": [
+     "Use #include absolute paths",
+     "Copy headers",
+     "target_include_directories(lib PUBLIC include) and target_link_libraries(app PRIVATE lib)",
+     "include_directories globally"
+    ],
+    "answer": 2,
+    "explain": "Usage requirements propagate."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A move-only RAII handle",
+    "prompt": "Complete the Handle class: print `open <name>` on construction, delete copying, implement a move constructor and move assignment so ownership transfers, and print `close <name>` exactly once for each resource still owned when destroyed or overwritten. The provided main must print the expected output.",
+    "starter": "#include <iostream>\n#include <utility>\n#include <string>\nusing namespace std;\n\nclass Handle {\n    string name_;\npublic:\n    // TODO: constructor printing \"open <name>\", move-only semantics\n    // (delete copy, define move ctor and move assignment), and a destructor\n    // that prints \"close <name>\" exactly once for each resource that is still owned.\n    explicit Handle(string n) : name_(move(n)) {}\n};\n\nHandle make(const string& n) { return Handle(n); }\n\nint main() {\n    Handle a(\"a\");\n    Handle b = move(a);\n    {\n        Handle c = make(\"c\");\n        b = move(c);\n    }\n    cout << \"end\\n\";\n}\n",
+    "expected": "open a\nopen c\nclose a\nend\nclose c",
+    "solution": "#include <iostream>\n#include <utility>\n#include <string>\nusing namespace std;\n\nclass Handle {\n    string name_;\n    bool owns_;\npublic:\n    explicit Handle(string n) : name_(move(n)), owns_(true) { cout << \"open \" << name_ << \"\\n\"; }\n    Handle(const Handle&) = delete;\n    Handle& operator=(const Handle&) = delete;\n    Handle(Handle&& o) noexcept : name_(move(o.name_)), owns_(o.owns_) { o.owns_ = false; }\n    Handle& operator=(Handle&& o) noexcept {\n        if (this != &o) {\n            release();\n            name_ = move(o.name_);\n            owns_ = o.owns_;\n            o.owns_ = false;\n        }\n        return *this;\n    }\n    ~Handle() { release(); }\nprivate:\n    void release() { if (owns_) { cout << \"close \" << name_ << \"\\n\"; owns_ = false; } }\n};\n\nHandle make(const string& n) { return Handle(n); }\n\nint main() {\n    Handle a(\"a\");\n    Handle b = move(a);\n    {\n        Handle c = make(\"c\");\n        b = move(c);\n    }\n    cout << \"end\\n\";\n}\n",
+    "explain": "Moving transfers ownership by clearing the source's owns_ flag, so each resource is closed exactly once. Move assignment releases the current resource first. Verified by compiling and running the solution."
+   },
+   {
+    "title": "A thread-safe counter",
+    "prompt": "Make Counter safe for four threads each adding 1 twenty-five thousand times. Protect the shared value with a mutex (use RAII locking), keep get() const-correct, and print the total.",
+    "starter": "#include <iostream>\n#include <thread>\n#include <mutex>\n#include <vector>\nusing namespace std;\n\nclass Counter {\n    long value_ = 0;\npublic:\n    // TODO: make add(long) and get() safe to call from several threads at once\n    void add(long n) { value_ += n; }\n    long get() const { return value_; }\n};\n\nint main() {\n    Counter c;\n    vector<thread> ts;\n    for (int t = 0; t < 4; t++)\n        ts.emplace_back([&c] { for (int i = 0; i < 25000; i++) c.add(1); });\n    for (auto& t : ts) t.join();\n    cout << c.get() << \"\\n\";\n}\n",
+    "expected": "100000",
+    "solution": "#include <iostream>\n#include <thread>\n#include <mutex>\n#include <vector>\nusing namespace std;\n\nclass Counter {\n    mutable mutex m_;\n    long value_ = 0;\npublic:\n    void add(long n) {\n        lock_guard<mutex> g(m_);\n        value_ += n;\n    }\n    long get() const {\n        lock_guard<mutex> g(m_);\n        return value_;\n    }\n};\n\nint main() {\n    Counter c;\n    vector<thread> ts;\n    for (int t = 0; t < 4; t++)\n        ts.emplace_back([&c] { for (int i = 0; i < 25000; i++) c.add(1); });\n    for (auto& t : ts) t.join();\n    cout << c.get() << \"\\n\";\n}\n",
+    "explain": "Without a lock the increments race and the total is unpredictable. lock_guard releases the mutex on every path, and the mutex is mutable so a const get() can lock it. Verified by compiling and running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
