@@ -1,0 +1,2159 @@
+{
+ "course": "data-engineering-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-data-engineering": {
+   "questions": [
+    {
+     "q": "What does a data engineer primarily build?",
+     "options": [
+      "Reliable pipelines and platforms that move, transform and serve data for analysts and ML",
+      "ML models only",
+      "Dashboards only",
+      "Websites"
+     ],
+     "answer": 0,
+     "explain": "Data engineering makes data trustworthy and available."
+    },
+    {
+     "q": "What's the difference between batch and streaming processing?",
+     "options": [
+      "Batch is continuous",
+      "Same",
+      "Batch processes bounded chunks on a schedule; streaming processes events continuously as they arrive",
+      "Streaming is scheduled"
+     ],
+     "answer": 2,
+     "explain": "Pick by latency needs."
+    },
+    {
+     "q": "Why does 'data just shows up clean' fail in practice?",
+     "options": [
+      "Data is always clean",
+      "It's automatic",
+      "Tools do it",
+      "Someone has to build and operate the pipelines that make it so"
+     ],
+     "answer": 3,
+     "explain": "The job is making that dependable."
+    },
+    {
+     "q": "Who are typical consumers of a data engineer's output?",
+     "options": [
+      "Only DBAs",
+      "Nobody",
+      "Analysts, data scientists, BI tools and applications",
+      "Only ops"
+     ],
+     "answer": 2,
+     "explain": "They depend on trusted data."
+    }
+   ]
+  },
+  "level-1/02-python-for-data-engineering": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nrows=[{'city':'a','n':1},{'city':'b','n':5},{'city':'a','n':3}]\nfrom collections import defaultdict\nt=defaultdict(int)\nfor r in rows: t[r['city']]+=r['n']\nprint(dict(t))\n```\n",
+     "options": [
+      "Error",
+      "{'a': 4, 'b': 5}",
+      "{'a': 1, 'b': 5}",
+      "{'a': 3, 'b': 5}"
+     ],
+     "answer": 1,
+     "explain": "Group-and-sum without pandas. Verified by running it."
+    },
+    {
+     "q": "What does csv.DictReader give you?\n```python\nimport csv,io\nr=list(csv.DictReader(io.StringIO('id,name\\n1,Ada\\n2,Bo\\n')))\nprint(r[1]['name'], type(r[0]['id']).__name__)\n```\n",
+     "options": [
+      "Error",
+      "2 str",
+      "Bo int",
+      "Bo str"
+     ],
+     "answer": 3,
+     "explain": "CSV values are strings until you cast them. Verified by running it."
+    },
+    {
+     "q": "Why read large files in chunks or streams?",
+     "options": [
+      "To avoid loading everything into memory",
+      "Speed only",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Constant memory."
+    },
+    {
+     "q": "Why type-cast and validate when reading CSV?",
+     "options": [
+      "Style",
+      "Speed",
+      "Everything arrives as text, so bad values must be caught early",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Trust nothing."
+    }
+   ]
+  },
+  "level-1/03-sql-for-data-engineers": {
+   "questions": [
+    {
+     "q": "What does this return?\n```sql\ncreate table o(id int, cust text, amt real); insert into o values(1,'a',10),(2,'a',20),(3,'b',5);\n\nselect cust, sum(amt) from o group by cust order by cust;\n```\n",
+     "options": [
+      "a,30.0; b,5.0",
+      "a,30.0",
+      "a,10.0; b,5.0",
+      "b,5.0"
+     ],
+     "answer": 0,
+     "explain": "GROUP BY aggregates per group. Verified by running it in SQLite (rows shown as comma-separated, separated by semicolons)."
+    },
+    {
+     "q": "What does this LEFT JOIN return?\n```sql\ncreate table c(id int, n text); insert into c values(1,'a'),(2,'b'); create table o(cid int, amt int); insert into o values(1,10),(1,20);\n\nselect c.n, coalesce(sum(o.amt),0) from c left join o on o.cid=c.id group by c.n order by c.n;\n```\n",
+     "options": [
+      "a,30",
+      "a,30; b,None",
+      "a,30; b,0",
+      "b,0"
+     ],
+     "answer": 2,
+     "explain": "LEFT JOIN keeps customers without orders. Verified by running it in SQLite (rows shown as comma-separated, separated by semicolons)."
+    },
+    {
+     "q": "When does an INNER JOIN drop rows?",
+     "options": [
+      "When there's no match on the join key in the other table",
+      "Never",
+      "With NULLs only",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Silent row loss is a classic trap."
+    },
+    {
+     "q": "What's the difference between WHERE and HAVING?",
+     "options": [
+      "WHERE after",
+      "WHERE filters rows before grouping; HAVING filters groups after aggregation",
+      "HAVING before",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Use each appropriately."
+    }
+   ]
+  },
+  "level-1/04-etl-fundamentals": {
+   "questions": [
+    {
+     "q": "What do the letters in ETL stand for?",
+     "options": [
+      "Extract, Test, Load",
+      "Evaluate, Test, Launch",
+      "Export, Translate, Log",
+      "Extract, Transform, Load"
+     ],
+     "answer": 3,
+     "explain": "Pull, shape and store."
+    },
+    {
+     "q": "What does idempotent mean for a pipeline run?",
+     "options": [
+      "It's fast",
+      "Running it again with the same input gives the same final state",
+      "It runs once",
+      "It's async"
+     ],
+     "answer": 1,
+     "explain": "Safe retries."
+    },
+    {
+     "q": "Why quarantine bad rows rather than drop them silently?",
+     "options": [
+      "So they can be inspected and fixed; silent drops hide problems",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Reject files/tables."
+    },
+    {
+     "q": "What's the difference between ETL and ELT?",
+     "options": [
+      "ETL is newer",
+      "ELT loads raw data first then transforms in the warehouse",
+      "ELT transforms first",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Cheap warehouse compute favored ELT."
+    }
+   ]
+  },
+  "level-1/05-data-modeling-basics": {
+   "questions": [
+    {
+     "q": "What does a star schema consist of?",
+     "options": [
+      "Graphs",
+      "One wide table",
+      "Only dimensions",
+      "A central fact table with foreign keys to dimension tables"
+     ],
+     "answer": 3,
+     "explain": "Optimized for analysis."
+    },
+    {
+     "q": "What's a fact table?",
+     "options": [
+      "Logs only",
+      "Measurable events (e.g. sales) with keys and numeric measures",
+      "Lookups",
+      "Descriptive attributes"
+     ],
+     "answer": 1,
+     "explain": "Dimensions describe."
+    },
+    {
+     "q": "What is normalization's goal?",
+     "options": [
+      "Speed reads",
+      "Denormalize",
+      "Analytics",
+      "Reduce redundancy and update anomalies (typical in OLTP)"
+     ],
+     "answer": 3,
+     "explain": "Warehouses often denormalize."
+    },
+    {
+     "q": "What's a surrogate key?",
+     "options": [
+      "A system-generated key independent of business data",
+      "A natural key",
+      "A hash only",
+      "A foreign key only"
+     ],
+     "answer": 0,
+     "explain": "Stable across source changes."
+    }
+   ]
+  },
+  "level-1/06-file-formats": {
+   "questions": [
+    {
+     "q": "Which format is columnar and compressed?",
+     "options": [
+      "Parquet",
+      "JSON",
+      "TXT",
+      "CSV"
+     ],
+     "answer": 0,
+     "explain": "Great for analytics."
+    },
+    {
+     "q": "Why is CSV risky for pipelines?",
+     "options": [
+      "Binary",
+      "Compressed",
+      "Typed",
+      "Untyped text with quoting, delimiter and encoding ambiguities"
+     ],
+     "answer": 3,
+     "explain": "Types don't survive round trips."
+    },
+    {
+     "q": "What's JSON Lines (NDJSON) good for?",
+     "options": [
+      "Columnar",
+      "SQL",
+      "Compression",
+      "Streaming/append of one record per line"
+     ],
+     "answer": 3,
+     "explain": "Easy to split."
+    },
+    {
+     "q": "Why prefer columnar formats for analytic queries?",
+     "options": [
+      "Row access",
+      "They read only needed columns and compress well",
+      "Typed text",
+      "Easier to read"
+     ],
+     "answer": 1,
+     "explain": "Less I/O."
+    }
+   ]
+  },
+  "level-1/07-batch-processing-basics": {
+   "questions": [
+    {
+     "q": "What does chunked processing give you? Print the chunk sizes.\n```python\ndata=list(range(10))\nsize=4\nprint([len(data[i:i+size]) for i in range(0,len(data),size)])\n```\n",
+     "options": [
+      "[4, 4, 2]",
+      "[4, 4, 4]",
+      "[2, 4, 4]",
+      "[10]"
+     ],
+     "answer": 0,
+     "explain": "The last chunk can be smaller. Verified by running it."
+    },
+    {
+     "q": "Why process in chunks?",
+     "options": [
+      "Bounded memory regardless of dataset size",
+      "Style",
+      "Speed only",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Never need the full dataset in memory."
+    },
+    {
+     "q": "What is a watermark/checkpoint in batch loads?",
+     "options": [
+      "A logo",
+      "A file",
+      "A key",
+      "The marker of what's already been processed so the next run resumes"
+     ],
+     "answer": 3,
+     "explain": "Incremental loads."
+    },
+    {
+     "q": "What makes a batch job safe to rerun?",
+     "options": [
+      "Idempotent writes (upsert or replace a partition)",
+      "Random",
+      "Appending blindly",
+      "Deleting all"
+     ],
+     "answer": 0,
+     "explain": "Avoid duplicates."
+    }
+   ]
+  },
+  "level-1/08-intro-to-orchestration": {
+   "questions": [
+    {
+     "q": "What does an orchestrator do?",
+     "options": [
+      "Visualizes",
+      "Runs tasks in dependency order with scheduling, retries and monitoring",
+      "Transforms data",
+      "Stores data"
+     ],
+     "answer": 1,
+     "explain": "Airflow, Dagster, Prefect."
+    },
+    {
+     "q": "What is a DAG?",
+     "options": [
+      "A directed acyclic graph of tasks with no cycles",
+      "A file",
+      "A trigger",
+      "A database"
+     ],
+     "answer": 0,
+     "explain": "Dependencies define order."
+    },
+    {
+     "q": "Why add retries with backoff?",
+     "options": [
+      "Law",
+      "Style",
+      "Transient failures often succeed on a later attempt",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "But tasks must be idempotent."
+    },
+    {
+     "q": "Why not chain steps with sleep?",
+     "options": [
+      "Law",
+      "It's brittle: use explicit dependencies",
+      "Style",
+      "Faster"
+     ],
+     "answer": 1,
+     "explain": "Order by dependency."
+    }
+   ]
+  },
+  "level-1/09-data-quality-validation": {
+   "questions": [
+    {
+     "q": "What does schema validation check?",
+     "options": [
+      "Row counts",
+      "Business meaning",
+      "Speed",
+      "Column names and types match expectations"
+     ],
+     "answer": 3,
+     "explain": "Fail fast on drift."
+    },
+    {
+     "q": "Name a basic data quality check.",
+     "options": [
+      "Null checks, uniqueness, ranges, referential integrity and freshness",
+      "Names",
+      "Fonts",
+      "Colors"
+     ],
+     "answer": 0,
+     "explain": "Gate before load."
+    },
+    {
+     "q": "Why validate before loading rather than after?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Bad data in the warehouse is harder to remove and trust"
+     ],
+     "answer": 3,
+     "explain": "Prevention beats cleanup."
+    },
+    {
+     "q": "What should happen when validation fails?",
+     "options": [
+      "Ignore",
+      "Load anyway",
+      "Delete",
+      "Stop or quarantine and alert, not load silently"
+     ],
+     "answer": 3,
+     "explain": "Make failures visible."
+    }
+   ]
+  },
+  "level-1/10-project-simple-etl-pipeline": {
+   "questions": [
+    {
+     "q": "What's the order in the project pipeline?",
+     "options": [
+      "Transform only",
+      "Validate only",
+      "Extract, transform/reject, validate gate, then idempotent load",
+      "Load then validate"
+     ],
+     "answer": 2,
+     "explain": "Gate before load."
+    },
+    {
+     "q": "Why load idempotently into SQLite?",
+     "options": [
+      "Speed",
+      "Style",
+      "Reruns don't create duplicates (upsert/replace)",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Safe retry."
+    },
+    {
+     "q": "What does the reject file preserve?",
+     "options": [
+      "Logs",
+      "Bad rows with reasons for investigation",
+      "Good rows",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Auditability."
+    },
+    {
+     "q": "How do you verify the pipeline?",
+     "options": [
+      "Eyeball",
+      "Skip",
+      "Assume",
+      "Row-count reconciliation and checks after load"
+     ],
+     "answer": 3,
+     "explain": "Reconcile."
+    }
+   ]
+  },
+  "level-2/01-advanced-sql-for-pipelines": {
+   "questions": [
+    {
+     "q": "What does this window query return?\n```sql\ncreate table s(d int, v int); insert into s values(1,10),(2,20),(3,5);\n\nselect d, sum(v) over (order by d) from s order by d;\n```\n",
+     "options": [
+      "1,10; 2,10; 3,10",
+      "1,10; 2,30; 3,35",
+      "1,10; 2,20; 3,5",
+      "1,35; 2,35; 3,35"
+     ],
+     "answer": 1,
+     "explain": "A running total. Verified by running it in SQLite (rows shown as comma-separated, separated by semicolons)."
+    },
+    {
+     "q": "What does ROW_NUMBER give for the latest record per key?\n```sql\ncreate table e(k text, ts int, v text); insert into e values('a',1,'x'),('a',2,'y'),('b',1,'z');\n\nselect k, v from (select k,v,row_number() over (partition by k order by ts desc) rn from e) where rn=1 order by k;\n```\n",
+     "options": [
+      "a,x; b,z",
+      "a,y; b,z",
+      "b,z",
+      "a,y"
+     ],
+     "answer": 1,
+     "explain": "The classic dedupe-to-latest pattern. Verified by running it in SQLite (rows shown as comma-separated, separated by semicolons)."
+    },
+    {
+     "q": "What does an UPSERT do on conflict?\n```sql\ncreate table t(id int primary key, v int); insert into t values(1,1); insert into t values(1,9) on conflict(id) do update set v=excluded.v;\n\nselect * from t;\n```\n",
+     "options": [
+      "Error",
+      "1,1",
+      "1,1; 1,9",
+      "1,9"
+     ],
+     "answer": 3,
+     "explain": "Idempotent loads. Verified by running it in SQLite (rows shown as comma-separated, separated by semicolons)."
+    },
+    {
+     "q": "What does a CTE improve?",
+     "options": [
+      "Security",
+      "Speed only",
+      "Storage",
+      "Readability of multi-step queries"
+     ],
+     "answer": 3,
+     "explain": "WITH name AS (...)."
+    }
+   ]
+  },
+  "level-2/02-apis-for-ingestion": {
+   "questions": [
+    {
+     "q": "How do you ingest a paginated API completely?",
+     "options": [
+      "Guess page count",
+      "Loop following the next-page cursor/offset until no more pages",
+      "Random",
+      "Fetch once"
+     ],
+     "answer": 1,
+     "explain": "Handle empty final page."
+    },
+    {
+     "q": "What do you do on HTTP 429?",
+     "options": [
+      "Fail",
+      "Ignore",
+      "Back off and retry after the Retry-After period",
+      "Retry instantly"
+     ],
+     "answer": 2,
+     "explain": "Respect rate limits."
+    },
+    {
+     "q": "Why add exponential backoff with jitter?",
+     "options": [
+      "Speed",
+      "Law",
+      "To avoid synchronized retries hammering a recovering API",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Spread load."
+    },
+    {
+     "q": "Why store the raw API response?",
+     "options": [
+      "Replay and audit without calling the API again",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Raw layer."
+    }
+   ]
+  },
+  "level-2/03-data-warehousing-concepts": {
+   "questions": [
+    {
+     "q": "What is SCD Type 2?",
+     "options": [
+      "Overwriting",
+      "Deleting",
+      "Keeping history by adding a new row per change with validity dates",
+      "Ignoring"
+     ],
+     "answer": 2,
+     "explain": "Track dimension history."
+    },
+    {
+     "q": "Why do warehouses favor denormalized wide tables?",
+     "options": [
+      "Smaller",
+      "Cheaper storage",
+      "Fewer joins make analytical queries faster and simpler",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Read-optimized."
+    },
+    {
+     "q": "What's OLTP versus OLAP?",
+     "options": [
+      "Reverse",
+      "Same",
+      "OLTP handles transactions; OLAP handles analytical queries",
+      "Both OLTP"
+     ],
+     "answer": 2,
+     "explain": "Different workloads."
+    },
+    {
+     "q": "What's a conformed dimension?",
+     "options": [
+      "A key",
+      "A fact",
+      "A dimension shared consistently across fact tables",
+      "A view"
+     ],
+     "answer": 2,
+     "explain": "Enables cross-fact analysis."
+    }
+   ]
+  },
+  "level-2/04-airflow-hands-on": {
+   "questions": [
+    {
+     "q": "What does the Airflow scheduler do?",
+     "options": [
+      "Triggers DAG runs on schedule and dispatches tasks respecting dependencies",
+      "Runs SQL",
+      "Writes DAGs",
+      "Stores data"
+     ],
+     "answer": 0,
+     "explain": "Workers execute tasks."
+    },
+    {
+     "q": "What is a task in Airflow?",
+     "options": [
+      "A DAG",
+      "A database",
+      "A unit of work within a DAG (an operator instance)",
+      "A server"
+     ],
+     "answer": 2,
+     "explain": "Operators define behavior."
+    },
+    {
+     "q": "What does `catchup` control?",
+     "options": [
+      "Email",
+      "Timeouts",
+      "Retries",
+      "Whether missed past schedule intervals are backfilled"
+     ],
+     "answer": 3,
+     "explain": "Usually set carefully."
+    },
+    {
+     "q": "Why keep tasks idempotent?",
+     "options": [
+      "Speed",
+      "Retries and backfills may run them repeatedly",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Avoid duplicates."
+    }
+   ]
+  },
+  "level-2/05-partitioning-incremental-loads": {
+   "questions": [
+    {
+     "q": "What does partitioning buy you?",
+     "options": [
+      "Compression only",
+      "Joins",
+      "Security",
+      "Queries and loads skip irrelevant chunks"
+     ],
+     "answer": 3,
+     "explain": "Partition by date commonly."
+    },
+    {
+     "q": "What's an incremental load?",
+     "options": [
+      "Copy all",
+      "Delete all",
+      "Process only new or changed data since the last watermark",
+      "Full reload"
+     ],
+     "answer": 2,
+     "explain": "Saves time."
+    },
+    {
+     "q": "What's a risk of incremental loads?",
+     "options": [
+      "Cost",
+      "None",
+      "Late-arriving data can be missed; use lookback windows",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Reprocess recent partitions."
+    },
+    {
+     "q": "How do you make a partition load idempotent?",
+     "options": [
+      "Skip",
+      "Append",
+      "Overwrite the partition for the run date",
+      "Duplicate"
+     ],
+     "answer": 2,
+     "explain": "Replace, don't append."
+    }
+   ]
+  },
+  "level-2/06-parquet-arrow": {
+   "questions": [
+    {
+     "q": "Why does Parquet beat CSV for analytics?",
+     "options": [
+      "Row-based",
+      "Columnar layout, typed schema and compression reduce I/O",
+      "Untyped",
+      "Readable"
+     ],
+     "answer": 1,
+     "explain": "Predicate pushdown."
+    },
+    {
+     "q": "What is Apache Arrow?",
+     "options": [
+      "A database",
+      "An in-memory columnar format for fast interchange between tools",
+      "A file format only",
+      "A queue"
+     ],
+     "answer": 1,
+     "explain": "Zero-copy sharing."
+    },
+    {
+     "q": "What does column pruning mean?",
+     "options": [
+      "Deleting columns",
+      "Encrypting",
+      "Reading only the columns a query needs",
+      "Sorting"
+     ],
+     "answer": 2,
+     "explain": "Columnar benefit."
+    },
+    {
+     "q": "Why partition Parquet by date?",
+     "options": [
+      "Speed only",
+      "Law",
+      "So queries filter partitions and skip files",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Partition pruning."
+    }
+   ]
+  },
+  "level-2/07-testing-data-pipelines": {
+   "questions": [
+    {
+     "q": "What's different about testing pipelines?",
+     "options": [
+      "Only data",
+      "You need code tests and data tests (checks on the data itself)",
+      "Neither",
+      "Only unit"
+     ],
+     "answer": 1,
+     "explain": "pytest plus expectations."
+    },
+    {
+     "q": "What's a good unit test for a transform?",
+     "options": [
+      "Random",
+      "Production data",
+      "No asserts",
+      "Small input fixture with expected output checked exactly"
+     ],
+     "answer": 3,
+     "explain": "Deterministic."
+    },
+    {
+     "q": "What do data tests catch that unit tests miss?",
+     "options": [
+      "Types in code",
+      "Syntax",
+      "Unexpected values in real data (nulls, duplicates, drift)",
+      "Imports"
+     ],
+     "answer": 2,
+     "explain": "Run on each load."
+    },
+    {
+     "q": "Why test with edge cases like empty input?",
+     "options": [
+      "Speed",
+      "Pipelines often break on empty or malformed data",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Edge cases."
+    }
+   ]
+  },
+  "level-2/08-streaming-basics-kafka": {
+   "questions": [
+    {
+     "q": "What's a Kafka topic?",
+     "options": [
+      "A queue only",
+      "A table",
+      "A named, partitioned, append-only log of events",
+      "A file"
+     ],
+     "answer": 2,
+     "explain": "Producers write, consumers read."
+    },
+    {
+     "q": "What preserves ordering in Kafka?",
+     "options": [
+      "Nowhere",
+      "Global",
+      "Order is guaranteed within a partition, not across partitions",
+      "Across topic"
+     ],
+     "answer": 2,
+     "explain": "Key by entity."
+    },
+    {
+     "q": "What is a consumer group?",
+     "options": [
+      "A producer",
+      "A broker",
+      "Consumers sharing partitions so each is processed once per group",
+      "A topic"
+     ],
+     "answer": 2,
+     "explain": "Scale-out."
+    },
+    {
+     "q": "What does offset commit track?",
+     "options": [
+      "Keys",
+      "The consumer's position in a partition",
+      "Disk",
+      "Memory"
+     ],
+     "answer": 1,
+     "explain": "Resume after restart."
+    }
+   ]
+  },
+  "level-2/09-dbt-basics": {
+   "questions": [
+    {
+     "q": "What does dbt do?",
+     "options": [
+      "Compiles and runs SQL SELECT models in the warehouse with dependencies and tests",
+      "Extracts",
+      "Loads",
+      "Schedules"
+     ],
+     "answer": 0,
+     "explain": "The T in ELT."
+    },
+    {
+     "q": "What does ref() do in dbt?",
+     "options": [
+      "Calls an API",
+      "References another model and builds the dependency graph",
+      "Reads files",
+      "Imports Python"
+     ],
+     "answer": 1,
+     "explain": "Lineage."
+    },
+    {
+     "q": "What are dbt tests?",
+     "options": [
+      "Assertions like unique, not_null and relationships on models",
+      "UI",
+      "Unit code",
+      "Load"
+     ],
+     "answer": 0,
+     "explain": "Run with dbt test."
+    },
+    {
+     "q": "What's a materialization?",
+     "options": [
+      "How a model is persisted (view, table, incremental)",
+      "A test",
+      "A source",
+      "A seed"
+     ],
+     "answer": 0,
+     "explain": "Choose per use."
+    }
+   ]
+  },
+  "level-2/10-project-orchestrated-pipeline": {
+   "questions": [
+    {
+     "q": "What does the project combine?",
+     "options": [
+      "Only Airflow",
+      "Only Python",
+      "Only SQL",
+      "API extract, incremental Parquet load, SQL transform, data tests and Airflow"
+     ],
+     "answer": 3,
+     "explain": "End-to-end."
+    },
+    {
+     "q": "Why order tests after the load before publishing?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Bad data shouldn't reach consumers"
+     ],
+     "answer": 3,
+     "explain": "Quality gates."
+    },
+    {
+     "q": "What makes the DAG re-runnable?",
+     "options": [
+      "Idempotent tasks keyed by logical date",
+      "Sleep",
+      "Globals",
+      "Luck"
+     ],
+     "answer": 0,
+     "explain": "Backfills."
+    },
+    {
+     "q": "What should alert the team?",
+     "options": [
+      "Successes",
+      "Logs",
+      "Nothing",
+      "Task failures and data quality violations"
+     ],
+     "answer": 3,
+     "explain": "Monitor."
+    }
+   ]
+  },
+  "level-3/01-distributed-processing-spark": {
+   "questions": [
+    {
+     "q": "When do you need Spark?",
+     "options": [
+      "When data or computation exceeds a single machine",
+      "Always",
+      "For CSVs",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Distributed compute."
+    },
+    {
+     "q": "What are transformations vs actions in Spark?",
+     "options": [
+      "Both lazy",
+      "Transformations are lazy; actions trigger execution",
+      "Actions lazy",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Lazy evaluation builds a plan."
+    },
+    {
+     "q": "What is a shuffle?",
+     "options": [
+      "Redistributing data across the cluster, which is expensive",
+      "A write",
+      "A read",
+      "A sort"
+     ],
+     "answer": 0,
+     "explain": "Avoid when possible."
+    },
+    {
+     "q": "What causes data skew?",
+     "options": [
+      "Caching",
+      "Small data",
+      "Some keys having far more data than others, overloading one task",
+      "Fast network"
+     ],
+     "answer": 2,
+     "explain": "Salting helps."
+    }
+   ]
+  },
+  "level-3/02-advanced-airflow-patterns": {
+   "questions": [
+    {
+     "q": "What are dynamic tasks?",
+     "options": [
+      "Static",
+      "Tasks generated at runtime from data or config",
+      "Manual",
+      "Random"
+     ],
+     "answer": 1,
+     "explain": "expand()."
+    },
+    {
+     "q": "What do sensors do?",
+     "options": [
+      "Load",
+      "Wait for an external condition before proceeding",
+      "Transform",
+      "Test"
+     ],
+     "answer": 1,
+     "explain": "Use reschedule mode."
+    },
+    {
+     "q": "Why share logic via libraries/operators?",
+     "options": [
+      "Style",
+      "Avoid copy-paste and keep DAGs consistent",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Reusability."
+    },
+    {
+     "q": "How should cross-DAG dependencies be modeled?",
+     "options": [
+      "With datasets/triggers or external-task sensors",
+      "Globals",
+      "Sleep",
+      "Cron"
+     ],
+     "answer": 0,
+     "explain": "Explicit links."
+    }
+   ]
+  },
+  "level-3/03-data-lake-architecture": {
+   "questions": [
+    {
+     "q": "What does a data lake store?",
+     "options": [
+      "Raw and processed data as files in cheap object storage",
+      "Only SQL",
+      "Only tables",
+      "Only logs"
+     ],
+     "answer": 0,
+     "explain": "Compute attaches on demand."
+    },
+    {
+     "q": "What are medallion layers?",
+     "options": [
+      "Gold, silver",
+      "Prod only",
+      "Raw only",
+      "Bronze (raw), silver (cleaned), gold (curated)"
+     ],
+     "answer": 3,
+     "explain": "Progressive quality."
+    },
+    {
+     "q": "What problem do table formats (Delta/Iceberg/Hudi) solve?",
+     "options": [
+      "Compression",
+      "ACID transactions, schema evolution and time travel on files",
+      "Security",
+      "Speed only"
+     ],
+     "answer": 1,
+     "explain": "Reliability on lakes."
+    },
+    {
+     "q": "What's the 'data swamp' risk?",
+     "options": [
+      "Speed",
+      "Law",
+      "Cost",
+      "A lake without governance becomes unusable"
+     ],
+     "answer": 3,
+     "explain": "Catalog and ownership."
+    }
+   ]
+  },
+  "level-3/04-streaming-deep-dive": {
+   "questions": [
+    {
+     "q": "What is a watermark in streaming?",
+     "options": [
+      "A logo",
+      "A key",
+      "A threshold for how late events are accepted before a window closes",
+      "A topic"
+     ],
+     "answer": 2,
+     "explain": "Handles late data."
+    },
+    {
+     "q": "What's the difference between event time and processing time?",
+     "options": [
+      "Event time is when it happened; processing time is when it's handled",
+      "Reverse",
+      "Both",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "Use event time for correctness."
+    },
+    {
+     "q": "What does exactly-once require?",
+     "options": [
+      "Retries",
+      "Nothing",
+      "A flag",
+      "Idempotent/transactional sinks and checkpoints, not just the engine"
+     ],
+     "answer": 3,
+     "explain": "End to end."
+    },
+    {
+     "q": "What are tumbling windows?",
+     "options": [
+      "Fixed, non-overlapping time windows",
+      "Sliding",
+      "Session",
+      "Overlapping"
+     ],
+     "answer": 0,
+     "explain": "Sliding overlap."
+    }
+   ]
+  },
+  "level-3/05-data-governance-cataloging": {
+   "questions": [
+    {
+     "q": "What does a data catalog provide?",
+     "options": [
+      "Orchestration",
+      "Compute",
+      "Storage",
+      "Discoverable metadata: owners, descriptions, lineage"
+     ],
+     "answer": 3,
+     "explain": "Find and trust data."
+    },
+    {
+     "q": "What is data lineage?",
+     "options": [
+      "A format",
+      "A backup",
+      "Tracing data from source through transformations to consumers",
+      "A key"
+     ],
+     "answer": 2,
+     "explain": "Impact analysis."
+    },
+    {
+     "q": "Why assign data owners?",
+     "options": [
+      "Accountability for quality and access decisions",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Stewardship."
+    },
+    {
+     "q": "What is PII handling?",
+     "options": [
+      "Logging",
+      "Classifying and protecting personal data (masking, access control)",
+      "Sharing",
+      "Ignoring"
+     ],
+     "answer": 1,
+     "explain": "Compliance."
+    }
+   ]
+  },
+  "level-3/06-cicd-for-data-pipelines": {
+   "questions": [
+    {
+     "q": "What should CI run for pipelines?",
+     "options": [
+      "Manual",
+      "Linting, unit tests and data/schema checks on every change",
+      "Only deploy",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Fast feedback."
+    },
+    {
+     "q": "Why deploy pipelines via CD from version control?",
+     "options": [
+      "Reproducible, reviewed changes with rollback",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "GitOps."
+    },
+    {
+     "q": "Why use a staging environment with sample data?",
+     "options": [
+      "Test changes safely before production",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Reduce blast radius."
+    },
+    {
+     "q": "What should be versioned?",
+     "options": [
+      "Code, configs and schema migrations",
+      "Only code",
+      "Nothing",
+      "Data only"
+     ],
+     "answer": 0,
+     "explain": "Everything as code."
+    }
+   ]
+  },
+  "level-3/07-performance-tuning": {
+   "questions": [
+    {
+     "q": "What's the first step in tuning?",
+     "options": [
+      "Measure and find the bottleneck (profile/query plan)",
+      "Rewrite",
+      "Guess",
+      "Add nodes"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    },
+    {
+     "q": "How does partition pruning help?",
+     "options": [
+      "Encrypt",
+      "Sort",
+      "Skips reading irrelevant partitions",
+      "Compress"
+     ],
+     "answer": 2,
+     "explain": "Filter on the partition column."
+    },
+    {
+     "q": "What does broadcasting a small table avoid?",
+     "options": [
+      "A large shuffle in a join",
+      "Reads",
+      "Sorts",
+      "Writes"
+     ],
+     "answer": 0,
+     "explain": "Broadcast join."
+    },
+    {
+     "q": "Why avoid many tiny files?",
+     "options": [
+      "Metadata and open overhead slow reads; compact them",
+      "Cost only",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Small file problem."
+    }
+   ]
+  },
+  "level-3/08-cloud-data-warehouses": {
+   "questions": [
+    {
+     "q": "What defines modern cloud warehouses like BigQuery/Snowflake?",
+     "options": [
+      "On-prem",
+      "Separated storage and compute with elastic scaling",
+      "Coupled",
+      "Fixed"
+     ],
+     "answer": 1,
+     "explain": "Pay for usage."
+    },
+    {
+     "q": "What drives warehouse cost?",
+     "options": [
+      "Compute time/bytes scanned and storage",
+      "Names",
+      "Users only",
+      "Colors"
+     ],
+     "answer": 0,
+     "explain": "Optimize queries."
+    },
+    {
+     "q": "How do you reduce scanned data?",
+     "options": [
+      "Joins",
+      "SELECT *",
+      "Sleep",
+      "Partitioning/clustering and selecting only needed columns"
+     ],
+     "answer": 3,
+     "explain": "Prune."
+    },
+    {
+     "q": "What does a materialized view do?",
+     "options": [
+      "Deletes",
+      "Stores precomputed results to speed repeated queries",
+      "Locks",
+      "Copies"
+     ],
+     "answer": 1,
+     "explain": "Refresh policy."
+    }
+   ]
+  },
+  "level-3/09-pipeline-monitoring-alerting": {
+   "questions": [
+    {
+     "q": "What are key pipeline health signals?",
+     "options": [
+      "Names",
+      "Freshness, volume, schema and failure rate",
+      "Fonts",
+      "Colors"
+     ],
+     "answer": 1,
+     "explain": "Data observability."
+    },
+    {
+     "q": "What's an actionable alert?",
+     "options": [
+      "Every log",
+      "Tied to impact with a clear owner and runbook",
+      "Silent",
+      "Noise"
+     ],
+     "answer": 1,
+     "explain": "Avoid alert fatigue."
+    },
+    {
+     "q": "What's an SLA for data?",
+     "options": [
+      "A promised freshness/availability target",
+      "A fee",
+      "A key",
+      "A tool"
+     ],
+     "answer": 0,
+     "explain": "Measure it."
+    },
+    {
+     "q": "Why track data freshness?",
+     "options": [
+      "Stale data silently breaks dashboards",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Alert on lateness."
+    }
+   ]
+  },
+  "level-3/10-project-spark-batch-pipeline": {
+   "questions": [
+    {
+     "q": "What does the project demonstrate?",
+     "options": [
+      "A Spark batch pipeline reading, transforming and writing partitioned data",
+      "ML",
+      "Streaming",
+      "Web"
+     ],
+     "answer": 0,
+     "explain": "Batch at scale."
+    },
+    {
+     "q": "Why write output partitioned by date?",
+     "options": [
+      "Law",
+      "Speed only",
+      "Efficient downstream queries and idempotent partition overwrites",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Replace per partition."
+    },
+    {
+     "q": "What verifies correctness?",
+     "options": [
+      "Eyeball",
+      "Row-count reconciliation and sample comparisons with the source",
+      "Skip",
+      "Assume"
+     ],
+     "answer": 1,
+     "explain": "Validation."
+    },
+    {
+     "q": "What should you avoid in Spark transformations?",
+     "options": [
+      "Filters",
+      "Joins",
+      "Selects",
+      "Unnecessary shuffles and collecting large data to the driver"
+     ],
+     "answer": 3,
+     "explain": "Driver memory."
+    }
+   ]
+  },
+  "level-4/01-enterprise-platform-architecture": {
+   "questions": [
+    {
+     "q": "What does a data platform provide teams?",
+     "options": [
+      "One DB",
+      "One pipeline",
+      "Shared ingestion, storage, compute, governance and self-service tooling",
+      "One report"
+     ],
+     "answer": 2,
+     "explain": "Platform thinking."
+    },
+    {
+     "q": "What's a key architectural principle?",
+     "options": [
+      "No standards",
+      "Single tool",
+      "Separate storage from compute and standardize interfaces",
+      "Couple everything"
+     ],
+     "answer": 2,
+     "explain": "Flexibility."
+    },
+    {
+     "q": "Why define data contracts between producers and consumers?",
+     "options": [
+      "Law",
+      "Prevent breaking changes and set expectations",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Schema and SLA."
+    },
+    {
+     "q": "What should drive platform choices?",
+     "options": [
+      "Vendors",
+      "Names",
+      "Requirements and operating cost, not trends",
+      "Hype"
+     ],
+     "answer": 2,
+     "explain": "Fit."
+    }
+   ]
+  },
+  "level-4/02-realtime-streaming-at-scale": {
+   "questions": [
+    {
+     "q": "What helps scale Kafka consumers?",
+     "options": [
+      "Fewer topics",
+      "Bigger messages",
+      "Sleep",
+      "More partitions and consumers in a group"
+     ],
+     "answer": 3,
+     "explain": "Parallelism by partition."
+    },
+    {
+     "q": "What is backpressure?",
+     "options": [
+      "Cache",
+      "Bug",
+      "Downstream can't keep up, requiring buffering or rate control",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Handle gracefully."
+    },
+    {
+     "q": "Why plan for reprocessing?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Bugs and schema changes require replaying from retained logs"
+     ],
+     "answer": 3,
+     "explain": "Retention and idempotency."
+    },
+    {
+     "q": "What's a dead-letter queue?",
+     "options": [
+      "Backup",
+      "Cache",
+      "Archive",
+      "A place for messages that repeatedly fail processing"
+     ],
+     "answer": 3,
+     "explain": "Inspect and replay."
+    }
+   ]
+  },
+  "level-4/03-data-mesh-concepts": {
+   "questions": [
+    {
+     "q": "What's the core idea of data mesh?",
+     "options": [
+      "One lake",
+      "No governance",
+      "Central team owns all",
+      "Domain teams own and publish data as products with federated governance"
+     ],
+     "answer": 3,
+     "explain": "Decentralized ownership."
+    },
+    {
+     "q": "What is a data product?",
+     "options": [
+      "A tool",
+      "A discoverable, trustworthy, owned dataset with SLAs and documentation",
+      "A report",
+      "A table"
+     ],
+     "answer": 1,
+     "explain": "Product thinking."
+    },
+    {
+     "q": "What does a self-serve platform enable?",
+     "options": [
+      "Central control",
+      "Manual work",
+      "Domains to build and run data products without a central bottleneck",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Enablement."
+    },
+    {
+     "q": "When is mesh overkill?",
+     "options": [
+      "Small organizations with few domains",
+      "Never",
+      "Large orgs",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Fit to scale."
+    }
+   ]
+  },
+  "level-4/04-advanced-governance-compliance": {
+   "questions": [
+    {
+     "q": "What does GDPR's right to erasure require?",
+     "options": [
+      "Archiving",
+      "Hashing only",
+      "Nothing",
+      "Being able to find and delete a person's data, including in downstream copies"
+     ],
+     "answer": 3,
+     "explain": "Design for deletion."
+    },
+    {
+     "q": "What is data minimization?",
+     "options": [
+      "Share",
+      "Collect and keep only what's needed",
+      "Collect all",
+      "Keep forever"
+     ],
+     "answer": 1,
+     "explain": "Reduce risk."
+    },
+    {
+     "q": "Why audit access to sensitive data?",
+     "options": [
+      "Style",
+      "Cost",
+      "To detect misuse and prove compliance",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Logs."
+    },
+    {
+     "q": "What's column-level security?",
+     "options": [
+      "Row only",
+      "Restricting access to sensitive columns by role",
+      "None",
+      "Backup"
+     ],
+     "answer": 1,
+     "explain": "Masking."
+    }
+   ]
+  },
+  "level-4/05-cost-optimization": {
+   "questions": [
+    {
+     "q": "What's a big cost lever in cloud warehouses?",
+     "options": [
+      "More users",
+      "More joins",
+      "Bigger logs",
+      "Reducing bytes scanned and idle compute"
+     ],
+     "answer": 3,
+     "explain": "Partition and cluster."
+    },
+    {
+     "q": "How do you get cost visibility?",
+     "options": [
+      "Tag resources and track spend per team/pipeline",
+      "Guess",
+      "Ignore",
+      "Annual"
+     ],
+     "answer": 0,
+     "explain": "FinOps."
+    },
+    {
+     "q": "Why compact small files and use columnar formats?",
+     "options": [
+      "Law",
+      "Lower storage and read costs",
+      "Speed only",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Efficiency."
+    },
+    {
+     "q": "What does auto-suspend/auto-scale do?",
+     "options": [
+      "Nothing",
+      "Costs more",
+      "Deletes",
+      "Stops paying for idle compute"
+     ],
+     "answer": 3,
+     "explain": "Elasticity."
+    }
+   ]
+  },
+  "level-4/06-mlops-overlap": {
+   "questions": [
+    {
+     "q": "Where do data engineering and MLOps overlap?",
+     "options": [
+      "UI",
+      "Mobile",
+      "Nowhere",
+      "Feature pipelines, training data, lineage and monitoring"
+     ],
+     "answer": 3,
+     "explain": "Shared foundations."
+    },
+    {
+     "q": "What is training/serving skew?",
+     "options": [
+      "Big models",
+      "Data size",
+      "Slow serving",
+      "Features computed differently in training and production"
+     ],
+     "answer": 3,
+     "explain": "Use a feature store."
+    },
+    {
+     "q": "What does a feature store provide?",
+     "options": [
+      "Logs",
+      "Consistent, reusable features for training and serving",
+      "Dashboards",
+      "Models"
+     ],
+     "answer": 1,
+     "explain": "Offline/online."
+    },
+    {
+     "q": "Why monitor data drift?",
+     "options": [
+      "Style",
+      "Speed",
+      "Input distributions change and degrade model quality",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Alert and retrain."
+    }
+   ]
+  },
+  "level-4/07-building-a-platform-team": {
+   "questions": [
+    {
+     "q": "What does a platform team's mission look like?",
+     "options": [
+      "Gatekeep",
+      "Own dashboards",
+      "Build every pipeline",
+      "Provide paved roads that make good data engineering easy for other teams"
+     ],
+     "answer": 3,
+     "explain": "Enable, don't block."
+    },
+    {
+     "q": "What should platform teams measure?",
+     "options": [
+      "Tool count",
+      "Adoption, reliability and time-to-first-pipeline",
+      "Lines of code",
+      "Meetings"
+     ],
+     "answer": 1,
+     "explain": "Outcomes."
+    },
+    {
+     "q": "Why treat the platform as a product?",
+     "options": [
+      "Style",
+      "Users (data teams) have needs and feedback loops",
+      "Cost",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Roadmaps."
+    },
+    {
+     "q": "What's a risk of a central team?",
+     "options": [
+      "Quality",
+      "Cost",
+      "Becoming a bottleneck",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Self-service."
+    }
+   ]
+  },
+  "level-4/08-data-reliability-engineering": {
+   "questions": [
+    {
+     "q": "What's an SLO for a dataset?",
+     "options": [
+      "A tool",
+      "A fee",
+      "A target like 99% of daily loads complete by 7am",
+      "A key"
+     ],
+     "answer": 2,
+     "explain": "Measure reliability."
+    },
+    {
+     "q": "What is an error budget?",
+     "options": [
+      "Log",
+      "Time zone",
+      "The allowed unreliability that balances change velocity",
+      "Money"
+     ],
+     "answer": 2,
+     "explain": "Spend it on releases."
+    },
+    {
+     "q": "What belongs in a postmortem?",
+     "options": [
+      "Timeline, root cause and actions, blamelessly",
+      "Blame",
+      "Nothing",
+      "Marketing"
+     ],
+     "answer": 0,
+     "explain": "Learn."
+    },
+    {
+     "q": "What reduces incident impact?",
+     "options": [
+      "Hope",
+      "Silence",
+      "More dashboards",
+      "Runbooks, alerts with owners and rollback/replay tooling"
+     ],
+     "answer": 3,
+     "explain": "Prepare."
+    }
+   ]
+  },
+  "level-4/09-career-growth": {
+   "questions": [
+    {
+     "q": "What differentiates senior data engineers?",
+     "options": [
+      "Designing reliable systems and influencing across teams, not just writing pipelines",
+      "Knowing more tools",
+      "Typing",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Scope and judgment."
+    },
+    {
+     "q": "What skill compounds over time?",
+     "options": [
+      "Trends",
+      "Fundamentals like SQL, modeling and distributed systems",
+      "Memorization",
+      "Tool names"
+     ],
+     "answer": 1,
+     "explain": "Durable."
+    },
+    {
+     "q": "How do you grow?",
+     "options": [
+      "Build, ship, operate and reflect on real systems",
+      "Wait",
+      "Read only",
+      "Avoid"
+     ],
+     "answer": 0,
+     "explain": "Experience."
+    },
+    {
+     "q": "Why document and share designs?",
+     "options": [
+      "Scales your impact and clarifies thinking",
+      "Cost",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Communication."
+    }
+   ]
+  },
+  "level-4/10-capstone-production-platform": {
+   "questions": [
+    {
+     "q": "What does the capstone integrate?",
+     "options": [
+      "Only SQL",
+      "Only Airflow",
+      "Ingestion, storage, transformation, orchestration, quality, governance and monitoring",
+      "Only Spark"
+     ],
+     "answer": 2,
+     "explain": "Production platform."
+    },
+    {
+     "q": "How do you prove it's production-ready?",
+     "options": [
+      "Hope",
+      "Tests, monitoring, runbooks, backfill and failure drills",
+      "Slides",
+      "Demo"
+     ],
+     "answer": 1,
+     "explain": "Operate it."
+    },
+    {
+     "q": "What should the design document explain?",
+     "options": [
+      "Tool lists",
+      "Code",
+      "Names",
+      "Trade-offs, failure modes and costs"
+     ],
+     "answer": 3,
+     "explain": "Decisions."
+    },
+    {
+     "q": "What makes it maintainable?",
+     "options": [
+      "Size",
+      "Cleverness",
+      "Secrecy",
+      "Idempotent pipelines, contracts and clear ownership"
+     ],
+     "answer": 3,
+     "explain": "Sustainable."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A pipeline fails halfway and is re-run. What property lets you do this safely?",
+    "options": [
+     "Idempotency: the same run twice yields the same final state",
+     "Partitioning",
+     "Speed",
+     "Atomicity only"
+    ],
+    "answer": 0,
+    "explain": "Use upserts or partition overwrite."
+   },
+   {
+    "q": "A dashboard shows only customers with orders. Which join mistake is the likely cause?\n```sql\ncreate table c(id int); insert into c values(1),(2); create table o(cid int, amt int); insert into o values(1,5);\n\nselect count(*) from c join o on o.cid=c.id;\n```\n",
+    "options": [
+     "Error",
+     "2",
+     "1",
+     "0"
+    ],
+    "answer": 2,
+    "explain": "An INNER JOIN silently drops customers without orders; use LEFT JOIN to keep them. Verified by running it in SQLite (rows shown as comma-separated, separated by semicolons)."
+   },
+   {
+    "q": "You need the latest event per key. Which pattern does this?\n```sql\ncreate table e(k text, ts int, v text); insert into e values('a',1,'old'),('a',2,'new'),('b',1,'only');\n\nselect k,v from (select k,v,row_number() over (partition by k order by ts desc) rn from e) where rn=1 order by k;\n```\n",
+    "options": [
+     "a,new",
+     "a,old; b,only",
+     "a,new; b,only",
+     "b,only"
+    ],
+    "answer": 2,
+    "explain": "row_number over a partition. Verified by running it in SQLite (rows shown as comma-separated, separated by semicolons)."
+   },
+   {
+    "q": "How many rows does chunked reading process in the last chunk of 10 rows with chunk size 4?\n```python\nprint(len(list(range(10))[8:12]))\n```\n",
+    "options": [
+     "4",
+     "10",
+     "2",
+     "0"
+    ],
+    "answer": 2,
+    "explain": "The last chunk is smaller. Verified by running it."
+   },
+   {
+    "q": "An API returns HTTP 429. What should the ingestion code do?",
+    "options": [
+     "Ignore",
+     "Retry immediately",
+     "Back off (using Retry-After if present) and retry with jitter",
+     "Drop the data"
+    ],
+    "answer": 2,
+    "explain": "Respect rate limits."
+   },
+   {
+    "q": "A source column changes type overnight and the load silently coerces values. What gate would have caught it?",
+    "options": [
+     "Schema validation before the load that fails fast on drift",
+     "A dashboard",
+     "A bigger cluster",
+     "More retries"
+    ],
+    "answer": 0,
+    "explain": "Validate input contracts."
+   },
+   {
+    "q": "Why partition a fact table by event date?",
+    "options": [
+     "Queries and idempotent loads can touch only the relevant partitions",
+     "Smaller columns",
+     "Security",
+     "Better joins"
+    ],
+    "answer": 0,
+    "explain": "Partition pruning."
+   },
+   {
+    "q": "A late event arrives for yesterday's partition. What does a good incremental design do?",
+    "options": [
+     "Reload everything",
+     "Append duplicates",
+     "Ignore it",
+     "Reprocess a lookback window or overwrite the affected partition idempotently"
+    ],
+    "answer": 3,
+    "explain": "Late data is normal."
+   },
+   {
+    "q": "Parquet vs CSV for a 500 GB analytic dataset?",
+    "options": [
+     "CSV: readable",
+     "JSON",
+     "Both same",
+     "Parquet: columnar, typed and compressed, so queries read less data"
+    ],
+    "answer": 3,
+    "explain": "Column pruning and predicate pushdown."
+   },
+   {
+    "q": "A Spark job is slow because one task runs for an hour while others finish in seconds. What's the likely cause?",
+    "options": [
+     "Network",
+     "Disk",
+     "Too few columns",
+     "Data skew on a join/group key"
+    ],
+    "answer": 3,
+    "explain": "Salt keys, broadcast small tables."
+   },
+   {
+    "q": "Why prefer a broadcast join when one table is small?",
+    "options": [
+     "Fewer rows",
+     "Compression",
+     "Security",
+     "It avoids shuffling the large table"
+    ],
+    "answer": 3,
+    "explain": "Spark broadcast hash join."
+   },
+   {
+    "q": "What's the main difference between event time and processing time in streaming?",
+    "options": [
+     "Event time is later",
+     "Reverse",
+     "Event time is when it happened; processing time is when your system saw it",
+     "Same"
+    ],
+    "answer": 2,
+    "explain": "Use event time and watermarks."
+   },
+   {
+    "q": "A consumer group has 6 consumers on a topic with 4 partitions. What happens?",
+    "options": [
+     "All 6 work",
+     "Topic splits",
+     "Duplicates",
+     "Only 4 consumers get partitions; 2 sit idle"
+    ],
+    "answer": 3,
+    "explain": "Parallelism is bounded by partitions."
+   },
+   {
+    "q": "A downstream team's job breaks because a producer renamed a column. What prevents this?",
+    "options": [
+     "Bigger team",
+     "A data contract with versioned schemas and compatibility checks",
+     "More alerts",
+     "Docs only"
+    ],
+    "answer": 1,
+    "explain": "Contracts and CI checks."
+   },
+   {
+    "q": "What does dbt `ref()` give you?",
+    "options": [
+     "Python imports",
+     "API calls",
+     "Orchestration",
+     "Dependency-aware model references and lineage"
+    ],
+    "answer": 3,
+    "explain": "The DAG is built from refs."
+   },
+   {
+    "q": "Which alert is most useful to on-call?",
+    "options": [
+     "Daily summary",
+     "A freshness SLO breach on a key table with a runbook link",
+     "Every log line",
+     "CPU at 40%"
+    ],
+    "answer": 1,
+    "explain": "Actionable alerts."
+   },
+   {
+    "q": "A GDPR erasure request arrives. What's required of the platform?",
+    "options": [
+     "Delete the dashboard",
+     "Locate and delete the subject's data across raw, derived and backup layers",
+     "Ignore archives",
+     "Hash the table"
+    ],
+    "answer": 1,
+    "explain": "Design lineage for it."
+   },
+   {
+    "q": "A warehouse bill doubled. What do you check first?",
+    "options": [
+     "Bytes scanned and idle compute by query/team (tags), then prune or cluster",
+     "Buy more",
+     "Add users",
+     "Add columns"
+    ],
+    "answer": 0,
+    "explain": "Measure cost drivers."
+   },
+   {
+    "q": "Training metrics look great but production predictions are poor. A data-engineering cause could be...",
+    "options": [
+     "Slow GPUs",
+     "Training/serving skew from features computed differently in each path",
+     "Tokenization only",
+     "Large logs"
+    ],
+    "answer": 1,
+    "explain": "Use a shared feature store."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Idempotent incremental upsert",
+    "prompt": "Implement load(conn, batch) for (id, amount, updated_at) rows: upsert by id, make a rerun a no-op, and never let an older version (smaller updated_at) overwrite a newer one. Print the table and the watermark after four loads.",
+    "starter": "import sqlite3\n\ndef load(conn, batch):\n    # idempotent upsert of (id, amount, updated_at) rows: a rerun must not duplicate,\n    # and an OLDER version (smaller updated_at) must never overwrite a newer one\n    pass\n\ndef watermark(conn):\n    return conn.execute(\"SELECT COALESCE(MAX(updated_at), 0) FROM orders\").fetchone()[0]\n\nconn = sqlite3.connect(\":memory:\")\nconn.execute(\"CREATE TABLE orders(id INTEGER PRIMARY KEY, amount REAL, updated_at INTEGER)\")\nbatch1 = [(1, 10.0, 100), (2, 20.0, 101)]\nload(conn, batch1)\nload(conn, batch1)                      # rerun: must not duplicate\nload(conn, [(2, 25.0, 105), (3, 5.0, 106)])   # update + new row\nload(conn, [(2, 1.0, 90)])              # late, OLDER version: must be ignored\nprint(conn.execute(\"SELECT id, amount FROM orders ORDER BY id\").fetchall())\nprint(watermark(conn))\n",
+    "expected": "[(1, 10.0), (2, 25.0), (3, 5.0)]\n106",
+    "solution": "import sqlite3\n\ndef load(conn, batch):\n    \"\"\"Idempotent incremental load: upsert rows and keep only the newest version per id.\"\"\"\n    conn.executemany(\n        \"\"\"INSERT INTO orders(id, amount, updated_at) VALUES (?, ?, ?)\n           ON CONFLICT(id) DO UPDATE SET amount = excluded.amount, updated_at = excluded.updated_at\n           WHERE excluded.updated_at > orders.updated_at\"\"\",\n        batch,\n    )\n    conn.commit()\n\ndef watermark(conn):\n    return conn.execute(\"SELECT COALESCE(MAX(updated_at), 0) FROM orders\").fetchone()[0]\n\nconn = sqlite3.connect(\":memory:\")\nconn.execute(\"CREATE TABLE orders(id INTEGER PRIMARY KEY, amount REAL, updated_at INTEGER)\")\nbatch1 = [(1, 10.0, 100), (2, 20.0, 101)]\nload(conn, batch1)\nload(conn, batch1)                      # rerun: must not duplicate\nload(conn, [(2, 25.0, 105), (3, 5.0, 106)])   # update + new row\nload(conn, [(2, 1.0, 90)])              # late, OLDER version: must be ignored\nprint(conn.execute(\"SELECT id, amount FROM orders ORDER BY id\").fetchall())\nprint(watermark(conn))\n",
+    "explain": "ON CONFLICT DO UPDATE with a WHERE on updated_at makes the load idempotent and safe against late, out-of-order versions. The watermark is MAX(updated_at). Verified by running the solution with SQLite."
+   },
+   {
+    "title": "A data quality gate",
+    "prompt": "Implement validate(rows) returning (row_index, problem) tuples for duplicate ids, missing or empty email, and an amount that isn't a non-negative number. Print the problems and PASS or FAIL.",
+    "starter": "def validate(rows):\n    # return [(row_index, problem)] for: duplicate id, missing/empty email, and\n    # amount that is not a non-negative number\n    return []\n\nrows = [\n    {\"id\": 1, \"email\": \"a@x.com\", \"amount\": 10},\n    {\"id\": 2, \"email\": \"\", \"amount\": 5},\n    {\"id\": 1, \"email\": \"c@x.com\", \"amount\": -3},\n    {\"id\": 4, \"email\": \"d@x.com\", \"amount\": \"7\"},\n]\nfor p in validate(rows):\n    print(p)\nprint(\"PASS\" if not validate(rows) else \"FAIL\")\n",
+    "expected": "(1, 'missing email')\n(2, 'duplicate id')\n(2, 'bad amount')\n(3, 'bad amount')\nFAIL",
+    "solution": "def validate(rows):\n    \"\"\"Return a list of (row_index, problem) for rows violating the rules.\"\"\"\n    problems = []\n    seen = set()\n    for i, r in enumerate(rows):\n        if r.get(\"id\") in seen:\n            problems.append((i, \"duplicate id\"))\n        seen.add(r.get(\"id\"))\n        if r.get(\"email\") in (None, \"\"):\n            problems.append((i, \"missing email\"))\n        amt = r.get(\"amount\")\n        if not isinstance(amt, (int, float)) or amt < 0:\n            problems.append((i, \"bad amount\"))\n    return problems\n\nrows = [\n    {\"id\": 1, \"email\": \"a@x.com\", \"amount\": 10},\n    {\"id\": 2, \"email\": \"\", \"amount\": 5},\n    {\"id\": 1, \"email\": \"c@x.com\", \"amount\": -3},\n    {\"id\": 4, \"email\": \"d@x.com\", \"amount\": \"7\"},\n]\nfor p in validate(rows):\n    print(p)\nprint(\"PASS\" if not validate(rows) else \"FAIL\")\n",
+    "explain": "A validation gate before the load stops bad data from reaching consumers. Note that the string '7' fails the type check, so a silent cast is not allowed. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
