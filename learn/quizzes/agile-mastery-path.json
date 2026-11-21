@@ -1,0 +1,2152 @@
+{
+ "course": "agile-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-sdlc": {
+   "questions": [
+    {
+     "q": "What are the six SDLC phases?",
+     "options": [
+      "Idea, code, merge, release, bill, retire",
+      "Requirements, design, implementation, testing, deployment, maintenance",
+      "Plan, build, test, ship, sell, support",
+      "Sprint, review, retro, plan, demo, ship"
+     ],
+     "answer": 1,
+     "explain": "Every methodology arranges and repeats the same phases."
+    },
+    {
+     "q": "How do Waterfall and Agile differ regarding the phases?",
+     "options": [
+      "Waterfall skips design",
+      "Agile skips testing",
+      "They use different phases",
+      "Not which phases exist, but how often you cycle through them and in what order"
+     ],
+     "answer": 3,
+     "explain": "Waterfall runs them once; Agile runs a compressed version repeatedly per sprint."
+    },
+    {
+     "q": "What is the typical output of the Requirements phase?",
+     "options": [
+      "Test results",
+      "Working code",
+      "Requirements document, user stories, acceptance criteria",
+      "Release notes"
+     ],
+     "answer": 2,
+     "explain": "Design produces architecture diagrams and data models."
+    },
+    {
+     "q": "What does the Maintenance phase involve?",
+     "options": [
+      "Bug fixes, patches, feature updates and monitoring",
+      "Procurement",
+      "Writing requirements",
+      "Initial design"
+     ],
+     "answer": 0,
+     "explain": "It continues after deployment."
+    }
+   ]
+  },
+  "level-1/02-waterfall-model": {
+   "questions": [
+    {
+     "q": "What is Waterfall?",
+     "options": [
+      "A Scrum event",
+      "Repeating two-week cycles",
+      "A Kanban variant",
+      "The SDLC run once, in strict sequence, with a formal sign-off gate between phases"
+     ],
+     "answer": 3,
+     "explain": "Winston Royce described it in 1970 as a risky approach to warn against."
+    },
+    {
+     "q": "Why is it costly when Testing reveals a wrong requirement?",
+     "options": [
+      "Gates are optional",
+      "Developers leave",
+      "Tests are slow",
+      "Each gate is expensive to reopen: a formal change request, re-approval and rework of downstream artifacts"
+     ],
+     "answer": 3,
+     "explain": "That's the defining trait of Waterfall."
+    },
+    {
+     "q": "When does Waterfall genuinely fit?",
+     "options": [
+      "Daily releases",
+      "Stable requirements, fixed-price contracts, safety-critical or heavily audited work",
+      "Unclear requirements",
+      "Exploratory startups"
+     ],
+     "answer": 1,
+     "explain": "Up-front certainty is rewarded."
+    },
+    {
+     "q": "Who typically signs off Testing → Deployment?",
+     "options": [
+      "Nobody",
+      "QA lead / client acceptance",
+      "The Product Owner only",
+      "The Scrum Master"
+     ],
+     "answer": 1,
+     "explain": "All defined test cases pass with no open critical defects."
+    }
+   ]
+  },
+  "level-1/03-agile-manifesto-principles": {
+   "questions": [
+    {
+     "q": "Where and when was the Agile Manifesto written?",
+     "options": [
+      "1999, Tokyo",
+      "2010, London",
+      "1970, Royce",
+      "February 2001, Snowbird, Utah, by seventeen practitioners"
+     ],
+     "answer": 3,
+     "explain": "They were frustrated with heavyweight documentation-driven processes."
+    },
+    {
+     "q": "What is the key caveat in the Manifesto?",
+     "options": [
+      "Items on the right are banned",
+      "Left items are optional",
+      "While there is value in the items on the right, we value the items on the left more",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Agile doesn't mean no process, no documentation, no contracts or no planning."
+    },
+    {
+     "q": "What does 'working software over comprehensive documentation' mean?",
+     "options": [
+      "Documentation is still valued, but working software outranks it",
+      "No documentation",
+      "Documentation first",
+      "Only code"
+     ],
+     "answer": 0,
+     "explain": "It's a common misreading to say Agile means no documentation."
+    },
+    {
+     "q": "How many principles back the four values?",
+     "options": [
+      "Twelve",
+      "Four",
+      "Ten",
+      "Seven"
+     ],
+     "answer": 0,
+     "explain": "For example deliver working software frequently, in weeks rather than months."
+    }
+   ]
+  },
+  "level-1/04-scrum-roles-events-artifacts": {
+   "questions": [
+    {
+     "q": "What are Scrum's parts?",
+     "options": [
+      "Five roles, three events",
+      "Three accountabilities, five events and three artifacts",
+      "Two roles, ten events",
+      "Four artifacts only"
+     ],
+     "answer": 1,
+     "explain": "Product Owner, Scrum Master, Developers."
+    },
+    {
+     "q": "Is the Daily Scrum a status report to the Scrum Master?",
+     "options": [
+      "No: it's Developers inspecting progress toward the Sprint Goal and re-planning the next 24 hours (15 minutes)",
+      "It's optional",
+      "It's for managers",
+      "Yes"
+     ],
+     "answer": 0,
+     "explain": "Running it as a status meeting is a role failure."
+    },
+    {
+     "q": "What is the real output of the Sprint Review?",
+     "options": [
+      "An updated Product Backlog, from stakeholder feedback on the Increment",
+      "Velocity",
+      "A demo video",
+      "A bonus"
+     ],
+     "answer": 0,
+     "explain": "It's not a demo for its own sake."
+    },
+    {
+     "q": "What is a common Product Owner failure?",
+     "options": [
+      "Attending reviews",
+      "Setting value",
+      "Ordering the backlog",
+      "Acting as a project manager in disguise, assigning tasks and dictating how work happens"
+     ],
+     "answer": 3,
+     "explain": "That collapses self-organisation and turns Scrum into Waterfall with a two-week clock."
+    }
+   ]
+  },
+  "level-1/05-kanban-basics": {
+   "questions": [
+    {
+     "q": "Kanban is flow-based. What does that mean versus Scrum?",
+     "options": [
+      "No board",
+      "Fixed roles",
+      "Fixed two-week sprints",
+      "No sprints or timeboxes; work flows continuously across a visual board regulated by WIP limits"
+     ],
+     "answer": 3,
+     "explain": "The original method has no dedicated Product Owner."
+    },
+    {
+     "q": "Development is full (4/4). A developer finishes early. What should they do?",
+     "options": [
+      "Help unblock items stuck downstream (e.g. Review), not pull a new item",
+      "Raise the limit",
+      "Pull from the backlog",
+      "Go idle always"
+     ],
+     "answer": 0,
+     "explain": "Pull means work enters a stage only when there is capacity downstream."
+    },
+    {
+     "q": "Why are WIP limits the whole point?",
+     "options": [
+      "They're mandatory by law",
+      "They track hours",
+      "They fight the instinct to start work, since a pile of half-finished work is worse than an idle hour",
+      "They speed typing"
+     ],
+     "answer": 2,
+     "explain": "Teams should be measured on what's finished, not started."
+    },
+    {
+     "q": "One column is perpetually full. What does it reveal?",
+     "options": [
+      "That stage is the bottleneck; add capacity there",
+      "A broken board",
+      "A missing backlog",
+      "Too little WIP"
+     ],
+     "answer": 0,
+     "explain": "Lots of items in progress but few finished means too much WIP."
+    }
+   ]
+  },
+  "level-1/06-agile-vs-waterfall": {
+   "questions": [
+    {
+     "q": "What is the decision test between Agile and Waterfall?",
+     "options": [
+      "Office location",
+      "Language used",
+      "Team size",
+      "Which of scope, schedule or cost is truly fixed; the other two must flex"
+     ],
+     "answer": 3,
+     "explain": "Fixed scope fits Waterfall; fixed schedule or cost fits Agile."
+    },
+    {
+     "q": "A trade-show launch date is fixed. What flexes?",
+     "options": [
+      "Schedule",
+      "The date",
+      "Quality tests",
+      "Scope: ship the highest-value subset"
+     ],
+     "answer": 3,
+     "explain": "That fits Agile."
+    },
+    {
+     "q": "When is risk discovered in each model?",
+     "options": [
+      "Agile: never",
+      "Both late",
+      "Waterfall: late (often in Testing); Agile: early and often, every sprint",
+      "Both early"
+     ],
+     "answer": 2,
+     "explain": "Agile surfaces new information each sprint."
+    },
+    {
+     "q": "What contract type best fits each?",
+     "options": [
+      "Waterfall: fixed-price, fixed-scope; Agile: time-and-materials or scope-flexible fixed-budget",
+      "Agile: fixed scope",
+      "Waterfall: time and materials",
+      "Same for both"
+     ],
+     "answer": 0,
+     "explain": "A request to 'be more agile' that fixes all three variables is incoherent."
+    }
+   ]
+  },
+  "level-1/07-user-stories-backlogs": {
+   "questions": [
+    {
+     "q": "What is the standard user story format?",
+     "options": [
+      "Feature, bug, task",
+      "As a [role], I want [capability], so that [benefit]",
+      "Given, when, then",
+      "Who, what, when"
+     ],
+     "answer": 1,
+     "explain": "The 'so that' clause anchors developer judgment calls."
+    },
+    {
+     "q": "What are acceptance criteria?",
+     "options": [
+      "Specific, testable conditions that must hold for the story to be complete",
+      "A summary",
+      "A budget",
+      "A schedule"
+     ],
+     "answer": 0,
+     "explain": "For example a customer with no saved address sees an empty form."
+    },
+    {
+     "q": "What goes wrong without the 'so that' benefit?",
+     "options": [
+      "The story is invalid HTML",
+      "The story is shorter",
+      "Nothing",
+      "A developer can't make good judgment calls about edge cases"
+     ],
+     "answer": 3,
+     "explain": "For example whether to let users edit a prefilled address."
+    },
+    {
+     "q": "What is a backlog?",
+     "options": [
+      "A sprint plan",
+      "A bug list only",
+      "A report",
+      "The ordered collection of stories and work items a team might build"
+     ],
+     "answer": 3,
+     "explain": "Vague or oversized stories are where most sprint failures start."
+    }
+   ]
+  },
+  "level-1/08-estimation-basics": {
+   "questions": [
+    {
+     "q": "Why are story points relative?",
+     "options": [
+      "Managers prefer them",
+      "Points equal hours",
+      "They are legally required",
+      "Humans are bad at absolute durations but good at comparing sizes"
+     ],
+     "answer": 3,
+     "explain": "Compare to something already built."
+    },
+    {
+     "q": "What does a story point encode?",
+     "options": [
+      "Only value",
+      "Only time",
+      "Only cost",
+      "Complexity, effort and uncertainty/risk"
+     ],
+     "answer": 3,
+     "explain": "A small high-uncertainty task can get more points than a bigger familiar one."
+    },
+    {
+     "q": "Why does the Fibonacci scale widen its gaps?",
+     "options": [
+      "To confuse",
+      "Precision on big items is false; choosing between 14 and 15 is meaningless",
+      "Because of hours",
+      "For tradition only"
+     ],
+     "answer": 1,
+     "explain": "Anything 20+ should usually be split."
+    },
+    {
+     "q": "What technique estimates collaboratively?",
+     "options": [
+      "Retrospective",
+      "Planning Poker",
+      "Burndown",
+      "Daily Scrum"
+     ],
+     "answer": 1,
+     "explain": "Everyone reveals estimates together."
+    }
+   ]
+  },
+  "level-1/09-sprint-planning-exercise": {
+   "questions": [
+    {
+     "q": "What does Sprint Planning produce?",
+     "options": [
+      "A velocity chart",
+      "Test results",
+      "A Sprint Goal (one sentence) and a Sprint Backlog sized to capacity",
+      "A release"
+     ],
+     "answer": 2,
+     "explain": "Inputs: ordered Product Backlog, capacity and historical velocity."
+    },
+    {
+     "q": "In the example, Dev B has 8 days and focus factor 0.8. What is the effective capacity?",
+     "options": [
+      "6.4 days",
+      "10 days",
+      "5 days",
+      "8 days"
+     ],
+     "answer": 0,
+     "explain": "8 × 0.8 = 6.4; the team total was 29.4 person-days."
+    },
+    {
+     "q": "Last three sprints delivered 21, 25 and 23 points. What is the planning guidance?",
+     "options": [
+      "Plan 10",
+      "Plan 40",
+      "Plan about 23 points (average velocity), not more just because the backlog has more",
+      "Plan 25 always"
+     ],
+     "answer": 2,
+     "explain": "Velocity is a sanity check against over-commitment."
+    },
+    {
+     "q": "From which end of the backlog are stories pulled?",
+     "options": [
+      "The top, since it's ordered by priority",
+      "Smallest first",
+      "Randomly",
+      "The bottom"
+     ],
+     "answer": 0,
+     "explain": "Running totals stop when the planned points are reached."
+    }
+   ]
+  },
+  "level-1/10-capstone-mock-sprint-plan": {
+   "questions": [
+    {
+     "q": "Why does the capstone use a 1-week sprint?",
+     "options": [
+      "Less capacity",
+      "To keep it finishable in one sitting while exercising every step",
+      "Scrum requires it",
+      "It's the standard"
+     ],
+     "answer": 1,
+     "explain": "The common length is two weeks."
+    },
+    {
+     "q": "What must exist before any sprint?",
+     "options": [
+      "Velocity",
+      "A Product Goal and an ordered Product Backlog",
+      "A release date",
+      "A Definition of Done only"
+     ],
+     "answer": 1,
+     "explain": "Their goal: track spending against a monthly budget without a spreadsheet."
+    },
+    {
+     "q": "The team's first sprint has no velocity. What do they plan against?",
+     "options": [
+      "Industry averages",
+      "Last sprint's points",
+      "Nothing",
+      "Capacity"
+     ],
+     "answer": 3,
+     "explain": "Velocity builds after sprints run."
+    },
+    {
+     "q": "How are stories estimated?",
+     "options": [
+      "Hours",
+      "Manager decides",
+      "T-shirt only",
+      "Planning Poker on the Fibonacci scale, with discussion to a final value"
+     ],
+     "answer": 3,
+     "explain": "Differences between estimators are discussed."
+    }
+   ]
+  },
+  "level-2/01-scrum-ceremonies-in-depth": {
+   "questions": [
+    {
+     "q": "Which event checks whether you built the right thing?",
+     "options": [
+      "Retrospective",
+      "Sprint Review (outer loop)",
+      "Daily Scrum",
+      "Planning"
+     ],
+     "answer": 1,
+     "explain": "The Daily Scrum checks you're on track for the plan."
+    },
+    {
+     "q": "What risk arises from running tight standups but skipping a genuine Review?",
+     "options": [
+      "More meetings",
+      "Fewer bugs",
+      "Slower standups",
+      "Being efficient at building the wrong thing"
+     ],
+     "answer": 3,
+     "explain": "Review feeds the backlog with stakeholder feedback."
+    },
+    {
+     "q": "What is the highest-leverage Daily Scrum fix?",
+     "options": [
+      "Report to manager",
+      "Reframe from 'what did I do' to 'what's in the way of the Sprint Goal'",
+      "Longer meetings",
+      "Skip it"
+     ],
+     "answer": 1,
+     "explain": "Only the team can act on blockers, so it becomes self-organising."
+    },
+    {
+     "q": "What is a healthy retrospective outcome?",
+     "options": [
+      "A venting session",
+      "Slides",
+      "No actions",
+      "Concrete, owned action items (cap at 1–3)"
+     ],
+     "answer": 3,
+     "explain": "Venting without follow-through is the failure mode."
+    }
+   ]
+  },
+  "level-2/02-sprint-retrospectives": {
+   "questions": [
+    {
+     "q": "What are the five retrospective stages?",
+     "options": [
+      "Review, demo, plan, ship, rest",
+      "Set the stage, gather data, generate insights, decide what to do, close",
+      "Start, stop, continue, vent, end",
+      "Plan, do, check, act, repeat"
+     ],
+     "answer": 1,
+     "explain": "Skipping straight to deciding produces actions aimed at symptoms."
+    },
+    {
+     "q": "What is the Prime Directive?",
+     "options": [
+      "Document everything",
+      "Never retro",
+      "Fix blame fast",
+      "Everyone did the best job they could, given what they knew, their skills, resources and the situation (Norm Kerth)"
+     ],
+     "answer": 3,
+     "explain": "It reframes retros from blame to system improvement."
+    },
+    {
+     "q": "Which techniques generate insights?",
+     "options": [
+      "Dot-voting",
+      "Check-ins",
+      "Timelines",
+      "5 Whys, fishbone diagram and affinity mapping"
+     ],
+     "answer": 3,
+     "explain": "Dot-voting and effort/impact grids help decide."
+    },
+    {
+     "q": "How many actions should a retro leave?",
+     "options": [
+      "1–3 concrete actions with owners and a due sprint",
+      "One per person",
+      "None",
+      "10+"
+     ],
+     "answer": 0,
+     "explain": "Fewer actions get done."
+    }
+   ]
+  },
+  "level-2/03-backlog-refinement": {
+   "questions": [
+    {
+     "q": "What is refinement?",
+     "options": [
+      "A sprint event",
+      "A single meeting",
+      "The ongoing habit of taking items from idea to ready-to-pull, ideally no more than 10% of team capacity",
+      "A report"
+     ],
+     "answer": 2,
+     "explain": "It was formerly called grooming."
+    },
+    {
+     "q": "What does INVEST stand for?",
+     "options": [
+      "Independent, Negotiable, Valuable, Estimable, Small, Testable",
+      "Iterative, Native, Visual, Easy, Short, Timed",
+      "Important, New, Visible, Early, Simple, Tested",
+      "Ideal, Neat, Valid, Exact, Safe, True"
+     ],
+     "answer": 0,
+     "explain": "Used as a readiness gate for stories."
+    },
+    {
+     "q": "Which are story-splitting axes?",
+     "options": [
+      "Alphabetical order",
+      "Story points",
+      "Team members",
+      "Workflow steps, business rules, data boundaries, CRUD operations, happy path versus edge cases"
+     ],
+     "answer": 3,
+     "explain": "For example Checkout into browse cart, coupon, pay, confirm."
+    },
+    {
+     "q": "Who orders the backlog?",
+     "options": [
+      "The Product Owner",
+      "Stakeholders",
+      "The Scrum Master",
+      "Developers"
+     ],
+     "answer": 0,
+     "explain": "Estimating involves the whole team."
+    }
+   ]
+  },
+  "level-2/04-kanban-metrics": {
+   "questions": [
+    {
+     "q": "What is the difference between lead time and cycle time?",
+     "options": [
+      "Reversed",
+      "Lead time: request created to delivered; cycle time: work started to delivered",
+      "Same",
+      "Lead is hours; cycle is days"
+     ],
+     "answer": 1,
+     "explain": "Lead time is the customer's wait."
+    },
+    {
+     "q": "What does Little's Law say?",
+     "options": [
+      "Average cycle time = average WIP ÷ average throughput, so lowering WIP lowers cycle time",
+      "WIP = lead time",
+      "Throughput = WIP",
+      "Cycle time = throughput × WIP"
+     ],
+     "answer": 0,
+     "explain": "That's the maths behind WIP limits."
+    },
+    {
+     "q": "A CFD's 'In Progress' band widens steadily. What does it mean?",
+     "options": [
+      "Higher throughput",
+      "Growing WIP: a bottleneck forming, work starting faster than finishing",
+      "Fewer items",
+      "Stable flow"
+     ],
+     "answer": 1,
+     "explain": "Parallel bands mean stable flow."
+    },
+    {
+     "q": "Why use percentiles instead of the average cycle time?",
+     "options": [
+      "Cycle time has a long right tail; 85th percentile is a reasonable forecast and 95th suits external commitments",
+      "They're required",
+      "Percentiles are simpler",
+      "Averages are wrong always"
+     ],
+     "answer": 0,
+     "explain": "The average hides outliers."
+    }
+   ]
+  },
+  "level-2/05-definition-of-done-ready": {
+   "questions": [
+    {
+     "q": "What do DoR and DoD gate?",
+     "options": [
+      "Neither",
+      "Both gate exit",
+      "Both gate entry",
+      "DoR gates entry into a sprint; DoD gates the exit (when something is finished)"
+     ],
+     "answer": 3,
+     "explain": "DoR is per story; DoD is usually team-wide."
+    },
+    {
+     "q": "What happens with a strong DoD but no DoR?",
+     "options": [
+      "The team pulls in vague stories and discovers mid-sprint what 'done' means for each",
+      "Better planning",
+      "Nothing",
+      "Faster delivery"
+     ],
+     "answer": 0,
+     "explain": "The reverse gives inconsistent quality."
+    },
+    {
+     "q": "Why is DoD layered?",
+     "options": [
+      "To confuse",
+      "For managers",
+      "Not layered",
+      "Some criteria apply to every story (review, tests), others once per sprint or release (regression suite); mixing makes it too heavy"
+     ],
+     "answer": 3,
+     "explain": "Keep per-story checks light."
+    },
+    {
+     "q": "In the volatile-velocity example, what was wrong?",
+     "options": [
+      "The DoD only said 'code merged', so stories shipped without tests, inflating velocity while accumulating defects",
+      "Too few devs",
+      "Too many meetings",
+      "Bad estimates only"
+     ],
+     "answer": 0,
+     "explain": "Strengthening the DoD stabilises velocity."
+    }
+   ]
+  },
+  "level-2/06-velocity-tracking": {
+   "questions": [
+    {
+     "q": "What is velocity for?",
+     "options": [
+      "Comparing teams",
+      "Forecasting how much a specific team can complete in a future sprint, from its own recent history",
+      "A performance target",
+      "A bonus metric"
+     ],
+     "answer": 1,
+     "explain": "Story points completed per sprint, averaged over recent sprints."
+    },
+    {
+     "q": "Why is cross-team velocity comparison meaningless?",
+     "options": [
+      "Teams have different sizes only",
+      "Points are hours",
+      "Velocity is secret",
+      "Story points are relative and team-specific, so they're different units; comparisons push teams to inflate estimates"
+     ],
+     "answer": 3,
+     "explain": "That causes velocity inflation."
+    },
+    {
+     "q": "Backlog 140 points, average velocity 19.8. About how many sprints?",
+     "options": [
+      "About 7 (best ~6, worst ~9 using the range)",
+      "20",
+      "2",
+      "14"
+     ],
+     "answer": 0,
+     "explain": "Present a range, not a single number."
+    },
+    {
+     "q": "What counts toward velocity?",
+     "options": [
+      "Planned points",
+      "Partial credit",
+      "Started stories",
+      "Only points for stories fully meeting the Definition of Done"
+     ],
+     "answer": 3,
+     "explain": "Partial-credit counting inflates velocity."
+    }
+   ]
+  },
+  "level-2/07-release-planning": {
+   "questions": [
+    {
+     "q": "Date-driven versus scope-driven release plans?",
+     "options": [
+      "Date-driven fixes the date and varies scope; scope-driven fixes the feature set (MVP) and varies the date",
+      "Both vary everything",
+      "Both fix everything",
+      "The reverse"
+     ],
+     "answer": 0,
+     "explain": "Most real releases are a hybrid."
+    },
+    {
+     "q": "What if the forecast doesn't clear the fixed date?",
+     "options": [
+      "Add more meetings",
+      "Skip testing",
+      "Ignore velocity",
+      "Cut scope, never compress the Definition of Done"
+     ],
+     "answer": 3,
+     "explain": "Quality is not the lever."
+    },
+    {
+     "q": "How often should a release plan be re-forecast?",
+     "options": [
+      "Never",
+      "Once",
+      "Yearly",
+      "Every sprint, with updated velocity and remaining backlog"
+     ],
+     "answer": 3,
+     "explain": "It's a living forecast, not a one-time Gantt chart."
+    },
+    {
+     "q": "95 must-have points, velocity 19 (range 15–24), 5 sprints available. What's the verdict?",
+     "options": [
+      "Impossible",
+      "Tight, not safe: the average fits but the worst case reads closer to 7 sprints",
+      "Easy",
+      "Safe"
+     ],
+     "answer": 1,
+     "explain": "Raise it in release planning and consider cutting scope."
+    }
+   ]
+  },
+  "level-2/08-working-agreements-team-norms": {
+   "questions": [
+    {
+     "q": "Who should write a working agreement?",
+     "options": [
+      "The Product Owner alone",
+      "A manager",
+      "The team itself, as a short team-owned document",
+      "HR"
+     ],
+     "answer": 2,
+     "explain": "A rule imposed is compliance; a rule the team wrote is a commitment."
+    },
+    {
+     "q": "Where should norms be drafted?",
+     "options": [
+      "An email",
+      "In a retrospective, where they emerge from fresh friction",
+      "A separate culture meeting",
+      "A wiki only"
+     ],
+     "answer": 1,
+     "explain": "Keep it short (5–10 items) and visible."
+    },
+    {
+     "q": "How should violations be treated?",
+     "options": [
+      "Escalated to HR",
+      "Ignored",
+      "As performance issues",
+      "As a retro topic, since the norm itself may be wrong"
+     ],
+     "answer": 3,
+     "explain": "Handle peer-to-peer."
+    },
+    {
+     "q": "When should agreements be reviewed?",
+     "options": [
+      "Never",
+      "Every few sprints and when a new member joins",
+      "Yearly",
+      "Only after incidents"
+     ],
+     "answer": 1,
+     "explain": "A new hire should read it on day one."
+    }
+   ]
+  },
+  "level-2/09-handling-scope-change": {
+   "questions": [
+    {
+     "q": "What does Scrum protect when change arrives mid-sprint?",
+     "options": [
+      "The schedule only",
+      "Every ticket",
+      "The velocity",
+      "The Sprint Goal, not the exact ticket list"
+     ],
+     "answer": 3,
+     "explain": "The question is whether accepting it still lets us meet the goal."
+    },
+    {
+     "q": "A critical production bug (outage) lands mid-sprint. Response?",
+     "options": [
+      "Accept it and renegotiate scope to protect the goal",
+      "Ignore",
+      "Refuse",
+      "Wait for next sprint"
+     ],
+     "answer": 0,
+     "explain": "It threatens the goal if unfixed."
+    },
+    {
+     "q": "A 'nice to have while you're in there' request?",
+     "options": [
+      "Replace the goal",
+      "Add it",
+      "Defer to the backlog and refine for the next sprint",
+      "Accept silently"
+     ],
+     "answer": 2,
+     "explain": "No bearing on the Sprint Goal."
+    },
+    {
+     "q": "Is the right question 'can the team fit it'?",
+     "options": [
+      "Yes",
+      "Only in Kanban",
+      "Only for bugs",
+      "No: ask whether accepting it still lets the team meet the Sprint Goal"
+     ],
+     "answer": 3,
+     "explain": "That's the decision framework."
+    }
+   ]
+  },
+  "level-2/10-project-release-plan": {
+   "questions": [
+    {
+     "q": "Last three sprints: 21, 17, 23 points. What are the average and range?",
+     "options": [
+      "18; 17–21",
+      "17; 17–17",
+      "23; 21–23",
+      "About 20.3; range 17–23"
+     ],
+     "answer": 3,
+     "explain": "(21+17+23)/3 ≈ 20.3."
+    },
+    {
+     "q": "Two items failed 'Testable'. What happened?",
+     "options": [
+      "They were estimated",
+      "They were dropped",
+      "They were shipped",
+      "They were sent back to the PO for acceptance criteria before entering the plan"
+     ],
+     "answer": 3,
+     "explain": "The DoR gate protects the plan."
+    },
+    {
+     "q": "Must-have is 26 points, forecasting about 1.3 sprints. Why a 10-week window?",
+     "options": [
+      "Velocity is low",
+      "Stories are large",
+      "The release also needs DoD hardening, deployment and buffer, which story points don't cover",
+      "Scrum requires 5 sprints"
+     ],
+     "answer": 2,
+     "explain": "A hardening allowance is added instead of inflating estimates."
+    },
+    {
+     "q": "What do sprints 4 and 5 hold?",
+     "options": [
+      "New features",
+      "Hardening (regression, security, load) with no new stories, and a reserved buffer/bug-fix sprint",
+      "Nothing",
+      "Retros only"
+     ],
+     "answer": 1,
+     "explain": "Buffer is held in reserve, not pre-committed."
+    }
+   ]
+  },
+  "level-3/01-scaling-frameworks-overview": {
+   "questions": [
+    {
+     "q": "Why do scaling frameworks exist?",
+     "options": [
+      "Scrum is bad",
+      "One Scrum team tops out around 5–9 people; many teams need coordinated backlogs, dependencies and releases",
+      "To sell training",
+      "To remove roles"
+     ],
+     "answer": 1,
+     "explain": "One PO can't hold context for 10 teams."
+    },
+    {
+     "q": "How do SAFe, LeSS and Nexus compare?",
+     "options": [
+      "All identical",
+      "Nexus is heaviest",
+      "SAFe: prescriptive, highest overhead; LeSS: minimal, more Scrum not Scrum-plus; Nexus: lightweight with an integration team",
+      "LeSS is heaviest"
+     ],
+     "answer": 2,
+     "explain": "Nexus is Scrum.org's extension."
+    },
+    {
+     "q": "What trade-off underlies every scaling framework?",
+     "options": [
+      "Scope versus budget",
+      "Team autonomy versus organisation-level coordination",
+      "Quality versus time",
+      "Speed versus cost"
+     ],
+     "answer": 1,
+     "explain": "LeSS demands more discipline and technical maturity."
+    },
+    {
+     "q": "What problem arises that single-team Scrum doesn't have?",
+     "options": [
+      "Sprint goals",
+      "Retros",
+      "Estimation",
+      "Cross-team dependencies, where Team A is blocked on Team B"
+     ],
+     "answer": 3,
+     "explain": "Also architectural coherence and shared cadence."
+    }
+   ]
+  },
+  "level-3/02-agile-distributed-teams": {
+   "questions": [
+    {
+     "q": "What's the scarcest resource on a distributed team?",
+     "options": [
+      "Budget",
+      "Tools",
+      "Synchronous time: reserve it for what truly needs real-time discussion",
+      "Code"
+     ],
+     "answer": 2,
+     "explain": "Push status and FYI updates to async."
+    },
+    {
+     "q": "Name the three time-zone strategies.",
+     "options": [
+      "Local, remote, hybrid",
+      "Follow-the-sun, overlap window, async-first",
+      "Round-robin, random, fixed",
+      "Day, night, weekend"
+     ],
+     "answer": 1,
+     "explain": "Each has trade-offs, e.g. follow-the-sun needs excellent handoff documentation."
+    },
+    {
+     "q": "How can a Daily Scrum be async-friendly?",
+     "options": [
+      "Cancel it",
+      "Post 'what's blocking the Sprint Goal' in a channel; hold a short rotating live window only for items needing discussion; Scrum Master follows up",
+      "Daily report to the manager",
+      "Everyone at 6am"
+     ],
+     "answer": 1,
+     "explain": "It avoids forcing someone to attend at 6am or 10pm."
+    },
+    {
+     "q": "What does a remote retro need?",
+     "options": [
+      "Nothing",
+      "Deliberate mechanisms like anonymous input, since hallway trust is missing",
+      "Cameras only",
+      "More slides"
+     ],
+     "answer": 1,
+     "explain": "Psychological safety must be built deliberately."
+    }
+   ]
+  },
+  "level-3/03-hybrid-agile-waterfall": {
+   "questions": [
+    {
+     "q": "What is the Water-Scrum-Fall pattern?",
+     "options": [
+      "All sprints",
+      "All gates",
+      "Waterfall at the edges (requirements/contracting, release/compliance) with Agile sprints in the middle",
+      "Kanban only"
+     ],
+     "answer": 2,
+     "explain": "The middle holds the most uncertainty and feedback value."
+    },
+    {
+     "q": "Why do pure models rarely survive?",
+     "options": [
+      "Cost",
+      "Fixed hardware lead times, regulatory gates and fixed-price contracts force some sequencing",
+      "Teams dislike them",
+      "Tools"
+     ],
+     "answer": 1,
+     "explain": "Design hybrids deliberately, not by accident."
+    },
+    {
+     "q": "Why is requirements and contracting Waterfall-like?",
+     "options": [
+      "It's tradition",
+      "It's cheaper",
+      "Client and legal need a defined scope and price before committing",
+      "It's faster"
+     ],
+     "answer": 2,
+     "explain": "Build and design stay Agile."
+    },
+    {
+     "q": "A regulatory approval gate is...",
+     "options": [
+      "A Scrum event",
+      "Replaceable by sprints",
+      "A hard sequential milestone that sits around the Agile core",
+      "Irrelevant"
+     ],
+     "answer": 2,
+     "explain": "Release and compliance sign-off are inherently sequential."
+    }
+   ]
+  },
+  "level-3/04-risk-management-sdlc": {
+   "questions": [
+    {
+     "q": "Which column makes a risk register useful day to day?",
+     "options": [
+      "Likelihood",
+      "Description",
+      "Owner",
+      "Trigger/signal: a specific observable that means the risk is happening"
+     ],
+     "answer": 3,
+     "explain": "It converts 'watch out for X' into a checkable condition."
+    },
+    {
+     "q": "Who should own a risk?",
+     "options": [
+      "A team",
+      "A person, not a team",
+      "The manager",
+      "Nobody"
+     ],
+     "answer": 1,
+     "explain": "Fields: description, likelihood, impact, trigger, mitigation, owner."
+    },
+    {
+     "q": "Where do requirements risk and operational risk concentrate?",
+     "options": [
+      "Both late",
+      "Both anywhere",
+      "Both early",
+      "Requirements early (discovery); operational late (release and post-release)"
+     ],
+     "answer": 3,
+     "explain": "Compliance risk can appear at any phase."
+    },
+    {
+     "q": "What do short sprints not do automatically?",
+     "options": [
+      "Shorten feedback",
+      "Surface risks nobody has thought about; risk work still needs to be deliberate",
+      "Validate with reviews",
+      "Surface requirement risk"
+     ],
+     "answer": 1,
+     "explain": "Tag risky backlog items during refinement and resequence them earlier."
+    }
+   ]
+  },
+  "level-3/05-devops-cicd-agile": {
+   "questions": [
+    {
+     "q": "What are the two feedback loops?",
+     "options": [
+      "Sprint and release",
+      "Build and test",
+      "Planning/product loop (Scrum, weeks) and technical delivery loop (CI/CD, minutes)",
+      "Dev and QA"
+     ],
+     "answer": 2,
+     "explain": "Perfect sprints can still ship only quarterly without CI/CD."
+    },
+    {
+     "q": "How is CI/CD related to the Definition of Done?",
+     "options": [
+      "It's unrelated",
+      "It automates it: review gates, automated tests, scans, CI-green merges and deployable builds",
+      "It weakens it",
+      "It replaces it"
+     ],
+     "answer": 1,
+     "explain": "It removes the manual toil that makes 'done' mean 'pending a manual release'."
+    },
+    {
+     "q": "What do feature flags enable?",
+     "options": [
+      "Shipping code dark and turning it on independently of deploy, decoupling deploy from release",
+      "Faster typing",
+      "Code review",
+      "Fewer tests"
+     ],
+     "answer": 0,
+     "explain": "Trunk-based development and canary/blue-green deploys also keep releases low-risk."
+    },
+    {
+     "q": "Why isn't a pipeline alone DevOps?",
+     "options": [
+      "Pipelines are slow",
+      "Separate Dev and Ops teams with ticket-based handoffs recreate the old silo; culture matters",
+      "Tools are weak",
+      "It needs more code"
+     ],
+     "answer": 1,
+     "explain": "DevOps is culture, not just tooling."
+    }
+   ]
+  },
+  "level-3/06-metrics-reporting-stakeholders": {
+   "questions": [
+    {
+     "q": "A stakeholder asks 'Are we on track?'. What should you lead with?",
+     "options": [
+      "A forecast range against the release plan, not raw velocity",
+      "Velocity",
+      "Burndown only",
+      "Story count"
+     ],
+     "answer": 0,
+     "explain": "Raw velocity invites comparison and blame."
+    },
+    {
+     "q": "Which row of the stakeholder report is most often omitted but most valuable?",
+     "options": [
+      "The Ask: a decision, budget or feedback needed",
+      "Status",
+      "Risks",
+      "Delivered"
+     ],
+     "answer": 0,
+     "explain": "A report that never asks trains stakeholders to skim."
+    },
+    {
+     "q": "For 'Is quality okay?' which metrics?",
+     "options": [
+      "Story points",
+      "Velocity",
+      "Defect trend, escaped-bug rate and DoD compliance",
+      "Hours"
+     ],
+     "answer": 2,
+     "explain": "Points don't measure quality."
+    },
+    {
+     "q": "Which artifacts should you show stakeholders?",
+     "options": [
+      "Everything",
+      "Only velocity",
+      "Only burndown",
+      "Release forecast range and business-outcome dashboards; burndown rarely as-is; CFD only to technical stakeholders"
+     ],
+     "answer": 3,
+     "explain": "Choose what answers their questions."
+    }
+   ]
+  },
+  "level-3/07-multi-team-dependency-management": {
+   "questions": [
+    {
+     "q": "What are the four dependency types?",
+     "options": [
+      "Hard, soft, firm, loose",
+      "Time, cost, scope, quality",
+      "Technical, resource, knowledge and sequencing",
+      "Internal, external, legal, financial"
+     ],
+     "answer": 2,
+     "explain": "Each has a typical fix."
+    },
+    {
+     "q": "Why make dependencies visible at refinement/planning time?",
+     "options": [
+      "A dependency discovered in the sprint it blocks has already cost the sprint",
+      "For reports",
+      "To add meetings",
+      "For compliance"
+     ],
+     "answer": 0,
+     "explain": "Use tags, shared roadmaps, or joint planning."
+    },
+    {
+     "q": "What is a Scrum of Scrums?",
+     "options": [
+      "A daily status meeting",
+      "A short regular sync among representatives of dependent teams, focused on dependencies, not status",
+      "A retro",
+      "A review"
+     ],
+     "answer": 1,
+     "explain": "It's not a status meeting."
+    },
+    {
+     "q": "How can a technical dependency be eased?",
+     "options": [
+      "Escalate",
+      "Ignore",
+      "Sequence work and build a stub or mock of the other team's API",
+      "Wait"
+     ],
+     "answer": 2,
+     "explain": "Resource dependencies are fixed by cross-training."
+    }
+   ]
+  },
+  "level-3/08-agile-contracts-vendor-management": {
+   "questions": [
+    {
+     "q": "Which contract model fits agile poorly?",
+     "options": [
+      "Outcome-based",
+      "T&M with a cap",
+      "Money for nothing, change for free",
+      "Fixed price / fixed scope, since any backlog reordering becomes a change request"
+     ],
+     "answer": 3,
+     "explain": "T&M supports iterative discovery; a cap bounds the risk."
+    },
+    {
+     "q": "How can a fixed-price deal be agile-friendly?",
+     "options": [
+      "Fix every feature",
+      "Drop the DoD",
+      "Fix budget, cadence and Definition of Done, but keep the backlog content and order flexible",
+      "Remove reviews"
+     ],
+     "answer": 2,
+     "explain": "The vendor then delivers the highest-value items first."
+    },
+    {
+     "q": "What does 'money for nothing' let the client do?",
+     "options": [
+      "End early, paying only for delivered scope plus a small fee",
+      "Change the vendor",
+      "Skip payment",
+      "Get free work"
+     ],
+     "answer": 0,
+     "explain": "The incentive shifts from defending scope to delivering value."
+    },
+    {
+     "q": "Why agree the Definition of Done before the contract starts?",
+     "options": [
+      "It removes 'done' as a dispute at invoice time",
+      "It lowers cost",
+      "It speeds delivery",
+      "It's required by law"
+     ],
+     "answer": 0,
+     "explain": "Also have the vendor attend sprint reviews and sample QA each sprint."
+    }
+   ]
+  },
+  "level-3/09-technical-debt-agile": {
+   "questions": [
+    {
+     "q": "Which debt type is the most dangerous?",
+     "options": [
+      "Bit rot",
+      "Deliberate and untracked: a conscious choice nobody else knows about",
+      "Accidental discovered",
+      "Tracked debt"
+     ],
+     "answer": 1,
+     "explain": "It's invisible to everyone after the moment it was made."
+    },
+    {
+     "q": "How should you prioritise paydown?",
+     "options": [
+      "Alphabetically",
+      "By discomfort",
+      "By how often the interest is paid (code changed often, causing incidents, bus-factor risk), not by how ugly it is",
+      "By age"
+     ],
+     "answer": 2,
+     "explain": "Debt in code touched once a year is low priority."
+    },
+    {
+     "q": "What is dedicated capacity for debt?",
+     "options": [
+      "All of a sprint",
+      "A protected fixed share of each sprint, commonly 10–20%",
+      "Nothing",
+      "A yearly sprint"
+     ],
+     "answer": 1,
+     "explain": "It keeps paying down without stopping feature work."
+    },
+    {
+     "q": "What is the Boy Scout rule?",
+     "options": [
+      "Small opportunistic cleanup bundled into stories touching the affected code",
+      "Never clean",
+      "Log only",
+      "Rewrite everything"
+     ],
+     "answer": 0,
+     "explain": "Combine with a tech-debt tag and interest framing for stakeholders."
+    }
+   ]
+  },
+  "level-3/10-project-scaled-program-plan": {
+   "questions": [
+    {
+     "q": "Why choose a Scrum-of-Scrums over full SAFe for three teams?",
+     "options": [
+      "Teams prefer it",
+      "Cost",
+      "Three teams are below the threshold where SAFe's overhead pays off, yet informal coordination wouldn't catch dependencies",
+      "SAFe is banned"
+     ],
+     "answer": 2,
+     "explain": "It's a deliberate framework choice."
+    },
+    {
+     "q": "How is the shared Platform API delivered?",
+     "options": [
+      "Kanban-style with a class-of-service lane for 'blocking another team'",
+      "Scrum sprints only",
+      "Waterfall",
+      "Not delivered"
+     ],
+     "answer": 0,
+     "explain": "It jumps Platform's own priorities."
+    },
+    {
+     "q": "How does the plan handle a fixed launch date without a code freeze?",
+     "options": [
+      "Delay the launch",
+      "Freeze anyway",
+      "Feature-flag every launch item and toggle off what isn't ready",
+      "Skip tests"
+     ],
+     "answer": 2,
+     "explain": "CI/CD ships behind flags to shared staging."
+    },
+    {
+     "q": "How is the overseas client time-zone gap handled?",
+     "options": [
+      "A recorded walkthrough for client review, plus a 2-hour daily overlap window for live work",
+      "Weekly emails only",
+      "No contact",
+      "Night meetings"
+     ],
+     "answer": 0,
+     "explain": "Async by default; sync for decisions."
+    }
+   ]
+  },
+  "level-4/01-agile-transformation-change-management": {
+   "questions": [
+    {
+     "q": "What is 'agile theater'?",
+     "options": [
+      "Ceremonies exist but the mindset doesn't",
+      "A tool",
+      "A training show",
+      "A product demo"
+     ],
+     "answer": 0,
+     "explain": "It happens when transformation ignores how people experience change."
+    },
+    {
+     "q": "Which are common reasons transformations stall?",
+     "options": [
+      "Too little documentation",
+      "Too many tools",
+      "Large teams",
+      "Mandated with no buy-in, framework-first, middle management left out, no slack for the learning curve"
+     ],
+     "answer": 3,
+     "explain": "Kotter's model maps onto the rollout."
+    },
+    {
+     "q": "What does Kotter's 'Generate short-term wins' mean for agile?",
+     "options": [
+      "Mandate tools",
+      "Cut budget",
+      "Pick 1–2 pilot teams likely to succeed and publicise results early",
+      "Roll out everywhere"
+     ],
+     "answer": 2,
+     "explain": "Then consolidate gains and adjust rather than copy-paste."
+    },
+    {
+     "q": "What does 'Anchor in culture' involve?",
+     "options": [
+      "A poster",
+      "Updating hiring, promotion and performance criteria to reward the new behaviours",
+      "A training day",
+      "A tool"
+     ],
+     "answer": 1,
+     "explain": "Otherwise old incentives win."
+    }
+   ]
+  },
+  "level-4/02-coaching-teams": {
+   "questions": [
+    {
+     "q": "How do facilitating, coaching and managing differ?",
+     "options": [
+      "Facilitating directs",
+      "Coaching gives answers",
+      "They're the same",
+      "Facilitating guides process with no content; coaching helps people find their own answer through questions; managing makes the call"
+     ],
+     "answer": 3,
+     "explain": "Conflating them is the most common new-coach mistake."
+    },
+    {
+     "q": "What does a coach who always directs produce?",
+     "options": [
+      "Compliant teams that never build their own judgment",
+      "Fast teams",
+      "Autonomous teams",
+      "Strong teams"
+     ],
+     "answer": 0,
+     "explain": "One who never directs leaves teams flailing in a real crisis."
+    },
+    {
+     "q": "What does GROW stand for?",
+     "options": [
+      "Goal, Reality, Options, Will",
+      "Grow, Review, Organise, Win",
+      "Gather, Read, Own, Win",
+      "Goal, Retro, Output, Work"
+     ],
+     "answer": 0,
+     "explain": "Will asks what they'll commit to, and by when."
+    },
+    {
+     "q": "A Scrum Master quietly cuts scope mid-sprint to hide under-delivery. What should the coach do?",
+     "options": [
+      "Fire them",
+      "Take over",
+      "Ignore it",
+      "Use coaching questions to surface the issue and the team's own insight, rather than just directing"
+     ],
+     "answer": 3,
+     "explain": "The pattern has run for four sprints and hides real information."
+    }
+   ]
+  },
+  "level-4/03-enterprise-sdlc-governance": {
+   "questions": [
+    {
+     "q": "What is the master-level governance skill?",
+     "options": [
+      "Adding more gates",
+      "Delegating to vendors",
+      "Removing governance",
+      "Satisfying audit, compliance and security obligations without recreating stage-gated waterfall around every sprint"
+     ],
+     "answer": 3,
+     "explain": "Governance obligations don't vanish with agile."
+    },
+    {
+     "q": "What agile-compatible alternative replaces a security-gate phase?",
+     "options": [
+      "A longer review",
+      "Nothing",
+      "Security-as-code checks (SAST/DAST) run in the pipeline continuously",
+      "A manual audit at the end"
+     ],
+     "answer": 2,
+     "explain": "Likewise automated logged approvals instead of per-release CAB sign-off."
+    },
+    {
+     "q": "What is the design principle for governance layers?",
+     "options": [
+      "Manual everything",
+      "Centralise everything",
+      "Escalate all decisions",
+      "Push decisions down to the lowest layer that can make them safely, and automate mechanical checks"
+     ],
+     "answer": 3,
+     "explain": "Layers: team, program/product, portfolio, enterprise/compliance."
+    },
+    {
+     "q": "A single CAB meeting gates every team's every release. What is it?",
+     "options": [
+      "Cheap",
+      "Required",
+      "An anti-pattern: a historical control point never re-examined after agile adoption",
+      "Best practice"
+     ],
+     "answer": 2,
+     "explain": "Fix with risk-based, automated approvals."
+    }
+   ]
+  },
+  "level-4/04-choosing-right-methodology": {
+   "questions": [
+    {
+     "q": "What is the core question for choosing a methodology?",
+     "options": [
+      "How big is the team?",
+      "Which tool is cheapest?",
+      "How well is the work understood?",
+      "Who is the sponsor?"
+     ],
+     "answer": 2,
+     "explain": "Well understood, fixed deadline leans predictive; emerging requirements lean iterative."
+    },
+    {
+     "q": "When does Kanban fit better than Scrum?",
+     "options": [
+      "Fixed scope",
+      "A continuous flow of similarly sized work, no discrete projects (e.g. support ticket flow)",
+      "Large releases",
+      "Defined-end projects"
+     ],
+     "answer": 1,
+     "explain": "Scrum on support work creates artificial sprint boundaries."
+    },
+    {
+     "q": "What helps when deep technical unknowns exist?",
+     "options": [
+      "A bigger plan",
+      "A time-boxed spike or discovery phase before any plan is credible",
+      "More sprints",
+      "Fixed price"
+     ],
+     "answer": 1,
+     "explain": "Then pick the delivery approach."
+    },
+    {
+     "q": "What's the symptom of applying agile to fixed regulatory filing work?",
+     "options": [
+      "Happier regulators",
+      "Ceremonies feel like theatre; iteration adds no value",
+      "Faster delivery",
+      "Better quality"
+     ],
+     "answer": 1,
+     "explain": "Waterfall on exploratory work makes the big spec wrong."
+    }
+   ]
+  },
+  "level-4/05-internal-agile-center-of-excellence": {
+   "questions": [
+    {
+     "q": "Should a CoE mandate one framework or act as an approval gate?",
+     "options": [
+      "Yes, gate",
+      "Both",
+      "Yes, mandate",
+      "No: it should curate practices, provide pull-based coaching and run a community of practice"
+     ],
+     "answer": 3,
+     "explain": "It must enable, not control."
+    },
+    {
+     "q": "How should health metrics be used?",
+     "options": [
+      "To set bonuses",
+      "To direct coaching capacity, never to rank or punish teams",
+      "To fire coaches",
+      "To rank teams"
+     ],
+     "answer": 1,
+     "explain": "For example psychological safety and cycle time trends."
+    },
+    {
+     "q": "How does CoE shape vary with size?",
+     "options": [
+      "No CoE",
+      "Under ~100 engineers 1–2 part-time coaches; 100–500 a small team of 3–5; 500+ federated with embedded coaches",
+      "Always 50 people",
+      "Always 1"
+     ],
+     "answer": 1,
+     "explain": "A CoE growing faster than the organisation drifts toward control."
+    },
+    {
+     "q": "In the worked example, what went wrong?",
+     "options": [
+      "Too few coaches",
+      "No metrics",
+      "Coaches embedded permanently and became a required approval step for process change",
+      "Too little training"
+     ],
+     "answer": 2,
+     "explain": "That makes the CoE a control layer."
+    }
+   ]
+  },
+  "level-4/06-measuring-transformation-success": {
+   "questions": [
+    {
+     "q": "Why is 'Are we agile yet?' the wrong question?",
+     "options": [
+      "It invites checklist theatre instead of measuring business outcomes",
+      "It's too long",
+      "It's unmeasurable",
+      "It's rude"
+     ],
+     "answer": 0,
+     "explain": "Prefer outcome metrics to compliance metrics."
+    },
+    {
+     "q": "Which is an outcome metric?",
+     "options": [
+      "% teams doing Scrum",
+      "Certification counts",
+      "Points per sprint",
+      "Lead time from idea to production, deployment frequency and change failure rate"
+     ],
+     "answer": 3,
+     "explain": "Compliance metrics are easy to game."
+    },
+    {
+     "q": "Why track a balanced set across speed, stability, people and business?",
+     "options": [
+      "Optimising only speed can hide quality and sustainability costs",
+      "To please auditors",
+      "To save time",
+      "To add dashboards"
+     ],
+     "answer": 0,
+     "explain": "DORA-adjacent measures plus engagement and customer satisfaction."
+    },
+    {
+     "q": "What does MTTR measure?",
+     "options": [
+      "Mean time to release",
+      "Mean test time",
+      "Mean time to restore service after a failure (stability)",
+      "Meeting time"
+     ],
+     "answer": 2,
+     "explain": "It sits with change failure rate."
+    }
+   ]
+  },
+  "level-4/07-leading-agile-portfolio-level": {
+   "questions": [
+    {
+     "q": "What is the portfolio-level equivalent of sprint planning?",
+     "options": [
+      "Daily standup",
+      "Estimation",
+      "Retros",
+      "Quarterly (or PI-based) capacity allocation across investment themes"
+     ],
+     "answer": 3,
+     "explain": "The backlog becomes investment themes."
+    },
+    {
+     "q": "What is the WSJF score?",
+     "options": [
+      "Value × size",
+      "(value + time criticality + risk reduction/opportunity) ÷ job size",
+      "Cost ÷ value",
+      "Size ÷ value"
+     ],
+     "answer": 1,
+     "explain": "It favours high-value, low-effort work and penalises large slow bets."
+    },
+    {
+     "q": "Why rank by WSJF rather than political capital?",
+     "options": [
+      "It saves time",
+      "It's simpler",
+      "It's required",
+      "It prioritises by economics, not by who pushes hardest"
+     ],
+     "answer": 3,
+     "explain": "Time criticality captures value that decays when delayed."
+    },
+    {
+     "q": "What must portfolio governance not control?",
+     "options": [
+      "How a funded team runs its sprints or its technical implementation",
+      "Which initiatives are funded",
+      "Quarterly re-prioritisation",
+      "Exit criteria"
+     ],
+     "answer": 0,
+     "explain": "Govern investment, not internals."
+    }
+   ]
+  },
+  "level-4/08-agile-ai-assisted-delivery": {
+   "questions": [
+    {
+     "q": "What shifts with AI-assisted delivery?",
+     "options": [
+      "Writing code is often faster than review, testing and integration, so the bottleneck moves",
+      "Writing is slower",
+      "Nothing",
+      "Review disappears"
+     ],
+     "answer": 0,
+     "explain": "Human review effort becomes the real constraint."
+    },
+    {
+     "q": "How might WIP limits change?",
+     "options": [
+      "May need lowering, since faster implementation can pile unreviewed work into the pipeline",
+      "Raise them",
+      "Remove them",
+      "Unchanged"
+     ],
+     "answer": 0,
+     "explain": "Otherwise the bottleneck moves unnoticed."
+    },
+    {
+     "q": "What belongs in the Definition of Done for AI-assisted work?",
+     "options": [
+      "Tokens used",
+      "Only speed",
+      "Nothing new",
+      "AI-specific checks such as no hallucinated dependencies and no unreviewed generated code"
+     ],
+     "answer": 3,
+     "explain": "Code review must check AI-specific failure modes."
+    },
+    {
+     "q": "How should AI-drafted release notes be treated?",
+     "options": [
+      "Ship directly",
+      "Needs a human accuracy pass before anything ships",
+      "Replace changelog",
+      "Skip"
+     ],
+     "answer": 1,
+     "explain": "Don't let AI replace the team's own reflection in retros either."
+    }
+   ]
+  },
+  "level-4/09-career-growth-scrum-master-to-coach": {
+   "questions": [
+    {
+     "q": "What changes at each level of the ladder?",
+     "options": [
+      "Only hours",
+      "The unit of impact and the skill that matters most, not just scope",
+      "Only title",
+      "Only salary"
+     ],
+     "answer": 1,
+     "explain": "Scope increase alone is why promoted SMs struggle."
+    },
+    {
+     "q": "What do Agile Coach candidates often underestimate?",
+     "options": [
+      "Meetings",
+      "Tools",
+      "Certifications",
+      "Letting go of fixing it yourself: coaching tolerates a team's slower self-discovery"
+     ],
+     "answer": 3,
+     "explain": "Directors must speak business and financial terms."
+    },
+    {
+     "q": "Which skill helps either path credibly?",
+     "options": [
+      "Slide design",
+      "Data literacy: using outcome metrics to make a credible case",
+      "Cert counts",
+      "Typing"
+     ],
+     "answer": 1,
+     "explain": "Anecdotes alone aren't enough."
+    },
+    {
+     "q": "Which evidence best supports promotion?",
+     "options": [
+      "A documented before/after with metrics, a practice that spread beyond your team, and an honest failure with lessons",
+      "Certifications only",
+      "Years served",
+      "Titles"
+     ],
+     "answer": 0,
+     "explain": "Certifications are table stakes externally."
+    }
+   ]
+  },
+  "level-4/10-capstone-organizational-transformation-roadmap": {
+   "questions": [
+    {
+     "q": "What constraint shapes the capstone roadmap?",
+     "options": [
+      "Unlimited budget",
+      "An 18-month plan for 400 engineers with no budget increase",
+      "A 3-month plan",
+      "A single team"
+     ],
+     "answer": 1,
+     "explain": "The CoE is staffed from internal Scrum Masters."
+    },
+    {
+     "q": "What rollout pattern does it use?",
+     "options": [
+      "Big bang",
+      "Pilot-then-scale: 2 teams in months 1–3, the whole organisation by month 12, not a big-bang mandate",
+      "No rollout",
+      "One team only"
+     ],
+     "answer": 1,
+     "explain": "A change coalition includes respected engineers and skeptical managers."
+    },
+    {
+     "q": "How are cross-team dependencies handled?",
+     "options": [
+      "None",
+      "Weekly emails",
+      "A lightweight Scrum-of-Scrums, with a class-of-service lane in the platform backlog for blockers",
+      "Heavy SAFe"
+     ],
+     "answer": 2,
+     "explain": "From Level 3 modules 1 and 7."
+    },
+    {
+     "q": "What supports the coaches?",
+     "options": [
+      "Nothing",
+      "A monthly community of practice open to all 400 engineers",
+      "Manager reports",
+      "Mandatory training"
+     ],
+     "answer": 1,
+     "explain": "The CoE is 3 pooled coaches."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "Your project's launch date is fixed by a trade show, and scope is negotiable. Which approach fits, and what flexes?",
+    "options": [
+     "Waterfall: cut testing",
+     "Agile: ship the highest-value subset; scope flexes",
+     "Neither",
+     "Waterfall: extend the date"
+    ],
+    "answer": 1,
+    "explain": "Whichever of scope, schedule or cost is truly fixed determines the fit."
+   },
+   {
+    "q": "A regulator requires a fixed spec, and changes after fabrication are very costly. Which approach fits best?",
+    "options": [
+     "Hackathon mode",
+     "Kanban with no limits",
+     "Waterfall-like (predictive) with sign-off gates",
+     "Pure Scrum with no plan"
+    ],
+    "answer": 2,
+    "explain": "Stable requirements, safety-critical and audit-heavy work reward up-front certainty."
+   },
+   {
+    "q": "The Scrum Master runs the Daily Scrum as a round-robin status report to them. What is the failure and the fix?",
+    "options": [
+     "It should be the Developers re-planning the next 24 hours; reframe to 'what's in the way of the Sprint Goal'",
+     "Make it longer",
+     "Move it to weekly",
+     "Nothing is wrong"
+    ],
+    "answer": 0,
+    "explain": "Only the team can act on blockers."
+   },
+   {
+    "q": "Stakeholders never attend the Sprint Review and the backlog is never updated afterward. What is lost?",
+    "options": [
+     "Nothing",
+     "Velocity",
+     "The outer feedback loop: the team may efficiently build the wrong thing",
+     "Estimation"
+    ],
+    "answer": 2,
+    "explain": "The Review's output is an updated Product Backlog from stakeholder feedback."
+   },
+   {
+    "q": "Dev A: 10 days, Dev B: 8 days, Dev C: 10 days at focus factor 0.8; QA: 10 days at 0.7. What is the team's effective capacity?",
+    "options": [
+     "28 person-days",
+     "38 person-days",
+     "30.4 person-days",
+     "29.4 person-days"
+    ],
+    "answer": 3,
+    "explain": "8 + 6.4 + 8 + 7 = 29.4 (verified by computing)."
+   },
+   {
+    "q": "Backlog 140 points; the last six sprints delivered 18, 22, 15, 24, 19 and 21. About how many sprints, and how should you present it?",
+    "options": [
+     "3, because velocity is 40",
+     "14, a single number",
+     "About 7 (140 ÷ 19.8 ≈ 7.06), as a range (about 6 to 9) not a single date",
+     "Exactly 7, firm"
+    ],
+    "answer": 2,
+    "explain": "Velocity varies; a range avoids the 'you said 7 sprints' trap. Verified by computing."
+   },
+   {
+    "q": "A team's stories show Dev B's velocity at 30 while Team A's is 20, and a manager wants Team A to 'match B'. What is wrong?",
+    "options": [
+     "Team A is slower",
+     "Story points are relative and team-specific, so cross-team comparison is meaningless and invites inflation",
+     "Use hours instead",
+     "Nothing, set it as a target"
+    ],
+    "answer": 1,
+    "explain": "Velocity is for forecasting a team's own capacity."
+   },
+   {
+    "q": "A team has a WIP limit of 4 in Development, all 4 slots full, and one developer finishes early. What is the best move?",
+    "options": [
+     "Help unblock work stuck downstream (e.g. Review) instead of pulling a new item",
+     "Pull a new item anyway",
+     "Raise the limit",
+     "Take a break always"
+    ],
+    "answer": 0,
+    "explain": "Pull systems start new work only when downstream capacity exists."
+   },
+   {
+    "q": "A CFD shows 'In Progress' widening while 'Done' flattens for three weeks. What does it indicate?",
+    "options": [
+     "Faster delivery",
+     "WIP is growing and throughput is dropping: a bottleneck is forming",
+     "Stable flow",
+     "Fewer items"
+    ],
+    "answer": 1,
+    "explain": "Parallel bands signal stable flow."
+   },
+   {
+    "q": "Average cycle time is 10 days with 20 items in progress. What throughput does Little's Law imply?",
+    "options": [
+     "10 items per day",
+     "2 items per day (WIP ÷ cycle time)",
+     "200 items per day",
+     "0.5 items per day"
+    ],
+    "answer": 1,
+    "explain": "Average cycle time = WIP ÷ throughput, so throughput = 20 ÷ 10 = 2."
+   },
+   {
+    "q": "A story reads 'Improve search' and is 'too big to estimate'. What should refinement do?",
+    "options": [
+     "Pull it into the sprint",
+     "Delete it",
+     "Split it (e.g. by workflow step, business rule or happy path versus edge cases) into independent, testable stories",
+     "Estimate it as 100"
+    ],
+    "answer": 2,
+    "explain": "Large epics are the most common refinement blocker."
+   },
+   {
+    "q": "Mid-sprint, someone asks to 'squeeze in' a nice-to-have unrelated to the Sprint Goal. What do you do?",
+    "options": [
+     "Silently accept it",
+     "Add it and drop tests",
+     "Defer it to the backlog for refinement and the next sprint",
+     "Cancel the sprint"
+    ],
+    "answer": 2,
+    "explain": "The filter is whether it threatens the Sprint Goal."
+   },
+   {
+    "q": "A critical production outage lands mid-sprint. What is right?",
+    "options": [
+     "Accept it and renegotiate sprint scope to protect the Sprint Goal",
+     "Refuse until next sprint",
+     "Cancel the sprint always",
+     "Hide it"
+    ],
+    "answer": 0,
+    "explain": "Critical bugs threaten the goal if unfixed."
+   },
+   {
+    "q": "Four initiatives compete: A has value 8, time criticality 3, risk reduction 5, size 2; B has 13, 8, 3, size 13; C has 5, 13, 2, size 3. Which has the highest WSJF, and what is it?",
+    "options": [
+     "C, with 20",
+     "A, with (8+3+5) ÷ 2 = 8.0 (B ≈ 1.8, C ≈ 6.7)",
+     "B, with 24",
+     "B, with 1.8"
+    ],
+    "answer": 1,
+    "explain": "WSJF = (value + time criticality + risk reduction) ÷ job size. Verified by computing."
+   },
+   {
+    "q": "Which contract structure supports agile best?",
+    "options": [
+     "Pay on final acceptance only",
+     "Unlimited T&M with no cap",
+     "A fixed budget and cadence with a flexible backlog, plus 'money for nothing, change for free'",
+     "Fixed price with a frozen feature list"
+    ],
+    "answer": 2,
+    "explain": "The vendor's incentive shifts from defending scope to delivering the highest value first."
+   },
+   {
+    "q": "A hardcoded payment provider was added during a launch crunch and never logged. What kind of debt is it, and why is it dangerous?",
+    "options": [
+     "Accidental, discovered",
+     "Bit rot",
+     "Deliberate and untracked: nobody else knows it exists, so the interest silently compounds",
+     "No debt"
+    ],
+    "answer": 2,
+    "explain": "Log it as a tech-debt item and prioritise by how often the interest is paid."
+   },
+   {
+    "q": "A team adopts an AI coding assistant, and code is written much faster but quality drops and reviews pile up. What adjustment fits?",
+    "options": [
+     "Double the sprint length",
+     "Raise WIP",
+     "Lower WIP, add AI-specific checks to the Definition of Done and invest in review capacity",
+     "Skip review"
+    ],
+    "answer": 2,
+    "explain": "Review becomes the constraint, so the bottleneck has moved."
+   },
+   {
+    "q": "An organisation mandates Scrum from the top with no buy-in, and managers still demand status reports. What is the likely result?",
+    "options": [
+     "Self-organising teams",
+     "Better quality",
+     "Fast transformation",
+     "Agile theatre: ceremonies exist but the mindset doesn't"
+    ],
+    "answer": 3,
+    "explain": "Use pilots, a coalition, and change management (Kotter)."
+   },
+   {
+    "q": "Which measures best show an agile transformation is working?",
+    "options": [
+     "Percent of teams doing Scrum",
+     "Number of certifications",
+     "Lead time to production, deployment frequency, change failure rate/MTTR, engagement and customer satisfaction",
+     "Points per sprint"
+    ],
+    "answer": 2,
+    "explain": "Compliance metrics are easy to game; outcome metrics aren't."
+   },
+   {
+    "q": "A Centre of Excellence embeds coaches permanently and becomes the approval step for process changes. What is wrong?",
+    "options": [
+     "It has become a control function; a CoE should curate practices and offer pull-based coaching",
+     "It needs more coaches",
+     "It needs a mandate",
+     "Nothing"
+    ],
+    "answer": 0,
+    "explain": "A CoE growing faster than the organisation is a warning sign."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
