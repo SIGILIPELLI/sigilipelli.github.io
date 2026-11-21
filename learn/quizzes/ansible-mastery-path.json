@@ -1,0 +1,2159 @@
+{
+ "course": "ansible-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-ansible-is": {
+   "questions": [
+    {
+     "q": "How does Ansible reach managed nodes?",
+     "options": [
+      "Through a message queue",
+      "With an installed agent",
+      "Via a cloud API only",
+      "Agentless: over SSH, copying a module, running it, collecting JSON and deleting it (no Ansible daemon)"
+     ],
+     "answer": 3,
+     "explain": "Managed nodes need sshd and Python."
+    },
+    {
+     "q": "Is Ansible push or pull?",
+     "options": [
+      "Pull",
+      "Push: the control node decides when to run and reaches out",
+      "Both always",
+      "Neither"
+     ],
+     "answer": 1,
+     "explain": "Contrast with pull tools where agents fetch config."
+    },
+    {
+     "q": "What runs Ansible?",
+     "options": [
+      "Every managed node",
+      "A server farm",
+      "The control node (a laptop or CI runner) with inventory, playbook and roles",
+      "A browser"
+     ],
+     "answer": 2,
+     "explain": "ansible-playbook is the only program."
+    },
+    {
+     "q": "What caveat applies to 'declarative' tasks?",
+     "options": [
+      "They're unordered",
+      "Tasks say what should be true, but modules like command can't know state, so idempotency is on you",
+      "They're imperative only",
+      "They're always idempotent"
+     ],
+     "answer": 1,
+     "explain": "It's declarative-ish."
+    }
+   ]
+  },
+  "level-1/02-adhoc-and-docs": {
+   "questions": [
+    {
+     "q": "What is an ad-hoc command?",
+     "options": [
+      "One module run on one or many hosts, e.g. ansible web1 -i hosts.ini -m command -a \"echo hello\"",
+      "A playbook",
+      "A role",
+      "An inventory"
+     ],
+     "answer": 0,
+     "explain": "-m selects the module and -a its arguments."
+    },
+    {
+     "q": "Why did `echo hello` via the command module report CHANGED?",
+     "options": [
+      "The file changed",
+      "Python changed",
+      "SSH changed",
+      "The command module can't know whether anything changed"
+     ],
+     "answer": 3,
+     "explain": "Idempotency is on you with command/shell."
+    },
+    {
+     "q": "What should module names be written as?",
+     "options": [
+      "URLs",
+      "Fully qualified collection names such as ansible.builtin.copy",
+      "Short names",
+      "Paths"
+     ],
+     "answer": 1,
+     "explain": "FQCN avoids ambiguity."
+    },
+    {
+     "q": "Which tool documents a module?",
+     "options": [
+      "ansible-help",
+      "man ansible",
+      "ansible-doc",
+      "ansible-info"
+     ],
+     "answer": 2,
+     "explain": "It shows parameters and examples offline."
+    }
+   ]
+  },
+  "level-1/03-inventory": {
+   "questions": [
+    {
+     "q": "What does inventory define?",
+     "options": [
+      "Roles",
+      "Tasks",
+      "What exists: hosts, groups and variables",
+      "Handlers"
+     ],
+     "answer": 2,
+     "explain": "INI is compact; YAML suits lists and dictionaries."
+    },
+    {
+     "q": "What does `[prod:children]` with web and db mean?",
+     "options": [
+      "Group prod contains the groups web and db",
+      "prod is a role",
+      "prod is a host",
+      "prod is a variable"
+     ],
+     "answer": 0,
+     "explain": "ansible-inventory --graph confirms the tree."
+    },
+    {
+     "q": "How do you inspect how Ansible understood inventory?",
+     "options": [
+      "ansible-list",
+      "ansible-inventory --graph and --host <name>",
+      "ansible --inventory",
+      "cat hosts"
+     ],
+     "answer": 1,
+     "explain": "Inspect before you trust."
+    },
+    {
+     "q": "Group variable http_port=80 on [web] and host http_port=8081 on web1: what does web1 get?",
+     "options": [
+      "8081: host variables override group variables",
+      "Error",
+      "Both",
+      "80"
+     ],
+     "answer": 0,
+     "explain": "The --host output showed 8081 for web1 and 80 for web2."
+    }
+   ]
+  },
+  "level-1/04-playbook-anatomy": {
+   "questions": [
+    {
+     "q": "What is a playbook?",
+     "options": [
+      "An inventory",
+      "A single task",
+      "A YAML list of plays, each mapping hosts to a list of tasks",
+      "A script"
+     ],
+     "answer": 2,
+     "explain": "Tasks run in order on each host."
+    },
+    {
+     "q": "What does gather_facts do?",
+     "options": [
+      "Runs setup to collect host facts before tasks",
+      "Gathers files",
+      "Gathers inventory",
+      "Gathers roles"
+     ],
+     "answer": 0,
+     "explain": "It can be disabled to save time."
+    },
+    {
+     "q": "Why give tasks names?",
+     "options": [
+      "They appear in output and make runs readable",
+      "They're required for modules",
+      "They set variables",
+      "They speed up runs"
+     ],
+     "answer": 0,
+     "explain": "Unnamed tasks print module names only."
+    },
+    {
+     "q": "What's a common YAML pitfall?",
+     "options": [
+      "Using tabs for speed",
+      "Using lists",
+      "Using comments",
+      "Indentation and unquoted special values like colons or booleans"
+     ],
+     "answer": 3,
+     "explain": "Quote values that YAML might misread."
+    }
+   ]
+  },
+  "level-1/05-idempotency": {
+   "questions": [
+    {
+     "q": "What should the recap show on a repeat run of a converged playbook?",
+     "options": [
+      "skipped=all",
+      "changed=0",
+      "changed equals tasks",
+      "failed>0"
+     ],
+     "answer": 1,
+     "explain": "The recap is the instrument for idempotency."
+    },
+    {
+     "q": "Why does an unguarded command task report changed every run?",
+     "options": [
+      "Because of check mode",
+      "Because of facts",
+      "command/shell can't know state",
+      "It always fails"
+     ],
+     "answer": 2,
+     "explain": "State-aware modules like file and copy report ok on the second run."
+    },
+    {
+     "q": "How does `creates:` help a command task?",
+     "options": [
+      "If the file exists the command is skipped, making it idempotent",
+      "It creates facts",
+      "It speeds it",
+      "It creates the host"
+     ],
+     "answer": 0,
+     "explain": "A condition makes the command safe to repeat."
+    },
+    {
+     "q": "What does `changed_when: false` mean on a read-only command?",
+     "options": [
+      "Reading never changes anything, so never report changed",
+      "The task is skipped",
+      "The task fails",
+      "The task runs twice"
+     ],
+     "answer": 0,
+     "explain": "changed_when and failed_when interpret results."
+    }
+   ]
+  },
+  "level-1/06-variables-facts": {
+   "questions": [
+    {
+     "q": "What does `{{ missing | default('fallback') }}` do when undefined?",
+     "options": [
+      "Gives empty",
+      "Gives 'fallback'; without default an undefined variable is an error",
+      "Skips the task",
+      "Fails always"
+     ],
+     "answer": 1,
+     "explain": "default makes optional values safe."
+    },
+    {
+     "q": "What beats every other variable source?",
+     "options": [
+      "group_vars",
+      "facts",
+      "Extra vars (-e)",
+      "play vars"
+     ],
+     "answer": 2,
+     "explain": "They override even set_fact."
+    },
+    {
+     "q": "What does set_fact do?",
+     "options": [
+      "Creates or changes a variable for the rest of the play for that host, higher in precedence than play vars",
+      "Deletes variables",
+      "Gathers facts",
+      "Sets inventory"
+     ],
+     "answer": 0,
+     "explain": "Shown by the debug before and after."
+    },
+    {
+     "q": "Why quote a value starting with {{ in YAML?",
+     "options": [
+      "Speed",
+      "Syntax colouring",
+      "Security",
+      "Otherwise YAML misreads it"
+     ],
+     "answer": 3,
+     "explain": "Strings with a leading {{ must be quoted."
+    }
+   ]
+  },
+  "level-1/07-conditionals-loops": {
+   "questions": [
+    {
+     "q": "How is a task skipped by `when` reported?",
+     "options": [
+      "changed",
+      "ok",
+      "failed",
+      "skipping, and not counted as changed"
+     ],
+     "answer": 3,
+     "explain": "when takes a Jinja2 expression without {{ }}."
+    },
+    {
+     "q": "How is `when` evaluated on a looped task?",
+     "options": [
+      "Per item",
+      "Never",
+      "For the first item",
+      "Once"
+     ],
+     "answer": 0,
+     "explain": "For example when: item.admin."
+    },
+    {
+     "q": "What does loop_control: {label: ...} do?",
+     "options": [
+      "Shortens the output label per item",
+      "Retries",
+      "Limits loops",
+      "Controls order"
+     ],
+     "answer": 0,
+     "explain": "It prints item.name instead of the whole dict."
+    },
+    {
+     "q": "What does `ansible_facts.os_family == 'Debian'` target?",
+     "options": [
+      "macOS hosts",
+      "Debian-family hosts only",
+      "All hosts",
+      "Windows hosts"
+     ],
+     "answer": 1,
+     "explain": "On macOS os_family was Darwin, so it skipped."
+    }
+   ]
+  },
+  "level-1/08-templates-handlers": {
+   "questions": [
+    {
+     "q": "What is a template?",
+     "options": [
+      "A role",
+      "A playbook",
+      "A Jinja2 file (.j2) rendered per host into a config file",
+      "A fact"
+     ],
+     "answer": 2,
+     "explain": "{{ }} prints values; {% if %} and {% for %} control flow."
+    },
+    {
+     "q": "Why add a managed-by header?",
+     "options": [
+      "So people know hand edits will be reverted",
+      "For speed",
+      "For syntax",
+      "For SSH"
+     ],
+     "answer": 0,
+     "explain": "Also keep logic out of templates."
+    },
+    {
+     "q": "What does `validate:` on template or copy do?",
+     "options": [
+      "Validates SSH",
+      "Validates YAML",
+      "Checks the file before it replaces the live one",
+      "Validates inventory"
+     ],
+     "answer": 2,
+     "explain": "For example validating a config with the service's own checker."
+    },
+    {
+     "q": "When do handlers fire?",
+     "options": [
+      "Every run",
+      "Once, at the end of the play, only if a notifying task changed",
+      "On every task",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "flush_handlers forces them earlier."
+    }
+   ]
+  },
+  "level-1/09-debugging-playbooks": {
+   "questions": [
+    {
+     "q": "How should you read an Ansible failure?",
+     "options": [
+      "Bottom-up only",
+      "Rerun blindly",
+      "Ignore it",
+      "Top-down: the task, host, module, then what/why/where (file:line:column)"
+     ],
+     "answer": 3,
+     "explain": "The origin shows the failing line."
+    },
+    {
+     "q": "What does `'x' is undefined` usually mean, and a first step?",
+     "options": [
+      "A network error",
+      "Missing variable, typo, scope or ungathered fact; use debug: var=x",
+      "A broken host",
+      "A permission error"
+     ],
+     "answer": 1,
+     "explain": "Check inventory and precedence."
+    },
+    {
+     "q": "What does UNREACHABLE point at?",
+     "options": [
+      "The YAML",
+      "The module",
+      "The connection: SSH, host key, network or interpreter; use -vvv and try ssh by hand",
+      "The variable"
+     ],
+     "answer": 2,
+     "explain": "FAILED with rc means the command ran and failed."
+    },
+    {
+     "q": "How do you inspect a module's arguments?",
+     "options": [
+      "ansible --args",
+      "cat module",
+      "ansible-help",
+      "ansible-doc -s <module>"
+     ],
+     "answer": 3,
+     "explain": "For 'Unsupported parameters' errors."
+    }
+   ]
+  },
+  "level-1/10-project-baseline-playbook": {
+   "questions": [
+    {
+     "q": "Why was the first run ok=6 and the second ok=5 changed=0?",
+     "options": [
+      "Fewer hosts",
+      "The handler ran once on the first run; the second run changed nothing so no handler fired",
+      "A bug",
+      "Different modules"
+     ],
+     "answer": 1,
+     "explain": "Convergence: zero changes on repeat."
+    },
+    {
+     "q": "What does blockinfile manage?",
+     "options": [
+      "A whole file",
+      "A directory",
+      "One line",
+      "A block of lines between marker comments, e.g. two sysctl settings"
+     ],
+     "answer": 3,
+     "explain": "lineinfile edits a single line like PermitRootLogin."
+    },
+    {
+     "q": "What did the drift test show?",
+     "options": [
+      "Hand edits (a bad line, a changed mode) were detected and corrected by re-running the playbook",
+      "Only manual fixes work",
+      "Playbooks can't fix drift",
+      "Drift can't happen"
+     ],
+     "answer": 0,
+     "explain": "The tests call the real ansible-playbook."
+    },
+    {
+     "q": "How were the 'servers' simulated?",
+     "options": [
+      "Containers",
+      "Real servers",
+      "Cloud VMs",
+      "Local directories (node1, node2) with the local connection, so it ran on a laptop"
+     ],
+     "answer": 3,
+     "explain": "Tests verified results with pytest."
+    }
+   ]
+  },
+  "level-2/01-roles": {
+   "questions": [
+    {
+     "q": "What does a role package?",
+     "options": [
+      "Only variables",
+      "An inventory",
+      "Only tasks",
+      "Everything to configure one thing: tasks, default variables, templates, files, handlers"
+     ],
+     "answer": 3,
+     "explain": "ansible-galaxy role init scaffolds the layout."
+    },
+    {
+     "q": "Defaults versus vars in a role?",
+     "options": [
+      "vars are lower",
+      "defaults/main.yml holds variables users are meant to override (lowest precedence); vars/main.yml holds internal constants (high precedence)",
+      "defaults can't be overridden",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "defaults are the role's public interface."
+    },
+    {
+     "q": "Which file is the role's entry point?",
+     "options": [
+      "tasks/main.yml",
+      "meta/main.yml",
+      "defaults/main.yml",
+      "handlers/main.yml"
+     ],
+     "answer": 0,
+     "explain": "meta/main.yml holds author, platforms and dependencies."
+    },
+    {
+     "q": "Why validate inputs with assert at the start of the role?",
+     "options": [
+      "Fail early with a clear message (e.g. port 1–65535) instead of failing deep inside later tasks",
+      "Style",
+      "Speed",
+      "Facts"
+     ],
+     "answer": 0,
+     "explain": "fail_msg explains the expected range."
+    }
+   ]
+  },
+  "level-2/02-variable-precedence": {
+   "questions": [
+    {
+     "q": "Which source wins above all others?",
+     "options": [
+      "set_fact",
+      "-e extra vars",
+      "role defaults",
+      "group_vars"
+     ],
+     "answer": 1,
+     "explain": "They beat even set_fact."
+    },
+    {
+     "q": "Which source has the lowest precedence?",
+     "options": [
+      "play vars",
+      "Role defaults/main.yml",
+      "Inventory vars",
+      "host_vars"
+     ],
+     "answer": 1,
+     "explain": "That's why defaults are safe to override."
+    },
+    {
+     "q": "Host versus group variables?",
+     "options": [
+      "Host beats group, and a specific group beats all",
+      "Group beats host",
+      "Random",
+      "All equal"
+     ],
+     "answer": 0,
+     "explain": "At both inventory levels."
+    },
+    {
+     "q": "How was the order established?",
+     "options": [
+      "By guessing",
+      "From the docs only",
+      "From forums",
+      "By measurement: a script generated a fresh project per trial, ran the playbook and read which source's value won"
+     ],
+     "answer": 3,
+     "explain": "14 sources ranked by experiment."
+    }
+   ]
+  },
+  "level-2/03-jinja-filters": {
+   "questions": [
+    {
+     "q": "What does `servers | selectattr('port','gt',100) | map(attribute='name') | list` return for ports 80, 8080, 443?",
+     "options": [
+      "[b, c]",
+      "[a]",
+      "[a, b, c]",
+      "[]"
+     ],
+     "answer": 0,
+     "explain": "Ports above 100: b and c."
+    },
+    {
+     "q": "Why end with `| list` after map or selectattr?",
+     "options": [
+      "They return generators; list (or join) materialises the result",
+      "Sorting",
+      "Safety",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Otherwise you print a generator object."
+    },
+    {
+     "q": "Shallow versus recursive combine of {a:1,b:{c:2,d:3}} with {b:{c:9},e:5}?",
+     "options": [
+      "Same",
+      "Shallow merges deep",
+      "Shallow replaces b entirely ({c:9}); recursive=True merges ({c:9, d:3})",
+      "Recursive drops keys"
+     ],
+     "answer": 2,
+     "explain": "Variables from different layers don't merge on their own."
+    },
+    {
+     "q": "What does `'web-01.example.com' | regex_replace('^(\\w+)-(\\d+).*', '\\2:\\1')` give?",
+     "options": [
+      "web-01",
+      "01:web",
+      "01",
+      "web:01"
+     ],
+     "answer": 1,
+     "explain": "Groups swapped; mind the backslashes in YAML."
+    }
+   ]
+  },
+  "level-2/04-blocks-errors": {
+   "questions": [
+    {
+     "q": "What happens by default when a task fails on a host?",
+     "options": [
+      "Ansible stops that host's remaining tasks and continues with other hosts",
+      "Everything stops",
+      "It continues on that host",
+      "It retries"
+     ],
+     "answer": 0,
+     "explain": "Blocks, rescue and always change that."
+    },
+    {
+     "q": "What do block, rescue and always do?",
+     "options": [
+      "Only log",
+      "block groups tasks; on failure the rest are skipped and rescue runs; always runs regardless",
+      "Only group tasks",
+      "Only retry"
+     ],
+     "answer": 1,
+     "explain": "In the example 'never reached' was skipped."
+    },
+    {
+     "q": "Is rescue an automatic rollback?",
+     "options": [
+      "Yes",
+      "Only for files",
+      "No: it runs the tasks you wrote, which must themselves be idempotent and safe",
+      "Only with always"
+     ],
+     "answer": 2,
+     "explain": "A failing rescue task fails the host, but always still runs."
+    },
+    {
+     "q": "What does ansible_failed_task give inside rescue?",
+     "options": [
+      "Details of the failed task (name, result)",
+      "The facts",
+      "The role",
+      "The inventory"
+     ],
+     "answer": 0,
+     "explain": "Use it for a precise rollback message."
+    }
+   ]
+  },
+  "level-2/05-vault": {
+   "questions": [
+    {
+     "q": "What does an encrypted vault file start with?",
+     "options": [
+      "base64:",
+      "gpg",
+      "BEGIN KEY",
+      "$ANSIBLE_VAULT;1.1;AES256 followed by hex ciphertext"
+     ],
+     "answer": 3,
+     "explain": "Encrypted with ansible-vault encrypt."
+    },
+    {
+     "q": "Does encrypting the same content twice give the same ciphertext?",
+     "options": [
+      "Only with rekey",
+      "No: ciphertext differs each time",
+      "Yes",
+      "Only with the same salt file"
+     ],
+     "answer": 1,
+     "explain": "Random salt is used."
+    },
+    {
+     "q": "What happens with a wrong vault password?",
+     "options": [
+      "It skips",
+      "It prompts forever",
+      "Decryption failed (no vault secrets were found that could decrypt)",
+      "It decrypts partly"
+     ],
+     "answer": 2,
+     "explain": "No secret supplied gives a different error."
+    },
+    {
+     "q": "What does ansible-vault rekey do?",
+     "options": [
+      "Deletes the file",
+      "Changes contents",
+      "Decrypts",
+      "Changes the password without changing the contents"
+     ],
+     "answer": 3,
+     "explain": "Use --vault-password-file."
+    }
+   ]
+  },
+  "level-2/06-collections": {
+   "questions": [
+    {
+     "q": "What does ansible-core contain?",
+     "options": [
+      "All modules",
+      "The engine and ansible.builtin modules and plugins; everything else lives in collections",
+      "Nothing",
+      "Only Python"
+     ],
+     "answer": 1,
+     "explain": "71 builtin modules on the lesson's install."
+    },
+    {
+     "q": "What are the parts of a fully qualified collection name?",
+     "options": [
+      "namespace.collection.plugin, e.g. ansible.utils.ipaddr",
+      "name only",
+      "host.group.var",
+      "file.path.name"
+     ],
+     "answer": 0,
+     "explain": "Install collections via ansible-galaxy."
+    },
+    {
+     "q": "What happens with an unknown module/action?",
+     "options": [
+      "The task is skipped",
+      "It retries",
+      "The whole play aborts at load time; ignore_errors doesn't help",
+      "It continues"
+     ],
+     "answer": 2,
+     "explain": "Resolution errors are precise."
+    },
+    {
+     "q": "How do you pin collection versions for a project?",
+     "options": [
+      "A requirements.yml file installed with ansible-galaxy",
+      "Use vault",
+      "Copy files",
+      "Edit PATH"
+     ],
+     "answer": 0,
+     "explain": "Dependencies should be reproducible."
+    }
+   ]
+  },
+  "level-2/07-tags-limits": {
+   "questions": [
+    {
+     "q": "What does `--tags configure` run?",
+     "options": [
+      "configure tasks plus tasks tagged always",
+      "Nothing",
+      "Only configure",
+      "Everything"
+     ],
+     "answer": 0,
+     "explain": "always runs unless skipped."
+    },
+    {
+     "q": "What does a task tagged `never` do with no options?",
+     "options": [
+      "It doesn't run unless asked via its other tag",
+      "Is untagged",
+      "Always runs",
+      "Fails"
+     ],
+     "answer": 0,
+     "explain": "--tags debug_only runs it."
+    },
+    {
+     "q": "Which tasks run with no options?",
+     "options": [
+      "Only untagged",
+      "Only tagged",
+      "Untagged and tagged tasks alike, except those tagged never",
+      "Only always"
+     ],
+     "answer": 2,
+     "explain": "install, configure, always and untagged ran."
+    },
+    {
+     "q": "What does --limit do?",
+     "options": [
+      "Limits forks",
+      "Restricts which hosts the play targets",
+      "Limits time",
+      "Limits tasks"
+     ],
+     "answer": 1,
+     "explain": "Combine with tags and check mode to target one change on one host."
+    }
+   ]
+  },
+  "level-2/08-delegation-strategies": {
+   "questions": [
+    {
+     "q": "What does delegate_to do?",
+     "options": [
+      "Copies facts",
+      "Changes inventory",
+      "Moves the playbook",
+      "Runs the task on another host while keeping the original host's variable context"
+     ],
+     "answer": 3,
+     "explain": "For example draining a host from a load balancer via lb1."
+    },
+    {
+     "q": "What's a delegation gotcha?",
+     "options": [
+      "Delegation is serial",
+      "Delegation skips vars",
+      "Parallel delegated tasks against one host can race; facts attach to the delegated host only with delegate_facts",
+      "Delegation needs vault"
+     ],
+     "answer": 2,
+     "explain": "command isn't a shell, so $(...) printed literally."
+    },
+    {
+     "q": "What does run_once do?",
+     "options": [
+      "Runs a task on one host in the batch instead of every host",
+      "Runs the play once",
+      "Runs at boot",
+      "Runs per group"
+     ],
+     "answer": 0,
+     "explain": "Useful for migrations."
+    },
+    {
+     "q": "Why use serial batches?",
+     "options": [
+      "Roll changes through hosts in small groups, with max_fail_percentage to stop on problems",
+      "Speed",
+      "Fewer logs",
+      "Parallelism"
+     ],
+     "answer": 0,
+     "explain": "They limit blast radius."
+    }
+   ]
+  },
+  "level-2/09-testing-ansible": {
+   "questions": [
+    {
+     "q": "What does ansible-playbook --syntax-check do?",
+     "options": [
+      "Tests hosts",
+      "Parses the playbook without connecting, catching YAML and structural errors",
+      "Lints it",
+      "Runs it"
+     ],
+     "answer": 1,
+     "explain": "The first rung of the testing ladder."
+    },
+    {
+     "q": "What does ansible-lint's `no-changed-when` flag?",
+     "options": [
+      "Missing names",
+      "Latest packages",
+      "Free-form args",
+      "command/shell without changed_when, which breaks idempotency reporting"
+     ],
+     "answer": 3,
+     "explain": "Others: fqcn, name, no-free-form, package-latest."
+    },
+    {
+     "q": "Why does `state: latest` get flagged?",
+     "options": [
+      "It's illegal",
+      "It's deprecated",
+      "It's slow",
+      "It makes runs non-reproducible"
+     ],
+     "answer": 3,
+     "explain": "Pin versions or use present."
+    },
+    {
+     "q": "What are lint profiles?",
+     "options": [
+      "Rule sets from basic to production that a playbook can meet",
+      "User accounts",
+      "Roles",
+      "Inventory groups"
+     ],
+     "answer": 0,
+     "explain": "The fixed playbook passed 'production'."
+    }
+   ]
+  },
+  "level-2/10-project-tested-role": {
+   "questions": [
+    {
+     "q": "What does the webapp role's interface consist of?",
+     "options": [
+      "Only tasks",
+      "defaults/main.yml variables (port, workers, root), with internal constants in vars/main.yml, documented in a README",
+      "Only handlers",
+      "Only vars"
+     ],
+     "answer": 1,
+     "explain": "The role has validation and a handler."
+    },
+    {
+     "q": "What does the 'idempotent' test assert?",
+     "options": [
+      "Skipped",
+      "The first run fails",
+      "Changed=1",
+      "A second run exits 0 and changed=0 for every host"
+     ],
+     "answer": 3,
+     "explain": "Using real ansible-playbook runs."
+    },
+    {
+     "q": "What does the 'invalid port fails before changing anything' test show?",
+     "options": [
+      "Port 70000 works",
+      "Silent failure",
+      "Validation with assert stops early with a non-zero exit and a clear message",
+      "A retry"
+     ],
+     "answer": 2,
+     "explain": "webapp_port=70000 is rejected."
+    },
+    {
+     "q": "What does the check-mode test assert?",
+     "options": [
+      "Check fails",
+      "Check writes files",
+      "Check is skipped",
+      "--check exits 0 and writes nothing (the output directory isn't created)"
+     ],
+     "answer": 3,
+     "explain": "Nine tests all passed."
+    }
+   ]
+  },
+  "level-3/01-custom-modules": {
+   "questions": [
+    {
+     "q": "When should you write a custom module?",
+     "options": [
+      "For every task",
+      "Never",
+      "Always",
+      "When no module does what you need and command would be fragile"
+     ],
+     "answer": 3,
+     "explain": "A module is a Python program."
+    },
+    {
+     "q": "How does a module report results?",
+     "options": [
+      "return",
+      "exit_json on success and fail_json on failure",
+      "print",
+      "raise only"
+     ],
+     "answer": 1,
+     "explain": "Plus an argument spec, check mode and diff support."
+    },
+    {
+     "q": "Why support check mode in a module?",
+     "options": [
+      "Speed",
+      "So --check reports what would change without changing it",
+      "Colour",
+      "Logging"
+     ],
+     "answer": 1,
+     "explain": "Be honest about 'changed'."
+    },
+    {
+     "q": "What's the argument spec?",
+     "options": [
+      "An inventory",
+      "A test",
+      "A declaration of parameters, types, defaults and required fields that Ansible validates",
+      "A role"
+     ],
+     "answer": 2,
+     "explain": "It makes invalid input fail clearly."
+    }
+   ]
+  },
+  "level-3/02-filter-plugins": {
+   "questions": [
+    {
+     "q": "What is a filter plugin?",
+     "options": [
+      "A handler",
+      "A module",
+      "A Python file with a FilterModule class whose filters() returns a dict of names to functions",
+      "A role"
+     ],
+     "answer": 2,
+     "explain": "Placed in filter_plugins/ next to the playbook or inside a role/collection."
+    },
+    {
+     "q": "Which design points matter?",
+     "options": [
+      "Global state",
+      "Traceback errors",
+      "Pure functions, native return types, validated inputs raising AnsibleFilterError, no mutation of arguments, documentation",
+      "Mutate inputs"
+     ],
+     "answer": 2,
+     "explain": "mask_secrets returns a copy."
+    },
+    {
+     "q": "What do lookups do versus filters?",
+     "options": [
+      "Lookups transform",
+      "Lookups fetch data from outside the play (file, environment); filters transform data inside expressions",
+      "Filters fetch files",
+      "The same"
+     ],
+     "answer": 1,
+     "explain": "The lesson wrote an envfile lookup."
+    },
+    {
+     "q": "What does the mask_secrets filter mask?",
+     "options": [
+      "Nothing",
+      "Values whose keys look sensitive (password, secret, token)",
+      "All values",
+      "Keys"
+     ],
+     "answer": 1,
+     "explain": "Including nested dictionaries."
+    }
+   ]
+  },
+  "level-3/03-dynamic-inventory": {
+   "questions": [
+    {
+     "q": "Why do static inventories rot?",
+     "options": [
+      "They're large",
+      "They're YAML",
+      "Servers are created and destroyed by autoscalers faster than a hand-edited file can track",
+      "They're slow"
+     ],
+     "answer": 2,
+     "explain": "Use a source of truth like a CMDB."
+    },
+    {
+     "q": "What must an inventory script print for --list?",
+     "options": [
+      "Plain text",
+      "INI",
+      "Valid JSON including _meta hostvars, exit code 0; it also answers --host NAME",
+      "YAML only"
+     ],
+     "answer": 2,
+     "explain": "_meta avoids one call per host."
+    },
+    {
+     "q": "In the CSV example, which groups does web-01 belong to?",
+     "options": [
+      "ungrouped only",
+      "web (its role) and prod (its env)",
+      "db",
+      "staging"
+     ],
+     "answer": 1,
+     "explain": "Each row becomes a host in two groups."
+    },
+    {
+     "q": "What are the two ways shown to build dynamic inventory?",
+     "options": [
+      "Two roles",
+      "An inventory script and an inventory plugin",
+      "Two scripts",
+      "Two files"
+     ],
+     "answer": 1,
+     "explain": "Plugins can also cache results."
+    }
+   ]
+  },
+  "level-3/04-command-shell-pitfalls": {
+   "questions": [
+    {
+     "q": "What can `command` NOT do?",
+     "options": [
+      "Take args",
+      "Register results",
+      "Run programs",
+      "Pipes, redirection, &&, $(...) and globbing, since there's no shell"
+     ],
+     "answer": 3,
+     "explain": "shell runs through /bin/sh."
+    },
+    {
+     "q": "What is the safest form of command?",
+     "options": [
+      "A long string",
+      "argv: a list where each element is one argument with no shell or splitting",
+      "shell",
+      "raw"
+     ],
+     "answer": 1,
+     "explain": "`argv: [echo, \"a b\", \"c;d\"]` printed a b c;d."
+    },
+    {
+     "q": "How do you prevent injection through variables in shell?",
+     "options": [
+      "Trust variables",
+      "Use raw",
+      "The quote filter: `echo {{ evil | quote }}` treats it as data",
+      "Use eval"
+     ],
+     "answer": 2,
+     "explain": "Without it `ok; echo INJECTED` ran a second command."
+    },
+    {
+     "q": "What are raw and script for?",
+     "options": [
+      "Fact gathering",
+      "Vault",
+      "Same as command",
+      "raw sends text over SSH without Python (bootstrapping); script copies and runs a local script"
+     ],
+     "answer": 3,
+     "explain": "Last-resort tools."
+    }
+   ]
+  },
+  "level-3/05-async-polling": {
+   "questions": [
+    {
+     "q": "Why use async?",
+     "options": [
+      "Security",
+      "Logging",
+      "Speed of small tasks",
+      "A long task shouldn't hold the connection open for its entire life (large downloads, long jobs)"
+     ],
+     "answer": 3,
+     "explain": "The task is started and checked later."
+    },
+    {
+     "q": "What does `poll: 0` mean?",
+     "options": [
+      "Never run",
+      "Poll every second",
+      "Fire and forget: don't wait for the job",
+      "Poll once"
+     ],
+     "answer": 2,
+     "explain": "Check later with async_status."
+    },
+    {
+     "q": "What does async_status do?",
+     "options": [
+      "Lists hosts",
+      "Checks a started job's status, typically with retries until finished",
+      "Cancels jobs",
+      "Starts jobs"
+     ],
+     "answer": 1,
+     "explain": "Use `until` with retries and delay."
+    },
+    {
+     "q": "What does `async:` set?",
+     "options": [
+      "Poll interval",
+      "The maximum time the job may run",
+      "Retries",
+      "Forks"
+     ],
+     "answer": 1,
+     "explain": "poll sets how often Ansible checks."
+    }
+   ]
+  },
+  "level-3/06-performance": {
+   "questions": [
+    {
+     "q": "What does `forks` control, and what's the default?",
+     "options": [
+      "Retries; 3",
+      "Number of tasks; 10",
+      "Parallel worker processes handling hosts; default 5",
+      "Connections; 1"
+     ],
+     "answer": 2,
+     "explain": "Measured: 1 fork 50.1 s, 5 forks 11.1 s, 10 forks 6.6 s, 20 forks 4.5 s on 20 hosts."
+    },
+    {
+     "q": "When do more forks stop helping?",
+     "options": [
+      "Never",
+      "At 2",
+      "At 100 always",
+      "When forks reaches the host count; each fork is also a Python process using memory"
+     ],
+     "answer": 3,
+     "explain": "Scaling is near linear until then."
+    },
+    {
+     "q": "What is gather_facts' hidden cost?",
+     "options": [
+      "It runs the setup module on every host at the start of each play (about 2.3 s vs 0.4 s without, on 20 hosts)",
+      "None",
+      "It's cached always",
+      "It's free"
+     ],
+     "answer": 0,
+     "explain": "Turn it off or use gather_subset or fact caching."
+    },
+    {
+     "q": "What does the free strategy help with?",
+     "options": [
+      "Slow hosts holding others up at each task under linear",
+      "Ordering",
+      "Fewer logs",
+      "Security"
+     ],
+     "answer": 0,
+     "explain": "Under linear a slow host delays everyone per task."
+    }
+   ]
+  },
+  "level-3/07-rolling-updates": {
+   "questions": [
+    {
+     "q": "What does `serial: [1, \"50%\", \"100%\"]` give on eight hosts?",
+     "options": [
+      "2 batches of 4",
+      "Batches of 1, 4 and 3: a canary, then half, then the rest",
+      "8 batches of 1",
+      "1 batch"
+     ],
+     "answer": 1,
+     "explain": "The first is the canary."
+    },
+    {
+     "q": "What's the principle 'drain first, re-enable last'?",
+     "options": [
+      "Drain at random",
+      "Remove the host from rotation before changing it, and return it only after it passes the smoke test (always section)",
+      "Update then drain",
+      "Never drain"
+     ],
+     "answer": 1,
+     "explain": "Capacity stays up."
+    },
+    {
+     "q": "What does 'roll back locally, then fail loudly' mean?",
+     "options": [
+      "Fail silently",
+      "The rescue restores the previous version on that host, logs it, then fails the host so the batch is marked failed",
+      "Roll back everything",
+      "Ignore failures"
+     ],
+     "answer": 1,
+     "explain": "any_errors_fatal stops the rollout."
+    },
+    {
+     "q": "What's a failure budget?",
+     "options": [
+      "A cost limit",
+      "How many failures a rollout tolerates (e.g. max_fail_percentage) before stopping",
+      "A time limit",
+      "A host limit"
+     ],
+     "answer": 1,
+     "explain": "A bad change is stopped early."
+    }
+   ]
+  },
+  "level-3/08-state-and-drift": {
+   "questions": [
+    {
+     "q": "Why does removing a task leave legacy.conf on the host?",
+     "options": [
+      "Permissions",
+      "Ansible keeps no state: it has no record that it created the file",
+      "Caching",
+      "Bug"
+     ],
+     "answer": 1,
+     "explain": "Terraform would remove it; Ansible does nothing."
+    },
+    {
+     "q": "What is Fix 1 for orphans?",
+     "options": [
+      "Edit state",
+      "An explicit removal task (state: absent), kept until every environment has run it",
+      "Re-run twice",
+      "Reboot"
+     ],
+     "answer": 1,
+     "explain": "Track it in a changelog."
+    },
+    {
+     "q": "What is Fix 2?",
+     "options": [
+      "Use vault",
+      "Delete the directory",
+      "Use tags",
+      "An allow-list purge: find files in a directory and delete everything not in the managed list"
+     ],
+     "answer": 3,
+     "explain": "In --check it showed what would be deleted without deleting."
+    },
+    {
+     "q": "What can happen when two tasks fight each other?",
+     "options": [
+      "A fact error",
+      "They keep undoing each other's change every run, so changed never reaches zero",
+      "A syntax error",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "The flip.yml experiment."
+    }
+   ]
+  },
+  "level-3/09-network-windows": {
+   "questions": [
+    {
+     "q": "What protocols manage Windows hosts?",
+     "options": [
+      "SMB",
+      "SSH only",
+      "WinRM or PSRP (the control node must be Linux or macOS)",
+      "RDP"
+     ],
+     "answer": 2,
+     "explain": "ansible.windows ships 81 modules in the lesson's version."
+    },
+    {
+     "q": "How honest is the lesson about verification?",
+     "options": [
+      "Tested on Cisco",
+      "Tested on Windows",
+      "All tested",
+      "No Windows host, network device or API was available, so nothing was executed against them; it's based on documentation and ansible-doc"
+     ],
+     "answer": 3,
+     "explain": "It says so up front."
+    },
+    {
+     "q": "What connection type do network devices use?",
+     "options": [
+      "Local",
+      "SSH to Python",
+      "network_cli (and related connections from ansible.netcommon)",
+      "WinRM"
+     ],
+     "answer": 2,
+     "explain": "The device has no Python to run modules on."
+    },
+    {
+     "q": "For non-Windows targets, which module should you use instead of win_copy?",
+     "options": [
+      "ansible.builtin.copy",
+      "fetch",
+      "win_file",
+      "raw"
+     ],
+     "answer": 0,
+     "explain": "As the module doc states."
+    }
+   ]
+  },
+  "level-3/10-project-custom-module": {
+   "questions": [
+    {
+     "q": "What does the kvfile module manage?",
+     "options": [
+      "Users",
+      "Packages",
+      "key=value entries: state present ensures one line for the key; absent removes it",
+      "Directories"
+     ],
+     "answer": 2,
+     "explain": "It preserves comments and unrelated settings."
+    },
+    {
+     "q": "Why a pure apply(lines, key, value, state) function?",
+     "options": [
+      "Speed",
+      "Style",
+      "Only it decides what changes, making it easy to test; main() wires AnsibleModule and file operations",
+      "Logging"
+     ],
+     "answer": 2,
+     "explain": "25 tests cover it."
+    },
+    {
+     "q": "What do check and diff mode do in kvfile?",
+     "options": [
+      "Check never writes; diff returns before and after content",
+      "Both write",
+      "Diff writes",
+      "Both skip"
+     ],
+     "answer": 0,
+     "explain": "Atomic writes avoid half-written files."
+    },
+    {
+     "q": "Which sequence of changed flags did the playbook show: set, set again, change to 8, remove?",
+     "options": [
+      "[True, False, True, True]",
+      "[False, False, False, False]",
+      "[True, False, False, True]",
+      "[True, True, True, True]"
+     ],
+     "answer": 0,
+     "explain": "The second set was idempotent."
+    }
+   ]
+  },
+  "level-4/01-automation-platform": {
+   "questions": [
+    {
+     "q": "What does a controller (AWX/AAP) add beyond ansible-playbook?",
+     "options": [
+      "Projects, inventories, credentials, job templates, RBAC, scheduling, workflows, history/logging, API, and execution isolation",
+      "Faster SSH",
+      "A new language",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "For teams: who may run what against which hosts."
+    },
+    {
+     "q": "What is the most valuable credential feature?",
+     "options": [
+      "Showing secrets",
+      "Faster logins",
+      "Separation: an operator can use a credential to launch a job without ever seeing its secret",
+      "Sharing files"
+     ],
+     "answer": 2,
+     "explain": "Credentials are encrypted stores."
+    },
+    {
+     "q": "How do AWX and AAP relate?",
+     "options": [
+      "They're unrelated",
+      "AAP is open source",
+      "AWX is commercial",
+      "AWX is the upstream open-source project; AAP is Red Hat's commercial product built on it"
+     ],
+     "answer": 3,
+     "explain": "The lesson notes nothing was installed or run."
+    },
+    {
+     "q": "What do execution environments provide?",
+     "options": [
+      "Hosts",
+      "VMs",
+      "Vaults",
+      "Jobs run in separate containers rather than on a shared shell"
+     ],
+     "answer": 3,
+     "explain": "Built with ansible-builder."
+    }
+   ]
+  },
+  "level-4/02-ansible-in-ci": {
+   "questions": [
+    {
+     "q": "Why order the pipeline 'cheapest check first'?",
+     "options": [
+      "For aesthetics",
+      "Run the fastest, most likely-to-fail checks first to fail early",
+      "Alphabetical",
+      "It's required"
+     ],
+     "answer": 1,
+     "explain": "syntax-check, lint, secret hygiene, converge, idempotence, check mode."
+    },
+    {
+     "q": "What does the idempotence step catch?",
+     "options": [
+      "Syntax errors",
+      "Lint errors",
+      "Missing secrets",
+      "A non-idempotent task: the second run must report changed=0"
+     ],
+     "answer": 3,
+     "explain": "The nanosecond-writing task made changed=1 each run and failed the step."
+    },
+    {
+     "q": "What does the check-mode step verify?",
+     "options": [
+      "Writes files",
+      "Runs tests",
+      "--check reports changed=0, meaning no drift",
+      "Installs"
+     ],
+     "answer": 2,
+     "explain": "The last rung."
+    },
+    {
+     "q": "What does the secret hygiene step check?",
+     "options": [
+      "Roles",
+      "SSH keys",
+      "Vault format",
+      "Tasks using secret variables have no_log"
+     ],
+     "answer": 3,
+     "explain": "A custom linter (nologlint.py)."
+    }
+   ]
+  },
+  "level-4/03-secrets-at-scale": {
+   "questions": [
+    {
+     "q": "Why use an executable vault password script in CI?",
+     "options": [
+      "A file is awkward; the script reads an environment variable and prints the password, failing closed if it's missing",
+      "It encrypts better",
+      "It's faster",
+      "Vault requires it"
+     ],
+     "answer": 0,
+     "explain": "Missing variable: the script exits 1 and Ansible errors."
+    },
+    {
+     "q": "What does 'fails closed' mean here?",
+     "options": [
+      "A missing secret stops the run rather than proceeding unprotected",
+      "It logs",
+      "It retries",
+      "It silently continues"
+     ],
+     "answer": 0,
+     "explain": "The error was 'Vault password script returned non-zero'."
+    },
+    {
+     "q": "How do you keep separate secrets per environment?",
+     "options": [
+      "Plain files",
+      "One password",
+      "Multiple vault IDs: --vault-id dev@dev_pass.py --vault-id prod@prod_pass.py",
+      "Separate repos only"
+     ],
+     "answer": 2,
+     "explain": "A single repository can hold both."
+    },
+    {
+     "q": "What does no_log protect?",
+     "options": [
+      "Secrets appearing in task output and logs at run time",
+      "Hosts",
+      "Files",
+      "Secrets at rest"
+     ],
+     "answer": 0,
+     "explain": "Vault protects at rest; no_log protects output."
+    }
+   ]
+  },
+  "level-4/04-pull-mode": {
+   "questions": [
+    {
+     "q": "What does ansible-pull do?",
+     "options": [
+      "Pushes from a controller",
+      "Pulls facts",
+      "Pulls vault",
+      "The host pulls its own configuration from Git and runs it locally"
+     ],
+     "answer": 3,
+     "explain": "It's the opposite of push."
+    },
+    {
+     "q": "What does 'only if changed' mean?",
+     "options": [
+      "Always runs",
+      "Never runs",
+      "Runs hourly",
+      "It runs the playbook only when the repository has new commits (unless forced)"
+     ],
+     "answer": 3,
+     "explain": "Saves work on unchanged repos."
+    },
+    {
+     "q": "Which hosts suit pull mode?",
+     "options": [
+      "Windows only",
+      "Many hosts that can't be reached from a controller, or that bootstrap themselves",
+      "Network devices",
+      "Few hosts"
+     ],
+     "answer": 1,
+     "explain": "It scales without a push controller."
+    },
+    {
+     "q": "How does pull mode repair drift?",
+     "options": [
+      "It can't",
+      "Manually only",
+      "By re-running periodically (e.g. cron), reapplying the desired state",
+      "With vault"
+     ],
+     "answer": 2,
+     "explain": "The lesson showed drift repair."
+    }
+   ]
+  },
+  "level-4/05-terraform-and-ansible": {
+   "questions": [
+    {
+     "q": "What is the division of labour?",
+     "options": [
+      "Ansible for infrastructure; Terraform for config",
+      "Both for everything",
+      "Neither",
+      "Terraform for networks, VMs, load balancers, databases, DNS; Ansible for OS packages, config, users, services and deployment steps"
+     ],
+     "answer": 3,
+     "explain": "Neither tool is a secret store."
+    },
+    {
+     "q": "What if both tools create the same cloud resources?",
+     "options": [
+      "Safer",
+      "Faster",
+      "They'll fight: pick one owner per resource",
+      "Fine"
+     ],
+     "answer": 2,
+     "explain": "The overlap is a trap."
+    },
+    {
+     "q": "Name a handoff pattern.",
+     "options": [
+      "Email",
+      "terraform output -json feeding an inventory, or an Ansible cloud inventory plugin (aws_ec2, azure_rm) querying tagged instances",
+      "Copy-paste IPs",
+      "FTP"
+     ],
+     "answer": 1,
+     "explain": "A community plugin can also read state."
+    },
+    {
+     "q": "How honest is the lesson?",
+     "options": [
+      "Terraform wasn't installed, so no apply ran; the handoff logic was built and tested without state",
+      "It used a real cloud",
+      "It applied in AWS",
+      "It ran everything"
+     ],
+     "answer": 0,
+     "explain": "It states what wasn't run."
+    }
+   ]
+  },
+  "level-4/06-drift-audit": {
+   "questions": [
+    {
+     "q": "Why not parse console output for drift?",
+     "options": [
+      "It's encrypted",
+      "It's too short",
+      "It's binary",
+      "It's for humans, mixing headers, items, diffs and warnings; use a callback plugin that writes JSON"
+     ],
+     "answer": 3,
+     "explain": "The driftreport plugin records changed results."
+    },
+    {
+     "q": "How does the runner audit drift?",
+     "options": [
+      "Deletes files",
+      "Runs for real",
+      "Runs the playbook with --check --diff and the plugin enabled, then reports with exit codes",
+      "Compares git"
+     ],
+     "answer": 2,
+     "explain": "Exit 0 means no drift."
+    },
+    {
+     "q": "What must you set to enable the callback plugin?",
+     "options": [
+      "ANSIBLE_CALLBACKS_ENABLED=driftreport and ANSIBLE_CALLBACK_PLUGINS=<dir>",
+      "Nothing",
+      "ansible.cfg only",
+      "A role"
+     ],
+     "answer": 0,
+     "explain": "The aggregate plugin needs enabling."
+    },
+    {
+     "q": "What is drift?",
+     "options": [
+      "The difference between what automation says and what a machine actually has",
+      "A slow run",
+      "A syntax error",
+      "A bug"
+     ],
+     "answer": 0,
+     "explain": "Check mode reveals it without changing anything."
+    }
+   ]
+  },
+  "level-4/07-incidents": {
+   "questions": [
+    {
+     "q": "Why does automation 'multiply mistakes as well as effort'?",
+     "options": [
+      "It's manual",
+      "It's slow",
+      "It logs more",
+      "One wrong hosts: pattern or bad variable changes every targeted host at once"
+     ],
+     "answer": 3,
+     "explain": "Control blast radius."
+    },
+    {
+     "q": "Which control addresses 'wrong target'?",
+     "options": [
+      "Tags",
+      "A preflight guard, protected groups and limits",
+      "Vault",
+      "More tasks"
+     ],
+     "answer": 1,
+     "explain": "The tested preflight.py computes the blast radius first."
+    },
+    {
+     "q": "Which control addresses 'batch too large'?",
+     "options": [
+      "Facts",
+      "Tags",
+      "serial, failure budget and tested abort semantics",
+      "More forks"
+     ],
+     "answer": 2,
+     "explain": "200 hosts restarted at once is the example."
+    },
+    {
+     "q": "How can a scheduled drift repair cause an incident?",
+     "options": [
+      "It adds hosts",
+      "It's always safe",
+      "It reverts an emergency hot patch; audit drift before applying",
+      "It deletes inventory"
+     ],
+     "answer": 2,
+     "explain": "Review drift first."
+    }
+   ]
+  },
+  "level-4/08-migration-antipatterns": {
+   "questions": [
+    {
+     "q": "Why isn't the provisioning script idempotent?",
+     "options": [
+      "It uses bash",
+      "mkdir fails if the directory exists (set -e exits 1), and >> appends port=8080 again on re-run",
+      "It's slow",
+      "It's too long"
+     ],
+     "answer": 1,
+     "explain": "It's correct only from one starting state and only once."
+    },
+    {
+     "q": "What does the playbook equivalent give?",
+     "options": [
+      "State-aware modules that converge: reruns change nothing",
+      "More code",
+      "Slower runs",
+      "The same failures"
+     ],
+     "answer": 0,
+     "explain": "Compare repeated runs."
+    },
+    {
+     "q": "What happened without set -e after two runs?",
+     "options": [
+      "app.conf contained port=8080 twice",
+      "Deleted",
+      "One line",
+      "Empty"
+     ],
+     "answer": 0,
+     "explain": "The script 'worked' silently wrong."
+    },
+    {
+     "q": "What's the migration lesson?",
+     "options": [
+      "Keep scripts",
+      "Delete scripts",
+      "Don't just wrap scripts in shell tasks: use modules and desired state, or idempotency is still on you",
+      "Wrap everything in shell"
+     ],
+     "answer": 2,
+     "explain": "Avoid anti-patterns."
+    }
+   ]
+  },
+  "level-4/09-governance": {
+   "questions": [
+    {
+     "q": "Why write standards down and enforce them with tools?",
+     "options": [
+      "Audits",
+      "With ten authors quality drifts; a rule with an automated check is enforced, one nobody can check is ignored",
+      "Tradition",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Keep rules few and checkable."
+    },
+    {
+     "q": "Which standards belong in the one-pager?",
+     "options": [
+      "Only layout",
+      "Only naming",
+      "Only secrets",
+      "Layout, naming, modules (FQCN), variables, safety (no_log, assert, serial), testing, pinned versions, documentation, release tagging"
+     ],
+     "answer": 3,
+     "explain": "Nine areas."
+    },
+    {
+     "q": "What are ansible-lint profiles?",
+     "options": [
+      "Host groups",
+      "Roles",
+      "Rule sets of increasing strictness (min, basic, moderate, safety, shared, production)",
+      "User profiles"
+     ],
+     "answer": 2,
+     "explain": "Choose by risk."
+    },
+    {
+     "q": "What do warn_list and skip_list do?",
+     "options": [
+      "Swapped",
+      "warn_list reports without failing the build; skip_list isn't checked at all",
+      "Both fail",
+      "Both ignore"
+     ],
+     "answer": 1,
+     "explain": "A ratchet tightens over time."
+    }
+   ]
+  },
+  "level-4/10-capstone-fleet": {
+   "questions": [
+    {
+     "q": "What does the capstone fleet consist of?",
+     "options": [
+      "A simulated 12-node fleet (web01–08, db01–04) with generated inventory and local connections",
+      "Cloud VMs",
+      "Real servers",
+      "Containers"
+     ],
+     "answer": 0,
+     "explain": "No remote hosts, SSH or privilege escalation were involved."
+    },
+    {
+     "q": "What did the idempotence step assert?",
+     "options": [
+      "Second run changed=0 on all 12 nodes",
+      "Failures",
+      "Skips",
+      "First run changed=0"
+     ],
+     "answer": 0,
+     "explain": "After the first converge of changed=6 on every node."
+    },
+    {
+     "q": "What did the preflight step refuse?",
+     "options": [
+      "Staging",
+      "Syntax errors",
+      "`all` (exceeds --max-hosts 5) and a single production node without confirmation",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Blast-radius control."
+    },
+    {
+     "q": "What did the targeted repair do?",
+     "options": [
+      "With --limit web03,db02,web07 only those three hosts ran and changed, leaving the rest untouched",
+      "Nothing",
+      "All hosts changed",
+      "One host"
+     ],
+     "answer": 0,
+     "explain": "Then a clean audit exited 0."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A playbook reports `changed=1` on every run for this task. Why?\n```yaml\n- ansible.builtin.command: echo hi\n```\n",
+    "options": [
+     "The host is broken",
+     "Facts weren't gathered",
+     "Echo is slow",
+     "command can't know state, so it reports changed every time; add changed_when: false (read-only) or creates:/guards"
+    ],
+    "answer": 3,
+    "explain": "State-aware modules like file and copy report ok on repeat runs."
+   },
+   {
+    "q": "Which task is idempotent?",
+    "options": [
+     "command: touch /etc/app/x",
+     "ansible.builtin.file: {path: /etc/app, state: directory, mode: '0755'}",
+     "shell: mkdir /etc/app",
+     "shell: echo port=80 >> app.conf"
+    ],
+    "answer": 1,
+    "explain": "mkdir fails when it exists, and >> appends duplicates."
+   },
+   {
+    "q": "On a repeat run of a converged playbook, what should the recap show?",
+    "options": [
+     "changed equals the task count",
+     "failed>0",
+     "changed=0",
+     "skipped=all"
+    ],
+    "answer": 2,
+    "explain": "The recap is the instrument."
+   },
+   {
+    "q": "`http_port` is 80 in [web:vars], 8081 on host web1, and web1 runs with `-e http_port=9000`. Which wins for web1?",
+    "options": [
+     "9000: extra vars beat everything",
+     "8081",
+     "80",
+     "It errors"
+    ],
+    "answer": 0,
+    "explain": "Host beats group and extra vars beat both (measured precedence)."
+   },
+   {
+    "q": "A role's defaults/main.yml sets webapp_port: 8080 and a play passes webapp_port: 9000 as a role parameter. What happens?",
+    "options": [
+     "Both apply",
+     "The role parameter overrides the default, since defaults have the lowest precedence",
+     "The default wins",
+     "Error"
+    ],
+    "answer": 1,
+    "explain": "defaults are the role's public interface."
+   },
+   {
+    "q": "`servers | selectattr('port','gt',100) | map(attribute='name') | list` with ports 80, 8080, 443 (names a, b, c) returns:",
+    "options": [
+     "[b, c]",
+     "[]",
+     "[a, b, c]",
+     "[a]"
+    ],
+    "answer": 0,
+    "explain": "Ports above 100: 8080 and 443."
+   },
+   {
+    "q": "Shallow versus recursive combine of {a:1, b:{c:2, d:3}} with {b:{c:9}, e:5}.",
+    "options": [
+     "Shallow: {a:1, b:{c:9}, e:5}; recursive=True: {a:1, b:{c:9, d:3}, e:5}",
+     "Both identical",
+     "Shallow keeps d",
+     "Recursive drops a"
+    ],
+    "answer": 0,
+    "explain": "A plain combine replaces whole values for matching keys."
+   },
+   {
+    "q": "A handler is notified by three tasks that each changed. How often does it run?",
+    "options": [
+     "Never",
+     "Immediately each time",
+     "Three times",
+     "Once, at the end of the play"
+    ],
+    "answer": 3,
+    "explain": "Handlers fire once per play unless flushed."
+   },
+   {
+    "q": "A task with `when: ansible_facts.os_family == 'Debian'` runs on macOS. What's reported?",
+    "options": [
+     "skipping: not counted as changed (os_family is Darwin)",
+     "failed",
+     "changed",
+     "ok"
+    ],
+    "answer": 0,
+    "explain": "Skipped tasks aren't changed."
+   },
+   {
+    "q": "Which structure runs a health check and rolls back on failure but always cleans up?",
+    "options": [
+     "block with rescue (rollback) and always (cleanup)",
+     "delegate_to",
+     "ignore_errors",
+     "tags"
+    ],
+    "answer": 0,
+    "explain": "Rescue runs only when the block fails; always runs regardless."
+   },
+   {
+    "q": "What does `serial: [1, \"50%\", \"100%\"]` produce on eight hosts?",
+    "options": [
+     "1 batch",
+     "Batches of 1, 4 and 3: a canary, then half, then the rest",
+     "2 batches of 4",
+     "8 batches"
+    ],
+    "answer": 1,
+    "explain": "Verified by arithmetic: 1, then 50% of 8 = 4, then the remaining 3."
+   },
+   {
+    "q": "An 'UNREACHABLE' error indicates what, and what's the first step?",
+    "options": [
+     "A lint error",
+     "A connection problem (SSH, host key, network or interpreter); use -vvv and try ssh by hand",
+     "A bad variable",
+     "A YAML error"
+    ],
+    "answer": 1,
+    "explain": "FAILED with rc= means the command ran and failed."
+   },
+   {
+    "q": "`command: echo {{ user_input }}` is run with user_input 'ok; rm -rf x' under shell. How do you make it safe?",
+    "options": [
+     "Add -v",
+     "Nothing, it's fine",
+     "Use `{{ user_input | quote }}` (or avoid shell and pass argv)",
+     "Use tags"
+    ],
+    "answer": 2,
+    "explain": "The variable text is pasted into the shell line."
+   },
+   {
+    "q": "A task removed from the playbook leaves its file on every host. Why?",
+    "options": [
+     "Permissions",
+     "Caching",
+     "A bug",
+     "Ansible keeps no state: it has no record it created the file, so add an explicit state: absent task or an allow-list purge"
+    ],
+    "answer": 3,
+    "explain": "Terraform would destroy it; Ansible won't."
+   },
+   {
+    "q": "Which command encrypts a secrets file, and what does the file start with?",
+    "options": [
+     "ansible-vault encrypt secrets.yml, starting $ANSIBLE_VAULT;1.1;AES256",
+     "gpg -c, starting PGP",
+     "openssl, starting BEGIN",
+     "ansible-vault view"
+    ],
+    "answer": 0,
+    "explain": "Encrypting twice gives different ciphertext."
+   },
+   {
+    "q": "How do you restrict a run to one task group on one host?",
+    "options": [
+     "--tags <tag> with --limit <host> (tasks tagged always still run)",
+     "--diff",
+     "-f 1",
+     "--check"
+    ],
+    "answer": 0,
+    "explain": "Combine with --check to preview."
+   },
+   {
+    "q": "A scheduled pipeline must show whether any host has drifted without changing anything. What do you run?",
+    "options": [
+     "The playbook for real",
+     "ansible-lint",
+     "The playbook with --check --diff, reporting changed tasks (exit non-zero on drift)",
+     "--syntax-check"
+    ],
+    "answer": 2,
+    "explain": "Check mode is the drift audit."
+   },
+   {
+    "q": "A second CI run of a new playbook reports changed=1 because a task writes the current time into a file. What does the pipeline do?",
+    "options": [
+     "Pass",
+     "Ignore it",
+     "Skip it",
+     "Fail the idempotence step, since the task would flap on every run in production"
+    ],
+    "answer": 3,
+    "explain": "Idempotence is a CI gate."
+   },
+   {
+    "q": "Which tool owns creating VMs and load balancers, and which owns OS config and deployment steps?",
+    "options": [
+     "Ansible for both",
+     "Neither",
+     "Terraform owns infrastructure; Ansible owns on-host config and orchestration",
+     "Terraform for both"
+    ],
+    "answer": 2,
+    "explain": "Pick one owner per resource."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Render a config template",
+    "prompt": "Write the Jinja2 template that renders an nginx-style server block: a managed-by header, listen port, server_name (appending .example.com only when env is 'production') and one comment line per upstream with loop.index, name and weight defaulting to 1. Print the staging render, then the production server_name line. (Needs Jinja2: pip install jinja2.)",
+    "starter": "from jinja2 import Environment\nenv = Environment(trim_blocks=True, lstrip_blocks=True)\nTEMPLATE = \"\"\"# TODO: write the Jinja2 template: managed-by header, listen port,\n# server_name (add .example.com when env == 'production'), and one comment per upstream\n# with loop.index, name and weight (default 1)\n\"\"\"\nvars_ = {\"http_port\": 8081, \"inventory_hostname\": \"web1\", \"env\": \"staging\",\n         \"upstreams\": [{\"name\": \"a\", \"weight\": 3}, {\"name\": \"b\"}]}\nprint(env.from_string(TEMPLATE).render(**vars_), end=\"\")\nvars_[\"env\"] = \"production\"\nprint(env.from_string(TEMPLATE).render(**vars_).splitlines()[3])\n",
+    "expected": "# managed by Ansible - do not edit by hand\nserver {\n    listen 8081;\n    server_name web1;\n    # upstream 1: a weight=3\n    # upstream 2: b weight=1\n}\n    server_name web1.example.com;",
+    "solution": "from jinja2 import Environment\nenv = Environment(trim_blocks=True, lstrip_blocks=True)\nTEMPLATE = \"\"\"# managed by Ansible - do not edit by hand\nserver {\n    listen {{ http_port }};\n    server_name {{ inventory_hostname }}{% if env == 'production' %}.example.com{% endif %};\n{% for u in upstreams %}\n    # upstream {{ loop.index }}: {{ u.name }} weight={{ u.weight | default(1) }}\n{% endfor %}\n}\n\"\"\"\nvars_ = {\"http_port\": 8081, \"inventory_hostname\": \"web1\", \"env\": \"staging\",\n         \"upstreams\": [{\"name\": \"a\", \"weight\": 3}, {\"name\": \"b\"}]}\nprint(env.from_string(TEMPLATE).render(**vars_), end=\"\")\nvars_[\"env\"] = \"production\"\nprint(env.from_string(TEMPLATE).render(**vars_).splitlines()[3])\n",
+    "explain": "Ansible's template module uses Jinja2, so {{ }} prints values, {% if %} and {% for %} control flow, and the default filter handles optional weights. Verified by running the solution with Jinja2."
+   },
+   {
+    "title": "A dynamic inventory",
+    "prompt": "Write build(text) that turns the CMDB CSV into an Ansible dynamic-inventory structure: _meta hostvars (ansible_host and an integer http_port per host), and every host joins two groups, its role and its env. Print each group's hosts and one host's variables.",
+    "starter": "import csv, io, json\n\nCSV = \"\"\"name,address,role,env,port\nweb-01,10.0.1.11,web,prod,8080\nweb-02,10.0.1.12,web,prod,8080\ndb-01,10.0.2.21,db,prod,5432\nweb-stg,10.1.1.11,web,staging,8081\n\"\"\"\n\ndef build(text):\n    # return {\"_meta\": {\"hostvars\": {name: {ansible_host, http_port(int)}}}, \"all\": {...}, \"<group>\": {\"hosts\": [...]}}\n    # every row joins two groups: its role and its env\n    pass\n\ninv = build(CSV)\nfor g in (\"web\", \"prod\", \"db\", \"staging\"):\n    print(f\"{g}: {', '.join(inv[g]['hosts'])}\")\nprint(json.dumps(inv[\"_meta\"][\"hostvars\"][\"web-01\"], sort_keys=True))\n",
+    "expected": "web: web-01, web-02, web-stg\nprod: web-01, web-02, db-01\ndb: db-01\nstaging: web-stg\n{\"ansible_host\": \"10.0.1.11\", \"http_port\": 8080}",
+    "solution": "import csv, io, json\n\nCSV = \"\"\"name,address,role,env,port\nweb-01,10.0.1.11,web,prod,8080\nweb-02,10.0.1.12,web,prod,8080\ndb-01,10.0.2.21,db,prod,5432\nweb-stg,10.1.1.11,web,staging,8081\n\"\"\"\n\ndef build(text):\n    inv = {\"_meta\": {\"hostvars\": {}}, \"all\": {\"children\": [\"ungrouped\"]}}\n    for row in csv.DictReader(io.StringIO(text)):\n        inv[\"_meta\"][\"hostvars\"][row[\"name\"]] = {\"ansible_host\": row[\"address\"], \"http_port\": int(row[\"port\"])}\n        for g in (row[\"role\"], row[\"env\"]):\n            inv.setdefault(g, {\"hosts\": []})[\"hosts\"].append(row[\"name\"])\n    return inv\n\ninv = build(CSV)\nfor g in (\"web\", \"prod\", \"db\", \"staging\"):\n    print(f\"{g}: {', '.join(inv[g]['hosts'])}\")\nprint(json.dumps(inv[\"_meta\"][\"hostvars\"][\"web-01\"], sort_keys=True))\n",
+    "explain": "An inventory script prints JSON with _meta so Ansible needn't call --host for every host. A source of truth like a CMDB avoids the rot of hand-edited files. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
