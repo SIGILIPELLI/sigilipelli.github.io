@@ -1,0 +1,2159 @@
+{
+ "course": "pyspark-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-spark-distributed-processing": {
+   "questions": [
+    {
+     "q": "What problem does Spark solve?",
+     "options": [
+      "Web serving",
+      "Replacing SQL",
+      "Storing files",
+      "Processing data too large or slow for one machine by distributing work across a cluster"
+     ],
+     "answer": 3,
+     "explain": "Distributed processing."
+    },
+    {
+     "q": "What is lazy evaluation in Spark?",
+     "options": [
+      "Slow code",
+      "Retries",
+      "Caching",
+      "Transformations only build a plan; work runs when an action is called"
+     ],
+     "answer": 3,
+     "explain": "Enables optimization."
+    },
+    {
+     "q": "Which of these is an action?",
+     "options": [
+      "filter()",
+      "withColumn()",
+      "count()",
+      "select()"
+     ],
+     "answer": 2,
+     "explain": "Actions trigger execution."
+    },
+    {
+     "q": "What makes Spark faster than classic MapReduce for iterative work?",
+     "options": [
+      "Java",
+      "More nodes",
+      "SQL",
+      "It keeps data in memory between stages instead of writing to disk each time"
+     ],
+     "answer": 3,
+     "explain": "In-memory processing."
+    }
+   ]
+  },
+  "level-1/02-spark-architecture": {
+   "questions": [
+    {
+     "q": "What does the driver do?",
+     "options": [
+      "Stores data",
+      "Runs your program, builds the plan and schedules tasks on executors",
+      "Monitors disk",
+      "Runs all tasks"
+     ],
+     "answer": 1,
+     "explain": "Coordinator."
+    },
+    {
+     "q": "What is an executor?",
+     "options": [
+      "A job",
+      "A driver",
+      "A process on a worker that runs tasks and holds cached data",
+      "A stage"
+     ],
+     "answer": 2,
+     "explain": "Parallel workers."
+    },
+    {
+     "q": "What are jobs, stages and tasks?",
+     "options": [
+      "Same",
+      "Reverse",
+      "None",
+      "An action creates a job; shuffles split it into stages; each stage runs tasks per partition"
+     ],
+     "answer": 3,
+     "explain": "Hierarchy."
+    },
+    {
+     "q": "What causes a new stage?",
+     "options": [
+      "A shuffle (wide dependency)",
+      "Select",
+      "Filter",
+      "Map"
+     ],
+     "answer": 0,
+     "explain": "Narrow vs wide."
+    }
+   ]
+  },
+  "level-1/03-sparksession-first-script": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(1, \"a\"), (2, \"b\"), (3, \"c\")], [\"id\", \"v\"])\nprint(df.count(), df.columns, df.filter(F.col(\"id\") >= 2).count())\n```\n",
+     "options": [
+      "3 ['id', 'v'] 2",
+      "3 ['id'] 2",
+      "2 ['id', 'v'] 3",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Basic DataFrame operations. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does this print?\n```python\nprint(spark.range(5).select((F.col(\"id\") * 2).alias(\"d\")).agg(F.sum(\"d\")).collect()[0][0])\n```\n",
+     "options": [
+      "10",
+      "Error",
+      "20",
+      "5"
+     ],
+     "answer": 2,
+     "explain": "spark.range creates ids 0..4. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What is a SparkSession?",
+     "options": [
+      "A file",
+      "A cluster",
+      "The entry point for DataFrame and SQL functionality",
+      "A job"
+     ],
+     "answer": 2,
+     "explain": "Use SparkSession.builder."
+    },
+    {
+     "q": "What does master('local[2]') mean?",
+     "options": [
+      "Run Spark locally with 2 worker threads",
+      "2 nodes",
+      "2 jobs",
+      "2 GB"
+     ],
+     "answer": 0,
+     "explain": "Development mode."
+    }
+   ]
+  },
+  "level-1/04-rdds-vs-dataframes": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nrdd = spark.sparkContext.parallelize([1, 2, 3, 4, 5, 6], 3)\nprint(rdd.getNumPartitions(), rdd.map(lambda x: x * x).filter(lambda x: x > 4).collect(), rdd.glom().map(len).collect())\n```\n",
+     "options": [
+      "3 [1, 4, 9] [2, 2, 2]",
+      "6 [9, 16, 25, 36] [1, 1, 1]",
+      "Error",
+      "3 [9, 16, 25, 36] [2, 2, 2]"
+     ],
+     "answer": 3,
+     "explain": "RDD transformations and partitions. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "Why prefer DataFrames over RDDs?",
+     "options": [
+      "Smaller",
+      "They have schemas and the Catalyst optimizer, so queries are faster and shorter",
+      "Simpler API only",
+      "Older"
+     ],
+     "answer": 1,
+     "explain": "Structured APIs."
+    },
+    {
+     "q": "When use RDDs?",
+     "options": [
+      "Never",
+      "For low-level control or unstructured data where DataFrames don't fit",
+      "Rarely",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "Escape hatch."
+    },
+    {
+     "q": "What is an immutable DataFrame?",
+     "options": [
+      "Mutable",
+      "Cached",
+      "Typed",
+      "Transformations return new DataFrames; the original never changes"
+     ],
+     "answer": 3,
+     "explain": "Functional style."
+    }
+   ]
+  },
+  "level-1/05-reading-data": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nimport tempfile, os\nd = tempfile.mkdtemp()\nopen(d + \"/a.csv\", \"w\").write(\"id,name,score\\n1,Ann,3.5\\n2,Bob,\\n3,Cy,4.0\\n\")\ndf = spark.read.csv(d + \"/a.csv\", header=True, inferSchema=True)\nprint(df.dtypes)\nprint(df.filter(F.col(\"score\").isNull()).count())\n```\n",
+     "options": [
+      "[('id', 'int'), ('name', 'string'), ('score', 'double')]\n1",
+      "[('id', 'string'), ('name', 'string'), ('score', 'string')]\n1",
+      "[('id', 'int'), ('name', 'string'), ('score', 'double')]\n0",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "inferSchema reads types; empty values are null. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "Why define a schema explicitly in production?",
+     "options": [
+      "Style",
+      "Avoids an extra pass and prevents wrong inferred types",
+      "Cost only",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Faster and safer."
+    },
+    {
+     "q": "Which read option handles malformed CSV rows?",
+     "options": [
+      "mode (PERMISSIVE, DROPMALFORMED, FAILFAST)",
+      "quote",
+      "sep",
+      "header"
+     ],
+     "answer": 0,
+     "explain": "Corrupt record handling."
+    },
+    {
+     "q": "Which format is columnar and good for analytics?",
+     "options": [
+      "Text",
+      "JSON",
+      "CSV",
+      "Parquet"
+     ],
+     "answer": 3,
+     "explain": "Compression and predicate pushdown."
+    }
+   ]
+  },
+  "level-1/06-dataframe-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(\"a\", 10), (\"b\", 20), (\"c\", 30)], [\"k\", \"v\"])\nr = df.withColumn(\"v2\", F.col(\"v\") * 2).filter(F.col(\"v2\") > 20).select(\"k\", \"v2\").orderBy(\"k\")\nprint(r.collect())\nprint(df.drop(\"v\").columns, df.withColumnRenamed(\"v\", \"value\").columns)\n```\n",
+     "options": [
+      "[Row(k='b', v2=40)]\n['k'] ['k', 'v']",
+      "[Row(k='a', v2=20)]\n['k'] ['k', 'value']",
+      "Error",
+      "[Row(k='b', v2=40), Row(k='c', v2=60)]\n['k'] ['k', 'value']"
+     ],
+     "answer": 3,
+     "explain": "select/filter/withColumn. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(1, \"x\"), (1, \"x\"), (2, \"y\")], [\"id\", \"v\"])\nprint(df.distinct().count(), df.dropDuplicates([\"id\"]).count(), df.limit(2).count())\n```\n",
+     "options": [
+      "3 2 2",
+      "2 3 2",
+      "2 2 2",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "distinct and dropDuplicates. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does df.select('a') return?",
+     "options": [
+      "Row",
+      "A new DataFrame with only column a",
+      "List",
+      "Column"
+     ],
+     "answer": 1,
+     "explain": "Lazy."
+    },
+    {
+     "q": "What does df.show() do?",
+     "options": [
+      "Returns",
+      "Prints the first rows (an action)",
+      "Caches",
+      "Plans"
+     ],
+     "answer": 1,
+     "explain": "Triggers execution."
+    }
+   ]
+  },
+  "level-1/07-schemas-data-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nschema = StructType([StructField(\"id\", IntegerType(), False), StructField(\"name\", StringType(), True)])\ndf = spark.createDataFrame([(1, \"a\"), (2, None)], schema)\nprint(df.schema.simpleString(), df.schema[\"id\"].nullable, df.filter(F.col(\"name\").isNull()).count())\n```\n",
+     "options": [
+      "struct<id:int,name:string> False 1",
+      "Error",
+      "struct<id:bigint,name:string> False 1",
+      "struct<id:int,name:string> True 1"
+     ],
+     "answer": 0,
+     "explain": "Explicit schemas. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(\"1\", \"2.5\"), (\"x\", \"3\")], [\"a\", \"b\"])\nr = df.select(F.col(\"a\").cast(\"int\").alias(\"a\"), F.col(\"b\").cast(\"double\").alias(\"b\"))\nprint(r.collect())\n```\n",
+     "options": [
+      "[Row(a=1, b=2.5), Row(a='x', b=3.0)]",
+      "Error",
+      "[Row(a=1, b=2.5), Row(a=None, b=3.0)]",
+      "[Row(a=1, b=2.5)]"
+     ],
+     "answer": 2,
+     "explain": "Failed casts become null (without ANSI mode). Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "Which type should hold money?",
+     "options": [
+      "Double",
+      "Float",
+      "DecimalType with fixed precision",
+      "String"
+     ],
+     "answer": 2,
+     "explain": "Avoid binary float."
+    },
+    {
+     "q": "What is nullable in a schema?",
+     "options": [
+      "Optional",
+      "Whether the column may contain nulls",
+      "Index",
+      "Cache"
+     ],
+     "answer": 1,
+     "explain": "Metadata."
+    }
+   ]
+  },
+  "level-1/08-basic-aggregations": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(\"a\", 10), (\"a\", 20), (\"b\", 5), (\"b\", None)], [\"k\", \"v\"])\nr = df.groupBy(\"k\").agg(F.count(\"*\").alias(\"rows\"), F.count(\"v\").alias(\"nn\"), F.sum(\"v\").alias(\"s\"), F.avg(\"v\").alias(\"a\")).orderBy(\"k\")\nprint(r.collect())\n```\n",
+     "options": [
+      "[Row(k='a', rows=2, nn=2, s=30, a=15.0)]",
+      "[Row(k='a', rows=2, nn=2, s=30, a=15.0), Row(k='b', rows=2, nn=1, s=5, a=5.0)]",
+      "[Row(k='a', rows=2, nn=2, s=30, a=15.0), Row(k='b', rows=2, nn=2, s=5, a=2.5)]",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "count(col) ignores nulls; count(*) counts rows. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(1,), (2,), (3,), (4,)], [\"x\"])\nprint(df.agg(F.min(\"x\"), F.max(\"x\"), F.round(F.stddev(\"x\"), 3)).collect()[0])\n```\n",
+     "options": [
+      "Row(min(x)=1, max(x)=4, round(stddev(x), 3)=1.291)",
+      "Row(min(x)=1, max(x)=4, round(stddev(x), 3)=1.118)",
+      "Row(min=1, max=4)",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "stddev is the sample standard deviation. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What is the difference between groupBy().count() and count()?",
+     "options": [
+      "Reverse",
+      "None",
+      "Same",
+      "groupBy counts per group; df.count() is an action returning one number"
+     ],
+     "answer": 3,
+     "explain": "Transformation vs action."
+    },
+    {
+     "q": "Why use approx_count_distinct on huge data?",
+     "options": [
+      "Law",
+      "Cache",
+      "Exact",
+      "It is much cheaper than exact distinct counts with small error"
+     ],
+     "answer": 3,
+     "explain": "HyperLogLog."
+    }
+   ]
+  },
+  "level-1/09-writing-data-out": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nimport tempfile, os\nd = tempfile.mkdtemp() + \"/out\"\ndf = spark.createDataFrame([(\"a\", 1), (\"b\", 2), (\"a\", 3)], [\"k\", \"v\"])\ndf.write.partitionBy(\"k\").mode(\"overwrite\").parquet(d)\nprint(sorted(x for x in os.listdir(d) if x.startswith(\"k=\")))\nprint(spark.read.parquet(d).filter(\"k = 'a'\").count())\n```\n",
+     "options": [
+      "Error",
+      "['k=a', 'k=b']\n3",
+      "['a', 'b']\n2",
+      "['k=a', 'k=b']\n2"
+     ],
+     "answer": 3,
+     "explain": "partitionBy creates directories. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does mode('append') do?",
+     "options": [
+      "Adds to existing data instead of overwriting",
+      "Skips",
+      "Errors",
+      "Replaces"
+     ],
+     "answer": 0,
+     "explain": "Also overwrite, ignore, error."
+    },
+    {
+     "q": "Why avoid many tiny output files?",
+     "options": [
+      "They slow reads and overload the metadata/file system; coalesce or repartition before writing",
+      "Cost",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Small file problem."
+    },
+    {
+     "q": "What is dynamic partition overwrite for?",
+     "options": [
+      "Everything",
+      "Schema",
+      "Replace only the partitions present in the new data",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Safe incremental writes."
+    }
+   ]
+  },
+  "level-1/10-capstone-csv-to-parquet-etl": {
+   "questions": [
+    {
+     "q": "What does the CSV-to-Parquet ETL project combine?",
+     "options": [
+      "Only write",
+      "Only read",
+      "Only clean",
+      "Reading with a schema, cleaning, transforming and writing partitioned Parquet"
+     ],
+     "answer": 3,
+     "explain": "Level 1 capstone."
+    },
+    {
+     "q": "How validate an ETL output?",
+     "options": [
+      "Skim",
+      "Compare row counts and key aggregates between input and output",
+      "Look",
+      "Trust"
+     ],
+     "answer": 1,
+     "explain": "Reconciliation."
+    },
+    {
+     "q": "Where should bad rows go?",
+     "options": [
+      "Dropped",
+      "To a quarantine location with the reason, not silently dropped",
+      "Kept",
+      "Hidden"
+     ],
+     "answer": 1,
+     "explain": "Data quality."
+    },
+    {
+     "q": "Why make the job idempotent?",
+     "options": [
+      "Law",
+      "Cost",
+      "Re-running it produces the same result without duplicates",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Reliable pipelines."
+    }
+   ]
+  },
+  "level-2/01-joins-broadcast-vs-shuffle": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\norders = spark.createDataFrame([(1,101,250.0),(2,102,75.5),(3,101,40.0),(4,103,500.0),(5,104,12.25)], [\"order_id\",\"customer_id\",\"amount\"])\ncustomers = spark.createDataFrame([(101,\"Alice\",\"US\"),(102,\"Bob\",\"IN\"),(103,\"Carla\",\"DE\")], [\"customer_id\",\"name\",\"country\"])\ninner = orders.join(customers, \"customer_id\", \"inner\")\nleft = orders.join(customers, \"customer_id\", \"left\")\nanti = orders.join(customers, \"customer_id\", \"left_anti\")\nprint(inner.count(), left.count(), anti.collect())\n```\n",
+     "options": [
+      "Error",
+      "5 5 []",
+      "4 5 [Row(customer_id=104, order_id=5, amount=12.25)]",
+      "4 4 [Row(customer_id=104, order_id=5, amount=12.25)]"
+     ],
+     "answer": 2,
+     "explain": "Join types. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does this print?\n```python\norders = spark.createDataFrame([(1,101,250.0),(2,102,75.5),(3,101,40.0),(4,103,500.0),(5,104,12.25)], [\"order_id\",\"customer_id\",\"amount\"])\ncustomers = spark.createDataFrame([(101,\"Alice\",\"US\"),(102,\"Bob\",\"IN\"),(103,\"Carla\",\"DE\")], [\"customer_id\",\"name\",\"country\"])\nj = orders.join(F.broadcast(customers), \"customer_id\")\nplan = j._jdf.queryExecution().executedPlan().toString()\nprint(\"BroadcastHashJoin\" in plan, \"SortMergeJoin\" in plan)\n```\n",
+     "options": [
+      "True False",
+      "True True",
+      "False False",
+      "False True"
+     ],
+     "answer": 0,
+     "explain": "A hint forces a broadcast of the small side. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "When is a broadcast join best?",
+     "options": [
+      "Never",
+      "Both big",
+      "When one side is small enough to fit in memory on every executor",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "Avoids a shuffle."
+    },
+    {
+     "q": "What is the default join strategy for large tables?",
+     "options": [
+      "Nested",
+      "Hash",
+      "Broadcast",
+      "Sort-merge join (shuffle both sides)"
+     ],
+     "answer": 3,
+     "explain": "Expensive."
+    }
+   ]
+  },
+  "level-2/02-window-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(\"a\", 1, 10), (\"a\", 2, 30), (\"a\", 3, 20), (\"b\", 1, 5), (\"b\", 2, 5)], [\"k\", \"t\", \"v\"])\nw = Window.partitionBy(\"k\").orderBy(\"t\")\nr = df.withColumn(\"rn\", F.row_number().over(w)).withColumn(\"prev\", F.lag(\"v\").over(w)).withColumn(\"run\", F.sum(\"v\").over(w)).orderBy(\"k\", \"t\")\nprint([tuple(x) for x in r.select(\"k\", \"rn\", \"prev\", \"run\").collect()])\n```\n",
+     "options": [
+      "[('a', 1, None, 10), ('a', 2, 10, 40), ('a', 3, 30, 60), ('b', 1, None, 5), ('b', 2, 5, 10)]",
+      "[('a', 1, None, 10), ('a', 2, 10, 30), ('a', 3, 30, 20)]",
+      "Error",
+      "[('a', 1, 10, 10)]"
+     ],
+     "answer": 0,
+     "explain": "Running totals with ordered windows. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(\"a\", 90), (\"a\", 90), (\"a\", 70), (\"b\", 50)], [\"k\", \"s\"])\nw = Window.partitionBy(\"k\").orderBy(F.desc(\"s\"))\nr = df.withColumn(\"rank\", F.rank().over(w)).withColumn(\"dense\", F.dense_rank().over(w)).orderBy(\"k\", F.desc(\"s\"))\nprint([(x.k, x.s, x[\"rank\"], x.dense) for x in r.collect()])\n```\n",
+     "options": [
+      "[('a', 90, 1, 1), ('a', 90, 1, 1), ('a', 70, 2, 2), ('b', 50, 1, 1)]",
+      "[('a', 90, 1, 1), ('a', 90, 2, 2), ('a', 70, 3, 3), ('b', 50, 1, 1)]",
+      "Error",
+      "[('a', 90, 1, 1), ('a', 90, 1, 1), ('a', 70, 3, 2), ('b', 50, 1, 1)]"
+     ],
+     "answer": 3,
+     "explain": "rank leaves gaps; dense_rank does not. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "Why do windows without partitionBy cause trouble?",
+     "options": [
+      "Speed",
+      "Cost",
+      "Law",
+      "All data moves to a single partition"
+     ],
+     "answer": 3,
+     "explain": "Always partition."
+    },
+    {
+     "q": "What does a frame like rowsBetween(-2, 0) define?",
+     "options": [
+      "The current row and the two before it for a moving average",
+      "Join",
+      "Sort",
+      "Partition"
+     ],
+     "answer": 0,
+     "explain": "Moving windows."
+    }
+   ]
+  },
+  "level-2/03-udfs": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom pyspark.sql.functions import udf\n@udf(returnType=StringType())\ndef tier(n):\n    return \"high\" if n is not None and n >= 100 else \"low\"\ndf = spark.createDataFrame([(50,), (150,), (None,)], [\"v\"])\na = df.withColumn(\"t\", tier(\"v\")).collect()\nb = df.withColumn(\"t\", F.when(F.col(\"v\") >= 100, \"high\").otherwise(\"low\")).collect()\nprint([r.t for r in a], [r.t for r in b])\n```\n",
+     "options": [
+      "['low', 'high', None] ['low', 'high', 'low']",
+      "Error",
+      "['low', 'high', 'low'] ['low', 'high', 'low']",
+      "['low', 'high', 'low'] ['low', 'high', None]"
+     ],
+     "answer": 2,
+     "explain": "Same result; built-ins are faster. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "Why prefer built-in functions over Python UDFs?",
+     "options": [
+      "Law",
+      "They run in the JVM and the optimizer can see them; UDFs serialize rows to Python",
+      "Shorter",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Performance."
+    },
+    {
+     "q": "What are pandas UDFs?",
+     "options": [
+      "Slow",
+      "Vectorized UDFs operating on Arrow batches (much faster than row UDFs)",
+      "Same",
+      "Old"
+     ],
+     "answer": 1,
+     "explain": "When logic can't be expressed in built-ins."
+    },
+    {
+     "q": "What happens to nulls in a UDF?",
+     "options": [
+      "Error",
+      "Skipped",
+      "Auto",
+      "You must handle None yourself"
+     ],
+     "answer": 3,
+     "explain": "Defensive code."
+    }
+   ]
+  },
+  "level-2/04-partitioning-strategy": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\ndf = spark.range(1000)\nprint(df.rdd.getNumPartitions() >= 1, df.repartition(8).rdd.getNumPartitions(), df.repartition(8).coalesce(2).rdd.getNumPartitions())\n```\n",
+     "options": [
+      "True 8 2",
+      "True 8 8",
+      "Error",
+      "True 2 8"
+     ],
+     "answer": 0,
+     "explain": "repartition shuffles; coalesce merges without a full shuffle. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(i % 3, i) for i in range(12)], [\"k\", \"v\"])\np = df.repartition(3, \"k\")\nplaces = {}\nfor idx, part in enumerate(p.rdd.glom().collect()):\n    for r in part: places.setdefault(r.k, set()).add(idx)\nprint(sorted((k, len(v)) for k, v in places.items()))\nprint(p.rdd.getNumPartitions())\n```\n",
+     "options": [
+      "[(0, 3), (1, 3), (2, 3)]\n3",
+      "[(0, 1), (1, 1), (2, 1)]\n3",
+      "Error",
+      "[(0, 1), (1, 1), (2, 1)]\n12"
+     ],
+     "answer": 1,
+     "explain": "Hash partitioning keeps every row of a key in a single partition (two keys may share one). Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What is a good target partition size?",
+     "options": [
+      "1 KB",
+      "1 byte",
+      "Roughly 100–200 MB per partition",
+      "10 GB"
+     ],
+     "answer": 2,
+     "explain": "Balance parallelism and overhead."
+    },
+    {
+     "q": "When use coalesce instead of repartition?",
+     "options": [
+      "To reduce partitions cheaply without a full shuffle",
+      "Always",
+      "Never",
+      "Increase"
+     ],
+     "answer": 0,
+     "explain": "Cheaper."
+    }
+   ]
+  },
+  "level-2/05-caching-persistence": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\ndf = spark.range(100000).withColumn(\"m\", F.col(\"id\") % 7)\nc = df.cache()\nprint(c.count(), c.is_cached, c.storageLevel.useMemory)\nc.unpersist()\nprint(c.is_cached)\n```\n",
+     "options": [
+      "100000 True True\nFalse",
+      "100000 True False\nFalse",
+      "100000 False True\nFalse",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "cache() is lazy until an action. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "When is caching worthwhile?",
+     "options": [
+      "Once",
+      "When a DataFrame is reused several times and is expensive to recompute",
+      "Always",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Memory is limited."
+    },
+    {
+     "q": "What does persist(MEMORY_AND_DISK) do?",
+     "options": [
+      "Drops",
+      "Replicates",
+      "Errors",
+      "Spills partitions that don't fit in memory to disk"
+     ],
+     "answer": 3,
+     "explain": "Safer than memory-only."
+    },
+    {
+     "q": "What should you do when you no longer need a cached DataFrame?",
+     "options": [
+      "unpersist() to free memory",
+      "Nothing",
+      "cache",
+      "Restart"
+     ],
+     "answer": 0,
+     "explain": "Resource hygiene."
+    }
+   ]
+  },
+  "level-2/06-spark-sql-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(\"a\", 3), (\"b\", 8), (\"c\", 5)], [\"name\", \"score\"])\ndf.createOrReplaceTempView(\"t\")\nprint(spark.sql(\"SELECT name FROM t WHERE score > 4 ORDER BY score DESC\").collect())\nprint(spark.sql(\"SELECT count(*) AS n, round(avg(score), 2) AS a FROM t\").collect())\n```\n",
+     "options": [
+      "Error",
+      "[Row(name='b'), Row(name='c')]\n[Row(n=3, a=5.33)]",
+      "[Row(name='c'), Row(name='b')]\n[Row(n=3, a=5.33)]",
+      "[Row(name='b')]\n[Row(n=3, a=5.0)]"
+     ],
+     "answer": 1,
+     "explain": "Temp views let you mix SQL and DataFrames. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does a temp view live for?",
+     "options": [
+      "Forever",
+      "The SparkSession",
+      "One query",
+      "The cluster"
+     ],
+     "answer": 1,
+     "explain": "Session-scoped."
+    },
+    {
+     "q": "What is a global temp view?",
+     "options": [
+      "Cache",
+      "A view shared across sessions in the same application, under global_temp",
+      "Table",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Cross-session."
+    },
+    {
+     "q": "Why is Spark SQL good for analysts?",
+     "options": [
+      "Familiar SQL runs on the same optimizer and engine as DataFrames",
+      "Newer",
+      "Smaller",
+      "Faster only"
+     ],
+     "answer": 0,
+     "explain": "Unified."
+    }
+   ]
+  },
+  "level-2/07-sql-and-dataframe-api": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(\"a\", 1), (\"a\", 2), (\"b\", 3)], [\"k\", \"v\"])\napi = df.groupBy(\"k\").agg(F.sum(\"v\").alias(\"s\")).orderBy(\"k\").collect()\ndf.createOrReplaceTempView(\"t\")\nsql = spark.sql(\"SELECT k, SUM(v) AS s FROM t GROUP BY k ORDER BY k\").collect()\nprint(api == sql, api)\n```\n",
+     "options": [
+      "True [Row(k='a', s=1)]",
+      "False [Row(k='a', s=3)]",
+      "True [Row(k='a', s=3), Row(k='b', s=3)]",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Both APIs compile to the same plan. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "Which should you choose?",
+     "options": [
+      "Whichever expresses the logic most clearly; they perform the same",
+      "Neither",
+      "SQL",
+      "API"
+     ],
+     "answer": 0,
+     "explain": "Catalyst."
+    },
+    {
+     "q": "What does explain() show?",
+     "options": [
+      "Schema",
+      "The logical and physical plans Spark will run",
+      "Data",
+      "Stats"
+     ],
+     "answer": 1,
+     "explain": "Compare both."
+    },
+    {
+     "q": "How mix SQL and API in one pipeline?",
+     "options": [
+      "Export",
+      "Cannot",
+      "Cache",
+      "Register DataFrames as views and chain spark.sql and DataFrame calls"
+     ],
+     "answer": 3,
+     "explain": "Flexible."
+    }
+   ]
+  },
+  "level-2/08-nulls-data-cleaning": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(\"a\", 1.0), (\"b\", None), (None, 3.0), (\"a\", None)], [\"k\", \"v\"])\nprint(df.na.fill({\"v\": 0.0}).collect())\nprint(df.dropna(subset=[\"k\"]).count(), df.dropna(how=\"all\", subset=[\"k\", \"v\"]).count(), df.filter(F.col(\"v\").isNull()).count())\nprint(df.select(F.coalesce(\"k\", F.lit(\"?\")).alias(\"k\")).collect())\n```\n",
+     "options": [
+      "[Row(k='a', v=1.0), Row(k='b', v=0.0), Row(k=None, v=3.0), Row(k='a', v=0.0)]\n4 4 2\n[Row(k='a'), Row(k='b'), Row(k='?'), Row(k='a')]",
+      "[Row(k='a', v=1.0)]\n3 4 2\n[Row(k='a')]",
+      "Error",
+      "[Row(k='a', v=1.0), Row(k='b', v=0.0), Row(k=None, v=3.0), Row(k='a', v=0.0)]\n3 4 2\n[Row(k='a'), Row(k='b'), Row(k='?'), Row(k='a')]"
+     ],
+     "answer": 3,
+     "explain": "Null handling helpers. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does null == null return in Spark SQL?",
+     "options": [
+      "null (unknown); use eqNullSafe / <=> for null-safe equality",
+      "True",
+      "Error",
+      "False"
+     ],
+     "answer": 0,
+     "explain": "Three-valued logic."
+    },
+    {
+     "q": "Why not blindly drop rows with nulls?",
+     "options": [
+      "Style",
+      "Cost",
+      "It can bias results; decide per column what's valid",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Understand data."
+    },
+    {
+     "q": "What does na.drop(thresh=2) do?",
+     "options": [
+      "Drops all",
+      "Keeps rows with at least 2 non-null values",
+      "Fills",
+      "Casts"
+     ],
+     "answer": 1,
+     "explain": "Threshold."
+    }
+   ]
+  },
+  "level-2/09-nested-complex-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom pyspark.sql.types import ArrayType\ndf = spark.createDataFrame([(1, [10, 20], {\"city\": \"Pune\", \"zip\": \"411\"}), (2, [], {\"city\": \"Oslo\"})], \"id int, nums array<int>, addr map<string,string>\")\nr = df.select(\"id\", F.size(\"nums\").alias(\"n\"), F.col(\"addr\")[\"city\"].alias(\"city\"), F.explode_outer(\"nums\").alias(\"x\"))\nprint([tuple(x) for x in r.orderBy(\"id\", \"x\").collect()])\n```\n",
+     "options": [
+      "[(1, 2, 'Pune', 10), (1, 2, 'Pune', 20)]",
+      "Error",
+      "[(1, 2, 'Pune', 10), (1, 2, 'Pune', 20), (2, 0, 'Oslo', None)]",
+      "[(1, 2, 'Pune', [10, 20]), (2, 0, 'Oslo', [])]"
+     ],
+     "answer": 2,
+     "explain": "explode_outer keeps rows with empty arrays. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([('{\"a\": 1, \"b\": {\"c\": \"x\"}}',)], [\"j\"])\nr = df.select(F.get_json_object(\"j\", \"$.b.c\").alias(\"c\"), F.from_json(\"j\", \"a int, b struct<c:string>\").alias(\"s\"))\nprint(r.collect()[0].c, r.select(\"s.a\", \"s.b.c\").collect())\n```\n",
+     "options": [
+      "None [Row(a=1, c='x')]",
+      "Error",
+      "x [Row(a=1)]",
+      "x [Row(a=1, c='x')]"
+     ],
+     "answer": 3,
+     "explain": "JSON helpers and struct access. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does explode do to an empty array?",
+     "options": [
+      "Drops the row (use explode_outer to keep it)",
+      "Keeps",
+      "Null",
+      "Errors"
+     ],
+     "answer": 0,
+     "explain": "Careful with counts."
+    },
+    {
+     "q": "How access a struct field?",
+     "options": [
+      "col('s.field') or col('s')['field']",
+      "s->field",
+      "s::field",
+      "s#field"
+     ],
+     "answer": 0,
+     "explain": "Dot notation."
+    }
+   ]
+  },
+  "level-2/10-capstone-multi-source-join": {
+   "questions": [
+    {
+     "q": "What does the multi-source join project combine?",
+     "options": [
+      "Reading multiple formats, cleaning, joining and validating the result",
+      "Only joins",
+      "Only cleaning",
+      "Only reads"
+     ],
+     "answer": 0,
+     "explain": "Level 2 capstone."
+    },
+    {
+     "q": "How handle mismatched keys across sources?",
+     "options": [
+      "Normalize (trim/case/type) before joining and measure unmatched rows",
+      "Ignore",
+      "Cast",
+      "Drop"
+     ],
+     "answer": 0,
+     "explain": "Key hygiene."
+    },
+    {
+     "q": "How detect join explosions?",
+     "options": [
+      "Cache",
+      "Skim",
+      "Compare row counts before and after the join and check key uniqueness",
+      "Hope"
+     ],
+     "answer": 2,
+     "explain": "Duplicate keys multiply rows."
+    },
+    {
+     "q": "What belongs in a join audit?",
+     "options": [
+      "Time",
+      "Names",
+      "Matched, unmatched and duplicated key counts",
+      "Cost"
+     ],
+     "answer": 2,
+     "explain": "Trust."
+    }
+   ]
+  },
+  "level-3/01-execution-plan-explain": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\norders = spark.createDataFrame([(1,101,250.0),(2,102,75.5),(3,101,40.0),(4,103,500.0),(5,104,12.25)], [\"order_id\",\"customer_id\",\"amount\"])\ncustomers = spark.createDataFrame([(101,\"Alice\",\"US\"),(102,\"Bob\",\"IN\"),(103,\"Carla\",\"DE\")], [\"customer_id\",\"name\",\"country\"])\nj = orders.groupBy(\"customer_id\").agg(F.sum(\"amount\").alias(\"t\"))\ntext = j._jdf.queryExecution().executedPlan().toString()\nprint(\"HashAggregate\" in text, \"Exchange\" in text)\n```\n",
+     "options": [
+      "False False",
+      "True False",
+      "True True",
+      "False True"
+     ],
+     "answer": 2,
+     "explain": "A groupBy needs a shuffle (Exchange). Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What do you read first in explain()?",
+     "options": [
+      "Names",
+      "The Exchange nodes (shuffles) and the join strategy",
+      "Colors",
+      "Costs"
+     ],
+     "answer": 1,
+     "explain": "Cost drivers."
+    },
+    {
+     "q": "What is predicate pushdown?",
+     "options": [
+      "Joining",
+      "Sorting",
+      "Applying filters at the data source to read less data",
+      "Caching"
+     ],
+     "answer": 2,
+     "explain": "Parquet/ORC."
+    },
+    {
+     "q": "What does 'explain(\"formatted\")' offer?",
+     "options": [
+      "Errors",
+      "A readable plan with operator details",
+      "Data",
+      "Stats"
+     ],
+     "answer": 1,
+     "explain": "Spark 3+."
+    }
+   ]
+  },
+  "level-3/02-shuffle-optimization": {
+   "questions": [
+    {
+     "q": "What is the biggest shuffle-reduction tactic?",
+     "options": [
+      "Filter and project early, and broadcast small tables",
+      "More nodes",
+      "Sort",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "Less data moved."
+    },
+    {
+     "q": "What does spark.sql.shuffle.partitions control?",
+     "options": [
+      "Memory",
+      "Cores",
+      "Tasks",
+      "The number of partitions after a shuffle (default 200)"
+     ],
+     "answer": 3,
+     "explain": "Tune to data size."
+    },
+    {
+     "q": "What is a map-side combine?",
+     "options": [
+      "Cache",
+      "Sort",
+      "Join",
+      "Partial aggregation before the shuffle to reduce data moved"
+     ],
+     "answer": 3,
+     "explain": "reduceByKey vs groupByKey."
+    },
+    {
+     "q": "Why avoid groupByKey on RDDs?",
+     "options": [
+      "Old",
+      "Slow API",
+      "It shuffles all values without pre-aggregating",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Prefer reduceByKey/aggregateByKey."
+    }
+   ]
+  },
+  "level-3/03-handling-skewed-data": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(\"hot\", i) for i in range(8)] + [(\"cold\", 1), (\"warm\", 2)], [\"k\", \"v\"])\ncounts = df.groupBy(\"k\").count().orderBy(F.desc(\"count\"), \"k\").collect()\nprint([(r.k, r[\"count\"]) for r in counts])\nsalted = df.withColumn(\"salt\", (F.rand(seed=1) * 3).cast(\"int\"))\ntwo = salted.groupBy(\"k\", \"salt\").agg(F.count(\"*\").alias(\"c\")).groupBy(\"k\").agg(F.sum(\"c\").alias(\"n\")).orderBy(F.desc(\"n\"), \"k\").collect()\nprint([(r.k, r.n) for r in two])\n```\n",
+     "options": [
+      "[('hot', 8)]\n[('hot', 3)]",
+      "[('hot', 8), ('cold', 1), ('warm', 1)]\n[('hot', 8), ('cold', 1), ('warm', 1)]",
+      "[('cold', 1), ('hot', 8)]\n[('hot', 8)]",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Salting spreads a hot key over several partitions and then re-aggregates; the result is identical. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "How spot skew in the Spark UI?",
+     "options": [
+      "Colors",
+      "A few tasks in a stage take much longer or process far more data",
+      "Cores",
+      "Jobs"
+     ],
+     "answer": 1,
+     "explain": "Task time distribution."
+    },
+    {
+     "q": "What does AQE skew-join handling do?",
+     "options": [
+      "Joins",
+      "Drops",
+      "Caches",
+      "Splits oversized partitions automatically at runtime"
+     ],
+     "answer": 3,
+     "explain": "Spark 3+."
+    },
+    {
+     "q": "What is salting?",
+     "options": [
+      "Adding a random suffix to hot keys to distribute them, then aggregating again",
+      "Caching",
+      "Encryption",
+      "Sorting"
+     ],
+     "answer": 0,
+     "explain": "Manual remedy."
+    }
+   ]
+  },
+  "level-3/04-structured-streaming-basics": {
+   "questions": [
+    {
+     "q": "What does Structured Streaming treat a stream as?",
+     "options": [
+      "Batch",
+      "An unbounded table that grows as new data arrives",
+      "Events",
+      "Files"
+     ],
+     "answer": 1,
+     "explain": "Same DataFrame API."
+    },
+    {
+     "q": "What is a trigger?",
+     "options": [
+      "Cache",
+      "Job",
+      "Alert",
+      "When the engine processes new data (e.g. every 10 seconds or once)"
+     ],
+     "answer": 3,
+     "explain": "Micro-batches."
+    },
+    {
+     "q": "What are output modes?",
+     "options": [
+      "Merge",
+      "Write",
+      "append, update and complete",
+      "Read"
+     ],
+     "answer": 2,
+     "explain": "What gets written each batch."
+    },
+    {
+     "q": "What is a watermark?",
+     "options": [
+      "Mark",
+      "Key",
+      "A bound on how late event-time data may arrive, so state can be dropped",
+      "Limit"
+     ],
+     "answer": 2,
+     "explain": "State management."
+    }
+   ]
+  },
+  "level-3/05-performance-tuning": {
+   "questions": [
+    {
+     "q": "What is the first step in tuning?",
+     "options": [
+      "Add memory",
+      "Find the bottleneck (shuffle, skew, spill, GC) with the Spark UI",
+      "Cache",
+      "Repartition"
+     ],
+     "answer": 1,
+     "explain": "Measure."
+    },
+    {
+     "q": "What does spill mean?",
+     "options": [
+      "Data didn't fit in memory and was written to disk, slowing tasks",
+      "Cache",
+      "Skew",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Increase partitions."
+    },
+    {
+     "q": "What reduces serialization costs?",
+     "options": [
+      "UDF",
+      "Cache",
+      "Using built-in functions and Kryo/Arrow where relevant",
+      "Python"
+     ],
+     "answer": 2,
+     "explain": "Less overhead."
+    },
+    {
+     "q": "What is a rule of thumb for executor cores?",
+     "options": [
+      "1",
+      "40",
+      "100",
+      "About 4–5 cores per executor to avoid I/O contention"
+     ],
+     "answer": 3,
+     "explain": "Balanced."
+    }
+   ]
+  },
+  "level-3/06-adaptive-query-execution": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nspark.conf.set(\"spark.sql.adaptive.enabled\", \"true\")\nprint(spark.conf.get(\"spark.sql.adaptive.enabled\"), spark.conf.get(\"spark.sql.adaptive.coalescePartitions.enabled\"))\ndf = spark.range(1000).groupBy((F.col(\"id\") % 10).alias(\"k\")).count()\nprint(df.count())\n```\n",
+     "options": [
+      "false true\n10",
+      "true true\n10",
+      "Error",
+      "true false\n10"
+     ],
+     "answer": 1,
+     "explain": "AQE is on by default in Spark 3.2+; here it's enabled explicitly. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What does AQE do at runtime?",
+     "options": [
+      "Joins",
+      "Reads",
+      "Caches",
+      "Re-optimizes using real statistics: coalesces partitions, switches join strategy and handles skew"
+     ],
+     "answer": 3,
+     "explain": "Adaptive."
+    },
+    {
+     "q": "Why is AQE valuable?",
+     "options": [
+      "Style",
+      "Static estimates are often wrong; runtime stats fix plans",
+      "Law",
+      "Cost"
+     ],
+     "answer": 1,
+     "explain": "Less manual tuning."
+    },
+    {
+     "q": "Does AQE replace understanding of your data?",
+     "options": [
+      "Maybe",
+      "Always",
+      "Yes",
+      "No; it helps but you still design partitioning and joins"
+     ],
+     "answer": 3,
+     "explain": "Tool, not magic."
+    }
+   ]
+  },
+  "level-3/07-broadcast-joins-at-scale": {
+   "questions": [
+    {
+     "q": "Why might Spark not auto-broadcast a small DataFrame built with createDataFrame?",
+     "options": [
+      "Law",
+      "Cost",
+      "Automatic broadcast relies on size statistics, which in-memory Python data often lacks; use F.broadcast() to force it",
+      "Bug"
+     ],
+     "answer": 2,
+     "explain": "Verified locally: even a 2-row DataFrame planned a sort-merge join without the hint."
+    },
+    {
+     "q": "What is the risk of broadcasting too much?",
+     "options": [
+      "Law",
+      "Executors run out of memory",
+      "Cost",
+      "Slow"
+     ],
+     "answer": 1,
+     "explain": "Mind table sizes."
+    },
+    {
+     "q": "What does autoBroadcastJoinThreshold default to?",
+     "options": [
+      "10 MB",
+      "10 GB",
+      "1 KB",
+      "1 GB"
+     ],
+     "answer": 0,
+     "explain": "Tune carefully."
+    },
+    {
+     "q": "When avoid broadcast?",
+     "options": [
+      "Never",
+      "Rarely",
+      "Always",
+      "When the 'small' side grows or has skew in size"
+     ],
+     "answer": 3,
+     "explain": "Monitor."
+    }
+   ]
+  },
+  "level-3/08-monitoring-spark-ui": {
+   "questions": [
+    {
+     "q": "What does the Spark UI Stages tab show?",
+     "options": [
+      "Data",
+      "Code",
+      "Costs",
+      "Tasks, shuffle read/write, spill and duration per stage"
+     ],
+     "answer": 3,
+     "explain": "Diagnose."
+    },
+    {
+     "q": "What does the SQL tab show?",
+     "options": [
+      "Tables",
+      "Users",
+      "Logs",
+      "The query plan with metrics per operator"
+     ],
+     "answer": 3,
+     "explain": "Find slow nodes."
+    },
+    {
+     "q": "What's a sign of GC trouble?",
+     "options": [
+      "Low CPU",
+      "High GC time relative to task time in the Executors tab",
+      "Fast",
+      "Few tasks"
+     ],
+     "answer": 1,
+     "explain": "Memory pressure."
+    },
+    {
+     "q": "Where are job-level event logs stored?",
+     "options": [
+      "UI",
+      "Cache",
+      "The history server reads event logs for finished applications",
+      "Disk"
+     ],
+     "answer": 2,
+     "explain": "Post-mortems."
+    }
+   ]
+  },
+  "level-3/09-checkpointing-fault-tolerance": {
+   "questions": [
+    {
+     "q": "What does checkpointing do in streaming?",
+     "options": [
+      "Joins",
+      "Caches",
+      "Sorts",
+      "Saves progress and state so the query resumes after failure"
+     ],
+     "answer": 3,
+     "explain": "checkpointLocation."
+    },
+    {
+     "q": "What is an RDD lineage?",
+     "options": [
+      "The recorded chain of transformations used to recompute lost partitions",
+      "Plan",
+      "Cache",
+      "Log"
+     ],
+     "answer": 0,
+     "explain": "Fault tolerance."
+    },
+    {
+     "q": "When use RDD checkpoint?",
+     "options": [
+      "Small",
+      "Always",
+      "Never",
+      "To truncate long lineages in iterative jobs"
+     ],
+     "answer": 3,
+     "explain": "Avoid stack overflows."
+    },
+    {
+     "q": "What do exactly-once sinks need?",
+     "options": [
+      "Logs",
+      "Idempotent writes or transactional sinks plus checkpoints",
+      "Cache",
+      "Retries"
+     ],
+     "answer": 1,
+     "explain": "Delivery guarantees."
+    }
+   ]
+  },
+  "level-3/10-capstone-tuned-batch-pipeline": {
+   "questions": [
+    {
+     "q": "What does the tuned batch pipeline project combine?",
+     "options": [
+      "Only AQE",
+      "Only joins",
+      "Profiling, partitioning, joins, skew handling and AQE tuning with before/after measurements",
+      "Only cache"
+     ],
+     "answer": 2,
+     "explain": "Level 3 capstone."
+    },
+    {
+     "q": "How prove a tuning worked?",
+     "options": [
+      "Once",
+      "Feel",
+      "Guess",
+      "Compare runtime, shuffle and spill metrics before and after on the same data"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What do you change first?",
+     "options": [
+      "Everything",
+      "Code",
+      "Config",
+      "The biggest bottleneck identified by the UI"
+     ],
+     "answer": 3,
+     "explain": "Pareto."
+    },
+    {
+     "q": "What do you document?",
+     "options": [
+      "Findings, settings and the reasoning",
+      "Logs",
+      "Code",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Repeatable."
+    }
+   ]
+  },
+  "level-4/01-delta-lake-lakehouse-patterns": {
+   "questions": [
+    {
+     "q": "What does Delta Lake add on top of Parquet?",
+     "options": [
+      "ACID transactions, time travel, schema enforcement and MERGE",
+      "Cache",
+      "Speed only",
+      "SQL"
+     ],
+     "answer": 0,
+     "explain": "Lakehouse."
+    },
+    {
+     "q": "What does MERGE do?",
+     "options": [
+      "Copy",
+      "Join",
+      "Upserts: update matches and insert new rows atomically",
+      "Delete"
+     ],
+     "answer": 2,
+     "explain": "Idempotent loads."
+    },
+    {
+     "q": "What does time travel enable?",
+     "options": [
+      "Joining",
+      "Caching",
+      "Querying or restoring earlier versions of a table",
+      "Sorting"
+     ],
+     "answer": 2,
+     "explain": "Audit and rollback."
+    },
+    {
+     "q": "Why use Delta over plain Parquet files for a table that is updated?",
+     "options": [
+      "Colors",
+      "Smaller",
+      "Atomic commits and a transaction log prevent partial writes and enable MERGE and rollbacks",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Reliability."
+    }
+   ]
+  },
+  "level-4/02-orchestration-airflow-integration": {
+   "questions": [
+    {
+     "q": "What does Airflow do for Spark jobs?",
+     "options": [
+      "Runs Spark",
+      "Stores data",
+      "Schedules and orchestrates them with dependencies, retries and alerts",
+      "Tunes"
+     ],
+     "answer": 2,
+     "explain": "Workflow engine."
+    },
+    {
+     "q": "Which operator submits Spark jobs?",
+     "options": [
+      "SparkSubmitOperator (or provider-specific operators)",
+      "Python",
+      "SQL",
+      "Bash only"
+     ],
+     "answer": 0,
+     "explain": "Orchestration."
+    },
+    {
+     "q": "What should tasks be?",
+     "options": [
+      "Idempotent and parameterized by run date",
+      "Unique",
+      "Stateful",
+      "Manual"
+     ],
+     "answer": 0,
+     "explain": "Safe retries."
+    },
+    {
+     "q": "Where do business logic and orchestration live?",
+     "options": [
+      "Reverse",
+      "Business logic in Spark code; scheduling in the orchestrator",
+      "None",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Separation."
+    }
+   ]
+  },
+  "level-4/03-cost-performance-tradeoffs": {
+   "questions": [
+    {
+     "q": "How balance cost and performance?",
+     "options": [
+      "Min",
+      "Random",
+      "Right-size clusters, use spot capacity and autoscaling, and optimize hot jobs",
+      "Max"
+     ],
+     "answer": 2,
+     "explain": "Cost awareness."
+    },
+    {
+     "q": "What is a cheap big win?",
+     "options": [
+      "More nodes",
+      "Cache",
+      "UDF",
+      "Columnar formats, partition pruning and filtering early"
+     ],
+     "answer": 3,
+     "explain": "Read less."
+    },
+    {
+     "q": "When does adding nodes not help?",
+     "options": [
+      "Always",
+      "Rarely",
+      "Never",
+      "When the bottleneck is skew or a single partition"
+     ],
+     "answer": 3,
+     "explain": "Fix design first."
+    },
+    {
+     "q": "What should you track?",
+     "options": [
+      "CPU",
+      "Uptime",
+      "Nodes",
+      "Cost per job/run and per business output"
+     ],
+     "answer": 3,
+     "explain": "FinOps."
+    }
+   ]
+  },
+  "level-4/04-debugging-failed-spark-jobs": {
+   "questions": [
+    {
+     "q": "Where start debugging a failed job?",
+     "options": [
+      "Driver only",
+      "UI",
+      "The failed stage's task error and executor logs",
+      "Config"
+     ],
+     "answer": 2,
+     "explain": "Root cause."
+    },
+    {
+     "q": "What does an OOM error usually mean?",
+     "options": [
+      "Bug",
+      "Cost",
+      "Law",
+      "A partition or broadcast is too big for executor memory"
+     ],
+     "answer": 3,
+     "explain": "Repartition or increase memory."
+    },
+    {
+     "q": "What does 'FetchFailed' suggest?",
+     "options": [
+      "Skew",
+      "Bug",
+      "Syntax",
+      "Executor/node loss or shuffle data unavailable"
+     ],
+     "answer": 3,
+     "explain": "Check cluster health."
+    },
+    {
+     "q": "How reproduce a failure?",
+     "options": [
+      "Run on a smaller sample with the same code path and settings",
+      "Rerun",
+      "Restart",
+      "Wait"
+     ],
+     "answer": 0,
+     "explain": "Isolate."
+    }
+   ]
+  },
+  "level-4/05-schema-evolution-production": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\ndf1 = spark.createDataFrame([(1, \"a\")], [\"id\", \"v\"])\ndf2 = spark.createDataFrame([(2, \"b\", 1.5)], [\"id\", \"v\", \"w\"])\nu = df1.unionByName(df2, allowMissingColumns=True)\nprint(u.columns, [tuple(r) for r in u.orderBy(\"id\").collect()])\n```\n",
+     "options": [
+      "['id', 'v'] [(1, 'a'), (2, 'b')]",
+      "['id', 'v', 'w'] [(1, 'a', 1.5), (2, 'b', 1.5)]",
+      "['id', 'v', 'w'] [(1, 'a', None), (2, 'b', 1.5)]",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Schema evolution by name. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "What is a safe way to add a column in production?",
+     "options": [
+      "Rename",
+      "Rewrite",
+      "Add it as nullable with a default and update downstream consumers",
+      "Drop"
+     ],
+     "answer": 2,
+     "explain": "Backward compatibility."
+    },
+    {
+     "q": "What breaks consumers?",
+     "options": [
+      "Adding",
+      "Docs",
+      "Tests",
+      "Removing or retyping columns without notice"
+     ],
+     "answer": 3,
+     "explain": "Contracts."
+    },
+    {
+     "q": "What does mergeSchema do on Parquet/Delta writes?",
+     "options": [
+      "Allows new columns to be added to the table schema",
+      "Drops",
+      "Joins",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "Controlled evolution."
+    }
+   ]
+  },
+  "level-4/06-multi-tenant-cluster-strategy": {
+   "questions": [
+    {
+     "q": "What isolates tenants on a shared cluster?",
+     "options": [
+      "Queues/pools, quotas and per-team permissions",
+      "Names",
+      "Nothing",
+      "Time"
+     ],
+     "answer": 0,
+     "explain": "Fair scheduling."
+    },
+    {
+     "q": "What do dynamic allocation settings do?",
+     "options": [
+      "Cache",
+      "Scale executors up and down with load",
+      "Fixed",
+      "Join"
+     ],
+     "answer": 1,
+     "explain": "Efficiency."
+    },
+    {
+     "q": "How prevent noisy neighbors?",
+     "options": [
+      "Logs",
+      "Trust",
+      "Meetings",
+      "Resource limits and cost attribution"
+     ],
+     "answer": 3,
+     "explain": "Governance."
+    },
+    {
+     "q": "When use separate clusters?",
+     "options": [
+      "Small",
+      "For strict isolation or very different workloads",
+      "Always",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Trade-offs."
+    }
+   ]
+  },
+  "level-4/07-data-quality-gates": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\ndf = spark.createDataFrame([(1, \"a@x.com\", 10.0), (2, None, -5.0), (2, \"bad\", 7.0), (3, \"c@x.com\", None)], [\"id\", \"email\", \"amt\"])\nchecks = {\n    \"id_unique\": df.select(\"id\").distinct().count() == df.count(),\n    \"email_not_null\": df.filter(F.col(\"email\").isNull()).count() == 0,\n    \"email_format\": df.filter(~F.col(\"email\").rlike(\"^[^@]+@[^@]+$\")).count() == 0,\n    \"amt_non_negative\": df.filter(F.col(\"amt\") < 0).count() == 0,\n}\nprint({k: v for k, v in checks.items()})\nprint(\"FAIL\" if not all(checks.values()) else \"PASS\")\n```\n",
+     "options": [
+      "{'id_unique': False, 'email_not_null': False, 'email_format': False, 'amt_non_negative': False}\nFAIL",
+      "{'id_unique': False, 'email_not_null': True, 'email_format': True, 'amt_non_negative': False}\nFAIL",
+      "Error",
+      "{'id_unique': True, 'email_not_null': True, 'email_format': True, 'amt_non_negative': True}\nPASS"
+     ],
+     "answer": 0,
+     "explain": "Rows with null email are excluded from the rlike filter (null predicate), so only the 'bad' value is caught; every check fails here. Verified by running it on PySpark 3.5 (local mode)."
+    },
+    {
+     "q": "Where should quality gates sit?",
+     "options": [
+      "Start",
+      "Nowhere",
+      "End",
+      "Between pipeline stages, failing or quarantining before bad data propagates"
+     ],
+     "answer": 3,
+     "explain": "Fail fast."
+    },
+    {
+     "q": "What are common checks?",
+     "options": [
+      "Sizes",
+      "Colors",
+      "Uniqueness, nulls, ranges, referential integrity and freshness",
+      "Names"
+     ],
+     "answer": 2,
+     "explain": "Data tests."
+    },
+    {
+     "q": "What do you do with failing rows?",
+     "options": [
+      "Quarantine with reasons and alert owners",
+      "Drop",
+      "Ignore",
+      "Fix"
+     ],
+     "answer": 0,
+     "explain": "Traceability."
+    }
+   ]
+  },
+  "level-4/08-cicd-for-spark-jobs": {
+   "questions": [
+    {
+     "q": "What should CI run for Spark jobs?",
+     "options": [
+      "Unit tests on small local DataFrames, linting and integration tests",
+      "Manual",
+      "Nothing",
+      "Prod"
+     ],
+     "answer": 0,
+     "explain": "Local Spark."
+    },
+    {
+     "q": "How test transformation functions?",
+     "options": [
+      "Cluster",
+      "Write them as pure DataFrame-to-DataFrame functions and assert on small inputs",
+      "Print",
+      "Mock"
+     ],
+     "answer": 1,
+     "explain": "Testable design."
+    },
+    {
+     "q": "How deploy?",
+     "options": [
+      "Manual",
+      "Package the code, version it and promote through environments",
+      "Copy",
+      "Email"
+     ],
+     "answer": 1,
+     "explain": "CI/CD."
+    },
+    {
+     "q": "What config differs by environment?",
+     "options": [
+      "Names",
+      "Logic",
+      "Schema",
+      "Paths, cluster size and credentials via parameters, not code"
+     ],
+     "answer": 3,
+     "explain": "12-factor."
+    }
+   ]
+  },
+  "level-4/09-career-growth-big-data": {
+   "questions": [
+    {
+     "q": "What skills grow a big data career?",
+     "options": [
+      "Tools",
+      "Titles",
+      "Strong fundamentals, SQL, distributed systems, performance and communication",
+      "Trends"
+     ],
+     "answer": 2,
+     "explain": "Durable skills."
+    },
+    {
+     "q": "What does a senior data engineer do?",
+     "options": [
+      "Tools",
+      "Codes more",
+      "Meetings",
+      "Designs reliable, cost-aware pipelines and mentors others"
+     ],
+     "answer": 3,
+     "explain": "Impact."
+    },
+    {
+     "q": "How learn faster?",
+     "options": [
+      "Build projects, read plans and the Spark UI, and review others' code",
+      "Videos",
+      "Books",
+      "Quizzes"
+     ],
+     "answer": 0,
+     "explain": "Practice."
+    },
+    {
+     "q": "What differentiates you?",
+     "options": [
+      "Owning outcomes: quality, cost and reliability",
+      "Tools",
+      "Titles",
+      "Hours"
+     ],
+     "answer": 0,
+     "explain": "Value."
+    }
+   ]
+  },
+  "level-4/10-capstone-production-lakehouse": {
+   "questions": [
+    {
+     "q": "What does the lakehouse capstone combine?",
+     "options": [
+      "Only Airflow",
+      "Ingestion, Delta tables, quality gates, orchestration and CI",
+      "Only Delta",
+      "Only CI"
+     ],
+     "answer": 1,
+     "explain": "Level 4 capstone."
+    },
+    {
+     "q": "How structure layers?",
+     "options": [
+      "Two",
+      "One",
+      "Random",
+      "Bronze (raw), silver (clean), gold (business-ready)"
+     ],
+     "answer": 3,
+     "explain": "Medallion."
+    },
+    {
+     "q": "How ensure reliability?",
+     "options": [
+      "Idempotent jobs, checkpoints, alerts and runbooks",
+      "Logs",
+      "Hope",
+      "Retries"
+     ],
+     "answer": 0,
+     "explain": "Production."
+    },
+    {
+     "q": "How prove value?",
+     "options": [
+      "Hours",
+      "Rows",
+      "Jobs",
+      "Freshness, quality and cost metrics tied to business outputs"
+     ],
+     "answer": 3,
+     "explain": "Outcomes."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```python\ndf = spark.createDataFrame([(1, \"a\"), (1, \"a\"), (2, \"b\")], [\"id\", \"v\"])\nprint(df.count(), df.distinct().count(), df.dropDuplicates([\"id\"]).count())\n```\n",
+    "options": [
+     "3 2 3",
+     "3 3 2",
+     "3 2 2",
+     "2 2 2"
+    ],
+    "answer": 2,
+    "explain": "distinct vs dropDuplicates. Verified by running it on PySpark 3.5 (local mode)."
+   },
+   {
+    "q": "What does this print?\n```python\ndf = spark.createDataFrame([(\"a\", 1), (\"a\", None), (\"b\", 2)], [\"k\", \"v\"])\nprint(df.agg(F.count(\"*\"), F.count(\"v\"), F.sum(\"v\")).collect()[0])\n```\n",
+    "options": [
+     "Row(count(1)=3, count(v)=2, sum(v)=3)",
+     "Error",
+     "Row(count(1)=2, count(v)=2, sum(v)=3)",
+     "Row(count(1)=3, count(v)=3, sum(v)=3)"
+    ],
+    "answer": 0,
+    "explain": "count(col) skips nulls. Verified by running it on PySpark 3.5 (local mode)."
+   },
+   {
+    "q": "What does this print?\n```python\ndf = spark.createDataFrame([(\"x\", 5), (\"x\", 7), (\"y\", 1)], [\"k\", \"v\"])\nw = Window.partitionBy(\"k\").orderBy(F.desc(\"v\"))\nprint([tuple(r) for r in df.withColumn(\"rn\", F.row_number().over(w)).filter(\"rn = 1\").orderBy(\"k\").collect()])\n```\n",
+    "options": [
+     "Error",
+     "[('x', 7, 1), ('y', 1, 1)]",
+     "[('x', 5, 1), ('y', 1, 1)]",
+     "[('x', 7, 1)]"
+    ],
+    "answer": 1,
+    "explain": "Top-1 per group with row_number. Verified by running it on PySpark 3.5 (local mode)."
+   },
+   {
+    "q": "What does this print?\n```python\na = spark.createDataFrame([(1, \"x\"), (2, \"y\"), (3, \"z\")], [\"id\", \"v\"])\nb = spark.createDataFrame([(1,), (3,)], [\"id\"])\nprint(a.join(b, \"id\", \"left_semi\").count(), a.join(b, \"id\", \"left_anti\").collect())\n```\n",
+    "options": [
+     "2 [Row(id=2, v='y')]",
+     "2 [Row(id=1, v='x')]",
+     "Error",
+     "3 [Row(id=2, v='y')]"
+    ],
+    "answer": 0,
+    "explain": "Semi and anti joins filter without adding columns. Verified by running it on PySpark 3.5 (local mode)."
+   },
+   {
+    "q": "What does this print?\n```python\ndf = spark.createDataFrame([(\"2026-03-05\",), (\"bad\",)], [\"d\"])\nprint([r.m for r in df.select(F.month(F.to_date(\"d\")).alias(\"m\")).collect()])\n```\n",
+    "options": [
+     "[3]",
+     "Error",
+     "[3, None]",
+     "[3, 0]"
+    ],
+    "answer": 2,
+    "explain": "Unparseable dates become null. Verified by running it on PySpark 3.5 (local mode)."
+   },
+   {
+    "q": "What does this print?\n```python\ndf = spark.range(10)\nprint(df.repartition(5).rdd.getNumPartitions(), df.coalesce(1).rdd.getNumPartitions())\n```\n",
+    "options": [
+     "Error",
+     "5 1",
+     "5 5",
+     "1 5"
+    ],
+    "answer": 1,
+    "explain": "repartition vs coalesce. Verified by running it on PySpark 3.5 (local mode)."
+   },
+   {
+    "q": "A groupBy job has one task taking 20 minutes while the rest finish in seconds. What's the likely cause?",
+    "options": [
+     "Network",
+     "Disk",
+     "Python",
+     "Data skew on a hot key"
+    ],
+    "answer": 3,
+    "explain": "Check the stage's task distribution."
+   },
+   {
+    "q": "When should you broadcast a table?",
+    "options": [
+     "Both",
+     "Never",
+     "Always",
+     "When it is small enough to fit in executor memory, avoiding a shuffle of the large side"
+    ],
+    "answer": 3,
+    "explain": "Tune the threshold."
+   },
+   {
+    "q": "Why define a schema instead of inferSchema in production?",
+    "options": [
+     "Style",
+     "Speed only",
+     "Law",
+     "It avoids an extra pass and prevents surprise types"
+    ],
+    "answer": 3,
+    "explain": "Stable contracts."
+   },
+   {
+    "q": "What makes a write idempotent?",
+    "options": [
+     "Append",
+     "Sort",
+     "Cache",
+     "Overwriting a partition or using MERGE so a retry doesn't duplicate rows"
+    ],
+    "answer": 3,
+    "explain": "Safe retries."
+   },
+   {
+    "q": "What causes many tiny output files?",
+    "options": [
+     "Cache",
+     "Too many partitions at write time; coalesce/repartition first",
+     "Skew",
+     "Few"
+    ],
+    "answer": 1,
+    "explain": "Small file problem."
+   },
+   {
+    "q": "A job OOMs on a join. First checks?",
+    "options": [
+     "More code",
+     "Restart",
+     "Cache",
+     "Broadcast size, partition counts and skew in the Spark UI"
+    ],
+    "answer": 3,
+    "explain": "Diagnose before scaling."
+   },
+   {
+    "q": "What does AQE do?",
+    "options": [
+     "Cache",
+     "Uses runtime statistics to coalesce partitions, change join strategy and split skewed partitions",
+     "Schema",
+     "Retry"
+    ],
+    "answer": 1,
+    "explain": "Adaptive."
+   },
+   {
+    "q": "What does a watermark do in streaming?",
+    "options": [
+     "Caches",
+     "Bounds how late data may arrive so old state can be dropped",
+     "Marks",
+     "Keys"
+    ],
+    "answer": 1,
+    "explain": "Event time."
+   },
+   {
+    "q": "Why make transformations pure functions of DataFrames?",
+    "options": [
+     "Law",
+     "Cost",
+     "They're easy to unit test on small local data",
+     "Speed"
+    ],
+    "answer": 2,
+    "explain": "Testability."
+   },
+   {
+    "q": "Where do failing records go in a robust pipeline?",
+    "options": [
+     "Dropped",
+     "A quarantine table with the reason, plus an alert",
+     "Ignored",
+     "Kept"
+    ],
+    "answer": 1,
+    "explain": "Data quality."
+   },
+   {
+    "q": "What does Delta Lake add to a data lake?",
+    "options": [
+     "Speed only",
+     "ACID transactions, schema enforcement and time travel",
+     "SQL",
+     "Cache"
+    ],
+    "answer": 1,
+    "explain": "Lakehouse."
+   },
+   {
+    "q": "What is the right way to compare two tuning attempts?",
+    "options": [
+     "Run both on the same data and compare runtime, shuffle and spill metrics",
+     "Once",
+     "Feel",
+     "Guess"
+    ],
+    "answer": 0,
+    "explain": "Evidence."
+   },
+   {
+    "q": "What does dynamic partition overwrite protect?",
+    "options": [
+     "Only the partitions in the new data are replaced",
+     "All data",
+     "Cache",
+     "Schema"
+    ],
+    "answer": 0,
+    "explain": "Incremental loads."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "CSV to Parquet ETL with quarantine and reconciliation",
+    "prompt": "Read the raw CSV with an explicit all-string schema, cast amount and date, quarantine rows that fail with a reason, de-duplicate by order_id, reconcile counts, report monthly revenue and the largest order per country, then write country-partitioned Parquet and read it back.",
+    "starter": "from pyspark.sql import SparkSession, functions as F, Window\nfrom pyspark.sql.types import *\nspark = SparkSession.builder.master(\"local[2]\").config(\"spark.ui.enabled\", \"false\").config(\"spark.sql.shuffle.partitions\", \"4\").getOrCreate()\nspark.sparkContext.setLogLevel(\"ERROR\")\nimport os, tempfile\n\n# 1. Raw CSV with a few bad rows.\nraw = \"\"\"order_id,customer,country,amount,order_date\n1,alice,US,120.50,2026-01-05\n2,bob,IN,75.00,2026-01-06\n2,bob,IN,75.00,2026-01-06\n3,carla,DE,abc,2026-01-07\n4,dan,US,300.00,2026-02-01\n5,erin,IN,,2026-02-02\n6,fay,US,45.25,2026-02-03\n7,gus,DE,210.00,not-a-date\n8,hana,IN,99.99,2026-02-10\n\"\"\"\nwork = tempfile.mkdtemp()\nopen(work + \"/orders.csv\", \"w\").write(raw)\n\nschema = StructType([StructField(n, StringType()) for n in [\"order_id\", \"customer\", \"country\", \"amount\", \"order_date\"]])\ndf = spark.read.csv(work + \"/orders.csv\", header=True, schema=schema)\n\n# 2. TODO: cast amount to decimal(10,2) and order_date to a date (yyyy-MM-dd); add a `reason` column\n#    (\"bad_amount\" when the amount does not parse, else \"bad_date\" when the date does not parse, else null)\n#    good = rows without a reason, de-duplicated by order_id; bad = rows with a reason.\n\n# 3. TODO: print  input=<n> good=<n> quarantined=<n> duplicates_removed=<n>  and whether the counts reconcile,\n#    then the sorted list of (order_id, reason) for the quarantined rows.\n\n# 4. TODO: monthly orders and revenue per country (print \"<country> <yyyy-MM> orders=<n> revenue=<amount>\"),\n#    then the largest order per country using a window (row_number) -> list of (country, customer, amount).\n\n# 5. TODO: write partitioned Parquet (by country), print the partition folders and whether a read-back row count matches.\n",
+    "expected": "input=9 good=5 quarantined=3 duplicates_removed=1\nreconciled: True\nquarantine: [('3', 'bad_amount'), ('5', 'bad_amount'), ('7', 'bad_date')]\nIN 2026-01 orders=1 revenue=75.00\nIN 2026-02 orders=1 revenue=99.99\nUS 2026-01 orders=1 revenue=120.50\nUS 2026-02 orders=2 revenue=345.25\ntop order per country: [('IN', 'hana', '99.99'), ('US', 'dan', '300.00')]\npartitions: ['country=IN', 'country=US']\nround trip: True",
+    "solution": "from pyspark.sql import SparkSession, functions as F, Window\nfrom pyspark.sql.types import *\nspark = SparkSession.builder.master(\"local[2]\").config(\"spark.ui.enabled\", \"false\").config(\"spark.sql.shuffle.partitions\", \"4\").getOrCreate()\nspark.sparkContext.setLogLevel(\"ERROR\")\nimport os, tempfile\n\n# 1. Raw CSV with a few bad rows.\nraw = \"\"\"order_id,customer,country,amount,order_date\n1,alice,US,120.50,2026-01-05\n2,bob,IN,75.00,2026-01-06\n2,bob,IN,75.00,2026-01-06\n3,carla,DE,abc,2026-01-07\n4,dan,US,300.00,2026-02-01\n5,erin,IN,,2026-02-02\n6,fay,US,45.25,2026-02-03\n7,gus,DE,210.00,not-a-date\n8,hana,IN,99.99,2026-02-10\n\"\"\"\nwork = tempfile.mkdtemp()\nopen(work + \"/orders.csv\", \"w\").write(raw)\n\nschema = StructType([StructField(n, StringType()) for n in [\"order_id\", \"customer\", \"country\", \"amount\", \"order_date\"]])\ndf = spark.read.csv(work + \"/orders.csv\", header=True, schema=schema)\n\n# 2. Parse, then split valid and quarantined rows (with a reason).\nparsed = (df.withColumn(\"amount_d\", F.col(\"amount\").cast(\"decimal(10,2)\"))\n            .withColumn(\"date_d\", F.to_date(\"order_date\", \"yyyy-MM-dd\")))\nreason = (F.when(F.col(\"amount_d\").isNull(), \"bad_amount\").when(F.col(\"date_d\").isNull(), \"bad_date\"))\nchecked = parsed.withColumn(\"reason\", reason)\ngood = checked.filter(F.col(\"reason\").isNull()).dropDuplicates([\"order_id\"])\nbad = checked.filter(F.col(\"reason\").isNotNull())\n\n# 3. Reconcile counts.\ntotal_in, n_good, n_bad = df.count(), good.count(), bad.count()\ndupes = checked.filter(F.col(\"reason\").isNull()).count() - n_good\nprint(f\"input={total_in} good={n_good} quarantined={n_bad} duplicates_removed={dupes}\")\nprint(\"reconciled:\", total_in == n_good + n_bad + dupes)\nprint(\"quarantine:\", sorted((r.order_id, r.reason) for r in bad.collect()))\n\n# 4. Monthly revenue by country with the top customer per country (window function).\nclean = good.select(\"order_id\", \"customer\", \"country\", F.col(\"amount_d\").alias(\"amount\"), F.date_format(\"date_d\", \"yyyy-MM\").alias(\"month\"))\nrev = clean.groupBy(\"country\", \"month\").agg(F.count(\"*\").alias(\"orders\"), F.sum(\"amount\").alias(\"revenue\")).orderBy(\"country\", \"month\")\nfor r in rev.collect(): print(f\"{r.country} {r.month} orders={r.orders} revenue={r.revenue}\")\nw = Window.partitionBy(\"country\").orderBy(F.desc(\"amount\"))\ntop = clean.withColumn(\"rn\", F.row_number().over(w)).filter(\"rn = 1\").orderBy(\"country\")\nprint(\"top order per country:\", [(r.country, r.customer, str(r.amount)) for r in top.collect()])\n\n# 5. Write partitioned Parquet and read it back.\nout = work + \"/out\"\nclean.write.partitionBy(\"country\").mode(\"overwrite\").parquet(out)\nprint(\"partitions:\", sorted(p for p in os.listdir(out) if p.startswith(\"country=\")))\nprint(\"round trip:\", spark.read.parquet(out).count() == n_good)\n",
+    "explain": "Parsing into typed columns turns bad values into nulls so rows can be quarantined with a reason, and the counts must add up (input = good + quarantined + duplicates). Verified by running the solution on PySpark 3.5 in local mode."
+   },
+   {
+    "title": "Join strategy, skew salting and a quality gate",
+    "prompt": "Show that a broadcast hint changes the physical join without changing the result, find the hottest key, prove that two-stage salted aggregation equals the direct aggregation, and write a small quality gate that stops the pipeline when checks fail.",
+    "starter": "from pyspark.sql import SparkSession, functions as F, Window\nfrom pyspark.sql.types import *\nspark = SparkSession.builder.master(\"local[2]\").config(\"spark.ui.enabled\", \"false\").config(\"spark.sql.shuffle.partitions\", \"4\").getOrCreate()\nspark.sparkContext.setLogLevel(\"ERROR\")\nfact = spark.createDataFrame([(\"hot\", i) for i in range(60)] + [(\"k%d\" % i, i) for i in range(10)], [\"key\", \"v\"])\ndim = spark.createDataFrame([(\"hot\", \"H\"), (\"k0\", \"A\"), (\"k1\", \"B\"), (\"k2\", \"C\")], [\"key\", \"label\"])\n\ndef plan_has(df, text):\n    return text in df._jdf.queryExecution().executedPlan().toString()\n\n# TODO 1: disable automatic broadcast (spark.sql.autoBroadcastJoinThreshold = -1), left-join fact with dim, and print\n#         \"auto broadcast off -> SortMergeJoin\" (check the plan); then repeat with F.broadcast(dim) and print\n#         \"with broadcast hint -> BroadcastHashJoin\"; print whether both give the same rows and the row count.\n# TODO 2: find the hottest key and its share of the rows (\"hottest key: <key> with <pct>% of rows\").\n# TODO 3: salt (v % 4), aggregate in two stages (sum and count per key+salt, then per key), compare with the direct\n#         aggregation, and print the number of partial groups for the hot key and its total.\n# TODO 4: a gate(df, name, cond) helper that counts violating rows; run four checks (v not null, v >= 0,\n#         dimension matched, dim key unique), print PASS / FAIL(n) for each and finally STOP or CONTINUE.\n",
+    "expected": "auto broadcast off -> SortMergeJoin\nwith broadcast hint -> BroadcastHashJoin\nsame result: True | rows: 70\nhottest key: hot with 86% of rows\nsalted == direct: True\nhot key partial groups: 4\nhot total: 1770\nv not null           PASS\nv >= 0               PASS\ndimension matched    FAIL(7)\ndim key unique       PASS\npipeline: STOP",
+    "solution": "from pyspark.sql import SparkSession, functions as F, Window\nfrom pyspark.sql.types import *\nspark = SparkSession.builder.master(\"local[2]\").config(\"spark.ui.enabled\", \"false\").config(\"spark.sql.shuffle.partitions\", \"4\").getOrCreate()\nspark.sparkContext.setLogLevel(\"ERROR\")\n# Join strategy, data skew with salting, and a data-quality gate.\nfact = spark.createDataFrame([(\"hot\", i) for i in range(60)] + [(\"k%d\" % i, i) for i in range(10)], [\"key\", \"v\"])\ndim = spark.createDataFrame([(\"hot\", \"H\"), (\"k0\", \"A\"), (\"k1\", \"B\"), (\"k2\", \"C\")], [\"key\", \"label\"])\n\ndef plan_has(df, text):\n    return text in df._jdf.queryExecution().executedPlan().toString()\n\nspark.conf.set(\"spark.sql.autoBroadcastJoinThreshold\", \"-1\")\nsmj = fact.join(dim, \"key\", \"left\")\nprint(\"auto broadcast off ->\", \"SortMergeJoin\" if plan_has(smj, \"SortMergeJoin\") else \"other\")\nbhj = fact.join(F.broadcast(dim), \"key\", \"left\")\nprint(\"with broadcast hint ->\", \"BroadcastHashJoin\" if plan_has(bhj, \"BroadcastHashJoin\") else \"other\")\nprint(\"same result:\", sorted(map(tuple, smj.collect())) == sorted(map(tuple, bhj.collect())), \"| rows:\", smj.count())\n\n# Skew: one key holds most of the rows.\ncounts = fact.groupBy(\"key\").count().orderBy(F.desc(\"count\")).collect()\nshare = counts[0][\"count\"] / fact.count()\nprint(f\"hottest key: {counts[0]['key']} with {share:.0%} of rows\")\n\n# Two-stage aggregation with salting gives the same answer while spreading the hot key.\nN = 4\nsalted = fact.withColumn(\"salt\", (F.col(\"v\") % N))\npartial = salted.groupBy(\"key\", \"salt\").agg(F.sum(\"v\").alias(\"s\"), F.count(\"*\").alias(\"c\"))\nfinal = partial.groupBy(\"key\").agg(F.sum(\"s\").alias(\"total\"), F.sum(\"c\").alias(\"n\")).orderBy(\"key\")\ndirect = fact.groupBy(\"key\").agg(F.sum(\"v\").alias(\"total\"), F.count(\"*\").alias(\"n\")).orderBy(\"key\")\nprint(\"salted == direct:\", final.collect() == direct.collect())\nprint(\"hot key partial groups:\", partial.filter(\"key = 'hot'\").count())\nprint(\"hot total:\", final.filter(\"key = 'hot'\").collect()[0][\"total\"])\n\n# Data-quality gate.\ndef gate(df, name, cond):\n    bad = df.filter(~cond).count()\n    return (name, \"PASS\" if bad == 0 else f\"FAIL({bad})\")\njoined = smj\nchecks = [\n    gate(fact, \"v not null\", F.col(\"v\").isNotNull()),\n    gate(fact, \"v >= 0\", F.col(\"v\") >= 0),\n    gate(joined, \"dimension matched\", F.col(\"label\").isNotNull()),\n    gate(dim, \"dim key unique\", F.lit(dim.select(\"key\").distinct().count() == dim.count())),\n]\nfor name, res in checks: print(f\"{name:20s} {res}\")\nprint(\"pipeline:\", \"STOP\" if any(r.startswith(\"FAIL\") for _, r in checks) else \"CONTINUE\")\n",
+    "explain": "Plans show whether Spark shuffles or broadcasts; salting spreads a hot key across partitions and a second aggregation restores the exact answer; gates stop bad data early. Verified by running the solution on PySpark 3.5 in local mode (small data, so timings would not show the real benefit)."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
