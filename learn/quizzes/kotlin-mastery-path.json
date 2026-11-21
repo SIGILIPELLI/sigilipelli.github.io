@@ -1,0 +1,2170 @@
+{
+ "course": "kotlin-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What is Kotlin?",
+     "options": [
+      "A modern statically typed language for the JVM (and native/JS) fully interoperable with Java",
+      "Java only",
+      "Interpreted",
+      "Dynamic"
+     ],
+     "answer": 0,
+     "explain": "Concise and null-safe."
+    },
+    {
+     "q": "What is the entry point?",
+     "options": [
+      "start()",
+      "fun main()",
+      "static void main",
+      "Main class only"
+     ],
+     "answer": 1,
+     "explain": "Top-level function."
+    },
+    {
+     "q": "Which tool compiles Kotlin?",
+     "options": [
+      "tsc",
+      "gcc",
+      "kotlinc (or Gradle's Kotlin plugin)",
+      "javac"
+     ],
+     "answer": 2,
+     "explain": "Targets JVM bytecode."
+    },
+    {
+     "q": "What does Kotlin run on by default?",
+     "options": [
+      "V8",
+      "The JVM",
+      "CLR",
+      "BEAM"
+     ],
+     "answer": 1,
+     "explain": "Also native and JS targets."
+    }
+   ]
+  },
+  "level-1/02-variables-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```kotlin\nfun main() {\nval a = 7\nvar b = 2.5\nb += a\nprintln(\"$a $b ${a / 2} ${a / 2.0}\")\n}\n```\n",
+     "options": [
+      "7 9.5 3.5 3.5",
+      "7 9 3 3",
+      "Error",
+      "7 9.5 3 3.5"
+     ],
+     "answer": 3,
+     "explain": "val is read-only, var is mutable; integer division truncates. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```kotlin\nfun main() {\nval x: Long = 3\nval y = x.toInt() + 1\nprintln(\"$y ${\"abc\".length} ${'a' + 1}\")\n}\n```\n",
+     "options": [
+      "4 3 98",
+      "Error",
+      "3 3 b",
+      "4 3 b"
+     ],
+     "answer": 3,
+     "explain": "Explicit conversions; Char + Int gives Char. Verified by compiling and running it."
+    },
+    {
+     "q": "What does type inference mean?",
+     "options": [
+      "Dynamic",
+      "Untyped",
+      "Runtime",
+      "The compiler deduces types from initializers"
+     ],
+     "answer": 3,
+     "explain": "val n = 5 is Int."
+    },
+    {
+     "q": "Are numeric types implicitly widened?",
+     "options": [
+      "Always",
+      "Yes",
+      "Sometimes",
+      "No: convert explicitly (toLong())"
+     ],
+     "answer": 3,
+     "explain": "Strict."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```kotlin\nfun main() {\nval n = 3\nval s = when (n) { 1 -> \"one\"; in 2..4 -> \"few\"; else -> \"many\" }\nvar t = 0\nfor (i in 1..10 step 3) t += i\nprintln(\"$s $t\")\n}\n```\n",
+     "options": [
+      "one 22",
+      "few 55",
+      "many 22",
+      "few 22"
+     ],
+     "answer": 3,
+     "explain": "when is an expression; ranges and step. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```kotlin\nfun main() {\nval r = if (5 > 3) \"yes\" else \"no\"\nvar i = 0\nwhile (i < 3) i++\nprintln(\"$r $i ${(1..5).sum()} ${(5 downTo 1).toList()}\")\n}\n```\n",
+     "options": [
+      "yes 3 15 [1, 2, 3, 4, 5]",
+      "yes 3 15 [5, 4, 3, 2, 1]",
+      "no 3 15 []",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "if is an expression. Verified by compiling and running it."
+    },
+    {
+     "q": "What does `..` create?",
+     "options": [
+      "Map",
+      "Exclusive",
+      "An inclusive range",
+      "List"
+     ],
+     "answer": 2,
+     "explain": "..< is exclusive."
+    },
+    {
+     "q": "Is there a ternary operator?",
+     "options": [
+      "?:",
+      "No: use if/else as an expression",
+      "Yes",
+      "switch"
+     ],
+     "answer": 1,
+     "explain": "Elvis is for null."
+    }
+   ]
+  },
+  "level-1/04-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```kotlin\nfun add(a: Int, b: Int): Int { return a + b }\nfun greet(name: String, greeting: String = \"Hello\") = \"$greeting, $name!\"\nfun sq(x: Int) = x * x\nfun main() {\nprintln(\"${add(2, 3)} ${greet(\"Ada\")} ${greet(\"Bo\", \"Hi\")} ${sq(4)}\")\n}\n```\n",
+     "options": [
+      "Error",
+      "5 Hello, Ada! Hi, Bo! 16",
+      "5 Hi, Ada! 16",
+      "5 Hello Ada 16"
+     ],
+     "answer": 1,
+     "explain": "Default and expression-body functions. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```kotlin\nfun describe(times: Int, name: String) = name.repeat(times)\nfun main() {\nprintln(describe(name = \"x\", times = 2))\n}\n```\n",
+     "options": [
+      "Error",
+      "xx",
+      "x",
+      "2x"
+     ],
+     "answer": 1,
+     "explain": "Named arguments. Verified by compiling and running it."
+    },
+    {
+     "q": "What does Unit mean?",
+     "options": [
+      "Any",
+      "The return type of functions returning nothing useful",
+      "void keyword",
+      "null"
+     ],
+     "answer": 1,
+     "explain": "Like void."
+    },
+    {
+     "q": "What's vararg?",
+     "options": [
+      "Array",
+      "A parameter accepting any number of arguments",
+      "Map",
+      "List"
+     ],
+     "answer": 1,
+     "explain": "fun f(vararg n: Int)."
+    }
+   ]
+  },
+  "level-1/05-classes-objects": {
+   "questions": [
+    {
+     "q": "What does this print?\n```kotlin\nclass Person(val name: String, var age: Int) { val isAdult get() = age >= 18; fun birthday() { age++ } }\nfun main() {\nval p = Person(\"Ada\", 36)\np.birthday()\nprintln(\"${p.name} ${p.age} ${p.isAdult}\")\n}\n```\n",
+     "options": [
+      "Ada 37 true",
+      "Ada 36 true",
+      "Ada 37 false",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Primary constructor properties and computed property. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```kotlin\nopen class Animal { open fun speak() = \"...\" }\nclass Dog : Animal() { override fun speak() = \"Woof\" }\nfun main() {\nval a = Animal()\nval d: Animal = Dog()\nprintln(\"${a.speak()} ${d.speak()}\")\n}\n```\n",
+     "options": [
+      "... ...",
+      "... Woof",
+      "Woof Woof",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Classes are final by default; open and override are explicit. Verified by compiling and running it."
+    },
+    {
+     "q": "Are Kotlin classes open for inheritance by default?",
+     "options": [
+      "Sealed",
+      "Abstract",
+      "No: they're final unless marked open",
+      "Yes"
+     ],
+     "answer": 2,
+     "explain": "Safer design."
+    },
+    {
+     "q": "What does `init` do?",
+     "options": [
+      "Static",
+      "Import",
+      "Runs initialization code when an instance is created",
+      "Destructor"
+     ],
+     "answer": 2,
+     "explain": "Primary constructor blocks."
+    }
+   ]
+  },
+  "level-1/06-null-safety": {
+   "questions": [
+    {
+     "q": "What does this print?\n```kotlin\nfun main() {\nval s: String? = null\nval t: String? = \"hi\"\nprintln(\"${s?.length} ${s ?: \"none\"} ${t!!.length} ${t?.uppercase()}\")\n}\n```\n",
+     "options": [
+      "null none 2 HI",
+      "Error",
+      "0 none 2 HI",
+      "null null 2 hi"
+     ],
+     "answer": 0,
+     "explain": "Safe call, Elvis and non-null assertion. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```kotlin\nfun main() {\nval x: Any = \"text\"\nif (x is String) println(x.length)\nval n: Int? = \"12\".toIntOrNull()\nval m: Int? = \"x\".toIntOrNull()\nprintln(\"$n $m\")\n}\n```\n",
+     "options": [
+      "text\n12 null",
+      "Error",
+      "4\n12 0",
+      "4\n12 null"
+     ],
+     "answer": 3,
+     "explain": "Smart casts and safe conversions. Verified by compiling and running it."
+    },
+    {
+     "q": "What does `String?` mean?",
+     "options": [
+      "A String that may be null",
+      "Lazy",
+      "Empty",
+      "Optional string"
+     ],
+     "answer": 0,
+     "explain": "Null safety is in the type."
+    },
+    {
+     "q": "When does `!!` throw?",
+     "options": [
+      "Never",
+      "Always",
+      "On empty",
+      "When the value is null (NullPointerException)"
+     ],
+     "answer": 3,
+     "explain": "Avoid it."
+    }
+   ]
+  },
+  "level-1/07-collections": {
+   "questions": [
+    {
+     "q": "What does this print?\n```kotlin\nfun main() {\nval l = mutableListOf(3, 1, 2)\nl.add(9); l.sort()\nval m = mapOf(\"a\" to 1, \"b\" to 2)\nval s = setOf(1, 2, 2, 3)\nprintln(\"$l ${m[\"b\"]} ${s.size} ${l.filter { it > 1 }.map { it * 2 }}\")\n}\n```\n",
+     "options": [
+      "[3, 1, 2, 9] 2 3 [4, 6, 18]",
+      "Error",
+      "[1, 2, 3, 9] 2 3 [4, 6, 18]",
+      "[1, 2, 3, 9] 1 4 [2, 3, 9]"
+     ],
+     "answer": 2,
+     "explain": "Collections and functional operators. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```kotlin\nfun main() {\nval xs = listOf(\"apple\", \"bob\", \"cat\", \"avocado\")\nprintln(xs.groupBy { it.first() }.mapValues { it.value.size })\nprintln(xs.partition { it.length > 3 })\nprintln(xs.sumOf { it.length })\n}\n```\n",
+     "options": [
+      "Error",
+      "{a=2, b=1, c=1}\n([bob, cat], [apple, avocado])\n18",
+      "{a=2}\n([apple], [bob])\n18",
+      "{a=2, b=1, c=1}\n([apple, avocado], [bob, cat])\n18"
+     ],
+     "answer": 3,
+     "explain": "groupBy, partition and sumOf. Verified by compiling and running it."
+    },
+    {
+     "q": "What's the difference between List and MutableList?",
+     "options": [
+      "Same",
+      "None",
+      "Reverse",
+      "List is read-only; MutableList can be modified"
+     ],
+     "answer": 3,
+     "explain": "Read-only view."
+    },
+    {
+     "q": "Are collection operations like map eager or lazy?",
+     "options": [
+      "Always lazy",
+      "Eager on collections; use asSequence() for lazy",
+      "Lazy",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Sequences."
+    }
+   ]
+  },
+  "level-1/08-data-classes": {
+   "questions": [
+    {
+     "q": "What does this print?\n```kotlin\ndata class User(val name: String, val age: Int)\nfun main() {\nval a = User(\"ada\", 30)\nval b = a.copy(age = 31)\nval (n, ag) = b\nprintln(\"$a $b ${a == User(\"ada\", 30)} $n $ag\")\n}\n```\n",
+     "options": [
+      "User@1 User@2 false ada 31",
+      "User(ada,30) User(ada,31) true ada 31",
+      "User(name=ada, age=30) User(name=ada, age=31) true ada 31",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Data classes generate equals, toString, copy and destructuring. Verified by compiling and running it."
+    },
+    {
+     "q": "What do data classes generate?",
+     "options": [
+      "equals, hashCode, toString, copy and componentN",
+      "Getters only",
+      "Nothing",
+      "Builders"
+     ],
+     "answer": 0,
+     "explain": "Boilerplate-free."
+    },
+    {
+     "q": "Can data classes be inherited?",
+     "options": [
+      "They can't be open, abstract, sealed or inner",
+      "Always",
+      "Open",
+      "Yes"
+     ],
+     "answer": 0,
+     "explain": "Use interfaces."
+    },
+    {
+     "q": "What requires at least one primary constructor parameter?",
+     "options": [
+      "A data class",
+      "Interface",
+      "Object",
+      "Enum"
+     ],
+     "answer": 0,
+     "explain": "val/var parameters."
+    }
+   ]
+  },
+  "level-1/09-extension-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```kotlin\nfun String.capitalizeWord() = replaceFirstChar { it.uppercase() }\nfun <T> List<T>.secondOrNull(): T? = if (size >= 2) this[1] else null\nfun main() {\nprintln(\"kotlin\".capitalizeWord() + \" \" + listOf(1, 2, 3).secondOrNull() + \" \" + emptyList<Int>().secondOrNull())\n}\n```\n",
+     "options": [
+      "Error",
+      "kotlin 2 null",
+      "Kotlin 1 null",
+      "Kotlin 2 null"
+     ],
+     "answer": 3,
+     "explain": "Extension functions add members without inheritance. Verified by compiling and running it."
+    },
+    {
+     "q": "How are extensions resolved?",
+     "options": [
+      "Virtual",
+      "Reflection",
+      "Statically, by the declared type",
+      "Dynamically"
+     ],
+     "answer": 2,
+     "explain": "They don't modify the class."
+    },
+    {
+     "q": "Can an extension access private members?",
+     "options": [
+      "Yes",
+      "No, only public API",
+      "Protected",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "Not part of the class."
+    },
+    {
+     "q": "What does an extension property need?",
+     "options": [
+      "A custom getter (no backing field)",
+      "Field",
+      "Setter",
+      "Delegate"
+     ],
+     "answer": 0,
+     "explain": "val String.last get() = ..."
+    }
+   ]
+  },
+  "level-1/10-project-todo-app": {
+   "questions": [
+    {
+     "q": "What does the todo app combine?",
+     "options": [
+      "Classes, collections, data classes, null safety and file persistence",
+      "Only classes",
+      "Only files",
+      "Only nulls"
+     ],
+     "answer": 0,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How persist todos simply?",
+     "options": [
+      "Print",
+      "Memory",
+      "Serialize to a text/JSON file and read on startup",
+      "Env"
+     ],
+     "answer": 2,
+     "explain": "File I/O."
+    },
+    {
+     "q": "How parse commands safely?",
+     "options": [
+      "!!",
+      "Ignore",
+      "toInt",
+      "Use toIntOrNull and handle invalid input"
+     ],
+     "answer": 3,
+     "explain": "Null safety."
+    },
+    {
+     "q": "How structure the code?",
+     "options": [
+      "Model data classes, a repository and a small UI loop",
+      "Globals",
+      "One file",
+      "Objects"
+     ],
+     "answer": 0,
+     "explain": "Separation."
+    }
+   ]
+  },
+  "level-2/01-oop-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```kotlin\nsealed interface Shape\nclass Circle(val r: Double) : Shape\nclass Square(val s: Double) : Shape\nfun area(s: Shape): Double = when (s) { is Circle -> 3.0 * s.r * s.r; is Square -> s.s * s.s }\nclass Counter private constructor() { companion object { private var n = 0; fun created(): Int { n++; n++; return n } } }\nfun main() {\nval s: Shape = Circle(1.0)\nval q: Shape = Square(2.0)\nprintln(\"${area(s)} ${area(q)} ${Counter.created()}\")\n}\n```\n",
+     "options": [
+      "3.14 4.0 2",
+      "3.0 4.0 2",
+      "Error",
+      "0.0 4.0 2"
+     ],
+     "answer": 1,
+     "explain": "Sealed hierarchies enable exhaustive when; companion objects hold statics. Verified by compiling and running it."
+    },
+    {
+     "q": "What does `object` declare?",
+     "options": [
+      "Class",
+      "Interface",
+      "Enum",
+      "A singleton"
+     ],
+     "answer": 3,
+     "explain": "Also companion."
+    },
+    {
+     "q": "What is `sealed` for?",
+     "options": [
+      "Restricting subclasses so `when` can be exhaustive",
+      "Final",
+      "Abstract",
+      "Open"
+     ],
+     "answer": 0,
+     "explain": "Closed hierarchies."
+    },
+    {
+     "q": "How does Kotlin handle multiple inheritance?",
+     "options": [
+      "Mixins",
+      "None",
+      "Many classes",
+      "Classes extend one class but can implement many interfaces"
+     ],
+     "answer": 3,
+     "explain": "Interfaces can hold implementations."
+    }
+   ]
+  },
+  "level-2/02-lambdas-higher-order-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```kotlin\nfun apply2(x: Int, f: (Int) -> Int) = f(x)\nfun main() {\nval inc = { x: Int -> x + 1 }\nval twice: (Int, (Int) -> Int) -> Int = { x, f -> f(f(x)) }\nprintln(\"${inc(1)} ${twice(3, inc)} ${listOf(1,2,3).fold(0) { a, b -> a + b }} ${apply2(5) { it * it }}\")\n}\n```\n",
+     "options": [
+      "2 5 6 25",
+      "2 4 6 25",
+      "1 5 6 5",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Lambdas and higher-order functions. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```kotlin\nfun main() {\nval sb = StringBuilder().apply { append(\"a\"); append(\"b\") }\nval n = \"hi\".let { it.length }\nprintln(\"$sb $n ${with(sb) { length }} ${sb.also { it.append(\"c\") }}\")\n}\n```\n",
+     "options": [
+      "Error",
+      "a 2 2 abc",
+      "ab 2 2 abc",
+      "ab 2 2 ab"
+     ],
+     "answer": 2,
+     "explain": "Scope functions apply, let, with, also. Verified by compiling and running it."
+    },
+    {
+     "q": "What is `it`?",
+     "options": [
+      "The implicit single parameter name in a lambda",
+      "Receiver",
+      "Index",
+      "This"
+     ],
+     "answer": 0,
+     "explain": "Readable short lambdas."
+    },
+    {
+     "q": "What does inline do for higher-order functions?",
+     "options": [
+      "Compiles",
+      "Inlines the function and lambda to avoid allocation",
+      "Optimizes loops",
+      "Caches"
+     ],
+     "answer": 1,
+     "explain": "Performance."
+    }
+   ]
+  },
+  "level-2/03-coroutines-basics": {
+   "questions": [
+    {
+     "q": "What are coroutines?",
+     "options": [
+      "Processes",
+      "Threads",
+      "Callbacks",
+      "Lightweight concurrent computations that can suspend without blocking threads"
+     ],
+     "answer": 3,
+     "explain": "kotlinx.coroutines."
+    },
+    {
+     "q": "What does `suspend` mean?",
+     "options": [
+      "The function can pause and resume without blocking a thread",
+      "Sleep",
+      "Thread",
+      "Async only"
+     ],
+     "answer": 0,
+     "explain": "Only callable from coroutines."
+    },
+    {
+     "q": "What does launch return?",
+     "options": [
+      "Result",
+      "Deferred",
+      "Thread",
+      "A Job (fire and forget)"
+     ],
+     "answer": 3,
+     "explain": "async returns Deferred."
+    },
+    {
+     "q": "What starts a blocking bridge in main?",
+     "options": [
+      "async",
+      "launch",
+      "runBlocking",
+      "delay"
+     ],
+     "answer": 2,
+     "explain": "Tests/main."
+    }
+   ]
+  },
+  "level-2/04-null-safety-advanced": {
+   "questions": [
+    {
+     "q": "What does this print?\n```kotlin\nfun readName(): String? = null\nfun main() {\nval name: String? = readName()\nval len = name?.length ?: -1\nval list: List<String?> = listOf(\"a\", null, \"b\")\nprintln(\"$len ${list.filterNotNull()} ${list.mapNotNull { it?.uppercase() }}\")\n}\n```\n",
+     "options": [
+      "-1 [a, null, b] [A, B]",
+      "-1 [a, b] [A, B]",
+      "0 [a, b] [A, B]",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Elvis and filterNotNull. Verified by compiling and running it."
+    },
+    {
+     "q": "What's a platform type?",
+     "options": [
+      "A Java type with unknown nullability (T!)",
+      "Nullable",
+      "Non-null",
+      "Generic"
+     ],
+     "answer": 0,
+     "explain": "Interop caution."
+    },
+    {
+     "q": "What does lateinit allow?",
+     "options": [
+      "Lazy",
+      "Nullable",
+      "A non-null var initialized later (throws if read early)",
+      "Const"
+     ],
+     "answer": 2,
+     "explain": "Injection."
+    },
+    {
+     "q": "What does `by lazy` do?",
+     "options": [
+      "Mutable",
+      "Initializes a val on first access, thread-safe by default",
+      "Eager",
+      "Static"
+     ],
+     "answer": 1,
+     "explain": "Delegated property."
+    }
+   ]
+  },
+  "level-2/05-collections-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```kotlin\nfun main() {\nval xs = (1..10).toList()\nprintln(xs.chunked(4))\nprintln(xs.windowed(3, step = 4))\nprintln(xs.zip(xs.drop(1)).take(2))\nprintln(xs.asSequence().filter { it % 2 == 0 }.map { it * it }.first())\n}\n```\n",
+     "options": [
+      "Error",
+      "[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10]]\n[[1, 2, 3], [5, 6, 7]]\n[(1, 2), (2, 3)]\n4",
+      "[[1,2,3,4],[5,6,7,8]]\n[]\n[]\n2",
+      "[[1, 2, 3, 4]]\n[[1, 2, 3]]\n[(1, 2)]\n4"
+     ],
+     "answer": 1,
+     "explain": "Collection helpers and lazy sequences. Verified by compiling and running it."
+    },
+    {
+     "q": "What do sequences avoid?",
+     "options": [
+      "Intermediate collections (lazy, element-at-a-time)",
+      "Nulls",
+      "Loops",
+      "Types"
+     ],
+     "answer": 0,
+     "explain": "Large pipelines."
+    },
+    {
+     "q": "What does groupingBy().eachCount() do?",
+     "options": [
+      "Flattens",
+      "Counts items per group",
+      "Filters",
+      "Sorts"
+     ],
+     "answer": 1,
+     "explain": "Frequency map."
+    },
+    {
+     "q": "What's flatMap for?",
+     "options": [
+      "Sort",
+      "Filter",
+      "Reduce",
+      "Mapping to collections and flattening the result"
+     ],
+     "answer": 3,
+     "explain": "Nested lists."
+    }
+   ]
+  },
+  "level-2/06-testing-junit-kotest": {
+   "questions": [
+    {
+     "q": "Which frameworks test Kotlin?",
+     "options": [
+      "Jest",
+      "RSpec",
+      "JUnit 5 and Kotest (plus MockK for mocking)",
+      "Pytest"
+     ],
+     "answer": 2,
+     "explain": "Idiomatic DSLs."
+    },
+    {
+     "q": "What's MockK?",
+     "options": [
+      "A Kotlin-native mocking library",
+      "Browser",
+      "Runner",
+      "DB"
+     ],
+     "answer": 0,
+     "explain": "Handles final classes."
+    },
+    {
+     "q": "What does runTest do?",
+     "options": [
+      "Compiles",
+      "Parallel",
+      "Runs suspending code in tests with virtual time",
+      "Blocks"
+     ],
+     "answer": 2,
+     "explain": "kotlinx-coroutines-test."
+    },
+    {
+     "q": "What makes tests readable in Kotest?",
+     "options": [
+      "Annotations",
+      "JSON",
+      "XML",
+      "Spec styles like StringSpec/BehaviorSpec"
+     ],
+     "answer": 3,
+     "explain": "Descriptive."
+    }
+   ]
+  },
+  "level-2/07-working-with-json": {
+   "questions": [
+    {
+     "q": "Which library serializes JSON idiomatically?",
+     "options": [
+      "Serial",
+      "kotlinx.serialization (or Jackson/Moshi)",
+      "Gson only",
+      "Json.stringify"
+     ],
+     "answer": 1,
+     "explain": "@Serializable."
+    },
+    {
+     "q": "What does @Serializable require?",
+     "options": [
+      "Reflection only",
+      "Nothing",
+      "The serialization plugin and annotated classes",
+      "Interfaces"
+     ],
+     "answer": 2,
+     "explain": "Compile-time."
+    },
+    {
+     "q": "How handle unknown JSON keys?",
+     "options": [
+      "ignoreUnknownKeys = true in the Json config",
+      "Crash",
+      "Ignore",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Robust parsing."
+    },
+    {
+     "q": "How model optional fields?",
+     "options": [
+      "Required",
+      "Nullable types with defaults",
+      "Lists",
+      "Any"
+     ],
+     "answer": 1,
+     "explain": "Compatibility."
+    }
+   ]
+  },
+  "level-2/08-gradle-basics": {
+   "questions": [
+    {
+     "q": "What does build.gradle.kts use?",
+     "options": [
+      "XML",
+      "The Kotlin DSL (type-safe build scripts)",
+      "Groovy only",
+      "JSON"
+     ],
+     "answer": 1,
+     "explain": "IDE support."
+    },
+    {
+     "q": "What does the kotlin plugin do?",
+     "options": [
+      "Deploys",
+      "Tests",
+      "Compiles Kotlin sources and configures tasks",
+      "Hosts"
+     ],
+     "answer": 2,
+     "explain": "Plugins."
+    },
+    {
+     "q": "What does ./gradlew test do?",
+     "options": [
+      "Deploy",
+      "Install",
+      "Runs tests using the project's Gradle wrapper",
+      "Format"
+     ],
+     "answer": 2,
+     "explain": "Reproducible."
+    },
+    {
+     "q": "What is dependency scope implementation?",
+     "options": [
+      "test",
+      "A dependency not exposed to consumers' compile classpath",
+      "all",
+      "api"
+     ],
+     "answer": 1,
+     "explain": "Encapsulation."
+    }
+   ]
+  },
+  "level-2/09-generics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```kotlin\nfun <T : Comparable<T>> maxOf2(a: T, b: T) = if (a >= b) a else b\nclass Box<T>(val value: T) { fun <R> map(f: (T) -> R) = Box(f(value)) }\nfun main() {\nprintln(\"${maxOf2(3, 7)} ${maxOf2(\"b\", \"a\")} ${Box(5).map { it * 2 }.value}\")\n}\n```\n",
+     "options": [
+      "3 a 5",
+      "Error",
+      "7 b 10",
+      "7 a 10"
+     ],
+     "answer": 2,
+     "explain": "Bounded generics. Verified by compiling and running it."
+    },
+    {
+     "q": "What does `out T` mean?",
+     "options": [
+      "Nullable",
+      "Covariance: the type is only produced (List<out T>)",
+      "Contravariant",
+      "Invariant"
+     ],
+     "answer": 1,
+     "explain": "Declaration-site variance."
+    },
+    {
+     "q": "What does `in T` mean?",
+     "options": [
+      "Nullable",
+      "Final",
+      "Contravariance: the type is only consumed",
+      "Produced"
+     ],
+     "answer": 2,
+     "explain": "Comparable<in T>."
+    },
+    {
+     "q": "What's type erasure's effect?",
+     "options": [
+      "Generic types aren't available at runtime (use reified with inline)",
+      "Faster",
+      "Kept",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "reified T."
+    }
+   ]
+  },
+  "level-2/10-project-weather-cli": {
+   "questions": [
+    {
+     "q": "What does the weather CLI project combine?",
+     "options": [
+      "Only JSON",
+      "Only HTTP",
+      "Only tests",
+      "HTTP client, JSON parsing, null safety, coroutines and tests"
+     ],
+     "answer": 3,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How test the HTTP layer?",
+     "options": [
+      "Fake the client interface or use a mock server",
+      "Real API",
+      "Skip",
+      "Manual"
+     ],
+     "answer": 0,
+     "explain": "Deterministic."
+    },
+    {
+     "q": "How handle failures?",
+     "options": [
+      "Return a sealed Result type with error cases",
+      "Ignore",
+      "Throw only",
+      "null"
+     ],
+     "answer": 0,
+     "explain": "Explicit."
+    },
+    {
+     "q": "Where store API keys?",
+     "options": [
+      "Environment variables, not source",
+      "Git",
+      "Code",
+      "README"
+     ],
+     "answer": 0,
+     "explain": "Security."
+    }
+   ]
+  },
+  "level-3/01-advanced-coroutines-flow": {
+   "questions": [
+    {
+     "q": "What is Flow?",
+     "options": [
+      "Thread",
+      "List",
+      "A cold asynchronous stream of values",
+      "Queue"
+     ],
+     "answer": 2,
+     "explain": "kotlinx.coroutines."
+    },
+    {
+     "q": "What does a cold flow do?",
+     "options": [
+      "Starts producing when collected",
+      "Once",
+      "Always",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Each collector re-runs it."
+    },
+    {
+     "q": "StateFlow vs SharedFlow?",
+     "options": [
+      "Reverse",
+      "StateFlow holds the latest value; SharedFlow broadcasts events with configurable replay",
+      "Same",
+      "Cold"
+     ],
+     "answer": 1,
+     "explain": "UI state vs events."
+    },
+    {
+     "q": "How handle backpressure?",
+     "options": [
+      "Crash",
+      "Ignore",
+      "Drop all",
+      "Operators like buffer, conflate and collectLatest"
+     ],
+     "answer": 3,
+     "explain": "Slow collectors."
+    }
+   ]
+  },
+  "level-3/02-building-apis-ktor": {
+   "questions": [
+    {
+     "q": "What is Ktor?",
+     "options": [
+      "Compiler",
+      "Test lib",
+      "A Kotlin framework for asynchronous HTTP servers and clients",
+      "Database"
+     ],
+     "answer": 2,
+     "explain": "Coroutine-based."
+    },
+    {
+     "q": "How are Ktor routes defined?",
+     "options": [
+      "Annotations only",
+      "In the routing { get(\"/x\") { ... } } DSL",
+      "XML",
+      "Config"
+     ],
+     "answer": 1,
+     "explain": "Type-safe."
+    },
+    {
+     "q": "What are plugins in Ktor?",
+     "options": [
+      "Routes",
+      "Installable features like ContentNegotiation and CallLogging",
+      "Libraries",
+      "Tests"
+     ],
+     "answer": 1,
+     "explain": "install(...)."
+    },
+    {
+     "q": "How return JSON?",
+     "options": [
+      "File",
+      "Template",
+      "call.respond(obj) with ContentNegotiation and serialization",
+      "print"
+     ],
+     "answer": 2,
+     "explain": "Auto."
+    }
+   ]
+  },
+  "level-3/03-databases-exposed-sqlite": {
+   "questions": [
+    {
+     "q": "What is Exposed?",
+     "options": [
+      "ORM only",
+      "A Kotlin SQL library with a DSL and DAO API",
+      "Pool",
+      "Driver"
+     ],
+     "answer": 1,
+     "explain": "JetBrains."
+    },
+    {
+     "q": "How avoid SQL injection in Exposed?",
+     "options": [
+      "Hope",
+      "Trim",
+      "Use the DSL/parameters rather than string concatenation",
+      "Escape"
+     ],
+     "answer": 2,
+     "explain": "Parameterized."
+    },
+    {
+     "q": "What does transaction { } do?",
+     "options": [
+      "Pools",
+      "Connects",
+      "Maps",
+      "Runs database operations atomically"
+     ],
+     "answer": 3,
+     "explain": "Commit/rollback."
+    },
+    {
+     "q": "What's SQLite good for?",
+     "options": [
+      "Embedded, file-based databases for small apps and tests",
+      "Huge",
+      "Streaming",
+      "Clusters"
+     ],
+     "answer": 0,
+     "explain": "Zero setup."
+    }
+   ]
+  },
+  "level-3/04-design-patterns": {
+   "questions": [
+    {
+     "q": "Which pattern replaces a Java Singleton?",
+     "options": [
+      "enum only",
+      "class",
+      "static",
+      "object declaration"
+     ],
+     "answer": 3,
+     "explain": "Language support."
+    },
+    {
+     "q": "What replaces many Builder uses?",
+     "options": [
+      "Nothing",
+      "Reflection",
+      "Annotations",
+      "Named/default arguments and apply blocks"
+     ],
+     "answer": 3,
+     "explain": "Concise."
+    },
+    {
+     "q": "What does `by` do for classes?",
+     "options": [
+      "Inherits",
+      "Overrides",
+      "Delegates interface implementation to another object",
+      "Copies"
+     ],
+     "answer": 2,
+     "explain": "Decorator."
+    },
+    {
+     "q": "What's a sealed class's use in state machines?",
+     "options": [
+      "Static",
+      "Open",
+      "Exhaustive when over states",
+      "Mutable"
+     ],
+     "answer": 2,
+     "explain": "Safe."
+    }
+   ]
+  },
+  "level-3/05-multiplatform-basics": {
+   "questions": [
+    {
+     "q": "What is Kotlin Multiplatform?",
+     "options": [
+      "Interpreter",
+      "Cross-compiler",
+      "VM",
+      "Sharing Kotlin code across JVM, Android, iOS, JS and native"
+     ],
+     "answer": 3,
+     "explain": "Share logic."
+    },
+    {
+     "q": "What are expect/actual declarations?",
+     "options": [
+      "Imports",
+      "Platform-specific implementations of a common API",
+      "Interfaces",
+      "Tests"
+     ],
+     "answer": 1,
+     "explain": "Per target."
+    },
+    {
+     "q": "What do you typically share?",
+     "options": [
+      "Nothing",
+      "All UI",
+      "Drivers",
+      "Business logic, networking and data models"
+     ],
+     "answer": 3,
+     "explain": "UI may be native."
+    },
+    {
+     "q": "What source sets exist?",
+     "options": [
+      "Two",
+      "None",
+      "One",
+      "commonMain plus per-platform main sets"
+     ],
+     "answer": 3,
+     "explain": "Gradle."
+    }
+   ]
+  },
+  "level-3/06-testing-advanced": {
+   "questions": [
+    {
+     "q": "What does MockK's coEvery do?",
+     "options": [
+      "Verifies",
+      "Stubs suspending functions",
+      "Runs",
+      "Compiles"
+     ],
+     "answer": 1,
+     "explain": "Coroutines."
+    },
+    {
+     "q": "What does Turbine test?",
+     "options": [
+      "UI",
+      "DB",
+      "Flows by awaiting emitted items",
+      "Threads"
+     ],
+     "answer": 2,
+     "explain": "Flow testing."
+    },
+    {
+     "q": "What's property-based testing?",
+     "options": [
+      "Mocks",
+      "UI",
+      "Checking invariants over generated inputs (Kotest property)",
+      "Examples"
+     ],
+     "answer": 2,
+     "explain": "More coverage."
+    },
+    {
+     "q": "What should integration tests use?",
+     "options": [
+      "Prod",
+      "Real dependencies in containers (Testcontainers)",
+      "Nothing",
+      "Mocks only"
+     ],
+     "answer": 1,
+     "explain": "Realism."
+    }
+   ]
+  },
+  "level-3/07-dsls-in-kotlin": {
+   "questions": [
+    {
+     "q": "What does this DSL build?\n```kotlin\nclass Page { val sb = StringBuilder()\n fun h1(t: String) { sb.append(\"<h1>$t</h1>\") }\n fun ul(block: Ul.() -> Unit) { sb.append(\"<ul>\"); sb.append(Ul().apply(block).sb); sb.append(\"</ul>\") } }\nclass Ul { val sb = StringBuilder(); fun li(t: String) { sb.append(\"<li>$t</li>\") } }\nfun page(block: Page.() -> Unit) = Page().apply(block).sb.toString()\nfun main() {\nval html = page { h1(\"Hi\"); ul { li(\"a\"); li(\"b\") } }\nprintln(html)\n}\n```\n",
+     "options": [
+      "Hi a b",
+      "<h1>Hi</h1>",
+      "Error",
+      "<h1>Hi</h1><ul><li>a</li><li>b</li></ul>"
+     ],
+     "answer": 3,
+     "explain": "Lambdas with receivers create type-safe builders. Verified by compiling and running it."
+    },
+    {
+     "q": "What makes DSLs possible?",
+     "options": [
+      "Lambdas with receivers, extension functions and infix/operator functions",
+      "Macros",
+      "Templates",
+      "Reflection"
+     ],
+     "answer": 0,
+     "explain": "Gradle Kotlin DSL."
+    },
+    {
+     "q": "What does @DslMarker do?",
+     "options": [
+      "Speed",
+      "Prevents accidental access to outer receivers",
+      "Docs",
+      "Compile"
+     ],
+     "answer": 1,
+     "explain": "Scope control."
+    },
+    {
+     "q": "When write a DSL?",
+     "options": [
+      "Loops",
+      "For readable configuration or construction APIs",
+      "Never",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "Don't overdo it."
+    }
+   ]
+  },
+  "level-3/08-android-basics": {
+   "questions": [
+    {
+     "q": "What's Jetpack Compose?",
+     "options": [
+      "XML",
+      "Game engine",
+      "Android's declarative UI toolkit written in Kotlin",
+      "Layout editor"
+     ],
+     "answer": 2,
+     "explain": "@Composable."
+    },
+    {
+     "q": "What is a ViewModel for?",
+     "options": [
+      "DB",
+      "Network",
+      "Holding UI state that survives configuration changes",
+      "Router"
+     ],
+     "answer": 2,
+     "explain": "Lifecycle."
+    },
+    {
+     "q": "What does `remember` do?",
+     "options": [
+      "Saves to disk",
+      "Locks",
+      "Caches HTTP",
+      "Keeps a value across recompositions"
+     ],
+     "answer": 3,
+     "explain": "Compose state."
+    },
+    {
+     "q": "Which scope runs coroutines in a ViewModel?",
+     "options": [
+      "Thread",
+      "viewModelScope",
+      "MainScope",
+      "GlobalScope"
+     ],
+     "answer": 1,
+     "explain": "Lifecycle-aware."
+    }
+   ]
+  },
+  "level-3/09-performance-profiling": {
+   "questions": [
+    {
+     "q": "First step in optimizing Kotlin?",
+     "options": [
+      "Guess",
+      "Rewrite",
+      "Profile (JFR/profilers) before changing code",
+      "Inline all"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What reduces allocation in lambdas?",
+     "options": [
+      "More lists",
+      "inline functions and primitive-specialized types",
+      "Boxes",
+      "Strings"
+     ],
+     "answer": 1,
+     "explain": "Avoid boxing."
+    },
+    {
+     "q": "What's a value class?",
+     "options": [
+      "A wrapper type erased at runtime to avoid allocation",
+      "Object",
+      "Sealed",
+      "Data"
+     ],
+     "answer": 0,
+     "explain": "@JvmInline."
+    },
+    {
+     "q": "What causes hidden allocations?",
+     "options": [
+      "Ifs",
+      "Whens",
+      "Vals",
+      "Boxing, iterators and capturing lambdas in hot paths"
+     ],
+     "answer": 3,
+     "explain": "Check bytecode."
+    }
+   ]
+  },
+  "level-3/10-project-rest-api-db": {
+   "questions": [
+    {
+     "q": "What does the REST API + DB project combine?",
+     "options": [
+      "Only tests",
+      "Ktor routes, Exposed/SQLite, serialization and tests",
+      "Only DB",
+      "Only Ktor"
+     ],
+     "answer": 1,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How validate request bodies?",
+     "options": [
+      "Ignore",
+      "Throw",
+      "Trust",
+      "Check fields and return 400 with errors"
+     ],
+     "answer": 3,
+     "explain": "Safe APIs."
+    },
+    {
+     "q": "How test Ktor routes?",
+     "options": [
+      "Manual",
+      "Prod",
+      "Browser",
+      "testApplication with an in-memory database"
+     ],
+     "answer": 3,
+     "explain": "Fast."
+    },
+    {
+     "q": "How structure it?",
+     "options": [
+      "Routes, services and repositories",
+      "Objects",
+      "Globals",
+      "One file"
+     ],
+     "answer": 0,
+     "explain": "Layers."
+    }
+   ]
+  },
+  "level-4/01-advanced-coroutines-structured-concurrency": {
+   "questions": [
+    {
+     "q": "What is structured concurrency?",
+     "options": [
+      "Coroutines are scoped to a parent so lifetimes, errors and cancellation propagate",
+      "Locks",
+      "Threads",
+      "Pools"
+     ],
+     "answer": 0,
+     "explain": "coroutineScope."
+    },
+    {
+     "q": "What happens when a child coroutine fails?",
+     "options": [
+      "The parent is cancelled (unless supervisorScope)",
+      "Nothing",
+      "Ignored",
+      "Retry"
+     ],
+     "answer": 0,
+     "explain": "Fail fast."
+    },
+    {
+     "q": "Why avoid GlobalScope?",
+     "options": [
+      "Slow",
+      "Law",
+      "Coroutines outlive their owner and leak",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Use scoped."
+    },
+    {
+     "q": "How make cancellation cooperative?",
+     "options": [
+      "Check isActive or call suspending functions",
+      "None",
+      "Thread.stop",
+      "Sleep"
+     ],
+     "answer": 0,
+     "explain": "Suspension points."
+    }
+   ]
+  },
+  "level-4/02-production-apis-ktor": {
+   "questions": [
+    {
+     "q": "What do production Ktor services need?",
+     "options": [
+      "Config, logging, metrics, health checks, graceful shutdown",
+      "None",
+      "Static",
+      "Routes only"
+     ],
+     "answer": 0,
+     "explain": "Operations."
+    },
+    {
+     "q": "How handle errors uniformly?",
+     "options": [
+      "Ignore",
+      "try everywhere",
+      "StatusPages plugin mapping exceptions to responses",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Consistency."
+    },
+    {
+     "q": "How secure endpoints?",
+     "options": [
+      "Cookies only",
+      "Open",
+      "Obscurity",
+      "Authentication plugin (JWT/OAuth) and authorization checks"
+     ],
+     "answer": 3,
+     "explain": "Defense."
+    },
+    {
+     "q": "How configure per environment?",
+     "options": [
+      "Code",
+      "Jar",
+      "Git",
+      "application.conf/env variables"
+     ],
+     "answer": 3,
+     "explain": "12-factor."
+    }
+   ]
+  },
+  "level-4/03-multiplatform-at-scale": {
+   "questions": [
+    {
+     "q": "What helps share code at scale in KMP?",
+     "options": [
+      "Fork",
+      "Copy",
+      "One module",
+      "Clear module boundaries and a small expect/actual surface"
+     ],
+     "answer": 3,
+     "explain": "Maintainability."
+    },
+    {
+     "q": "What's a KMP pitfall?",
+     "options": [
+      "Leaking platform types into common code",
+      "Law",
+      "Speed",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Abstract."
+    },
+    {
+     "q": "How test shared code?",
+     "options": [
+      "Manual",
+      "One",
+      "None",
+      "commonTest plus platform tests for actuals"
+     ],
+     "answer": 3,
+     "explain": "Coverage."
+    },
+    {
+     "q": "How publish libraries?",
+     "options": [
+      "Zip",
+      "Email",
+      "Git",
+      "Maven publications per target with Gradle"
+     ],
+     "answer": 3,
+     "explain": "Distribution."
+    }
+   ]
+  },
+  "level-4/04-security-best-practices": {
+   "questions": [
+    {
+     "q": "How avoid SQL injection in Kotlin?",
+     "options": [
+      "Parameterized queries/DSL",
+      "Concatenate",
+      "Escape",
+      "Trim"
+     ],
+     "answer": 0,
+     "explain": "Never string-build SQL."
+    },
+    {
+     "q": "How store passwords?",
+     "options": [
+      "Plain",
+      "Base64",
+      "Slow salted hashes (bcrypt/argon2)",
+      "MD5"
+     ],
+     "answer": 2,
+     "explain": "Never reversible."
+    },
+    {
+     "q": "What does dependency scanning find?",
+     "options": [
+      "Leaks",
+      "Races",
+      "Typos",
+      "Known vulnerable libraries"
+     ],
+     "answer": 3,
+     "explain": "OWASP check."
+    },
+    {
+     "q": "Where keep secrets?",
+     "options": [
+      "Git",
+      "Environment/secret manager, never in code",
+      "Jar",
+      "Code"
+     ],
+     "answer": 1,
+     "explain": "Rotate."
+    }
+   ]
+  },
+  "level-4/05-testing-at-scale-ci": {
+   "questions": [
+    {
+     "q": "What should CI run for Kotlin?",
+     "options": [
+      "Only build",
+      "ktlint/detekt, tests and build",
+      "Nothing",
+      "Manual"
+     ],
+     "answer": 1,
+     "explain": "Gate merges."
+    },
+    {
+     "q": "What's detekt?",
+     "options": [
+      "IDE",
+      "Static analysis for Kotlin code smells",
+      "Formatter",
+      "Runner"
+     ],
+     "answer": 1,
+     "explain": "Quality."
+    },
+    {
+     "q": "What's ktlint?",
+     "options": [
+      "Build",
+      "Deploy",
+      "A linter/formatter enforcing the Kotlin style",
+      "Tests"
+     ],
+     "answer": 2,
+     "explain": "Consistent."
+    },
+    {
+     "q": "How speed Gradle in CI?",
+     "options": [
+      "More jobs",
+      "Retry",
+      "Build cache and dependency caching",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Efficiency."
+    }
+   ]
+  },
+  "level-4/06-deployment-docker": {
+   "questions": [
+    {
+     "q": "Why multi-stage Docker builds?",
+     "options": [
+      "Law",
+      "Build with the JDK and run on a slim JRE",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Smaller images."
+    },
+    {
+     "q": "What does the Ktor Gradle plugin provide?",
+     "options": [
+      "Tests",
+      "A runnable fat jar task",
+      "Lint",
+      "Docs"
+     ],
+     "answer": 1,
+     "explain": "buildFatJar."
+    },
+    {
+     "q": "Why non-root containers?",
+     "options": [
+      "Limit damage if compromised",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "What's a health endpoint for?",
+     "options": [
+      "Docs",
+      "Auth",
+      "Cache",
+      "Liveness/readiness probes"
+     ],
+     "answer": 3,
+     "explain": "Orchestration."
+    }
+   ]
+  },
+  "level-4/07-performance-at-scale": {
+   "questions": [
+    {
+     "q": "What first when tuning at scale?",
+     "options": [
+      "Rewrite",
+      "Guess",
+      "Cache",
+      "Measure with profiling and metrics"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What improves throughput in Ktor?",
+     "options": [
+      "Sleeps",
+      "Non-blocking I/O, connection pools and avoiding blocking calls on event loops",
+      "Logs",
+      "More threads"
+     ],
+     "answer": 1,
+     "explain": "Dispatchers."
+    },
+    {
+     "q": "Which dispatcher suits blocking IO?",
+     "options": [
+      "Dispatchers.IO",
+      "Default",
+      "Unconfined",
+      "Main"
+     ],
+     "answer": 0,
+     "explain": "Isolate blocking."
+    },
+    {
+     "q": "What does conflate do on flows?",
+     "options": [
+      "Cancels",
+      "Buffers all",
+      "Errors",
+      "Drops intermediate values for slow collectors"
+     ],
+     "answer": 3,
+     "explain": "Latest only."
+    }
+   ]
+  },
+  "level-4/08-java-interop-deep-dive": {
+   "questions": [
+    {
+     "q": "How does Kotlin expose top-level functions to Java?",
+     "options": [
+      "As static methods in a FileNameKt class (or @file:JvmName)",
+      "Interfaces",
+      "Instance",
+      "Impossible"
+     ],
+     "answer": 0,
+     "explain": "Interop."
+    },
+    {
+     "q": "What does @JvmStatic do?",
+     "options": [
+      "Open",
+      "Generates a static method for companion/object members",
+      "Nothing",
+      "Final"
+     ],
+     "answer": 1,
+     "explain": "Java callers."
+    },
+    {
+     "q": "What does @JvmOverloads do?",
+     "options": [
+      "Nothing",
+      "Sealed",
+      "Inline",
+      "Generates overloads for default parameters"
+     ],
+     "answer": 3,
+     "explain": "Java lacks defaults."
+    },
+    {
+     "q": "What do Java callers see for Kotlin nullability?",
+     "options": [
+      "Nothing",
+      "Exceptions only",
+      "Optional",
+      "Annotations and Intrinsics checks"
+     ],
+     "answer": 3,
+     "explain": "@Nullable/@NotNull."
+    }
+   ]
+  },
+  "level-4/09-code-quality": {
+   "questions": [
+    {
+     "q": "What practices improve code quality?",
+     "options": [
+      "Small functions, immutability, tests, linting and code review",
+      "Long files",
+      "Comments only",
+      "Mutability"
+     ],
+     "answer": 0,
+     "explain": "Idiomatic Kotlin."
+    },
+    {
+     "q": "Why prefer val and immutable collections?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Fewer bugs from shared mutable state"
+     ],
+     "answer": 3,
+     "explain": "Safer."
+    },
+    {
+     "q": "What does `require` do?",
+     "options": [
+      "Validates arguments, throwing IllegalArgumentException",
+      "Skips",
+      "Logs",
+      "Asserts"
+     ],
+     "answer": 0,
+     "explain": "Preconditions."
+    },
+    {
+     "q": "What's a code smell in Kotlin?",
+     "options": [
+      "Sealed",
+      "Overusing !! and platform types",
+      "Extension",
+      "Data"
+     ],
+     "answer": 1,
+     "explain": "Null safety lost."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only API",
+      "Only DB",
+      "Only CI",
+      "Ktor API, persistence, coroutines, tests, CI and Docker"
+     ],
+     "answer": 3,
+     "explain": "Production service."
+    },
+    {
+     "q": "How prove readiness?",
+     "options": [
+      "Slides",
+      "Demo",
+      "Hope",
+      "Tests, load checks, monitoring and rollback"
+     ],
+     "answer": 3,
+     "explain": "Operate."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "README, architecture notes and runbooks",
+      "None",
+      "Slides",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Onboarding."
+    },
+    {
+     "q": "What sustains the project?",
+     "options": [
+      "Silence",
+      "Luck",
+      "Tools",
+      "CI, dependency updates and ownership"
+     ],
+     "answer": 3,
+     "explain": "Maintenance."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```kotlin\nfun main() {\nval a = 7\nvar b = 2.5\nb += a\nprintln(\"$b ${a / 2} ${a / 2.0}\")\n}\n```\n",
+    "options": [
+     "9.5 3 3.5",
+     "Error",
+     "9 3 3",
+     "9.5 3.5 3.5"
+    ],
+    "answer": 0,
+    "explain": "val is read-only; integer division truncates. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```kotlin\nfun main() {\nval s: String? = null\nprintln(\"${s?.length} ${s ?: \"none\"} ${\"hi\".length}\")\n}\n```\n",
+    "options": [
+     "null null 2",
+     "Error",
+     "0 none 2",
+     "null none 2"
+    ],
+    "answer": 3,
+    "explain": "Safe call and Elvis. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```kotlin\ndata class User(val name: String, val age: Int)\nfun main() {\nval u = User(\"ada\", 30)\nprintln(\"${u.copy(age = 31)} ${u == User(\"ada\", 30)}\")\n}\n```\n",
+    "options": [
+     "User@1 false",
+     "User(name=ada, age=31) true",
+     "Error",
+     "User(ada,31) true"
+    ],
+    "answer": 1,
+    "explain": "Data classes generate equals, toString and copy. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```kotlin\nfun main() {\nval n = 3\nprintln(when (n) { 1 -> \"one\"; in 2..4 -> \"few\"; else -> \"many\" })\n}\n```\n",
+    "options": [
+     "few",
+     "many",
+     "one",
+     "3"
+    ],
+    "answer": 0,
+    "explain": "when is an expression with ranges. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```kotlin\nfun String.cap() = replaceFirstChar { it.uppercase() }\nfun <T> List<T>.second(): T = this[1]\nfun main() {\nprintln(\"kotlin\".cap() + \" \" + listOf(1,2,3).second())\n}\n```\n",
+    "options": [
+     "Error",
+     "Kotlin 2",
+     "Kotlin 1",
+     "kotlin 2"
+    ],
+    "answer": 1,
+    "explain": "Extension functions add members without inheritance. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```kotlin\nfun main() {\nval xs = listOf(\"apple\", \"bob\", \"cat\", \"avocado\")\nprintln(xs.groupBy { it.first() }.mapValues { it.value.size })\n}\n```\n",
+    "options": [
+     "{a=2, b=1, c=1}",
+     "[a, b, c]",
+     "{a=2}",
+     "Error"
+    ],
+    "answer": 0,
+    "explain": "groupBy and mapValues. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```kotlin\nfun main() {\nval xs = (1..10).toList()\nprintln(xs.asSequence().filter { it % 2 == 0 }.map { it * it }.first())\n}\n```\n",
+    "options": [
+     "4",
+     "2",
+     "16",
+     "100"
+    ],
+    "answer": 0,
+    "explain": "Sequences are lazy and stop at the first match. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```kotlin\nsealed interface Shape\nclass Circle(val r: Double) : Shape\nclass Square(val s: Double) : Shape\nfun area(s: Shape): Double = when (s) { is Circle -> 3.0 * s.r * s.r; is Square -> s.s * s.s }\nfun main() {\nval s: Shape = Square(2.0)\nprintln(area(s))\n}\n```\n",
+    "options": [
+     "2.0",
+     "Error",
+     "4.0",
+     "0.0"
+    ],
+    "answer": 2,
+    "explain": "Exhaustive when over a sealed type. Verified by compiling and running it."
+   },
+   {
+    "q": "Why are Kotlin classes final by default?",
+    "options": [
+     "Style",
+     "Law",
+     "Safer design: inheritance must be opted into with open",
+     "Speed"
+    ],
+    "answer": 2,
+    "explain": "Effective Java advice built in."
+   },
+   {
+    "q": "When does `!!` throw?",
+    "options": [
+     "When the value is null (NullPointerException); prefer safe calls and Elvis",
+     "On empty",
+     "Always",
+     "Never"
+    ],
+    "answer": 0,
+    "explain": "Avoid it."
+   },
+   {
+    "q": "What does `suspend` mean?",
+    "options": [
+     "The function can pause without blocking a thread and may only be called from a coroutine or another suspend function",
+     "It sleeps",
+     "It's async",
+     "It's a thread"
+    ],
+    "answer": 0,
+    "explain": "Coroutines."
+   },
+   {
+    "q": "A coroutine started with GlobalScope outlives its screen and leaks. What's the fix?",
+    "options": [
+     "Use a structured scope tied to the lifecycle (viewModelScope/coroutineScope)",
+     "Retry",
+     "delay",
+     "More threads"
+    ],
+    "answer": 0,
+    "explain": "Structured concurrency."
+   },
+   {
+    "q": "A child coroutine fails. What happens to its parent scope by default?",
+    "options": [
+     "Ignored",
+     "Nothing",
+     "Retry",
+     "The parent and siblings are cancelled (use supervisorScope to isolate)"
+    ],
+    "answer": 3,
+    "explain": "Fail-fast propagation."
+   },
+   {
+    "q": "Which dispatcher should blocking file/DB calls use?",
+    "options": [
+     "Dispatchers.IO",
+     "Default",
+     "Main",
+     "Unconfined"
+    ],
+    "answer": 0,
+    "explain": "Keep the event loop free."
+   },
+   {
+    "q": "A Flow collector is slower than the producer. Which operator helps?",
+    "options": [
+     "delay",
+     "distinct",
+     "sort",
+     "buffer or conflate (or collectLatest)"
+    ],
+    "answer": 3,
+    "explain": "Backpressure."
+   },
+   {
+    "q": "A StateFlow vs SharedFlow for UI state?",
+    "options": [
+     "Channel",
+     "Flow",
+     "SharedFlow with no replay",
+     "StateFlow: it always holds the latest value"
+    ],
+    "answer": 3,
+    "explain": "State vs events."
+   },
+   {
+    "q": "A Ktor endpoint throws and clients see a stack trace. What do you install?",
+    "options": [
+     "StatusPages to map exceptions to safe, consistent responses",
+     "Logging",
+     "Compression",
+     "CORS"
+    ],
+    "answer": 0,
+    "explain": "Error handling."
+   },
+   {
+    "q": "A SQL query is built with string templates from user input. What's wrong?",
+    "options": [
+     "Typing",
+     "SQL injection; use parameterized queries/the Exposed DSL",
+     "Nothing",
+     "Slow"
+    ],
+    "answer": 1,
+    "explain": "Never concatenate."
+   },
+   {
+    "q": "Kotlin code called from Java needs default parameters as overloads. Which annotation?",
+    "options": [
+     "@JvmStatic",
+     "@JvmField",
+     "@Throws",
+     "@JvmOverloads"
+    ],
+    "answer": 3,
+    "explain": "Interop."
+   },
+   {
+    "q": "What do Detekt and ktlint do in CI?",
+    "options": [
+     "Static analysis and style enforcement that fail the build on violations",
+     "Compile",
+     "Run tests",
+     "Deploy"
+    ],
+    "answer": 0,
+    "explain": "Quality gates."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A todo repository with a sealed Result",
+    "prompt": "Implement TaskRepo.add (reject blank titles, trim, assign ids), complete (copy the task with done = true, or an error for unknown ids) and summary using partition. Results are a sealed Result type handled with an exhaustive when.",
+    "starter": "sealed interface Result<out T> {\n    data class Ok<T>(val value: T) : Result<T>\n    data class Err(val message: String) : Result<Nothing>\n}\n\ndata class Task(val id: Int, val title: String, val done: Boolean = false)\n\nclass TaskRepo {\n    private val tasks = mutableListOf<Task>()\n    private var nextId = 1\n\n    fun add(title: String): Result<Task> {\n        // blank titles -> Result.Err(\"title must not be blank\"); otherwise trim, assign nextId++, store, Result.Ok(task)\n        return Result.Err(\"todo\")\n    }\n\n    fun complete(id: Int): Result<Task> {\n        // unknown id -> Result.Err(\"no task with id N\"); otherwise replace the task with copy(done = true)\n        return Result.Err(\"todo\")\n    }\n\n    fun summary(): String {\n        // \"open=[titles] done=[titles]\" using partition\n        return \"\"\n    }\n}\n\nfun describe(r: Result<Task>): String = when (r) {\n    is Result.Ok -> \"ok: ${r.value}\"\n    is Result.Err -> \"error: ${r.message}\"\n}\n\nfun main() {\n    val repo = TaskRepo()\n    println(describe(repo.add(\"write quiz\")))\n    println(describe(repo.add(\"   \")))\n    println(describe(repo.add(\"publish\")))\n    println(describe(repo.complete(1)))\n    println(describe(repo.complete(9)))\n    println(repo.summary())\n}\n",
+    "expected": "ok: Task(id=1, title=write quiz, done=false)\nerror: title must not be blank\nok: Task(id=2, title=publish, done=false)\nok: Task(id=1, title=write quiz, done=true)\nerror: no task with id 9\nopen=[publish] done=[write quiz]",
+    "solution": "sealed interface Result<out T> {\n    data class Ok<T>(val value: T) : Result<T>\n    data class Err(val message: String) : Result<Nothing>\n}\n\ndata class Task(val id: Int, val title: String, val done: Boolean = false)\n\nclass TaskRepo {\n    private val tasks = mutableListOf<Task>()\n    private var nextId = 1\n\n    fun add(title: String): Result<Task> {\n        if (title.isBlank()) return Result.Err(\"title must not be blank\")\n        val t = Task(nextId++, title.trim())\n        tasks += t\n        return Result.Ok(t)\n    }\n\n    fun complete(id: Int): Result<Task> {\n        val i = tasks.indexOfFirst { it.id == id }\n        if (i < 0) return Result.Err(\"no task with id $id\")\n        tasks[i] = tasks[i].copy(done = true)\n        return Result.Ok(tasks[i])\n    }\n\n    fun summary(): String {\n        val (done, open) = tasks.partition { it.done }\n        return \"open=${open.map { it.title }} done=${done.map { it.title }}\"\n    }\n}\n\nfun describe(r: Result<Task>): String = when (r) {\n    is Result.Ok -> \"ok: ${r.value}\"\n    is Result.Err -> \"error: ${r.message}\"\n}\n\nfun main() {\n    val repo = TaskRepo()\n    println(describe(repo.add(\"write quiz\")))\n    println(describe(repo.add(\"   \")))\n    println(describe(repo.add(\"publish\")))\n    println(describe(repo.complete(1)))\n    println(describe(repo.complete(9)))\n    println(repo.summary())\n}\n",
+    "explain": "A sealed Result makes failure explicit and forces callers to handle every case, data classes give copy for immutable updates, and partition splits done/open in one pass. Verified by compiling and running the solution with kotlinc."
+   },
+   {
+    "title": "Extensions, grouping and pagination",
+    "prompt": "Write the extension pageOf(page, size) with argument checks, and topSpenders(orders, n) that totals each customer's spend, sorts highest first (ties by name) and formats name=12.34.",
+    "starter": "fun <T> List<T>.pageOf(page: Int, size: Int): List<T> {\n    // require page >= 1 and size >= 1 (message \"page and size must be >= 1\"); return that page of the list\n    return emptyList()\n}\n\ndata class Order(val customer: String, val item: String, val qty: Int, val price: Double)\n\nfun Order.total() = qty * price\n\nfun topSpenders(orders: List<Order>, n: Int): List<String> {\n    // total per customer, highest first (ties by name), top n, formatted \"name=12.34\"\n    return emptyList()\n}\n\nfun main() {\n    val orders = listOf(\n        Order(\"ada\", \"pen\", 3, 1.5), Order(\"bo\", \"book\", 1, 12.0), Order(\"ada\", \"book\", 1, 12.0),\n        Order(\"cy\", \"pen\", 10, 1.5), Order(\"bo\", \"pen\", 2, 1.5),\n    )\n    println(topSpenders(orders, 2))\n    println((1..10).toList().pageOf(2, 4))\n    println((1..10).toList().pageOf(3, 4))\n    println((1..10).toList().pageOf(4, 4))\n    try { listOf(1).pageOf(0, 5) } catch (e: IllegalArgumentException) { println(\"error: ${e.message}\") }\n    println(orders.map { it.total() }.average())\n}\n",
+    "expected": "[ada=16.50, bo=15.00]\n[5, 6, 7, 8]\n[9, 10]\n[]\nerror: page and size must be >= 1\n9.3",
+    "solution": "fun <T> List<T>.pageOf(page: Int, size: Int): List<T> {\n    require(page >= 1 && size >= 1) { \"page and size must be >= 1\" }\n    return drop((page - 1) * size).take(size)\n}\n\ndata class Order(val customer: String, val item: String, val qty: Int, val price: Double)\n\nfun Order.total() = qty * price\n\nfun topSpenders(orders: List<Order>, n: Int): List<String> =\n    orders.groupBy { it.customer }\n        .mapValues { (_, os) -> os.sumOf { it.total() } }\n        .entries.sortedWith(compareByDescending<Map.Entry<String, Double>> { it.value }.thenBy { it.key })\n        .take(n)\n        .map { \"%s=%.2f\".format(it.key, it.value) }\n\nfun main() {\n    val orders = listOf(\n        Order(\"ada\", \"pen\", 3, 1.5), Order(\"bo\", \"book\", 1, 12.0), Order(\"ada\", \"book\", 1, 12.0),\n        Order(\"cy\", \"pen\", 10, 1.5), Order(\"bo\", \"pen\", 2, 1.5),\n    )\n    println(topSpenders(orders, 2))\n    println((1..10).toList().pageOf(2, 4))\n    println((1..10).toList().pageOf(3, 4))\n    println((1..10).toList().pageOf(4, 4))\n    try { listOf(1).pageOf(0, 5) } catch (e: IllegalArgumentException) { println(\"error: ${e.message}\") }\n    println(orders.map { it.total() }.average())\n}\n",
+    "explain": "Extension functions keep helpers close to the types they extend, require() validates preconditions, and groupBy/mapValues/sortedWith express the report declaratively. Verified by compiling and running the solution with kotlinc."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
