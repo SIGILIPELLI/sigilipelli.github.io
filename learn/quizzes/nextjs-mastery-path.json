@@ -1,0 +1,2159 @@
+{
+ "course": "nextjs-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-nextjs-adds": {
+   "questions": [
+    {
+     "q": "What does Next.js add to React?",
+     "options": [
+      "Mobile apps",
+      "A new language",
+      "A database",
+      "Routing, server rendering, data fetching, bundling and deployment conventions"
+     ],
+     "answer": 3,
+     "explain": "A full-stack React framework."
+    },
+    {
+     "q": "What is the App Router?",
+     "options": [
+      "A file-system router in the app/ directory built on React Server Components",
+      "A library",
+      "pages/ router",
+      "A CLI"
+     ],
+     "answer": 0,
+     "explain": "Layouts, streaming, server actions."
+    },
+    {
+     "q": "Why server-render pages?",
+     "options": [
+      "Law",
+      "Style",
+      "Faster first paint, better SEO and less client JavaScript",
+      "Offline"
+     ],
+     "answer": 2,
+     "explain": "HTML arrives ready."
+    },
+    {
+     "q": "What does `next dev` do?",
+     "options": [
+      "Builds",
+      "Tests",
+      "Deploys",
+      "Starts the development server with hot reloading"
+     ],
+     "answer": 3,
+     "explain": "`next build` is for production."
+    }
+   ]
+  },
+  "level-1/02-create-next-app-structure": {
+   "questions": [
+    {
+     "q": "What does `create-next-app` generate?",
+     "options": [
+      "A project with app/, public/, config and scripts",
+      "A deploy",
+      "A DB",
+      "A server"
+     ],
+     "answer": 0,
+     "explain": "Starter."
+    },
+    {
+     "q": "Where do static files like favicons live?",
+     "options": [
+      "src/",
+      "assets/",
+      "static/",
+      "The public/ directory"
+     ],
+     "answer": 3,
+     "explain": "Served from the root."
+    },
+    {
+     "q": "What is next.config.js for?",
+     "options": [
+      "Tests",
+      "Styles",
+      "Routes",
+      "Configuring the build/runtime (images, redirects, headers)"
+     ],
+     "answer": 3,
+     "explain": "Project config."
+    },
+    {
+     "q": "What do the TypeScript defaults give you?",
+     "options": [
+      "Law",
+      "Style",
+      "Type checking for components, routes and config",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Safer."
+    }
+   ]
+  },
+  "level-1/03-file-routing-layouts": {
+   "questions": [
+    {
+     "q": "How is a route created in the App Router?",
+     "options": [
+      "A decorator",
+      "A config",
+      "routes.js",
+      "A folder with a page.tsx file"
+     ],
+     "answer": 3,
+     "explain": "File-system routing."
+    },
+    {
+     "q": "What does layout.tsx do?",
+     "options": [
+      "Handles API",
+      "Wraps child routes with shared UI that persists across navigation",
+      "Defines data",
+      "Stores state"
+     ],
+     "answer": 1,
+     "explain": "Nested layouts."
+    },
+    {
+     "q": "What's a route segment?",
+     "options": [
+      "A folder name in the path (e.g. app/blog/page.tsx is /blog)",
+      "Header",
+      "Cookie",
+      "Query"
+     ],
+     "answer": 0,
+     "explain": "Nesting."
+    },
+    {
+     "q": "What does a route group (marketing) do?",
+     "options": [
+      "Auth",
+      "Adds a path",
+      "Organizes routes without affecting the URL",
+      "Cache"
+     ],
+     "answer": 2,
+     "explain": "Parentheses."
+    }
+   ]
+  },
+  "level-1/04-pages-navigation-link": {
+   "questions": [
+    {
+     "q": "Which component does client-side navigation between pages?",
+     "options": [
+      "<a> only",
+      "next/link's Link",
+      "router.go",
+      "window.location"
+     ],
+     "answer": 1,
+     "explain": "Prefetching included."
+    },
+    {
+     "q": "What does Link prefetch?",
+     "options": [
+      "Images",
+      "Cookies",
+      "APIs",
+      "Routes in the viewport so navigation feels instant"
+     ],
+     "answer": 3,
+     "explain": "Production only."
+    },
+    {
+     "q": "How navigate programmatically in a client component?",
+     "options": [
+      "location",
+      "redirect()",
+      "useRouter().push('/path')",
+      "Link"
+     ],
+     "answer": 2,
+     "explain": "From next/navigation."
+    },
+    {
+     "q": "What does usePathname return?",
+     "options": [
+      "Query",
+      "Hash",
+      "The current URL path",
+      "Params"
+     ],
+     "answer": 2,
+     "explain": "Client hook."
+    }
+   ]
+  },
+  "level-1/05-server-vs-client-components": {
+   "questions": [
+    {
+     "q": "What are Server Components by default in the App Router?",
+     "options": [
+      "Components that render on the server with no client JS",
+      "Hybrid",
+      "Static only",
+      "Client"
+     ],
+     "answer": 0,
+     "explain": "Zero bundle cost."
+    },
+    {
+     "q": "When do you add 'use client'?",
+     "options": [
+      "When you need state, effects, event handlers or browser APIs",
+      "For data",
+      "Never",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Client boundary."
+    },
+    {
+     "q": "Can a Server Component import a Client Component?",
+     "options": [
+      "Only layouts",
+      "Only pages",
+      "Yes; the client component hydrates in the browser",
+      "No"
+     ],
+     "answer": 2,
+     "explain": "Composition."
+    },
+    {
+     "q": "Can a Client Component import a Server Component directly?",
+     "options": [
+      "Never",
+      "Yes",
+      "Always",
+      "No, but it can receive one as children/props"
+     ],
+     "answer": 3,
+     "explain": "Pass as props."
+    }
+   ]
+  },
+  "level-1/06-styling": {
+   "questions": [
+    {
+     "q": "Which styling approaches does Next.js support?",
+     "options": [
+      "Only CSS",
+      "CSS Modules, global CSS, Tailwind and CSS-in-JS (with client caveats)",
+      "Only inline",
+      "Sass only"
+     ],
+     "answer": 1,
+     "explain": "Flexible."
+    },
+    {
+     "q": "What's a CSS Module?",
+     "options": [
+      "Utility",
+      "Locally scoped class names per component file",
+      "Global",
+      "Inline"
+     ],
+     "answer": 1,
+     "explain": "styles.module.css."
+    },
+    {
+     "q": "Where is global CSS imported?",
+     "options": [
+      "page",
+      "component",
+      "In the root layout",
+      "config"
+     ],
+     "answer": 2,
+     "explain": "Once."
+    },
+    {
+     "q": "Why do CSS-in-JS libraries need care?",
+     "options": [
+      "Speed",
+      "Cost",
+      "Law",
+      "They often require client components and runtime support"
+     ],
+     "answer": 3,
+     "explain": "Server components."
+    }
+   ]
+  },
+  "level-1/07-images-fonts-metadata": {
+   "questions": [
+    {
+     "q": "Why use next/image?",
+     "options": [
+      "Law",
+      "Colors",
+      "Automatic resizing, lazy loading and modern formats to improve performance",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Core Web Vitals."
+    },
+    {
+     "q": "Why give images width and height?",
+     "options": [
+      "Reserve space and avoid layout shift (CLS)",
+      "Cost",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Or fill."
+    },
+    {
+     "q": "What does next/font do?",
+     "options": [
+      "Self-hosts fonts and eliminates layout shift",
+      "Cache",
+      "CDN",
+      "Compress"
+     ],
+     "answer": 0,
+     "explain": "No external requests."
+    },
+    {
+     "q": "How set page metadata?",
+     "options": [
+      "<head> manual",
+      "Config",
+      "Export a metadata object or generateMetadata",
+      "Plugin"
+     ],
+     "answer": 2,
+     "explain": "SEO."
+    }
+   ]
+  },
+  "level-1/08-static-assets-public": {
+   "questions": [
+    {
+     "q": "Files in public/ are available at?",
+     "options": [
+      "/static",
+      "/public/logo.png",
+      "The site root (public/logo.png is /logo.png)",
+      "/assets"
+     ],
+     "answer": 2,
+     "explain": "Direct URL."
+    },
+    {
+     "q": "When use public/ over importing?",
+     "options": [
+      "Always",
+      "Never",
+      "Images",
+      "For files referenced by fixed URL like robots.txt and favicons"
+     ],
+     "answer": 3,
+     "explain": "No hashing."
+    },
+    {
+     "q": "Do imported assets get hashed names?",
+     "options": [
+      "Never",
+      "Sometimes",
+      "No",
+      "Yes, enabling long-term caching"
+     ],
+     "answer": 3,
+     "explain": "Bundler."
+    },
+    {
+     "q": "What's a downside of public/?",
+     "options": [
+      "None",
+      "No automatic optimization or cache busting",
+      "Speed",
+      "Cost"
+     ],
+     "answer": 1,
+     "explain": "Use imports."
+    }
+   ]
+  },
+  "level-1/09-data-fetching-basics": {
+   "questions": [
+    {
+     "q": "How fetch data in a Server Component?",
+     "options": [
+      "getInitialProps",
+      "Make the component async and await fetch or a database call",
+      "useEffect",
+      "Redux"
+     ],
+     "answer": 1,
+     "explain": "Direct on the server."
+    },
+    {
+     "q": "What are the benefits?",
+     "options": [
+      "Law",
+      "No client waterfalls and secrets stay on the server",
+      "None",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Security."
+    },
+    {
+     "q": "What does fetch cache control accept?",
+     "options": [
+      "cache and next.revalidate options",
+      "None",
+      "Headers",
+      "TTL only"
+     ],
+     "answer": 0,
+     "explain": "Defaults changed across versions."
+    },
+    {
+     "q": "How run requests in parallel?",
+     "options": [
+      "setTimeout",
+      "Start them together and await Promise.all",
+      "Loops",
+      "Sequential"
+     ],
+     "answer": 1,
+     "explain": "Avoid waterfalls."
+    }
+   ]
+  },
+  "level-1/10-project-blog": {
+   "questions": [
+    {
+     "q": "What does the blog project combine?",
+     "options": [
+      "Only styling",
+      "Only auth",
+      "Only API",
+      "Routing, layouts, metadata, static content and data fetching"
+     ],
+     "answer": 3,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How render posts from files or a CMS?",
+     "options": [
+      "Client fetch",
+      "Iframe",
+      "None",
+      "Server components reading content and generateStaticParams for pages"
+     ],
+     "answer": 3,
+     "explain": "Static generation."
+    },
+    {
+     "q": "How improve SEO for posts?",
+     "options": [
+      "None",
+      "Hidden text",
+      "Per-post metadata and semantic HTML",
+      "Keywords"
+     ],
+     "answer": 2,
+     "explain": "generateMetadata."
+    },
+    {
+     "q": "How test navigation?",
+     "options": [
+      "Link-based e2e/integration tests",
+      "None",
+      "Manual",
+      "Print"
+     ],
+     "answer": 0,
+     "explain": "Playwright."
+    }
+   ]
+  },
+  "level-2/01-dynamic-routes-params": {
+   "questions": [
+    {
+     "q": "How define a dynamic route?",
+     "options": [
+      "{slug}",
+      "blog/:slug",
+      "A folder like app/blog/[slug]/page.tsx",
+      "[[slug]]"
+     ],
+     "answer": 2,
+     "explain": "params.slug."
+    },
+    {
+     "q": "What are params in a page component?",
+     "options": [
+      "Cookies",
+      "Query",
+      "Headers",
+      "An object (promise in recent versions) with the dynamic segments"
+     ],
+     "answer": 3,
+     "explain": "Await in newer Next."
+    },
+    {
+     "q": "What does [...slug] match?",
+     "options": [
+      "One",
+      "None",
+      "Catch-all segments (one or more)",
+      "Query"
+     ],
+     "answer": 2,
+     "explain": "[[...slug]] is optional."
+    },
+    {
+     "q": "What does generateStaticParams do?",
+     "options": [
+      "Fetch",
+      "Tells Next which dynamic paths to prerender at build time",
+      "Route",
+      "Cache"
+     ],
+     "answer": 1,
+     "explain": "Static generation."
+    }
+   ]
+  },
+  "level-2/02-loading-error-not-found": {
+   "questions": [
+    {
+     "q": "What does loading.tsx provide?",
+     "options": [
+      "An instant loading UI shown while a segment streams",
+      "Error",
+      "Layout",
+      "404"
+     ],
+     "answer": 0,
+     "explain": "Suspense boundary."
+    },
+    {
+     "q": "What does error.tsx do?",
+     "options": [
+      "Layout",
+      "Catches errors in a segment and shows a fallback (client component)",
+      "Loading",
+      "404"
+     ],
+     "answer": 1,
+     "explain": "Error boundary."
+    },
+    {
+     "q": "What does notFound() do?",
+     "options": [
+      "Throws 500",
+      "Renders the nearest not-found.tsx with a 404 status",
+      "Redirects",
+      "Loads"
+     ],
+     "answer": 1,
+     "explain": "Missing resources."
+    },
+    {
+     "q": "Why colocate these files?",
+     "options": [
+      "Style",
+      "Law",
+      "Each segment controls its own loading and error UX",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Granular."
+    }
+   ]
+  },
+  "level-2/03-server-actions-forms": {
+   "questions": [
+    {
+     "q": "What is a Server Action?",
+     "options": [
+      "Middleware",
+      "Hook",
+      "An async function that runs on the server, invoked from forms or client code",
+      "API route"
+     ],
+     "answer": 2,
+     "explain": "'use server'."
+    },
+    {
+     "q": "How call it from a form?",
+     "options": [
+      "Redux",
+      "Pass it to the form's action prop",
+      "Axios",
+      "onSubmit fetch"
+     ],
+     "answer": 1,
+     "explain": "Progressive enhancement."
+    },
+    {
+     "q": "Why validate input in Server Actions?",
+     "options": [
+      "They're public endpoints; never trust client data",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Zod."
+    },
+    {
+     "q": "How update the UI after a mutation?",
+     "options": [
+      "revalidatePath/revalidateTag or redirect",
+      "Reload",
+      "setState",
+      "Poll"
+     ],
+     "answer": 0,
+     "explain": "Cache invalidation."
+    }
+   ]
+  },
+  "level-2/04-caching-revalidation": {
+   "questions": [
+    {
+     "q": "What does revalidate: 60 mean?",
+     "options": [
+      "Cached data may be regenerated at most every 60 seconds (ISR)",
+      "Once",
+      "Always",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Time-based."
+    },
+    {
+     "q": "What does revalidateTag do?",
+     "options": [
+      "Routes",
+      "Auth",
+      "Invalidates cached data tagged with that label on demand",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "On-demand ISR."
+    },
+    {
+     "q": "What's the Full Route Cache?",
+     "options": [
+      "Prerendered HTML/RSC payloads cached on the server",
+      "DB",
+      "CDN",
+      "Browser"
+     ],
+     "answer": 0,
+     "explain": "Static routes."
+    },
+    {
+     "q": "When is a route dynamic?",
+     "options": [
+      "When it uses cookies, headers or uncached data per request",
+      "Never",
+      "Static",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Dynamic APIs."
+    }
+   ]
+  },
+  "level-2/05-route-handlers": {
+   "questions": [
+    {
+     "q": "What is a route handler?",
+     "options": [
+      "Component",
+      "Layout",
+      "Hook",
+      "A route.ts exporting HTTP method functions (GET, POST)"
+     ],
+     "answer": 3,
+     "explain": "API endpoints."
+    },
+    {
+     "q": "What do route handlers receive?",
+     "options": [
+      "ctx",
+      "A Request and return a Response (NextResponse)",
+      "req,res",
+      "event"
+     ],
+     "answer": 1,
+     "explain": "Web standard."
+    },
+    {
+     "q": "When use route handlers vs server actions?",
+     "options": [
+      "Same",
+      "Reverse",
+      "None",
+      "Handlers for external clients/webhooks; actions for app form/mutations"
+     ],
+     "answer": 3,
+     "explain": "Different consumers."
+    },
+    {
+     "q": "How read JSON body?",
+     "options": [
+      "json()",
+      "await request.json()",
+      "parse()",
+      "req.body"
+     ],
+     "answer": 1,
+     "explain": "Web API."
+    }
+   ]
+  },
+  "level-2/06-proxy-middleware": {
+   "questions": [
+    {
+     "q": "What is middleware (proxy) used for?",
+     "options": [
+      "Rendering",
+      "Styling",
+      "Fetching",
+      "Running code before a request completes: redirects, auth checks, headers"
+     ],
+     "answer": 3,
+     "explain": "Edge-friendly."
+    },
+    {
+     "q": "Where is it defined?",
+     "options": [
+      "public/",
+      "app/",
+      "A middleware/proxy file at the project root (src/)",
+      "pages/"
+     ],
+     "answer": 2,
+     "explain": "matcher config."
+    },
+    {
+     "q": "What should it avoid?",
+     "options": [
+      "Rewrites",
+      "Heavy work and database calls (runs on every matched request)",
+      "Redirects",
+      "Headers"
+     ],
+     "answer": 1,
+     "explain": "Keep it light."
+    },
+    {
+     "q": "What's a matcher?",
+     "options": [
+      "Cache",
+      "Route",
+      "Test",
+      "A config limiting which paths run the middleware"
+     ],
+     "answer": 3,
+     "explain": "Performance."
+    }
+   ]
+  },
+  "level-2/07-authentication": {
+   "questions": [
+    {
+     "q": "Where verify sessions securely?",
+     "options": [
+      "Image",
+      "On the server near the data access, not only in middleware",
+      "CSS",
+      "Client"
+     ],
+     "answer": 1,
+     "explain": "Defense in depth."
+    },
+    {
+     "q": "How store session tokens?",
+     "options": [
+      "HttpOnly, Secure, SameSite cookies",
+      "Global",
+      "localStorage",
+      "URL"
+     ],
+     "answer": 0,
+     "explain": "XSS safety."
+    },
+    {
+     "q": "What does Auth.js (NextAuth) provide?",
+     "options": [
+      "Router",
+      "Authentication flows and providers",
+      "Database",
+      "CSS"
+     ],
+     "answer": 1,
+     "explain": "Integrations."
+    },
+    {
+     "q": "What must every protected action check?",
+     "options": [
+      "Headers",
+      "Authorization for that specific resource",
+      "Login",
+      "Cookies"
+     ],
+     "answer": 1,
+     "explain": "IDOR."
+    }
+   ]
+  },
+  "level-2/08-databases-orm": {
+   "questions": [
+    {
+     "q": "Where run database queries?",
+     "options": [
+      "CSS",
+      "Client",
+      "Browser",
+      "In server components, server actions or route handlers (server only)"
+     ],
+     "answer": 3,
+     "explain": "Secrets safe."
+    },
+    {
+     "q": "Why reuse the DB client in dev?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Hot reload creates many connections otherwise"
+     ],
+     "answer": 3,
+     "explain": "Singleton pattern."
+    },
+    {
+     "q": "What do ORMs like Prisma/Drizzle give?",
+     "options": [
+      "Typed queries and migrations",
+      "Routes",
+      "UI",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "Safer data access."
+    },
+    {
+     "q": "How avoid SQL injection?",
+     "options": [
+      "Escape",
+      "Trim",
+      "Use parameterized queries via the ORM",
+      "Concatenate"
+     ],
+     "answer": 2,
+     "explain": "Never string-build."
+    }
+   ]
+  },
+  "level-2/09-url-state-search-params": {
+   "questions": [
+    {
+     "q": "Why keep UI state in the URL?",
+     "options": [
+      "Shareable, bookmarkable and works with back/forward",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Search params."
+    },
+    {
+     "q": "How read search params in a server page?",
+     "options": [
+      "Via the searchParams prop",
+      "cookies",
+      "useState",
+      "window"
+     ],
+     "answer": 0,
+     "explain": "Dynamic."
+    },
+    {
+     "q": "How update them on the client?",
+     "options": [
+      "setState",
+      "Redux",
+      "Cookies",
+      "useRouter/Link with new query strings or useSearchParams"
+     ],
+     "answer": 3,
+     "explain": "Navigation."
+    },
+    {
+     "q": "What to debounce?",
+     "options": [
+      "Links",
+      "Search-as-you-type updates to avoid too many requests",
+      "Clicks",
+      "Loads"
+     ],
+     "answer": 1,
+     "explain": "UX."
+    }
+   ]
+  },
+  "level-2/10-project-crud-app": {
+   "questions": [
+    {
+     "q": "What does the CRUD app project combine?",
+     "options": [
+      "Dynamic routes, server actions, validation, DB and revalidation",
+      "Only API",
+      "Only auth",
+      "Only UI"
+     ],
+     "answer": 0,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How handle validation errors?",
+     "options": [
+      "Alert",
+      "Throw",
+      "Ignore",
+      "Return errors from the action and render them in the form"
+     ],
+     "answer": 3,
+     "explain": "useActionState."
+    },
+    {
+     "q": "How ensure lists update after creating?",
+     "options": [
+      "revalidatePath for the list route",
+      "Reload",
+      "None",
+      "Poll"
+     ],
+     "answer": 0,
+     "explain": "Cache."
+    },
+    {
+     "q": "How protect mutations?",
+     "options": [
+      "Hide button",
+      "Middleware only",
+      "Authenticate and authorize inside each action",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Server-side."
+    }
+   ]
+  },
+  "level-3/01-rendering-strategies": {
+   "questions": [
+    {
+     "q": "Which strategy prerenders at build time?",
+     "options": [
+      "Static rendering (SSG)",
+      "ISR",
+      "SSR",
+      "CSR"
+     ],
+     "answer": 0,
+     "explain": "Fast and cacheable."
+    },
+    {
+     "q": "When use dynamic rendering?",
+     "options": [
+      "Static",
+      "When content depends on the request (user, cookies, fresh data)",
+      "Never",
+      "Blog"
+     ],
+     "answer": 1,
+     "explain": "Per request."
+    },
+    {
+     "q": "What is ISR?",
+     "options": [
+      "SSR",
+      "Static pages regenerated in the background after a time or event",
+      "CSR",
+      "SSG only"
+     ],
+     "answer": 1,
+     "explain": "Best of both."
+    },
+    {
+     "q": "What's partial prerendering?",
+     "options": [
+      "A static shell with dynamic holes streamed in",
+      "Static",
+      "Client",
+      "Dynamic"
+     ],
+     "answer": 0,
+     "explain": "Hybrid."
+    }
+   ]
+  },
+  "level-3/02-suspense-streaming": {
+   "questions": [
+    {
+     "q": "What does Suspense enable?",
+     "options": [
+      "Showing fallbacks while parts of the UI stream in",
+      "Routing",
+      "Errors",
+      "Caching"
+     ],
+     "answer": 0,
+     "explain": "Progressive rendering."
+    },
+    {
+     "q": "What does streaming improve?",
+     "options": [
+      "Security",
+      "Bundle size",
+      "Time to first byte/paint for slow data sections",
+      "SEO only"
+     ],
+     "answer": 2,
+     "explain": "Don't block the page."
+    },
+    {
+     "q": "Where place Suspense boundaries?",
+     "options": [
+      "Root only",
+      "Around slow, independent sections",
+      "Everywhere",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Granular."
+    },
+    {
+     "q": "What does loading.tsx wrap?",
+     "options": [
+      "Error",
+      "Layout",
+      "Image",
+      "The segment in a Suspense boundary automatically"
+     ],
+     "answer": 3,
+     "explain": "Convention."
+    }
+   ]
+  },
+  "level-3/03-parallel-intercepting-routes": {
+   "questions": [
+    {
+     "q": "What are parallel routes?",
+     "options": [
+      "Nested",
+      "Multiple pages rendered simultaneously in slots (@folder)",
+      "Dynamic",
+      "Sequential"
+     ],
+     "answer": 1,
+     "explain": "Dashboards."
+    },
+    {
+     "q": "What are intercepting routes?",
+     "options": [
+      "Redirect",
+      "Middleware",
+      "Showing another route's content in the current context (e.g. a modal)",
+      "Layout"
+     ],
+     "answer": 2,
+     "explain": "(.)photo."
+    },
+    {
+     "q": "Typical use of interception?",
+     "options": [
+      "Auth",
+      "Cache",
+      "Modal previews with shareable URLs",
+      "APIs"
+     ],
+     "answer": 2,
+     "explain": "UX."
+    },
+    {
+     "q": "What does default.tsx do for slots?",
+     "options": [
+      "Layout",
+      "Loading",
+      "Provides a fallback when a slot has no match",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Hard navigation."
+    }
+   ]
+  },
+  "level-3/04-internationalization": {
+   "questions": [
+    {
+     "q": "How localize routes?",
+     "options": [
+      "None",
+      "Locale segments (app/[lang]) with a dictionary and middleware detection",
+      "Query",
+      "Cookies only"
+     ],
+     "answer": 1,
+     "explain": "i18n routing."
+    },
+    {
+     "q": "What helps SEO for locales?",
+     "options": [
+      "hreflang alternates and localized metadata",
+      "None",
+      "Hidden",
+      "Cloak"
+     ],
+     "answer": 0,
+     "explain": "Search engines."
+    },
+    {
+     "q": "Where load translations?",
+     "options": [
+      "On the server so they ship no extra client JS",
+      "Client",
+      "DB",
+      "CDN"
+     ],
+     "answer": 0,
+     "explain": "Server components."
+    },
+    {
+     "q": "How format dates and numbers?",
+     "options": [
+      "Regex",
+      "Intl APIs with the locale",
+      "String",
+      "Manual"
+     ],
+     "answer": 1,
+     "explain": "Correctness."
+    }
+   ]
+  },
+  "level-3/05-seo": {
+   "questions": [
+    {
+     "q": "How add sitemap and robots?",
+     "options": [
+      "sitemap.ts and robots.ts route files",
+      "Static only",
+      "None",
+      "Plugin"
+     ],
+     "answer": 0,
+     "explain": "Generated."
+    },
+    {
+     "q": "What does canonical URL prevent?",
+     "options": [
+      "Speed",
+      "Cost",
+      "Duplicate-content confusion",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "alternates.canonical."
+    },
+    {
+     "q": "What helps rich results?",
+     "options": [
+      "Structured data (JSON-LD)",
+      "Hidden",
+      "Meta keywords",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Schema.org."
+    },
+    {
+     "q": "What affects SEO most technically?",
+     "options": [
+      "Colors",
+      "Length",
+      "Fonts",
+      "Crawlable HTML, speed and correct metadata"
+     ],
+     "answer": 3,
+     "explain": "Fundamentals."
+    }
+   ]
+  },
+  "level-3/06-performance-web-vitals": {
+   "questions": [
+    {
+     "q": "Which are Core Web Vitals?",
+     "options": [
+      "TBT only",
+      "TTFB",
+      "LCP, INP and CLS",
+      "FCP"
+     ],
+     "answer": 2,
+     "explain": "User-centric."
+    },
+    {
+     "q": "What improves LCP?",
+     "options": [
+      "Optimizing the hero image/font and server response",
+      "Popups",
+      "More JS",
+      "Animations"
+     ],
+     "answer": 0,
+     "explain": "priority on images."
+    },
+    {
+     "q": "What causes CLS?",
+     "options": [
+      "Cache",
+      "Content shifting due to missing dimensions or late-loading fonts/ads",
+      "Bundle size",
+      "SSR"
+     ],
+     "answer": 1,
+     "explain": "Reserve space."
+    },
+    {
+     "q": "How reduce JavaScript?",
+     "options": [
+      "More libs",
+      "Prefer server components, dynamic imports and smaller dependencies",
+      "None",
+      "Larger"
+     ],
+     "answer": 1,
+     "explain": "Bundle analyzer."
+    }
+   ]
+  },
+  "level-3/07-testing": {
+   "questions": [
+    {
+     "q": "What test types fit Next.js?",
+     "options": [
+      "Unit/component (Jest/Vitest), e2e (Playwright) and integration",
+      "Only unit",
+      "None",
+      "Only e2e"
+     ],
+     "answer": 0,
+     "explain": "Pyramid."
+    },
+    {
+     "q": "How test async server components?",
+     "options": [
+      "Unit",
+      "Snapshots",
+      "E2E or integration tests (unit tools struggle)",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Current limitation."
+    },
+    {
+     "q": "What do you mock in unit tests?",
+     "options": [
+      "next/navigation hooks and network calls",
+      "React",
+      "CSS",
+      "DOM"
+     ],
+     "answer": 0,
+     "explain": "Isolation."
+    },
+    {
+     "q": "What does Playwright give?",
+     "options": [
+      "Types",
+      "Real browser tests across the full stack",
+      "Unit",
+      "Lint"
+     ],
+     "answer": 1,
+     "explain": "Reliable flows."
+    }
+   ]
+  },
+  "level-3/08-security": {
+   "questions": [
+    {
+     "q": "Which header reduces XSS risk?",
+     "options": [
+      "ETag",
+      "CORS",
+      "Cache-Control",
+      "Content-Security-Policy"
+     ],
+     "answer": 3,
+     "explain": "Configure."
+    },
+    {
+     "q": "Why validate Server Action input?",
+     "options": [
+      "Style",
+      "Speed",
+      "Actions are callable by anyone; treat as public APIs",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Zod."
+    },
+    {
+     "q": "How keep secrets out of the browser?",
+     "options": [
+      "Prefix",
+      "Don't prefix with NEXT_PUBLIC_; use server-only code",
+      "Public",
+      "Client"
+     ],
+     "answer": 1,
+     "explain": "Env vars."
+    },
+    {
+     "q": "What's CSRF protection in Server Actions?",
+     "options": [
+      "CORS",
+      "None",
+      "Tokens only",
+      "Origin checks built in plus SameSite cookies"
+     ],
+     "answer": 3,
+     "explain": "Defense."
+    }
+   ]
+  },
+  "level-3/09-client-data-interactivity": {
+   "questions": [
+    {
+     "q": "When use SWR/React Query?",
+     "options": [
+      "Static",
+      "SSG",
+      "Build",
+      "Client-side data that needs caching, polling or optimistic updates"
+     ],
+     "answer": 3,
+     "explain": "Interactivity."
+    },
+    {
+     "q": "What's optimistic UI?",
+     "options": [
+      "Waiting",
+      "Retry",
+      "Cache",
+      "Updating the UI immediately before the server confirms"
+     ],
+     "answer": 3,
+     "explain": "useOptimistic."
+    },
+    {
+     "q": "How mix server and client data?",
+     "options": [
+      "Client only",
+      "None",
+      "Server only",
+      "Fetch initial data on the server and hydrate client state"
+     ],
+     "answer": 3,
+     "explain": "Initial data."
+    },
+    {
+     "q": "What should live in client state?",
+     "options": [
+      "Nothing",
+      "Everything",
+      "Interactive UI state, not server data you can fetch on the server",
+      "DB"
+     ],
+     "answer": 2,
+     "explain": "Minimize."
+    }
+   ]
+  },
+  "level-3/10-project-dashboard": {
+   "questions": [
+    {
+     "q": "What does the dashboard project combine?",
+     "options": [
+      "Only SSG",
+      "Only API",
+      "Streaming, parallel routes, charts, auth and caching",
+      "Only UI"
+     ],
+     "answer": 2,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How keep slow widgets from blocking?",
+     "options": [
+      "Spinner",
+      "None",
+      "Block",
+      "Suspense per widget"
+     ],
+     "answer": 3,
+     "explain": "Streaming."
+    },
+    {
+     "q": "How ensure accurate numbers?",
+     "options": [
+      "Mock",
+      "Guess",
+      "Client",
+      "Server-side queries with caching rules and tests"
+     ],
+     "answer": 3,
+     "explain": "Correctness."
+    },
+    {
+     "q": "How measure performance?",
+     "options": [
+      "None",
+      "Feel",
+      "Lighthouse/Web Vitals and real-user monitoring",
+      "Guess"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-4/01-deployment": {
+   "questions": [
+    {
+     "q": "What's the simplest Next.js hosting?",
+     "options": [
+      "Only Vercel",
+      "None",
+      "Vercel (zero-config), or Node/Docker/self-host and static export",
+      "Only static"
+     ],
+     "answer": 2,
+     "explain": "Many options."
+    },
+    {
+     "q": "What does `next build` output?",
+     "options": [
+      "Tests",
+      "Docs",
+      "An optimized production build (.next) with static and server parts",
+      "Dev server"
+     ],
+     "answer": 2,
+     "explain": "Then `next start`."
+    },
+    {
+     "q": "How containerize?",
+     "options": [
+      "VM",
+      "Use the standalone output in a minimal Node image",
+      "No",
+      "Copy repo"
+     ],
+     "answer": 1,
+     "explain": "output: 'standalone'."
+    },
+    {
+     "q": "What config differs per environment?",
+     "options": [
+      "Routes",
+      "Environment variables (runtime and build-time)",
+      "Code",
+      "Styles"
+     ],
+     "answer": 1,
+     "explain": "12-factor."
+    }
+   ]
+  },
+  "level-4/02-edge-vs-node-runtime": {
+   "questions": [
+    {
+     "q": "Edge runtime vs Node runtime?",
+     "options": [
+      "Reverse",
+      "Same",
+      "Edge is lightweight and globally distributed with limited APIs; Node has full APIs",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Choose per route."
+    },
+    {
+     "q": "What can't Edge usually do?",
+     "options": [
+      "Redirect",
+      "Fetch",
+      "Use Node-only APIs and most native drivers",
+      "Headers"
+     ],
+     "answer": 2,
+     "explain": "Limitations."
+    },
+    {
+     "q": "When pick Edge?",
+     "options": [
+      "Heavy DB",
+      "Image",
+      "Batch",
+      "Low-latency personalization, redirects and lightweight logic"
+     ],
+     "answer": 3,
+     "explain": "Speed."
+    },
+    {
+     "q": "How set runtime?",
+     "options": [
+      "env",
+      "config",
+      "header",
+      "export const runtime = 'edge' | 'nodejs'"
+     ],
+     "answer": 3,
+     "explain": "Route-level."
+    }
+   ]
+  },
+  "level-4/03-monorepos": {
+   "questions": [
+    {
+     "q": "Why use a monorepo?",
+     "options": [
+      "Style",
+      "Speed only",
+      "Share packages (UI, config, types) across apps with unified tooling",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Turborepo/Nx."
+    },
+    {
+     "q": "What does Turborepo cache?",
+     "options": [
+      "DB",
+      "Images",
+      "Task outputs keyed by inputs to skip rebuilds",
+      "HTTP"
+     ],
+     "answer": 2,
+     "explain": "Remote cache."
+    },
+    {
+     "q": "How share UI components?",
+     "options": [
+      "Zip",
+      "Copy",
+      "Internal packages with transpilePackages",
+      "Fork"
+     ],
+     "answer": 2,
+     "explain": "Config."
+    },
+    {
+     "q": "What risk to manage?",
+     "options": [
+      "Law",
+      "Dependency version drift and build times",
+      "Speed",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Workspaces."
+    }
+   ]
+  },
+  "level-4/04-observability": {
+   "questions": [
+    {
+     "q": "What does OpenTelemetry in Next.js provide?",
+     "options": [
+      "Traces for requests, rendering and fetches",
+      "Auth",
+      "Cache",
+      "UI"
+     ],
+     "answer": 0,
+     "explain": "instrumentation.ts."
+    },
+    {
+     "q": "Which signals matter?",
+     "options": [
+      "Logs only",
+      "CPU only",
+      "Logs, metrics and traces plus Web Vitals from real users",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Observability."
+    },
+    {
+     "q": "How track client errors?",
+     "options": [
+      "An error monitoring service (Sentry) with source maps",
+      "console",
+      "None",
+      "alert"
+     ],
+     "answer": 0,
+     "explain": "Production."
+    },
+    {
+     "q": "Why add request IDs?",
+     "options": [
+      "Law",
+      "Correlate logs across services",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Debugging."
+    }
+   ]
+  },
+  "level-4/05-large-app-architecture": {
+   "questions": [
+    {
+     "q": "How organize a large app?",
+     "options": [
+      "Random",
+      "Layers only",
+      "One folder",
+      "Feature folders, shared UI packages and clear server/client boundaries"
+     ],
+     "answer": 3,
+     "explain": "Maintainability."
+    },
+    {
+     "q": "What does the server-only package do?",
+     "options": [
+      "Prevents server modules from being imported by client code",
+      "Speeds",
+      "Compresses",
+      "Caches"
+     ],
+     "answer": 0,
+     "explain": "Safety."
+    },
+    {
+     "q": "Where keep business logic?",
+     "options": [
+      "In framework-agnostic modules called by actions/handlers",
+      "Middleware",
+      "Components",
+      "Pages"
+     ],
+     "answer": 0,
+     "explain": "Testable."
+    },
+    {
+     "q": "What prevents tangled code?",
+     "options": [
+      "None",
+      "Comments",
+      "Dependency rules and linting boundaries",
+      "Hope"
+     ],
+     "answer": 2,
+     "explain": "Architecture."
+    }
+   ]
+  },
+  "level-4/06-upgrading-codemods": {
+   "questions": [
+    {
+     "q": "How upgrade Next.js safely?",
+     "options": [
+      "Rewrite",
+      "Latest blind",
+      "Skip",
+      "Read the upgrade guide, use codemods, upgrade on a branch and run tests"
+     ],
+     "answer": 3,
+     "explain": "@next/codemod."
+    },
+    {
+     "q": "What do codemods do?",
+     "options": [
+      "Tests",
+      "Lint",
+      "Automate code changes for breaking API updates",
+      "Deploy"
+     ],
+     "answer": 2,
+     "explain": "Time saver."
+    },
+    {
+     "q": "What helps pin behavior?",
+     "options": [
+      "Hope",
+      "None",
+      "Lockfiles and CI builds",
+      "Manual"
+     ],
+     "answer": 2,
+     "explain": "Reproducible."
+    },
+    {
+     "q": "What should you read first?",
+     "options": [
+      "Release notes and the migration guide",
+      "Blogs",
+      "None",
+      "Tweets"
+     ],
+     "answer": 0,
+     "explain": "Breaking changes."
+    }
+   ]
+  },
+  "level-4/07-accessibility": {
+   "questions": [
+    {
+     "q": "What's key for accessible Next.js apps?",
+     "options": [
+      "Images",
+      "Semantic HTML, focus management and ARIA only when needed",
+      "Colors",
+      "Divs"
+     ],
+     "answer": 1,
+     "explain": "WCAG."
+    },
+    {
+     "q": "How handle route change announcements?",
+     "options": [
+      "None",
+      "Timer",
+      "Next's route announcer and focus management",
+      "alert"
+     ],
+     "answer": 2,
+     "explain": "Screen readers."
+    },
+    {
+     "q": "Which lint helps a11y?",
+     "options": [
+      "tsc",
+      "eslint-plugin-jsx-a11y",
+      "jest",
+      "prettier"
+     ],
+     "answer": 1,
+     "explain": "Static checks."
+    },
+    {
+     "q": "How test accessibility?",
+     "options": [
+      "Eyeball",
+      "Lighthouse only",
+      "None",
+      "axe checks in tests plus manual keyboard/screen reader testing"
+     ],
+     "answer": 3,
+     "explain": "Automated is partial."
+    }
+   ]
+  },
+  "level-4/08-static-export-cdn": {
+   "questions": [
+    {
+     "q": "What's static export?",
+     "options": [
+      "Edge",
+      "output: 'export' producing plain HTML/CSS/JS for any static host/CDN",
+      "Node",
+      "SSR"
+     ],
+     "answer": 1,
+     "explain": "No server features."
+    },
+    {
+     "q": "What features don't work with static export?",
+     "options": [
+      "Routes",
+      "Images",
+      "Links",
+      "Server actions, route handlers and dynamic rendering"
+     ],
+     "answer": 3,
+     "explain": "Limitations."
+    },
+    {
+     "q": "When choose it?",
+     "options": [
+      "DB",
+      "Content sites without server needs and cheap global hosting",
+      "Dashboards",
+      "Auth"
+     ],
+     "answer": 1,
+     "explain": "Simple."
+    },
+    {
+     "q": "How handle images?",
+     "options": [
+      "Use unoptimized or a custom loader (no image server)",
+      "None",
+      "Default",
+      "next/image"
+     ],
+     "answer": 0,
+     "explain": "Config."
+    }
+   ]
+  },
+  "level-4/09-production-readiness": {
+   "questions": [
+    {
+     "q": "What does production readiness include?",
+     "options": [
+      "Security headers, monitoring, caching strategy, error pages and tests",
+      "Speed",
+      "Features",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Checklist."
+    },
+    {
+     "q": "What should fail the pipeline?",
+     "options": [
+      "Warnings",
+      "Names",
+      "Type errors, lint errors, failing tests and build errors",
+      "Slow"
+     ],
+     "answer": 2,
+     "explain": "CI gates."
+    },
+    {
+     "q": "How roll back?",
+     "options": [
+      "Restart",
+      "Edit",
+      "Fix prod",
+      "Redeploy the previous immutable build"
+     ],
+     "answer": 3,
+     "explain": "Fast recovery."
+    },
+    {
+     "q": "What caches need attention?",
+     "options": [
+      "One",
+      "Local",
+      "CDN, data cache and browser caching headers",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Invalidation."
+    }
+   ]
+  },
+  "level-4/10-capstone": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only UI",
+      "Only deploy",
+      "Routing, rendering strategy, auth, data, performance and deployment",
+      "Only API"
+     ],
+     "answer": 2,
+     "explain": "Production app."
+    },
+    {
+     "q": "How prove quality?",
+     "options": [
+      "Slides",
+      "Lighthouse, tests, accessibility and security review",
+      "Demo",
+      "Hope"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "None",
+      "Code",
+      "README, architecture decisions and runbooks",
+      "Slides"
+     ],
+     "answer": 2,
+     "explain": "Onboarding."
+    },
+    {
+     "q": "What sustains it?",
+     "options": [
+      "Tools",
+      "Luck",
+      "Silence",
+      "CI, upgrades and monitoring"
+     ],
+     "answer": 3,
+     "explain": "Maintenance."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What's the main benefit of Server Components by default?",
+    "options": [
+     "More hooks",
+     "Offline mode",
+     "Less client JavaScript and direct, secure access to server data",
+     "Faster typing"
+    ],
+    "answer": 2,
+    "explain": "Components render on the server."
+   },
+   {
+    "q": "You need useState and a click handler. What do you add?",
+    "options": [
+     "'use client' at the top of the component file",
+     "A config flag",
+     "getServerSideProps",
+     "'use server'"
+    ],
+    "answer": 0,
+    "explain": "Marks the client boundary."
+   },
+   {
+    "q": "Which file creates the /blog/[slug] page?",
+    "options": [
+     "app/blog/[slug]/page.tsx",
+     "pages/blog.js",
+     "app/blog/slug.tsx",
+     "routes/blog.ts"
+    ],
+    "answer": 0,
+    "explain": "Folder names are segments."
+   },
+   {
+    "q": "What does a route group like (marketing) do to the URL?",
+    "options": [
+     "Adds /marketing",
+     "Requires auth",
+     "Creates a layout",
+     "Nothing: it only organizes files"
+    ],
+    "answer": 3,
+    "explain": "Parentheses are omitted."
+   },
+   {
+    "q": "Where should a slow, independent widget be wrapped so the page can stream?",
+    "options": [
+     "In a Suspense boundary with a fallback",
+     "try/catch",
+     "useEffect",
+     "Middleware"
+    ],
+    "answer": 0,
+    "explain": "Progressive rendering."
+   },
+   {
+    "q": "Which file shows an instant loading state while a segment fetches?",
+    "options": [
+     "error.tsx",
+     "not-found.tsx",
+     "template.tsx",
+     "loading.tsx"
+    ],
+    "answer": 3,
+    "explain": "Automatic Suspense."
+   },
+   {
+    "q": "A server action receives form data. What must you do first?",
+    "options": [
+     "Validate and authorize it: actions are public endpoints",
+     "Nothing",
+     "Trust it",
+     "Hide the button"
+    ],
+    "answer": 0,
+    "explain": "Treat input as untrusted."
+   },
+   {
+    "q": "After a mutation, how do you refresh a cached list page?",
+    "options": [
+     "location.reload()",
+     "Wait",
+     "revalidatePath or revalidateTag in the action",
+     "setState"
+    ],
+    "answer": 2,
+    "explain": "Cache invalidation."
+   },
+   {
+    "q": "What does `revalidate: 60` mean for fetched data?",
+    "options": [
+     "Cached forever",
+     "Refetched every request",
+     "Never cached",
+     "It may be regenerated at most once per 60 seconds (time-based ISR)"
+    ],
+    "answer": 3,
+    "explain": "Stale-while-revalidate."
+   },
+   {
+    "q": "When is a route handler (route.ts) the right tool?",
+    "options": [
+     "Form posts only",
+     "For external clients, webhooks or non-React consumers",
+     "Layouts",
+     "Styling"
+    ],
+    "answer": 1,
+    "explain": "Server actions are for your own UI."
+   },
+   {
+    "q": "Where should authorization be enforced?",
+    "options": [
+     "CSS",
+     "Image config",
+     "Near data access on the server (not only in middleware)",
+     "Only client"
+    ],
+    "answer": 2,
+    "explain": "Defense in depth."
+   },
+   {
+    "q": "Why keep filters and pagination in search params?",
+    "options": [
+     "They're shareable, bookmarkable and work with back/forward",
+     "Smaller",
+     "Law",
+     "Faster"
+    ],
+    "answer": 0,
+    "explain": "URL as state."
+   },
+   {
+    "q": "Which strategy gives a static shell with dynamic holes streamed in?",
+    "options": [
+     "CSR",
+     "SSR only",
+     "Pure SSG",
+     "Partial prerendering"
+    ],
+    "answer": 3,
+    "explain": "Hybrid."
+   },
+   {
+    "q": "A product image causes layout shift. What fixes CLS?",
+    "options": [
+     "Use CSS",
+     "Add JS",
+     "next/image with width/height (or fill) to reserve space",
+     "Remove image"
+    ],
+    "answer": 2,
+    "explain": "Core Web Vitals."
+   },
+   {
+    "q": "Which Core Web Vitals does Next.js help with?",
+    "options": [
+     "TTFB only",
+     "LCP, INP and CLS",
+     "FCP only",
+     "None"
+    ],
+    "answer": 1,
+    "explain": "Measure with Lighthouse and RUM."
+   },
+   {
+    "q": "A secret key must never reach the browser. How are env vars named?",
+    "options": [
+     "Without the NEXT_PUBLIC_ prefix and used only in server code",
+     "In the layout",
+     "With the prefix",
+     "In public/"
+    ],
+    "answer": 0,
+    "explain": "Prefixed vars are inlined."
+   },
+   {
+    "q": "A route needs Node-only database drivers. Which runtime?",
+    "options": [
+     "None",
+     "Node.js runtime (Edge has limited APIs)",
+     "Edge",
+     "Static"
+    ],
+    "answer": 1,
+    "explain": "export const runtime."
+   },
+   {
+    "q": "You host on a plain CDN with no server. What mode?",
+    "options": [
+     "SSR",
+     "Edge",
+     "Static export (output: 'export'), accepting no server features",
+     "Standalone"
+    ],
+    "answer": 2,
+    "explain": "No actions or handlers."
+   },
+   {
+    "q": "How do you upgrade major versions safely?",
+    "options": [
+     "Skip",
+     "Rewrite",
+     "Latest blind",
+     "Read the guide, run codemods on a branch and rely on tests and CI"
+    ],
+    "answer": 3,
+    "explain": "@next/codemod."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "File-system routing and params",
+    "prompt": "Implement toRoute (strip app/, route groups and the leaf file) and match: static segments, [x], [...x] and [[...x]] with parameters, preferring routes with more static segments, and 404 for unknown URLs. It models how the App Router maps folders to URLs.",
+    "starter": "// App Router style file-system routes. Files are paths like \"app/blog/[slug]/page.tsx\".\nconst files = [\n  \"app/page.tsx\",\n  \"app/(marketing)/about/page.tsx\",\n  \"app/blog/page.tsx\",\n  \"app/blog/[slug]/page.tsx\",\n  \"app/shop/[...parts]/page.tsx\",\n  \"app/docs/[[...path]]/page.tsx\",\n  \"app/api/health/route.ts\",\n];\n\nfunction toRoute(file) {\n  // strip the leading \"app/\", drop the leaf (page.* => kind \"page\", route.* => \"handler\") and route\n  // groups \"(name)\"; return { pattern: \"/\" + remaining segments joined, kind, segs }\n  return { pattern: \"/\", kind: \"page\", segs: [] };\n}\n\nconst routes = files.map(toRoute);\n\nfunction match(url) {\n  // static segments match literally; [x] matches one segment; [...x] one or more; [[...x]] zero or more;\n  // if several routes match prefer the one with more static segments. Return\n  // \"<kind> <pattern> <params as JSON>\" or \"404 not-found\"\n  return \"404 not-found\";\n}\n\nconsole.log(routes.map((r) => r.pattern).join(\"  \"));\nfor (const u of [\"/\", \"/about\", \"/blog\", \"/blog/hello-world\", \"/shop/a/b/c\", \"/docs\", \"/docs/x/y\", \"/api/health\", \"/nope\"]) {\n  console.log(u.padEnd(18), match(u));\n}\n",
+    "expected": "/  /about  /blog  /blog/[slug]  /shop/[...parts]  /docs/[[...path]]  /api/health\n/                  page / {}\n/about             page /about {}\n/blog              page /blog {}\n/blog/hello-world  page /blog/[slug] {\"slug\":\"hello-world\"}\n/shop/a/b/c        page /shop/[...parts] {\"parts\":[\"a\",\"b\",\"c\"]}\n/docs              page /docs/[[...path]] {\"path\":[]}\n/docs/x/y          page /docs/[[...path]] {\"path\":[\"x\",\"y\"]}\n/api/health        handler /api/health {}\n/nope              404 not-found",
+    "solution": "// App Router style file-system routes. Files are paths like \"app/blog/[slug]/page.tsx\".\nconst files = [\n  \"app/page.tsx\",\n  \"app/(marketing)/about/page.tsx\",\n  \"app/blog/page.tsx\",\n  \"app/blog/[slug]/page.tsx\",\n  \"app/shop/[...parts]/page.tsx\",\n  \"app/docs/[[...path]]/page.tsx\",\n  \"app/api/health/route.ts\",\n];\n\nfunction toRoute(file) {\n  const segs = file.replace(/^app\\//, \"\").split(\"/\");\n  const leaf = segs.pop();                                  // page.tsx or route.ts\n  const kept = segs.filter((s) => !(s.startsWith(\"(\") && s.endsWith(\")\")));   // route groups vanish\n  return { pattern: \"/\" + kept.join(\"/\"), kind: leaf.startsWith(\"page\") ? \"page\" : \"handler\", segs: kept };\n}\n\nconst routes = files.map(toRoute);\n\nfunction match(url) {\n  const parts = url.split(\"/\").filter(Boolean);\n  let best = null;\n  for (const r of routes) {\n    const params = {};\n    let i = 0, ok = true;\n    for (const [k, seg] of r.segs.entries()) {\n      const optional = /^\\[\\[\\.\\.\\.(.+)\\]\\]$/.exec(seg);\n      const rest = /^\\[\\.\\.\\.(.+)\\]$/.exec(seg);\n      const dyn = /^\\[(.+)\\]$/.exec(seg);\n      if (optional) { params[optional[1]] = parts.slice(i); i = parts.length; }\n      else if (rest) { if (i >= parts.length) { ok = false; break; } params[rest[1]] = parts.slice(i); i = parts.length; }\n      else if (dyn) { if (i >= parts.length) { ok = false; break; } params[dyn[1]] = parts[i++]; }\n      else { if (parts[i] !== seg) { ok = false; break; } i++; }\n    }\n    if (ok && i === parts.length) {\n      const specificity = r.segs.filter((s) => !s.startsWith(\"[\")).length;   // static segments win\n      if (!best || specificity > best.specificity) best = { pattern: r.pattern, kind: r.kind, params, specificity };\n    }\n  }\n  return best ? `${best.kind} ${best.pattern} ${JSON.stringify(best.params)}` : \"404 not-found\";\n}\n\nconsole.log(routes.map((r) => r.pattern).join(\"  \"));\nfor (const u of [\"/\", \"/about\", \"/blog\", \"/blog/hello-world\", \"/shop/a/b/c\", \"/docs\", \"/docs/x/y\", \"/api/health\", \"/nope\"]) {\n  console.log(u.padEnd(18), match(u));\n}\n",
+    "explain": "Folders become URL segments, parenthesized groups disappear, brackets create params and the most specific route wins. This models the idea, not Next's actual router. Verified by running the solution with Node."
+   },
+   {
+    "title": "Time-based and tag-based revalidation",
+    "prompt": "Implement DataCache.get so entries are served from cache while fresh, refetched after `revalidate` seconds or after revalidateTag invalidates them, and counted as origin fetches. A fake clock drives the scenario.",
+    "starter": "// A tiny model of the Next.js data cache: time-based revalidation (ISR) plus on-demand tag invalidation.\nclass DataCache {\n  constructor(clock) { this.clock = clock; this.entries = new Map(); this.fetches = 0; }\n\n  async get(key, fetcher, { revalidate = Infinity, tags = [] } = {}) {\n    // return { value, source } where source is \"cache\" while the entry is fresh (age < revalidate seconds and\n    // not invalidated), \"origin\" for the first fetch of a key and \"revalidated\" when an existing entry is\n    // refetched; store { value, at: now, tags, invalid: false } and count origin calls in this.fetches\n    return { value: undefined, source: \"origin\" };\n  }\n\n  revalidateTag(tag) {\n    for (const e of this.entries.values()) if (e.tags.includes(tag)) e.invalid = true;\n  }\n}\n\n(async () => {\n  const clock = { now: 0 };\n  const cache = new DataCache(clock);\n  let version = 1;\n  const fetchPosts = async () => `posts v${version}`;\n  const show = async (label, key, opts) => {\n    const r = await cache.get(key, fetchPosts, opts);\n    console.log(label.padEnd(30), r.source.padEnd(12), r.value);\n  };\n\n  await show(\"first request\", \"posts\", { revalidate: 60, tags: [\"posts\"] });\n  version = 2;\n  clock.now = 30_000;\n  await show(\"30s later (still fresh)\", \"posts\", { revalidate: 60, tags: [\"posts\"] });\n  clock.now = 61_000;\n  await show(\"61s later (expired)\", \"posts\", { revalidate: 60, tags: [\"posts\"] });\n  version = 3;\n  await show(\"immediately again\", \"posts\", { revalidate: 60, tags: [\"posts\"] });\n  cache.revalidateTag(\"posts\");\n  await show(\"after revalidateTag('posts')\", \"posts\", { revalidate: 60, tags: [\"posts\"] });\n  await show(\"force-cache forever\", \"config\", { revalidate: Infinity });\n  clock.now = 10_000_000;\n  await show(\"much later, still cached\", \"config\", { revalidate: Infinity });\n  console.log(\"origin fetches:\", cache.fetches);\n})();\n",
+    "expected": "first request                  origin       posts v1\n30s later (still fresh)        cache        posts v1\n61s later (expired)            revalidated  posts v2\nimmediately again              cache        posts v2\nafter revalidateTag('posts')   revalidated  posts v3\nforce-cache forever            origin       posts v3\nmuch later, still cached       cache        posts v3\norigin fetches: 4",
+    "solution": "// A tiny model of the Next.js data cache: time-based revalidation (ISR) plus on-demand tag invalidation.\nclass DataCache {\n  constructor(clock) { this.clock = clock; this.entries = new Map(); this.fetches = 0; }\n\n  async get(key, fetcher, { revalidate = Infinity, tags = [] } = {}) {\n    const e = this.entries.get(key);\n    const now = this.clock.now;\n    if (e && !e.invalid && now - e.at < revalidate * 1000) return { value: e.value, source: \"cache\" };\n    const stale = e ? e.value : undefined;\n    this.fetches++;\n    const value = await fetcher();\n    this.entries.set(key, { value, at: now, tags, invalid: false });\n    return { value, source: e ? \"revalidated\" : \"origin\", stale };\n  }\n\n  revalidateTag(tag) {\n    for (const e of this.entries.values()) if (e.tags.includes(tag)) e.invalid = true;\n  }\n}\n\n(async () => {\n  const clock = { now: 0 };\n  const cache = new DataCache(clock);\n  let version = 1;\n  const fetchPosts = async () => `posts v${version}`;\n  const show = async (label, key, opts) => {\n    const r = await cache.get(key, fetchPosts, opts);\n    console.log(label.padEnd(30), r.source.padEnd(12), r.value);\n  };\n\n  await show(\"first request\", \"posts\", { revalidate: 60, tags: [\"posts\"] });\n  version = 2;\n  clock.now = 30_000;\n  await show(\"30s later (still fresh)\", \"posts\", { revalidate: 60, tags: [\"posts\"] });\n  clock.now = 61_000;\n  await show(\"61s later (expired)\", \"posts\", { revalidate: 60, tags: [\"posts\"] });\n  version = 3;\n  await show(\"immediately again\", \"posts\", { revalidate: 60, tags: [\"posts\"] });\n  cache.revalidateTag(\"posts\");\n  await show(\"after revalidateTag('posts')\", \"posts\", { revalidate: 60, tags: [\"posts\"] });\n  await show(\"force-cache forever\", \"config\", { revalidate: Infinity });\n  clock.now = 10_000_000;\n  await show(\"much later, still cached\", \"config\", { revalidate: Infinity });\n  console.log(\"origin fetches:\", cache.fetches);\n})();\n",
+    "explain": "Next's data cache serves fresh entries, revalidates after a time window (ISR) and can be invalidated on demand by tag, so unnecessary origin fetches are avoided. This is a simplified model. Verified by running the solution with Node."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
