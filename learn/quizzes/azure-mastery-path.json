@@ -1,0 +1,2159 @@
+{
+ "course": "azure-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup-cli-portal": {
+   "questions": [
+    {
+     "q": "What does a new Azure free account include?",
+     "options": [
+      "No free services",
+      "Unlimited free VMs",
+      "A permanent discount",
+      "A 30-day/$200 credit plus 'Always Free' services within usage caps"
+     ],
+     "answer": 3,
+     "explain": "A card is needed for identity verification; Azure won't auto-upgrade to a paid plan."
+    },
+    {
+     "q": "What is the #1 way a free trial turns into a bill?",
+     "options": [
+      "Logging in",
+      "An idle VM or database left running; delete practice resource groups",
+      "Using the CLI",
+      "Using the Portal"
+     ],
+     "answer": 1,
+     "explain": "Delete resource groups after practice."
+    },
+    {
+     "q": "Which two ways manage Azure?",
+     "options": [
+      "The web-based Azure Portal and the az command-line interface (also Cloud Shell)",
+      "Only SDKs",
+      "Only email",
+      "Only the CLI"
+     ],
+     "answer": 0,
+     "explain": "Cloud Shell has az installed and authenticated."
+    },
+    {
+     "q": "How do you log in on a machine without a browser?",
+     "options": [
+      "az login --use-device-code",
+      "az auth",
+      "az connect",
+      "az login --no-browser"
+     ],
+     "answer": 0,
+     "explain": "Open microsoft.com/devicelogin and enter the code."
+    }
+   ]
+  },
+  "level-1/02-azure-ad-rbac-security": {
+   "questions": [
+    {
+     "q": "What is Microsoft Entra ID?",
+     "options": [
+      "A VM type",
+      "A storage tier",
+      "Azure's identity service (formerly Azure AD), holding a tenant's users, groups and app registrations",
+      "A region"
+     ],
+     "answer": 2,
+     "explain": "Each subscription is linked to one tenant."
+    },
+    {
+     "q": "What three things define RBAC access?",
+     "options": [
+      "Cost, time, risk",
+      "Name, size, type",
+      "Who (identity), what (role), where (scope)",
+      "Region, zone, rack"
+     ],
+     "answer": 2,
+     "explain": "Roles are sets of permitted actions."
+    },
+    {
+     "q": "What's the scope hierarchy?",
+     "options": [
+      "Flat",
+      "Region → Zone",
+      "Management Group → Subscription → Resource Group → Resource, with inheritance downward",
+      "Resource → Subscription"
+     ],
+     "answer": 2,
+     "explain": "A role assigned at a broader scope is inherited by everything beneath."
+    },
+    {
+     "q": "Why assign roles to groups?",
+     "options": [
+      "Users can't be assigned",
+      "Assign once to the group instead of per person",
+      "It's required",
+      "Groups are faster"
+     ],
+     "answer": 1,
+     "explain": "Identity types: user, group, service principal/managed identity."
+    }
+   ]
+  },
+  "level-1/03-virtual-machines": {
+   "questions": [
+    {
+     "q": "Which VM family is burstable and free-tier eligible?",
+     "options": [
+      "E-series",
+      "D-series",
+      "F-series",
+      "B-series (e.g. Standard_B1s)"
+     ],
+     "answer": 3,
+     "explain": "Low steady CPU with burst credits."
+    },
+    {
+     "q": "Which family suits balanced web apps, and which suits CPU-heavy batch?",
+     "options": [
+      "E; B",
+      "B; E",
+      "F; D",
+      "D-series general purpose; F-series compute optimised"
+     ],
+     "answer": 3,
+     "explain": "E-series is memory-optimised."
+    },
+    {
+     "q": "Which family suits in-memory caches and larger databases?",
+     "options": [
+      "F-series",
+      "B-series",
+      "E-series (memory optimised)",
+      "D-series"
+     ],
+     "answer": 2,
+     "explain": "For example Standard_E2s_v5."
+    },
+    {
+     "q": "How do you connect to a Linux VM?",
+     "options": [
+      "Telnet",
+      "RDP",
+      "FTP",
+      "SSH to its public IP (the CLI can look the IP up for you)"
+     ],
+     "answer": 3,
+     "explain": "Stop idle VMs to avoid cost."
+    }
+   ]
+  },
+  "level-1/04-blob-storage": {
+   "questions": [
+    {
+     "q": "What do you create first for Blob Storage?",
+     "options": [
+      "A VM",
+      "A database",
+      "A storage account, then containers holding blobs",
+      "A VNet"
+     ],
+     "answer": 2,
+     "explain": "Containers group blobs."
+    },
+    {
+     "q": "How can you authorise blob commands without account keys?",
+     "options": [
+      "A password in the URL",
+      "No auth",
+      "--auth-mode login using your RBAC identity",
+      "Anonymous only"
+     ],
+     "answer": 2,
+     "explain": "Or use a connection string."
+    },
+    {
+     "q": "Which commands upload, list and download blobs?",
+     "options": [
+      "az blob put",
+      "az storage blob upload, list and download",
+      "az file copy",
+      "az vm upload"
+     ],
+     "answer": 1,
+     "explain": "Used with a container name."
+    },
+    {
+     "q": "How much Blob Storage is 'Always Free' per the lesson?",
+     "options": [
+      "None",
+      "50 GB",
+      "1 TB",
+      "5 GB"
+     ],
+     "answer": 3,
+     "explain": "Within usage caps."
+    }
+   ]
+  },
+  "level-1/05-virtual-networks": {
+   "questions": [
+    {
+     "q": "What is a VNet?",
+     "options": [
+      "A VM",
+      "A disk",
+      "A private network in Azure with an address space divided into subnets",
+      "A bucket"
+     ],
+     "answer": 2,
+     "explain": "Subnets are slices of the address space."
+    },
+    {
+     "q": "How do you add another subnet?",
+     "options": [
+      "az network vnet subnet create on the same VNet",
+      "Resize the VM",
+      "Edit DNS",
+      "Create a new VNet only"
+     ],
+     "answer": 0,
+     "explain": "List with az network vnet subnet list."
+    },
+    {
+     "q": "What does an NSG on a subnet do?",
+     "options": [
+      "Bills",
+      "Filters inbound and outbound traffic by rules",
+      "Stores data",
+      "Runs code"
+     ],
+     "answer": 1,
+     "explain": "Network Security Groups apply allow/deny rules."
+    },
+    {
+     "q": "What must address ranges avoid?",
+     "options": [
+      "Overlapping ranges between networks you may peer or connect",
+      "Using CIDR",
+      "Using names",
+      "Using subnets"
+     ],
+     "answer": 0,
+     "explain": "Plan address spaces up front."
+    }
+   ]
+  },
+  "level-1/06-azure-sql-cosmos-db": {
+   "questions": [
+    {
+     "q": "Which SQL tier is free-tier eligible in the lesson?",
+     "options": [
+      "Hyperscale",
+      "Premium",
+      "General Purpose serverless",
+      "Business Critical"
+     ],
+     "answer": 2,
+     "explain": "Serverless can auto-pause."
+    },
+    {
+     "q": "Why add a firewall rule for your IP?",
+     "options": [
+      "The server blocks connections by default, so your machine's IP must be allowed",
+      "For speed",
+      "To change region",
+      "For billing"
+     ],
+     "answer": 0,
+     "explain": "'Allow Azure services' lets App Service or Functions connect."
+    },
+    {
+     "q": "How does Cosmos DB differ from Azure SQL?",
+     "options": [
+      "Cosmos is relational",
+      "SQL is NoSQL",
+      "Cosmos DB is a globally distributed NoSQL database; Azure SQL is a managed relational database",
+      "Same"
+     ],
+     "answer": 2,
+     "explain": "Cosmos has a free tier."
+    },
+    {
+     "q": "What's 'Allow Azure services' rule do?",
+     "options": [
+      "Deletes data",
+      "Lets other Azure services such as App Service or Functions connect",
+      "Opens to the internet",
+      "Disables auth"
+     ],
+     "answer": 1,
+     "explain": "Keep rules as narrow as possible."
+    }
+   ]
+  },
+  "level-1/07-azure-functions": {
+   "questions": [
+    {
+     "q": "Which are Functions triggers?",
+     "options": [
+      "Only Queue",
+      "Only Timer",
+      "HTTP, Timer, Blob, Queue, Cosmos DB (change feed) and Event Grid",
+      "Only HTTP"
+     ],
+     "answer": 2,
+     "explain": "A trigger fires the function."
+    },
+    {
+     "q": "What does the Consumption plan do?",
+     "options": [
+      "Dedicated VMs",
+      "Fixed price",
+      "Scales automatically and bills per execution, with a free monthly grant",
+      "Always on"
+     ],
+     "answer": 2,
+     "explain": "Good for spiky workloads."
+    },
+    {
+     "q": "Why does a Function App need a storage account?",
+     "options": [
+      "For DNS",
+      "For internal state: triggers and logs",
+      "For billing",
+      "To store users"
+     ],
+     "answer": 1,
+     "explain": "Created alongside the app."
+    },
+    {
+     "q": "When does a Timer trigger fire?",
+     "options": [
+      "On a queue message",
+      "On HTTP",
+      "On blob create",
+      "On a CRON-like schedule"
+     ],
+     "answer": 3,
+     "explain": "NCRONTAB expressions."
+    }
+   ]
+  },
+  "level-1/08-azure-monitor-log-analytics": {
+   "questions": [
+    {
+     "q": "What are platform metrics?",
+     "options": [
+      "Paid logs",
+      "Free, automatic numeric data like CPU percentage for Azure resources",
+      "Billing data",
+      "Custom logs"
+     ],
+     "answer": 1,
+     "explain": "Read via az monitor metrics list."
+    },
+    {
+     "q": "What is a Log Analytics workspace?",
+     "options": [
+      "A store where logs are collected and queried",
+      "A VM",
+      "A bucket",
+      "A subnet"
+     ],
+     "answer": 0,
+     "explain": "Queried with KQL."
+    },
+    {
+     "q": "What is KQL?",
+     "options": [
+      "Kusto Query Language, used to query logs",
+      "A Kubernetes tool",
+      "A SQL variant for Cosmos",
+      "A template language"
+     ],
+     "answer": 0,
+     "explain": "Pipe-based queries."
+    },
+    {
+     "q": "Why average CPU in 5-minute buckets?",
+     "options": [
+      "To save money",
+      "It's faster",
+      "It's required",
+      "To read the last hour of trend with less noise"
+     ],
+     "answer": 3,
+     "explain": "Aggregation interval."
+    }
+   ]
+  },
+  "level-1/09-arm-bicep-intro": {
+   "questions": [
+    {
+     "q": "What is Bicep?",
+     "options": [
+      "A database",
+      "A CLI",
+      "A VM",
+      "A concise declarative language that compiles to ARM templates"
+     ],
+     "answer": 3,
+     "explain": "ARM templates are JSON."
+    },
+    {
+     "q": "Why prefer Bicep over raw ARM JSON?",
+     "options": [
+      "It's cheaper",
+      "It's faster at runtime",
+      "It's shorter and easier to read and maintain",
+      "It's required"
+     ],
+     "answer": 2,
+     "explain": "Same resources and deployment engine."
+    },
+    {
+     "q": "How do you install Bicep?",
+     "options": [
+      "npm i bicep",
+      "brew only",
+      "pip install bicep",
+      "az bicep install"
+     ],
+     "answer": 3,
+     "explain": "The CLI bundles it."
+    },
+    {
+     "q": "What does infrastructure as code give you?",
+     "options": [
+      "Repeatable, reviewable deployments",
+      "Faster VMs",
+      "Free hosting",
+      "No bills"
+     ],
+     "answer": 0,
+     "explain": "Deploy with az deployment group create."
+    }
+   ]
+  },
+  "level-1/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone build?",
+     "options": [
+      "Only a VM",
+      "Only storage",
+      "Only networking",
+      "An end-to-end web app: resource group, database, Function App backend and frontend"
+     ],
+     "answer": 3,
+     "explain": "It combines earlier modules."
+    },
+    {
+     "q": "Why start with a resource group?",
+     "options": [
+      "It's a VM",
+      "It holds related resources so they can be managed and deleted together",
+      "It's a tier",
+      "It's required for billing"
+     ],
+     "answer": 1,
+     "explain": "Deleting the group cleans up everything."
+    },
+    {
+     "q": "How is the backend delivered?",
+     "options": [
+      "As a blob",
+      "As a VM",
+      "As a VNet",
+      "As an Azure Function App"
+     ],
+     "answer": 3,
+     "explain": "Serverless HTTP backend."
+    },
+    {
+     "q": "What should you do at the end?",
+     "options": [
+      "Resize VMs",
+      "Leave it running",
+      "Upgrade",
+      "Delete the resource group to avoid costs"
+     ],
+     "answer": 3,
+     "explain": "Cost awareness."
+    }
+   ]
+  },
+  "level-2/01-app-service-deep-dive": {
+   "questions": [
+    {
+     "q": "Which App Service tier is for learning only?",
+     "options": [
+      "B1",
+      "F1 (Free), with a capped daily CPU quota and no slots",
+      "S1",
+      "P1v3"
+     ],
+     "answer": 1,
+     "explain": "Basic adds custom domains but no slots."
+    },
+    {
+     "q": "Which tiers support deployment slots and autoscale?",
+     "options": [
+      "Standard (5 slots) and Premium v3 (20 slots)",
+      "Free",
+      "None",
+      "Basic"
+     ],
+     "answer": 0,
+     "explain": "Premium v3 adds VNet integration."
+    },
+    {
+     "q": "What do deployment slots do?",
+     "options": [
+      "Store data",
+      "Let you deploy to staging and swap into production with minimal downtime",
+      "Backup",
+      "Scale VMs"
+     ],
+     "answer": 1,
+     "explain": "Swap staging with production."
+    },
+    {
+     "q": "What does an App Service plan define?",
+     "options": [
+      "The compute (size and tier) that apps in it share",
+      "A VNet",
+      "DNS",
+      "Storage"
+     ],
+     "answer": 0,
+     "explain": "Multiple apps can share a plan."
+    }
+   ]
+  },
+  "level-2/02-storage-deep-dive": {
+   "questions": [
+    {
+     "q": "What is Azure Files?",
+     "options": [
+      "A VM",
+      "Object storage only",
+      "Managed SMB/NFS file shares mountable like network drives",
+      "A queue"
+     ],
+     "answer": 2,
+     "explain": "Blob is object storage."
+    },
+    {
+     "q": "What is Queue Storage for?",
+     "options": [
+      "Storing files",
+      "Hosting",
+      "Decoupling components with messages processed asynchronously",
+      "DNS"
+     ],
+     "answer": 2,
+     "explain": "A Queue trigger can drive a function."
+    },
+    {
+     "q": "What are Tables?",
+     "options": [
+      "Disks",
+      "Files",
+      "Relational tables",
+      "A NoSQL key-attribute store for structured data"
+     ],
+     "answer": 3,
+     "explain": "Cheap, schemaless."
+    },
+    {
+     "q": "Why use queues between services?",
+     "options": [
+      "Encryption",
+      "Faster CPU",
+      "A burst doesn't overwhelm the consumer; messages wait until processed",
+      "Less storage"
+     ],
+     "answer": 2,
+     "explain": "Load levelling and resilience."
+    }
+   ]
+  },
+  "level-2/03-networking-deep-dive": {
+   "questions": [
+    {
+     "q": "Which layer does Azure Load Balancer work at?",
+     "options": [
+      "Layer 4 (TCP/UDP)",
+      "Layer 7",
+      "Layer 2",
+      "Layer 1"
+     ],
+     "answer": 0,
+     "explain": "It distributes by IP and port."
+    },
+    {
+     "q": "What does Application Gateway add?",
+     "options": [
+      "Layer 4 only",
+      "Storage",
+      "DNS",
+      "Layer 7 routing (HTTP paths, hosts), TLS termination and optionally WAF"
+     ],
+     "answer": 3,
+     "explain": "Path-based routing is the typical use."
+    },
+    {
+     "q": "Which fits path-based routing /api versus /images?",
+     "options": [
+      "NSG",
+      "VNet",
+      "Load Balancer",
+      "Application Gateway"
+     ],
+     "answer": 3,
+     "explain": "Load Balancer can't inspect HTTP."
+    },
+    {
+     "q": "What do health probes do?",
+     "options": [
+      "Remove unhealthy backends from rotation",
+      "Scale",
+      "Log",
+      "Encrypt"
+     ],
+     "answer": 0,
+     "explain": "Both services use them."
+    }
+   ]
+  },
+  "level-2/04-aks-basics": {
+   "questions": [
+    {
+     "q": "What is AKS?",
+     "options": [
+      "A VM",
+      "A database",
+      "Azure Kubernetes Service: managed Kubernetes where Azure runs the control plane",
+      "A registry"
+     ],
+     "answer": 2,
+     "explain": "You manage node pools and workloads."
+    },
+    {
+     "q": "What does `kubectl get nodes` show?",
+     "options": [
+      "Pods",
+      "Node names, status (Ready), roles, age and version",
+      "Services",
+      "Logs"
+     ],
+     "answer": 1,
+     "explain": "Nodes are VM scale set instances."
+    },
+    {
+     "q": "How do you get kubectl credentials for AKS?",
+     "options": [
+      "az aks get-credentials",
+      "az login",
+      "az vm",
+      "kubectl login"
+     ],
+     "answer": 0,
+     "explain": "It merges into kubeconfig."
+    },
+    {
+     "q": "Why delete AKS clusters after practice?",
+     "options": [
+      "Nodes bill while running",
+      "They're free",
+      "They expire",
+      "They leak"
+     ],
+     "answer": 0,
+     "explain": "Cost awareness."
+    }
+   ]
+  },
+  "level-2/05-azure-devops-cicd": {
+   "questions": [
+    {
+     "q": "What does Azure DevOps organise?",
+     "options": [
+      "Tenants",
+      "Organizations, projects, repos, pipelines, boards and artifacts",
+      "Networks",
+      "VMs"
+     ],
+     "answer": 1,
+     "explain": "Repos host Git code."
+    },
+    {
+     "q": "Where is a pipeline defined?",
+     "options": [
+      "A VM",
+      "YAML (azure-pipelines.yml) in the repo",
+      "A blob",
+      "Portal only"
+     ],
+     "answer": 1,
+     "explain": "Triggers, stages, jobs and steps."
+    },
+    {
+     "q": "What does the trigger in pipeline YAML do?",
+     "options": [
+      "Deploys",
+      "Tests",
+      "Starts runs on events such as pushes to a branch",
+      "Stops"
+     ],
+     "answer": 2,
+     "explain": "For example branches: include: main."
+    },
+    {
+     "q": "Why pipeline-as-code?",
+     "options": [
+      "No agents",
+      "Free minutes",
+      "Versioned and reviewable with the code",
+      "Faster agents"
+     ],
+     "answer": 2,
+     "explain": "Same as app code."
+    }
+   ]
+  },
+  "level-2/06-managed-identities-key-vault": {
+   "questions": [
+    {
+     "q": "System-assigned versus user-assigned managed identity?",
+     "options": [
+      "User-assigned dies with a VM",
+      "System-assigned is tied to one resource's lifecycle; user-assigned is created once and attached to many resources",
+      "Same",
+      "System-assigned is shared"
+     ],
+     "answer": 1,
+     "explain": "Both remove stored credentials."
+    },
+    {
+     "q": "Why use a managed identity?",
+     "options": [
+      "It's cheaper",
+      "The app authenticates to Azure services without secrets in code",
+      "It's faster",
+      "It scales"
+     ],
+     "answer": 1,
+     "explain": "Azure manages the credentials."
+    },
+    {
+     "q": "What is Key Vault for?",
+     "options": [
+      "Storing files",
+      "Running code",
+      "Storing and controlling access to secrets, keys and certificates",
+      "DNS"
+     ],
+     "answer": 2,
+     "explain": "Grant access via RBAC to the identity."
+    },
+    {
+     "q": "How should an app read a secret?",
+     "options": [
+      "From an email",
+      "Through its managed identity from Key Vault, not a hard-coded value",
+      "From a blob",
+      "From source code"
+     ],
+     "answer": 1,
+     "explain": "No secrets in repos."
+    }
+   ]
+  },
+  "level-2/07-aci-acr": {
+   "questions": [
+    {
+     "q": "What is Azure Container Registry?",
+     "options": [
+      "A VM",
+      "A database",
+      "A queue",
+      "A private registry for container images"
+     ],
+     "answer": 3,
+     "explain": "Push images with az acr build or docker push."
+    },
+    {
+     "q": "What are Container Instances (ACI)?",
+     "options": [
+      "Run a container serverlessly without managing VMs or clusters, billed per second",
+      "A registry",
+      "Managed Kubernetes",
+      "A VM type"
+     ],
+     "answer": 0,
+     "explain": "Good for simple or bursty workloads."
+    },
+    {
+     "q": "How can ACR build an image without local Docker?",
+     "options": [
+      "az acr build (builds in the cloud)",
+      "az vm build",
+      "Not possible",
+      "docker build only"
+     ],
+     "answer": 0,
+     "explain": "Then deploy to ACI."
+    },
+    {
+     "q": "How should ACI pull from a private ACR?",
+     "options": [
+      "With a password in the image",
+      "With credentials or a managed identity granted pull access",
+      "Anonymously",
+      "Not possible"
+     ],
+     "answer": 1,
+     "explain": "Avoid admin user in production."
+    }
+   ]
+  },
+  "level-2/08-cosmos-db-deep-dive": {
+   "questions": [
+    {
+     "q": "What makes a good Cosmos DB partition key?",
+     "options": [
+      "A timestamp only",
+      "A boolean",
+      "A constant",
+      "High cardinality with even request distribution, avoiding hot partitions"
+     ],
+     "answer": 3,
+     "explain": "Queries that include the key are cheaper."
+    },
+    {
+     "q": "What is a Request Unit (RU)?",
+     "options": [
+      "A region",
+      "A storage unit",
+      "A VM unit",
+      "A normalised measure of the throughput cost of operations (reads, writes, queries)"
+     ],
+     "answer": 3,
+     "explain": "You provision or autoscale RU/s."
+    },
+    {
+     "q": "What happens with a hot partition?",
+     "options": [
+      "One partition gets most traffic and is throttled even if total RU/s is available",
+      "Faster",
+      "Cheaper",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Choose keys carefully."
+    },
+    {
+     "q": "Why are cross-partition queries costly?",
+     "options": [
+      "They're cached",
+      "They're free",
+      "They're local",
+      "They fan out to many partitions, consuming more RUs"
+     ],
+     "answer": 3,
+     "explain": "Include the partition key."
+    }
+   ]
+  },
+  "level-2/09-azure-functions-advanced": {
+   "questions": [
+    {
+     "q": "What problem do Durable Functions solve?",
+     "options": [
+      "Static sites",
+      "Networking",
+      "Stateful, long-running workflows in serverless code, with checkpointing",
+      "Storage"
+     ],
+     "answer": 2,
+     "explain": "Orchestrations survive restarts."
+    },
+    {
+     "q": "What are the three function types?",
+     "options": [
+      "Producer, consumer, broker",
+      "Front, back, db",
+      "Client (starts), orchestrator (coordinates), activity (does work)",
+      "Web, worker, timer"
+     ],
+     "answer": 2,
+     "explain": "Orchestrators must be deterministic."
+    },
+    {
+     "q": "Why must orchestrator code be deterministic?",
+     "options": [
+      "For billing",
+      "It's replayed from history, so non-deterministic calls would break replay",
+      "For speed",
+      "For style"
+     ],
+     "answer": 1,
+     "explain": "Do I/O in activities."
+    },
+    {
+     "q": "What pattern does chaining give?",
+     "options": [
+      "Run activities in sequence, passing outputs along",
+      "Random order",
+      "Nothing",
+      "Parallelism only"
+     ],
+     "answer": 0,
+     "explain": "Fan-out/fan-in is the parallel pattern."
+    }
+   ]
+  },
+  "level-2/10-project-multi-tier-app": {
+   "questions": [
+    {
+     "q": "What does the multi-tier project architecture isolate?",
+     "options": [
+      "One VM",
+      "Everything public",
+      "Tiers into subnets of a VNet, with data reachable via a private endpoint",
+      "One region"
+     ],
+     "answer": 2,
+     "explain": "The database isn't exposed to the internet."
+    },
+    {
+     "q": "What does a private endpoint give Cosmos DB?",
+     "options": [
+      "A private IP in your VNet so traffic stays off the public internet",
+      "A cache",
+      "A public IP",
+      "A replica"
+     ],
+     "answer": 0,
+     "explain": "Disable public network access."
+    },
+    {
+     "q": "Why start with resource group, VNet and subnets?",
+     "options": [
+      "Speed",
+      "Style",
+      "Network layout and boundaries underpin every later tier",
+      "Billing"
+     ],
+     "answer": 2,
+     "explain": "Step 1 of the project."
+    },
+    {
+     "q": "What should NSGs allow between tiers?",
+     "options": [
+      "Everything",
+      "Only SSH",
+      "Only the traffic each tier needs",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Least privilege."
+    }
+   ]
+  },
+  "level-3/01-advanced-networking": {
+   "questions": [
+    {
+     "q": "What is a site-to-site VPN Gateway?",
+     "options": [
+      "A VM",
+      "A queue",
+      "An encrypted tunnel over the internet between an on-premises network and an Azure VNet",
+      "A DNS service"
+     ],
+     "answer": 2,
+     "explain": "Needs a gateway subnet and on-prem device."
+    },
+    {
+     "q": "How does ExpressRoute differ from VPN?",
+     "options": [
+      "Encrypted by default over internet",
+      "A private dedicated connection through a provider, not over the public internet, with more predictable performance",
+      "Same",
+      "Cheaper always"
+     ],
+     "answer": 1,
+     "explain": "Higher cost, higher reliability."
+    },
+    {
+     "q": "Which special subnet does a VPN gateway need?",
+     "options": [
+      "AzureBastionSubnet",
+      "GatewaySubnet",
+      "default",
+      "AppSubnet"
+     ],
+     "answer": 1,
+     "explain": "Name must be exact."
+    },
+    {
+     "q": "When choose ExpressRoute?",
+     "options": [
+      "Small dev tests",
+      "Large, latency-sensitive or compliance-driven hybrid connectivity",
+      "Public sites",
+      "Static pages"
+     ],
+     "answer": 1,
+     "explain": "VPN suits modest needs."
+    }
+   ]
+  },
+  "level-3/02-iac-at-scale": {
+   "questions": [
+    {
+     "q": "What do Bicep modules do?",
+     "options": [
+      "Bill",
+      "Run code",
+      "Store secrets",
+      "Package reusable resource definitions called from other Bicep files"
+     ],
+     "answer": 3,
+     "explain": "They enable composition."
+    },
+    {
+     "q": "How do parameter files help with environments?",
+     "options": [
+      "Hard-coded values",
+      "No parameters",
+      "Many templates",
+      "One template, a parameter file per environment (dev, test, prod)"
+     ],
+     "answer": 3,
+     "explain": "Same code, different values."
+    },
+    {
+     "q": "What does `what-if` do?",
+     "options": [
+      "Previews changes a deployment would make before applying",
+      "Deletes",
+      "Lints",
+      "Deploys immediately"
+     ],
+     "answer": 0,
+     "explain": "Run it before every apply."
+    },
+    {
+     "q": "Bicep or Terraform?",
+     "options": [
+      "Terraform is Azure-only",
+      "Bicep has state files",
+      "Only Bicep exists",
+      "Both express IaC; Bicep is Azure-native, Terraform is multi-cloud with state"
+     ],
+     "answer": 3,
+     "explain": "Choose by needs."
+    }
+   ]
+  },
+  "level-3/03-advanced-aks": {
+   "questions": [
+    {
+     "q": "What is Helm?",
+     "options": [
+      "A package manager for Kubernetes: charts with configurable values",
+      "A node",
+      "A registry",
+      "A cloud"
+     ],
+     "answer": 0,
+     "explain": "helm install deploys a release."
+    },
+    {
+     "q": "What does an Ingress do?",
+     "options": [
+      "Schedules pods",
+      "Routes external HTTP(S) to services, e.g. by path, via an ingress controller",
+      "Scales nodes",
+      "Stores data"
+     ],
+     "answer": 1,
+     "explain": "Path-based routing is the lesson's example."
+    },
+    {
+     "q": "What does the Horizontal Pod Autoscaler scale?",
+     "options": [
+      "Nodes only",
+      "Pod replicas based on metrics such as CPU",
+      "Networks",
+      "Storage"
+     ],
+     "answer": 1,
+     "explain": "The cluster autoscaler scales nodes."
+    },
+    {
+     "q": "Why use values files in Helm?",
+     "options": [
+      "To scale",
+      "To store secrets in git",
+      "To build images",
+      "To configure charts per environment without editing templates"
+     ],
+     "answer": 3,
+     "explain": "Keep secrets out."
+    }
+   ]
+  },
+  "level-3/04-event-driven-architecture": {
+   "questions": [
+    {
+     "q": "What is Event Grid for?",
+     "options": [
+      "DNS",
+      "Durable queues",
+      "Storage",
+      "Reactive, fan-out events (resource changes, custom events) delivered to many subscribers"
+     ],
+     "answer": 3,
+     "explain": "Lightweight notifications."
+    },
+    {
+     "q": "What is Service Bus for?",
+     "options": [
+      "Durable queues and topics for enterprise messaging with ordering, dead-lettering and transactions",
+      "Static files",
+      "Containers",
+      "Metrics"
+     ],
+     "answer": 0,
+     "explain": "Topics allow multiple subscriptions."
+    },
+    {
+     "q": "Which fits 'a blob was created, notify several systems'?",
+     "options": [
+      "Service Bus queue",
+      "Key Vault",
+      "Table storage",
+      "Event Grid"
+     ],
+     "answer": 3,
+     "explain": "Fan-out of a notification."
+    },
+    {
+     "q": "Which fits 'process each order exactly via a durable queue'?",
+     "options": [
+      "Service Bus",
+      "Policy",
+      "Event Grid",
+      "Metrics"
+     ],
+     "answer": 0,
+     "explain": "Messages must not be lost."
+    }
+   ]
+  },
+  "level-3/05-api-management": {
+   "questions": [
+    {
+     "q": "What is API Management (APIM)?",
+     "options": [
+      "A database",
+      "A VM",
+      "A repo",
+      "A gateway to publish, secure, throttle and monitor APIs in front of backends"
+     ],
+     "answer": 3,
+     "explain": "Import a backend and apply policies."
+    },
+    {
+     "q": "What do APIM policies do?",
+     "options": [
+      "Create VMs",
+      "Apply rate limiting, authentication and transformations to requests and responses (XML)",
+      "Store files",
+      "Bill"
+     ],
+     "answer": 1,
+     "explain": "Applied at global, product, API or operation scope."
+    },
+    {
+     "q": "How do you import a backend API?",
+     "options": [
+      "Not possible",
+      "Copy code",
+      "From an OpenAPI definition or an existing service",
+      "Email"
+     ],
+     "answer": 2,
+     "explain": "The gateway exposes operations."
+    },
+    {
+     "q": "Why rate-limit at the gateway?",
+     "options": [
+      "To save disk",
+      "To protect backends from abuse or overload",
+      "To encrypt",
+      "To log"
+     ],
+     "answer": 1,
+     "explain": "Policy rate-limit."
+    }
+   ]
+  },
+  "level-3/06-defender-governance": {
+   "questions": [
+    {
+     "q": "What is Defender for Cloud?",
+     "options": [
+      "A firewall only",
+      "A VM",
+      "An editor",
+      "A service providing security posture management and threat protection with a Secure Score"
+     ],
+     "answer": 3,
+     "explain": "Enable plans per resource type."
+    },
+    {
+     "q": "What does Secure Score show?",
+     "options": [
+      "Billing",
+      "Latency",
+      "Uptime",
+      "A measure of your security posture with recommendations to improve it"
+     ],
+     "answer": 3,
+     "explain": "Higher is better."
+    },
+    {
+     "q": "What does Azure Policy do?",
+     "options": [
+      "Stores secrets",
+      "Routes traffic",
+      "Enforces or audits rules at scale (e.g. allowed regions, required tags) with effects like deny",
+      "Deploys apps"
+     ],
+     "answer": 2,
+     "explain": "Assign at management group or subscription scope."
+    },
+    {
+     "q": "Audit versus deny effect?",
+     "options": [
+      "Audit reports non-compliance; deny blocks the non-compliant deployment",
+      "Same",
+      "Deny reports",
+      "Audit blocks"
+     ],
+     "answer": 0,
+     "explain": "Start with audit then deny."
+    }
+   ]
+  },
+  "level-3/07-ha-disaster-recovery": {
+   "questions": [
+    {
+     "q": "Availability Zones versus Availability Sets?",
+     "options": [
+      "Sets are across regions",
+      "Zones are physically separate datacentres in a region; sets spread VMs across fault/update domains within a datacentre",
+      "Same",
+      "Zones are racks"
+     ],
+     "answer": 1,
+     "explain": "Zones protect against datacentre failure."
+    },
+    {
+     "q": "What are RTO and RPO?",
+     "options": [
+      "Speed and size",
+      "RTO: how long you can be down; RPO: how much data loss (time) is acceptable",
+      "Cost and risk",
+      "Region and zone"
+     ],
+     "answer": 1,
+     "explain": "They drive DR design."
+    },
+    {
+     "q": "What does Azure Site Recovery do?",
+     "options": [
+      "Monitors CPU",
+      "Routes DNS",
+      "Backs up files only",
+      "Replicates VMs to another region for failover during a regional disaster"
+     ],
+     "answer": 3,
+     "explain": "Cross-region DR."
+    },
+    {
+     "q": "Zone-redundant versus zonal PaaS?",
+     "options": [
+      "Zonal replicates",
+      "Same",
+      "Redundant pins",
+      "Zone-redundant replicates across zones automatically; zonal pins to one zone"
+     ],
+     "answer": 3,
+     "explain": "Choose by availability needs."
+    }
+   ]
+  },
+  "level-3/08-cicd-containers-gitops": {
+   "questions": [
+    {
+     "q": "What does the pipeline do for containers?",
+     "options": [
+      "Backs up",
+      "Builds the image, pushes it to ACR and updates a deployment",
+      "Edits DNS",
+      "Scales VMs"
+     ],
+     "answer": 1,
+     "explain": "azure-pipelines.yml with Docker tasks."
+    },
+    {
+     "q": "What is GitOps?",
+     "options": [
+      "A pipeline UI",
+      "Git is the source of truth for desired cluster state, applied automatically by an agent",
+      "A VM",
+      "Git hosting"
+     ],
+     "answer": 1,
+     "explain": "Flux syncs a repo to the cluster."
+    },
+    {
+     "q": "What does Flux do on AKS?",
+     "options": [
+      "Stores secrets",
+      "Builds images",
+      "Continuously reconciles the cluster to the Git repo's manifests",
+      "Monitors CPU"
+     ],
+     "answer": 2,
+     "explain": "Drift is corrected."
+    },
+    {
+     "q": "Benefit of GitOps?",
+     "options": [
+      "Faster nodes",
+      "Cheaper storage",
+      "No YAML",
+      "Auditable, reviewable changes and easy rollback via Git history"
+     ],
+     "answer": 3,
+     "explain": "Pull-based deployment."
+    }
+   ]
+  },
+  "level-3/09-cost-management-optimization": {
+   "questions": [
+    {
+     "q": "How do budgets help?",
+     "options": [
+      "Pause Azure",
+      "Reduce prices",
+      "Alert (or act) when spending crosses thresholds",
+      "Scale"
+     ],
+     "answer": 2,
+     "explain": "Set alerts at percentages."
+    },
+    {
+     "q": "What does Azure Advisor recommend?",
+     "options": [
+      "Nothing",
+      "Only cost",
+      "Right-sizing and cost, reliability, security and performance improvements",
+      "Only security"
+     ],
+     "answer": 2,
+     "explain": "For example resize or shut down underused VMs."
+    },
+    {
+     "q": "What is right-sizing?",
+     "options": [
+      "Matching resource size to actual usage to avoid overpaying",
+      "Deleting everything",
+      "Changing region",
+      "Making everything larger"
+     ],
+     "answer": 0,
+     "explain": "Check CPU and memory."
+    },
+    {
+     "q": "How can you read cost data?",
+     "options": [
+      "Billing only at year end",
+      "Guessing",
+      "Email",
+      "Cost analysis grouped by resource group, tag or service, and via az consumption/CLI"
+     ],
+     "answer": 3,
+     "explain": "Tags enable chargeback."
+    }
+   ]
+  },
+  "level-3/10-project-ha-microservices": {
+   "questions": [
+    {
+     "q": "Why spread AKS nodes across zones?",
+     "options": [
+      "Smaller images",
+      "Save money",
+      "Survive a zone failure",
+      "Faster pods"
+     ],
+     "answer": 2,
+     "explain": "Zone spread with the cluster autoscaler."
+    },
+    {
+     "q": "What does the cluster autoscaler do?",
+     "options": [
+      "Backs up",
+      "Adds or removes nodes based on pending pods",
+      "Patches",
+      "Scales pods"
+     ],
+     "answer": 1,
+     "explain": "Combined with HPA."
+    },
+    {
+     "q": "Why a network foundation first?",
+     "options": [
+      "It's fashion",
+      "Naming",
+      "Subnets, NSGs and address plans underpin the cluster and data tier",
+      "Billing"
+     ],
+     "answer": 2,
+     "explain": "Step 1."
+    },
+    {
+     "q": "What makes the microservices 'highly available'?",
+     "options": [
+      "One big VM",
+      "Redundancy across zones, health probes and autoscaling, with no single point of failure",
+      "One zone",
+      "Manual scaling"
+     ],
+     "answer": 1,
+     "explain": "Architecture section."
+    }
+   ]
+  },
+  "level-4/01-enterprise-landing-zones": {
+   "questions": [
+    {
+     "q": "What is a landing zone?",
+     "options": [
+      "A VM",
+      "A region",
+      "A subscription only",
+      "A pre-configured, governed environment (management groups, policy, networking, identity) where workloads land, per the Cloud Adoption Framework"
+     ],
+     "answer": 3,
+     "explain": "CAF defines the pattern."
+    },
+    {
+     "q": "What does the management group hierarchy do?",
+     "options": [
+      "Stores data",
+      "Bills",
+      "Organises subscriptions so policy and RBAC inherit downward",
+      "Routes traffic"
+     ],
+     "answer": 2,
+     "explain": "For example platform and landing zones branches."
+    },
+    {
+     "q": "How do you move a subscription into a landing zone?",
+     "options": [
+      "Delete it",
+      "Rename it",
+      "Create a new tenant",
+      "Place it under the right management group so policies apply"
+     ],
+     "answer": 3,
+     "explain": "az account management-group subscription add."
+    },
+    {
+     "q": "Why standardise landing zones?",
+     "options": [
+      "Cheaper VMs",
+      "No policies",
+      "Consistent guardrails and faster, safer onboarding of workloads",
+      "Lower CPU"
+     ],
+     "answer": 2,
+     "explain": "Governance at scale."
+    }
+   ]
+  },
+  "level-4/02-management-groups-governance": {
+   "questions": [
+    {
+     "q": "How does policy inherit?",
+     "options": [
+      "Sideways",
+      "Upward",
+      "Downward through management groups, subscriptions, resource groups and resources",
+      "Not at all"
+     ],
+     "answer": 2,
+     "explain": "Assign once at a high scope."
+    },
+    {
+     "q": "What's the difference between exemptions and exclusions?",
+     "options": [
+      "Exclusions expire",
+      "Same",
+      "Exemptions are time-bound, auditable waivers for a resource; exclusions (notScopes) remove a scope from assignment",
+      "Exemptions are permanent only"
+     ],
+     "answer": 2,
+     "explain": "Prefer exemptions for traceability."
+    },
+    {
+     "q": "What is the evaluation behaviour with deny?",
+     "options": [
+      "A deny effect blocks non-compliant creates/updates regardless of lower-level wishes",
+      "It's delayed",
+      "It's advisory",
+      "It's ignored"
+     ],
+     "answer": 0,
+     "explain": "Deny wins over allow-like effects."
+    },
+    {
+     "q": "Why govern at management-group level?",
+     "options": [
+      "To save CPU",
+      "For pricing",
+      "For DNS",
+      "Consistent rules across many subscriptions with less repetition"
+     ],
+     "answer": 3,
+     "explain": "Scale."
+    }
+   ]
+  },
+  "level-4/03-advanced-aks-service-mesh": {
+   "questions": [
+    {
+     "q": "What does a service mesh like Istio add?",
+     "options": [
+      "Storage",
+      "DNS",
+      "Nodes",
+      "mTLS, traffic management and observability between services via sidecars/proxies"
+     ],
+     "answer": 3,
+     "explain": "Enabled as an AKS add-on."
+    },
+    {
+     "q": "What does mTLS enforcement do?",
+     "options": [
+      "Adds a database",
+      "Opens ports",
+      "Disables TLS",
+      "Requires mutual authentication and encryption between workloads"
+     ],
+     "answer": 3,
+     "explain": "Strict mode rejects plaintext."
+    },
+    {
+     "q": "How do canary releases use traffic splitting?",
+     "options": [
+      "Disable",
+      "Duplicate",
+      "Replace instantly",
+      "Send a small percentage (e.g. 10%) to the new version, then increase if healthy"
+     ],
+     "answer": 3,
+     "explain": "Weighted routes."
+    },
+    {
+     "q": "Why a multi-cluster setup?",
+     "options": [
+      "Resilience, isolation and regional reach",
+      "Smaller images",
+      "Fewer pods",
+      "Cheaper nodes"
+     ],
+     "answer": 0,
+     "explain": "At higher cost and complexity."
+    }
+   ]
+  },
+  "level-4/04-azure-arc-hybrid-cloud": {
+   "questions": [
+    {
+     "q": "What is Azure Arc?",
+     "options": [
+      "A region",
+      "A VM size",
+      "Extends Azure management to servers and Kubernetes clusters outside Azure",
+      "A database"
+     ],
+     "answer": 2,
+     "explain": "On-prem or other clouds."
+    },
+    {
+     "q": "How do you Arc-enable a server?",
+     "options": [
+      "Buy a licence",
+      "Reboot it",
+      "Move it to Azure",
+      "Install the Connected Machine agent and onboard it to a resource group"
+     ],
+     "answer": 3,
+     "explain": "It appears as an Azure resource."
+    },
+    {
+     "q": "What can you apply to Arc servers?",
+     "options": [
+      "Only tags",
+      "Azure Policy, monitoring and RBAC like native resources",
+      "Only billing",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "One governance plane."
+    },
+    {
+     "q": "Why use Arc?",
+     "options": [
+      "Free hosting",
+      "No agents",
+      "Faster CPUs",
+      "Consistent governance and tooling across hybrid estates"
+     ],
+     "answer": 3,
+     "explain": "Hybrid management."
+    }
+   ]
+  },
+  "level-4/05-advanced-observability": {
+   "questions": [
+    {
+     "q": "What is Application Insights?",
+     "options": [
+      "A storage",
+      "APM that collects requests, dependencies, exceptions and traces for applications",
+      "A VM",
+      "A VNet"
+     ],
+     "answer": 1,
+     "explain": "Part of Azure Monitor."
+    },
+    {
+     "q": "What does distributed tracing show?",
+     "options": [
+      "Network maps only",
+      "A request's path across services via an operation id, with timings",
+      "CPU only",
+      "Billing"
+     ],
+     "answer": 1,
+     "explain": "KQL: where operation_Id == ..."
+    },
+    {
+     "q": "Which KQL fields help trace a request?",
+     "options": [
+      "name only",
+      "colour",
+      "operation_Id, name, duration, success, cloud_RoleName",
+      "size"
+     ],
+     "answer": 2,
+     "explain": "Order by timestamp."
+    },
+    {
+     "q": "Why add cloud role names?",
+     "options": [
+      "Speed",
+      "Style",
+      "Billing",
+      "To tell which service produced each telemetry item"
+     ],
+     "answer": 3,
+     "explain": "Needed for service maps."
+    }
+   ]
+  },
+  "level-4/06-performance-load-testing": {
+   "questions": [
+    {
+     "q": "What is Azure Load Testing for?",
+     "options": [
+      "Identity",
+      "Cost",
+      "Generating load against an endpoint to measure performance and find limits",
+      "Backups"
+     ],
+     "answer": 2,
+     "explain": "Configured with a YAML test config."
+    },
+    {
+     "q": "What's 'finding the breaking point'?",
+     "options": [
+      "Disabling alerts",
+      "Increasing load until errors or latency exceed thresholds, to learn capacity limits",
+      "Deleting data",
+      "Breaking servers on purpose"
+     ],
+     "answer": 1,
+     "explain": "Do it in non-production."
+    },
+    {
+     "q": "Which metrics matter?",
+     "options": [
+      "Logos",
+      "Response time percentiles, throughput and error rate",
+      "Names",
+      "Disk colour"
+     ],
+     "answer": 1,
+     "explain": "Percentiles show tail latency."
+    },
+    {
+     "q": "Why run load tests in CI?",
+     "options": [
+      "Avoid monitoring",
+      "Replace unit tests",
+      "Catch regressions before release",
+      "Save money"
+     ],
+     "answer": 2,
+     "explain": "Fail the build on thresholds."
+    }
+   ]
+  },
+  "level-4/07-security-sentinel-zero-trust": {
+   "questions": [
+    {
+     "q": "What is Microsoft Sentinel?",
+     "options": [
+      "A cloud-native SIEM/SOAR that collects security data, detects threats and automates response",
+      "A disk",
+      "A firewall only",
+      "A VM"
+     ],
+     "answer": 0,
+     "explain": "Built on a Log Analytics workspace."
+    },
+    {
+     "q": "What does the analytics rule detect?",
+     "options": [
+      "CPU",
+      "More than 5 failed sign-ins from more than 2 countries for a user: a correlation of failures and locations",
+      "Disk usage",
+      "DNS errors"
+     ],
+     "answer": 1,
+     "explain": "KQL with summarize and make_set."
+    },
+    {
+     "q": "What is Zero Trust?",
+     "options": [
+      "Trust IPs",
+      "Never trust, always verify: authenticate and authorise every request regardless of network location",
+      "Trust the VNet",
+      "Trust admins"
+     ],
+     "answer": 1,
+     "explain": "Least privilege and assume breach."
+    },
+    {
+     "q": "What do analytics rules produce?",
+     "options": [
+      "Backups",
+      "Alerts and incidents for investigation",
+      "Bills",
+      "Policies"
+     ],
+     "answer": 1,
+     "explain": "Playbooks can automate response."
+    }
+   ]
+  },
+  "level-4/08-data-platform-at-scale": {
+   "questions": [
+    {
+     "q": "What does Data Factory do?",
+     "options": [
+      "Orchestrates data pipelines that move and transform data between sources",
+      "Hosts web apps",
+      "Runs VMs",
+      "Stores secrets"
+     ],
+     "answer": 0,
+     "explain": "Activities and triggers."
+    },
+    {
+     "q": "Synapse dedicated SQL pools versus serverless?",
+     "options": [
+      "Same",
+      "Dedicated is per query",
+      "Dedicated: provisioned capacity for predictable heavy workloads; serverless: pay per query over data in the lake",
+      "Serverless is provisioned"
+     ],
+     "answer": 2,
+     "explain": "Choose by workload shape."
+    },
+    {
+     "q": "When does serverless fit?",
+     "options": [
+      "VMs",
+      "Ad-hoc exploration of files in a data lake",
+      "Constant heavy warehouse loads",
+      "Web hosting"
+     ],
+     "answer": 1,
+     "explain": "No capacity to manage."
+    },
+    {
+     "q": "What's the typical pattern?",
+     "options": [
+      "Email data",
+      "Ingest with Data Factory, store in the lake, analyse in Synapse",
+      "Use VMs only",
+      "Copy by hand"
+     ],
+     "answer": 1,
+     "explain": "Platform at scale."
+    }
+   ]
+  },
+  "level-4/09-finops-cost-governance": {
+   "questions": [
+    {
+     "q": "Why tagging as the foundation of FinOps?",
+     "options": [
+      "Tags attribute costs to owners, projects and environments",
+      "They speed VMs",
+      "They scale",
+      "They encrypt"
+     ],
+     "answer": 0,
+     "explain": "Enforce with Policy."
+    },
+    {
+     "q": "Showback versus chargeback?",
+     "options": [
+      "Showback reports costs to teams; chargeback actually bills them internally",
+      "Showback bills",
+      "Chargeback only reports",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "Both need good allocation."
+    },
+    {
+     "q": "How do you enforce tags?",
+     "options": [
+      "Azure Policy requiring or inheriting tags",
+      "Manual audits only",
+      "Email",
+      "Hope"
+     ],
+     "answer": 0,
+     "explain": "Deny or modify effects."
+    },
+    {
+     "q": "What's FinOps?",
+     "options": [
+      "A VM",
+      "A culture and practice of cloud financial accountability across engineering, finance and business",
+      "A tool",
+      "A policy type"
+     ],
+     "answer": 1,
+     "explain": "Continuous optimisation."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone begin with?",
+     "options": [
+      "A VM",
+      "A database",
+      "A function",
+      "A management group hierarchy and subscription vending"
+     ],
+     "answer": 3,
+     "explain": "Governance first."
+    },
+    {
+     "q": "What is subscription vending?",
+     "options": [
+      "DNS",
+      "Automated creation of subscriptions placed in the right management group with baseline policies",
+      "Billing",
+      "Selling subscriptions"
+     ],
+     "answer": 1,
+     "explain": "Repeatable onboarding."
+    },
+    {
+     "q": "What's a baseline governance initiative?",
+     "options": [
+      "A VM",
+      "A bundle of policies applied together as standard guardrails",
+      "A role",
+      "One rule"
+     ],
+     "answer": 1,
+     "explain": "Step 2."
+    },
+    {
+     "q": "What does the capstone integrate?",
+     "options": [
+      "Only AKS",
+      "Only storage",
+      "Only SQL",
+      "Landing zones, governance, networking, security, observability and cost controls"
+     ],
+     "answer": 3,
+     "explain": "All levels."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A new Azure free account is created. What happens when the credit or 30 days runs out?",
+    "options": [
+     "Everything is deleted at once",
+     "Nothing changes",
+     "It silently bills your card",
+     "The trial stops working unless you manually upgrade; it won't auto-charge"
+    ],
+    "answer": 3,
+    "explain": "A card is only for identity verification."
+   },
+   {
+    "q": "An idle test VM is left running for a month. What's the likely result?",
+    "options": [
+     "Azure stops it",
+     "A bill: idle VMs and databases are the #1 way a free trial costs money; delete practice resource groups",
+     "Azure refunds it",
+     "Nothing, it's free"
+    ],
+    "answer": 1,
+    "explain": "Delete the resource group to clean up everything."
+   },
+   {
+    "q": "A user needs read access to every resource in one resource group, and nothing else. Which RBAC setup?",
+    "options": [
+     "Reader at tenant root",
+     "Owner at the subscription",
+     "Assign Reader to the user (or a group) at that resource group's scope",
+     "Contributor at management group"
+    ],
+    "answer": 2,
+    "explain": "Narrow scope and least privilege; roles inherit downward."
+   },
+   {
+    "q": "Which VM family suits a low-traffic dev box eligible for the free tier?",
+    "options": [
+     "F-series",
+     "B-series (burstable), e.g. Standard_B1s",
+     "E-series",
+     "D-series"
+    ],
+    "answer": 1,
+    "explain": "F is compute-optimised, E memory-optimised, D general purpose."
+   },
+   {
+    "q": "A blob upload command should avoid account keys. Which option?",
+    "options": [
+     "--auth-mode login with an RBAC identity",
+     "Share the key in code",
+     "Disable auth",
+     "Use anonymous access"
+    ],
+    "answer": 0,
+    "explain": "Data-plane RBAC avoids key sprawl."
+   },
+   {
+    "q": "A website needs routing /api to one backend pool and /images to another. Which service?",
+    "options": [
+     "Load Balancer (layer 4)",
+     "Traffic stops",
+     "A VNet",
+     "Application Gateway (layer 7)"
+    ],
+    "answer": 3,
+    "explain": "Load Balancer works on IP and port."
+   },
+   {
+    "q": "A burst of orders must not overwhelm a slow processor. What decouples them?",
+    "options": [
+     "A tag",
+     "A bigger VM",
+     "A load test",
+     "A queue (Storage Queue or Service Bus) between them"
+    ],
+    "answer": 3,
+    "explain": "Messages wait until the consumer is ready."
+   },
+   {
+    "q": "Event: 'a blob was created; notify five systems'. Event Grid or Service Bus?",
+    "options": [
+     "Service Bus queue",
+     "Event Grid: reactive fan-out notifications",
+     "Key Vault",
+     "Table storage"
+    ],
+    "answer": 1,
+    "explain": "Service Bus fits durable, ordered business messages."
+   },
+   {
+    "q": "Your Cosmos DB uses a constant partition key. What goes wrong?",
+    "options": [
+     "Nothing",
+     "It's cheaper",
+     "A hot partition: one physical partition takes all traffic and is throttled even if total RU/s is available",
+     "It's faster"
+    ],
+    "answer": 2,
+    "explain": "Choose a high-cardinality key. Verified with a small distribution check."
+   },
+   {
+    "q": "A Function App needs a secret. How should it get it?",
+    "options": [
+     "In a blob",
+     "Through a managed identity reading Key Vault, with no secret in code",
+     "Hard-coded in source",
+     "In an app setting committed to Git"
+    ],
+    "answer": 1,
+    "explain": "Grant the identity access via RBAC."
+   },
+   {
+    "q": "Orchestrations must survive restarts and be replayed. Which Functions feature?",
+    "options": [
+     "Timer trigger",
+     "Durable Functions (orchestrator, activity, client), with deterministic orchestrator code",
+     "Blob trigger",
+     "HTTP trigger"
+    ],
+    "answer": 1,
+    "explain": "I/O belongs in activities."
+   },
+   {
+    "q": "Which App Service tier is the first with deployment slots?",
+    "options": [
+     "Basic (B1)",
+     "Free (F1)",
+     "Shared",
+     "Standard (S1+), with 5 slots"
+    ],
+    "answer": 3,
+    "explain": "Premium v3 offers 20 slots."
+   },
+   {
+    "q": "A deployment is previewed before applying. Which command?",
+    "options": [
+     "az group delete",
+     "az vm start",
+     "az deployment group what-if (Bicep/ARM)",
+     "az login"
+    ],
+    "answer": 2,
+    "explain": "Run it before every apply."
+   },
+   {
+    "q": "You need a private, dedicated connection from on-prem to Azure with predictable performance. Which?",
+    "options": [
+     "Cloud Shell",
+     "Site-to-site VPN over the internet",
+     "ExpressRoute",
+     "Public IP"
+    ],
+    "answer": 2,
+    "explain": "VPN is encrypted over the public internet."
+   },
+   {
+    "q": "An RTO of 1 hour and RPO of 5 minutes mean:",
+    "options": [
+     "Back in 5 minutes, 1 hour of loss",
+     "Cost limits",
+     "No loss, no downtime",
+     "Service must be back within an hour, with at most five minutes of data loss"
+    ],
+    "answer": 3,
+    "explain": "RTO is time to recover; RPO is data loss window."
+   },
+   {
+    "q": "Which policy effect blocks non-compliant resource creation?",
+    "options": [
+     "Deny (Audit only reports)",
+     "Disabled",
+     "AuditIfNotExists",
+     "Audit"
+    ],
+    "answer": 0,
+    "explain": "Start with audit, then deny."
+   },
+   {
+    "q": "Where should most guardrails be assigned so many subscriptions inherit them?",
+    "options": [
+     "In DNS",
+     "At a management group",
+     "In each app",
+     "On each VM"
+    ],
+    "answer": 1,
+    "explain": "Policy and RBAC inherit downward."
+   },
+   {
+    "q": "Where do you analyse a request's path across microservices in Application Insights?",
+    "options": [
+     "NSG flow logs",
+     "Cost analysis",
+     "Policy",
+     "Distributed tracing via operation_Id, with cloud_RoleName identifying each service"
+    ],
+    "answer": 3,
+    "explain": "KQL with where operation_Id == ..."
+   },
+   {
+    "q": "Costs must be attributed to teams. What foundation do you need?",
+    "options": [
+     "Larger VMs",
+     "More regions",
+     "A VPN",
+     "A consistent tagging strategy enforced by Azure Policy"
+    ],
+    "answer": 3,
+    "explain": "Tags drive showback and chargeback."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Plan non-overlapping subnets",
+    "prompt": "Allocate subnets from a 10.0.0.0/16 VNet for web (120 hosts), app (250), db (60) and gateway (20). Azure reserves 5 addresses per subnet, so each needs hosts + 5. Use the smallest power-of-two block, largest first, aligned and never overlapping. Print each subnet and its usable count, then whether any overlap.",
+    "starter": "import ipaddress\n\nVNET = ipaddress.ip_network(\"10.0.0.0/16\")\nWANTED = {\"web\": 120, \"app\": 250, \"db\": 60, \"gateway\": 20}   # hosts needed per subnet\n\ndef plan(vnet, wanted):\n    # largest first; each subnet needs hosts + 5 (Azure reserves 5 addresses);\n    # pick the smallest power-of-two block, align it, and never overlap\n    pass\n\nresult = plan(VNET, WANTED)\nfor name in WANTED:\n    n = result[name]\n    print(f\"{name}: {n} usable={n.num_addresses - 5}\")\nnets = list(result.values())\nprint(\"overlaps:\", any(a.overlaps(b) for i, a in enumerate(nets) for b in nets[i + 1:]))\n",
+    "expected": "web: 10.0.1.0/25 usable=123\napp: 10.0.0.0/24 usable=251\ndb: 10.0.1.128/25 usable=123\ngateway: 10.0.2.0/27 usable=27\noverlaps: False",
+    "solution": "import ipaddress\n\nVNET = ipaddress.ip_network(\"10.0.0.0/16\")\nWANTED = {\"web\": 120, \"app\": 250, \"db\": 60, \"gateway\": 20}   # hosts needed per subnet\n\ndef plan(vnet, wanted):\n    \"\"\"Allocate the smallest subnet that fits each request (Azure reserves 5 addresses per subnet).\"\"\"\n    cursor = int(vnet.network_address)\n    out = {}\n    for name, hosts in sorted(wanted.items(), key=lambda kv: -kv[1]):\n        needed = hosts + 5\n        prefix = 32\n        while 2 ** (32 - prefix) < needed:\n            prefix -= 1\n        size = 2 ** (32 - prefix)\n        cursor = (cursor + size - 1) // size * size      # align to the subnet size\n        net = ipaddress.ip_network((cursor, prefix))\n        assert net.subnet_of(vnet)\n        out[name] = net\n        cursor += size\n    return out\n\nresult = plan(VNET, WANTED)\nfor name in WANTED:\n    n = result[name]\n    print(f\"{name}: {n} usable={n.num_addresses - 5}\")\nnets = list(result.values())\nprint(\"overlaps:\", any(a.overlaps(b) for i, a in enumerate(nets) for b in nets[i + 1:]))\n",
+    "explain": "Azure reserves five addresses in each subnet, so a /24 gives 251 usable. Planning address space up front avoids overlaps that block peering later. Verified by running the solution."
+   },
+   {
+    "title": "Spot a hot partition",
+    "prompt": "Write hot_partitions(keys, partitions=4, threshold=0.4): hash each key to a partition (sum of character codes modulo partitions) and return {partition: share} for any partition holding more than the threshold of requests. Compare a well-distributed key set with a tenant-skewed one.",
+    "starter": "from collections import Counter\n\ndef hot_partitions(keys, partitions=4, threshold=0.4):\n    # hash each key to a partition (sum of char codes % partitions),\n    # return {partition: share} for partitions holding more than `threshold` of requests\n    pass\n\ngood = [f\"user-{i}\" for i in range(100)]\nbad = [\"tenant-a\"] * 70 + [f\"tenant-{i}\" for i in range(30)]\nprint(\"good:\", hot_partitions(good))\nprint(\"bad:\", hot_partitions(bad))\n",
+    "expected": "good: {}\nbad: {0: 0.78}",
+    "solution": "from collections import Counter\n\ndef hot_partitions(keys, partitions=4, threshold=0.4):\n    \"\"\"Hash each partition key to a physical partition and flag any holding more than `threshold` of requests.\"\"\"\n    def h(k):  # simple stable hash\n        return sum(ord(c) for c in k) % partitions\n    counts = Counter(h(k) for k in keys)\n    total = len(keys)\n    return {p: round(c / total, 2) for p, c in sorted(counts.items()) if c / total > threshold}\n\ngood = [f\"user-{i}\" for i in range(100)]\nbad = [\"tenant-a\"] * 70 + [f\"tenant-{i}\" for i in range(30)]\nprint(\"good:\", hot_partitions(good))\nprint(\"bad:\", hot_partitions(bad))\n",
+    "explain": "A partition key with low cardinality or skew concentrates traffic on one physical partition, which gets throttled even when total RU/s is available. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
