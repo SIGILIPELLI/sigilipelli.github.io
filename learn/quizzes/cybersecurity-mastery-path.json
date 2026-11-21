@@ -1,0 +1,2170 @@
+{
+ "course": "cybersecurity-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-cybersecurity": {
+   "questions": [
+    {
+     "q": "What do the letters of the CIA triad stand for?",
+     "options": [
+      "Crypto, Integrity, Audit",
+      "Confidentiality, Integrity, Availability",
+      "Compliance, Intelligence, Assurance",
+      "Control, Identity, Access"
+     ],
+     "answer": 1,
+     "explain": "Every control protects one or more of them."
+    },
+    {
+     "q": "A ransomware attack encrypts a hospital's records so staff can't read them. Which property is hit most directly?",
+     "options": [
+      "Integrity only",
+      "Non-repudiation",
+      "Availability",
+      "Confidentiality"
+     ],
+     "answer": 2,
+     "explain": "Data exists but isn't usable."
+    },
+    {
+     "q": "Why is a system with no access at all not a good security outcome?",
+     "options": [
+      "Security is a trade-off with usability; a system nobody can use fails its purpose",
+      "It is illegal",
+      "It is the most secure and ideal",
+      "It is cheaper"
+     ],
+     "answer": 0,
+     "explain": "Decisions balance protection with usability, cost and speed."
+    },
+    {
+     "q": "What distinguishes a threat, a vulnerability and a risk?",
+     "options": [
+      "A threat can exploit a vulnerability, and risk is the likelihood and impact of that happening",
+      "They mean the same",
+      "A risk is a tool",
+      "A vulnerability is an attacker"
+     ],
+     "answer": 0,
+     "explain": "Risk combines them with impact."
+    }
+   ]
+  },
+  "level-1/02-networking-fundamentals": {
+   "questions": [
+    {
+     "q": "Which OSI layer do IP addresses and routers operate at?",
+     "options": [
+      "Layer 1",
+      "Layer 7",
+      "Layer 3 (Network)",
+      "Layer 4"
+     ],
+     "answer": 2,
+     "explain": "TCP/UDP ports are layer 4."
+    },
+    {
+     "q": "What does a TCP three-way handshake consist of?",
+     "options": [
+      "HELLO, KEY, DONE",
+      "GET, POST, OK",
+      "SYN, SYN-ACK, ACK",
+      "ACK, ACK, SYN"
+     ],
+     "answer": 2,
+     "explain": "SYN floods abuse half-open connections."
+    },
+    {
+     "q": "Why is DNS a security-relevant protocol?",
+     "options": [
+      "It's encrypted always",
+      "It is layer 1",
+      "It carries only IPs",
+      "It's often unauthenticated, so spoofing or poisoning can redirect users, and it can be abused for exfiltration"
+     ],
+     "answer": 3,
+     "explain": "DNSSEC and DoH/DoT help."
+    },
+    {
+     "q": "How many usable host addresses are in 192.168.1.0/24?\n```python\nimport ipaddress\nn=ipaddress.ip_network('192.168.1.0/24')\nprint(n.num_addresses-2)\n```\n",
+     "options": [
+      "256",
+      "255",
+      "253",
+      "254"
+     ],
+     "answer": 3,
+     "explain": "Minus network and broadcast addresses. Verified by running it."
+    }
+   ]
+  },
+  "level-1/03-os-security-basics": {
+   "questions": [
+    {
+     "q": "What is the principle of least privilege?",
+     "options": [
+      "Give admin to everyone",
+      "Give users and processes only the access they need to do their job",
+      "Give none",
+      "Share one account"
+     ],
+     "answer": 1,
+     "explain": "It limits blast radius."
+    },
+    {
+     "q": "What does the Linux permission string -rwxr-x--- mean for others?",
+     "options": [
+      "Execute only",
+      "No permissions for others",
+      "Read only",
+      "Everything"
+     ],
+     "answer": 1,
+     "explain": "Owner rwx, group r-x, others ---."
+    },
+    {
+     "q": "Why shouldn't daily work be done as root/Administrator?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "A mistake or malware runs with full power; use sudo/elevation when needed"
+     ],
+     "answer": 3,
+     "explain": "Separate admin tasks."
+    },
+    {
+     "q": "What's a benefit of automatic patching?",
+     "options": [
+      "Adds features",
+      "Closes known vulnerabilities quickly",
+      "Slows",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Unpatched systems are a top breach cause."
+    }
+   ]
+  },
+  "level-1/04-cryptography-fundamentals": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nimport hashlib\nprint(hashlib.sha256(b'abc').hexdigest()[:16])\n```\n",
+     "options": [
+      "e3b0c44298fc1c14",
+      "a9993e364706816a",
+      "900150983cd24fb0",
+      "ba7816bf8f01cfea"
+     ],
+     "answer": 3,
+     "explain": "SHA-256 is deterministic: same input, same digest. Verified by running it."
+    },
+    {
+     "q": "Which is symmetric encryption?",
+     "options": [
+      "AES, where one shared key encrypts and decrypts",
+      "RSA",
+      "Diffie-Hellman only",
+      "SHA-256"
+     ],
+     "answer": 0,
+     "explain": "Asymmetric uses key pairs."
+    },
+    {
+     "q": "Why hash passwords with a slow, salted algorithm?",
+     "options": [
+      "Hashes are reversible",
+      "It saves space",
+      "Salts defeat precomputed tables and slow hashes make guessing expensive",
+      "Salts encrypt"
+     ],
+     "answer": 2,
+     "explain": "bcrypt, scrypt, Argon2, PBKDF2."
+    },
+    {
+     "q": "What does a digital signature prove?",
+     "options": [
+      "Speed",
+      "Confidentiality",
+      "Integrity and the signer's identity (authenticity) with non-repudiation",
+      "Availability"
+     ],
+     "answer": 2,
+     "explain": "Sign with the private key, verify with the public key."
+    }
+   ]
+  },
+  "level-1/05-authentication-access-control": {
+   "questions": [
+    {
+     "q": "What's the difference between authentication and authorization?",
+     "options": [
+      "Both are passwords",
+      "Authentication proves who you are; authorization decides what you may do",
+      "Reverse",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "AuthN then AuthZ."
+    },
+    {
+     "q": "Which is a second factor in MFA?",
+     "options": [
+      "Security question",
+      "Another password",
+      "Your username",
+      "Something you have, such as a TOTP app or hardware key"
+     ],
+     "answer": 3,
+     "explain": "Factors: know, have, are."
+    },
+    {
+     "q": "What does RBAC do?",
+     "options": [
+      "Hashes",
+      "Grants permissions through roles assigned to users",
+      "Encrypts",
+      "Scans"
+     ],
+     "answer": 1,
+     "explain": "Simplifies least privilege."
+    },
+    {
+     "q": "Why are SMS codes weaker than hardware keys?",
+     "options": [
+      "SIM swapping and interception; FIDO2 keys resist phishing",
+      "Free",
+      "Longer",
+      "They're stronger"
+     ],
+     "answer": 0,
+     "explain": "Prefer phishing-resistant MFA."
+    }
+   ]
+  },
+  "level-1/06-owasp-top-10-overview": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nimport sqlite3\nc=sqlite3.connect(':memory:'); c.execute('create table u(n text,p text)'); c.execute(\"insert into u values('ada','secret')\")\nname=\"x' OR '1'='1\"\nbad=c.execute(\"select count(*) from u where n='\"+name+\"'\").fetchone()[0]\ngood=c.execute('select count(*) from u where n=?',(name,)).fetchone()[0]\nprint(bad,good)\n```\n",
+     "options": [
+      "1 0",
+      "0 1",
+      "1 1",
+      "0 0"
+     ],
+     "answer": 0,
+     "explain": "String concatenation lets input change the query; parameters keep it data. Verified by running it."
+    },
+    {
+     "q": "What is XSS?",
+     "options": [
+      "Injecting script that runs in other users' browsers, prevented by output encoding and CSP",
+      "Malware",
+      "SQL on server",
+      "DoS"
+     ],
+     "answer": 0,
+     "explain": "Encode output for its context."
+    },
+    {
+     "q": "What does 'Broken Access Control' look like?",
+     "options": [
+      "Weak Wi-Fi",
+      "Slow page",
+      "A user changing an ID in a URL to see another user's data (IDOR)",
+      "Bad CSS"
+     ],
+     "answer": 2,
+     "explain": "Enforce authorization server-side on every request."
+    },
+    {
+     "q": "Why is the OWASP Top 10 updated periodically?",
+     "options": [
+      "It's random",
+      "It reflects real-world breach and vulnerability data",
+      "Marketing",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Use it as an awareness baseline."
+    }
+   ]
+  },
+  "level-1/07-malware-social-engineering": {
+   "questions": [
+    {
+     "q": "What defines phishing?",
+     "options": [
+      "Brute force",
+      "Patching",
+      "Network scanning",
+      "Deceiving people (often via email) into revealing credentials or running malware"
+     ],
+     "answer": 3,
+     "explain": "Targets people rather than technology."
+    },
+    {
+     "q": "What is ransomware?",
+     "options": [
+      "A worm",
+      "Malware that encrypts data and demands payment",
+      "Adware",
+      "Spyware"
+     ],
+     "answer": 1,
+     "explain": "Backups and segmentation are key defenses."
+    },
+    {
+     "q": "Which is a red flag in a suspicious email?",
+     "options": [
+      "Urgency, mismatched sender domain and unexpected attachments or links",
+      "Proper greeting",
+      "Known sender",
+      "Plain text"
+     ],
+     "answer": 0,
+     "explain": "Verify via another channel."
+    },
+    {
+     "q": "What is a worm?",
+     "options": [
+      "Is a hoax",
+      "Needs clicks",
+      "Malware that spreads itself across networks without user action",
+      "Is a patch"
+     ],
+     "answer": 2,
+     "explain": "Viruses need a host file."
+    }
+   ]
+  },
+  "level-1/08-security-tools-setup": {
+   "questions": [
+    {
+     "q": "When is it legal to scan a network with nmap?",
+     "options": [
+      "Neighbor's",
+      "When you own it or have written authorization",
+      "Public Wi-Fi",
+      "Anytime"
+     ],
+     "answer": 1,
+     "explain": "Unauthorized scanning can be illegal."
+    },
+    {
+     "q": "What's a safe place to practice security skills?",
+     "options": [
+      "Any website",
+      "Your employer's prod",
+      "A home lab or VM you own, isolated from other networks",
+      "A bank"
+     ],
+     "answer": 2,
+     "explain": "Scope is everything."
+    },
+    {
+     "q": "What does Wireshark do?",
+     "options": [
+      "Patches",
+      "Cracks passwords",
+      "Scans ports only",
+      "Captures and analyzes network packets"
+     ],
+     "answer": 3,
+     "explain": "Filter to inspect specific flows."
+    },
+    {
+     "q": "Why snapshot a lab VM before experiments?",
+     "options": [
+      "Speed",
+      "Style",
+      "So you can roll back after breaking things",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Disposable environments."
+    }
+   ]
+  },
+  "level-1/09-incident-response-basics": {
+   "questions": [
+    {
+     "q": "What's the typical IR lifecycle order?",
+     "options": [
+      "Lessons, containment",
+      "Eradication, preparation",
+      "Preparation, detection/analysis, containment, eradication, recovery, lessons learned",
+      "Recovery, detection"
+     ],
+     "answer": 2,
+     "explain": "NIST SP 800-61."
+    },
+    {
+     "q": "Why contain before eradicating?",
+     "options": [
+      "Style",
+      "To stop spread and preserve evidence while you work",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Isolate affected hosts."
+    },
+    {
+     "q": "What is a post-incident review for?",
+     "options": [
+      "Marketing",
+      "Blame",
+      "Learning and improving controls, blamelessly",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Update playbooks."
+    },
+    {
+     "q": "Why keep an incident timeline?",
+     "options": [
+      "Law",
+      "Speed",
+      "Accurate records support analysis and accountability",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Timestamp every action."
+    }
+   ]
+  },
+  "level-1/10-project-home-lab-assessment": {
+   "questions": [
+    {
+     "q": "What shape does a professional assessment take?",
+     "options": [
+      "Only tools",
+      "Only screenshots",
+      "Only a list",
+      "Scope, findings, evidence, risk rating and remediation"
+     ],
+     "answer": 3,
+     "explain": "Even for a home lab."
+    },
+    {
+     "q": "Why only assess machines you own?",
+     "options": [
+      "None",
+      "Speed",
+      "Style",
+      "Testing others' systems without permission is unauthorized access"
+     ],
+     "answer": 3,
+     "explain": "Authorization is the legal basis."
+    },
+    {
+     "q": "How do you prioritize findings?",
+     "options": [
+      "By age",
+      "Alphabetically",
+      "By tool",
+      "By risk: likelihood times impact"
+     ],
+     "answer": 3,
+     "explain": "Fix the highest first."
+    },
+    {
+     "q": "How do you verify a hardening change worked?",
+     "options": [
+      "Re-test and compare with the baseline",
+      "Assume",
+      "Skip",
+      "Ask"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-2/01-network-security-deep-dive": {
+   "questions": [
+    {
+     "q": "What is the default posture a firewall should take?",
+     "options": [
+      "Default allow",
+      "Off",
+      "Default deny: allow only what is needed",
+      "Random"
+     ],
+     "answer": 2,
+     "explain": "Explicit allows."
+    },
+    {
+     "q": "What's the difference between an IDS and an IPS?",
+     "options": [
+      "IDS blocks",
+      "An IDS detects and alerts; an IPS can also block",
+      "IPS only logs",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Inline placement matters."
+    },
+    {
+     "q": "What does network segmentation do?",
+     "options": [
+      "Speeds LAN",
+      "Hashes",
+      "Encrypts",
+      "Limits lateral movement by separating zones"
+     ],
+     "answer": 3,
+     "explain": "Contain breaches."
+    },
+    {
+     "q": "Why capture packets on a lab network?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "To see actual traffic instead of trusting summaries"
+     ],
+     "answer": 3,
+     "explain": "Authorized networks only."
+    }
+   ]
+  },
+  "level-2/02-web-application-security-hands-on": {
+   "questions": [
+    {
+     "q": "What does an intercepting proxy let a tester do?",
+     "options": [
+      "Scan hosts",
+      "Encrypt",
+      "Patch servers",
+      "Observe and modify requests between browser and server"
+     ],
+     "answer": 3,
+     "explain": "e.g. ZAP or Burp against authorized targets."
+    },
+    {
+     "q": "Where must access control be enforced?",
+     "options": [
+      "On the server for every request",
+      "In URL",
+      "In the UI only",
+      "In JS only"
+     ],
+     "answer": 0,
+     "explain": "Client checks are bypassable."
+    },
+    {
+     "q": "What does a CSP header help prevent?",
+     "options": [
+      "SQLi",
+      "Brute force",
+      "DoS",
+      "XSS and data injection by restricting script sources"
+     ],
+     "answer": 3,
+     "explain": "Defense in depth."
+    },
+    {
+     "q": "Why use a deliberately vulnerable local app?",
+     "options": [
+      "To practice legally and safely",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Like DVWA or Juice Shop locally."
+    }
+   ]
+  },
+  "level-2/03-linux-security-hardening": {
+   "questions": [
+    {
+     "q": "Which SSH setting reduces brute-force risk?",
+     "options": [
+      "Enable root login",
+      "Disable password login and use keys",
+      "Use port 22",
+      "Allow empty passwords"
+     ],
+     "answer": 1,
+     "explain": "Also use fail2ban or rate limits."
+    },
+    {
+     "q": "What does a minimal install reduce?",
+     "options": [
+      "Speed",
+      "Law",
+      "Attack surface: fewer packages and services",
+      "Cost only"
+     ],
+     "answer": 2,
+     "explain": "Remove what isn't needed."
+    },
+    {
+     "q": "What does `ufw default deny incoming` do?",
+     "options": [
+      "Allows all",
+      "Blocks outbound",
+      "Blocks inbound connections unless allowed",
+      "Deletes rules"
+     ],
+     "answer": 2,
+     "explain": "Allow specific ports."
+    },
+    {
+     "q": "What does auditd record?",
+     "options": [
+      "Web traffic",
+      "Security-relevant system calls and file access events",
+      "CPU use",
+      "Mail"
+     ],
+     "answer": 1,
+     "explain": "Supports detection."
+    }
+   ]
+  },
+  "level-2/04-windows-security-active-directory": {
+   "questions": [
+    {
+     "q": "Why is Active Directory a prime target?",
+     "options": [
+      "It's old",
+      "Compromising a domain controller yields control of the domain's identities and machines",
+      "It's open",
+      "It's slow"
+     ],
+     "answer": 1,
+     "explain": "Protect and monitor DCs."
+    },
+    {
+     "q": "What is Kerberoasting a risk to?",
+     "options": [
+      "Printers",
+      "DHCP",
+      "Service account passwords, so use long random passwords or gMSAs",
+      "DNS"
+     ],
+     "answer": 2,
+     "explain": "Defensive awareness."
+    },
+    {
+     "q": "What does tiered administration do?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Separates admin accounts by trust level to limit credential theft"
+     ],
+     "answer": 3,
+     "explain": "Admin credentials never touch lower tiers."
+    },
+    {
+     "q": "What does Group Policy enforce?",
+     "options": [
+      "Email",
+      "DNS",
+      "Backups",
+      "Configuration and security settings across domain machines"
+     ],
+     "answer": 3,
+     "explain": "Central control."
+    }
+   ]
+  },
+  "level-2/05-vulnerability-scanning": {
+   "questions": [
+    {
+     "q": "What's the vulnerability management lifecycle?",
+     "options": [
+      "Patch all",
+      "Scan once",
+      "Discover, assess, prioritize, remediate, verify, repeat",
+      "Ignore"
+     ],
+     "answer": 2,
+     "explain": "It's continuous."
+    },
+    {
+     "q": "What is a false positive?",
+     "options": [
+      "A fix",
+      "A missed vuln",
+      "A scan",
+      "A reported vulnerability that doesn't actually exist"
+     ],
+     "answer": 3,
+     "explain": "Validate findings."
+    },
+    {
+     "q": "What does CVSS provide?",
+     "options": [
+      "A fix",
+      "A patch",
+      "A scanner",
+      "A severity score for vulnerabilities, to be combined with context"
+     ],
+     "answer": 3,
+     "explain": "Prioritize by exposure too."
+    },
+    {
+     "q": "Why use authenticated scans?",
+     "options": [
+      "Legal",
+      "Cheaper",
+      "They see installed software and config, finding more accurate results",
+      "Faster"
+     ],
+     "answer": 2,
+     "explain": "Credentialed scans."
+    }
+   ]
+  },
+  "level-2/06-siem-log-analysis-basics": {
+   "questions": [
+    {
+     "q": "What does a SIEM do?",
+     "options": [
+      "Scans",
+      "Centralizes logs, correlates events and alerts",
+      "Blocks traffic",
+      "Patches"
+     ],
+     "answer": 1,
+     "explain": "Detection platform."
+    },
+    {
+     "q": "Which log pattern suggests brute forcing?",
+     "options": [
+      "One success",
+      "No logs",
+      "Many failed logins from one source followed by a success",
+      "Normal logins"
+     ],
+     "answer": 2,
+     "explain": "Write a correlation rule."
+    },
+    {
+     "q": "What does this print?\n```python\nfails=['10.0.0.5']*6+['10.0.0.9']*2\nfrom collections import Counter\nprint([ip for ip,c in Counter(fails).items() if c>=5])\n```\n",
+     "options": [
+      "[]",
+      "['10.0.0.5','10.0.0.9']",
+      "['10.0.0.9']",
+      "['10.0.0.5']"
+     ],
+     "answer": 3,
+     "explain": "Threshold-based detection. Verified by running it."
+    },
+    {
+     "q": "Why normalize logs?",
+     "options": [
+      "Law",
+      "So fields from different sources can be queried uniformly",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Parsing is the foundation."
+    }
+   ]
+  },
+  "level-2/07-secure-coding-practices": {
+   "questions": [
+    {
+     "q": "What's the core principle of secure coding?",
+     "options": [
+      "Trust clients",
+      "Trust users",
+      "Trust internal",
+      "Never trust input: validate, encode and parameterize"
+     ],
+     "answer": 3,
+     "explain": "Every trust boundary."
+    },
+    {
+     "q": "Which is the correct way to avoid SQL injection?",
+     "options": [
+      "Filtering words",
+      "Parameterized queries",
+      "Escaping manually",
+      "Hiding errors"
+     ],
+     "answer": 1,
+     "explain": "Keeps data separate from code."
+    },
+    {
+     "q": "How should secrets be handled in code?",
+     "options": [
+      "In comments",
+      "In logs",
+      "Kept out of source control in secret stores or environment variables",
+      "Hard-coded"
+     ],
+     "answer": 2,
+     "explain": "Rotate if leaked."
+    },
+    {
+     "q": "What should error messages to users avoid?",
+     "options": [
+      "Leaking stack traces and internals",
+      "Having IDs",
+      "Being short",
+      "Being polite"
+     ],
+     "answer": 0,
+     "explain": "Log details server-side."
+    }
+   ]
+  },
+  "level-2/08-cloud-security-basics": {
+   "questions": [
+    {
+     "q": "Who is responsible for configuring a customer's S3 bucket permissions?",
+     "options": [
+      "Nobody",
+      "The customer (shared responsibility)",
+      "The provider",
+      "The ISP"
+     ],
+     "answer": 1,
+     "explain": "Provider secures the infrastructure."
+    },
+    {
+     "q": "What's the top cloud breach cause?",
+     "options": [
+      "Hardware",
+      "Fires",
+      "Misconfiguration, such as publicly exposed storage",
+      "Zero-days"
+     ],
+     "answer": 2,
+     "explain": "Use CSPM and least privilege."
+    },
+    {
+     "q": "What does IAM least privilege mean?",
+     "options": [
+      "Disable MFA",
+      "Grant narrow permissions to identities, avoiding wildcard policies",
+      "Share root",
+      "Allow *"
+     ],
+     "answer": 1,
+     "explain": "Review permissions regularly."
+    },
+    {
+     "q": "Why enable MFA on the root account?",
+     "options": [
+      "Speed",
+      "It has unlimited power; protect it and avoid daily use",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Use roles instead."
+    }
+   ]
+  },
+  "level-2/09-penetration-testing-methodology": {
+   "questions": [
+    {
+     "q": "What makes a penetration test legal?",
+     "options": [
+      "A good intention",
+      "A report",
+      "A tool",
+      "Written authorization and a defined scope/Rules of Engagement"
+     ],
+     "answer": 3,
+     "explain": "Without it it's unauthorized access."
+    },
+    {
+     "q": "What are typical pentest phases?",
+     "options": [
+      "Reconnaissance, scanning/enumeration, exploitation, post-exploitation, reporting",
+      "Only exploit",
+      "Report only",
+      "Scan only"
+     ],
+     "answer": 0,
+     "explain": "Methodology, not randomness."
+    },
+    {
+     "q": "What distinguishes a pentest from a vulnerability scan?",
+     "options": [
+      "Automated only",
+      "No difference",
+      "Cheaper",
+      "A pentest manually validates and proves impact"
+     ],
+     "answer": 3,
+     "explain": "Scan lists; pentest demonstrates."
+    },
+    {
+     "q": "What should a pentest do upon finding critical issues mid-test?",
+     "options": [
+      "Exploit more",
+      "Wait",
+      "Publish",
+      "Notify the client per RoE rather than waiting for the report"
+     ],
+     "answer": 3,
+     "explain": "Communication."
+    }
+   ]
+  },
+  "level-2/10-project-web-app-security-assessment": {
+   "questions": [
+    {
+     "q": "What should each finding in the report include?",
+     "options": [
+      "Description, evidence, impact, risk rating and remediation",
+      "Only screenshot",
+      "Only a title",
+      "Only CVSS"
+     ],
+     "answer": 0,
+     "explain": "Actionable."
+    },
+    {
+     "q": "Why test only the legal local target?",
+     "options": [
+      "Authorization: assess systems you own or are permitted to test",
+      "Law only",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Scope."
+    },
+    {
+     "q": "How are findings prioritized?",
+     "options": [
+      "Alphabet",
+      "Tool",
+      "Chronology",
+      "By likelihood and impact, with exploitability context"
+     ],
+     "answer": 3,
+     "explain": "Risk-based."
+    },
+    {
+     "q": "What's the value of remediation advice?",
+     "options": [
+      "Law",
+      "Style",
+      "It turns a finding into a fix developers can apply",
+      "Length"
+     ],
+     "answer": 2,
+     "explain": "Be specific."
+    }
+   ]
+  },
+  "level-3/01-advanced-penetration-testing": {
+   "questions": [
+    {
+     "q": "What does lateral movement mean?",
+     "options": [
+      "An attacker moving from one compromised system to others inside a network",
+      "Patch",
+      "Port scan",
+      "Log"
+     ],
+     "answer": 0,
+     "explain": "Segmentation and monitoring reduce it."
+    },
+    {
+     "q": "Why do testers document every action?",
+     "options": [
+      "Law only",
+      "Style",
+      "For reproducibility and so the client can validate and remediate",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What is privilege escalation?",
+     "options": [
+      "Scanning",
+      "Logging in",
+      "Patching",
+      "Gaining higher access than initially granted"
+     ],
+     "answer": 3,
+     "explain": "Least privilege limits it."
+    },
+    {
+     "q": "What is persistence?",
+     "options": [
+      "Detection",
+      "Scanning",
+      "Patching",
+      "Maintaining access across reboots or credential changes"
+     ],
+     "answer": 3,
+     "explain": "Testers clean up what they install."
+    }
+   ]
+  },
+  "level-3/02-digital-forensics-basics": {
+   "questions": [
+    {
+     "q": "Why make a forensic image and work on the copy?",
+     "options": [
+      "Speed",
+      "Storage",
+      "To preserve the original evidence unaltered",
+      "Law only"
+     ],
+     "answer": 2,
+     "explain": "Use write blockers."
+    },
+    {
+     "q": "What does chain of custody document?",
+     "options": [
+      "Who handled evidence, when and how, to keep it admissible",
+      "Cost",
+      "Speed",
+      "Hashes"
+     ],
+     "answer": 0,
+     "explain": "Integrity matters."
+    },
+    {
+     "q": "Why record a hash of evidence?",
+     "options": [
+      "Compress",
+      "Hide",
+      "To prove it hasn't changed",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "SHA-256 before and after."
+    },
+    {
+     "q": "What is volatile data?",
+     "options": [
+      "Disk files",
+      "Data lost at power-off, like RAM; collect it first",
+      "Backups",
+      "Logs"
+     ],
+     "answer": 1,
+     "explain": "Order of volatility."
+    }
+   ]
+  },
+  "level-3/03-malware-analysis-basics": {
+   "questions": [
+    {
+     "q": "What's the difference between static and dynamic analysis?",
+     "options": [
+      "Static inspects the sample without running; dynamic observes it executing in a sandbox",
+      "Static runs it",
+      "Same",
+      "Dynamic reads only"
+     ],
+     "answer": 0,
+     "explain": "Do it in isolation."
+    },
+    {
+     "q": "Why analyze malware in an isolated VM?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "To prevent infection and spread; snapshot and no shared network"
+     ],
+     "answer": 3,
+     "explain": "Safety."
+    },
+    {
+     "q": "What are IOCs?",
+     "options": [
+      "Alerts only",
+      "Policies",
+      "Indicators of compromise, like hashes, domains and IPs",
+      "Tools"
+     ],
+     "answer": 2,
+     "explain": "Share them for detection."
+    },
+    {
+     "q": "Why compute a file hash first?",
+     "options": [
+      "Rename",
+      "Delete",
+      "To identify and search for known samples",
+      "Run it"
+     ],
+     "answer": 2,
+     "explain": "Compare with threat feeds."
+    }
+   ]
+  },
+  "level-3/04-threat-intelligence": {
+   "questions": [
+    {
+     "q": "What is threat intelligence?",
+     "options": [
+      "Evidence-based knowledge about adversaries and their methods to inform defense",
+      "News only",
+      "Scans",
+      "Gossip"
+     ],
+     "answer": 0,
+     "explain": "Actionable context."
+    },
+    {
+     "q": "What is MITRE ATT&CK?",
+     "options": [
+      "A scanner",
+      "A firewall",
+      "A knowledge base of adversary tactics and techniques",
+      "A law"
+     ],
+     "answer": 2,
+     "explain": "Map detections to it."
+    },
+    {
+     "q": "What makes an IOC short-lived?",
+     "options": [
+      "It's secret",
+      "It's big",
+      "It's slow",
+      "Attackers change infrastructure easily"
+     ],
+     "answer": 3,
+     "explain": "TTPs last longer."
+    },
+    {
+     "q": "What is the Pyramid of Pain idea?",
+     "options": [
+      "Hurting attackers is harder when you block TTPs than hashes",
+      "Hashes are best",
+      "IPs are best",
+      "Tools"
+     ],
+     "answer": 0,
+     "explain": "Prioritize behaviors."
+    }
+   ]
+  },
+  "level-3/05-advanced-siem": {
+   "questions": [
+    {
+     "q": "Which is a correlation use case?",
+     "options": [
+      "CPU use",
+      "Impossible travel: logins from distant locations in a short time",
+      "Disk",
+      "Printing"
+     ],
+     "answer": 1,
+     "explain": "Combine events."
+    },
+    {
+     "q": "What does tuning a SIEM rule reduce?",
+     "options": [
+      "Coverage",
+      "False positives and alert fatigue",
+      "Speed",
+      "Logs"
+     ],
+     "answer": 1,
+     "explain": "Iterate."
+    },
+    {
+     "q": "Why enrich alerts with context?",
+     "options": [
+      "Cost",
+      "Style",
+      "To speed triage (asset, user, threat intel)",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Analyst efficiency."
+    },
+    {
+     "q": "What's a detection-as-code benefit?",
+     "options": [
+      "Law",
+      "Speed",
+      "Version control, review and testing of detection rules",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Treat rules like software."
+    }
+   ]
+  },
+  "level-3/06-cloud-security-deep-dive": {
+   "questions": [
+    {
+     "q": "What is a CSPM tool for?",
+     "options": [
+      "Continuously finding cloud misconfigurations",
+      "Scanning hosts",
+      "Backups",
+      "Email"
+     ],
+     "answer": 0,
+     "explain": "Posture management."
+    },
+    {
+     "q": "Why enable cloud audit logging (e.g. CloudTrail)?",
+     "options": [
+      "Law only",
+      "Cost",
+      "To record API activity for detection and forensics",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Send to a protected account."
+    },
+    {
+     "q": "What does separating accounts/projects achieve?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Blast-radius containment and clearer boundaries"
+     ],
+     "answer": 3,
+     "explain": "Landing zones."
+    },
+    {
+     "q": "Why encrypt data with customer-managed keys?",
+     "options": [
+      "Style",
+      "Cost",
+      "Speed",
+      "Control over access and rotation and auditability"
+     ],
+     "answer": 3,
+     "explain": "KMS."
+    }
+   ]
+  },
+  "level-3/07-container-kubernetes-security": {
+   "questions": [
+    {
+     "q": "Why run containers as non-root?",
+     "options": [
+      "It limits damage if the container is compromised",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Also drop capabilities."
+    },
+    {
+     "q": "What does image scanning find?",
+     "options": [
+      "Races",
+      "Known vulnerabilities in packages within images",
+      "Typos",
+      "Network bugs"
+     ],
+     "answer": 1,
+     "explain": "Scan in CI."
+    },
+    {
+     "q": "What do Kubernetes NetworkPolicies do?",
+     "options": [
+      "Log",
+      "Restrict pod-to-pod traffic",
+      "Scale",
+      "Schedule"
+     ],
+     "answer": 1,
+     "explain": "Default deny."
+    },
+    {
+     "q": "Why not store secrets in image layers?",
+     "options": [
+      "Style",
+      "They're recoverable by anyone with the image",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Use secret stores."
+    }
+   ]
+  },
+  "level-3/08-red-team-vs-blue-team": {
+   "questions": [
+    {
+     "q": "What does a red team do?",
+     "options": [
+      "Defends",
+      "Patches",
+      "Emulates adversaries to test detection and response",
+      "Audits"
+     ],
+     "answer": 2,
+     "explain": "Blue defends."
+    },
+    {
+     "q": "What is purple teaming?",
+     "options": [
+      "Red and blue collaborating to improve detections",
+      "A tool",
+      "A scan",
+      "A merger"
+     ],
+     "answer": 0,
+     "explain": "Shared learning."
+    },
+    {
+     "q": "What's a goal of red teaming vs. pentesting?",
+     "options": [
+      "List vulns",
+      "Scan",
+      "Test the whole defense (people, process, tech) against objectives",
+      "Patch"
+     ],
+     "answer": 2,
+     "explain": "Broader than vulnerabilities."
+    },
+    {
+     "q": "What should blue teams measure?",
+     "options": [
+      "Lines",
+      "Alerts only",
+      "Time to detect and respond and coverage",
+      "Tools"
+     ],
+     "answer": 2,
+     "explain": "Metrics drive improvement."
+    }
+   ]
+  },
+  "level-3/09-compliance-frameworks": {
+   "questions": [
+    {
+     "q": "What does compliance not guarantee?",
+     "options": [
+      "Policy",
+      "Evidence",
+      "Actual security: it sets a baseline",
+      "Audit"
+     ],
+     "answer": 2,
+     "explain": "Compliant isn't equal to secure."
+    },
+    {
+     "q": "What is ISO 27001?",
+     "options": [
+      "A scanner",
+      "A tool",
+      "A standard for an information security management system",
+      "A law"
+     ],
+     "answer": 2,
+     "explain": "Certifiable."
+    },
+    {
+     "q": "What does PCI DSS cover?",
+     "options": [
+      "Email",
+      "Protection of payment card data",
+      "Health data",
+      "Source code"
+     ],
+     "answer": 1,
+     "explain": "Applies to card handlers."
+    },
+    {
+     "q": "What do auditors want?",
+     "options": [
+      "Opinions",
+      "Evidence that controls operate effectively",
+      "Slides",
+      "Promises"
+     ],
+     "answer": 1,
+     "explain": "Document and retain evidence."
+    }
+   ]
+  },
+  "level-3/10-project-full-pentest-report": {
+   "questions": [
+    {
+     "q": "What does an executive summary do?",
+     "options": [
+      "States scope, overall risk and key recommendations in plain language",
+      "Lists logs",
+      "Shows code",
+      "Names people"
+     ],
+     "answer": 0,
+     "explain": "For decision makers."
+    },
+    {
+     "q": "Why include reproduction steps?",
+     "options": [
+      "Style",
+      "So the client can verify and fix",
+      "Length",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What should findings be rated by?",
+     "options": [
+      "A consistent method like CVSS plus business context",
+      "Tool color",
+      "Mood",
+      "Count"
+     ],
+     "answer": 0,
+     "explain": "Be consistent."
+    },
+    {
+     "q": "What happens after the report?",
+     "options": [
+      "Publish",
+      "Remediation tracking and retesting",
+      "Nothing",
+      "Delete"
+     ],
+     "answer": 1,
+     "explain": "Close the loop."
+    }
+   ]
+  },
+  "level-4/01-security-architecture": {
+   "questions": [
+    {
+     "q": "What is defense in depth?",
+     "options": [
+      "No controls",
+      "Trust",
+      "Layered controls so one failure doesn't compromise everything",
+      "One strong wall"
+     ],
+     "answer": 2,
+     "explain": "Overlap."
+    },
+    {
+     "q": "What does threat modeling do?",
+     "options": [
+      "Logs",
+      "Scans",
+      "Identifies threats and mitigations early in design (e.g. STRIDE)",
+      "Patches"
+     ],
+     "answer": 2,
+     "explain": "Design-stage."
+    },
+    {
+     "q": "What is 'secure by design'?",
+     "options": [
+      "Compliance",
+      "Building security into architecture from the start",
+      "Adding later",
+      "Tools"
+     ],
+     "answer": 1,
+     "explain": "Cheaper than retrofitting."
+    },
+    {
+     "q": "What does a trust boundary mark?",
+     "options": [
+      "Where data crosses levels of trust and must be validated",
+      "Network",
+      "CPU",
+      "Disk"
+     ],
+     "answer": 0,
+     "explain": "Controls go there."
+    }
+   ]
+  },
+  "level-4/02-advanced-threat-hunting": {
+   "questions": [
+    {
+     "q": "What is threat hunting?",
+     "options": [
+      "Proactively searching for adversaries that evaded detections, driven by hypotheses",
+      "Patching",
+      "Scanning",
+      "Waiting for alerts"
+     ],
+     "answer": 0,
+     "explain": "Hypothesis-driven."
+    },
+    {
+     "q": "What starts a hunt?",
+     "options": [
+      "An alert only",
+      "A hypothesis, e.g. based on ATT&CK or intel",
+      "A guess only",
+      "A tool"
+     ],
+     "answer": 1,
+     "explain": "Then query data."
+    },
+    {
+     "q": "What should a successful hunt produce?",
+     "options": [
+      "Panic",
+      "Nothing",
+      "A report only",
+      "New detections or hardening"
+     ],
+     "answer": 3,
+     "explain": "Operationalize."
+    },
+    {
+     "q": "What data do hunters need?",
+     "options": [
+      "Rich, retained telemetry (endpoint, network, identity)",
+      "Email",
+      "None",
+      "Printers"
+     ],
+     "answer": 0,
+     "explain": "Visibility."
+    }
+   ]
+  },
+  "level-4/03-zero-trust-architecture": {
+   "questions": [
+    {
+     "q": "What is the zero trust principle?",
+     "options": [
+      "Never trust, always verify, regardless of network location",
+      "Trust admins",
+      "Trust VPN",
+      "Trust the LAN"
+     ],
+     "answer": 0,
+     "explain": "Verify identity and device."
+    },
+    {
+     "q": "Which is a zero-trust control?",
+     "options": [
+      "Perimeter only",
+      "Flat network",
+      "Continuous authentication with device posture and least-privilege access",
+      "Shared accounts"
+     ],
+     "answer": 2,
+     "explain": "Microsegmentation."
+    },
+    {
+     "q": "Why is a VPN alone not zero trust?",
+     "options": [
+      "Encrypted",
+      "Legacy only",
+      "It grants broad network access once connected",
+      "Slow"
+     ],
+     "answer": 2,
+     "explain": "Prefer per-app access."
+    },
+    {
+     "q": "What do policy engines decide?",
+     "options": [
+      "Speed",
+      "Access based on identity, device and context",
+      "Law",
+      "Cost"
+     ],
+     "answer": 1,
+     "explain": "Dynamic."
+    }
+   ]
+  },
+  "level-4/04-advanced-cryptography-pki": {
+   "questions": [
+    {
+     "q": "What does a certificate authority do?",
+     "options": [
+      "Stores passwords",
+      "Routes",
+      "Encrypts data",
+      "Signs certificates binding identities to public keys"
+     ],
+     "answer": 3,
+     "explain": "Trust chain."
+    },
+    {
+     "q": "Why do private keys need strong protection?",
+     "options": [
+      "Law",
+      "Speed",
+      "Whoever holds it can impersonate the owner; use HSMs",
+      "Size"
+     ],
+     "answer": 2,
+     "explain": "Rotate and restrict."
+    },
+    {
+     "q": "What does perfect forward secrecy provide?",
+     "options": [
+      "Past sessions stay secure even if long-term keys leak later",
+      "Free",
+      "Faster",
+      "Smaller"
+     ],
+     "answer": 0,
+     "explain": "Ephemeral keys."
+    },
+    {
+     "q": "Why is rolling your own crypto discouraged?",
+     "options": [
+      "Style",
+      "Law",
+      "Cost",
+      "Subtle mistakes break security; use vetted libraries"
+     ],
+     "answer": 3,
+     "explain": "Use standard algorithms."
+    }
+   ]
+  },
+  "level-4/05-security-automation-soar": {
+   "questions": [
+    {
+     "q": "What does SOAR automate?",
+     "options": [
+      "Hiring",
+      "Repetitive response steps via playbooks and integrations",
+      "Strategy",
+      "Auditing"
+     ],
+     "answer": 1,
+     "explain": "Speed and consistency."
+    },
+    {
+     "q": "What should be automated first?",
+     "options": [
+      "Complex judgment",
+      "Hardest tasks",
+      "Everything",
+      "High-volume, low-risk, well-understood tasks"
+     ],
+     "answer": 3,
+     "explain": "Start small."
+    },
+    {
+     "q": "Why add human approval for destructive actions?",
+     "options": [
+      "Automation errors can cause outages",
+      "Style",
+      "Law",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "Guardrails."
+    },
+    {
+     "q": "How do you maintain playbooks?",
+     "options": [
+      "Version, test and review them like code",
+      "Rewrite yearly",
+      "Ignore",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Keep them current."
+    }
+   ]
+  },
+  "level-4/06-advanced-cloud-security-devsecops": {
+   "questions": [
+    {
+     "q": "What does shift-left security mean?",
+     "options": [
+      "Moving servers",
+      "Late testing",
+      "Ignoring prod",
+      "Finding issues earlier in development (SAST, dependency, IaC scans)"
+     ],
+     "answer": 3,
+     "explain": "Cheaper fixes."
+    },
+    {
+     "q": "What does IaC scanning catch?",
+     "options": [
+      "Races",
+      "Runtime",
+      "Insecure infrastructure definitions before deploy",
+      "Typos"
+     ],
+     "answer": 2,
+     "explain": "Policy as code."
+    },
+    {
+     "q": "What does SBOM stand for and help with?",
+     "options": [
+      "A policy",
+      "A firewall",
+      "Software Bill of Materials, tracking components for vulnerability response",
+      "A scanner"
+     ],
+     "answer": 2,
+     "explain": "Supply-chain visibility."
+    },
+    {
+     "q": "Why gate pipelines on critical findings?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "To stop known-bad changes from reaching production"
+     ],
+     "answer": 3,
+     "explain": "Balance with developer experience."
+    }
+   ]
+  },
+  "level-4/07-incident-response-at-scale": {
+   "questions": [
+    {
+     "q": "What helps coordinate a large incident?",
+     "options": [
+      "Ad hoc chat",
+      "A defined command structure with roles and communication channels",
+      "Silence",
+      "One person"
+     ],
+     "answer": 1,
+     "explain": "Incident commander."
+    },
+    {
+     "q": "Why prepare communication templates ahead?",
+     "options": [
+      "Speed and consistency under pressure, including legal and PR",
+      "Law",
+      "Cost",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Pre-approved."
+    },
+    {
+     "q": "What do tabletop exercises test?",
+     "options": [
+      "Servers",
+      "Code",
+      "Backups",
+      "Plans and decision-making without live systems"
+     ],
+     "answer": 3,
+     "explain": "Find gaps cheaply."
+    },
+    {
+     "q": "Why define severity levels?",
+     "options": [
+      "Cost",
+      "To prioritize response and escalation",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Shared language."
+    }
+   ]
+  },
+  "level-4/08-building-a-soc": {
+   "questions": [
+    {
+     "q": "Which are SOC pillars?",
+     "options": [
+      "Money",
+      "People, process and technology",
+      "Tools only",
+      "Rooms"
+     ],
+     "answer": 1,
+     "explain": "All three."
+    },
+    {
+     "q": "What does tiering analysts allow?",
+     "options": [
+      "Cheaper tools",
+      "Faster hiring",
+      "Fewer alerts",
+      "Routing alerts by complexity and escalating appropriately"
+     ],
+     "answer": 3,
+     "explain": "L1 triage, L2 investigation, L3 hunting."
+    },
+    {
+     "q": "What metric reflects SOC effectiveness?",
+     "options": [
+      "Headcount",
+      "Alert count",
+      "Tool count",
+      "Mean time to detect and respond"
+     ],
+     "answer": 3,
+     "explain": "Outcome measures."
+    },
+    {
+     "q": "Why prevent analyst burnout?",
+     "options": [
+      "Law",
+      "Cost",
+      "Alert fatigue leads to missed detections; tune and rotate",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Retention matters."
+    }
+   ]
+  },
+  "level-4/09-security-leadership-risk-management": {
+   "questions": [
+    {
+     "q": "How is risk commonly expressed?",
+     "options": [
+      "Spend",
+      "Alerts",
+      "Likelihood times impact, with treatment (mitigate, accept, transfer, avoid)",
+      "Tool count"
+     ],
+     "answer": 2,
+     "explain": "Decisions belong to business owners."
+    },
+    {
+     "q": "Why communicate in business terms to executives?",
+     "options": [
+      "Decisions rest on impact to goals, not technical detail",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Translate risk."
+    },
+    {
+     "q": "What is a risk register?",
+     "options": [
+      "A log",
+      "A policy",
+      "A tracked list of risks with owners and treatments",
+      "A scan"
+     ],
+     "answer": 2,
+     "explain": "Review regularly."
+    },
+    {
+     "q": "What is risk appetite?",
+     "options": [
+      "The level of risk an organization is willing to accept",
+      "Staff",
+      "Tools",
+      "Budget"
+     ],
+     "answer": 0,
+     "explain": "Guides decisions."
+    }
+   ]
+  },
+  "level-4/10-capstone-enterprise-security-program": {
+   "questions": [
+    {
+     "q": "What does an enterprise security program combine?",
+     "options": [
+      "Only policy",
+      "Only audit",
+      "Governance, architecture, operations, response and metrics",
+      "Only tools"
+     ],
+     "answer": 2,
+     "explain": "Holistic."
+    },
+    {
+     "q": "What should drive priorities?",
+     "options": [
+      "Trends",
+      "Tools",
+      "Vendors",
+      "Risk assessment against business objectives"
+     ],
+     "answer": 3,
+     "explain": "Risk-based roadmap."
+    },
+    {
+     "q": "How do you show the program works?",
+     "options": [
+      "Claims",
+      "Tools",
+      "Metrics, exercises and independent assessment",
+      "Slides"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "Why plan a roadmap in phases?",
+     "options": [
+      "Speed",
+      "Limited resources: deliver high-risk improvements first",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Iterate."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A hospital's files are encrypted by malware and staff can't open them. Which CIA property is hit most directly?",
+    "options": [
+     "Integrity only",
+     "Authentication",
+     "Confidentiality",
+     "Availability"
+    ],
+    "answer": 3,
+    "explain": "The data exists but isn't usable."
+   },
+   {
+    "q": "Which description best separates a threat from a vulnerability?",
+    "options": [
+     "A threat is a patch",
+     "A vulnerability is an attacker",
+     "A threat is something that could exploit a weakness; a vulnerability is the weakness itself",
+     "They're identical"
+    ],
+    "answer": 2,
+    "explain": "Risk combines likelihood and impact."
+   },
+   {
+    "q": "How many usable hosts are in 10.0.0.0/22?\n```python\nimport ipaddress\nprint(ipaddress.ip_network('10.0.0.0/22').num_addresses-2)\n```\n",
+    "options": [
+     "1024",
+     "1020",
+     "254",
+     "1022"
+    ],
+    "answer": 3,
+    "explain": "2^10 addresses minus network and broadcast. Verified by running it."
+   },
+   {
+    "q": "A user submits `x' OR '1'='1` into a query built by string concatenation versus a parameterized query. What do the two counts show?\n```python\nimport sqlite3\nc=sqlite3.connect(':memory:'); c.execute('create table u(n)'); c.execute(\"insert into u values('ada')\")\nv=\"x' OR '1'='1\"\nprint(c.execute(\"select count(*) from u where n='\"+v+\"'\").fetchone()[0], c.execute('select count(*) from u where n=?',(v,)).fetchone()[0])\n```\n",
+    "options": [
+     "1 0",
+     "0 0",
+     "1 1",
+     "0 1"
+    ],
+    "answer": 0,
+    "explain": "Parameterization keeps input as data. Use it everywhere. Verified by running it."
+   },
+   {
+    "q": "An IDOR lets a user view /invoice/1002 by changing the number from 1001. What's the fix?",
+    "options": [
+     "Obfuscate IDs only",
+     "Enforce authorization server-side on each request (check ownership), not just hide links",
+     "Use POST",
+     "Hide the URL"
+    ],
+    "answer": 1,
+    "explain": "Broken access control is the top OWASP risk."
+   },
+   {
+    "q": "Why hash passwords with salted, slow algorithms such as Argon2 or bcrypt?",
+    "options": [
+     "It saves space",
+     "Hashes can be decrypted",
+     "Salts encrypt",
+     "Salts defeat precomputed tables and slow hashing makes mass guessing costly"
+    ],
+    "answer": 3,
+    "explain": "Never use fast unsalted hashes."
+   },
+   {
+    "q": "Phishing-resistant MFA is best implemented with...",
+    "options": [
+     "Security questions",
+     "SMS codes",
+     "Email codes",
+     "FIDO2/WebAuthn hardware keys or passkeys"
+    ],
+    "answer": 3,
+    "explain": "They bind to the real site."
+   },
+   {
+    "q": "A user reports a suspicious email. What should the SOC do first?",
+    "options": [
+     "Click to test",
+     "Delete silently",
+     "Check headers and links safely, search for other recipients and block indicators",
+     "Forward to all"
+    ],
+    "answer": 2,
+    "explain": "Contain and hunt."
+   },
+   {
+    "q": "Which log pattern suggests a successful brute-force attack?",
+    "options": [
+     "No logs",
+     "Many failures from one IP followed by a success",
+     "One success",
+     "Normal logins"
+    ],
+    "answer": 1,
+    "explain": "Correlation rule."
+   },
+   {
+    "q": "During an incident, why contain before eradicating?",
+    "options": [
+     "To stop spread and preserve evidence while you analyze",
+     "Style",
+     "Speed",
+     "Cost"
+    ],
+    "answer": 0,
+    "explain": "Isolate affected systems."
+   },
+   {
+    "q": "When making a forensic copy of a disk, why hash it?",
+    "options": [
+     "Compress",
+     "To prove the evidence hasn't changed",
+     "Encrypt",
+     "Rename"
+    ],
+    "answer": 1,
+    "explain": "Document chain of custody."
+   },
+   {
+    "q": "A cloud storage bucket is publicly readable by mistake. Who is responsible for that configuration?",
+    "options": [
+     "Nobody",
+     "The customer, under the shared responsibility model",
+     "The ISP",
+     "The provider"
+    ],
+    "answer": 1,
+    "explain": "Misconfiguration is the leading cause of cloud breaches."
+   },
+   {
+    "q": "A pentest is requested. What must exist before testing starts?",
+    "options": [
+     "A verbal OK",
+     "A report template",
+     "Written authorization with scope and Rules of Engagement",
+     "A tool"
+    ],
+    "answer": 2,
+    "explain": "Otherwise it's unauthorized access."
+   },
+   {
+    "q": "A vulnerability scanner reports a critical CVE on a server not reachable from the internet. How should you prioritize?",
+    "options": [
+     "Patch by score only",
+     "Combine CVSS with context: exposure, exploitability and asset value",
+     "Ignore",
+     "Delete the server"
+    ],
+    "answer": 1,
+    "explain": "Risk-based prioritization."
+   },
+   {
+    "q": "Which is a zero-trust design choice?",
+    "options": [
+     "One flat VPN",
+     "Per-request verification of identity and device posture with least-privilege access",
+     "Shared admin accounts",
+     "Trust the internal network"
+    ],
+    "answer": 1,
+    "explain": "Never trust, always verify."
+   },
+   {
+    "q": "Containers run as root with host mounts. What's the risk and fix?",
+    "options": [
+     "No risk",
+     "A compromise can escape to the host; run non-root, drop capabilities and avoid broad mounts",
+     "Only logs",
+     "Speed"
+    ],
+    "answer": 1,
+    "explain": "Least privilege for workloads."
+   },
+   {
+    "q": "A detection rule fires 500 false alerts a day. What do you do?",
+    "options": [
+     "Tune it with context and thresholds, and measure precision",
+     "Ignore",
+     "Add alerts",
+     "Disable all"
+    ],
+    "answer": 0,
+    "explain": "Alert fatigue hides real attacks."
+   },
+   {
+    "q": "An executive asks 'are we secure?'. How should you answer?",
+    "options": [
+     "No",
+     "Technical details",
+     "Yes",
+     "Express residual risk in business terms with evidence, not a yes or no"
+    ],
+    "answer": 3,
+    "explain": "Risk management."
+   },
+   {
+    "q": "Which compliance statement is accurate?",
+    "options": [
+     "Compliance sets a baseline but doesn't guarantee security",
+     "Compliant means secure",
+     "Audits stop attacks",
+     "Controls aren't needed"
+    ],
+    "answer": 0,
+    "explain": "Evidence of effective operation matters."
+   },
+   {
+    "q": "Why plan a security roadmap in phases?",
+    "options": [
+     "Resources are limited, so fix highest risks first and show measurable progress",
+     "Law",
+     "Style",
+     "Speed"
+    ],
+    "answer": 0,
+    "explain": "Prioritize by risk."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Store and verify passwords safely",
+    "prompt": "Implement hash_password() with PBKDF2-HMAC-SHA256 and verify() using a constant-time comparison. Show that the right password verifies, a similar one fails, and that a different salt yields a different hash.",
+    "starter": "import hashlib, hmac\n\ndef hash_password(password, salt, rounds=100_000):\n    # derive a key with PBKDF2-HMAC-SHA256 and return it as a hex string\n    return \"\"\n\ndef verify(password, salt, stored, rounds=100_000):\n    # recompute and compare in constant time (hmac.compare_digest)\n    return False\n\nsalt = bytes.fromhex(\"00112233445566778899aabbccddeeff\")\nstored = hash_password(\"correct horse\", salt)\nprint(len(stored), stored[:16])\nprint(verify(\"correct horse\", salt, stored))\nprint(verify(\"Correct horse\", salt, stored))\nprint(hash_password(\"correct horse\", salt) == hash_password(\"correct horse\", bytes(16)))\n",
+    "expected": "64 349385d8369097aa\nTrue\nFalse\nFalse",
+    "solution": "import hashlib, hmac\n\ndef hash_password(password, salt, rounds=100_000):\n    return hashlib.pbkdf2_hmac(\"sha256\", password.encode(), salt, rounds).hex()\n\ndef verify(password, salt, stored, rounds=100_000):\n    candidate = hash_password(password, salt, rounds)\n    return hmac.compare_digest(candidate, stored)\n\nsalt = bytes.fromhex(\"00112233445566778899aabbccddeeff\")\nstored = hash_password(\"correct horse\", salt)\nprint(len(stored), stored[:16])\nprint(verify(\"correct horse\", salt, stored))\nprint(verify(\"Correct horse\", salt, stored))\nprint(hash_password(\"correct horse\", salt) == hash_password(\"correct horse\", bytes(16)))\n",
+    "explain": "A unique random salt per user and a slow key-derivation function make offline guessing expensive, and compare_digest avoids timing leaks. The salt here is fixed only so the output is reproducible. Verified by running the solution."
+   },
+   {
+    "title": "Detect a brute-force that succeeded",
+    "prompt": "Parse SSH auth log lines and flag a source IP only when a successful login follows at least `threshold` failures from that IP. Return {ip: failures_before_success}. A separate IP with just two failures must not be flagged.",
+    "starter": "import re\nfrom collections import defaultdict\n\nLOG = \"\"\"\\\nNov 21 10:00:01 sshd[1]: Failed password for root from 203.0.113.7 port 51111 ssh2\nNov 21 10:00:03 sshd[1]: Failed password for admin from 203.0.113.7 port 51112 ssh2\nNov 21 10:00:05 sshd[1]: Failed password for root from 203.0.113.7 port 51113 ssh2\nNov 21 10:00:07 sshd[1]: Failed password for ada from 198.51.100.4 port 40001 ssh2\nNov 21 10:00:08 sshd[1]: Failed password for root from 203.0.113.7 port 51114 ssh2\nNov 21 10:00:09 sshd[1]: Accepted password for root from 203.0.113.7 port 51115 ssh2\nNov 21 10:03:00 sshd[1]: Failed password for ada from 198.51.100.4 port 40002 ssh2\n\"\"\"\n\nPATTERN = re.compile(r\"(?P<status>Failed|Accepted) password for (?P<user>\\S+) from (?P<ip>\\S+)\")\n\ndef suspicious(log, threshold=4):\n    # count failed logins per source IP; flag an IP only if a successful login\n    # follows at least `threshold` failures. Return {ip: failures_before_success}.\n    return {}\n\nprint(suspicious(LOG))\n",
+    "expected": "{'203.0.113.7': 4}",
+    "solution": "import re\nfrom collections import defaultdict\n\nLOG = \"\"\"\\\nNov 21 10:00:01 sshd[1]: Failed password for root from 203.0.113.7 port 51111 ssh2\nNov 21 10:00:03 sshd[1]: Failed password for admin from 203.0.113.7 port 51112 ssh2\nNov 21 10:00:05 sshd[1]: Failed password for root from 203.0.113.7 port 51113 ssh2\nNov 21 10:00:07 sshd[1]: Failed password for ada from 198.51.100.4 port 40001 ssh2\nNov 21 10:00:08 sshd[1]: Failed password for root from 203.0.113.7 port 51114 ssh2\nNov 21 10:00:09 sshd[1]: Accepted password for root from 203.0.113.7 port 51115 ssh2\nNov 21 10:03:00 sshd[1]: Failed password for ada from 198.51.100.4 port 40002 ssh2\n\"\"\"\n\nPATTERN = re.compile(r\"(?P<status>Failed|Accepted) password for (?P<user>\\S+) from (?P<ip>\\S+)\")\n\ndef suspicious(log, threshold=4):\n    fails = defaultdict(int)\n    flagged = {}\n    for line in log.splitlines():\n        m = PATTERN.search(line)\n        if not m:\n            continue\n        ip = m[\"ip\"]\n        if m[\"status\"] == \"Failed\":\n            fails[ip] += 1\n        elif fails[ip] >= threshold:\n            flagged[ip] = fails[ip]\n    return flagged\n\nprint(suspicious(LOG))\n",
+    "explain": "Counting failures per source and alerting on a success after a burst is the classic brute-force correlation rule. In a SIEM you'd also window it by time and enrich it. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
