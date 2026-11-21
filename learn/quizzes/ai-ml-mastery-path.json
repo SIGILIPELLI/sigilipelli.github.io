@@ -1,0 +1,1927 @@
+{
+ "course": "ai-ml-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup-scientific-python": {
+   "questions": [
+    {
+     "q": "Why work inside a virtual environment?",
+     "options": [
+      "It isolates each project's packages so one project's versions can't break another's",
+      "It makes Python faster",
+      "It encrypts code",
+      "It is required by NumPy"
+     ],
+     "answer": 0,
+     "explain": "pip installs into .venv instead of the system Python."
+    },
+    {
+     "q": "Which library is used for classical machine learning in this stack?",
+     "options": [
+      "scikit-learn",
+      "matplotlib",
+      "pandas",
+      "torch only"
+     ],
+     "answer": 0,
+     "explain": "NumPy is for arrays, pandas for tables, matplotlib for plots and PyTorch for neural networks."
+    },
+    {
+     "q": "What is the recommended habit about notebooks and scripts?",
+     "options": [
+      "Only use scripts",
+      "Never use notebooks",
+      "Only use notebooks",
+      "Explore in a notebook, then consolidate what worked into a script"
+     ],
+     "answer": 3,
+     "explain": "Scripts are version-control friendly and look like production code."
+    },
+    {
+     "q": "How do you know the setup is done?",
+     "options": [
+      "A notebook opens",
+      "pip finishes",
+      "Python starts",
+      "All five library versions print when check_stack.py runs"
+     ],
+     "answer": 3,
+     "explain": "Exact versions don't matter; anything from the last few years works."
+    }
+   ]
+  },
+  "level-1/02-numpy-pandas": {
+   "questions": [
+    {
+     "q": "What is the single most-checked property in ML code?",
+     "options": [
+      "name",
+      "dtype",
+      "shape",
+      "size in bytes"
+     ],
+     "answer": 2,
+     "explain": "A dataset of 150 examples with 4 features is (150, 4); shape mismatches are the most common bug."
+    },
+    {
+     "q": "What is vectorization?",
+     "options": [
+      "Applying operations element-wise with the loop running in optimized C instead of Python",
+      "Sorting arrays",
+      "Plotting arrays",
+      "Converting data to vectors of text"
+     ],
+     "answer": 0,
+     "explain": "The lesson's benchmark was roughly 50–100x faster than a Python loop."
+    },
+    {
+     "q": "What does M.mean(axis=0) compute for a 2-row, 3-column array?",
+     "options": [
+      "The median",
+      "The mean of each row",
+      "The overall mean",
+      "The mean of each column"
+     ],
+     "answer": 3,
+     "explain": "axis=0 goes down the columns, giving [2.5, 3.5, 4.5] for the example."
+    },
+    {
+     "q": "What is the practical rule when you write a for loop over data points?",
+     "options": [
+      "Look for the array operation instead",
+      "Use recursion",
+      "Convert to a list",
+      "Add more loops"
+     ],
+     "answer": 0,
+     "explain": "Training does millions of multiply-adds, so vectorization matters."
+    }
+   ]
+  },
+  "level-1/03-data-preparation": {
+   "questions": [
+    {
+     "q": "Why set aside a test set before doing anything else?",
+     "options": [
+      "To measure performance on data the model hasn't seen, and not touch it until the end",
+      "To balance classes",
+      "To speed up training",
+      "To increase accuracy"
+     ],
+     "answer": 0,
+     "explain": "A model can simply memorize training data, so evaluating on it is meaningless."
+    },
+    {
+     "q": "What does stratify=y do in train_test_split?",
+     "options": [
+      "Drops rare classes",
+      "Scales features",
+      "Keeps each class in the same proportion in both splits",
+      "Shuffles randomly"
+     ],
+     "answer": 2,
+     "explain": "It's used for classification."
+    },
+    {
+     "q": "Why impute with the median rather than the mean?",
+     "options": [
+      "It avoids NaNs entirely",
+      "It is faster",
+      "It is always larger",
+      "The median is robust to outliers"
+     ],
+     "answer": 3,
+     "explain": "SimpleImputer(strategy=\"median\") learns per-column medians from the data it's fit on."
+    },
+    {
+     "q": "What is data leakage?",
+     "options": [
+      "Losing rows",
+      "A network error",
+      "A memory leak",
+      "A silent bug that makes bad models look good"
+     ],
+     "answer": 3,
+     "explain": "It's the most important concept in practical ML data preparation."
+    }
+   ]
+  },
+  "level-1/04-regression": {
+   "questions": [
+    {
+     "q": "What does regression predict?",
+     "options": [
+      "A number, such as a house price",
+      "A cluster",
+      "An image",
+      "A category"
+     ],
+     "answer": 0,
+     "explain": "Classification predicts categories."
+    },
+    {
+     "q": "What does least squares training minimize?",
+     "options": [
+      "The training time",
+      "The squared difference between predictions and actual values on the training set",
+      "The test error only",
+      "The number of features"
+     ],
+     "answer": 1,
+     "explain": "It finds the weights w and intercept b."
+    },
+    {
+     "q": "Why is linear regression the baseline of choice?",
+     "options": [
+      "It needs no data",
+      "You can read and reason about each weight",
+      "It always has the best accuracy",
+      "It ignores outliers"
+     ],
+     "answer": 1,
+     "explain": "For example each extra unit of MedInc adds about 0.449 (≈$44,900) to the prediction."
+    },
+    {
+     "q": "Which two failure modes haunt every model?",
+     "options": [
+      "Training and testing",
+      "Splitting and imputing",
+      "Underfitting and overfitting",
+      "Scaling and encoding"
+     ],
+     "answer": 2,
+     "explain": "The module introduces both after fitting a line."
+    }
+   ]
+  },
+  "level-1/05-classification": {
+   "questions": [
+    {
+     "q": "What does logistic regression do despite its name?",
+     "options": [
+      "It clusters data",
+      "It ranks features",
+      "It is a classifier: a weighted sum squashed through a sigmoid into a probability, thresholded at 0.5",
+      "It predicts numbers"
+     ],
+     "answer": 2,
+     "explain": "It outputs probabilities between 0 and 1."
+    },
+    {
+     "q": "Why does predict_proba matter in practice?",
+     "options": [
+      "It replaces scaling",
+      "It's faster than predict",
+      "'97% likely benign' supports different decisions than '51% likely benign', though predict returns 1 for both",
+      "It trains the model"
+     ],
+     "answer": 2,
+     "explain": "Probabilities carry confidence that labels hide."
+    },
+    {
+     "q": "Why is scaling done inside a pipeline for logistic regression?",
+     "options": [
+      "Trees need scaling",
+      "It's required by sklearn",
+      "It, like most non-tree models, cares about feature scale",
+      "To add features"
+     ],
+     "answer": 2,
+     "explain": "Decision trees need no scaling and are directly inspectable."
+    },
+    {
+     "q": "What does stratify=y preserve in the breast cancer split?",
+     "options": [
+      "The random seed",
+      "The feature order",
+      "The feature scale",
+      "The class ratio (about 63/37) in both splits"
+     ],
+     "answer": 3,
+     "explain": "The dataset has 357 benign and 212 malignant tumors."
+    }
+   ]
+  },
+  "level-1/06-clustering-unsupervised": {
+   "questions": [
+    {
+     "q": "What distinguishes unsupervised learning?",
+     "options": [
+      "It needs labels y",
+      "It finds structure with no labels at all",
+      "It predicts numbers",
+      "It requires a test set only"
+     ],
+     "answer": 1,
+     "explain": "fit_predict in the k-means example consumes only X."
+    },
+    {
+     "q": "Why scale features before k-means on real data?",
+     "options": [
+      "It speeds up plotting",
+      "k-means requires text",
+      "k-means is pure distance math, so scale dominates distances",
+      "It chooses k"
+     ],
+     "answer": 2,
+     "explain": "Use StandardScaler."
+    },
+    {
+     "q": "What does the elbow method look for?",
+     "options": [
+      "The lowest silhouette",
+      "The bend in inertia versus k where improvements level off",
+      "The first k",
+      "The maximum inertia"
+     ],
+     "answer": 1,
+     "explain": "In the example, inertia drops hugely until k=4, then only marginally."
+    },
+    {
+     "q": "What is true of cluster IDs?",
+     "options": [
+      "They match true labels",
+      "They are always sorted",
+      "They are probabilities",
+      "They are arbitrary: only the grouping is meaningful"
+     ],
+     "answer": 3,
+     "explain": "Cluster 2 this run may be cluster 0 next run."
+    }
+   ]
+  },
+  "level-1/07-model-evaluation": {
+   "questions": [
+    {
+     "q": "What does the five-seed experiment show?",
+     "options": [
+      "Seeds are irrelevant",
+      "Accuracy wobbles by 3+ points depending on the split, so a single number is partly luck",
+      "Logistic regression fails",
+      "Accuracy never changes"
+     ],
+     "answer": 1,
+     "explain": "Same model, same data."
+    },
+    {
+     "q": "How does k-fold cross-validation work?",
+     "options": [
+      "Train on the test set",
+      "Shuffle only",
+      "Train k times, holding out a different fold each time, and report mean ± std",
+      "Train once on all data"
+     ],
+     "answer": 2,
+     "explain": "Every row is used for testing exactly once."
+    },
+    {
+     "q": "Why is the scaler inside a Pipeline important for CV?",
+     "options": [
+      "It's re-fit inside each fold on that fold's training portion, avoiding leakage",
+      "It removes folds",
+      "It picks hyperparameters",
+      "It makes CV faster"
+     ],
+     "answer": 0,
+     "explain": "Scaling X once up front leaks test fold statistics."
+    },
+    {
+     "q": "What is the cost of cross-validation?",
+     "options": [
+      "Lower accuracy",
+      "k model fits instead of 1",
+      "No cost",
+      "More data needed"
+     ],
+     "answer": 1,
+     "explain": "cv=5 or cv=10 are standard."
+    }
+   ]
+  },
+  "level-1/08-feature-engineering-pipelines": {
+   "questions": [
+    {
+     "q": "What does a scikit-learn Pipeline guarantee?",
+     "options": [
+      "Higher accuracy always",
+      "No overfitting",
+      "Preprocessing is learned only from training data, with the whole pipeline refit per CV fold",
+      "Faster models"
+     ],
+     "answer": 2,
+     "explain": "You literally cannot forget to re-fit the scaler per fold."
+    },
+    {
+     "q": "What does pipe.predict/pipe.score do with the scaler?",
+     "options": [
+      "Only transform (no fitting)",
+      "Refit it on test data",
+      "Skip it",
+      "fit_transform again"
+     ],
+     "answer": 0,
+     "explain": "pipe.fit runs fit_transform through each step, then fits the final model."
+    },
+    {
+     "q": "What is feature engineering?",
+     "options": [
+      "Scaling only",
+      "Deriving columns that expose the signal more directly",
+      "Removing all columns",
+      "Choosing a model"
+     ],
+     "answer": 1,
+     "explain": "Models can only use the information you give them, in the form you give it."
+    },
+    {
+     "q": "What is the standard real-world skeleton the module builds toward?",
+     "options": [
+      "A decision tree only",
+      "A single scaler",
+      "A manual loop",
+      "ColumnTransformer inside a Pipeline"
+     ],
+     "answer": 3,
+     "explain": "It handles different column types in one object."
+    }
+   ]
+  },
+  "level-1/09-neural-networks-pytorch": {
+   "questions": [
+    {
+     "q": "What two additions does a torch.Tensor have over a NumPy ndarray?",
+     "options": [
+      "It is immutable and text-only",
+      "It can live on a GPU and it can track gradients",
+      "It is always 64-bit and sorted",
+      "It has labels and indexes"
+     ],
+     "answer": 1,
+     "explain": "Shapes, vectorization and reductions transfer directly, using dim instead of axis."
+    },
+    {
+     "q": "What does loss.backward() compute for loss = (w - 5)^2 at w = 3?",
+     "options": [
+      "w.grad = 5",
+      "w.grad = -4",
+      "w.grad = 0",
+      "w.grad = 4"
+     ],
+     "answer": 1,
+     "explain": "d(loss)/dw = 2(3−5) = −4."
+    },
+    {
+     "q": "In which direction does gradient descent nudge w?",
+     "options": [
+      "Along the gradient",
+      "To zero",
+      "Randomly",
+      "A small step against the gradient: w ← w − lr · grad"
+     ],
+     "answer": 3,
+     "explain": "A negative gradient means loss decreases if w increases, so w increases."
+    },
+    {
+     "q": "What is a neural net, under the hype?",
+     "options": [
+      "A decision tree",
+      "A lookup table",
+      "A rule-based system",
+      "Layers of linear regression with non-linear squashes between them, trained by gradient descent"
+     ],
+     "answer": 3,
+     "explain": "Tensors, autograd, an MLP and the training loop are the four core ideas."
+    }
+   ]
+  },
+  "level-1/10-capstone-project": {
+   "questions": [
+    {
+     "q": "Why does all data logic live in prepare.py, imported by both training and prediction?",
+     "options": [
+      "So the exact same code path that prepared training data prepares future data",
+      "To reduce file count",
+      "Because joblib requires it",
+      "To speed up training"
+     ],
+     "answer": 0,
+     "explain": "Divergence between those paths is where production ML bugs come from."
+    },
+    {
+     "q": "What data quirk does the exploration step reveal about the target?",
+     "options": [
+      "It has no variance",
+      "MedHouseVal is capped at 5.0 ($500k)",
+      "It is negative",
+      "It is categorical"
+     ],
+     "answer": 1,
+     "explain": "It also shows outliers such as 141 rooms per household."
+    },
+    {
+     "q": "Which feature correlates most with house value?",
+     "options": [
+      "Population",
+      "MedInc (about 0.688)",
+      "HouseAge",
+      "Latitude"
+     ],
+     "answer": 1,
+     "explain": "Income dominates."
+    },
+    {
+     "q": "What does train.py save for reuse?",
+     "options": [
+      "The plots",
+      "A notebook",
+      "The raw data",
+      "The trained pipeline as model.joblib"
+     ],
+     "answer": 3,
+     "explain": "predict.py loads it to predict for new districts."
+    }
+   ]
+  },
+  "level-2/01-ensemble-methods": {
+   "questions": [
+    {
+     "q": "What is bagging?",
+     "options": [
+      "Pruning trees",
+      "Stacking different models",
+      "Training sequentially on residuals",
+      "Training many copies of a model on bootstrap samples (drawn with replacement) and averaging predictions"
+     ],
+     "answer": 3,
+     "explain": "It mostly tames variance, not bias."
+    },
+    {
+     "q": "What extra randomness does a random forest add?",
+     "options": [
+      "Random test sets",
+      "Only a random subset of features is considered at each split",
+      "Random labels",
+      "Random learning rates"
+     ],
+     "answer": 1,
+     "explain": "This decorrelates the trees."
+    },
+    {
+     "q": "What does max_features=\"sqrt\" mean?",
+     "options": [
+      "Each split considers about the square root of the number of features",
+      "All features are used",
+      "Features are square-rooted",
+      "Only 2 features are used"
+     ],
+     "answer": 0,
+     "explain": "It's the default for classification."
+    },
+    {
+     "q": "Why does a single decision tree overfit easily?",
+     "options": [
+      "It ignores features",
+      "It memorizes noise along with signal",
+      "It is too shallow",
+      "It needs scaling"
+     ],
+     "answer": 1,
+     "explain": "Ensembles combine many models so their errors average out."
+    }
+   ]
+  },
+  "level-2/02-gradient-boosting-xgboost": {
+   "questions": [
+    {
+     "q": "How does boosting differ from a random forest?",
+     "options": [
+      "Forests build sequentially",
+      "They are identical",
+      "Boosting builds trees sequentially, each correcting the ensemble's errors; forests build independent trees and average",
+      "Boosting uses no trees"
+     ],
+     "answer": 2,
+     "explain": "Boosting is usually the strongest technique for tabular data."
+    },
+    {
+     "q": "What is a weak learner here?",
+     "options": [
+      "A shallow tree (e.g. max_depth=3) adding a small learning_rate-scaled correction",
+      "A model with no data",
+      "A linear model only",
+      "A neural net"
+     ],
+     "answer": 0,
+     "explain": "The ensemble solves the problem collectively over many small steps."
+    },
+    {
+     "q": "What does early stopping do in XGBoost?",
+     "options": [
+      "Removes features",
+      "Stops adding trees once validation loss stalls",
+      "Stops training immediately",
+      "Skips validation"
+     ],
+     "answer": 1,
+     "explain": "E.g. 143 of 2000 trees used."
+    },
+    {
+     "q": "What do subsample and colsample_bytree do?",
+     "options": [
+      "Scale features",
+      "Set the learning rate",
+      "Add bagging-style row and column subsampling per tree to fight overfitting",
+      "Reduce the dataset"
+     ],
+     "answer": 2,
+     "explain": "XGBoost is boosting plus a bit of bagging."
+    }
+   ]
+  },
+  "level-2/03-time-series": {
+   "questions": [
+    {
+     "q": "Why is a random train_test_split invalid for time series?",
+     "options": [
+      "It is too slow",
+      "It needs scaling",
+      "It removes seasonality",
+      "It would let the model train on future days and be tested on earlier ones"
+     ],
+     "answer": 3,
+     "explain": "Split by time instead, or use TimeSeriesSplit."
+    },
+    {
+     "q": "Why write shift(1).rolling(7).mean() instead of rolling(7).mean()?",
+     "options": [
+      "To get more rows",
+      "So the feature for day t only uses data available before day t",
+      "To change the window size",
+      "To save memory"
+     ],
+     "answer": 1,
+     "explain": "An un-shifted window silently includes today's own target value, the most common time-series ML bug."
+    },
+    {
+     "q": "What do lag features capture?",
+     "options": [
+      "The future",
+      "Random noise",
+      "The test set",
+      "Earlier values of the series, such as the value 1, 2 or 7 days ago"
+     ],
+     "answer": 3,
+     "explain": "They are created with shift(lag)."
+    },
+    {
+     "q": "What does TimeSeriesSplit do?",
+     "options": [
+      "Multiple folds that each still respect time order",
+      "Splits by class",
+      "Random folds",
+      "Shuffles rows"
+     ],
+     "answer": 0,
+     "explain": "Training windows grow with each fold."
+    }
+   ]
+  },
+  "level-2/04-nlp-basics": {
+   "questions": [
+    {
+     "q": "What is a bag of words?",
+     "options": [
+      "A sequence model",
+      "An embedding",
+      "A tokenizer",
+      "Each document as a vector of word counts, with word order thrown away"
+     ],
+     "answer": 3,
+     "explain": "CountVectorizer builds the vocabulary and counts."
+    },
+    {
+     "q": "What problem does TF-IDF address?",
+     "options": [
+      "Slow training",
+      "Raw counts over-value words that are frequent everywhere; it rescales by how distinctive a word is across the corpus",
+      "Missing values",
+      "Class imbalance"
+     ],
+     "answer": 1,
+     "explain": "It down-weights common words."
+    },
+    {
+     "q": "Why call tfidf.transform (not fit_transform) on the test set?",
+     "options": [
+      "To drop stop words",
+      "To avoid sparse matrices",
+      "To reuse the training vocabulary and IDF",
+      "To save time"
+     ],
+     "answer": 2,
+     "explain": "Fitting on test data would leak."
+    },
+    {
+     "q": "What does the lesson do with the classifier's coefficients?",
+     "options": [
+      "Tune k",
+      "Drop features",
+      "Inspect the highest and lowest to see the most 'space' and most 'baseball' words",
+      "Plot loss"
+     ],
+     "answer": 2,
+     "explain": "It reveals what the model actually learned."
+    }
+   ]
+  },
+  "level-2/05-cnns-images": {
+   "questions": [
+    {
+     "q": "Why are CNNs better than plain MLPs for images?",
+     "options": [
+      "They have fewer layers",
+      "They ignore pixels",
+      "They exploit spatial structure instead of treating pixels as a flat list",
+      "They need no training"
+     ],
+     "answer": 2,
+     "explain": "Nearby pixels are related."
+    },
+    {
+     "q": "What shape is a FashionMNIST image tensor?",
+     "options": [
+      "(784,)",
+      "(3, 224, 224)",
+      "(1, 28, 28): channels, height, width",
+      "(28, 28, 3)"
+     ],
+     "answer": 2,
+     "explain": "One grayscale channel; color photos would have 3."
+    },
+    {
+     "q": "What does nn.MaxPool2d(2) do?",
+     "options": [
+      "Halves height and width",
+      "Flattens the image",
+      "Doubles them",
+      "Adds channels"
+     ],
+     "answer": 0,
+     "explain": "28×28 becomes 14×14, then 7×7."
+    },
+    {
+     "q": "What does the final layer output?",
+     "options": [
+      "Images",
+      "Probabilities",
+      "Loss",
+      "Raw logits for 10 classes"
+     ],
+     "answer": 3,
+     "explain": "CrossEntropyLoss takes logits."
+    }
+   ]
+  },
+  "level-2/06-transfer-learning": {
+   "questions": [
+    {
+     "q": "What is transfer learning?",
+     "options": [
+      "Converting models to ONNX",
+      "Copying data between folders",
+      "Reusing a network pretrained on a huge dataset and adapting it to a smaller task",
+      "Training from scratch"
+     ],
+     "answer": 2,
+     "explain": "It needs far less data and training time."
+    },
+    {
+     "q": "How many parameters train when only the new 3-class head is trainable?",
+     "options": [
+      "11,178,051",
+      "512",
+      "1,000",
+      "1,539 (512 × 3 + 3)"
+     ],
+     "answer": 3,
+     "explain": "The other ~11.2M parameters stay frozen."
+    },
+    {
+     "q": "Why must you use the same normalization statistics as pretraining?",
+     "options": [
+      "It's a style choice",
+      "It's required by ImageFolder",
+      "Differently scaled images shift activations away from the ranges the filters were tuned for, destroying the benefit",
+      "It speeds loading"
+     ],
+     "answer": 2,
+     "explain": "Use weights.transforms()."
+    },
+    {
+     "q": "What does requires_grad = False do?",
+     "options": [
+      "Deletes it",
+      "Moves it to the GPU",
+      "Freezes a weight so it isn't updated",
+      "Normalizes it"
+     ],
+     "answer": 2,
+     "explain": "It freezes the backbone."
+    }
+   ]
+  },
+  "level-2/07-model-interpretability": {
+   "questions": [
+    {
+     "q": "What does permutation importance measure?",
+     "options": [
+      "The drop in performance when a feature's values are shuffled, breaking its relationship to the target",
+      "The feature's variance",
+      "The correlation with the target",
+      "How often a feature is used for splitting"
+     ],
+     "answer": 0,
+     "explain": "It is model-agnostic and computed on held-out data."
+    },
+    {
+     "q": "Why can feature_importances_ be misleading?",
+     "options": [
+      "It ignores splits",
+      "It needs a GPU",
+      "It counts how often a feature is used for splitting, which can be biased toward high-cardinality features",
+      "It is random"
+     ],
+     "answer": 2,
+     "explain": "Permutation importance is computed on X_test instead."
+    },
+    {
+     "q": "What does partial dependence show that importance does not?",
+     "options": [
+      "The test split",
+      "The shape of the relationship between a feature and the prediction",
+      "How much a feature matters",
+      "The training loss"
+     ],
+     "answer": 1,
+     "explain": "For MedInc, value rises steeply then flattens: diminishing returns."
+    },
+    {
+     "q": "Why does interpretability matter in credit, healthcare and hiring?",
+     "options": [
+      "It speeds training",
+      "Interpretable models are always more accurate",
+      "Regulators require deep nets",
+      "A model that predicts well but can't explain why is a liability in regulated domains"
+     ],
+     "answer": 3,
+     "explain": "It's also a debugging aid everywhere else."
+    }
+   ]
+  },
+  "level-2/08-imbalanced-data": {
+   "questions": [
+    {
+     "q": "Why apply resampling only to the training set?",
+     "options": [
+      "Resampling can't run on test data",
+      "Test sets are too small",
+      "It reduces overfitting",
+      "The test set must stay a faithful sample of real-world class proportions for an honest estimate"
+     ],
+     "answer": 3,
+     "explain": "Never resample X_test."
+    },
+    {
+     "q": "What does SMOTE do?",
+     "options": [
+      "Scales features",
+      "Synthesizes new minority-class rows",
+      "Duplicates minority rows",
+      "Drops majority rows"
+     ],
+     "answer": 1,
+     "explain": "RandomOverSampler duplicates; RandomUnderSampler drops majority rows."
+    },
+    {
+     "q": "What trade-off do the resampling results show versus the baseline?",
+     "options": [
+      "Both fall",
+      "Nothing changes",
+      "Recall rises sharply (0.18 → ~0.8) while precision falls",
+      "Both rise"
+     ],
+     "answer": 2,
+     "explain": "Baseline precision 0.833 with recall 0.179."
+    },
+    {
+     "q": "Why choose a decision threshold deliberately?",
+     "options": [
+      "scikit-learn's default of 0.5 may not suit the cost of errors",
+      "0.5 is always optimal",
+      "It changes the model weights",
+      "Thresholds don't matter"
+     ],
+     "answer": 0,
+     "explain": "ROC and precision-recall curves evaluate across all thresholds."
+    }
+   ]
+  },
+  "level-2/09-recommender-systems": {
+   "questions": [
+    {
+     "q": "What is the idea of user-based collaborative filtering?",
+     "options": [
+      "Use item text",
+      "Recommend the most popular items",
+      "Find users with similar rating patterns and recommend what they liked that you haven't seen",
+      "Cluster items"
+     ],
+     "answer": 2,
+     "explain": "The lesson uses cosine similarity."
+    },
+    {
+     "q": "How sparse are real recommender datasets typically?",
+     "options": [
+      "About 50%",
+      "About 10%",
+      "More than 95% sparse",
+      "Fully dense"
+     ],
+     "answer": 2,
+     "explain": "Most users have rated only a handful of items."
+    },
+    {
+     "q": "What does matrix factorization learn?",
+     "options": [
+      "A decision tree",
+      "A lookup table",
+      "Cluster centers",
+      "A small vector of latent factors per user and item whose dot product approximates observed ratings"
+     ],
+     "answer": 3,
+     "explain": "Neighborhood methods scale poorly and struggle with sparsity."
+    },
+    {
+     "q": "What fallback does predict_rating use when no neighbor rated the item?",
+     "options": [
+      "The item's global average rating",
+      "The user's average",
+      "Zero",
+      "An error"
+     ],
+     "answer": 0,
+     "explain": "It avoids returning nothing."
+    }
+   ]
+  },
+  "level-2/10-project-modeling-workflow": {
+   "questions": [
+    {
+     "q": "Why does the churn project use average_precision for the search score?",
+     "options": [
+      "It ignores recall",
+      "It is faster",
+      "It suits an imbalanced (~80/20) classification problem",
+      "It's the default for all models"
+     ],
+     "answer": 2,
+     "explain": "RandomizedSearchCV scores with it."
+    },
+    {
+     "q": "What does scale_pos_weight do in XGBoost here?",
+     "options": [
+      "Sets the learning rate",
+      "Drops rows",
+      "Scales features",
+      "Counteracts the 80/20 class imbalance"
+     ],
+     "answer": 3,
+     "explain": "Candidates include 1, 3 and 4."
+    },
+    {
+     "q": "What does ColumnTransformer allow?",
+     "options": [
+      "Plotting",
+      "Resampling",
+      "Scaling numeric columns and one-hot encoding the categorical column in one preprocessing step",
+      "Training a model"
+     ],
+     "answer": 2,
+     "explain": "has_addon is passed through unchanged with remainder=\"passthrough\"."
+    },
+    {
+     "q": "Which factors drive churn in the simulated data?",
+     "options": [
+      "Random noise only",
+      "Tenure, contract type and support tickets",
+      "Only price",
+      "Only add-ons"
+     ],
+     "answer": 1,
+     "explain": "Month-to-month contracts and tickets raise churn; tenure lowers it."
+    }
+   ]
+  },
+  "level-3/01-transformers-attention": {
+   "questions": [
+    {
+     "q": "What is self-attention?",
+     "options": [
+      "Every position in a sequence looks at every other position and decides how much to attend to it",
+      "A tokenizer",
+      "A convolution over pixels",
+      "A recurrent loop"
+     ],
+     "answer": 0,
+     "explain": "It is the core idea of the transformer."
+    },
+    {
+     "q": "In the from-scratch code, what do Q, K and V represent?",
+     "options": [
+      "What I'm looking for, what I offer, and what I contribute if attended to",
+      "Quality, kernel and value",
+      "Query, kernel and variance",
+      "Queue, key and vector"
+     ],
+     "answer": 0,
+     "explain": "Scores are Q @ K.T scaled by sqrt(d_model), then softmaxed."
+    },
+    {
+     "q": "What does each row of the attention weights satisfy?",
+     "options": [
+      "It sums to 0",
+      "It is a one-hot vector",
+      "It equals the input",
+      "It sums to 1, a distribution over all tokens"
+     ],
+     "answer": 3,
+     "explain": "The output is a weighted average of all value vectors."
+    },
+    {
+     "q": "Why use multi-head attention?",
+     "options": [
+      "Parallel smaller attentions let the model attend to different kinds of relationships at once",
+      "It speeds the tokenizer",
+      "It reduces parameters",
+      "It removes softmax"
+     ],
+     "answer": 0,
+     "explain": "d_model must be divisible by n_heads."
+    }
+   ]
+  },
+  "level-3/02-huggingface-nlp": {
+   "questions": [
+    {
+     "q": "Why do modern tokenizers rarely hit words they can't represent?",
+     "options": [
+      "They have infinite vocabularies",
+      "They use characters only",
+      "Rare words are split into known subword pieces instead of an out-of-vocabulary token",
+      "They ignore rare words"
+     ],
+     "answer": 2,
+     "explain": "For example 'unfamiliarly' becomes un, ##familiar, ##ly."
+    },
+    {
+     "q": "Why fine-tune a pretrained transformer rather than train from zero?",
+     "options": [
+      "Pretrained models are smaller",
+      "Fine-tuning needs no data",
+      "Training from scratch is faster",
+      "Nobody retrains a transformer from scratch for every task; Hugging Face provides pretrained models and a standard workflow"
+     ],
+     "answer": 3,
+     "explain": "The module covers tokenizers, loading a model and fine-tuning for classification."
+    },
+    {
+     "q": "What does torch.no_grad() do during inference?",
+     "options": [
+      "Trains the model",
+      "Skips gradient tracking",
+      "Normalizes inputs",
+      "Freezes data"
+     ],
+     "answer": 1,
+     "explain": "It's used while computing logits."
+    },
+    {
+     "q": "What does the lesson use for the fine-tuning dataset size?",
+     "options": [
+      "Random text",
+      "Only 10 reviews",
+      "A shuffled subset: 2000 training and 500 test IMDB reviews",
+      "The full 25,000 reviews"
+     ],
+     "answer": 2,
+     "explain": "Small subsets keep the example fast."
+    }
+   ]
+  },
+  "level-3/03-advanced-pytorch": {
+   "questions": [
+    {
+     "q": "Which two methods does a custom Dataset require?",
+     "options": [
+      "fit and predict",
+      "load and save",
+      "__len__ and __getitem__",
+      "forward and backward"
+     ],
+     "answer": 2,
+     "explain": "DataLoader handles batching, shuffling and parallel loading."
+    },
+    {
+     "q": "What does num_workers > 0 do?",
+     "options": [
+      "Loads data in parallel background worker processes so the GPU isn't waiting on I/O",
+      "Disables shuffling",
+      "Trains on multiple GPUs",
+      "Splits the model"
+     ],
+     "answer": 0,
+     "explain": "It keeps the GPU fed."
+    },
+    {
+     "q": "What does CosineAnnealingLR do?",
+     "options": [
+      "Smoothly decays the learning rate along a cosine curve toward 0 over T_max epochs",
+      "Keeps it fixed",
+      "Randomizes it",
+      "Increases it"
+     ],
+     "answer": 0,
+     "explain": "No manual step-function tuning is needed."
+    },
+    {
+     "q": "When is scheduler.step() called in the example?",
+     "options": [
+      "Before training",
+      "Never",
+      "After every batch",
+      "Once per epoch, after all batches"
+     ],
+     "answer": 3,
+     "explain": "The learning rate falls from 1e-2 toward 0."
+    }
+   ]
+  },
+  "level-3/04-experiment-tracking": {
+   "questions": [
+    {
+     "q": "Why track experiments with MLflow?",
+     "options": [
+      "It cleans data",
+      "It trains models faster",
+      "You can't compare 40 runs by memory; logging makes them reproducible and comparable",
+      "It replaces scikit-learn"
+     ],
+     "answer": 2,
+     "explain": "It logs parameters, metrics and artifacts."
+    },
+    {
+     "q": "What does each start_run() create?",
+     "options": [
+      "A new dataset",
+      "A new environment",
+      "A new, independently addressable record of params, metrics and the model, timestamped",
+      "A new GPU job"
+     ],
+     "answer": 2,
+     "explain": "Runs live inside a named experiment."
+    },
+    {
+     "q": "How do you view the recorded runs?",
+     "options": [
+      "mlflow plot",
+      "python -m mlflow run",
+      "mlflow ui",
+      "mlflow train"
+     ],
+     "answer": 2,
+     "explain": "The lesson prints this hint."
+    },
+    {
+     "q": "What does client.search_runs(..., order_by=[\"metrics.accuracy DESC\"]) return?",
+     "options": [
+      "Only failed runs",
+      "Model weights",
+      "Past runs sorted by accuracy, best first",
+      "All datasets"
+     ],
+     "answer": 2,
+     "explain": "It lets you query runs programmatically."
+    }
+   ]
+  },
+  "level-3/05-mlops-foundations": {
+   "questions": [
+    {
+     "q": "Why isn't git alone enough for ML projects?",
+     "options": [
+      "Git can't store code",
+      "Git deletes data",
+      "Multi-gigabyte datasets and model checkpoints aren't cheap to diff",
+      "Git needs a GPU"
+     ],
+     "answer": 2,
+     "explain": "DVC tracks large files and stores lightweight pointers in git."
+    },
+    {
+     "q": "What does data/train.csv.dvc contain?",
+     "options": [
+      "The full dataset",
+      "The model",
+      "A small pointer: a content hash and size, tracked by git",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "The actual file lives in the DVC remote, fetched with dvc pull."
+    },
+    {
+     "q": "What does dvc repro run?",
+     "options": [
+      "Only tests",
+      "Only the last stage",
+      "Only the stages whose dependencies changed since the last run",
+      "Every stage always"
+     ],
+     "answer": 2,
+     "explain": "Stages declare deps, outs, params and metrics in dvc.yaml."
+    },
+    {
+     "q": "Why pin versions in requirements.txt and use a Dockerfile?",
+     "options": [
+      "To avoid GPUs",
+      "To compress data",
+      "'Works on my machine' becomes 'works in this exact, reproducible container'",
+      "To speed up pip"
+     ],
+     "answer": 2,
+     "explain": "The same image runs on a laptop, CI and production."
+    }
+   ]
+  },
+  "level-3/06-hyperparameter-optimization": {
+   "questions": [
+    {
+     "q": "What is random search's blind spot?",
+     "options": [
+      "Trial 50 learns nothing from trials 1–49, since samples are independent of past results",
+      "It is deterministic",
+      "It needs labels",
+      "It tries too few values"
+     ],
+     "answer": 0,
+     "explain": "Bayesian optimization searches more intelligently."
+    },
+    {
+     "q": "Why sample learning_rate with log=True?",
+     "options": [
+      "It avoids negatives",
+      "The effect of 0.01 vs 0.02 is much larger than 0.20 vs 0.21",
+      "Log scale is faster",
+      "Optuna requires it"
+     ],
+     "answer": 1,
+     "explain": "A log scale matches how learning rate matters."
+    },
+    {
+     "q": "What does pruning do in Optuna?",
+     "options": [
+      "Shrinks the model",
+      "Deletes the study",
+      "Abandons a trial once it's clearly worse than the best so far, without finishing training",
+      "Removes features"
+     ],
+     "answer": 2,
+     "explain": "It monitors intermediate performance for iteratively trained models."
+    },
+    {
+     "q": "What does direction=\"maximize\" mean in the study?",
+     "options": [
+      "It maximizes trials",
+      "It maximizes loss",
+      "It maximizes depth",
+      "Optuna seeks the highest objective value, here CV ROC AUC"
+     ],
+     "answer": 3,
+     "explain": "The sampler is TPE with a seed for reproducibility."
+    }
+   ]
+  },
+  "level-3/07-distributed-training": {
+   "questions": [
+    {
+     "q": "What do GPUs speed up in neural network training?",
+     "options": [
+      "Tokenizing",
+      "Large matrix multiplications, parallelized across thousands of cores",
+      "Disk writes",
+      "Data loading"
+     ],
+     "answer": 1,
+     "explain": "Every nn.Linear and attention Q @ K.T is a matmul."
+    },
+    {
+     "q": "Why call torch.cuda.synchronize() when timing?",
+     "options": [
+      "To copy data",
+      "To start training",
+      "To free memory",
+      "GPU ops are asynchronous, so you wait for completion before reading the clock"
+     ],
+     "answer": 3,
+     "explain": "Otherwise timing would be wrong."
+    },
+    {
+     "q": "Why does production code prefer DistributedDataParallel over DataParallel?",
+     "options": [
+      "DDP is single-GPU",
+      "DDP needs no GPU",
+      "DataParallel is faster",
+      "One process per GPU with no single bottleneck device, unlike DataParallel's gradient aggregation on one GPU"
+     ],
+     "answer": 3,
+     "explain": "It's launched with torchrun --nproc_per_node=4."
+    },
+    {
+     "q": "What is data parallelism?",
+     "options": [
+      "Run two models",
+      "Compress data",
+      "Split the model layers across devices",
+      "Replicate the model and split the batch across devices"
+     ],
+     "answer": 3,
+     "explain": "Each process handles a different data shard."
+    }
+   ]
+  },
+  "level-3/08-model-compression": {
+   "questions": [
+    {
+     "q": "What are the three standard compression techniques?",
+     "options": [
+      "Bagging, boosting and stacking",
+      "Scaling, imputing and encoding",
+      "Quantization, pruning and knowledge distillation",
+      "Training, testing and validating"
+     ],
+     "answer": 2,
+     "explain": "Fewer bits per number, fewer weights, and a smaller model taught to mimic a bigger one."
+    },
+    {
+     "q": "What does quantize_dynamic do to Linear weights?",
+     "options": [
+      "Removes layers",
+      "Trains the model",
+      "Doubles precision",
+      "Converts 32-bit floats to 8-bit integers, cutting weight memory roughly 4x with usually minor accuracy loss"
+     ],
+     "answer": 3,
+     "explain": "The int8 and fp32 outputs differ slightly but not zero."
+    },
+    {
+     "q": "What does prune.l1_unstructured(layer, 'weight', amount=0.4) do?",
+     "options": [
+      "Scales weights by 0.4",
+      "Zeroes the smallest 40% of weights by magnitude",
+      "Zeroes random weights",
+      "Removes 40% of layers"
+     ],
+     "answer": 1,
+     "explain": "Small-magnitude weights contribute least to the layer's output."
+    },
+    {
+     "q": "Why call prune.remove(layer, 'weight')?",
+     "options": [
+      "To retrain",
+      "To bake the mask in permanently and drop the pruning wrapper",
+      "To undo pruning",
+      "To save the file"
+     ],
+     "answer": 1,
+     "explain": "It finalizes the pruned weights."
+    }
+   ]
+  },
+  "level-3/09-advanced-computer-vision": {
+   "questions": [
+    {
+     "q": "What does an object detection model output?",
+     "options": [
+      "A pixel mask only",
+      "One label per image",
+      "A variable-length list of (box, label, score) triples",
+      "A single probability"
+     ],
+     "answer": 2,
+     "explain": "Unlike classification, it's one triple per detected object."
+    },
+    {
+     "q": "What does semantic segmentation produce?",
+     "options": [
+      "A box per object",
+      "An image caption",
+      "A class label per pixel",
+      "A feature vector"
+     ],
+     "answer": 2,
+     "explain": "argmax(1) collapses the 21-channel score map to a class index per pixel."
+    },
+    {
+     "q": "Why filter predictions with scores > 0.7?",
+     "options": [
+      "To resize boxes",
+      "To speed up loading",
+      "To convert labels",
+      "To keep only confident detections"
+     ],
+     "answer": 3,
+     "explain": "It drops low-confidence boxes."
+    },
+    {
+     "q": "What does IoU measure for a detected box?",
+     "options": [
+      "Class accuracy",
+      "Image brightness",
+      "Overlap between two boxes: intersection area over union area",
+      "Box color"
+     ],
+     "answer": 2,
+     "explain": "The worked example computes it from box coordinates."
+    }
+   ]
+  },
+  "level-3/10-project-paper-reproduction": {
+   "questions": [
+    {
+     "q": "Which paper's claim does the capstone reproduce?",
+     "options": [
+      "ResNet",
+      "Dropout: A Simple Way to Prevent Neural Networks from Overfitting (Srivastava et al., 2014)",
+      "Adam",
+      "Attention Is All You Need"
+     ],
+     "answer": 1,
+     "explain": "Its central claim is testable in minutes."
+    },
+    {
+     "q": "What is the claim being tested?",
+     "options": [
+      "Dropout speeds training",
+      "A network with dropout generalizes better (smaller train/test gap) than an identical one without it",
+      "Dropout replaces the optimizer",
+      "Dropout adds layers"
+     ],
+     "answer": 1,
+     "explain": "Same data, architecture and optimizer."
+    },
+    {
+     "q": "Why must the comparison keep everything else identical?",
+     "options": [
+      "Because PyTorch requires it",
+      "To save time",
+      "To avoid seeds",
+      "So any difference is attributable to dropout"
+     ],
+     "answer": 3,
+     "explain": "The experiment uses the same seed, lr and epochs with dropout_p of 0.0 vs 0.5."
+    },
+    {
+     "q": "Why call model.eval() when measuring accuracy?",
+     "options": [
+      "To save the model",
+      "To turn dropout off during evaluation",
+      "To train faster",
+      "To clear gradients"
+     ],
+     "answer": 1,
+     "explain": "Dropout should only be active during training."
+    }
+   ]
+  },
+  "level-4/01-production-ml-design": {
+   "questions": [
+    {
+     "q": "What is training/serving skew?",
+     "options": [
+      "A network delay",
+      "Slow training",
+      "A GPU mismatch",
+      "The model is trained on one feature distribution but served another because of mismatched feature code"
+     ],
+     "answer": 3,
+     "explain": "It is the single most common source of production ML failures."
+    },
+    {
+     "q": "In the lesson's example, what bug causes the skew?",
+     "options": [
+      "The model is too big",
+      "The training path drops rows",
+      "The serving path substitutes a 90-day cached value for avg_purchase_30d",
+      "The API is slow"
+     ],
+     "answer": 2,
+     "explain": "It happens with no error or crash."
+    },
+    {
+     "q": "What is a feature store for?",
+     "options": [
+      "Computing features consistently for both training and online lookup",
+      "Serving HTTP",
+      "Storing logs",
+      "Storing models"
+     ],
+     "answer": 0,
+     "explain": "It reduces the two-codebases problem."
+    },
+    {
+     "q": "What closes the loop in the production architecture?",
+     "options": [
+      "More features",
+      "Online monitoring and feedback into new training data",
+      "A bigger GPU",
+      "Manual labeling only"
+     ],
+     "answer": 1,
+     "explain": "Predictions feed back into monitoring."
+    }
+   ]
+  },
+  "level-4/02-model-serving": {
+   "questions": [
+    {
+     "q": "What does pydantic do in the FastAPI serving example?",
+     "options": [
+      "Trains the model",
+      "Handles GPUs",
+      "Validates the request shape and types, returning a clear 422 for malformed requests before they reach the model",
+      "Compresses data"
+     ],
+     "answer": 2,
+     "explain": "PredictRequest and PredictResponse define the schema."
+    },
+    {
+     "q": "Why export a model to ONNX?",
+     "options": [
+      "To compress data",
+      "Portable, optimized inference that runs from Python, C++ or mobile without PyTorch installed",
+      "To train faster",
+      "To add layers"
+     ],
+     "answer": 1,
+     "explain": "ONNX Runtime applies framework-agnostic optimizations like operator fusion."
+    },
+    {
+     "q": "What does dynamic_axes batch_size allow?",
+     "options": [
+      "Changing layers",
+      "Resizing images",
+      "Dynamic learning rate",
+      "The exported model to accept varying batch sizes"
+     ],
+     "answer": 3,
+     "explain": "It marks the batch dimension as variable."
+    },
+    {
+     "q": "What is the point of batching requests?",
+     "options": [
+      "Lower accuracy",
+      "Fewer endpoints",
+      "Encryption",
+      "Higher throughput by running several predictions together within a max size and wait time"
+     ],
+     "answer": 3,
+     "explain": "BatchPredictor uses max_batch_size and max_wait_ms."
+    }
+   ]
+  },
+  "level-4/03-feature-stores-data-eng": {
+   "questions": [
+    {
+     "q": "What does a feature store eliminate?",
+     "options": [
+      "Duplicated feature logic: one definition computed once and served from batch (training) and low-latency (online) paths",
+      "Model registries",
+      "The need for labels",
+      "GPUs"
+     ],
+     "answer": 0,
+     "explain": "It directly addresses training/serving skew."
+    },
+    {
+     "q": "How do the offline and online stores differ?",
+     "options": [
+      "Offline serves requests",
+      "Online keeps history",
+      "They're identical",
+      "Offline keeps full point-in-time history for training; online keeps only the current value per entity for live predictions"
+     ],
+     "answer": 3,
+     "explain": "Each holds what its use case needs."
+    },
+    {
+     "q": "What does the naive feature lookup do wrong for training?",
+     "options": [
+      "It drops rows",
+      "It grabs the latest value, ignoring when the label happened, leaking the future",
+      "It sorts by user",
+      "It scales features"
+     ],
+     "answer": 1,
+     "explain": "For a label on Jan 20 it returned 55.3 from Feb instead of 42.1."
+    },
+    {
+     "q": "What is point-in-time correctness?",
+     "options": [
+      "Using the newest data",
+      "Using random data",
+      "Using only feature values that existed before the label's timestamp",
+      "Using test data"
+     ],
+     "answer": 2,
+     "explain": "The lesson compares it to the rolling-window leakage bug."
+    }
+   ]
+  },
+  "level-4/04-ci-cd-ml": {
+   "questions": [
+    {
+     "q": "Why isn't code-only CI enough for ML?",
+     "options": [
+      "Models don't need tests",
+      "ML fails in ways like silently dropped features, valid-but-worse models and shifting metric behavior",
+      "CI is too slow",
+      "ML code can't be tested"
+     ],
+     "answer": 1,
+     "explain": "You also test data and model behavior."
+    },
+    {
+     "q": "What does test_model_beats_naive_baseline check?",
+     "options": [
+      "The model is small",
+      "The data has no nulls",
+      "The code compiles",
+      "The model beats predicting the majority class by a margin"
+     ],
+     "answer": 3,
+     "explain": "It asserts accuracy exceeds baseline + 0.05."
+    },
+    {
+     "q": "What does the invariance test show?",
+     "options": [
+      "Models never change",
+      "IDs are features",
+      "Changing an irrelevant feature like customer ID shouldn't change predictions",
+      "Predictions are random"
+     ],
+     "answer": 2,
+     "explain": "It compares predictions before and after perturbing the ID."
+    },
+    {
+     "q": "What does the no-regression test guard against?",
+     "options": [
+      "Slow builds",
+      "Missing columns",
+      "Deploying a retrained model that is worse than the production model",
+      "Large files"
+     ],
+     "answer": 2,
+     "explain": "It allows at most a 0.01 drop in accuracy."
+    }
+   ]
+  },
+  "level-4/05-monitoring-drift": {
+   "questions": [
+    {
+     "q": "Why can a model that passed every CI gate still degrade?",
+     "options": [
+      "GPUs fail",
+      "Code rots",
+      "The world keeps changing after deployment while the model stays frozen",
+      "CI is wrong"
+     ],
+     "answer": 2,
+     "explain": "You need monitoring and drift detection."
+    },
+    {
+     "q": "Why log features, predictions and model version at prediction time?",
+     "options": [
+      "To save disk",
+      "To satisfy Python",
+      "To train faster",
+      "Without the actual production inputs, drift detection is impossible after the fact"
+     ],
+     "answer": 3,
+     "explain": "You compare production inputs to the training distribution."
+    },
+    {
+     "q": "What does PSI measure?",
+     "options": [
+      "Accuracy",
+      "Latency",
+      "Model size",
+      "How much a feature's production distribution has shifted from the training distribution"
+     ],
+     "answer": 3,
+     "explain": "PSI < 0.1 means no significant drift; 0.1–0.25 moderate; above that is serious."
+    },
+    {
+     "q": "What does 'close the loop' mean here?",
+     "options": [
+      "Stopping logging",
+      "Closing connections",
+      "Automated retraining triggers when drift is detected",
+      "Archiving models"
+     ],
+     "answer": 2,
+     "explain": "Detect statistically, not by gut feel."
+    }
+   ]
+  },
+  "level-4/06-ab-testing-online-eval": {
+   "questions": [
+    {
+     "q": "Why assign variants by hashing (user_id, experiment_name)?",
+     "options": [
+      "It's stateless, stable per user, and gives independent splits across experiments",
+      "It needs a database",
+      "It's random each time",
+      "It gives equal users to all"
+     ],
+     "answer": 0,
+     "explain": "The experiment name acts as a salt."
+    },
+    {
+     "q": "Why compute required sample size before launching?",
+     "options": [
+      "To know how long the test must run and whether the effect is even detectable at your traffic",
+      "To set alpha",
+      "To choose a hash",
+      "To pick a model"
+     ],
+     "answer": 0,
+     "explain": "The example needs 14,057 users per variant for a 1pp lift at 80% power."
+    },
+    {
+     "q": "What is the risk of early peeking?",
+     "options": [
+      "Higher traffic",
+      "Slower tests",
+      "Fooling yourself with significance you don't actually have",
+      "Lower power only"
+     ],
+     "answer": 2,
+     "explain": "The lesson stresses reading results without overclaiming."
+    },
+    {
+     "q": "What do alpha=0.05 and power=0.8 mean in sizing?",
+     "options": [
+      "5% sample",
+      "95% accuracy and 20% error",
+      "80% traffic",
+      "5% false-positive tolerance and 80% chance to detect the true effect"
+     ],
+     "answer": 3,
+     "explain": "They set the z values used in the sample-size formula."
+    }
+   ]
+  },
+  "level-4/07-responsible-ai": {
+   "questions": [
+    {
+     "q": "What is demographic parity?",
+     "options": [
+      "Equal selection rates across groups",
+      "Equal accuracy",
+      "Equal group sizes",
+      "Equal true positive rates among those who should be approved"
+     ],
+     "answer": 0,
+     "explain": "Equal opportunity is equal true positive rates."
+    },
+    {
+     "q": "Why does a fairness report compute both demographic parity and equal opportunity?",
+     "options": [
+      "One is deprecated",
+      "They're different, sometimes mutually exclusive, definitions: a model can satisfy one and violate the other",
+      "Only one is legal",
+      "They are identical"
+     ],
+     "answer": 1,
+     "explain": "The lesson doesn't pick one number to optimize."
+    },
+    {
+     "q": "How can an accurate model still fail?",
+     "options": [
+      "It can't",
+      "Only with GPUs",
+      "It can systematically fail a subgroup, leak information about individuals, or be tricked by a crafted input",
+      "It only fails on average"
+     ],
+     "answer": 2,
+     "explain": "These are things you compute and test, not just ethics theory."
+    },
+    {
+     "q": "What does the Laplace mechanism in differential privacy do?",
+     "options": [
+      "Normalizes data",
+      "Encrypts the model",
+      "Adds calibrated noise scaled by sensitivity and epsilon",
+      "Removes rows"
+     ],
+     "answer": 2,
+     "explain": "It is the lesson's basic mechanics of differential privacy."
+    }
+   ]
+  },
+  "level-4/08-efficient-inference": {
+   "questions": [
+    {
+     "q": "What variable does this module target compared with Module 02?",
+     "options": [
+      "Data size",
+      "Training time",
+      "Accuracy",
+      "Total infrastructure cost per served prediction, rather than per-request latency"
+     ],
+     "answer": 3,
+     "explain": "It uses quantization, distillation and caching."
+    },
+    {
+     "q": "What did int8 dynamic quantization achieve in the example?",
+     "options": [
+      "Same size but faster",
+      "Larger and slower",
+      "About 4x smaller (42.3MB → 10.9MB) and faster (1.842ms → 0.612ms)",
+      "No change"
+     ],
+     "answer": 2,
+     "explain": "The accuracy cost must be validated, not assumed negligible."
+    },
+    {
+     "q": "What does the distillation loss combine?",
+     "options": [
+      "Two teachers",
+      "Matching the teacher's soft output distribution (KL divergence) and getting the true label right",
+      "L1 and L2 regularization",
+      "Two datasets"
+     ],
+     "answer": 1,
+     "explain": "alpha weights the distill term; temperature softens the distributions."
+    },
+    {
+     "q": "Why multiply the distillation term by temperature**2?",
+     "options": [
+      "To avoid KL",
+      "To keep gradient magnitudes comparable after softening",
+      "To speed up inference",
+      "To lower the loss"
+     ],
+     "answer": 1,
+     "explain": "It's part of the standard formulation used in the lesson's code."
+    }
+   ]
+  },
+  "level-4/09-ml-platform-practices": {
+   "questions": [
+    {
+     "q": "What is an ML platform?",
+     "options": [
+      "A single model server",
+      "A dataset",
+      "A notebook tool",
+      "Shared infrastructure that lets many teams train, serve and monitor many models without reinventing the basics"
+     ],
+     "answer": 3,
+     "explain": "It standardizes a model registry, self-serve training/serving and multi-tenant isolation."
+    },
+    {
+     "q": "What does a model registry provide?",
+     "options": [
+      "A single source of truth for what's deployed where",
+      "GPU scheduling",
+      "Faster training",
+      "Feature scaling"
+     ],
+     "answer": 0,
+     "explain": "Instead of a spreadsheet or a teammate's memory."
+    },
+    {
+     "q": "What happens to the old production version when a new one is promoted?",
+     "options": [
+      "It becomes STAGING",
+      "It's deleted",
+      "It stays in production",
+      "It's moved to ARCHIVED; only one PRODUCTION version at a time"
+     ],
+     "answer": 3,
+     "explain": "The promote method enforces this."
+    },
+    {
+     "q": "What stage does a newly registered model start in?",
+     "options": [
+      "ARCHIVED",
+      "STAGING",
+      "DRAFT",
+      "PRODUCTION"
+     ],
+     "answer": 1,
+     "explain": "register() creates it as STAGING."
+    }
+   ]
+  },
+  "level-4/10-capstone-production-service": {
+   "questions": [
+    {
+     "q": "What service does the capstone build?",
+     "options": [
+      "An image classifier",
+      "A chatbot",
+      "A recommender",
+      "A fraud-scoring API"
+     ],
+     "answer": 3,
+     "explain": "It's trained, tested, served, drift-monitored, CI/CD-gated and A/B tested."
+    },
+    {
+     "q": "What does the /score endpoint log for each prediction?",
+     "options": [
+      "Nothing",
+      "Only the response time",
+      "Timestamp, model version, features and fraud probability, for later drift detection",
+      "Only errors"
+     ],
+     "answer": 2,
+     "explain": "It appends JSON lines to prediction_log.jsonl."
+    },
+    {
+     "q": "When is a transaction flagged?",
+     "options": [
+      "Never",
+      "Always",
+      "When the fraud probability exceeds 0.5",
+      "When amount is large only"
+     ],
+     "answer": 2,
+     "explain": "flagged = proba > 0.5."
+    },
+    {
+     "q": "Why does train.py use a stratified split and fixed seeds?",
+     "options": [
+      "To avoid joblib",
+      "To speed up",
+      "Reproducible training that preserves class balance",
+      "To shrink the model"
+     ],
+     "answer": 2,
+     "explain": "It follows the reproducible pattern from earlier modules."
+    }
+   ]
+  }
+ }
+}
