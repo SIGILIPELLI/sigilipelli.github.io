@@ -1,0 +1,2159 @@
+{
+ "course": "java-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What do JDK, JRE and JVM mean?",
+     "options": [
+      "Same",
+      "JRE builds",
+      "JDK has the tools to build; JRE runs apps; the JVM executes bytecode",
+      "JVM compiles"
+     ],
+     "answer": 2,
+     "explain": "Install a JDK to develop."
+    },
+    {
+     "q": "What does `javac Main.java` produce?",
+     "options": [
+      "A jar",
+      "Source",
+      "Main.class bytecode run by the JVM",
+      "Machine code"
+     ],
+     "answer": 2,
+     "explain": "Write once, run anywhere."
+    },
+    {
+     "q": "What is the program entry point?",
+     "options": [
+      "run()",
+      "main()",
+      "start()",
+      "public static void main(String[] args)"
+     ],
+     "answer": 3,
+     "explain": "In a class."
+    },
+    {
+     "q": "What does the file name have to match?",
+     "options": [
+      "Package",
+      "Method",
+      "Nothing",
+      "The public class name"
+     ],
+     "answer": 3,
+     "explain": "Main.java for class Main."
+    }
+   ]
+  },
+  "level-1/02-variables-data-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nint a = 7, b = 2;\nSystem.out.println(a / b + \" \" + (double) a / b + \" \" + a % b);\n}\n}\n```\n",
+     "options": [
+      "4 3.5 1",
+      "3 3.5 1",
+      "3 3 1",
+      "3.5 3.5 1"
+     ],
+     "answer": 1,
+     "explain": "Integer division truncates. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nInteger x = 127, y = 127, p = 1000, q = 1000;\nSystem.out.println((x == y) + \" \" + (p == q) + \" \" + p.equals(q));\n}\n}\n```\n",
+     "options": [
+      "true false false",
+      "true false true",
+      "false false true",
+      "true true true"
+     ],
+     "answer": 1,
+     "explain": "Integer caching: == compares references outside -128..127. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nbyte b = (byte) 200;\nlong big = Integer.MAX_VALUE + 1L;\nSystem.out.println(b + \" \" + big);\n}\n}\n```\n",
+     "options": [
+      "200 2147483648",
+      "-56 2147483648",
+      "-56 -2147483648",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Narrowing wraps; use L for long arithmetic. Verified by compiling and running it."
+    },
+    {
+     "q": "What does `var` do?",
+     "options": [
+      "Dynamic typing",
+      "Object",
+      "Infers the local variable's type at compile time (still statically typed)",
+      "Any"
+     ],
+     "answer": 2,
+     "explain": "Java 10+."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nint s = 0;\nfor (int i = 1; i <= 10; i++) { if (i % 2 == 0) continue; if (i > 7) break; s += i; }\nSystem.out.println(s);\n}\n}\n```\n",
+     "options": [
+      "28",
+      "16",
+      "10",
+      "25"
+     ],
+     "answer": 1,
+     "explain": "1+3+5+7. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nint n = 2;\nString r = switch (n) { case 1 -> \"one\"; case 2, 3 -> \"few\"; default -> \"many\"; };\nSystem.out.println(r);\n}\n}\n```\n",
+     "options": [
+      "one",
+      "2",
+      "many",
+      "few"
+     ],
+     "answer": 3,
+     "explain": "Switch expressions (Java 14+). Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nint n = 1;\nswitch (n) { case 1: System.out.print(\"a\"); case 2: System.out.print(\"b\"); break; case 3: System.out.print(\"c\"); }\n}\n}\n```\n",
+     "options": [
+      "abc",
+      "b",
+      "ab",
+      "a"
+     ],
+     "answer": 2,
+     "explain": "Old-style switch falls through without break. Verified by compiling and running it."
+    },
+    {
+     "q": "Which loop runs at least once?",
+     "options": [
+      "while",
+      "for-each",
+      "do { } while (cond);",
+      "for"
+     ],
+     "answer": 2,
+     "explain": "Condition after the body."
+    }
+   ]
+  },
+  "level-1/04-methods-parameters": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\npublic class Main {\nstatic void change(int[] a) { a[0] = 99; }\nstatic void bump(int n) { n++; }\npublic static void main(String[] args) throws Exception {\nint[] a = {1, 2, 3};\nchange(a);\nint x = 1;\nbump(x);\nSystem.out.println(a[0] + \" \" + x);\n}\n}\n```\n",
+     "options": [
+      "99 1",
+      "1 2",
+      "1 1",
+      "99 2"
+     ],
+     "answer": 0,
+     "explain": "Java passes references by value: arrays change, primitives don't. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\npublic class Main {\nstatic int sum(int... n) { int t = 0; for (int v : n) t += v; return t; }\npublic static void main(String[] args) throws Exception {\nSystem.out.println(sum(1, 2, 3) + \" \" + sum());\n}\n}\n```\n",
+     "options": [
+      "3 0",
+      "6 0",
+      "6 6",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Varargs. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\npublic class Main {\nstatic String f(int x) { return \"int\"; }\nstatic String f(long x) { return \"long\"; }\nstatic String f(double x) { return \"double\"; }\npublic static void main(String[] args) throws Exception {\nSystem.out.println(f(1) + \" \" + f(1L) + \" \" + f(1.0));\n}\n}\n```\n",
+     "options": [
+      "int int int",
+      "long long double",
+      "Error",
+      "int long double"
+     ],
+     "answer": 3,
+     "explain": "Overload resolution picks the best match. Verified by compiling and running it."
+    },
+    {
+     "q": "What's the difference between a method signature and its return type?",
+     "options": [
+      "Reverse",
+      "The signature is name plus parameter types; return type isn't part of overload identity",
+      "None",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Can't overload by return type."
+    }
+   ]
+  },
+  "level-1/05-arrays-collections": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\nimport java.util.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nint[] a = {5, 3, 8};\nArrays.sort(a);\nList<Integer> l = new ArrayList<>(List.of(3, 1, 2));\nCollections.sort(l);\nl.add(0, 9);\nSystem.out.println(Arrays.toString(a) + \" \" + l + \" \" + l.indexOf(2));\n}\n}\n```\n",
+     "options": [
+      "[5, 3, 8] [9, 1, 2, 3] 2",
+      "Error",
+      "[3, 5, 8] [9, 1, 2, 3] 2",
+      "[3, 5, 8] [1, 2, 3, 9] 3"
+     ],
+     "answer": 2,
+     "explain": "ArrayList supports insertion by index. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\nimport java.util.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nMap<String,Integer> m = new HashMap<>();\nm.merge(\"a\", 1, Integer::sum); m.merge(\"a\", 1, Integer::sum); m.putIfAbsent(\"b\", 7);\nSystem.out.println(new TreeMap<>(m));\n}\n}\n```\n",
+     "options": [
+      "Error",
+      "{a=2}",
+      "{a=2, b=7}",
+      "{a=1, b=7}"
+     ],
+     "answer": 2,
+     "explain": "merge combines with an existing value. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\nimport java.util.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nList<Integer> l = new ArrayList<>(List.of(1, 2, 3, 4));\nl.removeIf(x -> x % 2 == 0);\ntry { for (Integer x : l) if (x == 1) l.add(9); } catch (ConcurrentModificationException e) { System.out.print(\"CME \"); }\nSystem.out.println(l);\n}\n}\n```\n",
+     "options": [
+      "Error",
+      "[1, 3]",
+      "CME [1, 3, 9]",
+      "CME [1, 3]"
+     ],
+     "answer": 2,
+     "explain": "Structural modification during iteration throws. Verified by compiling and running it."
+    },
+    {
+     "q": "When use a HashSet?",
+     "options": [
+      "For uniqueness and fast membership tests",
+      "Ordering",
+      "Duplicates",
+      "Indexing"
+     ],
+     "answer": 0,
+     "explain": "No guaranteed order."
+    }
+   ]
+  },
+  "level-1/06-strings-formatting": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nString a = \"hi\", b = \"hi\", c = new String(\"hi\");\nSystem.out.println((a == b) + \" \" + (a == c) + \" \" + a.equals(c) + \" \" + a.equals(c.intern()));\n}\n}\n```\n",
+     "options": [
+      "true true true true",
+      "true false false true",
+      "false false true true",
+      "true false true true"
+     ],
+     "answer": 3,
+     "explain": "String literals are interned; == compares references. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nSystem.out.println(String.format(\"%5.2f|%-4s|%04d|%,d\", 3.14159, \"ab\", 42, 1234567));\n}\n}\n```\n",
+     "options": [
+      "3.14|ab|42|1234567",
+      "3.14159|ab  |42|1,234,567",
+      "Error",
+      "3.14|ab  |0042|1,234,567"
+     ],
+     "answer": 3,
+     "explain": "printf-style formatting. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\nimport java.util.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nString s = \"a,b,,c\";\nSystem.out.println(Arrays.toString(s.split(\",\")) + \" \" + \"  x \".strip().length() + \" \" + String.join(\"-\", \"a\", \"b\"));\n}\n}\n```\n",
+     "options": [
+      "[a, b, c] 1 a-b",
+      "[a, b, , c] 4 a-b",
+      "[a, b, , c] 1 a-b",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "split keeps interior empty strings. Verified by compiling and running it."
+    },
+    {
+     "q": "Why use StringBuilder in loops?",
+     "options": [
+      "Law",
+      "Style",
+      "Strings are immutable; concatenation in a loop creates many objects",
+      "Faster compile"
+     ],
+     "answer": 2,
+     "explain": "Build then toString()."
+    }
+   ]
+  },
+  "level-1/07-classes-objects": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\npublic class Main {\nstatic class Counter { static int created = 0; private int n; Counter() { created++; } void inc() { n++; } int get() { return n; } }\npublic static void main(String[] args) throws Exception {\nCounter c = new Counter(); c.inc(); c.inc();\nSystem.out.println(c.get() + \" \" + Counter.created);\n}\n}\n```\n",
+     "options": [
+      "2 1",
+      "1 1",
+      "2 2",
+      "0 1"
+     ],
+     "answer": 0,
+     "explain": "static fields belong to the class. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\npublic class Main {\nstatic class Point { final int x, y; Point(int x, int y) { this.x = x; this.y = y; }\n @Override public boolean equals(Object o) { return o instanceof Point p && p.x == x && p.y == y; }\n @Override public int hashCode() { return java.util.Objects.hash(x, y); } }\npublic static void main(String[] args) throws Exception {\nPoint a = new Point(1, 2), b = new Point(1, 2);\nSystem.out.println(a.equals(b) + \" \" + (a == b) + \" \" + (a.hashCode() == b.hashCode()));\n}\n}\n```\n",
+     "options": [
+      "true false true",
+      "false false false",
+      "true false false",
+      "true true true"
+     ],
+     "answer": 0,
+     "explain": "equals/hashCode must be overridden consistently. Verified by compiling and running it."
+    },
+    {
+     "q": "What does `private` do?",
+     "options": [
+      "Makes final",
+      "Makes static",
+      "Restricts access to the declaring class",
+      "Hides from compiler"
+     ],
+     "answer": 2,
+     "explain": "Encapsulation."
+    },
+    {
+     "q": "What does `this` refer to?",
+     "options": [
+      "The parent",
+      "The current object instance",
+      "The class",
+      "A static"
+     ],
+     "answer": 1,
+     "explain": "Constructor chaining too."
+    }
+   ]
+  },
+  "level-1/08-exception-handling": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\ntry { System.out.print(\"A\"); Integer.parseInt(\"x\"); System.out.print(\"B\"); }\ncatch (NumberFormatException e) { System.out.print(\"C\"); }\nfinally { System.out.print(\"D\"); }\n}\n}\n```\n",
+     "options": [
+      "ACD",
+      "ACD ",
+      "ABD",
+      "AD"
+     ],
+     "answer": 0,
+     "explain": "finally always runs. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\npublic class Main {\nstatic void r() { try { int x = 1 / 0; } catch (ArithmeticException e) { throw new IllegalStateException(\"wrapped\", e); } }\npublic static void main(String[] args) throws Exception {\ntry { r(); } catch (IllegalStateException e) { System.out.println(e.getMessage() + \" / \" + e.getCause().getClass().getSimpleName()); }\n}\n}\n```\n",
+     "options": [
+      "/ by zero / Exception",
+      "wrapped / null",
+      "wrapped / ArithmeticException",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Exception chaining. Verified by compiling and running it."
+    },
+    {
+     "q": "What's the difference between checked and unchecked exceptions?",
+     "options": [
+      "Checked must be declared or caught; unchecked (RuntimeException) need not be",
+      "Same",
+      "None",
+      "Reverse"
+     ],
+     "answer": 0,
+     "explain": "IOException vs NullPointerException."
+    },
+    {
+     "q": "What does try-with-resources do?",
+     "options": [
+      "Closes AutoCloseable resources automatically",
+      "Compiles",
+      "Retries",
+      "Logs"
+     ],
+     "answer": 0,
+     "explain": "Even on exceptions."
+    }
+   ]
+  },
+  "level-1/09-packages-build-tools": {
+   "questions": [
+    {
+     "q": "What does a package declaration do?",
+     "options": [
+      "Namespaces classes and maps to directories",
+      "Builds",
+      "Runs",
+      "Imports"
+     ],
+     "answer": 0,
+     "explain": "Reverse-domain names."
+    },
+    {
+     "q": "What do Maven/Gradle provide?",
+     "options": [
+      "IDE",
+      "Docs",
+      "Dependency management and build lifecycle",
+      "VM"
+     ],
+     "answer": 2,
+     "explain": "pom.xml/build.gradle."
+    },
+    {
+     "q": "What's in a Maven `pom.xml`?",
+     "options": [
+      "Docs",
+      "Logs",
+      "Code",
+      "Coordinates, dependencies, plugins and properties"
+     ],
+     "answer": 3,
+     "explain": "Project model."
+    },
+    {
+     "q": "What does `mvn test` run?",
+     "options": [
+      "Package",
+      "The test phase (compile and unit tests)",
+      "Deploy",
+      "Clean"
+     ],
+     "answer": 1,
+     "explain": "Lifecycle."
+    }
+   ]
+  },
+  "level-1/10-project-contact-book": {
+   "questions": [
+    {
+     "q": "What does the contact book project combine?",
+     "options": [
+      "Only I/O",
+      "Only classes",
+      "Only builds",
+      "Classes, collections, exceptions, file I/O and build tooling"
+     ],
+     "answer": 3,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How persist contacts?",
+     "options": [
+      "Write to a file (CSV/JSON) and load on startup",
+      "Env",
+      "Print",
+      "Memory"
+     ],
+     "answer": 0,
+     "explain": "Files."
+    },
+    {
+     "q": "How validate input?",
+     "options": [
+      "Check and report errors rather than crash",
+      "Skip",
+      "Ignore",
+      "Assume"
+     ],
+     "answer": 0,
+     "explain": "User-friendly."
+    },
+    {
+     "q": "How test it?",
+     "options": [
+      "Print",
+      "None",
+      "Manual",
+      "Unit tests for the model/service layer"
+     ],
+     "answer": 3,
+     "explain": "JUnit."
+    }
+   ]
+  },
+  "level-2/01-oop-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\npublic class Main {\nstatic class Animal { String speak() { return \"Generic\"; } static String kind() { return \"animal\"; } }\nstatic class Dog extends Animal { @Override String speak() { return \"Woof\"; } }\npublic static void main(String[] args) throws Exception {\nAnimal a = new Dog();\nSystem.out.println(a.speak() + \" \" + (a instanceof Dog) + \" \" + Animal.kind());\n}\n}\n```\n",
+     "options": [
+      "Woof false animal",
+      "Error",
+      "Generic true animal",
+      "Woof true animal"
+     ],
+     "answer": 3,
+     "explain": "Polymorphism picks the overriding method; static methods belong to the class. Verified by compiling and running it."
+    },
+    {
+     "q": "What does an abstract class allow?",
+     "options": [
+      "Instantiation",
+      "Multiple inheritance",
+      "Shared state/behavior with abstract methods subclasses must implement",
+      "Static only"
+     ],
+     "answer": 2,
+     "explain": "Template pattern."
+    },
+    {
+     "q": "What's the difference between interface and abstract class?",
+     "options": [
+      "Reverse",
+      "Same",
+      "None",
+      "Interfaces define contracts (multiple allowed); abstract classes can hold state and constructors"
+     ],
+     "answer": 3,
+     "explain": "Default methods blur the line."
+    },
+    {
+     "q": "What does `super` do?",
+     "options": [
+      "Final",
+      "Refers to the parent class's members/constructor",
+      "Child",
+      "Static"
+     ],
+     "answer": 1,
+     "explain": "Constructor chaining."
+    }
+   ]
+  },
+  "level-2/02-collections-framework": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\nimport java.util.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nDeque<Integer> d = new ArrayDeque<>(); d.push(1); d.push(2); d.addLast(3);\nQueue<String> q = new PriorityQueue<>(List.of(\"pear\", \"fig\", \"apple\"));\nSystem.out.println(d + \" \" + q.poll() + \" \" + new TreeSet<>(List.of(3, 1, 2)).first());\n}\n}\n```\n",
+     "options": [
+      "[2, 1, 3] apple 1",
+      "Error",
+      "[1, 2, 3] fig 1",
+      "[2, 1, 3] pear 3"
+     ],
+     "answer": 0,
+     "explain": "Stack push adds to the front; priority queue orders naturally. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\nimport java.util.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nMap<String,Integer> m = new LinkedHashMap<>();\nm.put(\"b\", 2); m.put(\"a\", 1); m.put(\"b\", 3);\nSystem.out.println(m + \" \" + m.getOrDefault(\"z\", 0));\n}\n}\n```\n",
+     "options": [
+      "{b=3, a=1} 0",
+      "{b=2, a=1} 0",
+      "{a=1, b=3} 0",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "LinkedHashMap keeps insertion order. Verified by compiling and running it."
+    },
+    {
+     "q": "What's HashMap's average lookup?",
+     "options": [
+      "O(log n)",
+      "O(n log n)",
+      "O(1)",
+      "O(n)"
+     ],
+     "answer": 2,
+     "explain": "TreeMap is O(log n)."
+    },
+    {
+     "q": "What must keys implement?",
+     "options": [
+      "Serializable",
+      "Cloneable",
+      "Consistent equals() and hashCode()",
+      "Comparable"
+     ],
+     "answer": 2,
+     "explain": "Else lookups fail."
+    }
+   ]
+  },
+  "level-2/03-generics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\nimport java.util.*;\npublic class Main {\nstatic <T extends Comparable<T>> T max(T a, T b) { return a.compareTo(b) >= 0 ? a : b; }\npublic static void main(String[] args) throws Exception {\nList<String> a = new ArrayList<>(); a.add(\"x\");\nSystem.out.println(max(3, 7) + \" \" + max(\"a\", \"b\") + \" \" + a);\n}\n}\n```\n",
+     "options": [
+      "3 a [x]",
+      "7 b [x]",
+      "Error",
+      "7 a x"
+     ],
+     "answer": 1,
+     "explain": "Bounded generics. Verified by compiling and running it."
+    },
+    {
+     "q": "What is type erasure?",
+     "options": [
+      "Generic type info is removed at runtime (List<String> becomes List)",
+      "Reified",
+      "Doubled",
+      "Kept"
+     ],
+     "answer": 0,
+     "explain": "No new T()."
+    },
+    {
+     "q": "What does `? extends Number` mean?",
+     "options": [
+      "An unknown subtype of Number (read-only use)",
+      "Exactly",
+      "Super",
+      "Any"
+     ],
+     "answer": 0,
+     "explain": "PECS: producer extends."
+    },
+    {
+     "q": "Why use generics?",
+     "options": [
+      "Speed",
+      "Law",
+      "Compile-time type safety and no casts",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Collections."
+    }
+   ]
+  },
+  "level-2/04-lambdas-streams": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\nimport java.util.*; import java.util.stream.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nList<String> w = List.of(\"apple\", \"bob\", \"cat\", \"avocado\");\nSystem.out.println(w.stream().filter(s -> s.startsWith(\"a\")).map(String::toUpperCase).collect(Collectors.toList()));\nMap<Character, Long> g = w.stream().collect(Collectors.groupingBy(s -> s.charAt(0), TreeMap::new, Collectors.counting()));\nSystem.out.println(g);\nSystem.out.println(IntStream.rangeClosed(1, 5).sum() + \" \" + w.stream().mapToInt(String::length).max().getAsInt());\n}\n}\n```\n",
+     "options": [
+      "[APPLE, AVOCADO]\n{a=2, b=1, c=1}\n15 7",
+      "Error",
+      "[apple]\n{a=1}\n5 3",
+      "[APPLE]\n{a=2}\n15 7"
+     ],
+     "answer": 0,
+     "explain": "Streams: filter, map, group, reduce. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```java\nimport java.util.function.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nFunction<Integer,Integer> inc = x -> x + 1;\nFunction<Integer,Integer> dbl = x -> x * 2;\nSupplier<String> s = () -> \"hi\";\nSystem.out.println(inc.andThen(dbl).apply(3) + \" \" + inc.compose(dbl).apply(3) + \" \" + s.get());\n}\n}\n```\n",
+     "options": [
+      "8 7 hi",
+      "8 8 hi",
+      "7 8 hi",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "andThen applies inc first; compose applies dbl first. Verified by compiling and running it."
+    },
+    {
+     "q": "Are streams lazy?",
+     "options": [
+      "Yes: intermediate ops run only when a terminal operation is called",
+      "Always",
+      "No",
+      "Eager"
+     ],
+     "answer": 0,
+     "explain": "Pipeline."
+    },
+    {
+     "q": "What can a lambda capture?",
+     "options": [
+      "Static only",
+      "None",
+      "Effectively final local variables",
+      "Any"
+     ],
+     "answer": 2,
+     "explain": "Immutable captures."
+    }
+   ]
+  },
+  "level-2/05-exceptions-advanced": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\npublic class Main {\nstatic class R implements AutoCloseable { public void close() { throw new IllegalArgumentException(\"close\"); } }\nstatic void f() { try (R r = new R()) { throw new IllegalStateException(\"body\"); } }\npublic static void main(String[] args) throws Exception {\ntry { f(); } catch (Exception e) { System.out.println(e.getClass().getSimpleName() + \":\" + e.getMessage() + \":\" + e.getSuppressed().length); }\n}\n}\n```\n",
+     "options": [
+      "IllegalStateException:body:1",
+      "IllegalArgumentException:close:0",
+      "Error",
+      "IllegalStateException:close:0"
+     ],
+     "answer": 0,
+     "explain": "Close exceptions become suppressed on the primary one. Verified by compiling and running it."
+    },
+    {
+     "q": "What's a custom exception good for?",
+     "options": [
+      "Speed",
+      "Expressing domain errors callers can catch specifically",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Extend Exception or RuntimeException."
+    },
+    {
+     "q": "Why not catch Exception broadly?",
+     "options": [
+      "Law",
+      "It hides bugs and swallows unexpected failures",
+      "None",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Be specific."
+    },
+    {
+     "q": "What does `throw` vs `throws` mean?",
+     "options": [
+      "throw raises an exception; throws declares it in a signature",
+      "Same",
+      "Reverse",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Checked exceptions."
+    }
+   ]
+  },
+  "level-2/06-file-io-nio": {
+   "questions": [
+    {
+     "q": "What's the modern API for files in Java?",
+     "options": [
+      "Scanner",
+      "File only",
+      "RandomAccess",
+      "java.nio.file.Files and Path"
+     ],
+     "answer": 3,
+     "explain": "NIO.2."
+    },
+    {
+     "q": "What does this print?\n```java\nimport java.nio.file.*; import java.util.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nPath p = Files.createTempFile(\"t\", \".txt\");\nFiles.writeString(p, \"a\\nb\\nc\");\nList<String> lines = Files.readAllLines(p);\nSystem.out.println(lines.size() + \" \" + lines.get(1) + \" \" + Files.size(p));\nFiles.delete(p);\n}\n}\n```\n",
+     "options": [
+      "2 b 5",
+      "3 b 5",
+      "Error",
+      "3 a 3"
+     ],
+     "answer": 1,
+     "explain": "Files helpers read/write whole files. Verified by compiling and running it."
+    },
+    {
+     "q": "Why close streams?",
+     "options": [
+      "Release file handles (use try-with-resources)",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Resource leaks."
+    },
+    {
+     "q": "What encoding should you specify?",
+     "options": [
+      "ASCII",
+      "Default",
+      "UTF-8 explicitly",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Portability."
+    }
+   ]
+  },
+  "level-2/07-junit-testing": {
+   "questions": [
+    {
+     "q": "What does @Test mark in JUnit 5?",
+     "options": [
+      "Setup",
+      "Config",
+      "Class",
+      "A test method"
+     ],
+     "answer": 3,
+     "explain": "org.junit.jupiter.api."
+    },
+    {
+     "q": "What do @BeforeEach and @AfterEach do?",
+     "options": [
+      "Run before/after every test",
+      "Once",
+      "Suite",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Fresh state."
+    },
+    {
+     "q": "What does assertThrows verify?",
+     "options": [
+      "Value",
+      "Timing",
+      "Order",
+      "That code throws an expected exception type"
+     ],
+     "answer": 3,
+     "explain": "Error handling."
+    },
+    {
+     "q": "What makes tests reliable?",
+     "options": [
+      "Slow",
+      "Order",
+      "Random",
+      "Independent, deterministic and fast"
+     ],
+     "answer": 3,
+     "explain": "Isolation."
+    }
+   ]
+  },
+  "level-2/08-build-tools": {
+   "questions": [
+    {
+     "q": "What do Gradle/Maven handle?",
+     "options": [
+      "Hosting",
+      "Typing",
+      "Dependencies, compile, test, package and run tasks",
+      "Editing"
+     ],
+     "answer": 2,
+     "explain": "Reproducible builds."
+    },
+    {
+     "q": "What's a dependency scope 'test' for?",
+     "options": [
+      "Compile",
+      "Libraries only needed for tests",
+      "All",
+      "Runtime"
+     ],
+     "answer": 1,
+     "explain": "JUnit."
+    },
+    {
+     "q": "What does a lock/wrapper provide?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Reproducible tool versions (mvnw/gradlew)"
+     ],
+     "answer": 3,
+     "explain": "Consistency."
+    },
+    {
+     "q": "What does `mvn package` produce?",
+     "options": [
+      "Docs",
+      "Source",
+      "A jar/war in target/",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Artifact."
+    }
+   ]
+  },
+  "level-2/09-enums-records-sealed": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\npublic class Main {\nsealed interface Shape permits Circle, Square {}\nrecord Circle(double r) implements Shape {}\nrecord Square(double s) implements Shape {}\nrecord P(int x, int y) {}\nenum Level { LOW, MID, HIGH }\npublic static void main(String[] args) throws Exception {\nShape s = new Circle(1);\nString d = s instanceof Circle c ? \"circle r=\" + c.r() : \"square\";\nSystem.out.println(d + \" \" + new P(1, 2) + \" \" + new P(1, 2).equals(new P(1, 2)) + \" \" + Level.valueOf(\"HIGH\").ordinal());\n}\n}\n```\n",
+     "options": [
+      "Error",
+      "circle P(1,2) true 2",
+      "circle r=1.0 P[x=1, y=2] true 2",
+      "circle r=1.0 P[x=1, y=2] false 2"
+     ],
+     "answer": 2,
+     "explain": "Records, enums and sealed hierarchies. Verified by compiling and running it."
+    },
+    {
+     "q": "What do records give you?",
+     "options": [
+      "Immutable data classes with equals/hashCode/toString/accessors",
+      "Static",
+      "Inheritance",
+      "Mutable"
+     ],
+     "answer": 0,
+     "explain": "Java 16+."
+    },
+    {
+     "q": "What does `sealed` restrict?",
+     "options": [
+      "Access",
+      "Which classes can extend/implement a type (permits)",
+      "Packages",
+      "Mutability"
+     ],
+     "answer": 1,
+     "explain": "Exhaustive switches."
+    },
+    {
+     "q": "When use enums?",
+     "options": [
+      "Free text",
+      "A fixed set of constants with optional behavior",
+      "Objects",
+      "Numbers"
+     ],
+     "answer": 1,
+     "explain": "Type safe."
+    }
+   ]
+  },
+  "level-2/10-project-inventory-system": {
+   "questions": [
+    {
+     "q": "What does the inventory project combine?",
+     "options": [
+      "Only streams",
+      "Only OOP",
+      "Only I/O",
+      "OOP design, collections, streams, file I/O, tests and build"
+     ],
+     "answer": 3,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How model stock changes safely?",
+     "options": [
+      "Ignore",
+      "Clamp",
+      "Allow",
+      "Validate (no negatives) and throw domain exceptions"
+     ],
+     "answer": 3,
+     "explain": "Invariants."
+    },
+    {
+     "q": "How report totals?",
+     "options": [
+      "Print",
+      "Copy",
+      "Stream operations over collections",
+      "Loops only"
+     ],
+     "answer": 2,
+     "explain": "Concise."
+    },
+    {
+     "q": "What proves correctness?",
+     "options": [
+      "Unit tests for services and edge cases",
+      "Print",
+      "Manual",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Quality."
+    }
+   ]
+  },
+  "level-3/01-concurrency-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nint[] c = {0};\nObject lock = new Object();\nThread[] ts = new Thread[4];\nfor (int i = 0; i < 4; i++) { ts[i] = new Thread(() -> { for (int j = 0; j < 1000; j++) synchronized (lock) { c[0]++; } }); ts[i].start(); }\nfor (Thread t : ts) t.join();\nSystem.out.println(c[0]);\n}\n}\n```\n",
+     "options": [
+      "0",
+      "4000",
+      "Undefined",
+      "Less than 4000"
+     ],
+     "answer": 1,
+     "explain": "synchronized protects the shared counter. Verified by compiling and running it."
+    },
+    {
+     "q": "What's a race condition?",
+     "options": [
+      "Crash",
+      "Result depends on unsynchronized timing of threads",
+      "Deadlock",
+      "Slow"
+     ],
+     "answer": 1,
+     "explain": "Use locks/atomics."
+    },
+    {
+     "q": "What does `volatile` guarantee?",
+     "options": [
+      "Speed",
+      "Atomicity",
+      "Visibility of writes across threads (not atomicity of compound ops)",
+      "Locking"
+     ],
+     "answer": 2,
+     "explain": "i++ isn't atomic."
+    },
+    {
+     "q": "What's a deadlock?",
+     "options": [
+      "Crash",
+      "Race",
+      "Slow",
+      "Threads waiting on each other's locks forever"
+     ],
+     "answer": 3,
+     "explain": "Lock ordering."
+    }
+   ]
+  },
+  "level-3/02-util-concurrent": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\nimport java.util.*; import java.util.concurrent.*; import java.util.concurrent.atomic.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nExecutorService ex = Executors.newFixedThreadPool(3);\nList<Future<Integer>> fs = new ArrayList<>();\nfor (int i = 1; i <= 5; i++) { final int n = i; fs.add(ex.submit(() -> n * n)); }\nint s = 0; for (Future<Integer> f : fs) s += f.get();\nex.shutdown();\nAtomicInteger a = new AtomicInteger(); a.incrementAndGet(); a.addAndGet(4);\nSystem.out.println(s + \" \" + a.get() + \" \" + CompletableFuture.supplyAsync(() -> 21).thenApply(x -> x * 2).get());\n}\n}\n```\n",
+     "options": [
+      "55 4 21",
+      "55 5 42",
+      "15 5 42",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Executors, atomics and CompletableFuture. Verified by compiling and running it."
+    },
+    {
+     "q": "Why use thread pools?",
+     "options": [
+      "Speed only",
+      "Reuse threads and bound concurrency",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Executors."
+    },
+    {
+     "q": "What does ConcurrentHashMap provide?",
+     "options": [
+      "Order",
+      "Thread-safe map with fine-grained concurrency",
+      "Null keys",
+      "Sorting"
+     ],
+     "answer": 1,
+     "explain": "Better than synchronizedMap."
+    },
+    {
+     "q": "What are virtual threads (Java 21)?",
+     "options": [
+      "Processes",
+      "Coroutines only",
+      "OS threads",
+      "Lightweight threads managed by the JVM for high-concurrency I/O"
+     ],
+     "answer": 3,
+     "explain": "Project Loom."
+    }
+   ]
+  },
+  "level-3/03-jdbc-databases": {
+   "questions": [
+    {
+     "q": "What's JDBC?",
+     "options": [
+      "Driver",
+      "The standard API for relational databases",
+      "Pool",
+      "ORM"
+     ],
+     "answer": 1,
+     "explain": "Connection, Statement."
+    },
+    {
+     "q": "How prevent SQL injection?",
+     "options": [
+      "PreparedStatement with parameters",
+      "Escape",
+      "Trim",
+      "Concatenate"
+     ],
+     "answer": 0,
+     "explain": "Bind variables."
+    },
+    {
+     "q": "What does a connection pool do?",
+     "options": [
+      "Caches queries",
+      "Reuses database connections (HikariCP)",
+      "Encrypts",
+      "Compresses"
+     ],
+     "answer": 1,
+     "explain": "Performance."
+    },
+    {
+     "q": "What does a transaction ensure?",
+     "options": [
+      "Backups",
+      "Atomic all-or-nothing changes",
+      "Indexes",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "commit/rollback."
+    }
+   ]
+  },
+  "level-3/04-rest-apis-spring-boot": {
+   "questions": [
+    {
+     "q": "What's Spring Boot?",
+     "options": [
+      "A DB",
+      "A JVM",
+      "A UI",
+      "An opinionated framework for building Spring apps with auto-configuration"
+     ],
+     "answer": 3,
+     "explain": "Starters."
+    },
+    {
+     "q": "What does @RestController do?",
+     "options": [
+      "Service",
+      "Entity",
+      "Marks a class whose methods handle HTTP and return response bodies",
+      "Config"
+     ],
+     "answer": 2,
+     "explain": "JSON."
+    },
+    {
+     "q": "What does @Autowired/constructor injection do?",
+     "options": [
+      "Supplies dependencies from the Spring container",
+      "Creates DB",
+      "Tests",
+      "Routes"
+     ],
+     "answer": 0,
+     "explain": "Prefer constructors."
+    },
+    {
+     "q": "What does `spring-boot-starter-web` bring?",
+     "options": [
+      "Security",
+      "Cache",
+      "DB",
+      "Embedded Tomcat, Spring MVC and Jackson"
+     ],
+     "answer": 3,
+     "explain": "Batteries."
+    }
+   ]
+  },
+  "level-3/05-design-patterns": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\nimport java.util.*;\npublic class Main {\nstatic class Config { private static final Config I = new Config(); private Config() {} static Config get() { return I; } }\ninterface Shape { int area(); }\nstatic class ShapeFactory { static Shape of(String k) { return k.equals(\"sq\") ? () -> 4 : () -> 1; } }\nstatic class Notifier { List<java.util.function.Consumer<String>> subs = new ArrayList<>(); void subscribe(java.util.function.Consumer<String> c) { subs.add(c); } void publish(String m) { subs.forEach(c -> c.accept(m)); } }\npublic static void main(String[] args) throws Exception {\nSystem.out.println(Config.get() == Config.get());\nShape s = ShapeFactory.of(\"sq\");\nSystem.out.println(s.area());\nList<String> log = new ArrayList<>();\nNotifier n = new Notifier(); n.subscribe(log::add); n.publish(\"x\"); n.publish(\"y\");\nSystem.out.println(log);\n}\n}\n```\n",
+     "options": [
+      "true\n4\n[x, y]",
+      "true\n2\n[x, y]",
+      "false\n4\n[x]",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Singleton, factory and observer patterns. Verified by compiling and running it."
+    },
+    {
+     "q": "What does the Strategy pattern do?",
+     "options": [
+      "Wrapping",
+      "One instance",
+      "Swaps interchangeable algorithms behind an interface",
+      "Cloning"
+     ],
+     "answer": 2,
+     "explain": "Lambdas simplify."
+    },
+    {
+     "q": "What's wrong with singletons?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Global state hampers testing; use DI"
+     ],
+     "answer": 3,
+     "explain": "Inject."
+    },
+    {
+     "q": "What does the Builder pattern solve?",
+     "options": [
+      "Singletons",
+      "Constructing complex objects step by step",
+      "Observers",
+      "Adapters"
+     ],
+     "answer": 1,
+     "explain": "Readable."
+    }
+   ]
+  },
+  "level-3/06-serialization": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\nimport java.io.*;\npublic class Main {\nstatic class U implements java.io.Serializable { String name; transient String pw; U(String n, String p) { name = n; pw = p; } }\npublic static void main(String[] args) throws Exception {\nByteArrayOutputStream bos = new ByteArrayOutputStream();\ntry (ObjectOutputStream o = new ObjectOutputStream(bos)) { o.writeObject(new U(\"ada\", \"secret\")); }\nU u = (U) new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray())).readObject();\nSystem.out.println(u.name + \" \" + u.pw);\n}\n}\n```\n",
+     "options": [
+      "ada secret",
+      "ada null",
+      "null null",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "transient fields aren't serialized. Verified by compiling and running it."
+    },
+    {
+     "q": "Why avoid Java serialization for external data?",
+     "options": [
+      "Style",
+      "Slow",
+      "Law",
+      "It's insecure and brittle; prefer JSON/Protobuf"
+     ],
+     "answer": 3,
+     "explain": "Deserialization attacks."
+    },
+    {
+     "q": "What does serialVersionUID do?",
+     "options": [
+      "Hash",
+      "Identifies the class version for compatibility checks",
+      "Lock",
+      "Key"
+     ],
+     "answer": 1,
+     "explain": "Declare it."
+    },
+    {
+     "q": "What marks a field as not serialized?",
+     "options": [
+      "static final",
+      "volatile",
+      "private",
+      "transient"
+     ],
+     "answer": 3,
+     "explain": "Secrets."
+    }
+   ]
+  },
+  "level-3/07-networking-basics": {
+   "questions": [
+    {
+     "q": "Which classes do TCP clients and servers use?",
+     "options": [
+      "URL",
+      "Path",
+      "File",
+      "Socket and ServerSocket"
+     ],
+     "answer": 3,
+     "explain": "Streams."
+    },
+    {
+     "q": "What does java.net.http.HttpClient provide?",
+     "options": [
+      "Server",
+      "Sockets",
+      "A modern HTTP client (sync and async)",
+      "FTP"
+     ],
+     "answer": 2,
+     "explain": "Java 11+."
+    },
+    {
+     "q": "Why set timeouts?",
+     "options": [
+      "Law",
+      "Style",
+      "Avoid hanging threads on slow peers",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Connect/read."
+    },
+    {
+     "q": "What must servers do per connection?",
+     "options": [
+      "Ignore",
+      "Leak",
+      "Serial",
+      "Handle concurrently (threads/pool) and close sockets"
+     ],
+     "answer": 3,
+     "explain": "Resource safety."
+    }
+   ]
+  },
+  "level-3/08-reflection-annotations": {
+   "questions": [
+    {
+     "q": "What does this print?\n```java\npublic class Main {\n@java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME) @interface Info { String value(); }\n@Info(\"dog\") public static class Pet { private final String name; public Pet(String n) { name = n; } public String name() { return name; } }\npublic static void main(String[] args) throws Exception {\nClass<?> c = Pet.class;\nSystem.out.println(c.getSimpleName() + \" \" + c.getDeclaredFields().length + \" \" + c.isAnnotationPresent(Info.class));\nObject o = c.getDeclaredConstructor(String.class).newInstance(\"Rex\");\nSystem.out.println(c.getMethod(\"name\").invoke(o) + \" \" + Pet.class.getAnnotation(Info.class).value());\n}\n}\n```\n",
+     "options": [
+      "Error",
+      "pet 1 true\nRex dog",
+      "Pet 0 false\nnull cat",
+      "Pet 1 true\nRex dog"
+     ],
+     "answer": 3,
+     "explain": "Reflection reads annotations and invokes methods. Verified by compiling and running it."
+    },
+    {
+     "q": "What's reflection used for?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "Frameworks (DI, serialization, ORMs) inspecting types at runtime"
+     ],
+     "answer": 3,
+     "explain": "Powerful but slow/unsafe."
+    },
+    {
+     "q": "What does @Retention(RUNTIME) mean?",
+     "options": [
+      "Never",
+      "Source only",
+      "The annotation is available via reflection at runtime",
+      "Compile only"
+     ],
+     "answer": 2,
+     "explain": "Needed by frameworks."
+    },
+    {
+     "q": "What's a risk of reflection?",
+     "options": [
+      "Speed",
+      "Breaks encapsulation and loses compile-time safety",
+      "Law",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Use sparingly."
+    }
+   ]
+  },
+  "level-3/09-jvm-internals-gc": {
+   "questions": [
+    {
+     "q": "What does the JVM heap hold?",
+     "options": [
+      "Objects (managed by the garbage collector)",
+      "Threads",
+      "Stack frames",
+      "Bytecode"
+     ],
+     "answer": 0,
+     "explain": "Young/old generations."
+    },
+    {
+     "q": "What does GC reclaim?",
+     "options": [
+      "Stack",
+      "Classes",
+      "Unreachable objects",
+      "All"
+     ],
+     "answer": 2,
+     "explain": "Reachability from GC roots."
+    },
+    {
+     "q": "Which collector is the modern default?",
+     "options": [
+      "None",
+      "G1 (and ZGC/Shenandoah for low pause)",
+      "Serial",
+      "CMS"
+     ],
+     "answer": 1,
+     "explain": "Tune carefully."
+    },
+    {
+     "q": "What causes OutOfMemoryError?",
+     "options": [
+      "Heap (or metaspace) exhausted, often by leaks",
+      "Stack overflow",
+      "Disk",
+      "CPU"
+     ],
+     "answer": 0,
+     "explain": "Heap dumps."
+    }
+   ]
+  },
+  "level-3/10-profiling-optimization": {
+   "questions": [
+    {
+     "q": "What's the first step in optimizing?",
+     "options": [
+      "Cache",
+      "Measure with a profiler/JFR before changing code",
+      "Guess",
+      "Rewrite"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What is JFR?",
+     "options": [
+      "Debugger",
+      "Compiler",
+      "Java Flight Recorder, low-overhead profiling built into the JVM",
+      "Linter"
+     ],
+     "answer": 2,
+     "explain": "Production-safe."
+    },
+    {
+     "q": "What causes allocation pressure?",
+     "options": [
+      "Methods",
+      "Loops",
+      "Fields",
+      "Creating many short-lived objects in hot paths"
+     ],
+     "answer": 3,
+     "explain": "Reduce churn."
+    },
+    {
+     "q": "What are JMH benchmarks for?",
+     "options": [
+      "Tests",
+      "Reliable microbenchmarks accounting for JIT warmup",
+      "Logs",
+      "Loads"
+     ],
+     "answer": 1,
+     "explain": "Avoid naive timing."
+    }
+   ]
+  },
+  "level-3/11-project-rest-api-db": {
+   "questions": [
+    {
+     "q": "What does the REST API + DB project combine?",
+     "options": [
+      "Spring Boot controllers, JDBC/JPA persistence, validation and tests",
+      "Only DB",
+      "Only REST",
+      "Only tests"
+     ],
+     "answer": 0,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How validate request bodies?",
+     "options": [
+      "Manual only",
+      "Regex",
+      "Bean Validation annotations (@Valid, @NotBlank)",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "400 on failure."
+    },
+    {
+     "q": "How handle errors consistently?",
+     "options": [
+      "Logs",
+      "@ControllerAdvice mapping exceptions to responses",
+      "try everywhere",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Uniform format."
+    },
+    {
+     "q": "How test the web layer?",
+     "options": [
+      "Prod",
+      "Manual",
+      "MockMvc or @SpringBootTest with an in-memory DB",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Isolation."
+    }
+   ]
+  },
+  "level-4/01-spring-ecosystem-production": {
+   "questions": [
+    {
+     "q": "What do Spring Boot Actuator endpoints provide?",
+     "options": [
+      "Auth",
+      "Docs",
+      "UI",
+      "Health, metrics and operational insight"
+     ],
+     "answer": 3,
+     "explain": "Production readiness."
+    },
+    {
+     "q": "What are profiles for?",
+     "options": [
+      "Users",
+      "Tests",
+      "Environment-specific configuration (dev/prod)",
+      "Roles"
+     ],
+     "answer": 2,
+     "explain": "application-prod.yml."
+    },
+    {
+     "q": "How externalize config?",
+     "options": [
+      "Environment variables, config server or secrets manager",
+      "Jar",
+      "Git secrets",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "12-factor."
+    },
+    {
+     "q": "What does graceful shutdown do?",
+     "options": [
+      "Kills",
+      "Restarts",
+      "Finishes in-flight requests before stopping",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "server.shutdown=graceful."
+    }
+   ]
+  },
+  "level-4/02-microservices-architecture": {
+   "questions": [
+    {
+     "q": "What does a microservice own?",
+     "options": [
+      "Shared DB",
+      "UI",
+      "Everything",
+      "Its own data and API (bounded context)"
+     ],
+     "answer": 3,
+     "explain": "Autonomy."
+    },
+    {
+     "q": "What's an API gateway for?",
+     "options": [
+      "Single entry: routing, auth and rate limiting",
+      "Build",
+      "DB",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "Cross-cutting."
+    },
+    {
+     "q": "What does a circuit breaker do?",
+     "options": [
+      "Stops calling a failing dependency to let it recover (Resilience4j)",
+      "Logs",
+      "Caches",
+      "Retries"
+     ],
+     "answer": 0,
+     "explain": "Fail fast."
+    },
+    {
+     "q": "What's the distributed monolith anti-pattern?",
+     "options": [
+      "Services tightly coupled so they must deploy together",
+      "Cheap",
+      "Fast",
+      "Good"
+     ],
+     "answer": 0,
+     "explain": "Avoid."
+    }
+   ]
+  },
+  "level-4/03-advanced-concurrency-patterns": {
+   "questions": [
+    {
+     "q": "What's structured concurrency's idea?",
+     "options": [
+      "Scoped lifetimes for concurrent tasks so errors and cancellation propagate",
+      "Pools",
+      "Queues",
+      "Locks"
+     ],
+     "answer": 0,
+     "explain": "StructuredTaskScope."
+    },
+    {
+     "q": "What's a bulkhead?",
+     "options": [
+      "Queue",
+      "Retry",
+      "Isolating resources so one failing part doesn't sink others",
+      "Cache"
+     ],
+     "answer": 2,
+     "explain": "Resilience."
+    },
+    {
+     "q": "Which structure handles backpressure?",
+     "options": [
+      "Lists",
+      "Unbounded",
+      "Bounded queues with rejection or blocking policies",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Protect memory."
+    },
+    {
+     "q": "What does ForkJoinPool suit?",
+     "options": [
+      "IO",
+      "UI",
+      "DB",
+      "Divide-and-conquer CPU-bound tasks"
+     ],
+     "answer": 3,
+     "explain": "Work stealing."
+    }
+   ]
+  },
+  "level-4/04-testing-at-scale": {
+   "questions": [
+    {
+     "q": "What does Testcontainers provide?",
+     "options": [
+      "Perf",
+      "Mocks",
+      "UI",
+      "Real dependencies (DB/Kafka) in Docker for integration tests"
+     ],
+     "answer": 3,
+     "explain": "Realistic."
+    },
+    {
+     "q": "What's the test pyramid?",
+     "options": [
+      "Equal",
+      "Only e2e",
+      "Inverse",
+      "Many unit tests, fewer integration, very few end-to-end"
+     ],
+     "answer": 3,
+     "explain": "Speed."
+    },
+    {
+     "q": "What do contract tests verify?",
+     "options": [
+      "UI",
+      "Perf",
+      "Consumer/provider API agreements",
+      "DB"
+     ],
+     "answer": 2,
+     "explain": "Pact."
+    },
+    {
+     "q": "How limit flakiness?",
+     "options": [
+      "Ignore",
+      "Sleep",
+      "Retries",
+      "Deterministic data, no sleeps and isolated state"
+     ],
+     "answer": 3,
+     "explain": "Quality."
+    }
+   ]
+  },
+  "level-4/05-security-best-practices": {
+   "questions": [
+    {
+     "q": "How hash passwords?",
+     "options": [
+      "Base64",
+      "BCrypt/Argon2 via Spring Security's PasswordEncoder",
+      "SHA-1",
+      "MD5"
+     ],
+     "answer": 1,
+     "explain": "Salted slow."
+    },
+    {
+     "q": "What does CSRF protection matter for?",
+     "options": [
+      "All",
+      "None",
+      "Browser sessions/cookies (less for token APIs)",
+      "DB"
+     ],
+     "answer": 2,
+     "explain": "Know context."
+    },
+    {
+     "q": "What does the OWASP Dependency-Check find?",
+     "options": [
+      "Known vulnerable libraries",
+      "Typos",
+      "Races",
+      "Leaks"
+     ],
+     "answer": 0,
+     "explain": "Supply chain."
+    },
+    {
+     "q": "How avoid injection?",
+     "options": [
+      "Escape",
+      "Parameterized queries and input validation",
+      "Trim",
+      "Hope"
+     ],
+     "answer": 1,
+     "explain": "Defense."
+    }
+   ]
+  },
+  "level-4/06-messaging-event-driven": {
+   "questions": [
+    {
+     "q": "When use messaging (Kafka/RabbitMQ)?",
+     "options": [
+      "Sync",
+      "DB",
+      "To decouple services and handle async workloads",
+      "UI"
+     ],
+     "answer": 2,
+     "explain": "Event-driven."
+    },
+    {
+     "q": "What must consumers be?",
+     "options": [
+      "Idempotent",
+      "Fast",
+      "Ordered",
+      "Single"
+     ],
+     "answer": 0,
+     "explain": "At-least-once."
+    },
+    {
+     "q": "What's the outbox pattern?",
+     "options": [
+      "Lock",
+      "Writing events to a table in the same transaction as state, then publishing",
+      "Cache",
+      "Retry"
+     ],
+     "answer": 1,
+     "explain": "Consistency."
+    },
+    {
+     "q": "What's a dead-letter queue?",
+     "options": [
+      "Where failing messages go after retries",
+      "Archive",
+      "Log",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "Inspect."
+    }
+   ]
+  },
+  "level-4/07-containerization-deployment": {
+   "questions": [
+    {
+     "q": "Why multi-stage Docker builds for Java?",
+     "options": [
+      "Style",
+      "Law",
+      "Build with the JDK, run on a slim JRE image",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Smaller images."
+    },
+    {
+     "q": "What JVM flag helps containers?",
+     "options": [
+      "-Xmx only",
+      "-verbose",
+      "-XX:MaxRAMPercentage (container-aware memory)",
+      "-server"
+     ],
+     "answer": 2,
+     "explain": "Memory limits."
+    },
+    {
+     "q": "What does jlink/CRaC offer?",
+     "options": [
+      "Debug",
+      "Tests",
+      "Smaller runtimes / faster startup",
+      "Docs"
+     ],
+     "answer": 2,
+     "explain": "Optimization."
+    },
+    {
+     "q": "What's a readiness probe?",
+     "options": [
+      "Log",
+      "Signals when the app can serve traffic",
+      "Liveness",
+      "Metric"
+     ],
+     "answer": 1,
+     "explain": "Kubernetes."
+    }
+   ]
+  },
+  "level-4/08-observability": {
+   "questions": [
+    {
+     "q": "What are the observability signals?",
+     "options": [
+      "Logs, metrics and traces",
+      "Disk",
+      "RAM",
+      "CPU"
+     ],
+     "answer": 0,
+     "explain": "Together."
+    },
+    {
+     "q": "What does Micrometer do?",
+     "options": [
+      "Logs",
+      "A metrics facade exporting to Prometheus etc.",
+      "Traces",
+      "Auth"
+     ],
+     "answer": 1,
+     "explain": "Spring Boot default."
+    },
+    {
+     "q": "What does a trace id do?",
+     "options": [
+      "Cache",
+      "Auth",
+      "Route",
+      "Correlates a request across services"
+     ],
+     "answer": 3,
+     "explain": "Propagate headers."
+    },
+    {
+     "q": "What's structured logging?",
+     "options": [
+      "Free text",
+      "Colors",
+      "Binary",
+      "JSON/key-value logs with context fields"
+     ],
+     "answer": 3,
+     "explain": "Searchable."
+    }
+   ]
+  },
+  "level-4/09-performance-at-scale": {
+   "questions": [
+    {
+     "q": "What first when tuning at scale?",
+     "options": [
+      "Add nodes",
+      "Profile production-like load and fix the bottleneck",
+      "Rewrite",
+      "Guess"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What reduces GC pauses?",
+     "options": [
+      "Logging",
+      "Bigger loops",
+      "More threads",
+      "Lower allocation rates and a suitable collector (ZGC/G1)"
+     ],
+     "answer": 3,
+     "explain": "Tune."
+    },
+    {
+     "q": "What's a common DB bottleneck?",
+     "options": [
+      "CPU",
+      "GC",
+      "N+1 queries and missing indexes",
+      "Threads"
+     ],
+     "answer": 2,
+     "explain": "Fetch plans."
+    },
+    {
+     "q": "What does caching require?",
+     "options": [
+      "Memory",
+      "Nothing",
+      "A clear invalidation strategy and TTLs",
+      "Keys"
+     ],
+     "answer": 2,
+     "explain": "Hard problem."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nint a = 7, b = 2;\nSystem.out.println(a / b + \" \" + (double) a / b);\n}\n}\n```\n",
+    "options": [
+     "3 3",
+     "4 3.5",
+     "3 3.5",
+     "3.5 3.5"
+    ],
+    "answer": 2,
+    "explain": "Integer division truncates. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nInteger x = 127, y = 127, p = 1000, q = 1000;\nSystem.out.println((x == y) + \" \" + (p == q) + \" \" + p.equals(q));\n}\n}\n```\n",
+    "options": [
+     "true false false",
+     "true true true",
+     "true false true",
+     "false false true"
+    ],
+    "answer": 2,
+    "explain": "Integer caching: == compares references outside -128..127. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nString a = \"hi\", c = new String(\"hi\");\nSystem.out.println((a == c) + \" \" + a.equals(c));\n}\n}\n```\n",
+    "options": [
+     "true false",
+     "false false",
+     "false true",
+     "true true"
+    ],
+    "answer": 2,
+    "explain": "Use equals for content. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\ntry { System.out.print(\"A\"); Integer.parseInt(\"x\"); System.out.print(\"B\"); } catch (NumberFormatException e) { System.out.print(\"C\"); } finally { System.out.print(\"D\"); }\n}\n}\n```\n",
+    "options": [
+     "AD",
+     "ACD ",
+     "ABD",
+     "ACD"
+    ],
+    "answer": 3,
+    "explain": "finally always runs. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```java\nimport java.util.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nList<Integer> l = new ArrayList<>(List.of(1, 2, 3, 4));\nl.removeIf(x -> x % 2 == 0);\nSystem.out.println(l);\n}\n}\n```\n",
+    "options": [
+     "Error",
+     "[1, 2, 3]",
+     "[1, 3]",
+     "[2, 4]"
+    ],
+    "answer": 2,
+    "explain": "removeIf filters in place. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```java\nimport java.util.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nMap<String,Integer> m = new HashMap<>();\nfor (String w : \"a b a c a b\".split(\" \")) m.merge(w, 1, Integer::sum);\nSystem.out.println(new TreeMap<>(m));\n}\n}\n```\n",
+    "options": [
+     "Error",
+     "{a=3}",
+     "{a=1, b=1, c=1}",
+     "{a=3, b=2, c=1}"
+    ],
+    "answer": 3,
+    "explain": "merge counts occurrences. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```java\npublic class Main {\nstatic class Animal { String speak() { return \"Generic\"; } }\nstatic class Dog extends Animal { @Override String speak() { return \"Woof\"; } }\npublic static void main(String[] args) throws Exception {\nAnimal a = new Dog();\nSystem.out.println(a.speak());\n}\n}\n```\n",
+    "options": [
+     "Error",
+     "Animal",
+     "Woof",
+     "Generic"
+    ],
+    "answer": 2,
+    "explain": "Dynamic dispatch uses the runtime type. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```java\npublic class Main {\nrecord P(int x, int y) {}\npublic static void main(String[] args) throws Exception {\nSystem.out.println(new P(1, 2) + \" \" + new P(1, 2).equals(new P(1, 2)));\n}\n}\n```\n",
+    "options": [
+     "Error",
+     "P[x=1, y=2] true",
+     "P[1,2] true",
+     "P(1,2) false"
+    ],
+    "answer": 1,
+    "explain": "Records generate toString, equals and hashCode. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```java\nimport java.util.*; import java.util.stream.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nList<String> w = List.of(\"apple\", \"bob\", \"avocado\");\nSystem.out.println(w.stream().filter(s -> s.startsWith(\"a\")).map(String::length).collect(Collectors.toList()));\n}\n}\n```\n",
+    "options": [
+     "[apple, avocado]",
+     "[2]",
+     "[5, 7]",
+     "Error"
+    ],
+    "answer": 2,
+    "explain": "Streams are lazy until a terminal operation. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nint[] c = {0};\nObject lock = new Object();\nThread[] ts = new Thread[4];\nfor (int i = 0; i < 4; i++) { ts[i] = new Thread(() -> { for (int j = 0; j < 1000; j++) synchronized (lock) { c[0]++; } }); ts[i].start(); }\nfor (Thread t : ts) t.join();\nSystem.out.println(c[0]);\n}\n}\n```\n",
+    "options": [
+     "4000",
+     "0",
+     "Undefined",
+     "Less than 4000"
+    ],
+    "answer": 0,
+    "explain": "synchronized prevents lost updates. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```java\nimport java.util.*; import java.util.concurrent.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nExecutorService ex = Executors.newFixedThreadPool(3);\nint s = 0;\nList<Callable<Integer>> tasks = List.of(() -> 1, () -> 2, () -> 3);\nfor (Future<Integer> f : ex.invokeAll(tasks)) s += f.get();\nex.shutdown();\nSystem.out.println(s);\n}\n}\n```\n",
+    "options": [
+     "Error",
+     "3",
+     "6",
+     "0"
+    ],
+    "answer": 2,
+    "explain": "Pool tasks return results through Futures. Verified by compiling and running it."
+   },
+   {
+    "q": "A HashMap lookup returns null for a key that was inserted. What's the likely bug?",
+    "options": [
+     "The key class overrides equals() without hashCode() (or mutates after insertion)",
+     "GC",
+     "Capacity",
+     "Wrong type"
+    ],
+    "answer": 0,
+    "explain": "Keep them consistent."
+   },
+   {
+    "q": "A loop concatenates strings 100,000 times and is slow. What's the fix?",
+    "options": [
+     "Use arrays",
+     "Use StringBuilder (strings are immutable)",
+     "Synchronize",
+     "Use +="
+    ],
+    "answer": 1,
+    "explain": "Avoid quadratic copying."
+   },
+   {
+    "q": "Two threads each lock account A then B, and B then A. What happens and what's the fix?",
+    "options": [
+     "Starvation; sleep",
+     "Race; volatile",
+     "Deadlock; always acquire locks in a consistent global order",
+     "Nothing"
+    ],
+    "answer": 2,
+    "explain": "Lock ordering."
+   },
+   {
+    "q": "A REST endpoint concatenates user input into SQL. What's the fix?",
+    "options": [
+     "Use POST",
+     "Trim input",
+     "Escape quotes",
+     "PreparedStatement/JPA parameters"
+    ],
+    "answer": 3,
+    "explain": "Prevents injection."
+   },
+   {
+    "q": "Passwords are stored with SHA-256. What should you use?",
+    "options": [
+     "MD5",
+     "Plain",
+     "Base64",
+     "BCrypt/Argon2 via PasswordEncoder"
+    ],
+    "answer": 3,
+    "explain": "Slow salted hashing."
+   },
+   {
+    "q": "Spring Boot service is slow due to many queries for a list with children. What's this?",
+    "options": [
+     "GC",
+     "Race",
+     "The N+1 select problem; use fetch joins/batch fetching",
+     "Deadlock"
+    ],
+    "answer": 2,
+    "explain": "JPA tuning."
+   },
+   {
+    "q": "A container gets OOM-killed though the heap seems small. What setting helps?",
+    "options": [
+     "Container-aware sizing (-XX:MaxRAMPercentage) and checking non-heap memory",
+     "More threads",
+     "Smaller image",
+     "-server"
+    ],
+    "answer": 0,
+    "explain": "JVM in containers."
+   },
+   {
+    "q": "A consumer processes the same Kafka message twice after a rebalance. What must the handler be?",
+    "options": [
+     "Faster",
+     "Stateless",
+     "Idempotent",
+     "Ordered"
+    ],
+    "answer": 2,
+    "explain": "At-least-once delivery."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Reports with records and streams",
+    "prompt": "Implement revenueByCategory (total per category, sorted by name) and topCustomers (top n by total spend, ties by name, formatted name=12.34) with the Streams API, using the Order record. The program also prints summary statistics.",
+    "starter": "import java.util.*;\nimport java.util.stream.*;\n\npublic class Main {\n    record Order(String customer, String category, int qty, double price) {\n        double total() { return qty * price; }\n    }\n\n    static Map<String, Double> revenueByCategory(List<Order> orders) {\n        // total revenue per category, sorted by category name (use groupingBy with a TreeMap + summingDouble)\n        return new TreeMap<>();\n    }\n\n    static List<String> topCustomers(List<Order> orders, int n) {\n        // the n customers with the highest total spend (ties by name), formatted \"name=12.34\"\n        return List.of();\n    }\n\n    public static void main(String[] args) {\n        List<Order> orders = List.of(\n                new Order(\"ada\", \"books\", 2, 12.50), new Order(\"bo\", \"games\", 1, 59.99),\n                new Order(\"ada\", \"games\", 1, 30.00), new Order(\"cy\", \"books\", 4, 9.99),\n                new Order(\"bo\", \"books\", 1, 12.50));\n        System.out.println(revenueByCategory(orders));\n        System.out.println(topCustomers(orders, 2));\n        System.out.println(orders.stream().mapToInt(Order::qty).summaryStatistics());\n    }\n}\n",
+    "expected": "{books=77.46, games=89.99}\n[bo=72.49, ada=55.00]\nIntSummaryStatistics{count=5, sum=9, min=1, average=1.800000, max=4}",
+    "solution": "import java.util.*;\nimport java.util.stream.*;\n\npublic class Main {\n    record Order(String customer, String category, int qty, double price) {\n        double total() { return qty * price; }\n    }\n\n    static Map<String, Double> revenueByCategory(List<Order> orders) {\n        return orders.stream().collect(Collectors.groupingBy(Order::category, TreeMap::new,\n                Collectors.collectingAndThen(Collectors.summingDouble(Order::total), v -> Math.round(v * 100) / 100.0)));\n    }\n\n    static List<String> topCustomers(List<Order> orders, int n) {\n        return orders.stream()\n                .collect(Collectors.groupingBy(Order::customer, Collectors.summingDouble(Order::total)))\n                .entrySet().stream()\n                .sorted(Map.Entry.<String, Double>comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))\n                .limit(n)\n                .map(e -> e.getKey() + \"=\" + String.format(\"%.2f\", e.getValue()))\n                .collect(Collectors.toList());\n    }\n\n    public static void main(String[] args) {\n        List<Order> orders = List.of(\n                new Order(\"ada\", \"books\", 2, 12.50), new Order(\"bo\", \"games\", 1, 59.99),\n                new Order(\"ada\", \"games\", 1, 30.00), new Order(\"cy\", \"books\", 4, 9.99),\n                new Order(\"bo\", \"books\", 1, 12.50));\n        System.out.println(revenueByCategory(orders));\n        System.out.println(topCustomers(orders, 2));\n        System.out.println(orders.stream().mapToInt(Order::qty).summaryStatistics());\n    }\n}\n",
+    "explain": "groupingBy with a TreeMap and summingDouble builds the category totals; the customer ranking sorts map entries by value descending then key. Verified by running the solution with java Main.java."
+   },
+   {
+    "title": "A deadlock-free thread-safe transfer",
+    "prompt": "Implement transfer(from, to, amount): lock both accounts (always the smaller id first), refuse overdrafts, move the money, and unlock in finally blocks. Run 2,000 concurrent opposite-direction transfers on a pool and check the total is preserved.",
+    "starter": "import java.util.*;\nimport java.util.concurrent.*;\nimport java.util.concurrent.locks.ReentrantLock;\n\npublic class Main {\n    static class Account {\n        final int id;\n        private long balance;\n        final ReentrantLock lock = new ReentrantLock();\n        Account(int id, long balance) { this.id = id; this.balance = balance; }\n        long balance() { return balance; }\n        void adjust(long d) { balance += d; }\n    }\n\n    /** Move money atomically between two accounts and refuse overdrafts (return false). Always lock the\n     *  account with the smaller id first so opposite-direction transfers cannot deadlock. */\n    static boolean transfer(Account from, Account to, long amount) {\n        return false;\n    }\n\n    public static void main(String[] args) throws Exception {\n        Account a = new Account(1, 1_000), b = new Account(2, 1_000);\n        ExecutorService pool = Executors.newFixedThreadPool(8);\n        List<Future<Boolean>> results = new ArrayList<>();\n        for (int i = 0; i < 2_000; i++) {\n            final boolean forward = i % 2 == 0;\n            results.add(pool.submit(() -> forward ? transfer(a, b, 7) : transfer(b, a, 5)));\n        }\n        for (Future<Boolean> f : results) f.get();\n        pool.shutdown();\n        System.out.println(\"total preserved: \" + (a.balance() + b.balance() == 2_000));\n        System.out.println(\"overdraft refused: \" + !transfer(a, b, 1_000_000));\n    }\n}\n",
+    "expected": "total preserved: true\noverdraft refused: true",
+    "solution": "import java.util.*;\nimport java.util.concurrent.*;\nimport java.util.concurrent.locks.ReentrantLock;\n\npublic class Main {\n    static class Account {\n        final int id;\n        private long balance;\n        final ReentrantLock lock = new ReentrantLock();\n        Account(int id, long balance) { this.id = id; this.balance = balance; }\n        long balance() { return balance; }\n        void adjust(long d) { balance += d; }\n    }\n\n    /** Move money atomically. Locks are always taken in id order, so opposite transfers can't deadlock. */\n    static boolean transfer(Account from, Account to, long amount) {\n        Account first = from.id < to.id ? from : to;\n        Account second = first == from ? to : from;\n        first.lock.lock();\n        try {\n            second.lock.lock();\n            try {\n                if (from.balance() < amount) return false;\n                from.adjust(-amount);\n                to.adjust(amount);\n                return true;\n            } finally {\n                second.lock.unlock();\n            }\n        } finally {\n            first.lock.unlock();\n        }\n    }\n\n    public static void main(String[] args) throws Exception {\n        Account a = new Account(1, 1_000), b = new Account(2, 1_000);\n        ExecutorService pool = Executors.newFixedThreadPool(8);\n        List<Future<Boolean>> results = new ArrayList<>();\n        for (int i = 0; i < 2_000; i++) {\n            final boolean forward = i % 2 == 0;\n            results.add(pool.submit(() -> forward ? transfer(a, b, 7) : transfer(b, a, 5)));\n        }\n        for (Future<Boolean> f : results) f.get();\n        pool.shutdown();\n        System.out.println(\"total preserved: \" + (a.balance() + b.balance() == 2_000));\n        System.out.println(\"overdraft refused: \" + !transfer(a, b, 1_000_000));\n    }\n}\n",
+    "explain": "Taking locks in a consistent global order removes the circular wait that causes deadlock, and finally blocks guarantee unlocking. The invariant (total balance) holds because each transfer is atomic. Verified by running the solution with java Main.java."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
