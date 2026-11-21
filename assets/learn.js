@@ -137,7 +137,6 @@
       if (after && after.nextElementSibling && after.nextElementSibling.tagName === 'P') after = after.nextElementSibling;
       if (after) host.insertBefore(sec, after.nextSibling); else host.prepend(sec);
       bindCurriculum(sec);
-      if (Q.final && Q.final.questions && Q.final.questions.length) renderQuiz(host, Q.final, Q.final_pass_pct || Q.pass_pct || 70, { key: 'final', kicker: 'Final course quiz', heading: 'Final course quiz: test what you learned' });
     }).catch(function () {});
   }
   // Prerequisites when the course page states none: the courses just before this one on its career paths.
