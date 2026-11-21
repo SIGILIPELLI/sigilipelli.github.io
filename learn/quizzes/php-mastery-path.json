@@ -1,0 +1,2148 @@
+{
+ "course": "php-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What is PHP?",
+     "options": [
+      "A server-side scripting language widely used for the web",
+      "A markup",
+      "A browser",
+      "A database"
+     ],
+     "answer": 0,
+     "explain": "Runs on the server."
+    },
+    {
+     "q": "What do PHP files start with?",
+     "options": [
+      "<?php",
+      "#!",
+      "<%",
+      "<php>"
+     ],
+     "answer": 0,
+     "explain": "Opening tag."
+    },
+    {
+     "q": "How run a script from the CLI?",
+     "options": [
+      "node script",
+      "php script.php",
+      "run script",
+      "python"
+     ],
+     "answer": 1,
+     "explain": "CLI SAPI."
+    },
+    {
+     "q": "What does the built-in server do?",
+     "options": [
+      "Deploy",
+      "Test",
+      "Production",
+      "php -S localhost:8000 serves a directory for development"
+     ],
+     "answer": 3,
+     "explain": "Not for production."
+    }
+   ]
+  },
+  "level-1/02-variables-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\n$a = \"5\"; $b = 5;\nvar_dump($a == $b, $a === $b);\necho intdiv(7, 2), \" \", 7 % 3, \" \", 2 ** 3, \" \", 10 / 4;\n```\n",
+     "options": [
+      "bool(true)\nbool(false)\n3 1 8 2.5",
+      "Error",
+      "bool(false)\nbool(false)\n3 1 8 2",
+      "bool(true)\nbool(true)\n3 1 8 2.5"
+     ],
+     "answer": 0,
+     "explain": "== coerces types; === doesn't. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```php\n$x = null;\necho $x ?? \"default\", \" \", $x?->name ?? \"none\", \" \", gettype(1.0), \" \", gettype(\"1\"), \" \", (int) \"12abc\";\n```\n",
+     "options": [
+      "Error",
+      "default none double integer 12",
+      "default none double string 12",
+      "null none float string 0"
+     ],
+     "answer": 2,
+     "explain": "Null coalescing, nullsafe, casts. Verified by compiling and running it."
+    },
+    {
+     "q": "What does declare(strict_types=1) do?",
+     "options": [
+      "Autoload",
+      "Debug",
+      "Enforces scalar type declarations without coercion in that file",
+      "Faster"
+     ],
+     "answer": 2,
+     "explain": "Safer."
+    },
+    {
+     "q": "Is PHP dynamically typed?",
+     "options": [
+      "Untyped",
+      "Static only",
+      "Compiled",
+      "Yes, with optional type declarations"
+     ],
+     "answer": 3,
+     "explain": "Types are gradual."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\n$n = 3;\n$r = match(true) { $n < 2 => \"small\", $n < 5 => \"medium\", default => \"big\" };\nfor ($i = 0, $s = 0; $i < 6; $i++) { if ($i % 2) continue; $s += $i; }\necho \"$r $s\";\n```\n",
+     "options": [
+      "big 6",
+      "small 9",
+      "Error",
+      "medium 6"
+     ],
+     "answer": 3,
+     "explain": "match is strict and returns a value. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```php\n$i = 0;\nwhile (true) { if (++$i > 3) break; echo $i; }\nforeach ([1, 2, 3] as $k => $v) echo \"|$k:$v\";\n```\n",
+     "options": [
+      "1234|0:1",
+      "123",
+      "Error",
+      "123|0:1|1:2|2:3"
+     ],
+     "answer": 3,
+     "explain": "break and foreach with keys. Verified by compiling and running it."
+    },
+    {
+     "q": "What's the difference between match and switch?",
+     "options": [
+      "match uses strict comparison, has no fallthrough and returns a value",
+      "None",
+      "Reverse",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "PHP 8."
+    },
+    {
+     "q": "What does the spaceship operator <=> return?",
+     "options": [
+      "-1, 0 or 1 comparing two values",
+      "int sum",
+      "bool",
+      "string"
+     ],
+     "answer": 0,
+     "explain": "Sorting callbacks."
+    }
+   ]
+  },
+  "level-1/04-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\nfunction greet(string $name, string $greeting = \"Hello\"): string { return \"$greeting, $name!\"; }\nfunction sum(int ...$n): int { return array_sum($n); }\n$sq = fn($x) => $x * $x;\necho greet(\"Ada\"), \" \", greet(greeting: \"Hi\", name: \"Bo\"), \" \", sum(1, 2, 3), \" \", $sq(4);\n```\n",
+     "options": [
+      "Hello Ada 6 16",
+      "Hi, Ada! 6 16",
+      "Hello, Ada! Hi, Bo! 6 16",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Defaults, named args, variadics, arrow functions. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```php\nfunction inc(int &$n) { $n++; }\n$a = 1; inc($a);\n$counter = function() { static $c = 0; return ++$c; };\necho $a, \" \", $counter(), $counter();\n```\n",
+     "options": [
+      "Error",
+      "1 12",
+      "2 11",
+      "2 12"
+     ],
+     "answer": 3,
+     "explain": "References and static variables. Verified by compiling and running it."
+    },
+    {
+     "q": "What does a nullable type ?int mean?",
+     "options": [
+      "Union",
+      "Optional param",
+      "Int only",
+      "The value may be int or null"
+     ],
+     "answer": 3,
+     "explain": "PHP 7.1+."
+    },
+    {
+     "q": "What's the return type void?",
+     "options": [
+      "null",
+      "false",
+      "empty",
+      "The function returns nothing"
+     ],
+     "answer": 3,
+     "explain": "No value."
+    }
+   ]
+  },
+  "level-1/05-arrays": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\n$a = [3, 1, 2];\nsort($a);\n$m = [\"b\" => 2, \"a\" => 1];\nksort($m);\n$m[\"c\"] = 3;\necho implode(\",\", $a), \" \", json_encode($m), \" \", count($a), \" \", in_array(2, $a) ? \"yes\" : \"no\";\n```\n",
+     "options": [
+      "3,1,2 {} 3 yes",
+      "Error",
+      "1,2,3 {\"a\":1,\"b\":2,\"c\":3} 3 yes",
+      "1,2,3 {\"b\":2} 3 no"
+     ],
+     "answer": 2,
+     "explain": "Indexed and associative arrays. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```php\n$xs = [1, 2, 3, 4, 5];\necho implode(\",\", array_filter($xs, fn($x) => $x % 2)), \" \", implode(\",\", array_map(fn($x) => $x * 2, $xs)), \" \", array_reduce($xs, fn($c, $x) => $c + $x, 0), \" \", implode(\",\", array_slice($xs, 1, 2));\n```\n",
+     "options": [
+      "2,4 1,2 15 2,3",
+      "1,3,5 2,4,6 5 1,2",
+      "Error",
+      "1,3,5 2,4,6,8,10 15 2,3"
+     ],
+     "answer": 3,
+     "explain": "Functional helpers. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```php\n[$a, [$b, $c]] = [1, [2, 3]];\n[\"x\" => $x] = [\"x\" => 9];\n$m = [...[1, 2], ...[3]];\necho \"$a$b$c$x \", count($m);\n```\n",
+     "options": [
+      "123 3",
+      "1239 3",
+      "1239 2",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Destructuring and spread. Verified by compiling and running it."
+    },
+    {
+     "q": "What does array_key_exists vs isset do for a null value?",
+     "options": [
+      "Same",
+      "Reverse",
+      "array_key_exists is true; isset is false",
+      "Both false"
+     ],
+     "answer": 2,
+     "explain": "Null handling."
+    }
+   ]
+  },
+  "level-1/06-strings": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\n$s = \"Hello, World\";\necho strlen($s), \" \", strtoupper($s), \" \", substr($s, 7), \" \", str_contains($s, \"World\") ? \"yes\" : \"no\", \" \", ucfirst(\"php\"), \" \", str_pad(\"7\", 3, \"0\", STR_PAD_LEFT);\n```\n",
+     "options": [
+      "11 HELLO World yes php 700",
+      "12 HELLO, WORLD World yes Php 007",
+      "Error",
+      "12 Hello, World World no Php 007"
+     ],
+     "answer": 1,
+     "explain": "String helpers. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```php\n$name = \"Ada\"; $a = ['k' => 5];\necho \"Hi $name {$a['k']} \", 'no $name', \" \", sprintf(\"%05.1f|%-4s|%d%%\", 3.14159, \"ab\", 50);\n```\n",
+     "options": [
+      "Hi Ada 5 no $name 003.1|ab  |50%",
+      "Hi Ada 5 no Ada 003.1",
+      "Hi $name 5 no Ada 3.14",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Single quotes don't interpolate. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```php\necho strlen(\"héllo\"), \" \", mb_strlen(\"héllo\"), \" \", mb_strtoupper(\"héllo\");\n```\n",
+     "options": [
+      "Error",
+      "5 5 HÉLLO",
+      "6 5 HÉLLO",
+      "6 6 HÉLLO"
+     ],
+     "answer": 2,
+     "explain": "strlen counts bytes; use mb_* for UTF-8. Verified by compiling and running it."
+    },
+    {
+     "q": "Why prefer htmlspecialchars when echoing user text?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "To prevent XSS by escaping HTML"
+     ],
+     "answer": 3,
+     "explain": "Output escaping."
+    }
+   ]
+  },
+  "level-1/07-classes-objects": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\nclass Counter { private int $n = 0; public function __construct(private string $label = \"c\") {} public function inc(): static { $this->n++; return $this; } public function __toString(): string { return \"{$this->label}={$this->n}\"; } }\n$c = (new Counter(\"hits\"))->inc()->inc();\necho $c;\n```\n",
+     "options": [
+      "Error",
+      "hits=0",
+      "hits=2",
+      "c=0"
+     ],
+     "answer": 2,
+     "explain": "Constructor promotion and fluent methods. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```php\nclass A { public static int $count = 0; const X = 5; public static function make(): static { static::$count++; return new static; } }\nclass B extends A {}\n$b = B::make();\necho get_class($b), \" \", A::$count, \" \", B::X, \" \", $b instanceof A ? \"yes\" : \"no\";\n```\n",
+     "options": [
+      "Error",
+      "B 1 5 yes",
+      "A 1 5 yes",
+      "B 0 5 yes"
+     ],
+     "answer": 1,
+     "explain": "Late static binding. Verified by compiling and running it."
+    },
+    {
+     "q": "What does readonly do?",
+     "options": [
+      "Private",
+      "Allows a property to be assigned only once (immutability)",
+      "Static",
+      "Final"
+     ],
+     "answer": 1,
+     "explain": "PHP 8.1+."
+    },
+    {
+     "q": "What's the difference between private and protected?",
+     "options": [
+      "None",
+      "Reverse",
+      "protected is visible to subclasses too",
+      "Same"
+     ],
+     "answer": 2,
+     "explain": "Visibility."
+    }
+   ]
+  },
+  "level-1/08-error-handling": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\nfunction f() { try { throw new InvalidArgumentException(\"bad\", 42); } catch (RuntimeException $e) { return \"runtime\"; } catch (InvalidArgumentException | TypeError $e) { return get_class($e) . \":\" . $e->getCode(); } finally { echo \"[fin]\"; } }\necho f();\n```\n",
+     "options": [
+      "runtime",
+      "InvalidArgumentException:0",
+      "[fin]InvalidArgumentException:42",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Multi-catch and finally. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```php\nfunction div(int $a, int $b): float { if ($b === 0) throw new DivisionByZeroError(\"zero\"); return $a / $b; }\ntry { div(1, 0); } catch (Error $e) { echo get_class($e), \" \", $e->getMessage(); }\ntry { intdiv(1, 0); } catch (DivisionByZeroError $e) { echo \" | \", $e->getMessage(); }\n```\n",
+     "options": [
+      "DivisionByZeroError zero | Division by zero",
+      "Warning",
+      "Error zero",
+      "Exception zero | 0"
+     ],
+     "answer": 0,
+     "explain": "Throwable hierarchy. Verified by compiling and running it."
+    },
+    {
+     "q": "What's the difference between Exception and Error?",
+     "options": [
+      "Errors are engine-level problems (TypeError); both implement Throwable",
+      "Reverse",
+      "Same",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "PHP 7+."
+    },
+    {
+     "q": "What does set_error_handler do?",
+     "options": [
+      "Hides",
+      "Converts or handles PHP warnings/notices in your own code",
+      "Logs",
+      "Throws"
+     ],
+     "answer": 1,
+     "explain": "ErrorException."
+    }
+   ]
+  },
+  "level-1/09-composer-basics": {
+   "questions": [
+    {
+     "q": "What is Composer?",
+     "options": [
+      "PHP's dependency manager",
+      "Linter",
+      "Server",
+      "Framework"
+     ],
+     "answer": 0,
+     "explain": "composer.json."
+    },
+    {
+     "q": "What does composer.lock do?",
+     "options": [
+      "Locks",
+      "Pins exact installed versions for reproducible installs",
+      "Cache",
+      "Auth"
+     ],
+     "answer": 1,
+     "explain": "Commit it for apps."
+    },
+    {
+     "q": "What does the vendor/autoload.php file do?",
+     "options": [
+      "Lints",
+      "Installs",
+      "Autoloads classes from installed packages and your PSR-4 mappings",
+      "Tests"
+     ],
+     "answer": 2,
+     "explain": "require once."
+    },
+    {
+     "q": "What does `^2.1` mean?",
+     "options": [
+      "Compatible versions >=2.1 <3.0",
+      "<2.1",
+      "Any",
+      "Exactly"
+     ],
+     "answer": 0,
+     "explain": "Caret constraint."
+    }
+   ]
+  },
+  "level-1/10-project-todo-app": {
+   "questions": [
+    {
+     "q": "What does the todo app combine?",
+     "options": [
+      "Classes, arrays, forms/CLI input, file persistence and Composer autoloading",
+      "Only classes",
+      "Only forms",
+      "Only JSON"
+     ],
+     "answer": 0,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How persist todos?",
+     "options": [
+      "Serialize to JSON and write with file_put_contents",
+      "Session only",
+      "echo",
+      "Memory"
+     ],
+     "answer": 0,
+     "explain": "Simple storage."
+    },
+    {
+     "q": "How validate input?",
+     "options": [
+      "Regex only",
+      "Filter and validate before use (filter_var, type checks)",
+      "Ignore",
+      "Trust"
+     ],
+     "answer": 1,
+     "explain": "Never trust input."
+    },
+    {
+     "q": "How structure code?",
+     "options": [
+      "Globals",
+      "Includes",
+      "Separate model, storage and presentation classes",
+      "One file"
+     ],
+     "answer": 2,
+     "explain": "Cohesion."
+    }
+   ]
+  },
+  "level-2/01-oop-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\ninterface Shape { public function area(): float; }\nabstract class Base implements Shape { public function describe(): string { return static::class . \" \" . number_format($this->area(), 2); } }\nfinal class Circle extends Base { public function __construct(private float $r) {} public function area(): float { return M_PI * $this->r ** 2; } }\nfinal class Rect extends Base { public function __construct(private float $w, private float $h) {} public function area(): float { return $this->w * $this->h; } }\nforeach ([new Circle(1), new Rect(2, 3)] as $s) echo $s->describe(), \"; \";\n```\n",
+     "options": [
+      "Circle 3; Rect 6; ",
+      "Error",
+      "Circle 3.14; Rect 6.00;",
+      "Base 3.14; Base 6.00; "
+     ],
+     "answer": 2,
+     "explain": "Polymorphism via abstract base and interface. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```php\ntrait Greets { public function hi(): string { return \"hi from \" . static::class; } }\nclass A { use Greets; }\nenum Suit: string { case Hearts = \"H\"; case Spades = \"S\"; public function label(): string { return ucfirst(strtolower($this->name)); } }\necho (new A)->hi(), \" \", Suit::from(\"S\")->label(), \" \", Suit::tryFrom(\"X\")?->name ?? \"none\", \" \", count(Suit::cases());\n```\n",
+     "options": [
+      "hi from A S none 2",
+      "hi from Greets Spades none 2",
+      "hi from A Spades none 2",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Traits and enums. Verified by compiling and running it."
+    },
+    {
+     "q": "When use an interface vs a trait?",
+     "options": [
+      "Interface defines a contract; trait shares implementation",
+      "Reverse",
+      "Same",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Composition."
+    },
+    {
+     "q": "What does `final` do?",
+     "options": [
+      "Private",
+      "Prevents extension of a class or overriding of a method",
+      "Static",
+      "Constant"
+     ],
+     "answer": 1,
+     "explain": "Design intent."
+    }
+   ]
+  },
+  "level-2/02-error-handling-advanced": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\nclass NotFound extends RuntimeException { public function __construct(public readonly string $id, ?Throwable $prev = null) { parent::__construct(\"Item $id not found\", 404, $prev); } }\ntry { try { throw new LogicException(\"db down\"); } catch (LogicException $e) { throw new NotFound(\"A1\", $e); } } catch (NotFound $e) { echo $e->getMessage(), \" \", $e->getCode(), \" \", $e->getPrevious()->getMessage(), \" \", $e->id; }\n```\n",
+     "options": [
+      "Item A1 not found 404  A1",
+      "Error",
+      "not found 0 db down A1",
+      "Item A1 not found 404 db down A1"
+     ],
+     "answer": 3,
+     "explain": "Custom exceptions with chaining. Verified by compiling and running it."
+    },
+    {
+     "q": "What should an app do with uncaught exceptions in production?",
+     "options": [
+      "Ignore",
+      "Log them and show a generic error page without details",
+      "Show trace",
+      "Exit"
+     ],
+     "answer": 1,
+     "explain": "display_errors off."
+    },
+    {
+     "q": "What's exception chaining for?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Preserving the original cause when wrapping"
+     ],
+     "answer": 3,
+     "explain": "getPrevious()."
+    },
+    {
+     "q": "What does `finally` guarantee?",
+     "options": [
+      "Never",
+      "It runs whether or not an exception was thrown",
+      "Only success",
+      "Only failure"
+     ],
+     "answer": 1,
+     "explain": "Cleanup."
+    }
+   ]
+  },
+  "level-2/03-databases-pdo": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\n$pdo = new PDO(\"sqlite::memory:\");\n$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);\n$pdo->exec(\"CREATE TABLE u(id INTEGER PRIMARY KEY, name TEXT)\");\n$st = $pdo->prepare(\"INSERT INTO u(name) VALUES(?)\");\nforeach ([\"ada\", \"bo\", \"x' OR '1'='1\"] as $n) $st->execute([$n]);\n$q = $pdo->prepare(\"SELECT count(*) FROM u WHERE name = :n\");\n$q->execute([\":n\" => \"x' OR '1'='1\"]);\necho $pdo->query(\"SELECT count(*) FROM u\")->fetchColumn(), \" \", $q->fetchColumn();\n```\n",
+     "options": [
+      "1 1",
+      "Error",
+      "3 3",
+      "3 1"
+     ],
+     "answer": 3,
+     "explain": "Prepared statements treat input as data. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```php\n$pdo = new PDO(\"sqlite::memory:\");\n$pdo->exec(\"CREATE TABLE a(id INTEGER PRIMARY KEY, bal INTEGER)\");\n$pdo->exec(\"INSERT INTO a VALUES (1, 100), (2, 0)\");\ntry { $pdo->beginTransaction(); $pdo->exec(\"UPDATE a SET bal = bal - 50 WHERE id = 1\"); throw new Exception(\"boom\"); } catch (Exception $e) { $pdo->rollBack(); }\necho implode(\",\", $pdo->query(\"SELECT bal FROM a ORDER BY id\")->fetchAll(PDO::FETCH_COLUMN));\n```\n",
+     "options": [
+      "Error",
+      "50,0",
+      "50,50",
+      "100,0"
+     ],
+     "answer": 3,
+     "explain": "Transactions roll back. Verified by compiling and running it."
+    },
+    {
+     "q": "Why use PDO?",
+     "options": [
+      "A consistent database API with prepared statements across drivers",
+      "ORM",
+      "Faster",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "Security and portability."
+    },
+    {
+     "q": "What does PDO::ATTR_ERRMODE exception do?",
+     "options": [
+      "Makes failures throw PDOException",
+      "Log",
+      "Warn",
+      "Silent"
+     ],
+     "answer": 0,
+     "explain": "Handle errors."
+    }
+   ]
+  },
+  "level-2/04-sessions-forms": {
+   "questions": [
+    {
+     "q": "How does PHP track a session?",
+     "options": [
+      "URL only",
+      "Client data",
+      "A session ID (cookie) mapping to server-side data in $_SESSION",
+      "DB"
+     ],
+     "answer": 2,
+     "explain": "session_start()."
+    },
+    {
+     "q": "What should you do after login?",
+     "options": [
+      "Delete",
+      "Echo",
+      "session_regenerate_id(true) to prevent fixation",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Security."
+    },
+    {
+     "q": "What protects forms from CSRF?",
+     "options": [
+      "HTTPS",
+      "POST",
+      "Captcha",
+      "A per-session token verified on submission (plus SameSite cookies)"
+     ],
+     "answer": 3,
+     "explain": "Tokens."
+    },
+    {
+     "q": "Which cookie flags help?",
+     "options": [
+      "HttpOnly, Secure and SameSite",
+      "Expires",
+      "Domain",
+      "Path"
+     ],
+     "answer": 0,
+     "explain": "XSS/CSRF."
+    }
+   ]
+  },
+  "level-2/05-phpunit-testing": {
+   "questions": [
+    {
+     "q": "What does PHPUnit provide?",
+     "options": [
+      "Linter",
+      "Server",
+      "A testing framework with assertions, data providers and mocks",
+      "ORM"
+     ],
+     "answer": 2,
+     "explain": "composer require --dev."
+    },
+    {
+     "q": "What does a data provider do?",
+     "options": [
+      "Mocks",
+      "Fixtures",
+      "Loads",
+      "Runs one test with multiple input sets"
+     ],
+     "answer": 3,
+     "explain": "@dataProvider."
+    },
+    {
+     "q": "What's a good test name?",
+     "options": [
+      "x",
+      "Describes behavior and expectation",
+      "test1",
+      "foo"
+     ],
+     "answer": 1,
+     "explain": "Readable."
+    },
+    {
+     "q": "What does setUp() do?",
+     "options": [
+      "After",
+      "Runs before every test to create fresh state",
+      "Once",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Isolation."
+    }
+   ]
+  },
+  "level-2/06-json-apis": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\n$data = [\"name\" => \"Ada\", \"tags\" => [\"a\", \"b\"], \"n\" => 1.5, \"ok\" => true, \"none\" => null];\n$json = json_encode($data);\necho $json, \" \", json_decode($json, true)[\"tags\"][1], \" \", json_decode(\"{bad\", true) === null ? json_last_error_msg() : \"ok\";\n```\n",
+     "options": [
+      "Error",
+      "{\"name\":\"Ada\",\"tags\":[\"a\",\"b\"],\"n\":1.5,\"ok\":true,\"none\":null} b Syntax error",
+      "{} b ok",
+      "{\"name\":\"Ada\"} a Syntax error"
+     ],
+     "answer": 1,
+     "explain": "JSON round trip and error handling. Verified by compiling and running it."
+    },
+    {
+     "q": "What does JSON_THROW_ON_ERROR do?\n```php\ntry { json_decode(\"{bad\", false, 512, JSON_THROW_ON_ERROR); } catch (JsonException $e) { echo get_class($e), \": \", $e->getMessage(); }\n```\n",
+     "options": [
+      "JsonException: Syntax error",
+      "null",
+      "Warning",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Prefer exceptions over checking json_last_error. Verified by compiling and running it."
+    },
+    {
+     "q": "What status should an API return for a created resource?",
+     "options": [
+      "204",
+      "201 Created",
+      "302",
+      "200"
+     ],
+     "answer": 1,
+     "explain": "With Location header."
+    },
+    {
+     "q": "What header declares JSON responses?",
+     "options": [
+      "Content-Type: application/json",
+      "Cache",
+      "Accept",
+      "Etag"
+     ],
+     "answer": 0,
+     "explain": "header()."
+    }
+   ]
+  },
+  "level-2/07-autoloading-psr": {
+   "questions": [
+    {
+     "q": "What does PSR-4 define?",
+     "options": [
+      "Logging",
+      "Autoloading classes by namespace-to-directory mapping",
+      "HTTP",
+      "Coding style"
+     ],
+     "answer": 1,
+     "explain": "composer autoload."
+    },
+    {
+     "q": "What does `namespace App\\Models;` do?",
+     "options": [
+      "Tests",
+      "Declares the class's namespace to avoid name collisions",
+      "Imports",
+      "Autoloads"
+     ],
+     "answer": 1,
+     "explain": "Fully qualified names."
+    },
+    {
+     "q": "What does the `use` statement do?",
+     "options": [
+      "Imports a class name into the current file scope",
+      "Declare",
+      "Include",
+      "Autoload"
+     ],
+     "answer": 0,
+     "explain": "Aliases too."
+    },
+    {
+     "q": "Why autoload instead of require?",
+     "options": [
+      "Classes load on demand without manual includes",
+      "Speed only",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Maintainable."
+    }
+   ]
+  },
+  "level-2/08-file-uploads-validation": {
+   "questions": [
+    {
+     "q": "How validate an uploaded file?",
+     "options": [
+      "Trust name",
+      "Check ext only",
+      "Check upload errors, size, real MIME type and extension allowlist",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "finfo."
+    },
+    {
+     "q": "Where store uploads?",
+     "options": [
+      "public/",
+      "Outside the web root with generated names",
+      "Temp",
+      "Same name"
+     ],
+     "answer": 1,
+     "explain": "Prevent execution."
+    },
+    {
+     "q": "What does move_uploaded_file do?",
+     "options": [
+      "Safely moves a file uploaded via HTTP POST",
+      "Copy",
+      "Delete",
+      "Rename"
+     ],
+     "answer": 0,
+     "explain": "Checks origin."
+    },
+    {
+     "q": "What's the danger of trusting the client filename?",
+     "options": [
+      "Path traversal and executable extensions",
+      "None",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Generate names."
+    }
+   ]
+  },
+  "level-2/09-working-with-dates": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\n$d = new DateTimeImmutable(\"2024-01-31 10:00\", new DateTimeZone(\"UTC\"));\n$n = $d->modify(\"+1 month\");\necho $d->format(\"Y-m-d\"), \" \", $n->format(\"Y-m-d\"), \" \", $d->setTimezone(new DateTimeZone(\"Asia/Kolkata\"))->format(\"H:i\"), \" \", $d->diff(new DateTimeImmutable(\"2024-03-01 10:00\", new DateTimeZone(\"UTC\")))->days;\n```\n",
+     "options": [
+      "2024-01-31 2024-03-02 10:00 29",
+      "2024-01-31 2024-03-02 15:30 30",
+      "Error",
+      "2024-01-31 2024-02-29 10:00 30"
+     ],
+     "answer": 1,
+     "explain": "Month overflow and timezone conversion. Verified by compiling and running it."
+    },
+    {
+     "q": "Why prefer DateTimeImmutable?",
+     "options": [
+      "Faster",
+      "Operations return new objects, avoiding accidental mutation",
+      "Law",
+      "Smaller"
+     ],
+     "answer": 1,
+     "explain": "Safer."
+    },
+    {
+     "q": "How store timestamps?",
+     "options": [
+      "In UTC, convert for display",
+      "Strings",
+      "Local",
+      "Epoch only"
+     ],
+     "answer": 0,
+     "explain": "Avoid DST bugs."
+    },
+    {
+     "q": "What does date_default_timezone_set do?",
+     "options": [
+      "Sort",
+      "Sets the default timezone for date functions",
+      "Format",
+      "Locale"
+     ],
+     "answer": 1,
+     "explain": "Configure explicitly."
+    }
+   ]
+  },
+  "level-2/10-project-crud-app": {
+   "questions": [
+    {
+     "q": "What does the CRUD app project combine?",
+     "options": [
+      "PDO, forms, sessions, validation and tests",
+      "Only PDO",
+      "Only tests",
+      "Only forms"
+     ],
+     "answer": 0,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How prevent duplicate submissions?",
+     "options": [
+      "Post/Redirect/Get and server-side checks",
+      "Ignore",
+      "Disable",
+      "JS only"
+     ],
+     "answer": 0,
+     "explain": "Idempotence."
+    },
+    {
+     "q": "How validate and show errors?",
+     "options": [
+      "JS only",
+      "Ignore",
+      "Alert",
+      "Validate server-side and re-render the form with messages"
+     ],
+     "answer": 3,
+     "explain": "UX."
+    },
+    {
+     "q": "How protect mutations?",
+     "options": [
+      "None",
+      "Hide buttons",
+      "Auth checks, CSRF tokens and authorization per resource",
+      "Cookies"
+     ],
+     "answer": 2,
+     "explain": "Security."
+    }
+   ]
+  },
+  "level-3/01-building-apis": {
+   "questions": [
+    {
+     "q": "What should a good REST API return on invalid input?",
+     "options": [
+      "400/422 with a clear error body",
+      "200",
+      "404",
+      "500"
+     ],
+     "answer": 0,
+     "explain": "Client errors."
+    },
+    {
+     "q": "How version breaking changes?",
+     "options": [
+      "Silent",
+      "Delete",
+      "New version path or header, supporting old clients during migration",
+      "Break"
+     ],
+     "answer": 2,
+     "explain": "Compatibility."
+    },
+    {
+     "q": "What's idempotent among HTTP methods?",
+     "options": [
+      "PUT and DELETE (and GET)",
+      "PATCH",
+      "None",
+      "POST"
+     ],
+     "answer": 0,
+     "explain": "Safe retries."
+    },
+    {
+     "q": "How structure responses?",
+     "options": [
+      "Random",
+      "Consistent JSON envelopes and error format",
+      "Text",
+      "HTML"
+     ],
+     "answer": 1,
+     "explain": "Predictable."
+    }
+   ]
+  },
+  "level-3/02-design-patterns": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\nfinal class Config { private static ?Config $i = null; private function __construct(public array $v = [\"env\" => \"prod\"]) {} public static function get(): self { return self::$i ??= new self(); } }\ninterface Notifier { public function send(string $m): string; }\nclass Mail implements Notifier { public function send(string $m): string { return \"mail:$m\"; } }\nclass Sms implements Notifier { public function send(string $m): string { return \"sms:$m\"; } }\nclass Service { public function __construct(private Notifier $n) {} public function run(): string { return $this->n->send(\"hi\"); } }\necho var_export(Config::get() === Config::get(), true), \" \", (new Service(new Sms))->run(), \" \", (new Service(new Mail))->run();\n```\n",
+     "options": [
+      "Error",
+      "true sms:hi mail:hi",
+      "false sms:hi mail:hi",
+      "true mail:hi sms:hi"
+     ],
+     "answer": 1,
+     "explain": "Singleton, strategy and constructor injection. Verified by compiling and running it."
+    },
+    {
+     "q": "What does the Factory pattern do?",
+     "options": [
+      "Centralizes object creation behind an interface",
+      "Destroys",
+      "Caches",
+      "Copies"
+     ],
+     "answer": 0,
+     "explain": "Decoupling."
+    },
+    {
+     "q": "What's the Observer pattern?",
+     "options": [
+      "Subjects notify subscribers of state changes",
+      "Adapter",
+      "Singleton",
+      "Strategy"
+     ],
+     "answer": 0,
+     "explain": "Events."
+    },
+    {
+     "q": "Why avoid singletons?",
+     "options": [
+      "Law",
+      "Hidden global state hampers testing; use DI",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Inject."
+    }
+   ]
+  },
+  "level-3/03-security": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\n$pw = \"s3cret\";\n$h = password_hash($pw, PASSWORD_DEFAULT);\necho password_verify($pw, $h) ? \"ok\" : \"no\", \" \", password_verify(\"wrong\", $h) ? \"ok\" : \"no\", \" \", strlen($h) >= 60 ? \"long\" : \"short\", \" \", htmlspecialchars(\"<script>alert(1)</script>\"), \" \", hash_equals(\"abc\", \"abc\") ? \"same\" : \"diff\";\n```\n",
+     "options": [
+      "no ok short <script> diff",
+      "ok no long &lt;script&gt;alert(1)&lt;/script&gt; same",
+      "ok no long <script>alert(1)</script> same",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "password_hash, escaping and constant-time compare. Verified by compiling and running it."
+    },
+    {
+     "q": "How prevent SQL injection?",
+     "options": [
+      "Trim",
+      "Prepared statements with bound parameters",
+      "addslashes",
+      "Escape"
+     ],
+     "answer": 1,
+     "explain": "PDO."
+    },
+    {
+     "q": "How prevent XSS?",
+     "options": [
+      "Strip tags",
+      "Regex",
+      "Trust",
+      "Escape output for its context (htmlspecialchars) and set a CSP"
+     ],
+     "answer": 3,
+     "explain": "Contextual."
+    },
+    {
+     "q": "Where store secrets?",
+     "options": [
+      "Code",
+      "public/",
+      "Git",
+      "Environment variables or a secret manager, not in the repo"
+     ],
+     "answer": 3,
+     "explain": "Config."
+    }
+   ]
+  },
+  "level-3/04-testing-advanced-mocking": {
+   "questions": [
+    {
+     "q": "What does a mock do in PHPUnit?",
+     "options": [
+      "Runs DB",
+      "Replaces a dependency and verifies interactions",
+      "Loads",
+      "Seeds"
+     ],
+     "answer": 1,
+     "explain": "createMock."
+    },
+    {
+     "q": "What's a stub?",
+     "options": [
+      "Fake DB",
+      "Mock",
+      "A test double returning canned values",
+      "Spy"
+     ],
+     "answer": 2,
+     "explain": "willReturn."
+    },
+    {
+     "q": "What's over-mocking?",
+     "options": [
+      "Good",
+      "Needed",
+      "Mocking so much that tests check implementation details",
+      "Fast"
+     ],
+     "answer": 2,
+     "explain": "Brittle."
+    },
+    {
+     "q": "What's a better target than mocking everything?",
+     "options": [
+      "Mocks",
+      "Prod DB",
+      "None",
+      "Test behavior with fakes (in-memory repositories)"
+     ],
+     "answer": 3,
+     "explain": "Resilient."
+    }
+   ]
+  },
+  "level-3/05-performance-caching": {
+   "questions": [
+    {
+     "q": "What does OPcache do?",
+     "options": [
+      "DB",
+      "Data cache",
+      "Sessions",
+      "Caches compiled bytecode to skip recompiling scripts"
+     ],
+     "answer": 3,
+     "explain": "Big win."
+    },
+    {
+     "q": "What's APCu/Redis for?",
+     "options": [
+      "Sessions only",
+      "Caching application data between requests",
+      "Bytecode",
+      "CSS"
+     ],
+     "answer": 1,
+     "explain": "Shared cache."
+    },
+    {
+     "q": "What's the first step in tuning?",
+     "options": [
+      "Rewrite",
+      "Profile (Xdebug/Blackfire) to find hotspots",
+      "Guess",
+      "Cache all"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What commonly slows apps?",
+     "options": [
+      "Loops",
+      "Types",
+      "Echo",
+      "N+1 queries and missing indexes"
+     ],
+     "answer": 3,
+     "explain": "Database."
+    }
+   ]
+  },
+  "level-3/06-working-with-queues": {
+   "questions": [
+    {
+     "q": "Why use a queue for emails?",
+     "options": [
+      "Law",
+      "Cost",
+      "Style",
+      "Keep requests fast and retry failures outside the request"
+     ],
+     "answer": 3,
+     "explain": "Async work."
+    },
+    {
+     "q": "What must job handlers be?",
+     "options": [
+      "Idempotent, since delivery can repeat",
+      "Fast",
+      "Stateful",
+      "Ordered"
+     ],
+     "answer": 0,
+     "explain": "Retries."
+    },
+    {
+     "q": "Which backends are common?",
+     "options": [
+      "Files",
+      "Sessions",
+      "Redis, RabbitMQ, SQS or database queues",
+      "Cookies"
+     ],
+     "answer": 2,
+     "explain": "Brokers."
+    },
+    {
+     "q": "What's a dead-letter queue?",
+     "options": [
+      "Log",
+      "Cache",
+      "Where jobs go after repeated failures",
+      "Archive"
+     ],
+     "answer": 2,
+     "explain": "Inspect."
+    }
+   ]
+  },
+  "level-3/07-middleware-patterns": {
+   "questions": [
+    {
+     "q": "What is middleware?",
+     "options": [
+      "View",
+      "DB",
+      "Model",
+      "Code wrapping request handling (auth, logging, CORS)"
+     ],
+     "answer": 3,
+     "explain": "PSR-15."
+    },
+    {
+     "q": "How does the pipeline run?",
+     "options": [
+      "Reverse",
+      "Random",
+      "Each middleware calls the next handler and can act before and after",
+      "Parallel"
+     ],
+     "answer": 2,
+     "explain": "Onion."
+    },
+    {
+     "q": "What can middleware short-circuit with?",
+     "options": [
+      "A response (e.g. 401) without calling the next handler",
+      "Redirect only",
+      "None",
+      "Exception"
+     ],
+     "answer": 0,
+     "explain": "Early exit."
+    },
+    {
+     "q": "What does PSR-7 define?",
+     "options": [
+      "HTTP message interfaces (Request/Response)",
+      "Cache",
+      "DI",
+      "Logging"
+     ],
+     "answer": 0,
+     "explain": "Interoperability."
+    }
+   ]
+  },
+  "level-3/08-dependency-injection": {
+   "questions": [
+    {
+     "q": "What does this print?\n```php\nclass Container { private array $defs = []; private array $shared = []; public function set(string $id, callable $f): void { $this->defs[$id] = $f; } public function get(string $id) { return $this->shared[$id] ??= ($this->defs[$id])($this); } }\nclass Db {} class Repo { public function __construct(public Db $db) {} }\n$c = new Container();\n$c->set(Db::class, fn() => new Db);\n$c->set(Repo::class, fn($c) => new Repo($c->get(Db::class)));\nvar_dump($c->get(Repo::class)->db === $c->get(Db::class));\n```\n",
+     "options": [
+      "bool(true)",
+      "Error",
+      "NULL",
+      "bool(false)"
+     ],
+     "answer": 0,
+     "explain": "A tiny DI container with shared instances. Verified by compiling and running it."
+    },
+    {
+     "q": "What does dependency injection give you?",
+     "options": [
+      "Speed",
+      "Loose coupling and easy substitution in tests",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Constructor injection."
+    },
+    {
+     "q": "What does PSR-11 define?",
+     "options": [
+      "A container interface (get/has)",
+      "HTTP",
+      "Logging",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "Interop."
+    },
+    {
+     "q": "What's autowiring?",
+     "options": [
+      "Reflection",
+      "Config",
+      "Magic",
+      "The container resolving constructor dependencies by type"
+     ],
+     "answer": 3,
+     "explain": "Convenient."
+    }
+   ]
+  },
+  "level-3/09-composer-at-scale": {
+   "questions": [
+    {
+     "q": "What does `composer install` do in CI?",
+     "options": [
+      "Updates",
+      "Tests",
+      "Removes",
+      "Installs exactly what composer.lock pins"
+     ],
+     "answer": 3,
+     "explain": "Reproducible."
+    },
+    {
+     "q": "What does composer audit do?",
+     "options": [
+      "Checks dependencies for known vulnerabilities",
+      "Format",
+      "Lint",
+      "Test"
+     ],
+     "answer": 0,
+     "explain": "Supply chain."
+    },
+    {
+     "q": "What's a private package approach?",
+     "options": [
+      "Private Packagist/Satis or VCS repositories",
+      "Copy",
+      "Zip",
+      "Fork"
+     ],
+     "answer": 0,
+     "explain": "Internal libs."
+    },
+    {
+     "q": "What does `--no-dev` do?",
+     "options": [
+      "Dev only",
+      "Skips development dependencies for production installs",
+      "Update",
+      "Remove"
+     ],
+     "answer": 1,
+     "explain": "Smaller."
+    }
+   ]
+  },
+  "level-3/10-project-rest-api": {
+   "questions": [
+    {
+     "q": "What does the REST API project combine?",
+     "options": [
+      "Only routes",
+      "Only DB",
+      "Routing, validation, PDO, auth, errors and tests",
+      "Only auth"
+     ],
+     "answer": 2,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How test endpoints?",
+     "options": [
+      "Browser",
+      "Manual",
+      "None",
+      "HTTP-level tests with an in-memory DB"
+     ],
+     "answer": 3,
+     "explain": "Fast."
+    },
+    {
+     "q": "How handle errors consistently?",
+     "options": [
+      "try everywhere",
+      "Ignore",
+      "A central handler mapping exceptions to JSON responses",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Uniform."
+    },
+    {
+     "q": "How document the API?",
+     "options": [
+      "Email",
+      "OpenAPI spec kept in sync",
+      "Wiki",
+      "Comments"
+     ],
+     "answer": 1,
+     "explain": "Contract."
+    }
+   ]
+  },
+  "level-4/01-advanced-framework-patterns": {
+   "questions": [
+    {
+     "q": "What do frameworks like Laravel/Symfony provide?",
+     "options": [
+      "A DB",
+      "Routing, DI, ORM, validation and tooling out of the box",
+      "A server",
+      "Only routing"
+     ],
+     "answer": 1,
+     "explain": "Productivity."
+    },
+    {
+     "q": "What's a service provider?",
+     "options": [
+      "Route",
+      "A place to register services in the container",
+      "Model",
+      "Controller"
+     ],
+     "answer": 1,
+     "explain": "Bootstrapping."
+    },
+    {
+     "q": "What's event-driven design for?",
+     "options": [
+      "Speed",
+      "Decoupling reactions to domain events",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Listeners."
+    },
+    {
+     "q": "What's a repository pattern?",
+     "options": [
+      "Cache",
+      "Router",
+      "An abstraction over data access for the domain",
+      "View"
+     ],
+     "answer": 2,
+     "explain": "Testability."
+    }
+   ]
+  },
+  "level-4/02-security-at-scale": {
+   "questions": [
+    {
+     "q": "What does CSP do?",
+     "options": [
+      "Restricts allowed script/style sources to mitigate XSS",
+      "Cache",
+      "Auth",
+      "CORS"
+     ],
+     "answer": 0,
+     "explain": "Header."
+    },
+    {
+     "q": "What's mass assignment risk?",
+     "options": [
+      "None",
+      "Law",
+      "Binding request data directly to models and overwriting protected fields",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Whitelist fields."
+    },
+    {
+     "q": "What does rate limiting protect?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Login and API endpoints from abuse"
+     ],
+     "answer": 3,
+     "explain": "Brute force."
+    },
+    {
+     "q": "What should logs avoid?",
+     "options": [
+      "IDs",
+      "Passwords, tokens and personal data",
+      "Levels",
+      "Errors"
+     ],
+     "answer": 1,
+     "explain": "Redact."
+    }
+   ]
+  },
+  "level-4/03-testing-at-scale-ci": {
+   "questions": [
+    {
+     "q": "What should CI run for PHP?",
+     "options": [
+      "Only tests",
+      "Linters, static analysis (PHPStan/Psalm) and PHPUnit",
+      "Nothing",
+      "Deploy"
+     ],
+     "answer": 1,
+     "explain": "Gate merges."
+    },
+    {
+     "q": "What does PHPStan do?",
+     "options": [
+      "Runs tests",
+      "Deploys",
+      "Finds bugs via static analysis without running code",
+      "Formats"
+     ],
+     "answer": 2,
+     "explain": "Levels."
+    },
+    {
+     "q": "How speed CI?",
+     "options": [
+      "Retry",
+      "More jobs",
+      "Cache Composer downloads and parallelize test suites",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Efficiency."
+    },
+    {
+     "q": "What should fail the build?",
+     "options": [
+      "Style",
+      "Slow",
+      "Failing tests or analysis errors",
+      "Warnings"
+     ],
+     "answer": 2,
+     "explain": "Quality."
+    }
+   ]
+  },
+  "level-4/04-deployment-docker": {
+   "questions": [
+    {
+     "q": "Why multi-stage Docker builds for PHP?",
+     "options": [
+      "Law",
+      "Install dev dependencies in one stage, ship a slim runtime image",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Smaller images."
+    },
+    {
+     "q": "What runs PHP in production containers?",
+     "options": [
+      "php -S",
+      "PHP-FPM behind Nginx",
+      "Apache CGI",
+      "Node"
+     ],
+     "answer": 1,
+     "explain": "Standard."
+    },
+    {
+     "q": "Why disable display_errors in prod?",
+     "options": [
+      "Speed",
+      "Style",
+      "Prevent leaking internals to users",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Log instead."
+    },
+    {
+     "q": "What's OPcache validate_timestamps=0 for?",
+     "options": [
+      "Debug",
+      "None",
+      "Dev",
+      "Faster production by not checking file changes (restart on deploy)"
+     ],
+     "answer": 3,
+     "explain": "Config."
+    }
+   ]
+  },
+  "level-4/05-performance-at-scale": {
+   "questions": [
+    {
+     "q": "What helps at scale?",
+     "options": [
+      "Caching, read replicas, queues and horizontal scaling",
+      "Bigger loops",
+      "Sleeps",
+      "Logs"
+     ],
+     "answer": 0,
+     "explain": "Architecture."
+    },
+    {
+     "q": "What's a common bottleneck?",
+     "options": [
+      "The database (N+1, missing indexes)",
+      "Nginx",
+      "DNS",
+      "PHP"
+     ],
+     "answer": 0,
+     "explain": "Profile."
+    },
+    {
+     "q": "What does PHP-FPM tuning involve?",
+     "options": [
+      "Max",
+      "Random",
+      "Min",
+      "Worker counts sized to memory and traffic"
+     ],
+     "answer": 3,
+     "explain": "pm.max_children."
+    },
+    {
+     "q": "What's a good performance habit?",
+     "options": [
+      "Guess",
+      "Measure with realistic load before and after",
+      "Cache all",
+      "Rewrite"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-4/06-api-versioning-docs": {
+   "questions": [
+    {
+     "q": "How document an API?",
+     "options": [
+      "Email",
+      "Wiki",
+      "None",
+      "OpenAPI/Swagger generated and validated in CI"
+     ],
+     "answer": 3,
+     "explain": "Contract."
+    },
+    {
+     "q": "How deprecate a version?",
+     "options": [
+      "Break",
+      "Announce, add Sunset/Deprecation headers and monitor usage",
+      "Silent",
+      "Remove"
+     ],
+     "answer": 1,
+     "explain": "Communication."
+    },
+    {
+     "q": "What's backward compatible?",
+     "options": [
+      "Renaming",
+      "Removing",
+      "Adding optional fields",
+      "Retyping"
+     ],
+     "answer": 2,
+     "explain": "Tolerant readers."
+    },
+    {
+     "q": "What detects who uses v1?",
+     "options": [
+      "Guess",
+      "Request metrics by version/client",
+      "Email",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-4/07-background-jobs": {
+   "questions": [
+    {
+     "q": "What do background jobs need?",
+     "options": [
+      "Cron only",
+      "Sleep",
+      "Retries with backoff, idempotency and monitoring",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Reliable."
+    },
+    {
+     "q": "What's a scheduler (cron) used for?",
+     "options": [
+      "Cache",
+      "Requests",
+      "Queues",
+      "Time-based tasks like reports and cleanup"
+     ],
+     "answer": 3,
+     "explain": "Single runner."
+    },
+    {
+     "q": "What prevents overlapping runs?",
+     "options": [
+      "Sleep",
+      "Hope",
+      "Locks (e.g. database/Redis locks)",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "withoutOverlapping."
+    },
+    {
+     "q": "How monitor jobs?",
+     "options": [
+      "Guess",
+      "Logs only",
+      "None",
+      "Failure alerts and queue depth metrics"
+     ],
+     "answer": 3,
+     "explain": "Observability."
+    }
+   ]
+  },
+  "level-4/08-microservices": {
+   "questions": [
+    {
+     "q": "When consider microservices for a PHP app?",
+     "options": [
+      "At start",
+      "When teams/scale need independent deployment, not by default",
+      "Never",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "Complexity."
+    },
+    {
+     "q": "How communicate between services?",
+     "options": [
+      "Cookies",
+      "HTTP/gRPC for sync, queues/events for async",
+      "Files",
+      "Shared DB"
+     ],
+     "answer": 1,
+     "explain": "Contracts."
+    },
+    {
+     "q": "What does each service own?",
+     "options": [
+      "All",
+      "UI",
+      "None",
+      "Its data and API"
+     ],
+     "answer": 3,
+     "explain": "Autonomy."
+    },
+    {
+     "q": "What's a risk?",
+     "options": [
+      "Distributed failures and operational overhead",
+      "Speed",
+      "Law",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Plan for it."
+    }
+   ]
+  },
+  "level-4/09-code-quality-tools": {
+   "questions": [
+    {
+     "q": "Which tools enforce style?",
+     "options": [
+      "PHPUnit",
+      "Xdebug",
+      "Composer",
+      "PHP-CS-Fixer/PHPCS to PSR-12"
+     ],
+     "answer": 3,
+     "explain": "Consistency."
+    },
+    {
+     "q": "What does Rector do?",
+     "options": [
+      "Automated refactoring and upgrades",
+      "Tests",
+      "Lint",
+      "Deploy"
+     ],
+     "answer": 0,
+     "explain": "Modernize."
+    },
+    {
+     "q": "What does static analysis catch?",
+     "options": [
+      "Load",
+      "Type errors and dead code before runtime",
+      "Perf",
+      "UI"
+     ],
+     "answer": 1,
+     "explain": "Quality."
+    },
+    {
+     "q": "What's a good review practice?",
+     "options": [
+      "Rush",
+      "None",
+      "Small PRs with automated checks",
+      "Huge"
+     ],
+     "answer": 2,
+     "explain": "Flow."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only code",
+      "Only Docker",
+      "Only tests",
+      "Architecture, security, tests, CI, Docker and monitoring"
+     ],
+     "answer": 3,
+     "explain": "Production app."
+    },
+    {
+     "q": "How prove readiness?",
+     "options": [
+      "Slides",
+      "Demo",
+      "Hope",
+      "Load tests, security review, CI gates and rollback plan"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "README, architecture and runbooks",
+      "None",
+      "Slides",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Onboarding."
+    },
+    {
+     "q": "What sustains it?",
+     "options": [
+      "Luck",
+      "Tools",
+      "Silence",
+      "Dependency updates, monitoring and ownership"
+     ],
+     "answer": 3,
+     "explain": "Maintenance."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does `==` do with \"5\" and 5 compared to `===`?",
+    "options": [
+     "Reverse",
+     "== coerces types and is true; === also checks type and is false",
+     "Both false",
+     "Both true"
+    ],
+    "answer": 1,
+    "explain": "Prefer ===."
+   },
+   {
+    "q": "What does this print?\n```php\n$a = [\"x\" => null];\nvar_dump(isset($a[\"x\"]), array_key_exists(\"x\", $a), $a[\"y\"] ?? \"d\");\n```\n",
+    "options": [
+     "bool(false)\nbool(true)\nstring(1) \"d\"",
+     "bool(true)\nbool(true)\nstring(1) \"d\"",
+     "bool(false)\nbool(false)\nNULL",
+     "Error"
+    ],
+    "answer": 0,
+    "explain": "isset treats null as unset. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```php\nfunction f(int ...$n) { return array_sum($n); }\n$args = [1, 2, 3];\necho f(...$args), \" \", f(), \" \", (fn($x) => $x ** 2)(5);\n```\n",
+    "options": [
+     "6 0 25",
+     "Error",
+     "6 null 10",
+     "123 0 25"
+    ],
+    "answer": 0,
+    "explain": "Spread and variadics. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```php\n$n = 7;\necho match(true) { $n % 2 === 0 => \"even\", $n > 5 => \"big odd\", default => \"odd\" };\ntry { echo match($n) { 1 => \"a\" }; } catch (\\UnhandledMatchError $e) { echo \" \", get_class($e); }\n```\n",
+    "options": [
+     "big odd null",
+     "even UnhandledMatchError",
+     "big odd UnhandledMatchError",
+     "odd"
+    ],
+    "answer": 2,
+    "explain": "match is exhaustive. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```php\nclass P { public function __construct(public readonly int $x = 1) {} }\n$p = new P(5);\ntry { $p->x = 9; } catch (Error $e) { echo get_class($e), \" \", $e->getMessage(); }\n```\n",
+    "options": [
+     "TypeError",
+     "Error 9",
+     "No output",
+     "Error Cannot modify readonly property P::$x"
+    ],
+    "answer": 3,
+    "explain": "Readonly properties are immutable. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```php\nclass A { public static function make() { return new static; } public function who() { return static::class; } }\nclass B extends A {}\necho (B::make())->who(), \" \", (new A)->who();\n```\n",
+    "options": [
+     "Error",
+     "B B",
+     "A A",
+     "B A"
+    ],
+    "answer": 3,
+    "explain": "Late static binding. Verified by compiling and running it."
+   },
+   {
+    "q": "When prefer an interface to an abstract class?",
+    "options": [
+     "Never",
+     "For speed",
+     "For state",
+     "To define a contract that unrelated classes can implement"
+    ],
+    "answer": 3,
+    "explain": "Composition."
+   },
+   {
+    "q": "What does this print?\n```php\nfunction f() { try { return \"try\"; } finally { echo \"[cleanup]\"; } }\necho f();\n```\n",
+    "options": [
+     "try",
+     "try[cleanup]",
+     "[cleanup]",
+     "[cleanup]try"
+    ],
+    "answer": 3,
+    "explain": "finally runs before the value is returned. Verified by compiling and running it."
+   },
+   {
+    "q": "Why are prepared statements the main defence against SQL injection?",
+    "options": [
+     "User input is sent as data, never parsed as SQL",
+     "They are faster",
+     "They are encrypted",
+     "They escape quotes"
+    ],
+    "answer": 0,
+    "explain": "Bind parameters."
+   },
+   {
+    "q": "What does this print?\n```php\n$pdo = new PDO(\"sqlite::memory:\");\n$pdo->exec(\"CREATE TABLE t(id INTEGER PRIMARY KEY, n TEXT)\");\n$s = $pdo->prepare(\"INSERT INTO t(n) VALUES(:n)\");\n$s->execute([\":n\" => \"a\"]); $s->execute([\":n\" => \"b\"]);\necho $pdo->lastInsertId(), \" \", json_encode($pdo->query(\"SELECT * FROM t\")->fetchAll(PDO::FETCH_ASSOC));\n```\n",
+    "options": [
+     "1 []",
+     "2 [{\"id\":1,\"n\":\"a\"},{\"id\":2,\"n\":\"b\"}]",
+     "2 [{\"id\":\"1\"}]",
+     "Error"
+    ],
+    "answer": 1,
+    "explain": "Named parameters and fetch modes. Verified by compiling and running it."
+   },
+   {
+    "q": "What should happen to the session id after login?",
+    "options": [
+     "Put it in the URL",
+     "Keep it",
+     "Regenerate it with session_regenerate_id(true)",
+     "Echo it"
+    ],
+    "answer": 2,
+    "explain": "Prevents session fixation."
+   },
+   {
+    "q": "Which function stores a password?",
+    "options": [
+     "sha1()",
+     "password_hash(), verified with password_verify()",
+     "md5()",
+     "base64_encode()"
+    ],
+    "answer": 1,
+    "explain": "Adaptive hashing."
+   },
+   {
+    "q": "What does this print?\n```php\necho htmlspecialchars(\"<b>\\\"Tom\\\" & 'Jerry'</b>\"), \" \", strlen(\"日本\"), \" \", mb_strlen(\"日本\");\n```\n",
+    "options": [
+     "&lt;b&gt;&quot;Tom&quot; &amp; &#039;Jerry&#039;&lt;/b&gt; 6 2",
+     "<b>\"Tom\" & 'Jerry'</b> 2 2",
+     "&lt;b&gt; 6 6",
+     "Error"
+    ],
+    "answer": 0,
+    "explain": "Escape output; strlen counts bytes. Verified by compiling and running it."
+   },
+   {
+    "q": "What does PSR-4 map?",
+    "options": [
+     "URLs to routes",
+     "Tables to classes",
+     "Functions to files",
+     "Namespace prefixes to directories so classes autoload"
+    ],
+    "answer": 3,
+    "explain": "Composer autoload."
+   },
+   {
+    "q": "What do you commit for an application's Composer dependencies?",
+    "options": [
+     "Only composer.json",
+     "Nothing",
+     "vendor/",
+     "composer.lock, so every environment installs the same versions"
+    ],
+    "answer": 3,
+    "explain": "Reproducible builds."
+   },
+   {
+    "q": "A test needs a repository without a database. What is a good approach?",
+    "options": [
+     "Skip the test",
+     "Use globals",
+     "Use prod DB",
+     "Inject an in-memory fake implementing the repository interface"
+    ],
+    "answer": 3,
+    "explain": "Dependency injection."
+   },
+   {
+    "q": "Why queue slow work such as sending email?",
+    "options": [
+     "Keeps requests fast and allows retries outside the request",
+     "Shorter code",
+     "Style",
+     "Law"
+    ],
+    "answer": 0,
+    "explain": "Handlers must be idempotent."
+   },
+   {
+    "q": "The app is slow under load. What first?",
+    "options": [
+     "Add random caches",
+     "Upgrade PHP only",
+     "Rewrite in C",
+     "Profile to find the real hotspot (often N+1 queries or missing indexes)"
+    ],
+    "answer": 3,
+    "explain": "Measure first."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A shopping cart with discounts",
+    "prompt": "Implement Cart: add (merging quantities and rejecting non-positive quantities with InvalidArgumentException), remove, subtotal, a 10% discount when the subtotal is at least 100.00, total and count. Work in integer cents to avoid float errors.",
+    "starter": "final class Cart {\n    private array $lines = [];\n    public function add(string $sku, int $qty, int $priceCents): void {\n        // throw InvalidArgumentException(\"qty must be positive\") when $qty <= 0\n        // merge quantities when the same SKU is added again\n    }\n    public function remove(string $sku): void { }\n    public function subtotal(): int { return 0; }          // sum of qty * price in cents\n    public function discount(): int { return 0; }          // 10% (integer cents) when subtotal >= 10000\n    public function total(): int { return 0; }\n    public function count(): int { return 0; }            // total number of items\n}\nfunction money(int $cents): string { return number_format($cents / 100, 2); }\n\n$c = new Cart();\n$c->add(\"pen\", 3, 250);\n$c->add(\"book\", 2, 4500);\n$c->add(\"pen\", 2, 250);\necho \"items: \", $c->count(), \"\\n\";\necho \"subtotal: \", money($c->subtotal()), \"\\n\";\necho \"discount: \", money($c->discount()), \"\\n\";\necho \"total: \", money($c->total()), \"\\n\";\n$c->remove(\"book\");\necho \"after remove: \", money($c->total()), \"\\n\";\ntry { $c->add(\"x\", 0, 100); } catch (InvalidArgumentException $e) { echo \"error: \", $e->getMessage(), \"\\n\"; }\n",
+    "expected": "items: 7\nsubtotal: 102.50\ndiscount: 10.25\ntotal: 92.25\nafter remove: 12.50\nerror: qty must be positive",
+    "solution": "final class Cart {\n    private array $lines = [];\n    public function add(string $sku, int $qty, int $priceCents): void {\n        if ($qty <= 0) throw new InvalidArgumentException(\"qty must be positive\");\n        if (isset($this->lines[$sku])) { $this->lines[$sku]['qty'] += $qty; }\n        else { $this->lines[$sku] = ['qty' => $qty, 'price' => $priceCents]; }\n    }\n    public function remove(string $sku): void { unset($this->lines[$sku]); }\n    public function subtotal(): int {\n        return array_sum(array_map(fn($l) => $l['qty'] * $l['price'], $this->lines));\n    }\n    public function discount(): int {\n        $s = $this->subtotal();\n        return $s >= 10000 ? intdiv($s * 10, 100) : 0;\n    }\n    public function total(): int { return $this->subtotal() - $this->discount(); }\n    public function count(): int { return array_sum(array_column($this->lines, 'qty')); }\n}\nfunction money(int $cents): string { return number_format($cents / 100, 2); }\n\n$c = new Cart();\n$c->add(\"pen\", 3, 250);\n$c->add(\"book\", 2, 4500);\n$c->add(\"pen\", 2, 250);\necho \"items: \", $c->count(), \"\\n\";\necho \"subtotal: \", money($c->subtotal()), \"\\n\";\necho \"discount: \", money($c->discount()), \"\\n\";\necho \"total: \", money($c->total()), \"\\n\";\n$c->remove(\"book\");\necho \"after remove: \", money($c->total()), \"\\n\";\ntry { $c->add(\"x\", 0, 100); } catch (InvalidArgumentException $e) { echo \"error: \", $e->getMessage(), \"\\n\"; }\n",
+    "explain": "Money is kept in integer cents so arithmetic is exact; array_sum/array_map compute totals and unset removes a line. Verified by running the solution with PHP."
+   },
+   {
+    "title": "A router with a middleware pipeline",
+    "prompt": "Implement Router::dispatch so a request passes through the registered middleware (first registered runs outermost) before reaching the route handler, returning 404 for unknown paths. Auth short-circuits with 401 when the token is wrong, and Logger records the request and response status.",
+    "starter": "interface Middleware { public function handle(array $req, callable $next): array; }\nfinal class Auth implements Middleware {\n    public function handle(array $req, callable $next): array {\n        if (($req['token'] ?? '') !== 'secret') return ['status' => 401, 'body' => 'unauthorized'];\n        return $next($req);\n    }\n}\nfinal class Logger implements Middleware {\n    public static array $log = [];\n    public function handle(array $req, callable $next): array {\n        self::$log[] = \"-> {$req['path']}\";\n        $res = $next($req);\n        self::$log[] = \"<- {$res['status']}\";\n        return $res;\n    }\n}\nfinal class Router {\n    private array $routes = [];\n    private array $mw = [];\n    public function add(string $path, callable $h): void { $this->routes[$path] = $h; }\n    public function use(Middleware $m): void { $this->mw[] = $m; }\n    public function dispatch(array $req): array {\n        // core handler: 200 + handler output, or 404 \"not found\"\n        // wrap it with the middleware so the FIRST registered middleware runs outermost (array_reduce over the reversed list)\n        return ['status' => 500, 'body' => 'todo'];\n    }\n}\n\n$r = new Router();\n$r->use(new Logger());\n$r->use(new Auth());\n$r->add(\"/hello\", fn($req) => \"hello \" . ($req['name'] ?? \"world\"));\nforeach ([\n    ['path' => '/hello', 'token' => 'secret', 'name' => 'Ada'],\n    ['path' => '/hello', 'token' => 'bad'],\n    ['path' => '/missing', 'token' => 'secret'],\n] as $req) {\n    $res = $r->dispatch($req);\n    echo $res['status'], \" \", $res['body'], \"\\n\";\n}\necho implode(\" | \", Logger::$log), \"\\n\";\n",
+    "expected": "200 hello Ada\n401 unauthorized\n404 not found\n-> /hello | <- 200 | -> /hello | <- 401 | -> /missing | <- 404",
+    "solution": "interface Middleware { public function handle(array $req, callable $next): array; }\nfinal class Auth implements Middleware {\n    public function handle(array $req, callable $next): array {\n        if (($req['token'] ?? '') !== 'secret') return ['status' => 401, 'body' => 'unauthorized'];\n        return $next($req);\n    }\n}\nfinal class Logger implements Middleware {\n    public static array $log = [];\n    public function handle(array $req, callable $next): array {\n        self::$log[] = \"-> {$req['path']}\";\n        $res = $next($req);\n        self::$log[] = \"<- {$res['status']}\";\n        return $res;\n    }\n}\nfinal class Router {\n    private array $routes = [];\n    private array $mw = [];\n    public function add(string $path, callable $h): void { $this->routes[$path] = $h; }\n    public function use(Middleware $m): void { $this->mw[] = $m; }\n    public function dispatch(array $req): array {\n        $core = function (array $r): array {\n            $h = $this->routes[$r['path']] ?? null;\n            return $h ? ['status' => 200, 'body' => $h($r)] : ['status' => 404, 'body' => 'not found'];\n        };\n        $chain = array_reduce(array_reverse($this->mw), fn($next, $m) => fn($r) => $m->handle($r, $next), $core);\n        return $chain($req);\n    }\n}\n\n$r = new Router();\n$r->use(new Logger());\n$r->use(new Auth());\n$r->add(\"/hello\", fn($req) => \"hello \" . ($req['name'] ?? \"world\"));\nforeach ([\n    ['path' => '/hello', 'token' => 'secret', 'name' => 'Ada'],\n    ['path' => '/hello', 'token' => 'bad'],\n    ['path' => '/missing', 'token' => 'secret'],\n] as $req) {\n    $res = $r->dispatch($req);\n    echo $res['status'], \" \", $res['body'], \"\\n\";\n}\necho implode(\" | \", Logger::$log), \"\\n\";\n",
+    "explain": "array_reduce over the reversed middleware list builds nested closures (the onion model); a middleware can return early without calling $next. Verified by running the solution with PHP."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
