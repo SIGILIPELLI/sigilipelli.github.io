@@ -1,0 +1,2148 @@
+{
+ "course": "github-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-git-why-version-control": {
+   "questions": [
+    {
+     "q": "What does version control give a team?",
+     "options": [
+      "Faster code",
+      "Backups only",
+      "Auto merge",
+      "A recorded history of changes: who changed what, when and why, with the ability to go back"
+     ],
+     "answer": 3,
+     "explain": "Collaboration safety net."
+    },
+    {
+     "q": "What's the difference between Git and GitHub?",
+     "options": [
+      "Reverse",
+      "Git is the version control tool; GitHub hosts Git repositories and adds collaboration features",
+      "Same",
+      "GitHub is a command"
+     ],
+     "answer": 1,
+     "explain": "Git works without GitHub."
+    },
+    {
+     "q": "Why is Git called distributed?",
+     "options": [
+      "Every clone has the full history, so most operations are local",
+      "Slow",
+      "No server",
+      "Many servers"
+     ],
+     "answer": 0,
+     "explain": "Work offline."
+    },
+    {
+     "q": "What does a commit represent?",
+     "options": [
+      "A file",
+      "A diff only",
+      "A branch",
+      "A snapshot of the project with a message, author and parent link(s)"
+     ],
+     "answer": 3,
+     "explain": "Content-addressed."
+    }
+   ]
+  },
+  "level-1/02-installing-git-config": {
+   "questions": [
+    {
+     "q": "What do `git config --global user.name/user.email` set?",
+     "options": [
+      "Password",
+      "The identity recorded in your commits",
+      "Editor",
+      "Remote"
+     ],
+     "answer": 1,
+     "explain": "Set once per machine."
+    },
+    {
+     "q": "What does `git config --list --show-origin` show?",
+     "options": [
+      "Remotes",
+      "Logs",
+      "All settings and which file each comes from",
+      "Branches"
+     ],
+     "answer": 2,
+     "explain": "Debug config."
+    },
+    {
+     "q": "Where does global config live?",
+     "options": [
+      ".git/config",
+      "Repo",
+      "~/.gitconfig (or ~/.config/git/config)",
+      "/etc"
+     ],
+     "answer": 2,
+     "explain": "Per-user."
+    },
+    {
+     "q": "What does `git init` create?",
+     "options": [
+      "A commit",
+      "A branch only",
+      "A remote",
+      "A .git directory making the folder a repository"
+     ],
+     "answer": 3,
+     "explain": "Local."
+    }
+   ]
+  },
+  "level-1/03-basic-workflow": {
+   "questions": [
+    {
+     "q": "What does git status --short print? (in a new empty repository, identity configured, default branch main)\n```bash\necho hi > a.txt\ngit add a.txt\necho more > b.txt\ngit status --short\n```\n",
+     "options": [
+      "M  a.txt",
+      "A  a.txt\nA  b.txt",
+      "A  a.txt\n?? b.txt",
+      "?? a.txt\n?? b.txt"
+     ],
+     "answer": 2,
+     "explain": "A = staged new file; ?? = untracked. Verified by running it with real git."
+    },
+    {
+     "q": "What does git log print after two commits? (in a new empty repository, identity configured, default branch main)\n```bash\necho 1 > f; git add f; git commit -qm 'first'\necho 2 >> f; git commit -qam 'second'\ngit log --format=%s\n```\n",
+     "options": [
+      "second",
+      "first",
+      "first\nsecond",
+      "second\nfirst"
+     ],
+     "answer": 3,
+     "explain": "Newest first. Verified by running it with real git."
+    },
+    {
+     "q": "What does git diff show for an unstaged edit vs git diff --staged? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f; git commit -qm c\necho b>>f\ngit diff --stat | tail -1 | sed 's/^ *//'; git add f; echo staged:; git diff --staged --stat | tail -1 | sed 's/^ *//'\n```\n",
+     "options": [
+      "1 file changed, 1 insertion(+)\nstaged:\n1 file changed, 1 insertion(+)",
+      "1 file changed\nstaged:\n0",
+      "Error",
+      "No output\nstaged:\nNo output"
+     ],
+     "answer": 0,
+     "explain": "Diff compares working tree to the index; --staged compares the index to HEAD. Verified by running it with real git."
+    },
+    {
+     "q": "What's the staging area (index) for?",
+     "options": [
+      "Cache",
+      "Remote",
+      "Choosing exactly what goes into the next commit",
+      "Backup"
+     ],
+     "answer": 2,
+     "explain": "add then commit."
+    }
+   ]
+  },
+  "level-1/04-branching-basics": {
+   "questions": [
+    {
+     "q": "What does this print? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f; git commit -qm c1\ngit switch -c feature\necho b>>f; git commit -qam c2\ngit switch -q main\ngit branch --format='%(refname:short)' | sort | tr '\\n' ' '; git log --format=%s | tr '\\n' ' '\n```\n",
+     "options": [
+      "main",
+      "feature main c1",
+      "main c1 c2",
+      "feature c2"
+     ],
+     "answer": 1,
+     "explain": "main still points at c1; feature has c2. Verified by running it with real git."
+    },
+    {
+     "q": "What is a branch in Git?",
+     "options": [
+      "A folder",
+      "A remote",
+      "A movable pointer to a commit",
+      "A copy of files"
+     ],
+     "answer": 2,
+     "explain": "Cheap."
+    },
+    {
+     "q": "Which branch are we on after this? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f; git commit -qm c\ngit branch topic\ngit switch topic\ngit branch --show-current\n```\n",
+     "options": [
+      "topic",
+      "main",
+      "detached",
+      "feature"
+     ],
+     "answer": 0,
+     "explain": "switch changes HEAD. Verified by running it with real git."
+    },
+    {
+     "q": "What does `git switch -c name` do?",
+     "options": [
+      "Pushes",
+      "Merges",
+      "Creates a new branch and switches to it",
+      "Deletes"
+     ],
+     "answer": 2,
+     "explain": "Modern checkout -b."
+    }
+   ]
+  },
+  "level-1/05-merging-basics": {
+   "questions": [
+    {
+     "q": "Is this merge a fast-forward? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f; git commit -qm c1\ngit switch -qc feat\necho b>>f; git commit -qam c2\ngit switch -q main\ngit merge feat | head -1 | sed 's/[0-9a-f]\\{7\\}\\.\\.[0-9a-f]\\{7\\}/X..Y/'\n```\n",
+     "options": [
+      "CONFLICT",
+      "Updating X..Y",
+      "Merge made by the 'ort' strategy.",
+      "Already up to date."
+     ],
+     "answer": 1,
+     "explain": "main had no new commits, so Git just moves the pointer. Verified by running it with real git."
+    },
+    {
+     "q": "How many parents does the commit created by `git merge --no-ff` have? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f; git commit -qm c1\ngit switch -qc feat\necho b>>f; git commit -qam c2\ngit switch -q main\ngit merge -q --no-ff feat -m 'merge feat'\ngit cat-file -p HEAD | grep -c '^parent'\n```\n",
+     "options": [
+      "2",
+      "1",
+      "3",
+      "0"
+     ],
+     "answer": 0,
+     "explain": "A merge commit is created even when fast-forward is possible, with two parents. Verified by running it with real git."
+    },
+    {
+     "q": "What does a merge commit have?",
+     "options": [
+      "One",
+      "Three",
+      "None",
+      "Two parents"
+     ],
+     "answer": 3,
+     "explain": "Joins histories."
+    },
+    {
+     "q": "When can Git fast-forward?",
+     "options": [
+      "Never",
+      "With conflicts",
+      "When the target branch has no commits the source lacks",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "Linear history."
+    }
+   ]
+  },
+  "level-1/06-remotes": {
+   "questions": [
+    {
+     "q": "What is a remote?",
+     "options": [
+      "A version of the repository hosted elsewhere (e.g. GitHub)",
+      "A branch",
+      "A tag",
+      "A commit"
+     ],
+     "answer": 0,
+     "explain": "origin by convention."
+    },
+    {
+     "q": "What does `git fetch` do?",
+     "options": [
+      "Deletes",
+      "Downloads new commits without changing your working branch",
+      "Pushes",
+      "Merges"
+     ],
+     "answer": 1,
+     "explain": "Safe."
+    },
+    {
+     "q": "What does `git pull` do?",
+     "options": [
+      "Fetches only",
+      "Clones",
+      "Fetches and then integrates (merge or rebase) the remote changes",
+      "Pushes"
+     ],
+     "answer": 2,
+     "explain": "fetch + merge."
+    },
+    {
+     "q": "What does git remote -v show? (in a new empty repository, identity configured, default branch main)\n```bash\ngit remote add origin https://example.com/me/repo.git\ngit remote -v\n```\n",
+     "options": [
+      "Error",
+      "origin",
+      "No remotes",
+      "origin\thttps://example.com/me/repo.git (fetch)\norigin\thttps://example.com/me/repo.git (push)"
+     ],
+     "answer": 3,
+     "explain": "Fetch and push URLs. Verified by running it with real git."
+    }
+   ]
+  },
+  "level-1/07-what-is-github": {
+   "questions": [
+    {
+     "q": "What does GitHub add on top of Git?",
+     "options": [
+      "A new VCS",
+      "Hosting, pull requests, issues, Actions and access control",
+      "Compilation",
+      "Databases"
+     ],
+     "answer": 1,
+     "explain": "Collaboration platform."
+    },
+    {
+     "q": "What's a repository's default branch commonly called?",
+     "options": [
+      "master only",
+      "dev",
+      "main",
+      "trunk"
+     ],
+     "answer": 2,
+     "explain": "Configurable."
+    },
+    {
+     "q": "What's a pull request?",
+     "options": [
+      "A proposal to merge a branch with discussion and review",
+      "A tag",
+      "A download",
+      "A fork"
+     ],
+     "answer": 0,
+     "explain": "Review unit."
+    },
+    {
+     "q": "Why use SSH keys or tokens with GitHub?",
+     "options": [
+      "Law",
+      "Style",
+      "Passwordless secure authentication",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Passwords aren't accepted for Git."
+    }
+   ]
+  },
+  "level-1/08-creating-github-repo-pushing": {
+   "questions": [
+    {
+     "q": "What does `git push -u origin main` do?",
+     "options": [
+      "Pulls",
+      "Deletes",
+      "Pushes the branch and sets upstream tracking",
+      "Merges"
+     ],
+     "answer": 2,
+     "explain": "Later git push works alone."
+    },
+    {
+     "q": "What happens if you push to a branch whose remote has new commits?",
+     "options": [
+      "Merges auto",
+      "Overwrites",
+      "The push is rejected until you integrate the remote changes",
+      "Succeeds"
+     ],
+     "answer": 2,
+     "explain": "Pull first."
+    },
+    {
+     "q": "What does `git clone` do?",
+     "options": [
+      "Pulls",
+      "Copies a repository with full history and sets origin",
+      "Forks",
+      "Fetches only"
+     ],
+     "answer": 1,
+     "explain": "Local copy."
+    },
+    {
+     "q": "What does `git remote add origin URL` do?",
+     "options": [
+      "Clones",
+      "Fetches",
+      "Pushes",
+      "Registers a named remote"
+     ],
+     "answer": 3,
+     "explain": "Connect local to hosted."
+    }
+   ]
+  },
+  "level-1/09-gitignore-basics": {
+   "questions": [
+    {
+     "q": "Which files does git status show as untracked after .gitignore? (in a new empty repository, identity configured, default branch main)\n```bash\nprintf '*.log\\nbuild/\\n' > .gitignore\nmkdir build; touch build/a.o app.log keep.txt\ngit status --short\n```\n",
+     "options": [
+      "?? .gitignore\n?? keep.txt",
+      "?? app.log\n?? build/a.o",
+      "?? keep.txt",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Ignored files don't show. Verified by running it with real git."
+    },
+    {
+     "q": "What does git check-ignore -v report? (in a new empty repository, identity configured, default branch main)\n```bash\nprintf '*.log\\n' > .gitignore\ntouch x.log\ngit check-ignore -v x.log | cut -f1\n```\n",
+     "options": [
+      "Not ignored",
+      "Error",
+      ".gitignore:2:*.log",
+      ".gitignore:1:*.log"
+     ],
+     "answer": 3,
+     "explain": "Shows which rule matched. Verified by running it with real git."
+    },
+    {
+     "q": "Does .gitignore remove already-tracked files?",
+     "options": [
+      "Always",
+      "No: untrack them with git rm --cached",
+      "Never",
+      "Yes"
+     ],
+     "answer": 1,
+     "explain": "Only affects untracked files."
+    },
+    {
+     "q": "Which should never be committed?",
+     "options": [
+      "README",
+      "Tests",
+      "Secrets (.env), dependency folders and build output",
+      "Source"
+     ],
+     "answer": 2,
+     "explain": "Ignore them."
+    }
+   ]
+  },
+  "level-1/10-project-clone-fork-ship": {
+   "questions": [
+    {
+     "q": "What does the clone/fork/ship project practice?",
+     "options": [
+      "Only commit",
+      "The loop of forking, cloning, branching, committing and opening a PR",
+      "Only merge",
+      "Only push"
+     ],
+     "answer": 1,
+     "explain": "OSS workflow."
+    },
+    {
+     "q": "Why fork instead of clone for open source?",
+     "options": [
+      "You can't push to the original repo, so you push to your fork and open a PR",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Permission model."
+    },
+    {
+     "q": "What does `upstream` usually refer to?",
+     "options": [
+      "A tag",
+      "A branch",
+      "Your fork",
+      "The original repository you forked from"
+     ],
+     "answer": 3,
+     "explain": "Sync with it."
+    },
+    {
+     "q": "How do you keep your fork current?",
+     "options": [
+      "Fetch upstream and merge/rebase main",
+      "Ignore",
+      "Delete",
+      "Reclone"
+     ],
+     "answer": 0,
+     "explain": "git fetch upstream."
+    }
+   ]
+  },
+  "level-2/01-merge-conflicts-resolution": {
+   "questions": [
+    {
+     "q": "What do conflict markers look like? (in a new empty repository, identity configured, default branch main)\n```bash\nprintf 'base\\n'>f; git add f; git commit -qm base\ngit switch -qc a; echo A>f; git commit -qam a\ngit switch -q main; git switch -qc b; echo B>f; git commit -qam b\ngit merge a >/dev/null 2>&1 || true\ncat f\n```\n",
+     "options": [
+      "<<<<<<< HEAD\nB\n=======\nA\n>>>>>>> a",
+      "<<< A >>> B",
+      "B\nA",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "HEAD side first, incoming side last. Verified by running it with real git."
+    },
+    {
+     "q": "How do you finish a conflicted merge?",
+     "options": [
+      "git push",
+      "Delete",
+      "Edit the file, git add it and git commit (or git merge --continue)",
+      "git reset"
+     ],
+     "answer": 2,
+     "explain": "Resolve then stage."
+    },
+    {
+     "q": "How do you abort a merge?",
+     "options": [
+      "git rm",
+      "git stash",
+      "git merge --abort",
+      "git reset"
+     ],
+     "answer": 2,
+     "explain": "Return to the pre-merge state."
+    },
+    {
+     "q": "How do you reduce conflicts?",
+     "options": [
+      "Big merges",
+      "Force",
+      "Small frequent merges and clear ownership",
+      "Rare merges"
+     ],
+     "answer": 2,
+     "explain": "Integrate often."
+    }
+   ]
+  },
+  "level-2/02-rebase-vs-merge": {
+   "questions": [
+    {
+     "q": "What does rebasing produce? (in a new empty repository, identity configured, default branch main)\n```bash\necho 1 > f; git add f; git commit -qm base\ngit switch -qc feat; echo f>g; git add g; git commit -qm feat\ngit switch -q main; echo m>h; git add h; git commit -qm main2\ngit switch -q feat; git rebase -q main\ngit log --format=%s | tr '\\n' ' '\n```\n",
+     "options": [
+      "main2 feat base",
+      "feat base main2",
+      "feat main2 base",
+      "Merge"
+     ],
+     "answer": 2,
+     "explain": "Feature commits are replayed on top of main. Verified by running it with real git."
+    },
+    {
+     "q": "What's the golden rule of rebase?",
+     "options": [
+      "Always rebase",
+      "Rebase main",
+      "Don't rebase commits others have based work on (shared/public history)",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "It rewrites commits."
+    },
+    {
+     "q": "Merge vs rebase history shape?",
+     "options": [
+      "Reverse",
+      "Merge keeps the branching and adds a merge commit; rebase makes it linear",
+      "None",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Trade-offs."
+    },
+    {
+     "q": "After rebasing a pushed branch, what do you need?",
+     "options": [
+      "Pull",
+      "Merge",
+      "Normal push",
+      "A force push (preferably --force-with-lease)"
+     ],
+     "answer": 3,
+     "explain": "History changed."
+    }
+   ]
+  },
+  "level-2/03-pull-requests": {
+   "questions": [
+    {
+     "q": "What's in a good PR?",
+     "options": [
+      "No description",
+      "A focused change, clear description and linked issue, with tests",
+      "Huge diff",
+      "Everything"
+     ],
+     "answer": 1,
+     "explain": "Reviewable."
+    },
+    {
+     "q": "What does a draft PR signal?",
+     "options": [
+      "Merged",
+      "Closed",
+      "Work in progress not ready for review",
+      "Approved"
+     ],
+     "answer": 2,
+     "explain": "Early feedback."
+    },
+    {
+     "q": "What happens on 'Squash and merge'?",
+     "options": [
+      "All PR commits become one commit on the base branch",
+      "Rebases",
+      "Keeps all",
+      "Deletes"
+     ],
+     "answer": 0,
+     "explain": "Cleaner history."
+    },
+    {
+     "q": "What do required status checks do?",
+     "options": [
+      "Label",
+      "Merge",
+      "Close",
+      "Block merging until CI passes"
+     ],
+     "answer": 3,
+     "explain": "Quality gate."
+    }
+   ]
+  },
+  "level-2/04-issues-project-boards": {
+   "questions": [
+    {
+     "q": "How do issues link to PRs?",
+     "options": [
+      "Manual",
+      "Labels",
+      "Keywords like 'Fixes #12' in the PR description close the issue on merge",
+      "Milestones"
+     ],
+     "answer": 2,
+     "explain": "Traceability."
+    },
+    {
+     "q": "What are labels and milestones for?",
+     "options": [
+      "Hosting",
+      "Categorizing and grouping issues by release/goal",
+      "CI",
+      "Auth"
+     ],
+     "answer": 1,
+     "explain": "Planning."
+    },
+    {
+     "q": "What does a Projects board show?",
+     "options": [
+      "Builds",
+      "Logs",
+      "Code",
+      "Work items in columns/status, with automation"
+     ],
+     "answer": 3,
+     "explain": "Kanban."
+    },
+    {
+     "q": "What's a good issue?",
+     "options": [
+      "Short",
+      "Vague",
+      "Clear title, steps to reproduce, expected vs actual behavior",
+      "Angry"
+     ],
+     "answer": 2,
+     "explain": "Actionable."
+    }
+   ]
+  },
+  "level-2/05-branch-protection-rules": {
+   "questions": [
+    {
+     "q": "What do branch protection rules enforce?",
+     "options": [
+      "Required reviews, status checks and no force-push on key branches",
+      "Style",
+      "Merging",
+      "Hosting"
+     ],
+     "answer": 0,
+     "explain": "Server-side."
+    },
+    {
+     "q": "Why require PRs for main?",
+     "options": [
+      "Review and CI before changes land",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Quality."
+    },
+    {
+     "q": "What's 'dismiss stale approvals'?",
+     "options": [
+      "New commits invalidate earlier approvals",
+      "Merge",
+      "Approve",
+      "Delete"
+     ],
+     "answer": 0,
+     "explain": "Safety."
+    },
+    {
+     "q": "Can admins bypass rules?",
+     "options": [
+      "Never",
+      "Only if 'include administrators' isn't enabled",
+      "Always",
+      "No"
+     ],
+     "answer": 1,
+     "explain": "Configure carefully."
+    }
+   ]
+  },
+  "level-2/06-tags-releases": {
+   "questions": [
+    {
+     "q": "What object type does an annotated tag have, versus a lightweight tag? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f; git commit -qm c\ngit tag -a v1.0.0 -m 'first release'\ngit tag v1.0.1\ngit for-each-ref refs/tags --format='%(refname:short) %(objecttype)'\n```\n",
+     "options": [
+      "v1.0.0 tag\nv1.0.1 tag",
+      "v1.0.0 commit\nv1.0.1 commit",
+      "v1.0.0 tag\nv1.0.1 commit",
+      "v1.0.0 blob\nv1.0.1 blob"
+     ],
+     "answer": 2,
+     "explain": "Annotated tags are their own objects (with a message and tagger); lightweight tags are plain refs to a commit. Verified by running it with real git."
+    },
+    {
+     "q": "What does git push --tags do?",
+     "options": [
+      "Deletes",
+      "Pushes local tags to the remote",
+      "Pulls",
+      "Commits"
+     ],
+     "answer": 1,
+     "explain": "Tags aren't pushed by default."
+    },
+    {
+     "q": "What's a GitHub Release built on?",
+     "options": [
+      "A tag, plus notes and attached assets",
+      "A branch",
+      "A commit",
+      "A PR"
+     ],
+     "answer": 0,
+     "explain": "Release engineering."
+    },
+    {
+     "q": "What does semver 2.1.4 mean?",
+     "options": [
+      "Build",
+      "Date",
+      "Major 2, minor 1, patch 4",
+      "Hash"
+     ],
+     "answer": 2,
+     "explain": "MAJOR.MINOR.PATCH."
+    }
+   ]
+  },
+  "level-2/07-code-review-etiquette": {
+   "questions": [
+    {
+     "q": "What makes a good review comment?",
+     "options": [
+      "Vague",
+      "Specific, kind and actionable, focused on the code not the person",
+      "Harsh",
+      "Personal"
+     ],
+     "answer": 1,
+     "explain": "Etiquette."
+    },
+    {
+     "q": "What should an author do with feedback?",
+     "options": [
+      "Argue",
+      "Respond to each point, push fixes and re-request review",
+      "Ignore",
+      "Force merge"
+     ],
+     "answer": 1,
+     "explain": "Collaboration."
+    },
+    {
+     "q": "What's nitpick etiquette?",
+     "options": [
+      "Block",
+      "Ignore",
+      "Mark small style preferences as optional ('nit:')",
+      "Demand"
+     ],
+     "answer": 2,
+     "explain": "Don't block on taste."
+    },
+    {
+     "q": "What should reviewers check first?",
+     "options": [
+      "Typos",
+      "Style",
+      "Names",
+      "Correctness, design and tests before style"
+     ],
+     "answer": 3,
+     "explain": "Prioritize."
+    }
+   ]
+  },
+  "level-2/08-github-cli": {
+   "questions": [
+    {
+     "q": "What does `gh pr create` do?",
+     "options": [
+      "Merges",
+      "Clones",
+      "Opens a pull request from the terminal",
+      "Forks"
+     ],
+     "answer": 2,
+     "explain": "Fewer clicks."
+    },
+    {
+     "q": "What does `gh auth login` do?",
+     "options": [
+      "Merges",
+      "Creates repo",
+      "Authenticates the CLI with GitHub",
+      "Pushes"
+     ],
+     "answer": 2,
+     "explain": "Required first."
+    },
+    {
+     "q": "What does `gh pr checkout 12` do?",
+     "options": [
+      "Reviews",
+      "Merges",
+      "Closes",
+      "Checks out that pull request's branch locally"
+     ],
+     "answer": 3,
+     "explain": "Test PRs."
+    },
+    {
+     "q": "What can gh api do?",
+     "options": [
+      "Only issues",
+      "Git",
+      "Call any GitHub REST/GraphQL endpoint with your auth",
+      "Local"
+     ],
+     "answer": 2,
+     "explain": "Scripting."
+    }
+   ]
+  },
+  "level-2/09-forking-workflow-oss": {
+   "questions": [
+    {
+     "q": "What's the forking workflow?",
+     "options": [
+      "Push to upstream",
+      "Branch only",
+      "Fork, clone your fork, branch, push to your fork and open a PR to upstream",
+      "Clone only"
+     ],
+     "answer": 2,
+     "explain": "OSS standard."
+    },
+    {
+     "q": "Why add an upstream remote?",
+     "options": [
+      "Backup",
+      "To pull updates from the original repository",
+      "Hosting",
+      "Push"
+     ],
+     "answer": 1,
+     "explain": "Keep in sync."
+    },
+    {
+     "q": "What do CONTRIBUTING.md files tell you?",
+     "options": [
+      "Release",
+      "License",
+      "How to contribute: style, tests and process",
+      "History"
+     ],
+     "answer": 2,
+     "explain": "Read first."
+    },
+    {
+     "q": "What's a good first contribution?",
+     "options": [
+      "Rewrite",
+      "A small, well-scoped fix or docs improvement",
+      "Refactor all",
+      "Huge"
+     ],
+     "answer": 1,
+     "explain": "Build trust."
+    }
+   ]
+  },
+  "level-2/10-project-team-collaboration": {
+   "questions": [
+    {
+     "q": "What does the team collaboration project combine?",
+     "options": [
+      "Branches, PRs, reviews, protection rules, issues and tags",
+      "Only PRs",
+      "Only branches",
+      "Only tags"
+     ],
+     "answer": 0,
+     "explain": "Daily loop."
+    },
+    {
+     "q": "How do you simulate a team alone?",
+     "options": [
+      "Use multiple accounts/branches and review your own PRs with checklists",
+      "Guess",
+      "Force",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "Practice."
+    },
+    {
+     "q": "What proves the process works?",
+     "options": [
+      "Commits",
+      "Merged PRs with passing checks and linked issues",
+      "Forks",
+      "Stars"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What do you retrospect?",
+     "options": [
+      "Code",
+      "Where the workflow slowed you and what to change",
+      "Names",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Improve."
+    }
+   ]
+  },
+  "level-3/01-git-internals": {
+   "questions": [
+    {
+     "q": "What's a commit's content address derived from? (in a new empty repository, identity configured, default branch main)\n```bash\necho hi>f; git add f; git commit -qm c\ngit cat-file -t HEAD; git cat-file -t HEAD^{tree}; git cat-file -t HEAD:f\n```\n",
+     "options": [
+      "commit\ncommit\ncommit",
+      "blob\ntree\ncommit",
+      "commit\ntree\nblob",
+      "tree\ntree\ntree"
+     ],
+     "answer": 2,
+     "explain": "Objects: blob, tree, commit, tag. Verified by running it with real git."
+    },
+    {
+     "q": "Same content, same blob? (in a new empty repository, identity configured, default branch main)\n```bash\necho same>a; echo same>b; git hash-object a b | uniq | wc -l\n```\n",
+     "options": [
+      "1",
+      "2",
+      "3",
+      "0"
+     ],
+     "answer": 0,
+     "explain": "Content-addressed storage deduplicates. Verified by running it with real git."
+    },
+    {
+     "q": "What is a tree object?",
+     "options": [
+      "A tag",
+      "A file",
+      "A commit",
+      "A directory listing pointing to blobs and subtrees"
+     ],
+     "answer": 3,
+     "explain": "Snapshot structure."
+    },
+    {
+     "q": "What is a ref?",
+     "options": [
+      "A name pointing to a commit (branches, tags, HEAD)",
+      "File",
+      "Hash",
+      "Object"
+     ],
+     "answer": 0,
+     "explain": ".git/refs."
+    }
+   ]
+  },
+  "level-3/02-interactive-rebase-history-rewriting": {
+   "questions": [
+    {
+     "q": "What does squashing with interactive rebase produce? (in a new empty repository, identity configured, default branch main)\n```bash\necho 1 > f; git add f; git commit -qm one\necho 2 >> f; git commit -qam two\necho 3 >> f; git commit -qam three\nGIT_SEQUENCE_EDITOR=\"sed -i.bak '2s/pick/squash/;3s/pick/squash/'\" git rebase -qi --root >/dev/null 2>&1\ngit log --format=%s | wc -l\n```\n",
+     "options": [
+      "2",
+      "1",
+      "3",
+      "0"
+     ],
+     "answer": 1,
+     "explain": "Three commits become one. Verified by running it with real git."
+    },
+    {
+     "q": "What does `git rebase -i HEAD~3` let you do?",
+     "options": [
+      "Push",
+      "Reorder, squash, edit, reword or drop the last three commits",
+      "Merge",
+      "Fetch"
+     ],
+     "answer": 1,
+     "explain": "Rewrites history."
+    },
+    {
+     "q": "When is it safe to rewrite history?",
+     "options": [
+      "Shared",
+      "On local unpublished commits",
+      "Anytime",
+      "Main"
+     ],
+     "answer": 1,
+     "explain": "Avoid public rewrites."
+    },
+    {
+     "q": "What does `fixup` do?",
+     "options": [
+      "Delete",
+      "Rename",
+      "Melds a commit into the previous one discarding its message",
+      "Split"
+     ],
+     "answer": 2,
+     "explain": "Cleaner history."
+    }
+   ]
+  },
+  "level-3/03-cherry-picking": {
+   "questions": [
+    {
+     "q": "What does cherry-pick do? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f; git commit -qm base\ngit switch -qc other; echo b>g; git add g; git commit -qm 'add g'\ngit switch -q main\ngit cherry-pick other >/dev/null\ngit log --format=%s | tr '\\n' ' '; ls | tr '\\n' ' '\n```\n",
+     "options": [
+      "base f",
+      "add g f",
+      "add g base f g",
+      "base"
+     ],
+     "answer": 2,
+     "explain": "Copies the commit onto the current branch. Verified by running it with real git."
+    },
+    {
+     "q": "When use cherry-pick?",
+     "options": [
+      "Always",
+      "Clone",
+      "To apply a specific fix to another branch, e.g. a release branch",
+      "Merging"
+     ],
+     "answer": 2,
+     "explain": "Backports."
+    },
+    {
+     "q": "What's the risk?",
+     "options": [
+      "Speed",
+      "None",
+      "Duplicate commits with different hashes can cause confusing merges later",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Use sparingly."
+    },
+    {
+     "q": "What does `-x` add?",
+     "options": [
+      "A note referencing the original commit",
+      "Branch",
+      "Tag",
+      "Signature"
+     ],
+     "answer": 0,
+     "explain": "Traceability."
+    }
+   ]
+  },
+  "level-3/04-github-actions-basics": {
+   "questions": [
+    {
+     "q": "What are GitHub Actions workflows?",
+     "options": [
+      "Scripts",
+      "Branches",
+      "YAML files in .github/workflows triggered by events",
+      "Hooks"
+     ],
+     "answer": 2,
+     "explain": "CI/CD."
+    },
+    {
+     "q": "What do `on:` triggers define?",
+     "options": [
+      "Steps",
+      "Which events start the workflow (push, pull_request, schedule...)",
+      "Jobs",
+      "Runners"
+     ],
+     "answer": 1,
+     "explain": "Event-driven."
+    },
+    {
+     "q": "What's a runner?",
+     "options": [
+      "Branch",
+      "Action",
+      "Repo",
+      "The machine that executes jobs"
+     ],
+     "answer": 3,
+     "explain": "Hosted or self-hosted."
+    },
+    {
+     "q": "Why pin actions to a commit SHA?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Tags can be moved; a SHA is immutable (supply-chain safety)"
+     ],
+     "answer": 3,
+     "explain": "Security."
+    }
+   ]
+  },
+  "level-3/05-submodules": {
+   "questions": [
+    {
+     "q": "What is a submodule?",
+     "options": [
+      "Branch",
+      "A repository embedded at a specific commit inside another",
+      "Fork",
+      "Tag"
+     ],
+     "answer": 1,
+     "explain": "Pinned dependency."
+    },
+    {
+     "q": "How do you clone including submodules?",
+     "options": [
+      "--sub",
+      "--deep",
+      "git clone --recurse-submodules",
+      "--all"
+     ],
+     "answer": 2,
+     "explain": "Or update --init."
+    },
+    {
+     "q": "What's a common pitfall?",
+     "options": [
+      "Forgetting to commit/push the submodule pointer update",
+      "Law",
+      "None",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Two-step changes."
+    },
+    {
+     "q": "What are alternatives?",
+     "options": [
+      "Tags",
+      "Nothing",
+      "Package managers or subtree",
+      "Forks"
+     ],
+     "answer": 2,
+     "explain": "Choose per case."
+    }
+   ]
+  },
+  "level-3/06-git-hooks": {
+   "questions": [
+    {
+     "q": "What does a pre-commit hook that fails do? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f\nprintf '#!/bin/sh\\necho blocked; exit 1\\n' > .git/hooks/pre-commit; chmod +x .git/hooks/pre-commit\ngit commit -qm c 2>&1 | head -1; git rev-list --all --count\n```\n",
+     "options": [
+      "Error",
+      "(none)\n1",
+      "blocked\n0",
+      "blocked\n1"
+     ],
+     "answer": 2,
+     "explain": "A non-zero exit aborts the commit. Verified by running it with real git."
+    },
+    {
+     "q": "Are hooks shared via clone?",
+     "options": [
+      "Yes",
+      "No: .git/hooks isn't versioned; share them via tools like core.hooksPath or pre-commit",
+      "Always",
+      "Auto"
+     ],
+     "answer": 1,
+     "explain": "Team setup."
+    },
+    {
+     "q": "What's a common pre-commit use?",
+     "options": [
+      "Tag",
+      "Clone",
+      "Linting and formatting checks",
+      "Deploy"
+     ],
+     "answer": 2,
+     "explain": "Fast feedback."
+    },
+    {
+     "q": "Which hook runs server-side?",
+     "options": [
+      "pre-receive/update (on the remote)",
+      "post-merge",
+      "pre-commit",
+      "pre-push"
+     ],
+     "answer": 0,
+     "explain": "Policy enforcement."
+    }
+   ]
+  },
+  "level-3/07-git-bisect-debugging-history": {
+   "questions": [
+    {
+     "q": "Commits c1 to c6 exist and the bug (file b) appeared in one of them. Which commit does bisect report as the first bad one? (in a new empty repository, identity configured, default branch main)\n```bash\nfor i in 1 2 3 4 5 6; do echo $i > v; if [ $i -ge 4 ]; then echo bug > b; fi; git add -A; git commit -qm \"c$i\"; done\ngit bisect start >/dev/null\ngit bisect bad HEAD >/dev/null\ngit bisect good HEAD~5 >/dev/null\ngit bisect run sh -c '! test -f b' >/dev/null\ngit log --format=%s -1 refs/bisect/bad\ngit bisect reset >/dev/null 2>&1\n```\n",
+     "options": [
+      "c3",
+      "c1",
+      "c5",
+      "c4"
+     ],
+     "answer": 3,
+     "explain": "Binary search over history for the first bad commit (the test succeeds while file b is absent). Verified by running it with real git."
+    },
+    {
+     "q": "What does bisect need?",
+     "options": [
+      "Merge",
+      "A known good commit and a known bad commit (and a test)",
+      "Tag",
+      "Branch"
+     ],
+     "answer": 1,
+     "explain": "Automate with run."
+    },
+    {
+     "q": "Complexity of bisect?",
+     "options": [
+      "O(n²)",
+      "O(n)",
+      "O(1)",
+      "O(log n) steps"
+     ],
+     "answer": 3,
+     "explain": "Binary search."
+    },
+    {
+     "q": "What makes bisect effective?",
+     "options": [
+      "Small commits that each build and test",
+      "Big commits",
+      "Force",
+      "Squashing"
+     ],
+     "answer": 0,
+     "explain": "Hygiene."
+    }
+   ]
+  },
+  "level-3/08-reflog-recovering-lost-work": {
+   "questions": [
+    {
+     "q": "How do you recover a commit after a hard reset? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f; git commit -qm one\necho b>>f; git commit -qam two\ngit reset -q --hard HEAD~1\ngit reflog --format=%gs | head -1 | cut -d: -f1\ngit reset -q --hard HEAD@{1}\ngit log --format=%s | head -1\n```\n",
+     "options": [
+      "reset\none",
+      "commit\ntwo",
+      "reset\ntwo",
+      "commit\none"
+     ],
+     "answer": 2,
+     "explain": "The reflog records HEAD movements. Verified by running it with real git."
+    },
+    {
+     "q": "What does reflog record?",
+     "options": [
+      "Files",
+      "Remote",
+      "Users",
+      "Where HEAD and branch tips pointed, locally, for about 90 days by default"
+     ],
+     "answer": 3,
+     "explain": "Local safety net."
+    },
+    {
+     "q": "Is a commit lost after reset --hard?",
+     "options": [
+      "Yes",
+      "Always",
+      "Gone",
+      "No: it remains in the object database and reflog until garbage collected"
+     ],
+     "answer": 3,
+     "explain": "Recoverable."
+    },
+    {
+     "q": "What shows dangling commits?",
+     "options": [
+      "git status",
+      "git gc",
+      "git fsck --lost-found",
+      "git log"
+     ],
+     "answer": 2,
+     "explain": "Last resort."
+    }
+   ]
+  },
+  "level-3/09-github-secrets-environments": {
+   "questions": [
+    {
+     "q": "Where should CI secrets be stored?",
+     "options": [
+      "In code",
+      "In workflow",
+      "In README",
+      "GitHub Actions secrets (repo/environment), never in the repo"
+     ],
+     "answer": 3,
+     "explain": "Masked in logs."
+    },
+    {
+     "q": "What do environments add?",
+     "options": [
+      "Caches",
+      "Runners",
+      "Protection rules like required reviewers and environment-scoped secrets",
+      "Forks"
+     ],
+     "answer": 2,
+     "explain": "Deploy gates."
+    },
+    {
+     "q": "Why not print secrets in logs?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Masking can be bypassed and logs are widely visible"
+     ],
+     "answer": 3,
+     "explain": "Avoid echo."
+    },
+    {
+     "q": "What's OIDC for cloud deploys?",
+     "options": [
+      "Short-lived tokens without storing long-lived cloud keys",
+      "Caching",
+      "Passwords",
+      "Hosting"
+     ],
+     "answer": 0,
+     "explain": "Keyless."
+    }
+   ]
+  },
+  "level-3/10-project-ci-pipeline": {
+   "questions": [
+    {
+     "q": "What does the CI pipeline project do?",
+     "options": [
+      "Only lints",
+      "Builds, tests and gates merges with GitHub Actions",
+      "Only tags",
+      "Only deploys"
+     ],
+     "answer": 1,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How cache dependencies?",
+     "options": [
+      "Never",
+      "Commit",
+      "actions/cache or setup-* cache options keyed on lockfiles",
+      "Manual"
+     ],
+     "answer": 2,
+     "explain": "Speed."
+    },
+    {
+     "q": "What status check blocks merge?",
+     "options": [
+      "A label",
+      "A required workflow job passing",
+      "A comment",
+      "A tag"
+     ],
+     "answer": 1,
+     "explain": "Branch protection."
+    },
+    {
+     "q": "How do you debug a failing workflow?",
+     "options": [
+      "Delete",
+      "Read logs, rerun with debug logging and reproduce locally (act)",
+      "Ignore",
+      "Guess"
+     ],
+     "answer": 1,
+     "explain": "Iterate."
+    }
+   ]
+  },
+  "level-4/01-advanced-github-actions": {
+   "questions": [
+    {
+     "q": "What do reusable workflows do?",
+     "options": [
+      "Mirror",
+      "Copy-paste",
+      "Share a workflow across repos via workflow_call",
+      "Fork"
+     ],
+     "answer": 2,
+     "explain": "DRY CI."
+    },
+    {
+     "q": "What are matrix builds?",
+     "options": [
+      "Running a job across combinations like OS and versions",
+      "Tags",
+      "Loops",
+      "Branches"
+     ],
+     "answer": 0,
+     "explain": "Coverage."
+    },
+    {
+     "q": "What do concurrency groups do?",
+     "options": [
+      "Cache",
+      "Cancel or queue overlapping runs",
+      "Logs",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Avoid wasted/conflicting runs."
+    },
+    {
+     "q": "Why least-privilege GITHUB_TOKEN permissions?",
+     "options": [
+      "Speed",
+      "Limit damage if a workflow is compromised",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "permissions: contents: read."
+    }
+   ]
+  },
+  "level-4/02-monorepo-strategies": {
+   "questions": [
+    {
+     "q": "What is a monorepo trade-off?",
+     "options": [
+      "Atomic cross-project changes and shared tooling versus scale and CI complexity",
+      "Only good",
+      "None",
+      "Only bad"
+     ],
+     "answer": 0,
+     "explain": "Choose deliberately."
+    },
+    {
+     "q": "How avoid running all CI for every change?",
+     "options": [
+      "Run all",
+      "Skip",
+      "Cache",
+      "Path filters and affected-project detection"
+     ],
+     "answer": 3,
+     "explain": "Efficiency."
+    },
+    {
+     "q": "What helps ownership in a monorepo?",
+     "options": [
+      "CODEOWNERS files",
+      "Tags",
+      "Forks",
+      "Labels"
+     ],
+     "answer": 0,
+     "explain": "Review routing."
+    },
+    {
+     "q": "What tools help?",
+     "options": [
+      "Make only",
+      "Bazel/Nx/Turborepo for build graphs and caching",
+      "Git",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "At scale."
+    }
+   ]
+  },
+  "level-4/03-git-workflow-strategies": {
+   "questions": [
+    {
+     "q": "What's trunk-based development?",
+     "options": [
+      "Forks",
+      "GitFlow",
+      "Short-lived branches merged to main frequently, with feature flags",
+      "Long branches"
+     ],
+     "answer": 2,
+     "explain": "Continuous integration."
+    },
+    {
+     "q": "What's GitFlow suited to?",
+     "options": [
+      "Hourly",
+      "SaaS",
+      "Solo",
+      "Versioned releases with long support windows"
+     ],
+     "answer": 3,
+     "explain": "Heavier."
+    },
+    {
+     "q": "What's GitHub Flow?",
+     "options": [
+      "Hotfix",
+      "Develop",
+      "Release branches",
+      "Branch from main, PR, review, merge and deploy"
+     ],
+     "answer": 3,
+     "explain": "Simple."
+    },
+    {
+     "q": "How choose a workflow?",
+     "options": [
+      "Habit",
+      "Trend",
+      "Match release cadence, team size and risk tolerance",
+      "Tool"
+     ],
+     "answer": 2,
+     "explain": "Fit."
+    }
+   ]
+  },
+  "level-4/04-large-repo-performance": {
+   "questions": [
+    {
+     "q": "Why are big repos slow?",
+     "options": [
+      "Disk only",
+      "Network",
+      "Law",
+      "Large history and many files make clone/status heavy"
+     ],
+     "answer": 3,
+     "explain": "Mitigate."
+    },
+    {
+     "q": "What does a shallow clone do?",
+     "options": [
+      "Sparse",
+      "Mirror",
+      "Fetches limited history (--depth)",
+      "Full"
+     ],
+     "answer": 2,
+     "explain": "Faster CI."
+    },
+    {
+     "q": "What does sparse-checkout do?",
+     "options": [
+      "Merge",
+      "Fetch",
+      "Prune",
+      "Checks out only selected directories"
+     ],
+     "answer": 3,
+     "explain": "Large monorepos."
+    },
+    {
+     "q": "What's partial clone?",
+     "options": [
+      "Shallow",
+      "Fetches blobs on demand (--filter=blob:none)",
+      "Mirror",
+      "Bare"
+     ],
+     "answer": 1,
+     "explain": "Saves bandwidth."
+    }
+   ]
+  },
+  "level-4/05-designing-team-workflow": {
+   "questions": [
+    {
+     "q": "What should a team workflow doc define?",
+     "options": [
+      "Branching, review rules, CI gates, release process and ownership",
+      "Tools",
+      "Colors",
+      "Names"
+     ],
+     "answer": 0,
+     "explain": "Shared expectations."
+    },
+    {
+     "q": "How reduce review bottlenecks?",
+     "options": [
+      "Silence",
+      "Big PRs",
+      "None",
+      "Small PRs, CODEOWNERS and clear SLAs"
+     ],
+     "answer": 3,
+     "explain": "Flow."
+    },
+    {
+     "q": "How measure workflow health?",
+     "options": [
+      "Commits",
+      "PR cycle time, review time and failure rate",
+      "Lines",
+      "Stars"
+     ],
+     "answer": 1,
+     "explain": "Metrics."
+    },
+    {
+     "q": "What's a good merge policy?",
+     "options": [
+      "None",
+      "Mixed",
+      "Random",
+      "Consistent (e.g. squash) with protected main"
+     ],
+     "answer": 3,
+     "explain": "Predictability."
+    }
+   ]
+  },
+  "level-4/06-github-apps-automation": {
+   "questions": [
+    {
+     "q": "What can GitHub Apps do?",
+     "options": [
+      "Replace Git",
+      "Compile",
+      "Host",
+      "Act as an app with fine-grained permissions and webhooks"
+     ],
+     "answer": 3,
+     "explain": "Better than PATs."
+    },
+    {
+     "q": "Why prefer Apps over personal tokens?",
+     "options": [
+      "Speed",
+      "Law",
+      "Scoped permissions, installable per repo and not tied to a person",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Security."
+    },
+    {
+     "q": "What's a webhook?",
+     "options": [
+      "CLI",
+      "Poll",
+      "Branch",
+      "An HTTP callback GitHub sends on events"
+     ],
+     "answer": 3,
+     "explain": "Automation."
+    },
+    {
+     "q": "What do Probot-style bots automate?",
+     "options": [
+      "Labeling, triage and policy checks",
+      "Coding",
+      "Billing",
+      "Hosting"
+     ],
+     "answer": 0,
+     "explain": "Workflow help."
+    }
+   ]
+  },
+  "level-4/07-release-engineering-versioning": {
+   "questions": [
+    {
+     "q": "What does semantic-release or release-please do?",
+     "options": [
+      "Testing",
+      "Merging",
+      "Automate versioning and changelogs from conventional commits",
+      "Hosting"
+     ],
+     "answer": 2,
+     "explain": "Release engineering."
+    },
+    {
+     "q": "What's a conventional commit?",
+     "options": [
+      "Squashed",
+      "Free text",
+      "A structured message like feat:, fix: enabling automation",
+      "Signed"
+     ],
+     "answer": 2,
+     "explain": "Parseable."
+    },
+    {
+     "q": "What's a release branch for?",
+     "options": [
+      "Features",
+      "Stabilizing and patching a version while main moves on",
+      "Tags",
+      "Forks"
+     ],
+     "answer": 1,
+     "explain": "Backports."
+    },
+    {
+     "q": "Why sign tags/commits?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Verify authenticity of releases"
+     ],
+     "answer": 3,
+     "explain": "Supply chain."
+    }
+   ]
+  },
+  "level-4/08-security-hardening": {
+   "questions": [
+    {
+     "q": "What hardens a GitHub org?",
+     "options": [
+      "Defaults",
+      "Open",
+      "Trust",
+      "2FA/SSO, least privilege, branch protection and secret scanning"
+     ],
+     "answer": 3,
+     "explain": "Defense."
+    },
+    {
+     "q": "What does secret scanning do?",
+     "options": [
+      "Merge",
+      "Deploy",
+      "Detects committed credentials and can block pushes",
+      "Compile"
+     ],
+     "answer": 2,
+     "explain": "Push protection."
+    },
+    {
+     "q": "What does Dependabot do?",
+     "options": [
+      "Merges",
+      "Reviews",
+      "Hosts",
+      "Opens PRs to update vulnerable or outdated dependencies"
+     ],
+     "answer": 3,
+     "explain": "Supply chain."
+    },
+    {
+     "q": "What does CodeQL provide?",
+     "options": [
+      "Linting",
+      "Hosting",
+      "Static analysis to find vulnerabilities in code",
+      "Deploy"
+     ],
+     "answer": 2,
+     "explain": "Code scanning."
+    }
+   ]
+  },
+  "level-4/09-self-hosted-runners-enterprise": {
+   "questions": [
+    {
+     "q": "Why self-hosted runners?",
+     "options": [
+      "Special hardware, private network access or cost at scale",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "You maintain them."
+    },
+    {
+     "q": "What's the security risk?",
+     "options": [
+      "Running untrusted PR code on persistent machines",
+      "Speed",
+      "None",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "Use ephemeral runners."
+    },
+    {
+     "q": "How scale runners?",
+     "options": [
+      "Manual",
+      "Static",
+      "Autoscaling ephemeral runners (e.g. Kubernetes controller)",
+      "One"
+     ],
+     "answer": 2,
+     "explain": "Clean per job."
+    },
+    {
+     "q": "What isolates jobs best?",
+     "options": [
+      "Shared",
+      "None",
+      "Persistent",
+      "Ephemeral containers/VMs destroyed after each job"
+     ],
+     "answer": 3,
+     "explain": "No leftovers."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only Git",
+      "Only CI",
+      "Only issues",
+      "Workflow design, CI/CD, security hardening and release automation on GitHub"
+     ],
+     "answer": 3,
+     "explain": "Team-grade repo."
+    },
+    {
+     "q": "How prove it's production-ready?",
+     "options": [
+      "Hope",
+      "Protected branches, required checks, secret scanning and a tested release",
+      "Demo",
+      "Slides"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation helps contributors?",
+     "options": [
+      "README, CONTRIBUTING, CODEOWNERS and templates",
+      "Code",
+      "None",
+      "Slides"
+     ],
+     "answer": 0,
+     "explain": "Onboarding."
+    },
+    {
+     "q": "What sustains the repo?",
+     "options": [
+      "Automation, dependency updates and clear ownership",
+      "Silence",
+      "Manual",
+      "Luck"
+     ],
+     "answer": 0,
+     "explain": "Maintenance."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What distinguishes Git from GitHub?",
+    "options": [
+     "GitHub is the tool",
+     "Git is the distributed version control tool; GitHub hosts repositories and adds collaboration features",
+     "Git is hosted",
+     "They're the same"
+    ],
+    "answer": 1,
+    "explain": "Git works fully offline."
+   },
+   {
+    "q": "What does git status --short show? (in a new empty repository, identity configured, default branch main)\n```bash\necho hi > a.txt\ngit add a.txt\necho more > b.txt\ngit status --short\n```\n",
+    "options": [
+     "A  a.txt\nA  b.txt",
+     "M  a.txt",
+     "?? a.txt\n?? b.txt",
+     "A  a.txt\n?? b.txt"
+    ],
+    "answer": 3,
+    "explain": "A = staged new file; ?? = untracked. Verified by running it with real git."
+   },
+   {
+    "q": "After this, which commit does main point to and what does feature have? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f; git commit -qm c1\ngit switch -qc feature\necho b>>f; git commit -qam c2\ngit switch -q main\ngit log --format=%s | paste -sd' ' -; git log feature --format=%s | paste -sd' ' -\n```\n",
+    "options": [
+     "c2\nc2 c1",
+     "c1\nc2 c1",
+     "c1\nc1",
+     "c2 c1\nc2 c1"
+    ],
+    "answer": 1,
+    "explain": "A branch is just a pointer; main still points at c1. Verified by running it with real git."
+   },
+   {
+    "q": "How many parents does the commit made by `git merge --no-ff` have? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f; git commit -qm c1\ngit switch -qc feat\necho b>>f; git commit -qam c2\ngit switch -q main\ngit merge -q --no-ff feat -m 'merge feat'\ngit cat-file -p HEAD | grep -c '^parent'\n```\n",
+    "options": [
+     "0",
+     "3",
+     "2",
+     "1"
+    ],
+    "answer": 2,
+    "explain": "Even when fast-forward is possible, --no-ff creates a merge commit with two parents. Verified by running it with real git."
+   },
+   {
+    "q": "What does the conflicted file contain? (in a new empty repository, identity configured, default branch main)\n```bash\nprintf 'base\\n'>f; git add f; git commit -qm base\ngit switch -qc a; echo A>f; git commit -qam a\ngit switch -q main; git switch -qc b; echo B>f; git commit -qam b\ngit merge a >/dev/null 2>&1 || true\ncat f\n```\n",
+    "options": [
+     "B\nA",
+     "A\nB",
+     "<<<<<<< HEAD\nB\n=======\nA\n>>>>>>> a",
+     "base"
+    ],
+    "answer": 2,
+    "explain": "The current branch (HEAD) comes first, the incoming branch last. Verified by running it with real git."
+   },
+   {
+    "q": "What does the history look like after rebasing feat onto main? (in a new empty repository, identity configured, default branch main)\n```bash\necho 1 > f; git add f; git commit -qm base\ngit switch -qc feat; echo f>g; git add g; git commit -qm feat\ngit switch -q main; echo m>h; git add h; git commit -qm main2\ngit switch -q feat; git rebase -q main\ngit log --format=%s | tr '\\n' ' '\n```\n",
+    "options": [
+     "feat main2 base",
+     "base",
+     "feat base main2",
+     "main2 feat base"
+    ],
+    "answer": 0,
+    "explain": "Rebase replays feat's commits on top of main, producing linear history. Verified by running it with real git."
+   },
+   {
+    "q": "Which commit does cherry-pick copy? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f; git commit -qm base\ngit switch -qc other; echo b>g; git add g; git commit -qm 'add g'\ngit switch -q main\ngit cherry-pick other >/dev/null\ngit log --format=%s | tr '\\n' ' '\n```\n",
+    "options": [
+     "add g base",
+     "base",
+     "add g",
+     "other base"
+    ],
+    "answer": 0,
+    "explain": "Cherry-pick applies that commit's change as a new commit on the current branch. Verified by running it with real git."
+   },
+   {
+    "q": "How do you get a commit back after `git reset --hard HEAD~1`? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f; git commit -qm one\necho b>>f; git commit -qam two\ngit reset -q --hard HEAD~1\ngit reset -q --hard HEAD@{1}\ngit log --format=%s | head -1\n```\n",
+    "options": [
+     "Lost forever",
+     "one",
+     "Error",
+     "two"
+    ],
+    "answer": 3,
+    "explain": "The reflog records where HEAD pointed, so the commit is still reachable. Verified by running it with real git."
+   },
+   {
+    "q": "What happens to a commit when a pre-commit hook exits non-zero? (in a new empty repository, identity configured, default branch main)\n```bash\necho a>f; git add f\nprintf '#!/bin/sh\\necho blocked; exit 1\\n' > .git/hooks/pre-commit; chmod +x .git/hooks/pre-commit\ngit commit -qm c 2>&1 | head -1; git rev-list --all --count\n```\n",
+    "options": [
+     "Error",
+     "blocked\n0",
+     "(none)\n1",
+     "blocked\n1"
+    ],
+    "answer": 1,
+    "explain": "A failing hook aborts the commit. Verified by running it with real git."
+   },
+   {
+    "q": "Which commit does bisect report as the first bad one? (in a new empty repository, identity configured, default branch main)\n```bash\nfor i in 1 2 3 4 5 6; do echo $i > v; if [ $i -ge 4 ]; then echo bug > b; fi; git add -A; git commit -qm \"c$i\"; done\ngit bisect start >/dev/null\ngit bisect bad HEAD >/dev/null\ngit bisect good HEAD~5 >/dev/null\ngit bisect run sh -c '! test -f b' >/dev/null\ngit log --format=%s -1 refs/bisect/bad\ngit bisect reset >/dev/null 2>&1\n```\n",
+    "options": [
+     "c3",
+     "c4",
+     "c1",
+     "c5"
+    ],
+    "answer": 1,
+    "explain": "Binary search over history, O(log n). Verified by running it with real git."
+   },
+   {
+    "q": "`git push` is rejected because the remote has new commits. What do you do?",
+    "options": [
+     "Reclone",
+     "Delete remote",
+     "Force push",
+     "Fetch and integrate (merge or rebase) the remote changes, then push"
+    ],
+    "answer": 3,
+    "explain": "Never force-push shared branches casually."
+   },
+   {
+    "q": "You rebased a branch you already pushed. What push do you need?",
+    "options": [
+     "Normal push",
+     "A force push, preferably --force-with-lease, and only on your own branch",
+     "Pull",
+     "Merge"
+    ],
+    "answer": 1,
+    "explain": "History was rewritten."
+   },
+   {
+    "q": "A committed .env file leaked a key. What must you do besides deleting the file?",
+    "options": [
+     "Nothing",
+     "Revoke/rotate the key; Git history still contains it",
+     "Force-push only",
+     "Rename"
+    ],
+    "answer": 1,
+    "explain": "Treat it as compromised."
+   },
+   {
+    "q": "Main must never receive unreviewed or failing code. What do you configure?",
+    "options": [
+     "A README",
+     "Labels",
+     "Branch protection: required reviews, required status checks and no direct pushes",
+     "Tags"
+    ],
+    "answer": 2,
+    "explain": "Server-side enforcement."
+   },
+   {
+    "q": "A workflow deploys from forks' PRs with secrets and an attacker steals them. What went wrong?",
+    "options": [
+     "Cache",
+     "Secrets were exposed to untrusted code (pull_request_target/misconfig); restrict secrets and permissions",
+     "Tags",
+     "Bad runner"
+    ],
+    "answer": 1,
+    "explain": "Least privilege for tokens."
+   },
+   {
+    "q": "Why pin third-party actions to a commit SHA?",
+    "options": [
+     "Style",
+     "Tags can be moved to malicious code; a SHA is immutable",
+     "Law",
+     "Speed"
+    ],
+    "answer": 1,
+    "explain": "Supply-chain safety."
+   },
+   {
+    "q": "A monorepo's CI runs everything for every change. What helps?",
+    "options": [
+     "Bigger runner",
+     "Path filters/affected-project detection and caching",
+     "Skip tests",
+     "Run all"
+    ],
+    "answer": 1,
+    "explain": "Scale CI."
+   },
+   {
+    "q": "An old release needs a security fix while main has moved on. What do you do?",
+    "options": [
+     "Release main",
+     "Force",
+     "Skip",
+     "Fix on a release branch (or cherry-pick the fix), tag a patch release"
+    ],
+    "answer": 3,
+    "explain": "Backport."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Resolve a merge conflict",
+    "prompt": "Two branches changed the same line of doc.txt. Merge them, detect the conflict, resolve it by keeping the 'Release' wording plus the author line, finish the merge commit, and report the merge parents, history and file content.",
+    "starter": "git init -q -b main demo && cd demo\ngit config user.name \"Dev\" && git config user.email \"dev@example.com\"\nprintf 'title: Draft\\nauthor: Ada\\n' > doc.txt\ngit add doc.txt && git commit -qm \"base\"\n\ngit switch -qc editor-a\nsed -i.bak 's/Draft/Final/' doc.txt && rm doc.txt.bak\ngit commit -qam \"retitle\"\n\ngit switch -q main && git switch -qc editor-b\nsed -i.bak 's/Draft/Release/' doc.txt && rm doc.txt.bak\ngit commit -qam \"rename to release\"\n\n# merge editor-a into editor-b: both changed line 1\ngit merge editor-a >/dev/null 2>&1 || echo \"conflict detected: $(git diff --name-only --diff-filter=U)\"\n# resolve: write doc.txt so it keeps the 'Release' wording and the author line, then stage and commit\n# (finish the merge with the message \"merge editor-a, keep Release\")\n\necho \"merge parents: $(git cat-file -p HEAD | grep -c '^parent')\"\necho \"history: $(git log --format=%s --no-merges | tr '\\n' ',' | sed 's/,$//')\"\ncat doc.txt\n",
+    "expected": "conflict detected: doc.txt\nmerge parents: 2\nhistory: rename to release,retitle,base\ntitle: Release\nauthor: Ada",
+    "solution": "git init -q -b main demo && cd demo\ngit config user.name \"Dev\" && git config user.email \"dev@example.com\"\nprintf 'title: Draft\\nauthor: Ada\\n' > doc.txt\ngit add doc.txt && git commit -qm \"base\"\n\ngit switch -qc editor-a\nsed -i.bak 's/Draft/Final/' doc.txt && rm doc.txt.bak\ngit commit -qam \"retitle\"\n\ngit switch -q main && git switch -qc editor-b\nsed -i.bak 's/Draft/Release/' doc.txt && rm doc.txt.bak\ngit commit -qam \"rename to release\"\n\n# merge editor-a into editor-b: both changed line 1\ngit merge editor-a >/dev/null 2>&1 || echo \"conflict detected: $(git diff --name-only --diff-filter=U)\"\n# resolve: keep the 'Release' wording from this branch, add the author line unchanged\nprintf 'title: Release\\nauthor: Ada\\n' > doc.txt\ngit add doc.txt\ngit commit -qm \"merge editor-a, keep Release\"\n\necho \"merge parents: $(git cat-file -p HEAD | grep -c '^parent')\"\necho \"history: $(git log --format=%s --no-merges | tr '\\n' ',' | sed 's/,$//')\"\ncat doc.txt\n",
+    "explain": "A conflict means both sides changed the same lines; you edit the file to the intended result, git add it and commit. The resulting merge commit has two parents and both branches' commits stay in the history. Verified by running the solution with real git."
+   },
+   {
+    "title": "Cherry-pick, a bad reset and reflog recovery",
+    "prompt": "Bring a hotfix onto main with cherry-pick, then simulate an accidental `git reset --hard HEAD~2` and recover the lost commits using the reflog.",
+    "starter": "git init -q -b main demo && cd demo\ngit config user.name \"Dev\" && git config user.email \"dev@example.com\"\nfor n in 1 2 3; do echo \"line $n\" >> notes.txt; git add notes.txt; git commit -qm \"step $n\"; done\ngit switch -qc hotfix\necho \"fix\" > fix.txt; git add fix.txt; git commit -qm \"hotfix: patch\"\ngit switch -q main\n\n# 1) bring just the hotfix commit onto main without merging the whole branch (cherry-pick)\necho \"after cherry-pick: $(git log --format=%s | tr '\\n' ',' | sed 's/,$//')\"\n\n# 2) an accidental hard reset destroys the last two commits...\ngit reset -q --hard HEAD~2\necho \"after reset:       $(git log --format=%s | tr '\\n' ',' | sed 's/,$//')\"\n\n# 3) ...but the reflog still has them: restore main to where it was before the reset\necho \"after recovery:    $(git log --format=%s | tr '\\n' ',' | sed 's/,$//')\"\n",
+    "expected": "after cherry-pick: hotfix: patch,step 3,step 2,step 1\nafter reset:       step 2,step 1\nafter recovery:    hotfix: patch,step 3,step 2,step 1",
+    "solution": "git init -q -b main demo && cd demo\ngit config user.name \"Dev\" && git config user.email \"dev@example.com\"\nfor n in 1 2 3; do echo \"line $n\" >> notes.txt; git add notes.txt; git commit -qm \"step $n\"; done\ngit switch -qc hotfix\necho \"fix\" > fix.txt; git add fix.txt; git commit -qm \"hotfix: patch\"\ngit switch -q main\n\n# 1) bring just the hotfix onto main without merging the whole branch\ngit cherry-pick hotfix >/dev/null\necho \"after cherry-pick: $(git log --format=%s | tr '\\n' ',' | sed 's/,$//')\"\n\n# 2) an accidental hard reset destroys the last two commits...\ngit reset -q --hard HEAD~2\necho \"after reset:       $(git log --format=%s | tr '\\n' ',' | sed 's/,$//')\"\n\n# 3) ...but the reflog still has them: restore main to where it was before the reset\ngit reset -q --hard \"HEAD@{1}\"\necho \"after recovery:    $(git log --format=%s | tr '\\n' ',' | sed 's/,$//')\"\n",
+    "explain": "Cherry-pick copies one commit's change onto the current branch; a hard reset only moves the branch pointer, so the reflog (HEAD@{1}) still lets you get back to the previous tip. Verified by running the solution with real git."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
