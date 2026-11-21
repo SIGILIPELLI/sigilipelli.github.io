@@ -1,0 +1,2159 @@
+{
+ "course": "freertos-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-why-an-rtos": {
+   "questions": [
+    {
+     "q": "What limits a superloop as a design?",
+     "options": [
+      "One slow or blocking step delays everything else; timing and responsiveness become entangled",
+      "Memory",
+      "Speed of CPU",
+      "Compiler"
+     ],
+     "answer": 0,
+     "explain": "An RTOS gives each activity its own task."
+    },
+    {
+     "q": "What does an RTOS scheduler provide?",
+     "options": [
+      "Priority-based preemptive scheduling with bounded, predictable response",
+      "Batch",
+      "Random order",
+      "Fair sharing"
+     ],
+     "answer": 0,
+     "explain": "Determinism."
+    },
+    {
+     "q": "What's a real-time system defined by?",
+     "options": [
+      "Small code",
+      "Fast CPU",
+      "Meeting deadlines predictably, not raw speed",
+      "Low power"
+     ],
+     "answer": 2,
+     "explain": "Hard vs soft."
+    },
+    {
+     "q": "When is an RTOS overkill?",
+     "options": [
+      "Very simple devices with one or two simple activities",
+      "Always",
+      "Large apps",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Weigh overhead."
+    }
+   ]
+  },
+  "level-1/02-first-tasks": {
+   "questions": [
+    {
+     "q": "What is a FreeRTOS task?",
+     "options": [
+      "A timer",
+      "An ISR",
+      "A C function with its own stack and priority that runs an infinite loop",
+      "A thread-free function"
+     ],
+     "answer": 2,
+     "explain": "xTaskCreate."
+    },
+    {
+     "q": "How must a task function end?",
+     "options": [
+      "Return",
+      "break",
+      "exit()",
+      "It must not return; loop forever or delete itself with vTaskDelete(NULL)"
+     ],
+     "answer": 3,
+     "explain": "Else undefined behavior."
+    },
+    {
+     "q": "What does xTaskCreate's stack size parameter mean in FreeRTOS?",
+     "options": [
+      "Bits",
+      "Bytes",
+      "The stack depth in words (not bytes)",
+      "KB"
+     ],
+     "answer": 2,
+     "explain": "Port-specific word size."
+    },
+    {
+     "q": "What does vTaskDelay do?",
+     "options": [
+      "Sleeps CPU",
+      "Suspends all",
+      "Busy waits",
+      "Blocks the calling task for a number of ticks, letting others run"
+     ],
+     "answer": 3,
+     "explain": "Use vTaskDelayUntil for periodic work."
+    }
+   ]
+  },
+  "level-1/03-the-scheduler": {
+   "questions": [
+    {
+     "q": "What's the scheduler's core rule?",
+     "options": [
+      "Random",
+      "Round robin always",
+      "Run the highest-priority task that is Ready",
+      "Oldest"
+     ],
+     "answer": 2,
+     "explain": "Equal priorities time-slice."
+    },
+    {
+     "q": "What are task states?",
+     "options": [
+      "Idle, busy",
+      "Start, stop",
+      "Up, down",
+      "Running, Ready, Blocked and Suspended"
+     ],
+     "answer": 3,
+     "explain": "State diagram."
+    },
+    {
+     "q": "What runs when no task is ready?",
+     "options": [
+      "Scheduler",
+      "Main",
+      "Nothing",
+      "The idle task"
+     ],
+     "answer": 3,
+     "explain": "Runs at priority 0."
+    },
+    {
+     "q": "What happens to equal-priority ready tasks?",
+     "options": [
+      "Run once",
+      "They share the CPU by time slicing each tick",
+      "Alternate randomly",
+      "One starves"
+     ],
+     "answer": 1,
+     "explain": "configUSE_TIME_SLICING."
+    }
+   ]
+  },
+  "level-1/04-queues": {
+   "questions": [
+    {
+     "q": "Why use queues instead of globals?",
+     "options": [
+      "Law",
+      "Speed",
+      "Safe copy-based data transfer between tasks with blocking and timeouts",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "No races."
+    },
+    {
+     "q": "What does xQueueReceive with portMAX_DELAY do?",
+     "options": [
+      "Blocks until an item arrives",
+      "Polls",
+      "Fails",
+      "Returns now"
+     ],
+     "answer": 0,
+     "explain": "Indefinite wait."
+    },
+    {
+     "q": "What does a queue item copy mean?",
+     "options": [
+      "Moved",
+      "Pointer shared",
+      "Data is copied in; senders can reuse their buffers",
+      "Aliased"
+     ],
+     "answer": 2,
+     "explain": "Copy by value."
+    },
+    {
+     "q": "What's the downside of sending large structs by value?",
+     "options": [
+      "Law",
+      "Copy cost; send pointers to buffers with clear ownership",
+      "Speed",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Ownership rules."
+    }
+   ]
+  },
+  "level-1/05-semaphores-mutexes": {
+   "questions": [
+    {
+     "q": "What's the difference between a binary semaphore and a mutex?",
+     "options": [
+      "Reverse",
+      "None",
+      "A mutex has ownership and priority inheritance; a semaphore is for signaling",
+      "Same"
+     ],
+     "answer": 2,
+     "explain": "Use mutexes to protect resources."
+    },
+    {
+     "q": "What problem does priority inheritance solve?",
+     "options": [
+      "Deadlock",
+      "Priority inversion: a low-priority holder temporarily inherits the waiter's priority",
+      "Starvation",
+      "Race"
+     ],
+     "answer": 1,
+     "explain": "Mutex feature."
+    },
+    {
+     "q": "Why can't a mutex be given from an ISR?",
+     "options": [
+      "Law",
+      "Mutexes have task ownership; use semaphores for ISR signaling",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "FromISR APIs."
+    },
+    {
+     "q": "What does a counting semaphore model?",
+     "options": [
+      "A timer",
+      "A number of available resources or pending events",
+      "A lock",
+      "A queue"
+     ],
+     "answer": 1,
+     "explain": "Counts up and down."
+    }
+   ]
+  },
+  "level-1/06-software-timers": {
+   "questions": [
+    {
+     "q": "When use a software timer?",
+     "options": [
+      "For lightweight periodic/one-shot callbacks without a dedicated task",
+      "Hard real time",
+      "Blocking IO",
+      "Long work"
+     ],
+     "answer": 0,
+     "explain": "Timer service task runs callbacks."
+    },
+    {
+     "q": "Where do timer callbacks run?",
+     "options": [
+      "In the timer service (daemon) task, so they must not block",
+      "Main",
+      "Idle",
+      "ISR"
+     ],
+     "answer": 0,
+     "explain": "Keep short."
+    },
+    {
+     "q": "What controls the timer task's priority?",
+     "options": [
+      "config",
+      "configTIMER_TASK_PRIORITY",
+      "portTICK",
+      "ISR"
+     ],
+     "answer": 1,
+     "explain": "Set high enough."
+    },
+    {
+     "q": "What can't a timer callback do?",
+     "options": [
+      "Read",
+      "Send",
+      "Notify",
+      "Block (e.g. wait on a queue forever)"
+     ],
+     "answer": 3,
+     "explain": "Would stall all timers."
+    }
+   ]
+  },
+  "level-1/07-notifications-event-groups": {
+   "questions": [
+    {
+     "q": "What are task notifications?",
+     "options": [
+      "Queues",
+      "Mutex",
+      "A lightweight per-task signal/value mechanism, faster and smaller than queues or semaphores",
+      "Heavy"
+     ],
+     "answer": 2,
+     "explain": "xTaskNotify."
+    },
+    {
+     "q": "What are event groups for?",
+     "options": [
+      "Waiting on combinations of bits (events) from several sources",
+      "Memory",
+      "Timing",
+      "Data"
+     ],
+     "answer": 0,
+     "explain": "xEventGroupWaitBits."
+    },
+    {
+     "q": "When prefer notifications?",
+     "options": [
+      "Large data",
+      "Mutual exclusion",
+      "Many to many",
+      "One-to-one signaling to a known task"
+     ],
+     "answer": 3,
+     "explain": "Lower RAM/CPU."
+    },
+    {
+     "q": "What can an event group do that a semaphore can't?",
+     "options": [
+      "Wait for ALL or ANY of several event bits",
+      "Count",
+      "Lock",
+      "Own"
+     ],
+     "answer": 0,
+     "explain": "Synchronization."
+    }
+   ]
+  },
+  "level-1/08-interrupts": {
+   "questions": [
+    {
+     "q": "Which API do you call from an ISR?",
+     "options": [
+      "Blocking",
+      "The FromISR variants (e.g. xQueueSendFromISR)",
+      "Normal",
+      "Any"
+     ],
+     "answer": 1,
+     "explain": "Never block in ISR."
+    },
+    {
+     "q": "What does the higher-priority-task-woken flag do?",
+     "options": [
+      "Resets",
+      "Lets you request a context switch on ISR exit (portYIELD_FROM_ISR)",
+      "Nothing",
+      "Logs"
+     ],
+     "answer": 1,
+     "explain": "Minimize latency."
+    },
+    {
+     "q": "What should an ISR do?",
+     "options": [
+      "Print",
+      "Delay",
+      "Process",
+      "Minimal work: capture data and defer processing to a task"
+     ],
+     "answer": 3,
+     "explain": "Deferred interrupt handling."
+    },
+    {
+     "q": "What interrupt priorities may call FreeRTOS APIs?",
+     "options": [
+      "None",
+      "Those at or below configMAX_SYSCALL_INTERRUPT_PRIORITY",
+      "Highest",
+      "Any"
+     ],
+     "answer": 1,
+     "explain": "Cortex-M rule."
+    }
+   ]
+  },
+  "level-1/09-memory-debugging": {
+   "questions": [
+    {
+     "q": "How do you size a task stack?",
+     "options": [
+      "Max",
+      "Guess",
+      "Measure high-water marks (uxTaskGetStackHighWaterMark) with margin",
+      "Min"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What does configCHECK_FOR_STACK_OVERFLOW provide?",
+     "options": [
+      "Larger stack",
+      "Timer",
+      "Heap",
+      "A hook when a stack overflow is detected"
+     ],
+     "answer": 3,
+     "explain": "Debug aid."
+    },
+    {
+     "q": "What does a hard fault often indicate in FreeRTOS apps?",
+     "options": [
+      "Stack overflow, bad pointer or wrong ISR API use",
+      "Law",
+      "Network",
+      "Slow"
+     ],
+     "answer": 0,
+     "explain": "Inspect registers."
+    },
+    {
+     "q": "What tool helps see task runtime?",
+     "options": [
+      "Run-time stats (vTaskGetRunTimeStats) or trace tools",
+      "print",
+      "Guess",
+      "LED"
+     ],
+     "answer": 0,
+     "explain": "Profile."
+    }
+   ]
+  },
+  "level-1/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "ISR only",
+      "One task",
+      "Sensor, processing and output tasks with queues, timers and a watchdog",
+      "No sync"
+     ],
+     "answer": 2,
+     "explain": "Smart sensor device."
+    },
+    {
+     "q": "Why decouple tasks with queues?",
+     "options": [
+      "Law",
+      "Loose coupling and bounded buffering between rates",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Pipeline."
+    },
+    {
+     "q": "How do you verify timing?",
+     "options": [
+      "Measure latency/jitter and stack usage under load",
+      "Guess",
+      "Assume",
+      "Print"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What should you do on queue full?",
+     "options": [
+      "Crash",
+      "Ignore",
+      "Reset",
+      "Define a policy: drop oldest, block with timeout or count overruns"
+     ],
+     "answer": 3,
+     "explain": "Overload handling."
+    }
+   ]
+  },
+  "level-2/01-stream-message-buffers": {
+   "questions": [
+    {
+     "q": "When use stream/message buffers?",
+     "options": [
+      "Many writers",
+      "Fixed items",
+      "Events",
+      "Byte streams or variable-length messages between one writer and one reader"
+     ],
+     "answer": 3,
+     "explain": "UART/DMA handoff."
+    },
+    {
+     "q": "What's the restriction on stream buffers?",
+     "options": [
+      "Single writer and single reader (unless protected)",
+      "None",
+      "Many",
+      "Multi"
+     ],
+     "answer": 0,
+     "explain": "Lock-free design."
+    },
+    {
+     "q": "What's a trigger level?",
+     "options": [
+      "How many bytes must be available to unblock the reader",
+      "Size",
+      "Priority",
+      "Timeout"
+     ],
+     "answer": 0,
+     "explain": "Reduce wakeups."
+    },
+    {
+     "q": "Why use them over queues for byte streams?",
+     "options": [
+      "Less overhead than one queue item per byte",
+      "Style",
+      "Law",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "Efficient."
+    }
+   ]
+  },
+  "level-2/02-static-allocation": {
+   "questions": [
+    {
+     "q": "What's static allocation?",
+     "options": [
+      "ROM",
+      "Stack",
+      "Providing RAM for kernel objects at compile time instead of using the heap",
+      "Dynamic"
+     ],
+     "answer": 2,
+     "explain": "xTaskCreateStatic."
+    },
+    {
+     "q": "Why use it?",
+     "options": [
+      "Deterministic memory, no heap fragmentation or runtime failures",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Safety-critical."
+    },
+    {
+     "q": "What must you provide for a static task?",
+     "options": [
+      "Queue",
+      "Stack buffer and a StaticTask_t TCB",
+      "Heap",
+      "Timer"
+     ],
+     "answer": 1,
+     "explain": "Application-owned."
+    },
+    {
+     "q": "What extra callback is needed?",
+     "options": [
+      "Hook",
+      "vApplicationGetIdleTaskMemory (and timer task memory)",
+      "ISR",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "When static only."
+    }
+   ]
+  },
+  "level-2/03-tickless-idle-low-power": {
+   "questions": [
+    {
+     "q": "What does tickless idle do?",
+     "options": [
+      "Stops the periodic tick while idle so the MCU can sleep longer",
+      "Resets",
+      "Speeds ticks",
+      "Disables RTOS"
+     ],
+     "answer": 0,
+     "explain": "Saves power."
+    },
+    {
+     "q": "What's configUSE_TICKLESS_IDLE?",
+     "options": [
+      "Debug",
+      "Timer",
+      "Enables suppression of ticks in the idle task",
+      "Stack"
+     ],
+     "answer": 2,
+     "explain": "Port support needed."
+    },
+    {
+     "q": "What does the expected idle time determine?",
+     "options": [
+      "Whether it's worth entering a low-power sleep",
+      "Heap",
+      "Priority",
+      "Queue"
+     ],
+     "answer": 0,
+     "explain": "Minimum threshold."
+    },
+    {
+     "q": "What must you restore after sleep?",
+     "options": [
+      "The tick count to account for elapsed time",
+      "Queue",
+      "Stack",
+      "Heap"
+     ],
+     "answer": 0,
+     "explain": "Kernel compensates."
+    }
+   ]
+  },
+  "level-2/04-esp-idf-freertos": {
+   "questions": [
+    {
+     "q": "How does ESP-IDF FreeRTOS differ?",
+     "options": [
+      "No tasks",
+      "Different",
+      "It's SMP-capable with core affinity and extra APIs (xTaskCreatePinnedToCore)",
+      "Single"
+     ],
+     "answer": 2,
+     "explain": "Dual-core."
+    },
+    {
+     "q": "What's task pinning?",
+     "options": [
+      "Memory",
+      "Time",
+      "Priority",
+      "Binding a task to a specific core"
+     ],
+     "answer": 3,
+     "explain": "Affects performance."
+    },
+    {
+     "q": "Why use critical sections carefully on SMP?",
+     "options": [
+      "Speed",
+      "Law",
+      "They need spinlocks across cores (portENTER_CRITICAL with a mux)",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Multi-core hazards."
+    },
+    {
+     "q": "What does the IDF add?",
+     "options": [
+      "GUI",
+      "DB",
+      "Tick hooks, dual idle tasks and task watchdog integration",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Platform."
+    }
+   ]
+  },
+  "level-2/05-posix-port": {
+   "questions": [
+    {
+     "q": "What does the POSIX port allow?",
+     "options": [
+      "Running FreeRTOS on a Linux/macOS host for development and testing",
+      "Debugging HW",
+      "Deploying",
+      "Flashing"
+     ],
+     "answer": 0,
+     "explain": "Simulation."
+    },
+    {
+     "q": "What's a limitation of the host port?",
+     "options": [
+      "Law",
+      "Speed",
+      "None",
+      "Timing isn't real-time and hardware isn't present"
+     ],
+     "answer": 3,
+     "explain": "Logic only."
+    },
+    {
+     "q": "Why test on host?",
+     "options": [
+      "Fast iteration and CI without hardware",
+      "Law",
+      "Style",
+      "Speed only"
+     ],
+     "answer": 0,
+     "explain": "Automation."
+    },
+    {
+     "q": "What do you stub on host?",
+     "options": [
+      "Tasks",
+      "Queues",
+      "Hardware access via an abstraction layer",
+      "Kernel"
+     ],
+     "answer": 2,
+     "explain": "HAL."
+    }
+   ]
+  },
+  "level-2/06-queue-sets-patterns": {
+   "questions": [
+    {
+     "q": "What do queue sets do?",
+     "options": [
+      "Order",
+      "Let a task block on multiple queues/semaphores at once",
+      "Sort",
+      "Count"
+     ],
+     "answer": 1,
+     "explain": "xQueueSelectFromSet."
+    },
+    {
+     "q": "What's often a simpler alternative?",
+     "options": [
+      "Polling",
+      "Globals",
+      "Nothing",
+      "Task notifications or event groups, or a single queue of tagged messages"
+     ],
+     "answer": 3,
+     "explain": "Design."
+    },
+    {
+     "q": "What's a producer-consumer pattern?",
+     "options": [
+      "Tasks produce items into a queue and others consume them",
+      "Mutex",
+      "ISR",
+      "Timer"
+     ],
+     "answer": 0,
+     "explain": "Decoupling."
+    },
+    {
+     "q": "What problem does a pipeline pattern solve?",
+     "options": [
+      "Heap",
+      "Locks",
+      "Timers",
+      "Splitting processing into stages communicating via queues"
+     ],
+     "answer": 3,
+     "explain": "Parallelism."
+    }
+   ]
+  },
+  "level-2/07-freertosconfig-deep-dive": {
+   "questions": [
+    {
+     "q": "Which config enables preemption?",
+     "options": [
+      "configUSE_TIMERS",
+      "configTICK_RATE_HZ",
+      "configMINIMAL_STACK_SIZE",
+      "configUSE_PREEMPTION"
+     ],
+     "answer": 3,
+     "explain": "1 = preemptive."
+    },
+    {
+     "q": "What does configTICK_RATE_HZ set?",
+     "options": [
+      "The tick frequency (scheduler resolution)",
+      "CPU clock",
+      "Priority",
+      "Stack"
+     ],
+     "answer": 0,
+     "explain": "Typically 100-1000."
+    },
+    {
+     "q": "What does configASSERT do?",
+     "options": [
+      "Logs",
+      "Nothing",
+      "Speed",
+      "Traps invalid API use and internal errors during development"
+     ],
+     "answer": 3,
+     "explain": "Define it."
+    },
+    {
+     "q": "What does configMAX_PRIORITIES control?",
+     "options": [
+      "Queues",
+      "Number of priority levels (RAM use)",
+      "Tasks",
+      "Stack"
+     ],
+     "answer": 1,
+     "explain": "Choose small."
+    }
+   ]
+  },
+  "level-2/08-gatekeeper-patterns": {
+   "questions": [
+    {
+     "q": "What's the gatekeeper task pattern?",
+     "options": [
+      "Global lock",
+      "One task owns a resource (e.g. UART/logging) and others send it requests via a queue",
+      "Mutex everywhere",
+      "ISR"
+     ],
+     "answer": 1,
+     "explain": "Avoids contention."
+    },
+    {
+     "q": "Why prefer gatekeeper over a mutex?",
+     "options": [
+      "Law",
+      "Avoids priority inversion and deadlock risks and serializes access cleanly",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Single owner."
+    },
+    {
+     "q": "How do clients send log messages?",
+     "options": [
+      "Post message structs to the gatekeeper's queue",
+      "Direct",
+      "printf",
+      "Global"
+     ],
+     "answer": 0,
+     "explain": "Thread-safe logging."
+    },
+    {
+     "q": "What's a trade-off?",
+     "options": [
+      "Latency of queueing and the gatekeeper's stack/queue usage",
+      "Speed",
+      "None",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Design."
+    }
+   ]
+  },
+  "level-2/09-watchdogs-supervision": {
+   "questions": [
+    {
+     "q": "What does a supervisor/task watchdog do?",
+     "options": [
+      "Ensures every critical task checks in, resetting or recovering if one hangs",
+      "Sleeps",
+      "Logs",
+      "Updates"
+     ],
+     "answer": 0,
+     "explain": "Heartbeats."
+    },
+    {
+     "q": "How avoid blind feeding?",
+     "options": [
+      "Feed the hardware watchdog only after all tasks reported healthy",
+      "ISR",
+      "Timer",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Aggregate."
+    },
+    {
+     "q": "What should happen after a watchdog reset?",
+     "options": [
+      "Loop",
+      "Ignore",
+      "Record the cause and enter a safe state or recover",
+      "Reset"
+     ],
+     "answer": 2,
+     "explain": "Post-mortem."
+    },
+    {
+     "q": "What do you track per task?",
+     "options": [
+      "Stack",
+      "Name",
+      "CPU",
+      "Last check-in time against a deadline"
+     ],
+     "answer": 3,
+     "explain": "Supervision."
+    }
+   ]
+  },
+  "level-2/10-project-multi-sensor-gateway": {
+   "questions": [
+    {
+     "q": "What does the gateway project combine?",
+     "options": [
+      "Multiple sensor streams, filtering/framing, buffering and uplink with supervision",
+      "None",
+      "One sensor",
+      "One task"
+     ],
+     "answer": 0,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How do you handle slow uplinks?",
+     "options": [
+      "Reset",
+      "Buffer with queues/stream buffers and apply backpressure/drop policy",
+      "Block",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Overload."
+    },
+    {
+     "q": "What verifies robustness?",
+     "options": [
+      "Hope",
+      "Demo",
+      "Slides",
+      "Fault injection: sensor loss, queue full, link down"
+     ],
+     "answer": 3,
+     "explain": "Test failures."
+    },
+    {
+     "q": "What proves timing?",
+     "options": [
+      "Measuring latencies and checking worst-case response",
+      "Guess",
+      "Print",
+      "Assume"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-3/01-kernel-internals-lists": {
+   "questions": [
+    {
+     "q": "How does FreeRTOS keep ready tasks?",
+     "options": [
+      "Tree",
+      "Heap",
+      "Doubly linked lists per priority (pxReadyTasksLists)",
+      "Array"
+     ],
+     "answer": 2,
+     "explain": "O(1) operations."
+    },
+    {
+     "q": "What's a delayed list?",
+     "options": [
+      "Idle",
+      "A list ordered by wake time for blocked-with-timeout tasks",
+      "Event",
+      "Ready"
+     ],
+     "answer": 1,
+     "explain": "Tick processing."
+    },
+    {
+     "q": "What are event lists?",
+     "options": [
+      "Lists of tasks waiting on a queue or semaphore, ordered by priority",
+      "Stacks",
+      "Timers",
+      "Heaps"
+     ],
+     "answer": 0,
+     "explain": "Wake highest priority first."
+    },
+    {
+     "q": "Why intrusive lists?",
+     "options": [
+      "Style",
+      "List nodes live inside the TCB, avoiding extra allocation",
+      "Speed only",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Efficient."
+    }
+   ]
+  },
+  "level-3/02-context-switching": {
+   "questions": [
+    {
+     "q": "What does a context switch save and restore?",
+     "options": [
+      "Heap",
+      "The task's CPU registers and stack pointer",
+      "Flash",
+      "Pins"
+     ],
+     "answer": 1,
+     "explain": "PendSV on Cortex-M."
+    },
+    {
+     "q": "Why use PendSV for switching on Cortex-M?",
+     "options": [
+      "Speed",
+      "It runs at the lowest priority after other ISRs complete",
+      "Law",
+      "Highest"
+     ],
+     "answer": 1,
+     "explain": "Deferred switch."
+    },
+    {
+     "q": "What triggers a switch?",
+     "options": [
+      "Flash",
+      "Timer only",
+      "User",
+      "The tick interrupt, yielding or a higher-priority task becoming ready"
+     ],
+     "answer": 3,
+     "explain": "Scheduler decision."
+    },
+    {
+     "q": "What's the cost driver?",
+     "options": [
+      "Law",
+      "Name",
+      "Register count and memory access for saving state",
+      "Colors"
+     ],
+     "answer": 2,
+     "explain": "Optimize ISR latency."
+    }
+   ]
+  },
+  "level-3/03-smp-scheduling": {
+   "questions": [
+    {
+     "q": "What is SMP in FreeRTOS?",
+     "options": [
+      "Two kernels",
+      "Cluster",
+      "One core",
+      "One kernel scheduling tasks across multiple cores"
+     ],
+     "answer": 3,
+     "explain": "Symmetric multiprocessing."
+    },
+    {
+     "q": "What's a new hazard in SMP?",
+     "options": [
+      "None",
+      "Speed",
+      "Law",
+      "True parallelism: data races between tasks on different cores"
+     ],
+     "answer": 3,
+     "explain": "Locks needed."
+    },
+    {
+     "q": "What does core affinity do?",
+     "options": [
+      "Priority",
+      "Memory",
+      "Restricts a task to specific cores",
+      "Time"
+     ],
+     "answer": 2,
+     "explain": "Control placement."
+    },
+    {
+     "q": "Which primitive protects data across cores?",
+     "options": [
+      "Disable interrupts only",
+      "Spinlocks/critical sections designed for SMP",
+      "Nothing",
+      "delay"
+     ],
+     "answer": 1,
+     "explain": "portENTER_CRITICAL_SMP."
+    }
+   ]
+  },
+  "level-3/04-mpu-memory-protection": {
+   "questions": [
+    {
+     "q": "What does the MPU provide?",
+     "options": [
+      "Cache",
+      "Speed",
+      "Hardware memory protection regions restricting task access",
+      "DMA"
+     ],
+     "answer": 2,
+     "explain": "Fault isolation."
+    },
+    {
+     "q": "Why use MPU-enabled FreeRTOS?",
+     "options": [
+      "Law",
+      "A faulty or malicious task can't corrupt kernel or other tasks' memory",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Safety/security."
+    },
+    {
+     "q": "What are restricted tasks?",
+     "options": [
+      "Fast",
+      "Idle",
+      "Tasks with defined memory regions and unprivileged mode",
+      "ISR"
+     ],
+     "answer": 2,
+     "explain": "xTaskCreateRestricted."
+    },
+    {
+     "q": "What happens on violation?",
+     "options": [
+      "A memory-management fault you can handle",
+      "Nothing",
+      "Reset only",
+      "Silent"
+     ],
+     "answer": 0,
+     "explain": "Detect."
+    }
+   ]
+  },
+  "level-3/05-tracing-tools": {
+   "questions": [
+    {
+     "q": "What do trace tools (Tracealyzer/SystemView) show?",
+     "options": [
+      "Heap",
+      "Task switching, ISR timing and kernel events over time",
+      "Disk",
+      "Code"
+     ],
+     "answer": 1,
+     "explain": "Timeline."
+    },
+    {
+     "q": "Why trace rather than print?",
+     "options": [
+      "Cost",
+      "Law",
+      "Printing perturbs timing; tracing is low overhead",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Observe real behavior."
+    },
+    {
+     "q": "What can you find with traces?",
+     "options": [
+      "Priority inversion, CPU load and missed deadlines",
+      "Colors",
+      "Names",
+      "Typos"
+     ],
+     "answer": 0,
+     "explain": "Insight."
+    },
+    {
+     "q": "What does the trace buffer need?",
+     "options": [
+      "None",
+      "RAM and a way to stream or snapshot",
+      "Flash",
+      "Network"
+     ],
+     "answer": 1,
+     "explain": "Design."
+    }
+   ]
+  },
+  "level-3/06-porting-freertos": {
+   "questions": [
+    {
+     "q": "What does porting FreeRTOS need?",
+     "options": [
+      "Architecture-specific context switch, tick and critical section code (port layer)",
+      "UI",
+      "Nothing",
+      "Kernel rewrite"
+     ],
+     "answer": 0,
+     "explain": "portmacro.h/port.c."
+    },
+    {
+     "q": "What must you define for a new MCU?",
+     "options": [
+      "GUI",
+      "Tick timer, PendSV/SVC handlers and stack frame layout",
+      "TCP",
+      "FS"
+     ],
+     "answer": 1,
+     "explain": "Port files."
+    },
+    {
+     "q": "How verify a port?",
+     "options": [
+      "Assume",
+      "Run the kernel test suite and demo apps on hardware",
+      "Skip",
+      "Guess"
+     ],
+     "answer": 1,
+     "explain": "Validation."
+    },
+    {
+     "q": "What licenses/config matter?",
+     "options": [
+      "GUI",
+      "FreeRTOSConfig.h and heap implementation selection",
+      "FS",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Config."
+    }
+   ]
+  },
+  "level-3/07-advanced-isr-latency": {
+   "questions": [
+    {
+     "q": "What increases interrupt latency?",
+     "options": [
+      "Long critical sections and disabled interrupts in kernel/app code",
+      "Timers",
+      "Queues",
+      "ISR"
+     ],
+     "answer": 0,
+     "explain": "Keep short."
+    },
+    {
+     "q": "How reduce ISR latency?",
+     "options": [
+      "Delay",
+      "Print",
+      "Keep ISRs short, use appropriate priorities and avoid long critical sections",
+      "Locks"
+     ],
+     "answer": 2,
+     "explain": "Deferred handling."
+    },
+    {
+     "q": "What's zero-latency interrupts?",
+     "options": [
+      "Kernel",
+      "Interrupts above the syscall priority that never call kernel APIs",
+      "Normal",
+      "Slow"
+     ],
+     "answer": 1,
+     "explain": "Cortex-M design."
+    },
+    {
+     "q": "How measure latency?",
+     "options": [
+      "Print",
+      "Guess",
+      "With GPIO toggles and an oscilloscope or logic analyzer",
+      "Log"
+     ],
+     "answer": 2,
+     "explain": "Real data."
+    }
+   ]
+  },
+  "level-3/08-performance-tuning": {
+   "questions": [
+    {
+     "q": "What's the first step in tuning?",
+     "options": [
+      "Measure CPU load, latency and stack/heap usage",
+      "Rewrite",
+      "Optimize",
+      "Guess"
+     ],
+     "answer": 0,
+     "explain": "Profile."
+    },
+    {
+     "q": "What reduces context-switch overhead?",
+     "options": [
+      "Fewer tasks, coarser priorities and event-driven design",
+      "Polling",
+      "More tasks",
+      "Time slice"
+     ],
+     "answer": 0,
+     "explain": "Design."
+    },
+    {
+     "q": "What's wasteful?",
+     "options": [
+      "Polling loops with short delays instead of blocking on events",
+      "Notifications",
+      "Timers",
+      "Queues"
+     ],
+     "answer": 0,
+     "explain": "Block."
+    },
+    {
+     "q": "What do task notifications improve?",
+     "options": [
+      "Data",
+      "Signaling speed and RAM use versus semaphores",
+      "Locks",
+      "Timing"
+     ],
+     "answer": 1,
+     "explain": "Lightweight."
+    }
+   ]
+  },
+  "level-3/09-freertos-plus-tcp": {
+   "questions": [
+    {
+     "q": "What is FreeRTOS+TCP?",
+     "options": [
+      "A DB",
+      "A GUI",
+      "A TCP/IP stack integrated with FreeRTOS tasks and buffers",
+      "A filesystem"
+     ],
+     "answer": 2,
+     "explain": "Networking."
+    },
+    {
+     "q": "What's a network buffer's ownership model?",
+     "options": [
+      "Shared",
+      "Global",
+      "Copy always",
+      "Buffers move between driver, stack and application with defined ownership"
+     ],
+     "answer": 3,
+     "explain": "Zero copy."
+    },
+    {
+     "q": "What task does the stack use?",
+     "options": [
+      "None",
+      "An IP task processing events and packets",
+      "Idle",
+      "Timer"
+     ],
+     "answer": 1,
+     "explain": "Priority matters."
+    },
+    {
+     "q": "What must you size carefully?",
+     "options": [
+      "Fonts",
+      "Names",
+      "Colors",
+      "Network buffers, IP task stack and socket buffers"
+     ],
+     "answer": 3,
+     "explain": "RAM budget."
+    }
+   ]
+  },
+  "level-3/10-project-instrumented-firmware": {
+   "questions": [
+    {
+     "q": "What does the instrumented firmware project add?",
+     "options": [
+      "Tracing, stats, assertions and fault handlers to observe a running system",
+      "Features",
+      "GUI",
+      "DB"
+     ],
+     "answer": 0,
+     "explain": "Observability."
+    },
+    {
+     "q": "What do you capture on a crash?",
+     "options": [
+      "Nothing",
+      "Logs",
+      "Fault registers, stack and task info stored for post-mortem",
+      "UI"
+     ],
+     "answer": 2,
+     "explain": "Diagnostics."
+    },
+    {
+     "q": "What proves instrumentation is cheap?",
+     "options": [
+      "Guess",
+      "Hope",
+      "Measuring overhead with and without it",
+      "Assume"
+     ],
+     "answer": 2,
+     "explain": "Quantify."
+    },
+    {
+     "q": "What should be disabled in production?",
+     "options": [
+      "Logging",
+      "Everything",
+      "Watchdog",
+      "Verbose tracing and debug-only checks (or made low overhead)"
+     ],
+     "answer": 3,
+     "explain": "Balance."
+    }
+   ]
+  },
+  "level-4/01-safety-certified-freertos": {
+   "questions": [
+    {
+     "q": "What is SAFERTOS/FreeRTOS safety variant for?",
+     "options": [
+      "Certified kernel for safety-critical systems with supporting evidence",
+      "Speed",
+      "IoT",
+      "Games"
+     ],
+     "answer": 0,
+     "explain": "IEC 61508."
+    },
+    {
+     "q": "What do certifications require?",
+     "options": [
+      "Documented process, traceability, testing and independent assessment",
+      "Demo",
+      "Speed",
+      "Marketing"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    },
+    {
+     "q": "Why use a certified kernel?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Reduces certification effort by providing pre-approved evidence"
+     ],
+     "answer": 3,
+     "explain": "Pre-certified."
+    },
+    {
+     "q": "Does certification of the kernel certify your product?",
+     "options": [
+      "Yes",
+      "No: the integration and application still need assessment",
+      "Never",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "System-level."
+    }
+   ]
+  },
+  "level-4/02-formal-timing-analysis": {
+   "questions": [
+    {
+     "q": "What is response time analysis?",
+     "options": [
+      "Profiling",
+      "Testing",
+      "Computing a task's worst-case response time from higher-priority interference",
+      "Tracing"
+     ],
+     "answer": 2,
+     "explain": "Formal timing."
+    },
+    {
+     "q": "Utilization of tasks (C,T)=(1,4),(2,8),(1,10). What's total CPU utilization?\n```python\nu=1/4+2/8+1/10\nprint(round(u,3))\n```\n",
+     "options": [
+      "0.6",
+      "1.0",
+      "0.75",
+      "0.5"
+     ],
+     "answer": 0,
+     "explain": "Sum of C/T. Verified by running it."
+    },
+    {
+     "q": "The Liu-Layland bound for n=3 rate-monotonic tasks is?\n```python\nn=3\nprint(round(n*(2**(1/n)-1),3))\n```\n",
+     "options": [
+      "0.69",
+      "0.78",
+      "0.5",
+      "1.0"
+     ],
+     "answer": 1,
+     "explain": "If utilization is below this bound, RMS guarantees schedulability. Verified by running it."
+    },
+    {
+     "q": "Why measure worst-case execution time (WCET)?",
+     "options": [
+      "Deadline guarantees need upper bounds, not averages",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Static analysis/measurement."
+    }
+   ]
+  },
+  "level-4/03-production-architecture": {
+   "questions": [
+    {
+     "q": "What does a production architecture include?",
+     "options": [
+      "Globals",
+      "Arduino",
+      "One file",
+      "Layered modules, HAL, task design, error handling, logging and update support"
+     ],
+     "answer": 3,
+     "explain": "Maintainable."
+    },
+    {
+     "q": "What's a good task decomposition rule?",
+     "options": [
+      "Many",
+      "One per function",
+      "Random",
+      "Tasks by timing/ownership boundaries, not by function count"
+     ],
+     "answer": 3,
+     "explain": "Fewer, well-defined tasks."
+    },
+    {
+     "q": "How document timing?",
+     "options": [
+      "Code",
+      "Task table with period, priority, deadline and WCET",
+      "None",
+      "Slides"
+     ],
+     "answer": 1,
+     "explain": "Analysis."
+    },
+    {
+     "q": "What reduces coupling?",
+     "options": [
+      "Globals",
+      "Locks",
+      "Delay",
+      "Message passing instead of shared state"
+     ],
+     "answer": 3,
+     "explain": "Queues."
+    }
+   ]
+  },
+  "level-4/04-certification-workflows": {
+   "questions": [
+    {
+     "q": "What does certification workflow include?",
+     "options": [
+      "Requirements, design, implementation, verification and traceability artifacts",
+      "Tests",
+      "Slides",
+      "Code only"
+     ],
+     "answer": 0,
+     "explain": "Process."
+    },
+    {
+     "q": "Why traceability?",
+     "options": [
+      "Show each requirement is implemented and tested",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Audit."
+    },
+    {
+     "q": "What coding standard is common?",
+     "options": [
+      "None",
+      "PEP8",
+      "Google",
+      "MISRA C"
+     ],
+     "answer": 3,
+     "explain": "Safety-critical C."
+    },
+    {
+     "q": "What's independent verification?",
+     "options": [
+      "Same",
+      "Time",
+      "Review/testing by someone other than the author",
+      "Tools"
+     ],
+     "answer": 2,
+     "explain": "Reduce bias."
+    }
+   ]
+  },
+  "level-4/05-secure-firmware-trustzone": {
+   "questions": [
+    {
+     "q": "What does TrustZone-M provide?",
+     "options": [
+      "Network",
+      "Memory",
+      "Hardware-isolated secure and non-secure worlds on Cortex-M",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Secure firmware."
+    },
+    {
+     "q": "What belongs in the secure world?",
+     "options": [
+      "Keys, crypto and secure boot logic",
+      "UI",
+      "Net",
+      "Logs"
+     ],
+     "answer": 0,
+     "explain": "Minimize."
+    },
+    {
+     "q": "How does non-secure code call secure services?",
+     "options": [
+      "Directly",
+      "Memory",
+      "Through veneers/non-secure-callable entry points",
+      "Global"
+     ],
+     "answer": 2,
+     "explain": "SG instruction."
+    },
+    {
+     "q": "What's a caution with RTOS and TrustZone?",
+     "options": [
+      "Speed",
+      "Law",
+      "None",
+      "Secure context management for tasks calling secure code"
+     ],
+     "answer": 3,
+     "explain": "Port support (secure context)."
+    }
+   ]
+  },
+  "level-4/06-ota-rtos-firmware": {
+   "questions": [
+    {
+     "q": "What makes RTOS OTA safe?",
+     "options": [
+      "Dual banks, signature verification and rollback",
+      "None",
+      "Overwrite",
+      "Trust"
+     ],
+     "answer": 0,
+     "explain": "Fail-safe."
+    },
+    {
+     "q": "How is update integrity ensured?",
+     "options": [
+      "Signed images verified by the bootloader before activation",
+      "None",
+      "Trust",
+      "Checksum"
+     ],
+     "answer": 0,
+     "explain": "Authenticity."
+    },
+    {
+     "q": "What happens if a new image fails to confirm?",
+     "options": [
+      "Ignore",
+      "Brick",
+      "The bootloader reverts to the previous one",
+      "Retry"
+     ],
+     "answer": 2,
+     "explain": "Health check."
+    },
+    {
+     "q": "Why stage rollouts?",
+     "options": [
+      "Limit damage of a bad firmware",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Canary."
+    }
+   ]
+  },
+  "level-4/07-fault-tolerant-design": {
+   "questions": [
+    {
+     "q": "What is fault-tolerant design?",
+     "options": [
+      "No faults",
+      "Cost",
+      "Continuing safely or recovering when components fail",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Redundancy and supervision."
+    },
+    {
+     "q": "What are common techniques?",
+     "options": [
+      "Watchdogs, redundancy, plausibility checks and safe states",
+      "More features",
+      "Logs",
+      "UI"
+     ],
+     "answer": 0,
+     "explain": "Layered."
+    },
+    {
+     "q": "What's a safe state?",
+     "options": [
+      "Reset",
+      "A defined condition that avoids harm on faults",
+      "Idle",
+      "Sleep"
+     ],
+     "answer": 1,
+     "explain": "Design for it."
+    },
+    {
+     "q": "How test fault tolerance?",
+     "options": [
+      "Demo",
+      "Skip",
+      "Hope",
+      "Fault injection and chaos-style tests"
+     ],
+     "answer": 3,
+     "explain": "Prove it."
+    }
+   ]
+  },
+  "level-4/08-multicore-amp": {
+   "questions": [
+    {
+     "q": "What is AMP?",
+     "options": [
+      "Asymmetric multiprocessing: cores run different OS/firmware (e.g. Linux + FreeRTOS)",
+      "Single",
+      "SMP",
+      "Cluster"
+     ],
+     "answer": 0,
+     "explain": "Heterogeneous."
+    },
+    {
+     "q": "How do cores communicate in AMP?",
+     "options": [
+      "Files",
+      "Shared memory with mailboxes/RPMsg",
+      "Serial only",
+      "Network"
+     ],
+     "answer": 1,
+     "explain": "IPC."
+    },
+    {
+     "q": "Why use AMP?",
+     "options": [
+      "Style",
+      "Speed",
+      "Isolate hard real-time work from a rich OS",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Determinism."
+    },
+    {
+     "q": "What's the hazard?",
+     "options": [
+      "Speed",
+      "None",
+      "Cache coherence and synchronization across cores",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Careful design."
+    }
+   ]
+  },
+  "level-4/09-lts-maintenance": {
+   "questions": [
+    {
+     "q": "What does LTS maintenance involve?",
+     "options": [
+      "Fork",
+      "Using long-term support releases and applying security patches",
+      "None",
+      "Latest only"
+     ],
+     "answer": 1,
+     "explain": "Stability."
+    },
+    {
+     "q": "Why pin kernel versions?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Reproducibility and controlled upgrades"
+     ],
+     "answer": 3,
+     "explain": "Test before upgrade."
+    },
+    {
+     "q": "How track vulnerabilities?",
+     "options": [
+      "Guess",
+      "Subscribe to advisories and maintain an SBOM",
+      "None",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Security."
+    },
+    {
+     "q": "What protects upgrades?",
+     "options": [
+      "Manual",
+      "Regression tests and hardware-in-the-loop CI",
+      "Hope",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Automation."
+    }
+   ]
+  },
+  "level-4/10-capstone-production-product": {
+   "questions": [
+    {
+     "q": "What does the capstone integrate?",
+     "options": [
+      "Architecture, timing analysis, security, OTA and maintenance for a product",
+      "Only queues",
+      "Only ISR",
+      "Only tasks"
+     ],
+     "answer": 0,
+     "explain": "Production product."
+    },
+    {
+     "q": "How do you prove readiness?",
+     "options": [
+      "Demo",
+      "Timing analysis, fault injection, HIL tests and review",
+      "Hope",
+      "Slides"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation matters?",
+     "options": [
+      "Architecture, timing budget, safety/security case and runbooks",
+      "Code",
+      "Slides",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Lifecycle."
+    },
+    {
+     "q": "What sustains a product?",
+     "options": [
+      "Nothing",
+      "Maintenance process and monitoring in the field",
+      "Marketing",
+      "Luck"
+     ],
+     "answer": 1,
+     "explain": "Years."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "Why does an RTOS use priorities instead of a superloop?",
+    "options": [
+     "Less code",
+     "More features",
+     "Less RAM",
+     "So urgent activities preempt less urgent ones, giving bounded response times"
+    ],
+    "answer": 3,
+    "explain": "Determinism."
+   },
+   {
+    "q": "Which API do you call inside an ISR to send to a queue?",
+    "options": [
+     "xQueueSend",
+     "xQueueSendFromISR (and yield if a higher-priority task was woken)",
+     "vTaskDelay",
+     "xSemaphoreTake"
+    ],
+    "answer": 1,
+    "explain": "Never block in ISRs."
+   },
+   {
+    "q": "A task's xTaskCreate stack depth of 128 means what on a 32-bit port?",
+    "options": [
+     "128 words (512 bytes), not bytes",
+     "128 KB",
+     "128 bytes",
+     "128 bits"
+    ],
+    "answer": 0,
+    "explain": "Check your port."
+   },
+   {
+    "q": "Two tasks share a UART. What's the cleanest design?",
+    "options": [
+     "Two writers",
+     "Disable interrupts",
+     "A global flag",
+     "A gatekeeper task owning the UART with a queue of requests"
+    ],
+    "answer": 3,
+    "explain": "Avoids contention and inversion."
+   },
+   {
+    "q": "A low-priority task holds a mutex needed by a high-priority task while a medium task runs. What is this?",
+    "options": [
+     "Race",
+     "Starvation",
+     "Priority inversion; mutexes with priority inheritance mitigate it",
+     "Deadlock"
+    ],
+    "answer": 2,
+    "explain": "Mars Pathfinder."
+   },
+   {
+    "q": "You need one task to signal another with minimum RAM and overhead. What do you use?",
+    "options": [
+     "Queue",
+     "Event group",
+     "Mutex",
+     "A direct-to-task notification"
+    ],
+    "answer": 3,
+    "explain": "Lightweight."
+   },
+   {
+    "q": "A timer callback calls a blocking queue receive. What goes wrong?",
+    "options": [
+     "Faster",
+     "Nothing",
+     "It blocks the timer service task and stalls every software timer",
+     "Crash"
+    ],
+    "answer": 2,
+    "explain": "Callbacks must not block."
+   },
+   {
+    "q": "The ISR handles a UART byte stream at high rate. Which primitive fits?",
+    "options": [
+     "A stream buffer with a trigger level (single writer, single reader)",
+     "Event group",
+     "Mutex",
+     "Queue of bytes"
+    ],
+    "answer": 0,
+    "explain": "Low overhead."
+   },
+   {
+    "q": "How do you size a task stack?",
+    "options": [
+     "Max",
+     "Guess",
+     "Default",
+     "Measure the high-water mark under worst-case load and add margin"
+    ],
+    "answer": 3,
+    "explain": "uxTaskGetStackHighWaterMark."
+   },
+   {
+    "q": "A hard fault happens only under load. What's a likely cause?",
+    "options": [
+     "Bad clock",
+     "Network",
+     "Bad flash",
+     "Stack overflow in a task (enable stack overflow checking)"
+    ],
+    "answer": 3,
+    "explain": "configCHECK_FOR_STACK_OVERFLOW."
+   },
+   {
+    "q": "Why use static allocation in a safety product?",
+    "options": [
+     "Deterministic memory with no runtime heap failures or fragmentation",
+     "Smaller code",
+     "Faster",
+     "Law"
+    ],
+    "answer": 0,
+    "explain": "xTaskCreateStatic."
+   },
+   {
+    "q": "How does tickless idle save power?",
+    "options": [
+     "Disables tasks",
+     "Slows clock",
+     "It suppresses the periodic tick so the MCU sleeps until the next event or timeout",
+     "Powers off RAM"
+    ],
+    "answer": 2,
+    "explain": "configUSE_TICKLESS_IDLE."
+   },
+   {
+    "q": "A task never feeds the watchdog because it's blocked forever. What's the right supervision design?",
+    "options": [
+     "Feed in a timer",
+     "Feed in ISR",
+     "Never feed",
+     "Each critical task checks in with a supervisor that feeds the hardware watchdog only when all are healthy"
+    ],
+    "answer": 3,
+    "explain": "Avoid blind feeding."
+   },
+   {
+    "q": "On a dual-core ESP32, two tasks race on shared data even with taskENTER_CRITICAL on one core. Why?",
+    "options": [
+     "Timer",
+     "Bad compiler",
+     "Critical sections need an SMP spinlock (mux) to exclude the other core",
+     "Cache"
+    ],
+    "answer": 2,
+    "explain": "Use portMUX."
+   },
+   {
+    "q": "Tasks (C,T): (1,4), (2,8), (1,10). What's the CPU utilization?\n```python\nprint(round(1/4+2/8+1/10,3))\n```\n",
+    "options": [
+     "1.0",
+     "0.6",
+     "0.75",
+     "0.5"
+    ],
+    "answer": 1,
+    "explain": "Sum of C/T. Verified by running it."
+   },
+   {
+    "q": "Utilization is below the Liu-Layland bound for the task set. What does that imply under rate-monotonic scheduling?",
+    "options": [
+     "Needs more",
+     "It fails",
+     "Schedulability is guaranteed (the bound is sufficient, not necessary)",
+     "Unknown"
+    ],
+    "answer": 2,
+    "explain": "Otherwise use response-time analysis."
+   },
+   {
+    "q": "What does PendSV do on Cortex-M FreeRTOS?",
+    "options": [
+     "Handles faults",
+     "Performs the context switch at the lowest interrupt priority",
+     "Runs timers",
+     "Starts tasks"
+    ],
+    "answer": 1,
+    "explain": "Deferred switch."
+   },
+   {
+    "q": "How do you prevent one faulty task from corrupting another's memory?",
+    "options": [
+     "MPU-enabled FreeRTOS with restricted tasks",
+     "Bigger heap",
+     "Stack canary only",
+     "Mutex"
+    ],
+    "answer": 0,
+    "explain": "Hardware isolation."
+   },
+   {
+    "q": "Trace shows a high-priority task misses deadlines when a low-priority task runs. Likely cause?",
+    "options": [
+     "Tick",
+     "Idle",
+     "Bad queue",
+     "Priority inversion or long critical sections holding interrupts/locks"
+    ],
+    "answer": 3,
+    "explain": "Use inheritance and shorten critical sections."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Rate-monotonic schedulability",
+    "prompt": "Implement utilization, the Liu-Layland bound and fixed-priority response-time analysis (R = C + sum of ceil(R/Tj)*Cj over higher-priority tasks, iterated to a fixed point; deadline = period) and apply them to two task sets.",
+    "starter": "import math\n\ndef utilization(tasks):\n    # sum of C/T\n    return 0.0\n\ndef ll_bound(n):\n    # Liu & Layland rate-monotonic bound n*(2^(1/n)-1)\n    return 0.0\n\ndef response_times(tasks):\n    # tasks = [(name, C, T)], deadline = period, priority by shorter period (rate monotonic).\n    # worst-case response time: R = C + sum(ceil(R/Tj)*Cj over higher-priority tasks), iterate to a fixed point;\n    # stop if R exceeds the period. Return {name: (R, meets_deadline)}.\n    return {}\n\nSET_A = [(\"sensor\", 1, 4), (\"control\", 2, 8), (\"logger\", 1, 10)]\nSET_B = [(\"fast\", 2, 5), (\"mid\", 3, 7), (\"slow\", 4, 20)]\nfor label, ts in [(\"A\", SET_A), (\"B\", SET_B)]:\n    u = utilization(ts)\n    print(f\"set {label}: U={u:.3f} bound={ll_bound(len(ts)):.3f} -> {'guaranteed' if u <= ll_bound(len(ts)) else 'test needed'}\")\n    for name, (r, ok) in response_times(ts).items():\n        print(f\"  {name}: R={r} {'meets' if ok else 'MISSES'} deadline\")\n",
+    "expected": "set A: U=0.600 bound=0.780 -> guaranteed\n  sensor: R=1 meets deadline\n  control: R=3 meets deadline\n  logger: R=4 meets deadline\nset B: U=1.029 bound=0.780 -> test needed\n  fast: R=2 meets deadline\n  mid: R=5 meets deadline\n  slow: R=21 MISSES deadline",
+    "solution": "import math\n\ndef utilization(tasks):\n    return sum(c / t for _, c, t in tasks)\n\ndef ll_bound(n):\n    return n * (2 ** (1 / n) - 1)\n\ndef response_times(tasks):\n    \"\"\"Fixed-priority response-time analysis. tasks = [(name, C, T)], deadline = period.\n    Higher priority = shorter period (rate-monotonic).\"\"\"\n    tasks = sorted(tasks, key=lambda x: x[2])\n    out = {}\n    for i, (name, c, t) in enumerate(tasks):\n        r = c\n        while True:\n            interference = sum(math.ceil(r / tj) * cj for _, cj, tj in tasks[:i])\n            nxt = c + interference\n            if nxt == r:\n                break\n            r = nxt\n            if r > t:\n                break\n        out[name] = (r, r <= t)\n    return out\n\nSET_A = [(\"sensor\", 1, 4), (\"control\", 2, 8), (\"logger\", 1, 10)]\nSET_B = [(\"fast\", 2, 5), (\"mid\", 3, 7), (\"slow\", 4, 20)]\nfor label, ts in [(\"A\", SET_A), (\"B\", SET_B)]:\n    u = utilization(ts)\n    print(f\"set {label}: U={u:.3f} bound={ll_bound(len(ts)):.3f} -> {'guaranteed' if u <= ll_bound(len(ts)) else 'test needed'}\")\n    for name, (r, ok) in response_times(ts).items():\n        print(f\"  {name}: R={r} {'meets' if ok else 'MISSES'} deadline\")\n",
+    "explain": "Set A passes the sufficient utilization bound, so it's guaranteed. Set B exceeds the bound, so the exact response-time test is needed, and it shows which task misses its deadline. Verified by running the solution."
+   },
+   {
+    "title": "A fixed-priority preemptive scheduler",
+    "prompt": "Simulate FreeRTOS-style scheduling one tick at a time: each tick run the highest-priority released task with remaining work. Show the timeline for a low-priority task preempted by medium and high-priority tasks.",
+    "starter": "def simulate(tasks, horizon):\n    # tasks = [(name, priority, release_tick, work_ticks)], higher number = higher priority.\n    # each tick run the highest-priority released task that still has work (preemptive);\n    # return (timeline string with one letter per tick and '.' when idle, {name: finish_tick})\n    return \"\", {}\n\n# Three tasks: L (low) starts first, M (medium) and H (high) preempt it.\ntasks = [(\"L\", 1, 0, 6), (\"M\", 2, 2, 3), (\"H\", 3, 4, 2)]\nline, finish = simulate(tasks, 14)\nprint(line)\nprint(finish)\n# A priority-inversion-free run versus the same set where H must wait for L's critical section:\ntasks2 = [(\"L\", 1, 0, 3), (\"H\", 3, 1, 2)]\nprint(simulate(tasks2, 8))\n",
+    "expected": "LLMMHHMLLLL...\n{'H': 6, 'M': 7, 'L': 11}\n('LHHLL...', {'H': 3, 'L': 5})",
+    "solution": "def simulate(tasks, horizon):\n    \"\"\"Fixed-priority preemptive scheduler, 1 tick per step.\n    tasks = [(name, priority, release_tick, work_ticks)], higher number = higher priority.\"\"\"\n    remaining = {n: w for n, _, _, w in tasks}\n    finish = {}\n    timeline = []\n    for t in range(horizon):\n        ready = [(p, n) for n, p, r, _ in tasks if r <= t and remaining[n] > 0]\n        if not ready:\n            timeline.append(\".\")\n            continue\n        _, running = max(ready)\n        timeline.append(running)\n        remaining[running] -= 1\n        if remaining[running] == 0:\n            finish[running] = t + 1\n    return \"\".join(timeline), finish\n\n# Three tasks: L (low) starts first, M (medium) and H (high) preempt it.\ntasks = [(\"L\", 1, 0, 6), (\"M\", 2, 2, 3), (\"H\", 3, 4, 2)]\nline, finish = simulate(tasks, 14)\nprint(line)\nprint(finish)\n# A priority-inversion-free run versus the same set where H must wait for L's critical section:\ntasks2 = [(\"L\", 1, 0, 3), (\"H\", 3, 1, 2)]\nprint(simulate(tasks2, 8))\n",
+    "explain": "A newly ready higher-priority task preempts immediately, which is why L finishes last and H runs as soon as it's released. This models the rule 'run the highest-priority Ready task', not FreeRTOS internals. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
