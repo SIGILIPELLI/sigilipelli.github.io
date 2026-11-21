@@ -1,0 +1,2159 @@
+{
+ "course": "ethical-hacking-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-ethical-hacking-is": {
+   "questions": [
+    {
+     "q": "What makes ethical hacking 'ethical' and lawful?",
+     "options": [
+      "Using free tools",
+      "Not causing damage",
+      "Written permission, an agreed scope and the purpose of getting weaknesses fixed",
+      "Good intentions"
+     ],
+     "answer": 2,
+     "explain": "The techniques are the same as a criminal's."
+    },
+    {
+     "q": "You find a vulnerable server that is not on your scope list. What do you do?",
+     "options": [
+      "Test quickly",
+      "Report publicly",
+      "Stop and ask the client; testing out-of-scope systems is unauthorized",
+      "Exploit it"
+     ],
+     "answer": 2,
+     "explain": "Scope is a legal boundary."
+    },
+    {
+     "q": "Who may you test in this course?",
+     "options": [
+      "Public Wi-Fi",
+      "Neighbours",
+      "Only systems you own or have written authorization to test",
+      "Any website"
+     ],
+     "answer": 2,
+     "explain": "Practice in your own lab."
+    },
+    {
+     "q": "What do ethical hackers deliver?",
+     "options": [
+      "Tools",
+      "Exploits for sale",
+      "Findings with evidence, risk ratings and remediation advice",
+      "Only scan logs"
+     ],
+     "answer": 2,
+     "explain": "The goal is fixing."
+    }
+   ]
+  },
+  "level-1/02-building-a-lab": {
+   "questions": [
+    {
+     "q": "What is a home lab?",
+     "options": [
+      "A website",
+      "A bank",
+      "Virtual machines on your own computer on an isolated private network",
+      "A cloud server"
+     ],
+     "answer": 2,
+     "explain": "Cannot reach the internet or your real network."
+    },
+    {
+     "q": "Why isolate the lab network?",
+     "options": [
+      "Vulnerable machines must not be reachable by others or expose your real devices",
+      "Style",
+      "Law only",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Host-only networks."
+    },
+    {
+     "q": "Which targets are suitable for a lab?",
+     "options": [
+      "Random sites",
+      "Production servers",
+      "Deliberately vulnerable VMs like Metasploitable or DVWA/Juice Shop",
+      "Banks"
+     ],
+     "answer": 2,
+     "explain": "Legal practice targets."
+    },
+    {
+     "q": "Why snapshot VMs before testing?",
+     "options": [
+      "Style",
+      "So you can restore a clean state after breaking things",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Repeatable practice."
+    }
+   ]
+  },
+  "level-1/03-pentest-lifecycle": {
+   "questions": [
+    {
+     "q": "What is the typical pentest lifecycle order?",
+     "options": [
+      "Scan, report, scope",
+      "Report, scan",
+      "Exploit, scope, report",
+      "Scoping, reconnaissance, scanning/enumeration, exploitation, post-exploitation, reporting"
+     ],
+     "answer": 3,
+     "explain": "Phases feed each other."
+    },
+    {
+     "q": "Why follow a repeatable process?",
+     "options": [
+      "Thorough, repeatable coverage that another tester could reproduce",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Not random poking."
+    },
+    {
+     "q": "What phase produces the deliverable the client keeps?",
+     "options": [
+      "Scanning",
+      "Exploitation",
+      "Reporting",
+      "Recon"
+     ],
+     "answer": 2,
+     "explain": "Findings and fixes."
+    },
+    {
+     "q": "What should happen before any testing starts?",
+     "options": [
+      "Scan",
+      "Exploit",
+      "Recon",
+      "Agree scope and rules of engagement in writing"
+     ],
+     "answer": 3,
+     "explain": "Authorization first."
+    }
+   ]
+  },
+  "level-1/04-linux-command-line": {
+   "questions": [
+    {
+     "q": "Which command searches text in files recursively?",
+     "options": [
+      "ls",
+      "cat only",
+      "grep -r 'pattern' .",
+      "cd"
+     ],
+     "answer": 2,
+     "explain": "Filter tool output."
+    },
+    {
+     "q": "What does this pipeline print?\n```python\nfrom collections import Counter\nlines='80 open\\n22 open\\n80 open\\n443 closed'.split('\\n')\nprint(Counter(l.split()[0] for l in lines).most_common(1))\n```\n",
+     "options": [
+      "[]",
+      "[('443', 1)]",
+      "[('80', 2)]",
+      "[('22', 1)]"
+     ],
+     "answer": 2,
+     "explain": "Like `sort | uniq -c | sort -rn`. Verified by running it."
+    },
+    {
+     "q": "What does `chmod 600 key` do?",
+     "options": [
+      "Only the owner can read and write the file",
+      "Everyone reads",
+      "Executable",
+      "Delete"
+     ],
+     "answer": 0,
+     "explain": "Private key hygiene."
+    },
+    {
+     "q": "Why learn the shell?",
+     "options": [
+      "Law",
+      "Style",
+      "Fashion",
+      "Most security tools run on it and emit text you filter and combine"
+     ],
+     "answer": 3,
+     "explain": "Pipes and redirects."
+    }
+   ]
+  },
+  "level-1/05-networking-for-testers": {
+   "questions": [
+    {
+     "q": "What does a TCP three-way handshake look like?",
+     "options": [
+      "HELLO, OK",
+      "ACK, SYN",
+      "SYN, SYN-ACK, ACK",
+      "GET, POST"
+     ],
+     "answer": 2,
+     "explain": "Scanners use it to find open ports."
+    },
+    {
+     "q": "How many addresses (including network and broadcast) are in 192.168.0.0/26?\n```python\nimport ipaddress\nprint(ipaddress.ip_network('192.168.0.0/26').num_addresses)\n```\n",
+     "options": [
+      "64",
+      "26",
+      "62",
+      "256"
+     ],
+     "answer": 0,
+     "explain": "2^(32-26). Verified by running it."
+    },
+    {
+     "q": "What response suggests a closed TCP port?",
+     "options": [
+      "SYN-ACK",
+      "A RST packet",
+      "Nothing",
+      "ICMP echo"
+     ],
+     "answer": 1,
+     "explain": "Open ports answer SYN-ACK."
+    },
+    {
+     "q": "Why do testers need to understand networking?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Scanning and exploitation are conversations over the network; you must interpret responses"
+     ],
+     "answer": 3,
+     "explain": "Know what tools do."
+    }
+   ]
+  },
+  "level-1/06-passive-recon-osint": {
+   "questions": [
+    {
+     "q": "What is passive reconnaissance?",
+     "options": [
+      "Ping sweeps",
+      "Scanning",
+      "Exploiting",
+      "Gathering public information without touching the target's systems"
+     ],
+     "answer": 3,
+     "explain": "Quiet and undetectable."
+    },
+    {
+     "q": "Which is an OSINT source?",
+     "options": [
+      "Brute force",
+      "Search engines, WHOIS, certificate transparency and public repos",
+      "Port scans",
+      "Phishing"
+     ],
+     "answer": 1,
+     "explain": "Public data."
+    },
+    {
+     "q": "Why is OSINT valuable?",
+     "options": [
+      "It reveals domains, staff, technologies and leaked data cheaply and quietly",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Informs later phases."
+    },
+    {
+     "q": "What should you not do during passive recon?",
+     "options": [
+      "Read",
+      "Send traffic to the target's hosts",
+      "Take notes",
+      "Search"
+     ],
+     "answer": 1,
+     "explain": "That would be active."
+    }
+   ]
+  },
+  "level-1/07-active-scanning-nmap": {
+   "questions": [
+    {
+     "q": "What does a basic nmap SYN scan option -sS do?",
+     "options": [
+      "Half-open scan sending SYN and reading the reply without completing the handshake",
+      "Ping",
+      "UDP",
+      "Banner"
+     ],
+     "answer": 0,
+     "explain": "Stealthier than connect scans, needs privileges."
+    },
+    {
+     "q": "What does `-sV` do?",
+     "options": [
+      "OS only",
+      "Traceroute",
+      "Ping",
+      "Detects service versions on open ports"
+     ],
+     "answer": 3,
+     "explain": "Version detection."
+    },
+    {
+     "q": "What does `-p-` scan?",
+     "options": [
+      "All 65,535 TCP ports",
+      "None",
+      "Top 100",
+      "Port 0"
+     ],
+     "answer": 0,
+     "explain": "Takes longer."
+    },
+    {
+     "q": "Why scan only authorized targets?",
+     "options": [
+      "Unauthorized scanning can be illegal and disruptive",
+      "Law only",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Scope."
+    }
+   ]
+  },
+  "level-1/08-service-enumeration": {
+   "questions": [
+    {
+     "q": "What does enumeration add to a port list?",
+     "options": [
+      "IPs",
+      "Exact services, versions, configurations and interactable resources",
+      "More ports",
+      "Names"
+     ],
+     "answer": 1,
+     "explain": "Where findings come from."
+    },
+    {
+     "q": "What does a service banner reveal?",
+     "options": [
+      "The software and often version running on a port",
+      "Passwords",
+      "Users",
+      "Keys"
+     ],
+     "answer": 0,
+     "explain": "Compare with known CVEs."
+    },
+    {
+     "q": "What does anonymous FTP access indicate?",
+     "options": [
+      "Strength",
+      "Encryption",
+      "Possible exposure of files without credentials: a configuration weakness",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Report it."
+    },
+    {
+     "q": "Why enumerate each service separately?",
+     "options": [
+      "Each protocol exposes different information and risks",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "SMB, HTTP, SSH."
+    }
+   ]
+  },
+  "level-1/09-vulnerabilities-cve-cvss": {
+   "questions": [
+    {
+     "q": "What does CVE identify?",
+     "options": [
+      "A product",
+      "A score",
+      "A specific publicly disclosed vulnerability",
+      "A weakness class"
+     ],
+     "answer": 2,
+     "explain": "CVE-YYYY-NNNN."
+    },
+    {
+     "q": "What does CVSS provide?",
+     "options": [
+      "An ID",
+      "A 0-10 severity score for vulnerabilities",
+      "A tool",
+      "A fix"
+     ],
+     "answer": 1,
+     "explain": "Context still matters."
+    },
+    {
+     "q": "What is a CWE?",
+     "options": [
+      "A score",
+      "A tool",
+      "A category of software weakness (e.g. CWE-89 SQL injection)",
+      "A patch"
+     ],
+     "answer": 2,
+     "explain": "Weakness types."
+    },
+    {
+     "q": "A CVSS base score of 9.8 falls into which severity band?\n```python\ns=9.8\nprint('Critical' if s>=9 else 'High' if s>=7 else 'Medium' if s>=4 else 'Low')\n```\n",
+     "options": [
+      "Medium",
+      "Low",
+      "High",
+      "Critical"
+     ],
+     "answer": 3,
+     "explain": "9.0-10.0 is Critical. Verified by running it."
+    }
+   ]
+  },
+  "level-1/10-project-recon-enumeration": {
+   "questions": [
+    {
+     "q": "What does the recon project produce?",
+     "options": [
+      "An exploit",
+      "A structured discovery report of hosts, ports, services and candidate vulnerabilities",
+      "A tool",
+      "A scan"
+     ],
+     "answer": 1,
+     "explain": "Level 1 deliverable."
+    },
+    {
+     "q": "Where do you run it?",
+     "options": [
+      "Employer",
+      "Against your own isolated lab",
+      "Internet",
+      "Friends"
+     ],
+     "answer": 1,
+     "explain": "Legal."
+    },
+    {
+     "q": "What should each finding contain?",
+     "options": [
+      "Evidence, affected host/service and a risk rating",
+      "Screenshot only",
+      "Opinion",
+      "Tool name"
+     ],
+     "answer": 0,
+     "explain": "Traceable."
+    },
+    {
+     "q": "How do you prioritize follow-up?",
+     "options": [
+      "By port",
+      "Random",
+      "By severity, exposure and exploitability",
+      "Alphabetical"
+     ],
+     "answer": 2,
+     "explain": "Risk-based."
+    }
+   ]
+  },
+  "level-2/01-how-web-apps-work": {
+   "questions": [
+    {
+     "q": "What is the web trust boundary?",
+     "options": [
+      "Browser safe",
+      "Cookies safe",
+      "Everything the client sends can be changed by the client, so the server must validate",
+      "JS safe"
+     ],
+     "answer": 2,
+     "explain": "Never trust the client."
+    },
+    {
+     "q": "Why is client-side validation not a security control?",
+     "options": [
+      "Attackers bypass the browser and send requests directly",
+      "Law",
+      "Slow",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Repeat on the server."
+    },
+    {
+     "q": "What does HTTP being stateless imply?",
+     "options": [
+      "No sessions",
+      "Sessions are built with cookies/tokens that must be protected",
+      "Speed",
+      "Security"
+     ],
+     "answer": 1,
+     "explain": "Session management."
+    },
+    {
+     "q": "Which part of a request can an attacker modify?",
+     "options": [
+      "URL only",
+      "Body",
+      "All of it: URL, headers, cookies and body",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Use a proxy."
+    }
+   ]
+  },
+  "level-2/02-intercepting-proxy": {
+   "questions": [
+    {
+     "q": "What does an intercepting proxy do?",
+     "options": [
+      "Scans ports",
+      "Hosts files",
+      "Encrypts",
+      "Sits between browser and server so you can read and modify requests"
+     ],
+     "answer": 3,
+     "explain": "Burp or ZAP."
+    },
+    {
+     "q": "Why configure the browser to trust the proxy's CA?",
+     "options": [
+      "Law",
+      "Speed",
+      "To inspect HTTPS traffic in your lab",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Only on your test browser."
+    },
+    {
+     "q": "What does the repeater feature do?",
+     "options": [
+      "Scans",
+      "Brute",
+      "Crawls",
+      "Re-sends a modified request to observe responses"
+     ],
+     "answer": 3,
+     "explain": "Manual testing."
+    },
+    {
+     "q": "What must you ensure with proxy testing?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "Only target systems you're authorized to test"
+     ],
+     "answer": 3,
+     "explain": "Scope."
+    }
+   ]
+  },
+  "level-2/03-sql-injection": {
+   "questions": [
+    {
+     "q": "An unsafe query built by concatenation vs a parameterized one. What are the counts?\n```python\nimport sqlite3\nc=sqlite3.connect(':memory:'); c.execute('create table u(n)'); c.executemany('insert into u values(?)',[('a',),('b',)])\nv=\"x' OR '1'='1\"\nbad=c.execute(\"select count(*) from u where n='\"+v+\"'\").fetchone()[0]\ngood=c.execute('select count(*) from u where n=?',(v,)).fetchone()[0]\nprint(bad,good)\n```\n",
+     "options": [
+      "2 0",
+      "2 2",
+      "0 2",
+      "0 0"
+     ],
+     "answer": 0,
+     "explain": "Concatenation lets input change the query; parameters keep it data (demonstrated on a local in-memory DB). Verified by running it."
+    },
+    {
+     "q": "What is the primary defense against SQL injection?",
+     "options": [
+      "Escaping manually",
+      "Blacklisting words",
+      "Parameterized queries / prepared statements",
+      "Hiding errors"
+     ],
+     "answer": 2,
+     "explain": "Plus least-privilege DB accounts."
+    },
+    {
+     "q": "Why is a WAF not a complete fix?",
+     "options": [
+      "It can be bypassed; fix the code",
+      "It's slow",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Defense in depth."
+    },
+    {
+     "q": "What impact can SQL injection have?",
+     "options": [
+      "Reading, modifying or deleting data and sometimes server compromise",
+      "Style",
+      "Nothing",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "High severity."
+    }
+   ]
+  },
+  "level-2/04-xss": {
+   "questions": [
+    {
+     "q": "What is XSS?",
+     "options": [
+      "SQL",
+      "DoS",
+      "Server hack",
+      "Injecting script into a page so it runs in other users' browsers"
+     ],
+     "answer": 3,
+     "explain": "Impact depends on context."
+    },
+    {
+     "q": "What's the main defense?",
+     "options": [
+      "Hiding",
+      "Cookies",
+      "Input blacklists",
+      "Context-aware output encoding (plus CSP)"
+     ],
+     "answer": 3,
+     "explain": "Encode on output."
+    },
+    {
+     "q": "What are the XSS types?",
+     "options": [
+      "Remote",
+      "Reflected, stored and DOM-based",
+      "Local",
+      "Network"
+     ],
+     "answer": 1,
+     "explain": "Different delivery paths."
+    },
+    {
+     "q": "What can XSS steal?",
+     "options": [
+      "Server keys",
+      "Session tokens or data and act as the user (mitigate with HttpOnly cookies)",
+      "Files",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "HttpOnly blocks JS reads."
+    }
+   ]
+  },
+  "level-2/05-broken-authentication": {
+   "questions": [
+    {
+     "q": "What is credential stuffing?",
+     "options": [
+      "SQL",
+      "Trying leaked username/password pairs against other sites",
+      "Guessing",
+      "Phishing"
+     ],
+     "answer": 1,
+     "explain": "Use MFA and rate limits."
+    },
+    {
+     "q": "Which session practice is correct?",
+     "options": [
+      "URL IDs",
+      "Regenerate the session ID after login and use Secure/HttpOnly cookies",
+      "Reuse IDs",
+      "Plain cookies"
+     ],
+     "answer": 1,
+     "explain": "Prevent fixation."
+    },
+    {
+     "q": "How do you defend against brute force?",
+     "options": [
+      "Nothing",
+      "Rate limiting, lockout/backoff and MFA",
+      "Long errors",
+      "Hidden fields"
+     ],
+     "answer": 1,
+     "explain": "Detect and slow."
+    },
+    {
+     "q": "Why give generic login errors?",
+     "options": [
+      "Style",
+      "Speed",
+      "Avoid revealing whether a username exists",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "User enumeration."
+    }
+   ]
+  },
+  "level-2/06-access-control-idor": {
+   "questions": [
+    {
+     "q": "What is IDOR?",
+     "options": [
+      "Accessing another user's object by changing an identifier because authorization isn't checked",
+      "CSRF",
+      "SQLi",
+      "XSS"
+     ],
+     "answer": 0,
+     "explain": "Broken access control."
+    },
+    {
+     "q": "How is IDOR fixed?",
+     "options": [
+      "Encrypt URLs",
+      "Hide IDs",
+      "JS",
+      "Enforce server-side authorization on every object access"
+     ],
+     "answer": 3,
+     "explain": "Check ownership."
+    },
+    {
+     "q": "Why aren't random IDs enough?",
+     "options": [
+      "Slow",
+      "Unpredictable IDs are not authorization; they can leak",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Always check access."
+    },
+    {
+     "q": "Which OWASP category is IDOR in?",
+     "options": [
+      "Broken Access Control",
+      "Logging",
+      "Injection",
+      "Crypto"
+     ],
+     "answer": 0,
+     "explain": "#1 in recent lists."
+    }
+   ]
+  },
+  "level-2/07-ssrf-upload-traversal": {
+   "questions": [
+    {
+     "q": "What is SSRF?",
+     "options": [
+      "Client XSS",
+      "Making the server send requests to internal or attacker-chosen resources",
+      "SQLi",
+      "DoS"
+     ],
+     "answer": 1,
+     "explain": "Cloud metadata risk."
+    },
+    {
+     "q": "What controls prevent SSRF?",
+     "options": [
+      "Nothing",
+      "Hiding",
+      "Allow-lists for destinations, blocking internal ranges and metadata endpoints",
+      "Blacklists"
+     ],
+     "answer": 2,
+     "explain": "Network egress rules."
+    },
+    {
+     "q": "What risk comes from file upload?",
+     "options": [
+      "Uploading executable content; validate type/content and store outside webroot",
+      "Slow",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Rename and scan."
+    },
+    {
+     "q": "What is path traversal?",
+     "options": [
+      "XSS",
+      "SQL",
+      "Using ../ sequences to read files outside the intended directory",
+      "DoS"
+     ],
+     "answer": 2,
+     "explain": "Canonicalize and restrict."
+    }
+   ]
+  },
+  "level-2/08-misconfiguration-components": {
+   "questions": [
+    {
+     "q": "What is a common misconfiguration?",
+     "options": [
+      "Logging",
+      "Default credentials, verbose errors and exposed admin panels",
+      "Strong passwords",
+      "Patching"
+     ],
+     "answer": 1,
+     "explain": "Hardening checklists."
+    },
+    {
+     "q": "What are vulnerable components?",
+     "options": [
+      "Users",
+      "Servers",
+      "Custom code",
+      "Outdated libraries with known CVEs"
+     ],
+     "answer": 3,
+     "explain": "Software composition analysis."
+    },
+    {
+     "q": "Why track dependencies?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Known vulnerabilities in libraries are an easy way in"
+     ],
+     "answer": 3,
+     "explain": "SBOM."
+    },
+    {
+     "q": "What reduces misconfiguration?",
+     "options": [
+      "Defaults",
+      "Hope",
+      "Hardened baselines, automated checks and least privilege",
+      "Manual"
+     ],
+     "answer": 2,
+     "explain": "Repeatable config."
+    }
+   ]
+  },
+  "level-2/09-api-security-testing": {
+   "questions": [
+    {
+     "q": "What's a key API risk?",
+     "options": [
+      "Broken object-level authorization (BOLA)",
+      "Images",
+      "Fonts",
+      "CSS"
+     ],
+     "answer": 0,
+     "explain": "IDOR in APIs."
+    },
+    {
+     "q": "What should APIs validate?",
+     "options": [
+      "Nothing",
+      "Cookies",
+      "Authentication, authorization, input schema and rate limits",
+      "Fonts"
+     ],
+     "answer": 2,
+     "explain": "Defense in depth."
+    },
+    {
+     "q": "Why is excessive data exposure a risk?",
+     "options": [
+      "Speed",
+      "Law",
+      "APIs returning more fields than needed leak sensitive data",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Return only necessary fields."
+    },
+    {
+     "q": "How do you test APIs?",
+     "options": [
+      "Phish",
+      "Guess",
+      "Scan only",
+      "With a proxy/Postman against an authorized target, checking auth and object access"
+     ],
+     "answer": 3,
+     "explain": "Methodical."
+    }
+   ]
+  },
+  "level-2/10-project-juice-shop": {
+   "questions": [
+    {
+     "q": "What is OWASP Juice Shop?",
+     "options": [
+      "A WAF",
+      "A deliberately vulnerable web app for legal practice",
+      "A scanner",
+      "A real shop"
+     ],
+     "answer": 1,
+     "explain": "Run it locally."
+    },
+    {
+     "q": "What do you document per challenge?",
+     "options": [
+      "Time",
+      "Score",
+      "Name",
+      "Steps, evidence, impact and the fix"
+     ],
+     "answer": 3,
+     "explain": "Report style."
+    },
+    {
+     "q": "Why run it locally?",
+     "options": [
+      "Cost",
+      "Authorization: it's your own target",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Legal practice."
+    },
+    {
+     "q": "What do you learn from the project?",
+     "options": [
+      "Speed",
+      "Recognizing and fixing common web vulnerability classes",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Map to OWASP Top 10."
+    }
+   ]
+  },
+  "level-3/01-vuln-scanning-validation": {
+   "questions": [
+    {
+     "q": "Why validate scanner findings?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Scanners produce false positives; confirm before reporting"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What's a false positive?",
+     "options": [
+      "A reported issue that isn't actually exploitable/present",
+      "A fix",
+      "A scan",
+      "A miss"
+     ],
+     "answer": 0,
+     "explain": "Validate manually."
+    },
+    {
+     "q": "What does authenticated scanning improve?",
+     "options": [
+      "Speed",
+      "Stealth",
+      "Law",
+      "Coverage and accuracy by seeing installed software and configuration"
+     ],
+     "answer": 3,
+     "explain": "Credentialed scans."
+    },
+    {
+     "q": "How do you prioritize validated findings?",
+     "options": [
+      "Random",
+      "By severity, exploitability, exposure and asset value",
+      "Alphabetical",
+      "Age"
+     ],
+     "answer": 1,
+     "explain": "Risk-based."
+    }
+   ]
+  },
+  "level-3/02-exploitation-metasploit": {
+   "questions": [
+    {
+     "q": "What is Metasploit used for in a lab?",
+     "options": [
+      "Scanning",
+      "Chat",
+      "A framework to validate exploitability of known vulnerabilities in authorized tests",
+      "Hosting"
+     ],
+     "answer": 2,
+     "explain": "Use only on lab/authorized targets."
+    },
+    {
+     "q": "Why prefer minimal-risk validation?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Avoid disrupting production; prove impact without damage"
+     ],
+     "answer": 3,
+     "explain": "Safe testing."
+    },
+    {
+     "q": "What should you record for each exploit?",
+     "options": [
+      "Score",
+      "Nothing",
+      "Exact steps, output and impact for the report",
+      "Name"
+     ],
+     "answer": 2,
+     "explain": "Reproducible."
+    },
+    {
+     "q": "When is exploitation allowed?",
+     "options": [
+      "Only within the authorized scope and rules of engagement",
+      "If easy",
+      "Anytime",
+      "If found"
+     ],
+     "answer": 0,
+     "explain": "RoE."
+    }
+   ]
+  },
+  "level-3/03-password-attacks": {
+   "questions": [
+    {
+     "q": "What does password cracking test?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Weak or reused passwords and hashing strength, in an authorized test"
+     ],
+     "answer": 3,
+     "explain": "Use offline hashes you're authorized to test."
+    },
+    {
+     "q": "How many combinations are there for an 8-character password using 62 symbols?\n```python\nprint(f'{62**8:,}')\n```\n",
+     "options": [
+      "2,000,000",
+      "218,340,105,584,896",
+      "8,000,000",
+      "62,000"
+     ],
+     "answer": 1,
+     "explain": "Length and character set drive search space. Verified by running it."
+    },
+    {
+     "q": "Why slow salted hashes (bcrypt/Argon2)?",
+     "options": [
+      "Speed",
+      "Law",
+      "They make offline guessing far more expensive",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Defense."
+    },
+    {
+     "q": "What defense stops credential reuse damage?",
+     "options": [
+      "Rotation",
+      "Hints",
+      "Simple",
+      "Unique passwords with a manager and MFA"
+     ],
+     "answer": 3,
+     "explain": "Reduce blast radius."
+    }
+   ]
+  },
+  "level-3/04-linux-privesc": {
+   "questions": [
+    {
+     "q": "What is Linux privilege escalation?",
+     "options": [
+      "Login",
+      "Scan",
+      "Patch",
+      "Gaining higher privileges on a host via misconfigurations or vulnerabilities"
+     ],
+     "answer": 3,
+     "explain": "Report the weakness."
+    },
+    {
+     "q": "Which misconfiguration commonly enables privesc?",
+     "options": [
+      "Overly permissive sudo rules or SUID binaries",
+      "Strong sudo",
+      "Logging",
+      "Patching"
+     ],
+     "answer": 0,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "How do defenders reduce risk?",
+     "options": [
+      "Default",
+      "More users",
+      "Open sudo",
+      "Least privilege, patching, removing unneeded SUID and monitoring"
+     ],
+     "answer": 3,
+     "explain": "Harden."
+    },
+    {
+     "q": "What do enumeration scripts (LinPEAS) do?",
+     "options": [
+      "Scan nets",
+      "Phish",
+      "Exploit",
+      "Automate checks for common misconfigurations in your lab"
+     ],
+     "answer": 3,
+     "explain": "Learn what they check."
+    }
+   ]
+  },
+  "level-3/05-windows-privesc": {
+   "questions": [
+    {
+     "q": "What commonly enables Windows privesc?",
+     "options": [
+      "Logging",
+      "Patches",
+      "MFA",
+      "Unquoted service paths, weak service permissions and stored credentials"
+     ],
+     "answer": 3,
+     "explain": "Misconfigurations."
+    },
+    {
+     "q": "How do defenders mitigate?",
+     "options": [
+      "Disable AV",
+      "Admin all",
+      "Open",
+      "Least privilege, patching, secure service configuration and application control"
+     ],
+     "answer": 3,
+     "explain": "Hardening."
+    },
+    {
+     "q": "Why does credential hygiene matter?",
+     "options": [
+      "Style",
+      "Law",
+      "Stored or reused credentials enable lateral movement",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Use LAPS and tiering."
+    },
+    {
+     "q": "What should you document?",
+     "options": [
+      "The misconfiguration, evidence and remediation",
+      "Score",
+      "Tools",
+      "Time"
+     ],
+     "answer": 0,
+     "explain": "Fixable findings."
+    }
+   ]
+  },
+  "level-3/06-active-directory": {
+   "questions": [
+    {
+     "q": "Why is Active Directory a prime target?",
+     "options": [
+      "Slow",
+      "Old",
+      "It controls identities and access across the domain",
+      "Public"
+     ],
+     "answer": 2,
+     "explain": "Compromise = widespread access."
+    },
+    {
+     "q": "Which AD weakness class is common?",
+     "options": [
+      "Strong",
+      "Logging",
+      "Patched",
+      "Weak service account passwords, excessive privileges and legacy protocols"
+     ],
+     "answer": 3,
+     "explain": "Kerberoasting awareness."
+    },
+    {
+     "q": "What helps AD defense?",
+     "options": [
+      "Disable",
+      "Flat",
+      "Tiered administration, strong service account passwords/gMSAs, monitoring and patching",
+      "Shared admin"
+     ],
+     "answer": 2,
+     "explain": "Defense."
+    },
+    {
+     "q": "Why map attack paths with BloodHound in a lab?",
+     "options": [
+      "Exploit",
+      "Scan",
+      "Phish",
+      "Visualize privilege relationships defenders can break"
+     ],
+     "answer": 3,
+     "explain": "Use on authorized data."
+    }
+   ]
+  },
+  "level-3/07-pivoting-lateral-movement": {
+   "questions": [
+    {
+     "q": "What is lateral movement?",
+     "options": [
+      "Logging",
+      "Scanning",
+      "Moving from one compromised host to others inside a network",
+      "Patching"
+     ],
+     "answer": 2,
+     "explain": "Segmentation limits it."
+    },
+    {
+     "q": "What is pivoting?",
+     "options": [
+      "Patch",
+      "Log",
+      "Reboot",
+      "Using a compromised host as a relay to reach other network segments"
+     ],
+     "answer": 3,
+     "explain": "Authorized lab techniques."
+    },
+    {
+     "q": "What stops lateral movement?",
+     "options": [
+      "Flat",
+      "Shared",
+      "Open",
+      "Network segmentation, least privilege and monitoring"
+     ],
+     "answer": 3,
+     "explain": "Defense in depth."
+    },
+    {
+     "q": "How do defenders detect it?",
+     "options": [
+      "Unusual authentication and east-west traffic monitoring",
+      "DNS",
+      "Nothing",
+      "Ping"
+     ],
+     "answer": 0,
+     "explain": "Detection engineering."
+    }
+   ]
+  },
+  "level-3/08-wireless-testing": {
+   "questions": [
+    {
+     "q": "What do wireless tests cover?",
+     "options": [
+      "Public",
+      "Any WiFi",
+      "Neighbours",
+      "Encryption strength, authentication configuration and rogue access points on authorized networks"
+     ],
+     "answer": 3,
+     "explain": "Authorization."
+    },
+    {
+     "q": "Which protocol should replace WEP/WPA?",
+     "options": [
+      "WPS",
+      "Open",
+      "WEP",
+      "WPA2/WPA3 with strong passphrases"
+     ],
+     "answer": 3,
+     "explain": "Modern security."
+    },
+    {
+     "q": "Why disable WPS?",
+     "options": [
+      "Law",
+      "It has weaknesses that allow PIN attacks",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Hardening."
+    },
+    {
+     "q": "What's an evil twin?",
+     "options": [
+      "Router",
+      "VPN",
+      "Switch",
+      "A rogue AP imitating a legitimate network; defend with WPA3/802.1X and user awareness"
+     ],
+     "answer": 3,
+     "explain": "Detect rogue APs."
+    }
+   ]
+  },
+  "level-3/09-social-engineering": {
+   "questions": [
+    {
+     "q": "What is social engineering?",
+     "options": [
+      "Hacking",
+      "Scanning",
+      "Patching",
+      "Manipulating people into revealing information or taking actions"
+     ],
+     "answer": 3,
+     "explain": "Targets humans."
+    },
+    {
+     "q": "When may you run phishing simulations?",
+     "options": [
+      "Quietly",
+      "Anytime",
+      "On friends",
+      "With explicit authorization and agreed rules"
+     ],
+     "answer": 3,
+     "explain": "Ethics and law."
+    },
+    {
+     "q": "What reduces phishing risk?",
+     "options": [
+      "Speed",
+      "Blame",
+      "Awareness training, MFA and reporting mechanisms",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Culture."
+    },
+    {
+     "q": "What should phishing tests avoid?",
+     "options": [
+      "Harmful content and collecting real sensitive data",
+      "Reports",
+      "Training",
+      "Metrics"
+     ],
+     "answer": 0,
+     "explain": "Minimize harm."
+    }
+   ]
+  },
+  "level-3/10-project-internal-pentest": {
+   "questions": [
+    {
+     "q": "What does the internal pentest project combine?",
+     "options": [
+      "Only report",
+      "Recon, scanning, validation, privesc and lateral movement in an authorized lab",
+      "Only exploit",
+      "Only scan"
+     ],
+     "answer": 1,
+     "explain": "End to end."
+    },
+    {
+     "q": "What's the deliverable?",
+     "options": [
+      "Logs",
+      "Tools",
+      "Screenshots",
+      "A report with findings, evidence, risk and remediation"
+     ],
+     "answer": 3,
+     "explain": "Actionable."
+    },
+    {
+     "q": "How do you ensure safety?",
+     "options": [
+      "Rush",
+      "Ignore",
+      "Stay in scope, avoid destructive actions and snapshot the lab",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Responsible testing."
+    },
+    {
+     "q": "How do you validate remediation?",
+     "options": [
+      "Assume",
+      "Trust",
+      "Retest after fixes",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Close the loop."
+    }
+   ]
+  },
+  "level-4/01-post-exploitation": {
+   "questions": [
+    {
+     "q": "What is post-exploitation for?",
+     "options": [
+      "Damage",
+      "Assessing impact: what data and systems could be reached, within scope",
+      "Persist",
+      "Fun"
+     ],
+     "answer": 1,
+     "explain": "Demonstrate risk."
+    },
+    {
+     "q": "What must you do with persistence mechanisms?",
+     "options": [
+      "Keep",
+      "Avoid or remove them and record what was changed",
+      "Ignore",
+      "Hide"
+     ],
+     "answer": 1,
+     "explain": "Clean up."
+    },
+    {
+     "q": "What data should you handle carefully?",
+     "options": [
+      "Copy",
+      "Share",
+      "Keep",
+      "Any sensitive data found: minimize, protect and report"
+     ],
+     "answer": 3,
+     "explain": "Ethics."
+    },
+    {
+     "q": "What do you document?",
+     "options": [
+      "Nothing",
+      "Actions, timestamps and evidence for the report",
+      "Names",
+      "Score"
+     ],
+     "answer": 1,
+     "explain": "Traceability."
+    }
+   ]
+  },
+  "level-4/02-writing-the-report": {
+   "questions": [
+    {
+     "q": "What makes a good pentest report?",
+     "options": [
+      "Executive summary, scoped methodology, prioritized findings with evidence and remediation",
+      "Tool output",
+      "Jargon",
+      "Raw logs"
+     ],
+     "answer": 0,
+     "explain": "Two audiences."
+    },
+    {
+     "q": "What does the executive summary state?",
+     "options": [
+      "Logs",
+      "Overall risk and key recommendations in business terms",
+      "Hashes",
+      "Commands"
+     ],
+     "answer": 1,
+     "explain": "For decision makers."
+    },
+    {
+     "q": "How should findings be rated?",
+     "options": [
+      "Tool color",
+      "Consistently with CVSS plus business context",
+      "Count",
+      "Mood"
+     ],
+     "answer": 1,
+     "explain": "Defensible."
+    },
+    {
+     "q": "What makes remediation advice useful?",
+     "options": [
+      "Long",
+      "Vague",
+      "Generic",
+      "Specific, prioritized and verifiable fixes"
+     ],
+     "answer": 3,
+     "explain": "Actionable."
+    }
+   ]
+  },
+  "level-4/03-scoping-roe": {
+   "questions": [
+    {
+     "q": "What's scoping for?",
+     "options": [
+      "Defining targets, methods, timing and limits in writing before testing",
+      "Slides",
+      "Billing",
+      "Hiding"
+     ],
+     "answer": 0,
+     "explain": "Legal and safe."
+    },
+    {
+     "q": "What do Rules of Engagement include?",
+     "options": [
+      "Logos",
+      "Passwords",
+      "Allowed techniques, testing windows, contacts and escalation",
+      "Tools"
+     ],
+     "answer": 2,
+     "explain": "Operational safety."
+    },
+    {
+     "q": "What if you find a critical issue mid-test?",
+     "options": [
+      "Follow the RoE to notify the client promptly",
+      "Exploit",
+      "Wait",
+      "Publish"
+     ],
+     "answer": 0,
+     "explain": "Communication."
+    },
+    {
+     "q": "Why get written authorization?",
+     "options": [
+      "Speed",
+      "Style",
+      "It's the legal basis for the test",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Verbal isn't enough."
+    }
+   ]
+  },
+  "level-4/04-threat-modeling": {
+   "questions": [
+    {
+     "q": "What is threat modeling?",
+     "options": [
+      "Patching",
+      "Scanning",
+      "Identifying assets, threats and mitigations early in design",
+      "Pentesting"
+     ],
+     "answer": 2,
+     "explain": "STRIDE."
+    },
+    {
+     "q": "What does STRIDE stand for?",
+     "options": [
+      "Six scans",
+      "Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege",
+      "Six laws",
+      "Six tools"
+     ],
+     "answer": 1,
+     "explain": "Threat categories."
+    },
+    {
+     "q": "When is threat modeling most valuable?",
+     "options": [
+      "Early in design, before code is built",
+      "Never",
+      "Only pentest",
+      "After release"
+     ],
+     "answer": 0,
+     "explain": "Cheaper fixes."
+    },
+    {
+     "q": "What does a data flow diagram show?",
+     "options": [
+      "Colors",
+      "Logs",
+      "Trust boundaries and where data crosses them",
+      "Code"
+     ],
+     "answer": 2,
+     "explain": "Focus attention."
+    }
+   ]
+  },
+  "level-4/05-cloud-pentesting": {
+   "questions": [
+    {
+     "q": "What differs in cloud pentesting?",
+     "options": [
+      "Nothing",
+      "Style",
+      "Law",
+      "Shared responsibility and provider rules of engagement apply"
+     ],
+     "answer": 3,
+     "explain": "Check provider policy."
+    },
+    {
+     "q": "What's a top cloud finding?",
+     "options": [
+      "Colors",
+      "Overly permissive IAM and publicly exposed storage",
+      "Weak CSS",
+      "Fonts"
+     ],
+     "answer": 1,
+     "explain": "Misconfiguration."
+    },
+    {
+     "q": "Which approach is appropriate?",
+     "options": [
+      "Use only authorized accounts and test environments",
+      "Any",
+      "Any key",
+      "Public"
+     ],
+     "answer": 0,
+     "explain": "Authorization."
+    },
+    {
+     "q": "What should you review?",
+     "options": [
+      "Names",
+      "Fonts",
+      "CSS",
+      "IAM policies, network exposure and logging configuration"
+     ],
+     "answer": 3,
+     "explain": "Config reviews."
+    }
+   ]
+  },
+  "level-4/06-mobile-testing": {
+   "questions": [
+    {
+     "q": "What do mobile app tests cover?",
+     "options": [
+      "Fonts",
+      "Hardware",
+      "Colors",
+      "Insecure storage, weak transport security and exposed APIs on authorized apps"
+     ],
+     "answer": 3,
+     "explain": "OWASP MASVS."
+    },
+    {
+     "q": "Why not store secrets in the app?",
+     "options": [
+      "Style",
+      "Apps can be decompiled and secrets extracted",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Use backends."
+    },
+    {
+     "q": "What does certificate pinning protect?",
+     "options": [
+      "XSS",
+      "Against man-in-the-middle with fraudulent certificates",
+      "SQL",
+      "DoS"
+     ],
+     "answer": 1,
+     "explain": "Test in lab."
+    },
+    {
+     "q": "What's a safe lab target?",
+     "options": [
+      "Bank",
+      "Store app",
+      "Friend's",
+      "A deliberately vulnerable app on an emulator"
+     ],
+     "answer": 3,
+     "explain": "Authorized."
+    }
+   ]
+  },
+  "level-4/07-red-team-bug-bounty": {
+   "questions": [
+    {
+     "q": "What's the difference between a red team and a pentest?",
+     "options": [
+      "A red team emulates a real adversary against detection and response, broader than listing vulnerabilities",
+      "Pentest broader",
+      "Red is scanning",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "Objectives-based."
+    },
+    {
+     "q": "What does a bug bounty require?",
+     "options": [
+      "Following the program's scope and rules; never testing outside them",
+      "Public",
+      "Any site",
+      "Anything"
+     ],
+     "answer": 0,
+     "explain": "Safe harbor depends on rules."
+    },
+    {
+     "q": "How do you report a bug?",
+     "options": [
+      "Selling",
+      "Publicly",
+      "Clearly, with reproduction steps, impact and without exploiting beyond need",
+      "Vaguely"
+     ],
+     "answer": 2,
+     "explain": "Responsible."
+    },
+    {
+     "q": "Why read the policy?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "It defines scope, allowed methods and legal protections"
+     ],
+     "answer": 3,
+     "explain": "Scope = safe."
+    }
+   ]
+  },
+  "level-4/08-certifications-career": {
+   "questions": [
+    {
+     "q": "Which makes a good certification path to explore?",
+     "options": [
+      "None",
+      "Entry to advanced options like Security+, eJPT, PNPT and OSCP according to goals",
+      "One",
+      "Any"
+     ],
+     "answer": 1,
+     "explain": "Choose by role."
+    },
+    {
+     "q": "What builds a career beyond certs?",
+     "options": [
+      "Silence",
+      "Hype",
+      "Certs only",
+      "Practice labs, CTFs, writeups and real engagements"
+     ],
+     "answer": 3,
+     "explain": "Demonstrate skill."
+    },
+    {
+     "q": "Why document your lab work?",
+     "options": [
+      "Portfolio of writeups shows methodology and communication",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Professional proof."
+    },
+    {
+     "q": "What soft skill matters most?",
+     "options": [
+      "Typing",
+      "Tools",
+      "Speed",
+      "Clear reporting and communication"
+     ],
+     "answer": 3,
+     "explain": "Value delivered."
+    }
+   ]
+  },
+  "level-4/09-law-disclosure-ethics": {
+   "questions": [
+    {
+     "q": "What law is commonly relevant to unauthorized access?",
+     "options": [
+      "Tax",
+      "Labour",
+      "Computer misuse laws (e.g. the CFAA in the US, Computer Misuse Act in the UK)",
+      "Copyright only"
+     ],
+     "answer": 2,
+     "explain": "Authorization matters."
+    },
+    {
+     "q": "What is responsible disclosure?",
+     "options": [
+      "Privately informing the vendor and allowing time to fix before public details",
+      "Publishing",
+      "Ignoring",
+      "Selling"
+     ],
+     "answer": 0,
+     "explain": "Coordinated."
+    },
+    {
+     "q": "What's the ethical limit?",
+     "options": [
+      "Minimize harm, stay in scope and protect any data you encounter",
+      "Anything",
+      "Curiosity",
+      "Profit"
+     ],
+     "answer": 0,
+     "explain": "Do no harm."
+    },
+    {
+     "q": "When in doubt about scope?",
+     "options": [
+      "Stop and ask for written clarification",
+      "Test",
+      "Guess",
+      "Proceed"
+     ],
+     "answer": 0,
+     "explain": "Always."
+    }
+   ]
+  },
+  "level-4/10-capstone-full-engagement": {
+   "questions": [
+    {
+     "q": "What does the capstone engagement combine?",
+     "options": [
+      "Only exploit",
+      "Only scan",
+      "Only report",
+      "Scoping, recon, testing, reporting and retest on an authorized lab"
+     ],
+     "answer": 3,
+     "explain": "End to end."
+    },
+    {
+     "q": "How do you prove professionalism?",
+     "options": [
+      "Count",
+      "Clear scope, safe testing, evidence-based findings and a quality report",
+      "Tools",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Deliver value."
+    },
+    {
+     "q": "What closes an engagement?",
+     "options": [
+      "Debrief, report delivery and retest of fixes",
+      "Invoice",
+      "Delete",
+      "Silence"
+     ],
+     "answer": 0,
+     "explain": "Follow-through."
+    },
+    {
+     "q": "What's the long-term goal?",
+     "options": [
+      "Help organizations reduce risk responsibly",
+      "Tools",
+      "Money",
+      "Fame"
+     ],
+     "answer": 0,
+     "explain": "Ethical practice."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A client's scope lists 10.0.1.0/24 only. You discover 10.0.2.15 is also vulnerable. What do you do?",
+    "options": [
+     "Ignore it",
+     "Test it",
+     "Publish it",
+     "Stop and request written scope clarification; don't test it"
+    ],
+    "answer": 3,
+    "explain": "Out-of-scope testing is unauthorized."
+   },
+   {
+    "q": "What is the correct order of the penetration-test lifecycle?",
+    "options": [
+     "Report first",
+     "Scoping, reconnaissance, scanning/enumeration, exploitation, post-exploitation, reporting",
+     "Exploit first",
+     "Recon, report, scope"
+    ],
+    "answer": 1,
+    "explain": "Each phase feeds the next."
+   },
+   {
+    "q": "Which recon technique is passive?",
+    "options": [
+     "Searching WHOIS, certificate transparency and public repositories",
+     "Directory brute force",
+     "nmap SYN scan",
+     "Login attempts"
+    ],
+    "answer": 0,
+    "explain": "No traffic to the target."
+   },
+   {
+    "q": "How many total addresses are in a /27 network?\n```python\nimport ipaddress\nprint(ipaddress.ip_network('10.0.0.0/27').num_addresses)\n```\n",
+    "options": [
+     "27",
+     "30",
+     "64",
+     "32"
+    ],
+    "answer": 3,
+    "explain": "2^(32-27). Verified by running it."
+   },
+   {
+    "q": "An nmap result shows a TCP port 'closed' vs 'filtered'. What's the difference?",
+    "options": [
+     "Closed is open",
+     "Closed replied with RST; filtered gave no reply (a firewall dropped it)",
+     "Same",
+     "Filtered replied"
+    ],
+    "answer": 1,
+    "explain": "Interpreting scan results."
+   },
+   {
+    "q": "A scanner reports a critical CVE on a banner version, but the vendor backported the fix. What do you do?",
+    "options": [
+     "Report as is",
+     "Ignore",
+     "Exploit",
+     "Validate manually; it may be a false positive"
+    ],
+    "answer": 3,
+    "explain": "Banner checks are inferences."
+   },
+   {
+    "q": "What severity band is a CVSS 7.5?\n```python\ns=7.5\nprint('Critical' if s>=9 else 'High' if s>=7 else 'Medium' if s>=4 else 'Low')\n```\n",
+    "options": [
+     "High",
+     "Low",
+     "Critical",
+     "Medium"
+    ],
+    "answer": 0,
+    "explain": "7.0-8.9 is High. Verified by running it."
+   },
+   {
+    "q": "A search field's input is concatenated into SQL. What's the correct fix?",
+    "options": [
+     "Hide errors",
+     "Use POST",
+     "Use parameterized queries (and least-privilege DB accounts)",
+     "Blacklist words"
+    ],
+    "answer": 2,
+    "explain": "Keep data separate from code."
+   },
+   {
+    "q": "A comment is displayed unescaped and runs script for other users. What vulnerability is it and the fix?",
+    "options": [
+     "SQLi; parameters",
+     "SSRF; allow-list",
+     "Stored XSS; apply context-aware output encoding (plus CSP)",
+     "CSRF; tokens"
+    ],
+    "answer": 2,
+    "explain": "Encode on output."
+   },
+   {
+    "q": "Changing /invoice/1001 to /invoice/1002 shows another user's invoice. What is it and the fix?",
+    "options": [
+     "IDOR / broken access control; enforce server-side ownership checks",
+     "SQLi",
+     "XSS",
+     "CSRF"
+    ],
+    "answer": 0,
+    "explain": "Authorization on every object."
+   },
+   {
+    "q": "A 'fetch URL' feature can reach http://169.254.169.254/. What's the risk and defense?",
+    "options": [
+     "DoS",
+     "SQLi",
+     "XSS",
+     "SSRF to cloud metadata; allow-list destinations and block internal ranges"
+    ],
+    "answer": 3,
+    "explain": "Egress controls."
+   },
+   {
+    "q": "A pentester finds a database port exposed to the internet. What's the recommendation?",
+    "options": [
+     "Ignore",
+     "Restrict network access by firewall/VPN and require strong authentication",
+     "Hide banner",
+     "Rename port"
+    ],
+    "answer": 1,
+    "explain": "Reduce exposure."
+   },
+   {
+    "q": "A scan shows an old library with a known RCE. What process finds this routinely?",
+    "options": [
+     "Phishing",
+     "Manual only",
+     "Software composition analysis / dependency scanning with an SBOM",
+     "Pentest only"
+    ],
+    "answer": 2,
+    "explain": "Track components."
+   },
+   {
+    "q": "How many 8-character passwords exist over 26 lowercase letters?\n```python\nprint(f'{26**8:,}')\n```\n",
+    "options": [
+     "26,000",
+     "208,827,064,576",
+     "1,000,000,000",
+     "8,000,000"
+    ],
+    "answer": 1,
+    "explain": "Length and alphabet determine the search space. Verified by running it."
+   },
+   {
+    "q": "Why should password hashes be bcrypt/Argon2 rather than plain SHA-256?",
+    "options": [
+     "Law",
+     "They're shorter",
+     "They are slow and salted, making offline guessing expensive",
+     "They're reversible"
+    ],
+    "answer": 2,
+    "explain": "Work factor."
+   },
+   {
+    "q": "A low-privilege user can run any command via sudo without a password. What's the finding?",
+    "options": [
+     "Excessive sudo privileges enabling privilege escalation; apply least privilege",
+     "Normal",
+     "Nothing",
+     "Strong"
+    ],
+    "answer": 0,
+    "explain": "Report and fix."
+   },
+   {
+    "q": "What controls limit lateral movement after one host is compromised?",
+    "options": [
+     "Network segmentation, least privilege, tiered admin and east-west monitoring",
+     "Shared admin",
+     "More users",
+     "Flat network"
+    ],
+    "answer": 0,
+    "explain": "Contain the blast radius."
+   },
+   {
+    "q": "What must exist before a phishing simulation?",
+    "options": [
+     "Verbal OK",
+     "A tool",
+     "Written authorization with agreed rules, scope and safeguards",
+     "Nothing"
+    ],
+    "answer": 2,
+    "explain": "Ethics and law."
+   },
+   {
+    "q": "What belongs in an executive summary?",
+    "options": [
+     "Commands",
+     "Hashes",
+     "Raw logs",
+     "Overall risk, key findings in business terms and prioritized recommendations"
+    ],
+    "answer": 3,
+    "explain": "For decision makers."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Compute a CVSS 3.1 base score",
+    "prompt": "Implement cvss31_base(vector) following the CVSS 3.1 specification (ISS, scope-aware Impact, Exploitability, and the spec's integer-based round-up), plus severity(). Check it on three vectors, including a scope-changed one.",
+    "starter": "import math\n\nWEIGHTS = {\n    \"AV\": {\"N\": 0.85, \"A\": 0.62, \"L\": 0.55, \"P\": 0.2},\n    \"AC\": {\"L\": 0.77, \"H\": 0.44},\n    \"UI\": {\"N\": 0.85, \"R\": 0.62},\n    \"C\": {\"H\": 0.56, \"L\": 0.22, \"N\": 0.0},\n    \"I\": {\"H\": 0.56, \"L\": 0.22, \"N\": 0.0},\n    \"A\": {\"H\": 0.56, \"L\": 0.22, \"N\": 0.0},\n}\nPR = {\"U\": {\"N\": 0.85, \"L\": 0.62, \"H\": 0.27}, \"C\": {\"N\": 0.85, \"L\": 0.68, \"H\": 0.5}}\n\ndef roundup(x):\n    # CVSS 3.1 round-up to one decimal (avoid floating point issues using integer maths)\n    return 0.0\n\ndef cvss31_base(vector):\n    # parse the vector, compute ISS, Impact, Exploitability and the base score per the CVSS 3.1 spec\n    return 0.0\n\ndef severity(score):\n    # 0 None, <4 Low, <7 Medium, <9 High, else Critical\n    return \"\"\n\nfor v in [\n    \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\",\n    \"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N\",\n    \"CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N\",\n]:\n    s = cvss31_base(v)\n    print(s, severity(s))\n",
+    "expected": "9.8 Critical\n6.1 Medium\n5.5 Medium",
+    "solution": "import math\n\nWEIGHTS = {\n    \"AV\": {\"N\": 0.85, \"A\": 0.62, \"L\": 0.55, \"P\": 0.2},\n    \"AC\": {\"L\": 0.77, \"H\": 0.44},\n    \"UI\": {\"N\": 0.85, \"R\": 0.62},\n    \"C\": {\"H\": 0.56, \"L\": 0.22, \"N\": 0.0},\n    \"I\": {\"H\": 0.56, \"L\": 0.22, \"N\": 0.0},\n    \"A\": {\"H\": 0.56, \"L\": 0.22, \"N\": 0.0},\n}\nPR = {\"U\": {\"N\": 0.85, \"L\": 0.62, \"H\": 0.27}, \"C\": {\"N\": 0.85, \"L\": 0.68, \"H\": 0.5}}\n\ndef roundup(x):\n    i = round(x * 100000)\n    return i / 100000.0 if i % 10000 == 0 else (math.floor(i / 10000) + 1) / 10.0\n\ndef cvss31_base(vector):\n    m = dict(part.split(\":\") for part in vector.split(\"/\")[1:])\n    scope_changed = m[\"S\"] == \"C\"\n    iss = 1 - (1 - WEIGHTS[\"C\"][m[\"C\"]]) * (1 - WEIGHTS[\"I\"][m[\"I\"]]) * (1 - WEIGHTS[\"A\"][m[\"A\"]])\n    if scope_changed:\n        impact = 7.52 * (iss - 0.029) - 3.25 * (iss - 0.02) ** 15\n    else:\n        impact = 6.42 * iss\n    exploit = 8.22 * WEIGHTS[\"AV\"][m[\"AV\"]] * WEIGHTS[\"AC\"][m[\"AC\"]] * PR[\"C\" if scope_changed else \"U\"][m[\"PR\"]] * WEIGHTS[\"UI\"][m[\"UI\"]]\n    if impact <= 0:\n        return 0.0\n    raw = 1.08 * (impact + exploit) if scope_changed else impact + exploit\n    return roundup(min(raw, 10))\n\ndef severity(score):\n    return \"None\" if score == 0 else \"Low\" if score < 4 else \"Medium\" if score < 7 else \"High\" if score < 9 else \"Critical\"\n\nfor v in [\n    \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\",\n    \"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N\",\n    \"CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N\",\n]:\n    s = cvss31_base(v)\n    print(s, severity(s))\n",
+    "explain": "The well-known AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H vector scores 9.8 Critical. Scores guide priority, but exposure and asset value still decide real risk. Verified by running the solution."
+   },
+   {
+    "title": "Turn a scan into an attack-surface report",
+    "prompt": "Parse nmap grepable-style lines into {host: [(port, service, version)]} keeping only open ports, then print one line per host and a flagged line for each risky service (ftp, telnet, mysql, vnc) with remediation advice. Use only against output from systems you're authorized to scan.",
+    "starter": "import re\n\nSCAN = \"\"\"\\\nHost: 10.10.10.5 ()  Ports: 21/open/tcp//ftp//vsftpd 2.3.4/, 22/open/tcp//ssh//OpenSSH 8.9/, 80/open/tcp//http//Apache httpd 2.4.49/, 3306/open/tcp//mysql//MySQL 5.7/\nHost: 10.10.10.9 ()  Ports: 443/open/tcp//https//nginx 1.25/, 445/closed/tcp//microsoft-ds///\nHost: 10.10.10.20 ()  Ports: 23/open/tcp//telnet///, 5900/open/tcp//vnc//VNC (protocol 3.8)/\n\"\"\"\n\nRISKY = {\n    \"ftp\": \"cleartext protocol: prefer SFTP and disable anonymous access\",\n    \"telnet\": \"cleartext remote shell: replace with SSH\",\n    \"mysql\": \"database exposed to the network: restrict by firewall\",\n    \"vnc\": \"remote desktop exposed: tunnel via VPN / require strong auth\",\n}\n\ndef parse(scan):\n    # parse nmap grepable lines into {host: [(port, service, version), ...]} keeping only OPEN ports\n    return {}\n\ndef report(hosts):\n    # one line per host \"<ip>: N open\", then for each risky service (see RISKY) an indented\n    # \"  [!] <port>/<service> <version> -> <advice>\" line\n    return []\n\nfor line in report(parse(SCAN)):\n    print(line)\n",
+    "expected": "10.10.10.5: 4 open\n  [!] 21/ftp vsftpd 2.3.4 -> cleartext protocol: prefer SFTP and disable anonymous access\n  [!] 3306/mysql MySQL 5.7 -> database exposed to the network: restrict by firewall\n10.10.10.9: 1 open\n10.10.10.20: 2 open\n  [!] 23/telnet -> cleartext remote shell: replace with SSH\n  [!] 5900/vnc VNC (protocol 3.8) -> remote desktop exposed: tunnel via VPN / require strong auth",
+    "solution": "import re\n\nSCAN = \"\"\"\\\nHost: 10.10.10.5 ()  Ports: 21/open/tcp//ftp//vsftpd 2.3.4/, 22/open/tcp//ssh//OpenSSH 8.9/, 80/open/tcp//http//Apache httpd 2.4.49/, 3306/open/tcp//mysql//MySQL 5.7/\nHost: 10.10.10.9 ()  Ports: 443/open/tcp//https//nginx 1.25/, 445/closed/tcp//microsoft-ds///\nHost: 10.10.10.20 ()  Ports: 23/open/tcp//telnet///, 5900/open/tcp//vnc//VNC (protocol 3.8)/\n\"\"\"\n\nRISKY = {\n    \"ftp\": \"cleartext protocol: prefer SFTP and disable anonymous access\",\n    \"telnet\": \"cleartext remote shell: replace with SSH\",\n    \"mysql\": \"database exposed to the network: restrict by firewall\",\n    \"vnc\": \"remote desktop exposed: tunnel via VPN / require strong auth\",\n}\n\ndef parse(scan):\n    hosts = {}\n    for line in scan.splitlines():\n        m = re.match(r\"Host: (\\S+) .*?Ports: (.*)\", line)\n        if not m:\n            continue\n        ports = []\n        for item in m.group(2).split(\", \"):\n            f = item.strip().strip(\"/\").split(\"/\")\n            if f[1] == \"open\":\n                ports.append((int(f[0]), f[4], f[6] if len(f) > 6 else \"\"))\n        hosts[m.group(1)] = ports\n    return hosts\n\ndef report(hosts):\n    out = []\n    for h, ports in hosts.items():\n        out.append(f\"{h}: {len(ports)} open\")\n        for port, svc, ver in ports:\n            if svc in RISKY:\n                out.append(f\"  [!] {port}/{svc} {ver}\".rstrip() + f\" -> {RISKY[svc]}\")\n    return out\n\nfor line in report(parse(SCAN)):\n    print(line)\n",
+    "explain": "Reducing raw scan output to exposed risky services with concrete fixes is exactly what a discovery report does. The parser works on text you already have; it doesn't scan anything. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
