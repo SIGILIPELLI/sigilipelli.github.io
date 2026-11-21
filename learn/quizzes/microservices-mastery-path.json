@@ -1,0 +1,2159 @@
+{
+ "course": "microservices-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-monolith-to-microservices": {
+   "questions": [
+    {
+     "q": "What is a key reason to move from a monolith to microservices?",
+     "options": [
+      "Independent deployability and scaling of parts owned by different teams",
+      "Less code",
+      "Simpler ops",
+      "Fewer bugs"
+     ],
+     "answer": 0,
+     "explain": "It costs complexity."
+    },
+    {
+     "q": "What new problem do microservices introduce?",
+     "options": [
+      "Fewer teams",
+      "Distributed-system failure modes: network calls, partial failure and data consistency",
+      "Compilation",
+      "Typing"
+     ],
+     "answer": 1,
+     "explain": "Plan for it."
+    },
+    {
+     "q": "What is a modular monolith?",
+     "options": [
+      "Many services",
+      "A cluster",
+      "One deployable with strong internal module boundaries",
+      "Spaghetti"
+     ],
+     "answer": 2,
+     "explain": "Often the right start."
+    },
+    {
+     "q": "When should you NOT split?",
+     "options": [
+      "Never",
+      "Scale",
+      "When the team is small and the domain not yet understood",
+      "Always split"
+     ],
+     "answer": 2,
+     "explain": "Premature splitting hurts."
+    }
+   ]
+  },
+  "level-1/02-bounded-contexts-ddd": {
+   "questions": [
+    {
+     "q": "What is a bounded context?",
+     "options": [
+      "A team",
+      "A server",
+      "A database",
+      "A boundary within which a domain model and its language are consistent"
+     ],
+     "answer": 3,
+     "explain": "DDD."
+    },
+    {
+     "q": "What is ubiquitous language?",
+     "options": [
+      "Jargon",
+      "API",
+      "Code style",
+      "Shared domain terms used by developers and business inside a context"
+     ],
+     "answer": 3,
+     "explain": "Reduces translation."
+    },
+    {
+     "q": "The word 'Customer' means different things to Sales and Billing. What does DDD suggest?",
+     "options": [
+      "One table",
+      "One model",
+      "Rename",
+      "Separate bounded contexts with explicit translation between them"
+     ],
+     "answer": 3,
+     "explain": "Context mapping."
+    },
+    {
+     "q": "What is an anti-corruption layer?",
+     "options": [
+      "Firewall",
+      "Queue",
+      "Cache",
+      "A translation layer protecting a model from another context's concepts"
+     ],
+     "answer": 3,
+     "explain": "Integration."
+    }
+   ]
+  },
+  "level-1/03-service-boundaries-sizing": {
+   "questions": [
+    {
+     "q": "What makes a good service boundary?",
+     "options": [
+      "High cohesion, low coupling and aligned with a business capability",
+      "One table",
+      "Team size",
+      "Technical layers"
+     ],
+     "answer": 0,
+     "explain": "Not a layer."
+    },
+    {
+     "q": "What's wrong with a 'nano-service' per function?",
+     "options": [
+      "Excess network chatter and operational overhead",
+      "Speed",
+      "Nothing",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Right-size."
+    },
+    {
+     "q": "What's a smell that boundaries are wrong?",
+     "options": [
+      "Fast deploys",
+      "Few calls",
+      "Small",
+      "Changes constantly require coordinated releases of several services"
+     ],
+     "answer": 3,
+     "explain": "Distributed monolith."
+    },
+    {
+     "q": "What guides sizing?",
+     "options": [
+      "Names",
+      "Fashion",
+      "Team ownership, change cadence and data cohesion",
+      "Lines of code"
+     ],
+     "answer": 2,
+     "explain": "Not a fixed size."
+    }
+   ]
+  },
+  "level-1/04-sync-vs-async-communication": {
+   "questions": [
+    {
+     "q": "When prefer asynchronous messaging?",
+     "options": [
+      "When callers needn't wait and you want decoupling and resilience",
+      "Queries",
+      "Always",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Events and commands."
+    },
+    {
+     "q": "What's the cost of synchronous chains?",
+     "options": [
+      "None",
+      "Law",
+      "Latency adds up and availability multiplies down",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Temporal coupling."
+    },
+    {
+     "q": "Three services in a synchronous chain are each 99.9% available. What's the chain's availability?\n```python\nprint(round(0.999**3*100,3))\n```\n",
+     "options": [
+      "97",
+      "99.9",
+      "99.7",
+      "99.99"
+     ],
+     "answer": 2,
+     "explain": "Availabilities multiply. Verified by running it."
+    },
+    {
+     "q": "What's temporal coupling?",
+     "options": [
+      "Same DB",
+      "Services must be up at the same time to work",
+      "Same clock",
+      "Same team"
+     ],
+     "answer": 1,
+     "explain": "Async reduces it."
+    }
+   ]
+  },
+  "level-1/05-rest-contracts-versioning": {
+   "questions": [
+    {
+     "q": "What makes a REST API change backward compatible?",
+     "options": [
+      "Changing types",
+      "Renaming fields",
+      "Removing fields",
+      "Adding optional fields/endpoints without changing existing behavior"
+     ],
+     "answer": 3,
+     "explain": "Be liberal in what you accept."
+    },
+    {
+     "q": "How version breaking changes?",
+     "options": [
+      "Delete",
+      "New version (URL or media type) while supporting old consumers during migration",
+      "Break",
+      "Silent"
+     ],
+     "answer": 1,
+     "explain": "Deprecation policy."
+    },
+    {
+     "q": "What does an OpenAPI contract provide?",
+     "options": [
+      "Code",
+      "DB",
+      "A machine-readable API description for docs, mocks and tests",
+      "Auth"
+     ],
+     "answer": 2,
+     "explain": "Contract-first."
+    },
+    {
+     "q": "What's Postel's law in APIs?",
+     "options": [
+      "None",
+      "Strict",
+      "Reverse",
+      "Be conservative in what you send, liberal in what you accept"
+     ],
+     "answer": 3,
+     "explain": "Tolerant readers."
+    }
+   ]
+  },
+  "level-1/06-grpc-service-calls": {
+   "questions": [
+    {
+     "q": "What does gRPC use?",
+     "options": [
+      "SOAP",
+      "HTTP/2 with Protocol Buffers and generated clients",
+      "GraphQL",
+      "JSON/HTTP1"
+     ],
+     "answer": 1,
+     "explain": "Typed contracts."
+    },
+    {
+     "q": "Why is gRPC good between services?",
+     "options": [
+      "Human-readable",
+      "Efficient binary encoding, streaming and strict schemas",
+      "Cacheable",
+      "Browser-friendly"
+     ],
+     "answer": 1,
+     "explain": "Internal APIs."
+    },
+    {
+     "q": "What must clients set on gRPC calls?",
+     "options": [
+      "Deadlines (timeouts)",
+      "Nothing",
+      "Retries only",
+      "Cookies"
+     ],
+     "answer": 0,
+     "explain": "Avoid hangs."
+    },
+    {
+     "q": "How evolve protobuf safely?",
+     "options": [
+      "Add fields with new numbers; never reuse or renumber",
+      "Delete",
+      "Reuse",
+      "Renumber"
+     ],
+     "answer": 0,
+     "explain": "Compatibility."
+    }
+   ]
+  },
+  "level-1/07-api-gateway-pattern": {
+   "questions": [
+    {
+     "q": "What does an API gateway do?",
+     "options": [
+      "Stores data",
+      "Single entry point for routing, auth, rate limiting and aggregation",
+      "Tests",
+      "Builds"
+     ],
+     "answer": 1,
+     "explain": "Edge concerns."
+    },
+    {
+     "q": "What's a gateway anti-pattern?",
+     "options": [
+      "Routing",
+      "Putting business logic in the gateway",
+      "TLS",
+      "Auth"
+     ],
+     "answer": 1,
+     "explain": "Keep it thin."
+    },
+    {
+     "q": "What does the gateway centralize?",
+     "options": [
+      "Jobs",
+      "Domain logic",
+      "Data",
+      "Cross-cutting concerns like authentication and throttling"
+     ],
+     "answer": 3,
+     "explain": "Consistency."
+    },
+    {
+     "q": "What's its risk?",
+     "options": [
+      "A single point of failure and bottleneck if not scaled/redundant",
+      "Law",
+      "None",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "HA."
+    }
+   ]
+  },
+  "level-1/08-backend-for-frontend": {
+   "questions": [
+    {
+     "q": "What is a Backend for Frontend?",
+     "options": [
+      "A dedicated API layer tailored to each client type (web, mobile)",
+      "A cache",
+      "A DB",
+      "A queue"
+     ],
+     "answer": 0,
+     "explain": "Per-client needs."
+    },
+    {
+     "q": "Why not one generic API for all clients?",
+     "options": [
+      "Law",
+      "Different clients need different shapes, causing over/under-fetching",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "BFF fixes."
+    },
+    {
+     "q": "Who should own a BFF?",
+     "options": [
+      "DBA",
+      "Security",
+      "Platform",
+      "The frontend team that uses it"
+     ],
+     "answer": 3,
+     "explain": "Autonomy."
+    },
+    {
+     "q": "What should a BFF avoid?",
+     "options": [
+      "Caching",
+      "Duplicating business rules from domain services",
+      "Aggregation",
+      "Auth"
+     ],
+     "answer": 1,
+     "explain": "Orchestrate, don't own."
+    }
+   ]
+  },
+  "level-1/09-service-discovery": {
+   "questions": [
+    {
+     "q": "Why service discovery?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "Instances come and go, so clients need current addresses"
+     ],
+     "answer": 3,
+     "explain": "Dynamic."
+    },
+    {
+     "q": "Client-side vs server-side discovery?",
+     "options": [
+      "Client queries a registry and picks; server-side uses a load balancer/router",
+      "None",
+      "Same",
+      "Reverse"
+     ],
+     "answer": 0,
+     "explain": "Trade-offs."
+    },
+    {
+     "q": "What does Kubernetes Service/DNS provide?",
+     "options": [
+      "Stable names and load balancing over pod endpoints",
+      "Auth",
+      "Registry only",
+      "Queues"
+     ],
+     "answer": 0,
+     "explain": "Built-in."
+    },
+    {
+     "q": "What must registries handle?",
+     "options": [
+      "Billing",
+      "Logs",
+      "Names",
+      "Health checks and deregistration of dead instances"
+     ],
+     "answer": 3,
+     "explain": "Stale entries."
+    }
+   ]
+  },
+  "level-1/10-project-decompose-monolith": {
+   "questions": [
+    {
+     "q": "What does the decompose-a-monolith project practice?",
+     "options": [
+      "Identifying boundaries and extracting a service incrementally",
+      "Big bang",
+      "Copy",
+      "Rewrite"
+     ],
+     "answer": 0,
+     "explain": "Strangler."
+    },
+    {
+     "q": "What's the first extraction candidate?",
+     "options": [
+      "Random",
+      "Core DB",
+      "A well-bounded capability with few dependencies and clear value",
+      "Everything"
+     ],
+     "answer": 2,
+     "explain": "Low risk."
+    },
+    {
+     "q": "How keep the system working during extraction?",
+     "options": [
+      "Freeze",
+      "Cutover",
+      "Route traffic gradually and keep the old path as a fallback",
+      "Stop"
+     ],
+     "answer": 2,
+     "explain": "Safe migration."
+    },
+    {
+     "q": "What do you measure?",
+     "options": [
+      "Deploy frequency, failures and latency before and after",
+      "Teams",
+      "Names",
+      "Lines"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-2/01-database-per-service": {
+   "questions": [
+    {
+     "q": "What does database-per-service mean?",
+     "options": [
+      "Replicas",
+      "Shared DB",
+      "One schema",
+      "Each service owns its data store; others access it only via the API"
+     ],
+     "answer": 3,
+     "explain": "Autonomy."
+    },
+    {
+     "q": "What's the main problem with a shared database?",
+     "options": [
+      "Speed",
+      "Cost",
+      "Hidden coupling: schema changes break other services",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Distributed monolith."
+    },
+    {
+     "q": "Can services use the same DB server?",
+     "options": [
+      "Yes if schemas/credentials are isolated and ownership is clear",
+      "Never",
+      "Always",
+      "Only one"
+     ],
+     "answer": 0,
+     "explain": "Logical separation."
+    },
+    {
+     "q": "How do other services get your data?",
+     "options": [
+      "Copy files",
+      "Share",
+      "SQL",
+      "Through your API or by consuming your published events"
+     ],
+     "answer": 3,
+     "explain": "Contracts."
+    }
+   ]
+  },
+  "level-2/02-data-ownership": {
+   "questions": [
+    {
+     "q": "What does data ownership mean?",
+     "options": [
+      "All own",
+      "One service is the source of truth for each piece of data",
+      "DB",
+      "Nobody"
+     ],
+     "answer": 1,
+     "explain": "Single writer."
+    },
+    {
+     "q": "How handle a query needing data from three services?",
+     "options": [
+      "Manual",
+      "Join DBs",
+      "Shared DB",
+      "API composition, a read model or replicated data via events"
+     ],
+     "answer": 3,
+     "explain": "No cross-DB joins."
+    },
+    {
+     "q": "What's a source of truth?",
+     "options": [
+      "Report",
+      "Replica",
+      "Cache",
+      "The authoritative record of a fact"
+     ],
+     "answer": 3,
+     "explain": "Others hold copies."
+    },
+    {
+     "q": "What's an owner's responsibility?",
+     "options": [
+      "Schema, quality, access and evolution of its data",
+      "UI",
+      "Nothing",
+      "Infra"
+     ],
+     "answer": 0,
+     "explain": "Accountability."
+    }
+   ]
+  },
+  "level-2/03-data-propagation": {
+   "questions": [
+    {
+     "q": "How propagate changes to other services?",
+     "options": [
+      "Polling DB",
+      "Email",
+      "Shared tables",
+      "Publish domain events that interested services consume"
+     ],
+     "answer": 3,
+     "explain": "Event-driven."
+    },
+    {
+     "q": "What's the difference between event notification and event-carried state transfer?",
+     "options": [
+      "None",
+      "Notification says something changed; state transfer includes the data consumers need",
+      "Reverse",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Trade coupling vs chattiness."
+    },
+    {
+     "q": "What does a consumer's local copy risk?",
+     "options": [
+      "Staleness (eventual consistency)",
+      "Cost",
+      "Speed",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Design for it."
+    },
+    {
+     "q": "What identifies duplicate events?",
+     "options": [
+      "None",
+      "Names",
+      "Event IDs checked by idempotent consumers",
+      "Timestamps"
+     ],
+     "answer": 2,
+     "explain": "At-least-once."
+    }
+   ]
+  },
+  "level-2/04-saga-pattern": {
+   "questions": [
+    {
+     "q": "What is a saga?",
+     "options": [
+      "2PC",
+      "A sequence of local transactions with compensating actions for failure",
+      "Lock",
+      "Cache"
+     ],
+     "answer": 1,
+     "explain": "Distributed workflow."
+    },
+    {
+     "q": "What's a compensating transaction?",
+     "options": [
+      "Rollback",
+      "Retry",
+      "An action that semantically undoes an earlier step (e.g. refund)",
+      "Delete"
+     ],
+     "answer": 2,
+     "explain": "No distributed rollback."
+    },
+    {
+     "q": "Orchestration vs choreography?",
+     "options": [
+      "Same",
+      "None",
+      "Orchestration uses a coordinator; choreography has services react to events",
+      "Reverse"
+     ],
+     "answer": 2,
+     "explain": "Trade-offs."
+    },
+    {
+     "q": "Why not two-phase commit across services?",
+     "options": [
+      "Simple",
+      "Fast",
+      "It blocks, couples availability and doesn't scale",
+      "Safe"
+     ],
+     "answer": 2,
+     "explain": "Sagas instead."
+    }
+   ]
+  },
+  "level-2/05-outbox-pattern-polling": {
+   "questions": [
+    {
+     "q": "What problem does the outbox pattern solve?",
+     "options": [
+      "Speed",
+      "Caching",
+      "Atomically updating state and publishing an event (dual-write problem)",
+      "Auth"
+     ],
+     "answer": 2,
+     "explain": "Same transaction."
+    },
+    {
+     "q": "How does the outbox work?",
+     "options": [
+      "Publish first",
+      "Write the event to an outbox table in the same transaction, then a relay publishes it",
+      "Two commits",
+      "Retry"
+     ],
+     "answer": 1,
+     "explain": "Polling or CDC."
+    },
+    {
+     "q": "What delivery guarantee results?",
+     "options": [
+      "None",
+      "At-least-once, so consumers must be idempotent",
+      "Exactly",
+      "At-most"
+     ],
+     "answer": 1,
+     "explain": "Dedupe."
+    },
+    {
+     "q": "What cleans the outbox?",
+     "options": [
+      "Manual",
+      "Never",
+      "TTL only",
+      "Deleting or marking rows after publish"
+     ],
+     "answer": 3,
+     "explain": "Housekeeping."
+    }
+   ]
+  },
+  "level-2/06-idempotency-application-layer": {
+   "questions": [
+    {
+     "q": "What is idempotency?",
+     "options": [
+      "Cached",
+      "Repeating an operation has the same effect as doing it once",
+      "Fast",
+      "Secure"
+     ],
+     "answer": 1,
+     "explain": "Safe retries."
+    },
+    {
+     "q": "How implement idempotent POSTs?",
+     "options": [
+      "Sleep",
+      "Lock",
+      "Retry",
+      "Client-supplied idempotency keys stored with the result"
+     ],
+     "answer": 3,
+     "explain": "Return the original."
+    },
+    {
+     "q": "Why do retries need it?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "A timeout may hide a success, so a retry could double-apply"
+     ],
+     "answer": 3,
+     "explain": "Payments."
+    },
+    {
+     "q": "Where store processed IDs?",
+     "options": [
+      "Log",
+      "In the same transaction as the side effect",
+      "Memory",
+      "Cache"
+     ],
+     "answer": 1,
+     "explain": "Atomic dedupe."
+    }
+   ]
+  },
+  "level-2/07-cqrs-across-services": {
+   "questions": [
+    {
+     "q": "What does CQRS separate?",
+     "options": [
+      "DBs",
+      "Teams",
+      "The write model from one or more read models",
+      "Services"
+     ],
+     "answer": 2,
+     "explain": "Optimized reads."
+    },
+    {
+     "q": "How are read models updated across services?",
+     "options": [
+      "Polling DB",
+      "Locks",
+      "By consuming events and building projections",
+      "Joins"
+     ],
+     "answer": 2,
+     "explain": "Eventually consistent."
+    },
+    {
+     "q": "When is CQRS overkill?",
+     "options": [
+      "Simple CRUD with similar read and write needs",
+      "Scale",
+      "Complex",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Use judiciously."
+    },
+    {
+     "q": "What's the cost?",
+     "options": [
+      "Complexity and eventual consistency",
+      "Speed",
+      "Law",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Trade-off."
+    }
+   ]
+  },
+  "level-2/08-partial-failures-eventual-consistency": {
+   "questions": [
+    {
+     "q": "What's a partial failure?",
+     "options": [
+      "Some operations succeed while others fail in a distributed call",
+      "Bug",
+      "Slow",
+      "Crash"
+     ],
+     "answer": 0,
+     "explain": "Normal in distributed systems."
+    },
+    {
+     "q": "How design UX for eventual consistency?",
+     "options": [
+      "Block",
+      "Show pending states and reconcile when updates arrive",
+      "Retry",
+      "Hide"
+     ],
+     "answer": 1,
+     "explain": "Honest UI."
+    },
+    {
+     "q": "What does 'read your writes' need?",
+     "options": [
+      "Nothing",
+      "Routing a user's reads to fresh data or returning the write result",
+      "Retry",
+      "Cache"
+     ],
+     "answer": 1,
+     "explain": "Consistency guarantee."
+    },
+    {
+     "q": "What handles stuck workflows?",
+     "options": [
+      "Timeouts, retries and manual intervention queues",
+      "Nothing",
+      "Delete",
+      "Reboot"
+     ],
+     "answer": 0,
+     "explain": "Operational."
+    }
+   ]
+  },
+  "level-2/09-testing-data-consistency": {
+   "questions": [
+    {
+     "q": "How test eventual consistency?",
+     "options": [
+      "Sleep",
+      "Assert eventually with polling/timeouts rather than immediately",
+      "Immediate",
+      "Skip"
+     ],
+     "answer": 1,
+     "explain": "Await conditions."
+    },
+    {
+     "q": "What should consistency tests cover?",
+     "options": [
+      "Duplicates, reordering, delays and failures of messages",
+      "Only success",
+      "None",
+      "Happy path"
+     ],
+     "answer": 0,
+     "explain": "Chaos."
+    },
+    {
+     "q": "What's reconciliation?",
+     "options": [
+      "Log",
+      "Periodically comparing sources of truth with copies to repair drift",
+      "Backup",
+      "Deploy"
+     ],
+     "answer": 1,
+     "explain": "Safety net."
+    },
+    {
+     "q": "Why contract tests for events?",
+     "options": [
+      "Style",
+      "Speed",
+      "Consumers depend on event schemas",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Schema registry."
+    }
+   ]
+  },
+  "level-2/10-project-real-saga": {
+   "questions": [
+    {
+     "q": "What does the real saga project build?",
+     "options": [
+      "A DB",
+      "An order workflow across services with compensations",
+      "A cache",
+      "A UI"
+     ],
+     "answer": 1,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "What triggers compensation?",
+     "options": [
+      "Manual",
+      "A failed step such as payment declined after inventory reserved",
+      "Timeout only",
+      "Success"
+     ],
+     "answer": 1,
+     "explain": "Undo reservations."
+    },
+    {
+     "q": "How track saga state?",
+     "options": [
+      "None",
+      "Logs",
+      "Persisted saga state machine (orchestrator) or event history",
+      "Memory"
+     ],
+     "answer": 2,
+     "explain": "Recoverable."
+    },
+    {
+     "q": "What proves correctness?",
+     "options": [
+      "Tests for every failure path and idempotent steps",
+      "Happy path",
+      "Demo",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Cover compensations."
+    }
+   ]
+  },
+  "level-3/01-circuit-breakers": {
+   "questions": [
+    {
+     "q": "What does a circuit breaker do?",
+     "options": [
+      "Routes",
+      "Stops calling a failing dependency for a while to let it recover",
+      "Caches",
+      "Retries"
+     ],
+     "answer": 1,
+     "explain": "Fail fast."
+    },
+    {
+     "q": "What are its states?",
+     "options": [
+      "Up, down",
+      "Hot, cold",
+      "Closed, open and half-open",
+      "On, off"
+     ],
+     "answer": 2,
+     "explain": "Half-open probes."
+    },
+    {
+     "q": "Why fail fast?",
+     "options": [
+      "Law",
+      "Style",
+      "Prevent resource exhaustion and cascading failure",
+      "Speed only"
+     ],
+     "answer": 2,
+     "explain": "Protects callers."
+    },
+    {
+     "q": "What fallback might you provide?",
+     "options": [
+      "Crash",
+      "Retry",
+      "Nothing",
+      "Cached/default data or a degraded response"
+     ],
+     "answer": 3,
+     "explain": "Graceful degradation."
+    }
+   ]
+  },
+  "level-3/02-retries-timeouts-backoff": {
+   "questions": [
+    {
+     "q": "Why set timeouts on every remote call?",
+     "options": [
+      "Law",
+      "Without them threads hang and failures cascade",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Always."
+    },
+    {
+     "q": "What is exponential backoff with jitter?",
+     "options": [
+      "None",
+      "Fixed",
+      "Increasing waits with randomness to avoid synchronized retries",
+      "Instant"
+     ],
+     "answer": 2,
+     "explain": "Avoid thundering herd."
+    },
+    {
+     "q": "When must you NOT retry blindly?",
+     "options": [
+      "Non-idempotent operations without idempotency keys",
+      "Reads",
+      "Idempotent",
+      "GET"
+     ],
+     "answer": 0,
+     "explain": "Duplicates."
+    },
+    {
+     "q": "What is a retry budget?",
+     "options": [
+      "Cost",
+      "Time",
+      "A cap on retry volume to avoid retry storms",
+      "Names"
+     ],
+     "answer": 2,
+     "explain": "Limit amplification."
+    }
+   ]
+  },
+  "level-3/03-bulkheads-resource-isolation": {
+   "questions": [
+    {
+     "q": "What's a bulkhead?",
+     "options": [
+      "Retry",
+      "Cache",
+      "Queue",
+      "Isolating resources (pools/threads) so one failure doesn't sink the rest"
+     ],
+     "answer": 3,
+     "explain": "Ship compartments."
+    },
+    {
+     "q": "How implement in a service?",
+     "options": [
+      "None",
+      "One pool",
+      "Separate thread/connection pools or concurrency limits per dependency",
+      "Global"
+     ],
+     "answer": 2,
+     "explain": "Isolation."
+    },
+    {
+     "q": "What does it prevent?",
+     "options": [
+      "A slow dependency exhausting shared resources",
+      "Latency",
+      "Cost",
+      "Bugs"
+     ],
+     "answer": 0,
+     "explain": "Contain blast radius."
+    },
+    {
+     "q": "What else isolates?",
+     "options": [
+      "DB",
+      "Same",
+      "None",
+      "Separate deployments/instances for critical vs batch traffic"
+     ],
+     "answer": 3,
+     "explain": "Tiering."
+    }
+   ]
+  },
+  "level-3/04-rate-limiting-between-services": {
+   "questions": [
+    {
+     "q": "Why rate limit between services?",
+     "options": [
+      "Billing",
+      "Law",
+      "Protect a service from overload by noisy callers",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Fairness."
+    },
+    {
+     "q": "What's a token bucket?",
+     "options": [
+      "Cache",
+      "Lock",
+      "A rate limiter allowing bursts up to bucket size with a steady refill",
+      "Queue"
+     ],
+     "answer": 2,
+     "explain": "Common algorithm."
+    },
+    {
+     "q": "What should limited callers get?",
+     "options": [
+      "500",
+      "200",
+      "429 Too Many Requests with Retry-After",
+      "404"
+     ],
+     "answer": 2,
+     "explain": "Clear signal."
+    },
+    {
+     "q": "Where enforce?",
+     "options": [
+      "None",
+      "Client only",
+      "DB",
+      "At the callee, gateway or mesh with shared counters"
+     ],
+     "answer": 3,
+     "explain": "Distributed."
+    }
+   ]
+  },
+  "level-3/05-service-mesh-sidecar": {
+   "questions": [
+    {
+     "q": "What does a service mesh sidecar do?",
+     "options": [
+      "UI",
+      "Business logic",
+      "Handles networking (mTLS, retries, telemetry) outside application code",
+      "Storage"
+     ],
+     "answer": 2,
+     "explain": "Envoy/Istio."
+    },
+    {
+     "q": "What's the control plane for?",
+     "options": [
+      "Build",
+      "Logs",
+      "Configuring sidecars and distributing policy and certificates",
+      "Data"
+     ],
+     "answer": 2,
+     "explain": "Management."
+    },
+    {
+     "q": "What's a cost of a mesh?",
+     "options": [
+      "Speed",
+      "None",
+      "Law",
+      "Operational complexity and added latency/resources"
+     ],
+     "answer": 3,
+     "explain": "Adopt when needed."
+    },
+    {
+     "q": "What does the mesh give uniformly?",
+     "options": [
+      "Data",
+      "Cross-cutting behavior across languages",
+      "Schema",
+      "Domain logic"
+     ],
+     "answer": 1,
+     "explain": "Consistency."
+    }
+   ]
+  },
+  "level-3/06-canary-traffic-management": {
+   "questions": [
+    {
+     "q": "What is a canary release?",
+     "options": [
+      "Rollback",
+      "Fork",
+      "Big bang",
+      "Routing a small share of traffic to the new version before full rollout"
+     ],
+     "answer": 3,
+     "explain": "Reduce risk."
+    },
+    {
+     "q": "What drives promotion?",
+     "options": [
+      "Automated analysis of error rate and latency against the baseline",
+      "Votes",
+      "Hope",
+      "Time"
+     ],
+     "answer": 0,
+     "explain": "Metrics."
+    },
+    {
+     "q": "What's weighted routing?",
+     "options": [
+      "None",
+      "Random",
+      "Sticky",
+      "Splitting traffic by percentages between versions"
+     ],
+     "answer": 3,
+     "explain": "Mesh feature."
+    },
+    {
+     "q": "What's the rollback trigger?",
+     "options": [
+      "Calendar",
+      "None",
+      "Complaints",
+      "SLO violations during the canary"
+     ],
+     "answer": 3,
+     "explain": "Automatic."
+    }
+   ]
+  },
+  "level-3/07-mtls-service-security": {
+   "questions": [
+    {
+     "q": "What does mTLS provide?",
+     "options": [
+      "Only encryption",
+      "Mutual authentication and encryption between services",
+      "Caching",
+      "Routing"
+     ],
+     "answer": 1,
+     "explain": "Zero trust."
+    },
+    {
+     "q": "How are certificates managed in a mesh?",
+     "options": [
+      "Automatically issued and rotated by the control plane",
+      "Email",
+      "Manual",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Short-lived."
+    },
+    {
+     "q": "What is zero trust here?",
+     "options": [
+      "None",
+      "Open",
+      "Trust LAN",
+      "Never trust network location; authenticate and authorize every call"
+     ],
+     "answer": 3,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "What adds authorization?",
+     "options": [
+      "Network ACL only",
+      "Policies on service identity (who may call what)",
+      "UI",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "SPIFFE ids."
+    }
+   ]
+  },
+  "level-3/08-distributed-tracing": {
+   "questions": [
+    {
+     "q": "What's distributed tracing for?",
+     "options": [
+      "Billing",
+      "Following one request across services to find latency and errors",
+      "Caching",
+      "Auth"
+     ],
+     "answer": 1,
+     "explain": "Spans."
+    },
+    {
+     "q": "What must propagate between services?",
+     "options": [
+      "Cookies",
+      "Trace context headers (traceparent)",
+      "Bodies",
+      "Tokens"
+     ],
+     "answer": 1,
+     "explain": "W3C."
+    },
+    {
+     "q": "What's a span?",
+     "options": [
+      "Metric",
+      "A timed operation within a trace",
+      "Alert",
+      "Log"
+     ],
+     "answer": 1,
+     "explain": "Parent-child."
+    },
+    {
+     "q": "What's sampling?",
+     "options": [
+      "Recording only a fraction of traces to control cost",
+      "Dropping logs",
+      "Caching",
+      "Compression"
+     ],
+     "answer": 0,
+     "explain": "Tail sampling."
+    }
+   ]
+  },
+  "level-3/09-consumer-driven-contracts": {
+   "questions": [
+    {
+     "q": "What problem does consumer-driven contract testing solve?",
+     "options": [
+      "Providers learn how consumers actually use their API before changing it",
+      "UI",
+      "Load",
+      "Perf"
+     ],
+     "answer": 0,
+     "explain": "Pact."
+    },
+    {
+     "q": "Who writes the contract?",
+     "options": [
+      "Gateway",
+      "The consumer's expectations",
+      "Provider",
+      "QA"
+     ],
+     "answer": 1,
+     "explain": "CDC."
+    },
+    {
+     "q": "What do providers verify?",
+     "options": [
+      "UI",
+      "Load",
+      "That their implementation satisfies all consumer contracts in CI",
+      "Docs"
+     ],
+     "answer": 2,
+     "explain": "Can-I-deploy."
+    },
+    {
+     "q": "What does it replace?",
+     "options": [
+      "Unit tests",
+      "Perf tests",
+      "Security",
+      "Slow, flaky end-to-end integration tests for interface checks"
+     ],
+     "answer": 3,
+     "explain": "Faster feedback."
+    }
+   ]
+  },
+  "level-3/10-project-inject-failures": {
+   "questions": [
+    {
+     "q": "What does failure injection (chaos) test?",
+     "options": [
+      "That resilience patterns work under realistic faults",
+      "Typing",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Prove it."
+    },
+    {
+     "q": "What faults to inject?",
+     "options": [
+      "Names",
+      "Colors",
+      "Typos",
+      "Latency, errors, dependency outages and resource exhaustion"
+     ],
+     "answer": 3,
+     "explain": "Real failures."
+    },
+    {
+     "q": "What should precede chaos in prod?",
+     "options": [
+      "Observability, rollback and a limited blast radius",
+      "Hope",
+      "Announcement",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Safety."
+    },
+    {
+     "q": "What do you learn?",
+     "options": [
+      "Law",
+      "Whether timeouts, breakers and fallbacks behave as designed",
+      "Nothing",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Fix gaps."
+    }
+   ]
+  },
+  "level-4/01-strangler-fig-pattern": {
+   "questions": [
+    {
+     "q": "What is the strangler fig pattern?",
+     "options": [
+      "Rewrite",
+      "Gradually replacing parts of a legacy system by routing functionality to new services",
+      "Big bang",
+      "Fork"
+     ],
+     "answer": 1,
+     "explain": "Incremental."
+    },
+    {
+     "q": "What sits in front during strangling?",
+     "options": [
+      "A facade/proxy routing requests to old or new implementations",
+      "DB",
+      "Queue",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "Switch per route."
+    },
+    {
+     "q": "When is the legacy removed?",
+     "options": [
+      "Immediately",
+      "Early",
+      "After traffic and data are fully migrated and verified",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Retire."
+    },
+    {
+     "q": "What's the main benefit?",
+     "options": [
+      "Continuous delivery of value with reversible steps",
+      "Cost",
+      "Speed",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Lower risk."
+    }
+   ]
+  },
+  "level-4/02-team-topologies-conways-law": {
+   "questions": [
+    {
+     "q": "What does Conway's law say?",
+     "options": [
+      "Code decides teams",
+      "System design mirrors the communication structure of the organization",
+      "None",
+      "Teams copy code"
+     ],
+     "answer": 1,
+     "explain": "Align teams and services."
+    },
+    {
+     "q": "What's the inverse Conway maneuver?",
+     "options": [
+      "Split",
+      "Merge",
+      "Rewrite code",
+      "Shape teams to produce the desired architecture"
+     ],
+     "answer": 3,
+     "explain": "Intentional."
+    },
+    {
+     "q": "What is a stream-aligned team?",
+     "options": [
+      "Support",
+      "Enabling",
+      "Platform",
+      "A team owning a flow of business value end to end"
+     ],
+     "answer": 3,
+     "explain": "Team Topologies."
+    },
+    {
+     "q": "What does a platform team provide?",
+     "options": [
+      "Features",
+      "Tickets",
+      "Self-service capabilities to reduce others' cognitive load",
+      "Gatekeeping"
+     ],
+     "answer": 2,
+     "explain": "Paved road."
+    }
+   ]
+  },
+  "level-4/03-versioning-backward-compatibility": {
+   "questions": [
+    {
+     "q": "How change an API without breaking consumers?",
+     "options": [
+      "Rename",
+      "Replace",
+      "Break",
+      "Expand and contract: add new, migrate consumers, then remove old"
+     ],
+     "answer": 3,
+     "explain": "Parallel change."
+    },
+    {
+     "q": "What's a tolerant reader?",
+     "options": [
+      "None",
+      "A consumer ignoring unknown fields",
+      "Fail",
+      "Strict"
+     ],
+     "answer": 1,
+     "explain": "Compatibility."
+    },
+    {
+     "q": "How long support old versions?",
+     "options": [
+      "A published deprecation window with usage monitoring",
+      "Forever",
+      "Never",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Sunset."
+    },
+    {
+     "q": "What detects who still uses v1?",
+     "options": [
+      "Metrics/logs by version and consumer",
+      "Guess",
+      "Ask",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-4/04-shared-libraries-vs-duplication": {
+   "questions": [
+    {
+     "q": "What's the risk of a shared library with domain logic?",
+     "options": [
+      "Law",
+      "Tight coupling: every service must upgrade together",
+      "Speed",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Distributed monolith."
+    },
+    {
+     "q": "What's acceptable to share?",
+     "options": [
+      "DB",
+      "Domain",
+      "Models",
+      "Stable cross-cutting utilities (logging, auth clients) with strict versioning"
+     ],
+     "answer": 3,
+     "explain": "Careful."
+    },
+    {
+     "q": "What does duplication buy?",
+     "options": [
+      "Cost",
+      "Independence at the price of repeated code",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Trade-off."
+    },
+    {
+     "q": "What helps shared code at scale?",
+     "options": [
+      "Versioned, backward-compatible packages and sidecar/mesh for infra",
+      "Copy",
+      "Fork",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Governance."
+    }
+   ]
+  },
+  "level-4/05-deployment-strategies": {
+   "questions": [
+    {
+     "q": "What does blue-green deployment do?",
+     "options": [
+      "Slow rolling",
+      "Fork",
+      "Canary",
+      "Runs two environments and switches traffic between them"
+     ],
+     "answer": 3,
+     "explain": "Fast rollback."
+    },
+    {
+     "q": "What does rolling update do?",
+     "options": [
+      "Forks",
+      "All at once",
+      "Replaces instances gradually keeping capacity",
+      "Stops"
+     ],
+     "answer": 2,
+     "explain": "Default."
+    },
+    {
+     "q": "What's a prerequisite for safe rollouts?",
+     "options": [
+      "Freeze",
+      "Nothing",
+      "Downtime",
+      "Backward-compatible DB and API changes"
+     ],
+     "answer": 3,
+     "explain": "Expand/contract."
+    },
+    {
+     "q": "What enables instant rollback?",
+     "options": [
+      "Patch",
+      "Restore",
+      "Rebuild",
+      "Keeping the previous version deployable and routing back"
+     ],
+     "answer": 3,
+     "explain": "Immutable."
+    }
+   ]
+  },
+  "level-4/06-observability-across-boundaries": {
+   "questions": [
+    {
+     "q": "What's needed to debug across services?",
+     "options": [
+      "Printf",
+      "Guess",
+      "Correlated logs, metrics and traces with shared IDs",
+      "One log"
+     ],
+     "answer": 2,
+     "explain": "Observability."
+    },
+    {
+     "q": "What's a golden signals set?",
+     "options": [
+      "RAM",
+      "Disk",
+      "CPU",
+      "Latency, traffic, errors and saturation"
+     ],
+     "answer": 3,
+     "explain": "Per service."
+    },
+    {
+     "q": "What's an SLO?",
+     "options": [
+      "Bill",
+      "Alert",
+      "Policy",
+      "A reliability target for a user-facing indicator"
+     ],
+     "answer": 3,
+     "explain": "Error budget."
+    },
+    {
+     "q": "Why define SLOs per service?",
+     "options": [
+      "Ownership and prioritization of reliability work",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Accountability."
+    }
+   ]
+  },
+  "level-4/07-testing-strategies": {
+   "questions": [
+    {
+     "q": "What is the test pyramid for microservices?",
+     "options": [
+      "Many unit tests, fewer service/contract tests, very few end-to-end",
+      "Inverse",
+      "Only e2e",
+      "Equal"
+     ],
+     "answer": 0,
+     "explain": "Speed."
+    },
+    {
+     "q": "What do component tests do?",
+     "options": [
+      "Unit",
+      "Perf",
+      "Full e2e",
+      "Test a service in isolation with its dependencies stubbed"
+     ],
+     "answer": 3,
+     "explain": "Fast."
+    },
+    {
+     "q": "Why contract tests over e2e for interfaces?",
+     "options": [
+      "Cost",
+      "Faster, more stable and pinpoint failures",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Reliability."
+    },
+    {
+     "q": "What does testing in production use?",
+     "options": [
+      "Canaries, feature flags and synthetic checks with strong observability",
+      "Manual",
+      "Nothing",
+      "Hope"
+     ],
+     "answer": 0,
+     "explain": "Controlled."
+    }
+   ]
+  },
+  "level-4/08-antipatterns-distributed-monolith": {
+   "questions": [
+    {
+     "q": "What's a distributed monolith?",
+     "options": [
+      "Good",
+      "Cheap",
+      "Fast",
+      "Services so coupled they must be deployed and changed together"
+     ],
+     "answer": 3,
+     "explain": "All the cost, none of the benefit."
+    },
+    {
+     "q": "Common causes?",
+     "options": [
+      "Shared databases, synchronous chains and shared domain libraries",
+      "Docs",
+      "Small teams",
+      "Tests"
+     ],
+     "answer": 0,
+     "explain": "Avoid them."
+    },
+    {
+     "q": "What indicates it?",
+     "options": [
+      "Independent deploys",
+      "Small",
+      "Lockstep releases and cascading failures",
+      "Few calls"
+     ],
+     "answer": 2,
+     "explain": "Smells."
+    },
+    {
+     "q": "How fix it?",
+     "options": [
+      "Shared DB",
+      "Re-draw boundaries, own data per service and use async events",
+      "More services",
+      "Faster"
+     ],
+     "answer": 1,
+     "explain": "Refactor."
+    }
+   ]
+  },
+  "level-4/09-when-not-to-use-microservices": {
+   "questions": [
+    {
+     "q": "When are microservices a bad idea?",
+     "options": [
+      "Never",
+      "Large orgs",
+      "Small teams, unclear domain or limited operational maturity",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "Start simple."
+    },
+    {
+     "q": "What operational capabilities are required?",
+     "options": [
+      "CI/CD, observability, automation and on-call maturity",
+      "None",
+      "Slides",
+      "Docs"
+     ],
+     "answer": 0,
+     "explain": "Prerequisites."
+    },
+    {
+     "q": "What's a sensible default?",
+     "options": [
+      "Nanoservices",
+      "Microservices",
+      "Serverless",
+      "A well-structured modular monolith, splitting when needed"
+     ],
+     "answer": 3,
+     "explain": "Evolve."
+    },
+    {
+     "q": "What costs grow with service count?",
+     "options": [
+      "Operational overhead, latency and complexity",
+      "None",
+      "Speed",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Pay-as-you-go."
+    }
+   ]
+  },
+  "level-4/10-capstone-multi-service-system": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Several services with sagas, resilience, mesh security and observability",
+      "One service",
+      "Only UI",
+      "Only DB"
+     ],
+     "answer": 0,
+     "explain": "End to end."
+    },
+    {
+     "q": "How prove it's resilient?",
+     "options": [
+      "Hope",
+      "Failure injection and recovery drills",
+      "Slides",
+      "Demo"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "Slides",
+      "None",
+      "Context maps, API contracts and runbooks",
+      "Code"
+     ],
+     "answer": 2,
+     "explain": "Operate."
+    },
+    {
+     "q": "What sustains it?",
+     "options": [
+      "Silence",
+      "Tools",
+      "Luck",
+      "Clear ownership, SLOs and continuous improvement"
+     ],
+     "answer": 3,
+     "explain": "Lifecycle."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "Why prefer a modular monolith first for a new product?",
+    "options": [
+     "Law",
+     "The domain is still being learned and distributed-system costs aren't yet justified",
+     "Microservices are slower",
+     "It's trendy"
+    ],
+    "answer": 1,
+    "explain": "Split when boundaries and teams are clear."
+   },
+   {
+    "q": "'Customer' means different things to Sales and Billing. What does DDD suggest?",
+    "options": [
+     "One shared model",
+     "Rename the field",
+     "One table",
+     "Separate bounded contexts with explicit translation between them"
+    ],
+    "answer": 3,
+    "explain": "Context mapping."
+   },
+   {
+    "q": "Three synchronous services at 99.9% each give what end-to-end availability?\n```python\nprint(round(0.999**3*100,3))\n```\n",
+    "options": [
+     "99.9",
+     "97.0",
+     "99.99",
+     "99.7"
+    ],
+    "answer": 3,
+    "explain": "Availabilities multiply. Verified by running it."
+   },
+   {
+    "q": "Two services read and write the same tables. What anti-pattern is this?",
+    "options": [
+     "Saga",
+     "A shared database creating hidden coupling (a distributed monolith)",
+     "Outbox",
+     "CQRS"
+    ],
+    "answer": 1,
+    "explain": "Each service should own its data."
+   },
+   {
+    "q": "Checkout needs data from three services. What are good options?",
+    "options": [
+     "API composition or a read model built from events (no cross-database joins)",
+     "Share a schema",
+     "Copy nightly",
+     "Join their DBs"
+    ],
+    "answer": 0,
+    "explain": "Data ownership."
+   },
+   {
+    "q": "A payment fails after stock was reserved. What pattern restores consistency?",
+    "options": [
+     "Ignore",
+     "A saga with a compensating action (release stock)",
+     "2PC",
+     "Retry forever"
+    ],
+    "answer": 1,
+    "explain": "No distributed rollback."
+   },
+   {
+    "q": "The service writes to its DB then publishes an event, and sometimes only one happens. What fixes it?",
+    "options": [
+     "Cache",
+     "Two commits",
+     "Retry",
+     "The transactional outbox pattern"
+    ],
+    "answer": 3,
+    "explain": "Dual-write problem."
+   },
+   {
+    "q": "A client retries a payment POST after a timeout. How do you avoid double charging?",
+    "options": [
+     "Sleep",
+     "An idempotency key stored with the result",
+     "Disable retries",
+     "Lock the DB"
+    ],
+    "answer": 1,
+    "explain": "Idempotent endpoints."
+   },
+   {
+    "q": "Events can be delivered twice. What must consumers be?",
+    "options": [
+     "Faster",
+     "Stateless",
+     "Ordered",
+     "Idempotent (deduplicate by event ID)"
+    ],
+    "answer": 3,
+    "explain": "At-least-once delivery."
+   },
+   {
+    "q": "A downstream service is down and callers pile up threads. What pattern helps?",
+    "options": [
+     "Bigger pool",
+     "Remove timeouts",
+     "Circuit breaker with timeouts (and a fallback)",
+     "More retries"
+    ],
+    "answer": 2,
+    "explain": "Fail fast."
+   },
+   {
+    "q": "Retries from 1,000 clients hit a recovering service at the same instant. What do you add?",
+    "options": [
+     "More clients",
+     "Fixed delay",
+     "Exponential backoff with jitter (and a retry budget)",
+     "Instant retries"
+    ],
+    "answer": 2,
+    "explain": "Avoid retry storms."
+   },
+   {
+    "q": "One slow dependency exhausts the shared thread pool. What isolates it?",
+    "options": [
+     "Caching",
+     "Bulkheads: separate pools/limits per dependency",
+     "More retries",
+     "Global pool"
+    ],
+    "answer": 1,
+    "explain": "Contain the blast radius."
+   },
+   {
+    "q": "What status should a rate-limited caller receive?",
+    "options": [
+     "429 Too Many Requests with Retry-After",
+     "500",
+     "200",
+     "404"
+    ],
+    "answer": 0,
+    "explain": "Clear backpressure signal."
+   },
+   {
+    "q": "You want uniform mTLS and retries across languages without code changes. What do you use?",
+    "options": [
+     "DNS",
+     "A library",
+     "A gateway",
+     "A service mesh with sidecar proxies"
+    ],
+    "answer": 3,
+    "explain": "Control plane distributes policy."
+   },
+   {
+    "q": "How do you roll out a risky version safely?",
+    "options": [
+     "Canary: shift a small percentage of traffic and promote based on error rate and latency",
+     "Friday deploy",
+     "Restart all",
+     "Big bang"
+    ],
+    "answer": 0,
+    "explain": "Automated analysis."
+   },
+   {
+    "q": "A request is slow and you don't know which service is to blame. What helps?",
+    "options": [
+     "CPU graphs",
+     "Distributed tracing with propagated trace context",
+     "Restart",
+     "More logs"
+    ],
+    "answer": 1,
+    "explain": "Spans per hop."
+   },
+   {
+    "q": "A provider changes an API and breaks an unknown consumer. What prevents it?",
+    "options": [
+     "Docs",
+     "More e2e tests",
+     "Consumer-driven contract tests verified in the provider's CI",
+     "Email"
+    ],
+    "answer": 2,
+    "explain": "Pact."
+   },
+   {
+    "q": "How do you migrate a legacy system with minimal risk?",
+    "options": [
+     "Fork",
+     "Big-bang rewrite",
+     "Freeze",
+     "Strangler fig: route functionality gradually to new services behind a facade"
+    ],
+    "answer": 3,
+    "explain": "Reversible steps."
+   },
+   {
+    "q": "Releases require coordinating five services. What is this symptom?",
+    "options": [
+     "Good design",
+     "CQRS",
+     "Mesh",
+     "A distributed monolith: wrong boundaries or shared data/libraries"
+    ],
+    "answer": 3,
+    "explain": "Re-draw boundaries."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A circuit breaker",
+    "prompt": "Implement CircuitBreaker.call with closed, open and half-open states: open after N consecutive failures, fail fast while open, allow a probe after reset_after seconds (success closes, failure re-opens). A fake clock makes the simulation deterministic.",
+    "starter": "class Clock:\n    def __init__(self): self.t = 0\n    def now(self): return self.t\n    def advance(self, s): self.t += s\n\nclass CircuitBreaker:\n    \"\"\"closed -> open after `threshold` consecutive failures; after `reset_after` seconds go half-open\n    and allow ONE probe: success closes the breaker, failure re-opens it.\"\"\"\n    def __init__(self, clock, threshold=3, reset_after=10):\n        self.clock, self.threshold, self.reset_after = clock, threshold, reset_after\n        self.state, self.failures, self.opened_at = \"closed\", 0, None\n\n    def call(self, fn):\n        # open: reject immediately (\"rejected (fail fast)\") until reset_after seconds have passed, then half-open;\n        # call fn(); on exception count the failure (\"failed\") and open when failures >= threshold\n        # (or at once if half-open); on success close the breaker and reset the failure count; return the result\n        return None\n\nclock = Clock()\ncb = CircuitBreaker(clock)\nhealthy = {\"up\": False}\ndef dependency():\n    if not healthy[\"up\"]:\n        raise RuntimeError(\"boom\")\n    return \"ok\"\n\nlog = []\nfor _ in range(5):\n    log.append(cb.call(dependency))\nprint(log, cb.state)\nclock.advance(10)\nprint(\"probe while still down:\", cb.call(dependency), cb.state)\nclock.advance(10)\nhealthy[\"up\"] = True\nprint(\"probe after recovery:\", cb.call(dependency), cb.state)\nprint(\"normal call:\", cb.call(dependency))\n",
+    "expected": "['failed', 'failed', 'failed', 'rejected (fail fast)', 'rejected (fail fast)'] open\nprobe while still down: failed open\nprobe after recovery: ok closed\nnormal call: ok",
+    "solution": "class Clock:\n    def __init__(self): self.t = 0\n    def now(self): return self.t\n    def advance(self, s): self.t += s\n\nclass CircuitBreaker:\n    \"\"\"closed -> open after `threshold` consecutive failures; after `reset_after` seconds go half-open\n    and allow ONE probe: success closes the breaker, failure re-opens it.\"\"\"\n    def __init__(self, clock, threshold=3, reset_after=10):\n        self.clock, self.threshold, self.reset_after = clock, threshold, reset_after\n        self.state, self.failures, self.opened_at = \"closed\", 0, None\n\n    def call(self, fn):\n        if self.state == \"open\":\n            if self.clock.now() - self.opened_at >= self.reset_after:\n                self.state = \"half-open\"\n            else:\n                return \"rejected (fail fast)\"\n        try:\n            result = fn()\n        except Exception:\n            self.failures += 1\n            if self.state == \"half-open\" or self.failures >= self.threshold:\n                self.state, self.opened_at = \"open\", self.clock.now()\n            return \"failed\"\n        self.state, self.failures = \"closed\", 0\n        return result\n\nclock = Clock()\ncb = CircuitBreaker(clock)\nhealthy = {\"up\": False}\ndef dependency():\n    if not healthy[\"up\"]:\n        raise RuntimeError(\"boom\")\n    return \"ok\"\n\nlog = []\nfor _ in range(5):\n    log.append(cb.call(dependency))\nprint(log, cb.state)\nclock.advance(10)\nprint(\"probe while still down:\", cb.call(dependency), cb.state)\nclock.advance(10)\nhealthy[\"up\"] = True\nprint(\"probe after recovery:\", cb.call(dependency), cb.state)\nprint(\"normal call:\", cb.call(dependency))\n",
+    "explain": "Failing fast while open protects callers and the struggling dependency; the half-open probe tests recovery without a flood. Verified by running the solution."
+   },
+   {
+    "title": "A saga with compensation, plus an outbox",
+    "prompt": "Implement run_saga: execute steps in order and, when one fails, undo the completed steps in reverse order, returning ROLLED_BACK (or COMPLETED). The provided outbox relay republishes an event after a crash, and an idempotent consumer applies each event once.",
+    "starter": "class Service:\n    def __init__(self, name, fail_on=None):\n        self.name, self.fail_on, self.ledger = name, fail_on, {}\n\n    def do(self, order, action):\n        if self.fail_on == action:\n            raise RuntimeError(f\"{self.name} failed\")\n        self.ledger[order] = action\n\n    def undo(self, order):\n        self.ledger.pop(order, None)\n\ndef run_saga(order, steps, log):\n    # steps = [(service, action, compensation)]. Run each: svc.do(order, action) and log \"<svc>:<action>\".\n    # On RuntimeError log \"FAILED <message>\", then undo the COMPLETED steps in reverse order (svc.undo(order))\n    # logging \"<svc>:<compensation>\" for each, and return \"ROLLED_BACK\"; return \"COMPLETED\" when all succeed.\n    return \"\"\n\nclass Outbox:\n    \"\"\"Events are written with the state change; a relay publishes them at-least-once; consumers dedupe by id.\"\"\"\n    def __init__(self): self.rows, self.next_id = [], 1\n    def add(self, payload):\n        self.rows.append({\"id\": self.next_id, \"payload\": payload, \"sent\": False}); self.next_id += 1\n    def relay(self, bus, crash_after_publish=False):\n        for r in self.rows:\n            if not r[\"sent\"]:\n                bus.append((r[\"id\"], r[\"payload\"]))\n                if crash_after_publish:\n                    return                      # crashed before marking as sent -> will be published again\n                r[\"sent\"] = True\n\ndef consume(bus, processed, effects):\n    for eid, payload in bus:\n        if eid in processed:\n            continue                            # idempotent consumer\n        processed.add(eid); effects.append(payload)\n\ndef new_steps(fail_on=None):\n    inv, pay, ship = Service(\"inventory\"), Service(\"payment\", fail_on), Service(\"shipping\")\n    return [(inv, \"reserve\", \"release\"), (pay, \"charge\", \"refund\"), (ship, \"schedule\", \"cancel\")], (inv, pay, ship)\n\nlog = []; steps, svcs = new_steps()\nprint(run_saga(\"o1\", steps, log), log)\nlog = []; steps, svcs = new_steps(fail_on=\"charge\")\nprint(run_saga(\"o2\", steps, log), log, [s.ledger for s in svcs])\n\nob, bus, processed, effects = Outbox(), [], set(), []\nob.add(\"OrderPlaced:o1\"); ob.add(\"OrderPaid:o1\")\nob.relay(bus, crash_after_publish=True)          # relay crashes after publishing the first event\nob.relay(bus)                                    # restart: the first event is published again\nconsume(bus, processed, effects)\nprint(\"bus:\", [e for e, _ in bus])\nprint(\"effects:\", effects)\n",
+    "expected": "COMPLETED ['inventory:reserve', 'payment:charge', 'shipping:schedule']\nROLLED_BACK ['inventory:reserve', 'FAILED payment failed', 'inventory:release'] [{}, {}, {}]\nbus: [1, 1, 2]\neffects: ['OrderPlaced:o1', 'OrderPaid:o1']",
+    "solution": "class Service:\n    def __init__(self, name, fail_on=None):\n        self.name, self.fail_on, self.ledger = name, fail_on, {}\n\n    def do(self, order, action):\n        if self.fail_on == action:\n            raise RuntimeError(f\"{self.name} failed\")\n        self.ledger[order] = action\n\n    def undo(self, order):\n        self.ledger.pop(order, None)\n\ndef run_saga(order, steps, log):\n    \"\"\"steps = [(service, action, compensation)]. Run in order; on failure compensate completed steps in reverse.\"\"\"\n    done = []\n    for svc, action, comp in steps:\n        try:\n            svc.do(order, action)\n            log.append(f\"{svc.name}:{action}\")\n            done.append((svc, comp))\n        except RuntimeError as e:\n            log.append(f\"FAILED {e}\")\n            for s, c in reversed(done):\n                s.undo(order)\n                log.append(f\"{s.name}:{c}\")\n            return \"ROLLED_BACK\"\n    return \"COMPLETED\"\n\nclass Outbox:\n    \"\"\"Events are written with the state change; a relay publishes them at-least-once; consumers dedupe by id.\"\"\"\n    def __init__(self): self.rows, self.next_id = [], 1\n    def add(self, payload):\n        self.rows.append({\"id\": self.next_id, \"payload\": payload, \"sent\": False}); self.next_id += 1\n    def relay(self, bus, crash_after_publish=False):\n        for r in self.rows:\n            if not r[\"sent\"]:\n                bus.append((r[\"id\"], r[\"payload\"]))\n                if crash_after_publish:\n                    return                      # crashed before marking as sent -> will be published again\n                r[\"sent\"] = True\n\ndef consume(bus, processed, effects):\n    for eid, payload in bus:\n        if eid in processed:\n            continue                            # idempotent consumer\n        processed.add(eid); effects.append(payload)\n\ndef new_steps(fail_on=None):\n    inv, pay, ship = Service(\"inventory\"), Service(\"payment\", fail_on), Service(\"shipping\")\n    return [(inv, \"reserve\", \"release\"), (pay, \"charge\", \"refund\"), (ship, \"schedule\", \"cancel\")], (inv, pay, ship)\n\nlog = []; steps, svcs = new_steps()\nprint(run_saga(\"o1\", steps, log), log)\nlog = []; steps, svcs = new_steps(fail_on=\"charge\")\nprint(run_saga(\"o2\", steps, log), log, [s.ledger for s in svcs])\n\nob, bus, processed, effects = Outbox(), [], set(), []\nob.add(\"OrderPlaced:o1\"); ob.add(\"OrderPaid:o1\")\nob.relay(bus, crash_after_publish=True)          # relay crashes after publishing the first event\nob.relay(bus)                                    # restart: the first event is published again\nconsume(bus, processed, effects)\nprint(\"bus:\", [e for e, _ in bus])\nprint(\"effects:\", effects)\n",
+    "explain": "Sagas replace distributed transactions with local steps plus compensations; the outbox gives at-least-once publishing and consumers dedupe by event id. This is a teaching model. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
