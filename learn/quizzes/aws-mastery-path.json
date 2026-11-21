@@ -1,0 +1,1927 @@
+{
+ "course": "aws-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup-cli": {
+   "questions": [
+    {
+     "q": "What does the course say to do with the root user after creating the account?",
+     "options": [
+      "Share it with the team",
+      "Delete it immediately",
+      "Use it only to create your first IAM user, then stop using it for daily work",
+      "Use it for everything"
+     ],
+     "answer": 2,
+     "explain": "The root user cannot be restricted by any policy, so a leak gives full control of the account and bill."
+    },
+    {
+     "q": "When is the secret access key shown?",
+     "options": [
+      "Only once, at creation, so save it in a password manager",
+      "Anytime in the console",
+      "Every login",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Create the key with the CLI use case and store it safely."
+    },
+    {
+     "q": "Why attach AdministratorAccess to your own IAM user in this lesson?",
+     "options": [
+      "It is the safest policy",
+      "It is required by the CLI",
+      "It is your day-to-day login, not a service credential; least privilege for service roles comes later",
+      "It disables MFA"
+     ],
+     "answer": 2,
+     "explain": "The policy is broad on purpose for this personal user."
+    },
+    {
+     "q": "Which two beginner mistakes does the module aim to prevent?",
+     "options": [
+      "Using MFA, and using the CLI",
+      "Using too many regions, and using IAM",
+      "Using the root user day-to-day, and not understanding regions/profiles",
+      "Using S3, and using EC2"
+     ],
+     "answer": 2,
+     "explain": "Confusion about regions and profiles causes 'where did my resource go?' bugs."
+    }
+   ]
+  },
+  "level-1/02-iam-security-basics": {
+   "questions": [
+    {
+     "q": "Which IAM identity uses temporary credentials and is assumed by users or AWS services?",
+     "options": [
+      "User",
+      "Role",
+      "Policy",
+      "Group"
+     ],
+     "answer": 1,
+     "explain": "There is no long-lived secret to leak."
+    },
+    {
+     "q": "Why attach policies to a group rather than to each user?",
+     "options": [
+      "Users can't have policies",
+      "Groups are cheaper",
+      "You manage permissions for a team without repeating yourself",
+      "Policies require groups"
+     ],
+     "answer": 2,
+     "explain": "Add users to the group and they inherit its policies."
+    },
+    {
+     "q": "What are the parts of a policy statement?",
+     "options": [
+      "Region, Zone, Tag",
+      "Effect (Allow/Deny), Actions and Resources",
+      "Name, Email, Password",
+      "Role, Group, User"
+     ],
+     "answer": 1,
+     "explain": "The example grants read-only access to exactly one bucket."
+    },
+    {
+     "q": "Is IAM region-scoped?",
+     "options": [
+      "No, it is global",
+      "Only for users",
+      "Only for roles",
+      "Yes, per region"
+     ],
+     "answer": 0,
+     "explain": "It's the most important service to understand before provisioning anything else."
+    }
+   ]
+  },
+  "level-1/03-ec2-compute": {
+   "questions": [
+    {
+     "q": "What is an AMI?",
+     "options": [
+      "A static IP",
+      "An SSH key",
+      "A template of OS and pre-installed software an instance boots from",
+      "A firewall"
+     ],
+     "answer": 2,
+     "explain": "The instance type is the hardware profile, such as t3.micro."
+    },
+    {
+     "q": "Why chmod 400 the .pem private key?",
+     "options": [
+      "It registers it with AWS",
+      "SSH refuses a private key file that other users could read",
+      "It encrypts the key",
+      "It uploads it"
+     ],
+     "answer": 1,
+     "explain": "AWS cannot give the private key back, so losing it means creating a new key pair."
+    },
+    {
+     "q": "What does it mean that security groups are stateful?",
+     "options": [
+      "They remember users",
+      "They store logs",
+      "A response to an allowed inbound request is automatically allowed back out",
+      "They block everything"
+     ],
+     "answer": 2,
+     "explain": "You rarely need explicit outbound rules for typical request/response traffic."
+    },
+    {
+     "q": "Why allow SSH only from your own IP /32 rather than 0.0.0.0/0?",
+     "options": [
+      "It reduces cost",
+      "It's faster",
+      "0.0.0.0/0 is invalid",
+      "It's safer: only your address can attempt to connect"
+     ],
+     "answer": 3,
+     "explain": "HTTP on port 80 from anywhere is the web-server exception in the lesson."
+    }
+   ]
+  },
+  "level-1/04-s3-storage": {
+   "questions": [
+    {
+     "q": "What must be true of an S3 bucket name?",
+     "options": [
+      "Globally unique across all of AWS",
+      "Numeric only",
+      "Under 3 characters",
+      "Unique within your account only"
+     ],
+     "answer": 0,
+     "explain": "Not just unique in your own account."
+    },
+    {
+     "q": "What does aws s3 sync do?",
+     "options": [
+      "Copies everything every time",
+      "Deletes the bucket",
+      "Encrypts files",
+      "Uploads only changed or new files from a directory"
+     ],
+     "answer": 3,
+     "explain": "It's the efficient way to push a whole local directory."
+    },
+    {
+     "q": "What does enabling versioning do?",
+     "options": [
+      "Compresses objects",
+      "Makes buckets public",
+      "Deletes old files",
+      "Keeps every version of an object instead of overwriting, at the cost of storing (and billing) each version"
+     ],
+     "answer": 3,
+     "explain": "It protects against accidental deletes and overwrites."
+    },
+    {
+     "q": "When do you use aws s3api instead of aws s3?",
+     "options": [
+      "Never",
+      "For copying files",
+      "For lower-level operations like bucket policies and versioning configuration",
+      "For listing"
+     ],
+     "answer": 2,
+     "explain": "aws s3 is the friendly high-level command set."
+    }
+   ]
+  },
+  "level-1/05-vpc-networking-basics": {
+   "questions": [
+    {
+     "q": "What makes a subnet public?",
+     "options": [
+      "It has a NAT Gateway",
+      "It is in a big CIDR",
+      "It has no route table",
+      "It has a route to an Internet Gateway"
+     ],
+     "answer": 3,
+     "explain": "Resources there can have public IPs; private subnets have no direct route to the internet."
+    },
+    {
+     "q": "What does a NAT Gateway allow?",
+     "options": [
+      "Inbound public access",
+      "VPN access",
+      "DNS",
+      "Private-subnet resources to make outbound internet calls without being reachable from outside"
+     ],
+     "answer": 3,
+     "explain": "It's used for databases and internal services that need to reach out."
+    },
+    {
+     "q": "Why did Module 3's EC2 instance work without networking setup?",
+     "options": [
+      "EC2 doesn't need a network",
+      "It landed in the default VPC, pre-wired with public subnets",
+      "It used a NAT Gateway",
+      "AWS configured nothing"
+     ],
+     "answer": 1,
+     "explain": "New accounts get a default VPC in every region."
+    },
+    {
+     "q": "A /16 VPC CIDR provides how many addresses?",
+     "options": [
+      "65,536",
+      "4,096",
+      "256",
+      "16"
+     ],
+     "answer": 0,
+     "explain": "A /24 subnet provides 256."
+    }
+   ]
+  },
+  "level-1/06-rds-databases": {
+   "questions": [
+    {
+     "q": "What does RDS handle for you?",
+     "options": [
+      "Patching, backups and failover",
+      "Your schema design",
+      "Your SQL queries",
+      "Your application code"
+     ],
+     "answer": 0,
+     "explain": "You focus on schema and queries instead of database administration."
+    },
+    {
+     "q": "Why does RDS require a DB subnet group with two subnets in different AZs?",
+     "options": [
+      "It requires at least two AZs even for a single-AZ instance",
+      "To save money",
+      "For SSH",
+      "For public access"
+     ],
+     "answer": 0,
+     "explain": "The lesson creates a second private subnet in us-east-1b."
+    },
+    {
+     "q": "What does --source-group do in the database security group rule?",
+     "options": [
+      "Blocks the app",
+      "Allows traffic from anything in the app security group instead of specific IPs",
+      "Opens the port to everyone",
+      "Sets the region"
+     ],
+     "answer": 1,
+     "explain": "It's the standard 'app tier talks to data tier' pattern."
+    },
+    {
+     "q": "What is the trade-off of RDS versus installing a database on EC2 yourself?",
+     "options": [
+      "Less low-level control: you can't SSH into the underlying OS",
+      "Less reliable backups",
+      "Higher latency always",
+      "No Multi-AZ"
+     ],
+     "answer": 0,
+     "explain": "In exchange you get automatic backups with point-in-time recovery, patching and Multi-AZ failover."
+    }
+   ]
+  },
+  "level-1/07-lambda-serverless": {
+   "questions": [
+    {
+     "q": "What do you pay for in Lambda?",
+     "options": [
+      "The milliseconds your code actually executes",
+      "A monthly server fee",
+      "Storage only",
+      "Reserved instances"
+     ],
+     "answer": 0,
+     "explain": "It scales from zero to thousands of concurrent invocations."
+    },
+    {
+     "q": "What determines what a Lambda function can access?",
+     "options": [
+      "The region",
+      "The caller's identity",
+      "Its execution role, not the caller's identity",
+      "The runtime"
+     ],
+     "answer": 2,
+     "explain": "The role is assumed by the Lambda service via a trust policy."
+    },
+    {
+     "q": "What is a cold start?",
+     "options": [
+      "The latency of provisioning a fresh execution environment for the first invocation or after scaling up",
+      "A failed deploy",
+      "A timeout",
+      "A billing event"
+     ],
+     "answer": 0,
+     "explain": "It's one of the core Lambda concepts."
+    },
+    {
+     "q": "What is the bare minimum policy every Lambda function needs?",
+     "options": [
+      "None",
+      "S3FullAccess",
+      "AdministratorAccess",
+      "AWSLambdaBasicExecutionRole, to write logs"
+     ],
+     "answer": 3,
+     "explain": "Add more permissions only as the function actually needs them."
+    }
+   ]
+  },
+  "level-1/08-cloudwatch-monitoring": {
+   "questions": [
+    {
+     "q": "What are CloudWatch namespaces?",
+     "options": [
+      "Groups of metrics such as AWS/Lambda, AWS/EC2 and AWS/RDS",
+      "Regions",
+      "Log files",
+      "User accounts"
+     ],
+     "answer": 0,
+     "explain": "Every AWS service publishes metrics grouped into namespaces."
+    },
+    {
+     "q": "Where does Lambda's print()/logging output land?",
+     "options": [
+      "RDS",
+      "A CloudWatch log group /aws/lambda/<function-name>, created automatically",
+      "Nowhere",
+      "S3"
+     ],
+     "answer": 1,
+     "explain": "No setup is required on your part."
+    },
+    {
+     "q": "Which command tails a Lambda's most recent log events live?",
+     "options": [
+      "aws lambda logs",
+      "aws s3 tail",
+      "aws logs tail /aws/lambda/training-hello --follow",
+      "aws cloudwatch tail"
+     ],
+     "answer": 2,
+     "explain": "It's great for live-debugging."
+    },
+    {
+     "q": "What does a CloudWatch alarm do?",
+     "options": [
+      "Deletes resources",
+      "Creates backups",
+      "Scales EC2",
+      "Notifies you when a metric crosses a threshold"
+     ],
+     "answer": 3,
+     "explain": "The module sets one up alongside reading metrics and logs."
+    }
+   ]
+  },
+  "level-1/09-cloudformation-iac": {
+   "questions": [
+    {
+     "q": "What is the difference between a CloudFormation template and a stack?",
+     "options": [
+      "A template is the YAML/JSON description; a stack is the running set of resources created from it",
+      "A template is a running instance",
+      "They're the same",
+      "A stack is the file"
+     ],
+     "answer": 0,
+     "explain": "CloudFormation tracks the stack's resources together so it can update or delete them as a unit."
+    },
+    {
+     "q": "What does 'drift' mean in the IaC table?",
+     "options": [
+      "Region changes",
+      "Billing changes",
+      "Console clicks that change resources invisibly; diffing against the template reveals them",
+      "Network latency"
+     ],
+     "answer": 2,
+     "explain": "Manual changes are invisible without an IaC record."
+    },
+    {
+     "q": "How do you tear down everything a template created?",
+     "options": [
+      "Close the account",
+      "Delete each resource ID by hand",
+      "Reboot instances",
+      "One command deletes the stack and its resources"
+     ],
+     "answer": 3,
+     "explain": "Manual teardown means remembering every resource."
+    },
+    {
+     "q": "What does !Ref BucketName do in the template?",
+     "options": [
+      "Deletes the bucket",
+      "Inserts the value of the BucketName parameter",
+      "Encrypts the name",
+      "Creates a region"
+     ],
+     "answer": 1,
+     "explain": "Parameters make templates reusable across environments."
+    }
+   ]
+  },
+  "level-1/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What are the pieces of the capstone's architecture?",
+     "options": [
+      "CloudFront only",
+      "ECS and ECR",
+      "EC2, RDS and ELB",
+      "S3 static site, API Gateway, Lambda and DynamoDB"
+     ],
+     "answer": 3,
+     "explain": "It's a notes app where visitors add and read notes."
+    },
+    {
+     "q": "Why PAY_PER_REQUEST billing for the DynamoDB table?",
+     "options": [
+      "It is free forever",
+      "It is required",
+      "It is faster",
+      "It charges only for reads/writes actually made, with no capacity to provision, right for low traffic"
+     ],
+     "answer": 3,
+     "explain": "On-demand billing is the right default for a training app."
+    },
+    {
+     "q": "Why does the lesson stress the Teardown section?",
+     "options": [
+      "Free tier is free below a usage threshold, and only 12 months on some resources, so leftover resources can bill you",
+      "Resources delete themselves",
+      "Teardown is optional",
+      "AWS charges for teardown"
+     ],
+     "answer": 0,
+     "explain": "Tear down every time you finish working, not just at the end of the course."
+    },
+    {
+     "q": "How does DynamoDB compare with RDS conceptually?",
+     "options": [
+      "RDS is NoSQL",
+      "They are the same",
+      "DynamoDB is relational",
+      "Both are managed with no server to patch, but DynamoDB is key-value/document shaped rather than relational"
+     ],
+     "answer": 3,
+     "explain": "It's new in this module but parallel to Module 6."
+    }
+   ]
+  },
+  "level-2/01-ecs-containers": {
+   "questions": [
+    {
+     "q": "What does the Fargate launch type remove?",
+     "options": [
+      "Provisioning and patching the underlying EC2 instances",
+      "The need for task definitions",
+      "IAM",
+      "The need for images"
+     ],
+     "answer": 0,
+     "explain": "You specify vCPU and memory per task and AWS handles the host."
+    },
+    {
+     "q": "What is a task definition?",
+     "options": [
+      "A registry",
+      "A JSON blueprint of images, CPU/memory, ports, roles and logging",
+      "A cluster",
+      "A running container"
+     ],
+     "answer": 1,
+     "explain": "A task is a running instance of it."
+    },
+    {
+     "q": "What does an ECS service do?",
+     "options": [
+      "Builds images",
+      "Creates VPCs",
+      "Keeps a desired number of tasks running, replacing any that die",
+      "Stores images"
+     ],
+     "answer": 2,
+     "explain": "It can also register tasks with a load balancer."
+    },
+    {
+     "q": "Why do CI pipelines re-authenticate to ECR each run?",
+     "options": [
+      "The get-login-password token is valid for 12 hours",
+      "Tokens never expire",
+      "Pushes are slow",
+      "ECR forbids caching in all cases"
+     ],
+     "answer": 0,
+     "explain": "They don't cache the token."
+    }
+   ]
+  },
+  "level-2/02-autoscaling-load-balancing": {
+   "questions": [
+    {
+     "q": "What does an Auto Scaling Group do?",
+     "options": [
+      "Stores objects",
+      "Builds images",
+      "Routes DNS",
+      "Keeps a fleet of identical instances running, replaces failed ones and scales with demand"
+     ],
+     "answer": 3,
+     "explain": "It maintains the fleet between min/max size."
+    },
+    {
+     "q": "What does an ALB health check do?",
+     "options": [
+      "Probes targets, and failing ones stop receiving traffic",
+      "Encrypts traffic",
+      "Restarts instances",
+      "Scales the group"
+     ],
+     "answer": 0,
+     "explain": "It's defined on the target group."
+    },
+    {
+     "q": "Why must UserData be base64-encoded in the JSON launch-template example?",
+     "options": [
+      "The CLI does not encode it for you when embedded in a JSON string",
+      "Base64 is faster",
+      "It hides secrets",
+      "AWS requires text"
+     ],
+     "answer": 0,
+     "explain": "Each instance runs the script once at boot."
+    },
+    {
+     "q": "What is a launch template?",
+     "options": [
+      "A VPC",
+      "A scaling alarm",
+      "A reusable blueprint of AMI, instance type, security groups and user data",
+      "A load balancer"
+     ],
+     "answer": 2,
+     "explain": "The ASG creates instances from it."
+    }
+   ]
+  },
+  "level-2/03-route53-dns": {
+   "questions": [
+    {
+     "q": "Why use an alias record rather than a CNAME for a zone apex?",
+     "options": [
+      "CNAMEs are not allowed at all",
+      "Alias records work at the zone apex and point at AWS resources like an ALB, CloudFront or S3 website",
+      "Aliases are slower",
+      "Aliases need a TTL of zero"
+     ],
+     "answer": 1,
+     "explain": "It's a Route 53-specific record type."
+    },
+    {
+     "q": "What is a hosted zone?",
+     "options": [
+      "A load balancer",
+      "A region",
+      "A VPC",
+      "A container for DNS records for one domain, with its own 4 name servers"
+     ],
+     "answer": 3,
+     "explain": "For a real subdomain you'd add those name servers as NS records at your registrar."
+    },
+    {
+     "q": "What does TTL control?",
+     "options": [
+      "Health check interval",
+      "How long resolvers cache a record before re-querying",
+      "Billing period",
+      "How long the zone exists"
+     ],
+     "answer": 1,
+     "explain": "Time-to-live."
+    },
+    {
+     "q": "What is --caller-reference for?",
+     "options": [
+      "A password",
+      "A unique value per call so retried requests aren't treated as duplicates",
+      "A tag",
+      "A region"
+     ],
+     "answer": 1,
+     "explain": "A timestamp works."
+    }
+   ]
+  },
+  "level-2/04-sns-sqs-messaging": {
+   "questions": [
+    {
+     "q": "How do SNS and SQS differ?",
+     "options": [
+      "Both are databases",
+      "SNS is a queue; SQS is pub/sub",
+      "They are identical",
+      "SNS is pub/sub fan-out to many subscribers; SQS is a queue where each message is processed by one consumer"
+     ],
+     "answer": 3,
+     "explain": "Combining SNS → multiple SQS queues is the fan-out pattern."
+    },
+    {
+     "q": "What does the visibility timeout do?",
+     "options": [
+      "Sends it to SNS",
+      "Hides a received-but-not-deleted message from other consumers to avoid double-processing",
+      "Encrypts it",
+      "Deletes the message"
+     ],
+     "answer": 1,
+     "explain": "The lesson sets it to 30 seconds."
+    },
+    {
+     "q": "What does maxReceiveCount: 5 mean?",
+     "options": [
+      "Five consumers allowed",
+      "Five queues allowed",
+      "Messages expire after 5 minutes",
+      "A message received and left unprocessed 5 times moves to the dead-letter queue"
+     ],
+     "answer": 3,
+     "explain": "The DLQ stops failing messages blocking the queue forever."
+    },
+    {
+     "q": "How does a FIFO queue differ from a standard queue?",
+     "options": [
+      "It is for SNS only",
+      "It has no DLQ",
+      "Ordered, exactly-once processing (.fifo suffix) versus at-least-once, best-effort order",
+      "Faster and unordered"
+     ],
+     "answer": 2,
+     "explain": "Standard queues are the default."
+    }
+   ]
+  },
+  "level-2/05-dynamodb-deep-dive": {
+   "questions": [
+    {
+     "q": "What does a composite key of customerId (partition) + orderId (sort) enable?",
+     "options": [
+      "Fetching all orders for one customer in a single efficient query",
+      "Joins",
+      "Full table scans",
+      "Transactions only"
+     ],
+     "answer": 0,
+     "explain": "Items sharing a partition key are stored together and range-queryable by sort key."
+    },
+    {
+     "q": "What is a GSI?",
+     "options": [
+      "An alternate partition/sort key over the same table, queryable independently with its own eventually-consistent copy",
+      "A capacity mode",
+      "A backup",
+      "A stream"
+     ],
+     "answer": 0,
+     "explain": "It's the main tool for querying by something other than the primary key."
+    },
+    {
+     "q": "How does an LSI differ from a GSI?",
+     "options": [
+      "Uses a different partition key",
+      "Is eventually consistent only",
+      "Uses the same partition key with an alternate sort key, created only at table creation, supporting strongly consistent reads",
+      "Can be added anytime"
+     ],
+     "answer": 2,
+     "explain": "From the lesson's concept table."
+    },
+    {
+     "q": "When is PROVISIONED capacity cheaper than on-demand?",
+     "options": [
+      "Always",
+      "At zero traffic",
+      "Never",
+      "At steady high volume"
+     ],
+     "answer": 3,
+     "explain": "PAY_PER_REQUEST charges per read/write; PROVISIONED reserves RCU/WCU."
+    }
+   ]
+  },
+  "level-2/06-elastic-beanstalk": {
+   "questions": [
+    {
+     "q": "What does Elastic Beanstalk do?",
+     "options": [
+      "Provisions and manages EC2, ASG, ALB and security groups from a single application upload",
+      "Replaces IAM",
+      "Stores objects",
+      "Only hosts static sites"
+     ],
+     "answer": 0,
+     "explain": "You deploy code; Beanstalk manages the servers, while still allowing access to the underlying resources."
+    },
+    {
+     "q": "What is an application version?",
+     "options": [
+      "One uploaded, deployable build (a zip in S3) with a kept history",
+      "A platform",
+      "A queue",
+      "A running environment"
+     ],
+     "answer": 0,
+     "explain": "An environment runs one version."
+    },
+    {
+     "q": "What are .ebextensions?",
+     "options": [
+      "Config files in your bundle that customize the environment's resources",
+      "Logs",
+      "Extensions for browsers",
+      "IAM roles"
+     ],
+     "answer": 0,
+     "explain": "They can add packages, config and resources."
+    },
+    {
+     "q": "What do the web server and worker environment tiers do?",
+     "options": [
+      "Web handles HTTP traffic; worker processes an SQS queue in the background",
+      "Web processes queues",
+      "Both handle HTTP",
+      "Worker serves static files"
+     ],
+     "answer": 0,
+     "explain": "Choose per environment."
+    }
+   ]
+  },
+  "level-2/07-secrets-parameter-store": {
+   "questions": [
+    {
+     "q": "Why avoid putting a database password in a Lambda environment variable?",
+     "options": [
+      "It's visible to anyone with read access to the function configuration and never rotates",
+      "Lambda forbids them",
+      "They are too slow",
+      "Environment variables are encrypted"
+     ],
+     "answer": 0,
+     "explain": "Use Secrets Manager or Parameter Store instead."
+    },
+    {
+     "q": "What does Secrets Manager offer that plain Parameter Store focuses less on?",
+     "options": [
+      "Secrets with built-in automatic rotation",
+      "Path hierarchies",
+      "Free usage",
+      "Faster reads"
+     ],
+     "answer": 0,
+     "explain": "Rotation is done via a Lambda function on a schedule."
+    },
+    {
+     "q": "What does get-secret-value return by default?",
+     "options": [
+      "All versions",
+      "The AWSCURRENT version",
+      "Nothing",
+      "The oldest version"
+     ],
+     "answer": 1,
+     "explain": "Every write creates a new version, and prior versions remain retrievable."
+    },
+    {
+     "q": "What does a SecureString parameter use?",
+     "options": [
+      "A password file",
+      "Base64 only",
+      "No encryption",
+      "KMS encryption"
+     ],
+     "answer": 3,
+     "explain": "String and StringList are plain."
+    }
+   ]
+  },
+  "level-2/08-cloudfront-cdn": {
+   "questions": [
+    {
+     "q": "What does CloudFront do?",
+     "options": [
+      "Caches content at edge locations so repeat requests are served near the visitor",
+      "Runs containers",
+      "Stores databases",
+      "Manages IAM"
+     ],
+     "answer": 0,
+     "explain": "It also provides managed HTTPS in front of an S3 bucket."
+    },
+    {
+     "q": "What does Origin Access Control (OAC) allow?",
+     "options": [
+      "CloudFront to authenticate to a private S3 bucket so the bucket stays non-public",
+      "Billing access",
+      "SSH access",
+      "Public bucket access"
+     ],
+     "answer": 0,
+     "explain": "This is the CloudFront-recommended pattern, unlike the Level 1 public bucket policy."
+    },
+    {
+     "q": "What is an invalidation?",
+     "options": [
+      "A failed origin",
+      "A request to purge specific paths from edge caches before the TTL expires",
+      "An expired certificate",
+      "A deleted distribution"
+     ],
+     "answer": 1,
+     "explain": "It's used when content changes before the cache would naturally refresh."
+    },
+    {
+     "q": "What is a cache behavior?",
+     "options": [
+      "A VPC route",
+      "Per-path-pattern rules: origin, what varies the cache key, and TTLs",
+      "A log format",
+      "A security group"
+     ],
+     "answer": 1,
+     "explain": "It lives inside the distribution configuration."
+    }
+   ]
+  },
+  "level-2/09-cost-management-billing": {
+   "questions": [
+    {
+     "q": "What does an AWS Budget do when the threshold is crossed?",
+     "options": [
+      "Stops all resources",
+      "Refunds the cost",
+      "Only notifies, unless you wire it to an automated action",
+      "Deletes the account"
+     ],
+     "answer": 2,
+     "explain": "Crossing 100% does not stop anything from running or accruing cost."
+    },
+    {
+     "q": "What is Cost Explorer?",
+     "options": [
+      "A queryable view of historical spend, groupable by service, tag or account",
+      "A budget",
+      "A tagging tool",
+      "A billing export"
+     ],
+     "answer": 0,
+     "explain": "It also provides forecasts."
+    },
+    {
+     "q": "What does a cost allocation tag enable?",
+     "options": [
+      "Attributing spend to a project, team or environment in billing reports",
+      "Faster EC2",
+      "Encryption",
+      "Cheaper S3"
+     ],
+     "answer": 0,
+     "explain": "For example Project=training, activated for billing."
+    },
+    {
+     "q": "What is the Cost and Usage Report?",
+     "options": [
+      "A dashboard",
+      "A monthly email",
+      "A tag",
+      "The most granular billing export, one row per line item, dumped to S3"
+     ],
+     "answer": 3,
+     "explain": "It's a CSV or Parquet dump."
+    }
+   ]
+  },
+  "level-2/10-project-scalable-web-app": {
+   "questions": [
+    {
+     "q": "How does the Level 2 project differ from the Level 1 capstone?",
+     "options": [
+      "It removes DNS",
+      "It has no database",
+      "It uses fewer services",
+      "Containerized, load-balanced and globally distributed rather than serverless"
+     ],
+     "answer": 3,
+     "explain": "It uses ECS/Fargate, ALB, DynamoDB, Route 53 and CloudFront."
+    },
+    {
+     "q": "How does the API reach DynamoDB without credentials?",
+     "options": [
+      "A public key",
+      "Via an IAM task role",
+      "A stored password",
+      "An access key in the image"
+     ],
+     "answer": 1,
+     "explain": "Secrets Manager would only hold third-party API keys."
+    },
+    {
+     "q": "What serves the static frontend?",
+     "options": [
+      "CloudFront in front of a private S3 bucket via OAC",
+      "Route 53",
+      "An ALB",
+      "ECS"
+     ],
+     "answer": 0,
+     "explain": "It's cached at the edge."
+    },
+    {
+     "q": "What does the byRecency GSI support?",
+     "options": [
+      "Login",
+      "Deleting notes",
+      "Billing",
+      "Querying recent notes across all users"
+     ],
+     "answer": 3,
+     "explain": "The base key is userId + noteId."
+    }
+   ]
+  },
+  "level-3/01-advanced-vpc": {
+   "questions": [
+    {
+     "q": "What does it mean that VPC peering is non-transitive?",
+     "options": [
+      "Peering is temporary",
+      "If A peers with B and B with C, A cannot reach C through B",
+      "Peering needs a NAT",
+      "Peering is one-way"
+     ],
+     "answer": 1,
+     "explain": "Each pair needs its own connection."
+    },
+    {
+     "q": "After accepting a peering connection, what else is required?",
+     "options": [
+      "Nothing",
+      "A new region",
+      "A NAT Gateway",
+      "Route table entries on each side and security groups allowing the traffic"
+     ],
+     "answer": 3,
+     "explain": "Accepting isn't enough."
+    },
+    {
+     "q": "Why use Transit Gateway instead of full-mesh peering?",
+     "options": [
+      "Peering is unsupported",
+      "Peering grows O(n²) (10 VPCs need 45 connections); TGW is hub-and-spoke with one attachment per VPC",
+      "TGW removes route tables",
+      "TGW is free"
+     ],
+     "answer": 1,
+     "explain": "TGW also supports multicast and cross-region peering."
+    },
+    {
+     "q": "What must be true of VPC CIDR ranges to connect them?",
+     "options": [
+      "They must match",
+      "They must be public",
+      "They must be /16",
+      "They must not overlap"
+     ],
+     "answer": 3,
+     "explain": "Peering and Transit Gateway cannot route between colliding ranges."
+    }
+   ]
+  },
+  "level-3/02-eks-kubernetes": {
+   "questions": [
+    {
+     "q": "When should you choose EKS over ECS?",
+     "options": [
+      "For multi-cloud portability, existing Kubernetes expertise or ecosystem tools that assume Kubernetes APIs",
+      "For the lowest learning curve",
+      "For AWS-only tooling",
+      "For serverless functions"
+     ],
+     "answer": 0,
+     "explain": "ECS has a lower learning curve but is AWS-only."
+    },
+    {
+     "q": "How is the EKS control plane billed?",
+     "options": [
+      "Per pod only",
+      "Free",
+      "Per API call",
+      "A flat hourly rate per cluster regardless of size, plus your worker compute"
+     ],
+     "answer": 3,
+     "explain": "It also takes 10–15 minutes to provision."
+    },
+    {
+     "q": "What does kubectl authentication rely on after update-kubeconfig?",
+     "options": [
+      "aws eks get-token, so it fails if your AWS CLI credentials expire",
+      "A stored password",
+      "An SSH key",
+      "No authentication"
+     ],
+     "answer": 0,
+     "explain": "No long-lived credentials are stored in ~/.kube/config."
+    },
+    {
+     "q": "What does a managed node group handle?",
+     "options": [
+      "DNS",
+      "Billing",
+      "AMI selection, patching and draining",
+      "Application code"
+     ],
+     "answer": 2,
+     "explain": "For serverless pods, use Fargate profiles instead."
+    }
+   ]
+  },
+  "level-3/03-step-functions-orchestration": {
+   "questions": [
+    {
+     "q": "Why use Step Functions instead of chaining Lambdas in code?",
+     "options": [
+      "The flow, retries and error handling become a visible first-class resource, not buried in code",
+      "It removes IAM",
+      "It's always cheaper",
+      "Lambda can't call Lambda"
+     ],
+     "answer": 0,
+     "explain": "It also doesn't bill compute while waiting."
+    },
+    {
+     "q": "What language defines a state machine?",
+     "options": [
+      "SQL",
+      "Python",
+      "Amazon States Language (ASL), a JSON dialect",
+      "YAML only"
+     ],
+     "answer": 2,
+     "explain": "The example defines ValidateOrder → IsValid → ProcessPayment → ShipOrder."
+    },
+    {
+     "q": "What do Retry and Catch provide?",
+     "options": [
+      "Encryption",
+      "Faster Lambdas",
+      "Logging",
+      "Per-state exponential backoff and error branching without try/except code"
+     ],
+     "answer": 3,
+     "explain": "For example IntervalSeconds 2, MaxAttempts 3, BackoffRate 2.0."
+    },
+    {
+     "q": "What does the Choice state do?",
+     "options": [
+      "Runs in parallel",
+      "Ends the workflow",
+      "Waits",
+      "Branches on a condition, e.g. $.valid being true, with a Default branch"
+     ],
+     "answer": 3,
+     "explain": "Invalid orders go to RejectOrder."
+    }
+   ]
+  },
+  "level-3/04-advanced-iam": {
+   "questions": [
+    {
+     "q": "What can a Service Control Policy do?",
+     "options": [
+      "Create users",
+      "Rotate keys",
+      "Set a ceiling on what an account or OU can do; it never grants permissions",
+      "Grant admin access"
+     ],
+     "answer": 2,
+     "explain": "A user with AdministratorAccess still can't do what an SCP denies."
+    },
+    {
+     "q": "What does a permission boundary cap?",
+     "options": [
+      "Regions",
+      "Billing",
+      "An entire account",
+      "The maximum permissions of an individual role or user, even if admin policies are attached"
+     ],
+     "answer": 3,
+     "explain": "It lets teams create roles without privilege escalation."
+    },
+    {
+     "q": "Effective permissions are the ____ of the attached policy and the boundary.",
+     "options": [
+      "difference",
+      "sum",
+      "intersection",
+      "union"
+     ],
+     "answer": 2,
+     "explain": "AdministratorAccess on a bounded role is still capped at S3, Lambda and Logs."
+    },
+    {
+     "q": "What does NotAction with Deny in the region SCP do?",
+     "options": [
+      "Denies only IAM",
+      "Allows everything",
+      "Denies everything except a short list of global services, outside the approved regions",
+      "Grants access to all regions"
+     ],
+     "answer": 2,
+     "explain": "Common pattern for region lockdown."
+    }
+   ]
+  },
+  "level-3/05-terraform-on-aws": {
+   "questions": [
+    {
+     "q": "Which Terraform command previews changes before applying them?",
+     "options": [
+      "terraform init",
+      "terraform version",
+      "terraform destroy",
+      "terraform plan"
+     ],
+     "answer": 3,
+     "explain": "It is the equivalent of CloudFormation change sets; always read it before apply."
+    },
+    {
+     "q": "What is the biggest conceptual shift from CloudFormation?",
+     "options": [
+      "Terraform uses an explicit .tfstate file that you own",
+      "Terraform uses JSON only",
+      "Terraform is AWS only",
+      "Terraform has no state"
+     ],
+     "answer": 0,
+     "explain": "Losing or corrupting it leads to Terraform and AWS disagreeing about what exists."
+    },
+    {
+     "q": "Why store state remotely (S3 with DynamoDB locking) in production?",
+     "options": [
+      "It removes plans",
+      "Local state breaks when two people apply at once",
+      "Local state is encrypted",
+      "S3 is faster"
+     ],
+     "answer": 1,
+     "explain": "Locking prevents concurrent applies."
+    },
+    {
+     "q": "How does Terraform differ from CloudFormation in rollback on failure?",
+     "options": [
+      "Terraform rolls back automatically",
+      "Both roll back",
+      "Neither does",
+      "Terraform has no built-in rollback (manual), CloudFormation rolls back automatically"
+     ],
+     "answer": 3,
+     "explain": "From the comparison table."
+    }
+   ]
+  },
+  "level-3/06-cicd-codepipeline": {
+   "questions": [
+    {
+     "q": "What are the roles of CodePipeline, CodeBuild and CodeDeploy?",
+     "options": [
+      "Logging, tracing, metrics",
+      "Source, IAM, billing",
+      "Orchestration, build/test and deployment respectively",
+      "Storage, compute, network"
+     ],
+     "answer": 2,
+     "explain": "Together they form AWS's native pipeline."
+    },
+    {
+     "q": "Where does CodeBuild read its commands from?",
+     "options": [
+      "Dockerfile only",
+      "buildspec.yml in the repo root",
+      "A console textbox only",
+      "terraform.tfvars"
+     ],
+     "answer": 1,
+     "explain": "It has install, pre_build, build and post_build phases."
+    },
+    {
+     "q": "Why tag images with the commit SHA (CODEBUILD_RESOLVED_SOURCE_VERSION) instead of latest?",
+     "options": [
+      "It makes rollbacks to a specific prior build possible",
+      "latest is invalid",
+      "It is shorter",
+      "It speeds up pushes"
+     ],
+     "answer": 0,
+     "explain": "CodeBuild injects that variable automatically."
+    },
+    {
+     "q": "What stages does the example pipeline move an artifact through?",
+     "options": [
+      "Pull → Push",
+      "Test → Release",
+      "Plan → Apply",
+      "Source → Build → Deploy"
+     ],
+     "answer": 3,
+     "explain": "CodePipeline defines the stages."
+    }
+   ]
+  },
+  "level-3/07-multi-region-disaster-recovery": {
+   "questions": [
+    {
+     "q": "What is RTO?",
+     "options": [
+      "The monthly cost",
+      "How long you can tolerate being down",
+      "The replica count",
+      "How much data you can lose"
+     ],
+     "answer": 1,
+     "explain": "RPO is how much data you can tolerate losing."
+    },
+    {
+     "q": "Which DR strategy keeps only the database running in the DR region with compute scaled to zero?",
+     "options": [
+      "Warm Standby",
+      "Pilot Light",
+      "Backup & Restore",
+      "Active-Active"
+     ],
+     "answer": 1,
+     "explain": "On failover you promote the replica and scale up compute."
+    },
+    {
+     "q": "Which is the cheapest strategy and what is its RTO?",
+     "options": [
+      "Backup & Restore, with hours of RTO",
+      "Active-Active, near zero",
+      "Warm Standby, minutes",
+      "Pilot Light, seconds"
+     ],
+     "answer": 0,
+     "explain": "Nothing runs in the DR region until a declared disaster."
+    },
+    {
+     "q": "How should you pick a DR strategy?",
+     "options": [
+      "Always choose backups",
+      "Work backward from business requirements, not default to the most expensive",
+      "Always choose active-active",
+      "Choose randomly"
+     ],
+     "answer": 1,
+     "explain": "Costs rise with faster recovery."
+    }
+   ]
+  },
+  "level-3/08-advanced-monitoring-xray": {
+   "questions": [
+    {
+     "q": "What does X-Ray provide that per-resource logs don't?",
+     "options": [
+      "Bigger dashboards",
+      "Cheaper logs",
+      "Distributed tracing: one trace ID follows a request across every service it touches",
+      "Alerts only"
+     ],
+     "answer": 2,
+     "explain": "Segments sharing a trace ID are stitched into one trace shown as a service map."
+    },
+    {
+     "q": "What does Mode=PassThrough do on Lambda?",
+     "options": [
+      "Traces only if the incoming request already carries a trace header",
+      "Samples randomly",
+      "Disables tracing",
+      "Traces everything"
+     ],
+     "answer": 0,
+     "explain": "Mode=Active traces invocations subject to the sampling rule."
+    },
+    {
+     "q": "What does patch_all() do?",
+     "options": [
+      "Deploys code",
+      "Auto-instruments libraries such as boto3 and requests so calls appear as subsegments",
+      "Patches the OS",
+      "Encrypts traffic"
+     ],
+     "answer": 1,
+     "explain": "A DynamoDB get_item shows up with its own latency."
+    },
+    {
+     "q": "What does filter-expression 'service(\"validateOrder\") { fault }' find?",
+     "options": [
+      "All slow traces",
+      "Traces without errors",
+      "All traces",
+      "Traces where that service raised an error"
+     ],
+     "answer": 3,
+     "explain": "You can also filter by response time, status or annotations."
+    }
+   ]
+  },
+  "level-3/09-security-deep-dive": {
+   "questions": [
+    {
+     "q": "What does GuardDuty analyze?",
+     "options": [
+      "Billing data",
+      "Only S3 objects",
+      "Only application logs",
+      "VPC Flow Logs, DNS logs and CloudTrail events against threat intelligence and anomaly models, with no agents to install"
+     ],
+     "answer": 3,
+     "explain": "Findings are scored 1–10 by severity."
+    },
+    {
+     "q": "How does WAF differ from a security group?",
+     "options": [
+      "Security groups inspect HTTP",
+      "WAF inspects HTTP request content (SQLi patterns, rate limits, geo blocks); security groups filter by IP/port",
+      "They're identical",
+      "WAF filters ports"
+     ],
+     "answer": 1,
+     "explain": "WAF attaches to CloudFront, ALB or API Gateway."
+    },
+    {
+     "q": "What does Security Hub provide?",
+     "options": [
+      "Centralized findings",
+      "Rate limiting",
+      "Packet capture",
+      "Threat intelligence feeds"
+     ],
+     "answer": 0,
+     "explain": "It aggregates findings from services like GuardDuty."
+    },
+    {
+     "q": "How can high-severity GuardDuty findings trigger automated response?",
+     "options": [
+      "Manually every time",
+      "Email only",
+      "Via S3",
+      "Route them to EventBridge with a rule on severity"
+     ],
+     "answer": 3,
+     "explain": "The example matches severity >= 7."
+    }
+   ]
+  },
+  "level-3/10-project-cicd-pipeline": {
+   "questions": [
+    {
+     "q": "Why does the project promote the same image from staging to prod by SHA tag?",
+     "options": [
+      "The exact image tested in staging is what is promoted, never a rebuild",
+      "ECR requires it",
+      "Tags are cheaper",
+      "Staging can't build"
+     ],
+     "answer": 0,
+     "explain": "Two clusters share one ECR repository."
+    },
+    {
+     "q": "What does the Manual Approval stage do?",
+     "options": [
+      "Builds images",
+      "Runs tests",
+      "Rolls back",
+      "A human approves in the console or CLI before Deploy-Prod"
+     ],
+     "answer": 3,
+     "explain": "It sits between Deploy-Staging and Deploy-Prod."
+    },
+    {
+     "q": "What does least privilege mean for the CodeBuild role here?",
+     "options": [
+      "No access",
+      "Only read logs",
+      "It can push to ECR, write logs and read source, but cannot call ecs:UpdateService",
+      "Admin access"
+     ],
+     "answer": 2,
+     "explain": "Each role gets only what its stage needs."
+    },
+    {
+     "q": "How is production deployed in the pipeline?",
+     "options": [
+      "Blue/green via CodeDeploy to ECS",
+      "Manual SSH",
+      "Terraform destroy",
+      "Direct docker run"
+     ],
+     "answer": 0,
+     "explain": "Deploy-Prod targets the prod cluster."
+    }
+   ]
+  },
+  "level-4/01-well-architected-framework": {
+   "questions": [
+    {
+     "q": "How many pillars does the Well-Architected Framework have?",
+     "options": [
+      "Four",
+      "Three",
+      "Ten",
+      "Six"
+     ],
+     "answer": 3,
+     "explain": "Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization and Sustainability."
+    },
+    {
+     "q": "Which pillar asks 'Are you spending money only where it delivers value?'",
+     "options": [
+      "Cost Optimization",
+      "Security",
+      "Sustainability",
+      "Reliability"
+     ],
+     "answer": 0,
+     "explain": "Each pillar has a core question."
+    },
+    {
+     "q": "What does a Well-Architected review make you do about trade-offs?",
+     "options": [
+      "Ignore costs",
+      "Maximize reliability always",
+      "State them deliberately rather than by accident",
+      "Avoid them"
+     ],
+     "answer": 2,
+     "explain": "Higher reliability usually costs more."
+    },
+    {
+     "q": "What do unanswered questions surface as?",
+     "options": [
+      "Billing alerts",
+      "Risks, flagged as High or Medium Risk Issues",
+      "Warnings in IAM",
+      "Errors"
+     ],
+     "answer": 1,
+     "explain": "The lens review report summarizes high and medium risks per pillar."
+    }
+   ]
+  },
+  "level-4/02-advanced-serverless-eventbridge": {
+   "questions": [
+    {
+     "q": "Why create custom event buses per domain?",
+     "options": [
+      "Default buses are paid",
+      "So application events don't mix with AWS service events, and cross-account access can be scoped per bus",
+      "They're faster",
+      "They're required"
+     ],
+     "answer": 1,
+     "explain": "The default bus receives AWS service events."
+    },
+    {
+     "q": "What does put-permission allow?",
+     "options": [
+      "Another AWS account to publish to your bus without sharing credentials",
+      "Deleting the bus",
+      "Reading logs",
+      "Public publishing"
+     ],
+     "answer": 0,
+     "explain": "The shipping account uses its own IAM role."
+    },
+    {
+     "q": "What does content-based pattern matching on detail.tier achieve?",
+     "options": [
+      "Events are deleted",
+      "priorityFulfillment fires only for enterprise orders with no tier check in code",
+      "Events are encrypted",
+      "All events trigger it"
+     ],
+     "answer": 1,
+     "explain": "The filtering happens at the bus level."
+    },
+    {
+     "q": "What does the schema registry offer?",
+     "options": [
+      "Inferred schemas and generated typed code bindings, turning field knowledge from tribal to explicit",
+      "DNS",
+      "Logging",
+      "Backups"
+     ],
+     "answer": 0,
+     "explain": "For example OrderPlaced schemas for consumers."
+    }
+   ]
+  },
+  "level-4/03-data-lakes-analytics": {
+   "questions": [
+    {
+     "q": "What is the data lake pattern in this lesson?",
+     "options": [
+      "A VPN",
+      "A relational database with triggers",
+      "A message queue",
+      "Raw data in S3, described by the Glue Data Catalog and queried in place by Athena"
+     ],
+     "answer": 3,
+     "explain": "No data movement and no cluster to manage for ad-hoc queries."
+    },
+    {
+     "q": "Why partition S3 data by folders like year=2026/month=08/?",
+     "options": [
+      "It encrypts data",
+      "Query engines skip irrelevant partitions, which cuts cost since Athena bills per byte scanned",
+      "It makes files smaller",
+      "S3 requires it"
+     ],
+     "answer": 1,
+     "explain": "Columnar compressed formats such as Parquet help too."
+    },
+    {
+     "q": "What does a Glue crawler do?",
+     "options": [
+      "Deploys Lambda",
+      "Copies data to Redshift",
+      "Infers schema and partitions from the S3 layout and registers a table in the Data Catalog",
+      "Runs SQL"
+     ],
+     "answer": 2,
+     "explain": "Athena, Redshift Spectrum and EMR can all use the same catalog entry."
+    },
+    {
+     "q": "How is Athena billed?",
+     "options": [
+      "Flat monthly",
+      "Per user",
+      "Per query, by bytes scanned",
+      "Per hour of cluster"
+     ],
+     "answer": 2,
+     "explain": "It has no persistent infrastructure to provision."
+    }
+   ]
+  },
+  "level-4/04-eks-at-scale": {
+   "questions": [
+    {
+     "q": "How does Karpenter differ from Cluster Autoscaler?",
+     "options": [
+      "It doesn't support spot",
+      "It scales only existing ASGs",
+      "It is slower",
+      "It provisions right-sized nodes directly for pending pods without ASGs, within seconds"
+     ],
+     "answer": 3,
+     "explain": "It can mix spot and on-demand and consolidates underutilized nodes."
+    },
+    {
+     "q": "What does a Karpenter NodePool define?",
+     "options": [
+      "Pod specs",
+      "Secrets",
+      "Network policies",
+      "What kinds of nodes it's allowed to launch, e.g. instance categories and capacity types, with limits"
+     ],
+     "answer": 3,
+     "explain": "The example allows c, m and r categories on spot or on-demand."
+    },
+    {
+     "q": "What does GitOps with Argo CD mean?",
+     "options": [
+      "Manual deploys",
+      "Git as a database",
+      "The cluster continuously reconciles from a Git repo instead of kubectl apply from a laptop",
+      "Argo builds images"
+     ],
+     "answer": 2,
+     "explain": "The Application points at a repoURL, revision and path."
+    },
+    {
+     "q": "What do managed node groups do that self-managed ones don't?",
+     "options": [
+      "Handle draining and rolling updates for you",
+      "Provide more control over AMI",
+      "Replace Karpenter",
+      "Cost nothing"
+     ],
+     "answer": 0,
+     "explain": "Self-managed gives full control but requires reimplementing that lifecycle."
+    }
+   ]
+  },
+  "level-4/05-multi-account-strategy": {
+   "questions": [
+    {
+     "q": "Why use multiple AWS accounts?",
+     "options": [
+      "Hard blast-radius boundaries: billing, quotas and IAM are already account-scoped",
+      "AWS requires it",
+      "To avoid IAM",
+      "It's cheaper always"
+     ],
+     "answer": 0,
+     "explain": "One team's mistake can't affect another's production."
+    },
+    {
+     "q": "What does Control Tower automate?",
+     "options": [
+      "The landing zone: log archive and audit accounts, baseline SCPs and an Account Factory for compliant new accounts",
+      "Backups",
+      "Code builds",
+      "DNS"
+     ],
+     "answer": 0,
+     "explain": "New accounts are compliant from creation."
+    },
+    {
+     "q": "What is the difference between detective and preventive guardrails?",
+     "options": [
+      "They're the same",
+      "Detective flags non-compliant resources via Config rules; preventive blocks actions outright via SCPs",
+      "Preventive only logs",
+      "Detective blocks"
+     ],
+     "answer": 1,
+     "explain": "Control Tower enforces both."
+    },
+    {
+     "q": "Which is a typical OU?",
+     "options": [
+      "Users, Groups, Roles",
+      "Region-1, Region-2",
+      "Dev, Test only",
+      "Security, Infrastructure, Workloads/Prod, Workloads/NonProd, Sandbox"
+     ],
+     "answer": 3,
+     "explain": "Each OU carries its own SCPs."
+    }
+   ]
+  },
+  "level-4/06-cost-optimization-at-scale": {
+   "questions": [
+    {
+     "q": "Which commitment is the most flexible?",
+     "options": [
+      "Spot",
+      "Standard RIs",
+      "Compute Savings Plans, applying across EC2, Fargate and Lambda",
+      "On-Demand"
+     ],
+     "answer": 2,
+     "explain": "They give a slightly lower discount than instance-family-locked options."
+    },
+    {
+     "q": "What do Spot Instances offer and risk?",
+     "options": [
+      "The largest discount, but they can be reclaimed",
+      "Guaranteed uptime",
+      "Fixed price",
+      "No discount, no risk"
+     ],
+     "answer": 0,
+     "explain": "Use them for interruption-tolerant workloads."
+    },
+    {
+     "q": "What does capacityOptimized allocation pick?",
+     "options": [
+      "On-demand only",
+      "Spot pools with the deepest available capacity (lowest interruption risk) rather than the cheapest price",
+      "Random pools",
+      "The cheapest pool"
+     ],
+     "answer": 1,
+     "explain": "Mixing several instance types widens the pool."
+    },
+    {
+     "q": "What does get-savings-plans-purchase-recommendation do?",
+     "options": [
+      "Lists tags",
+      "Deletes unused plans",
+      "Buys a plan automatically",
+      "Analyzes recent usage and recommends a commitment level that covers steady state without over-committing"
+     ],
+     "answer": 3,
+     "explain": "It looks back 30 or 60 days."
+    }
+   ]
+  },
+  "level-4/07-advanced-networking": {
+   "questions": [
+    {
+     "q": "How does Direct Connect differ from a VPN?",
+     "options": [
+      "A dedicated physical connection that bypasses the public internet; a VPN still traverses it",
+      "They are identical",
+      "Direct Connect uses the internet",
+      "A VPN is physical"
+     ],
+     "answer": 0,
+     "explain": "VPN has variable latency and shared bandwidth."
+    },
+    {
+     "q": "Why does Direct Connect provisioning take days to weeks?",
+     "options": [
+      "AWS is slow",
+      "It is physical: a provider uses AWS's Letter of Authorization to cross-connect at the location",
+      "DNS propagation",
+      "It needs approval from IAM"
+     ],
+     "answer": 1,
+     "explain": "Unlike every other resource in the path."
+    },
+    {
+     "q": "What does a public VIF reach?",
+     "options": [
+      "Nothing",
+      "AWS public service endpoints such as S3 and DynamoDB over the dedicated link",
+      "Only on-premises",
+      "Only a VPC"
+     ],
+     "answer": 1,
+     "explain": "A private VIF connects to a VPC; a transit VIF to a Direct Connect gateway."
+    },
+    {
+     "q": "What is the production practice for Direct Connect resiliency?",
+     "options": [
+      "A single connection is enough",
+      "Keep a Site-to-Site VPN as backup, failing over via BGP route priority",
+      "Disable BGP",
+      "Use only public internet"
+     ],
+     "answer": 1,
+     "explain": "The highest resiliency is separate connections at two locations with diverse providers."
+    }
+   ]
+  },
+  "level-4/08-compliance-governance": {
+   "questions": [
+    {
+     "q": "What does AWS Config do?",
+     "options": [
+      "Records every resource's configuration and changes and evaluates them against rules",
+      "Runs builds",
+      "Stores secrets",
+      "Blocks attackers"
+     ],
+     "answer": 0,
+     "explain": "A NON_COMPLIANT finding shows which resource drifted and when."
+    },
+    {
+     "q": "How can Config rules be evaluated?",
+     "options": [
+      "Only manually",
+      "On change (near-real-time) or on a periodic schedule",
+      "Only daily",
+      "Only at account creation"
+     ],
+     "answer": 1,
+     "explain": "Unlike a point-in-time manual audit."
+    },
+    {
+     "q": "What is the lesson's advice on auto-remediation?",
+     "options": [
+      "Apply to everything",
+      "Good for well-understood low-risk fixes; test with Automatic: false first and review before auto-apply",
+      "Never use it",
+      "Always enable it"
+     ],
+     "answer": 1,
+     "explain": "It could disrupt legitimate configurations."
+    },
+    {
+     "q": "How does compliance differ from threat detection?",
+     "options": [
+      "They're identical",
+      "Compliance blocks DDoS",
+      "Compliance verifies resources stay configured as policy requires and produces audit evidence",
+      "Detection is policy"
+     ],
+     "answer": 2,
+     "explain": "Examples: encryption enabled, no public S3 buckets."
+    }
+   ]
+  },
+  "level-4/09-chaos-engineering-resilience": {
+   "questions": [
+    {
+     "q": "What is chaos engineering?",
+     "options": [
+      "Random deployments",
+      "Deleting backups",
+      "Load testing only",
+      "Deliberately injecting failures in a controlled way to see if the design survives them"
+     ],
+     "answer": 3,
+     "explain": "It's better than finding out in a real outage."
+    },
+    {
+     "q": "What makes FIS experiments safe on real infrastructure?",
+     "options": [
+      "stopConditions, such as a CloudWatch alarm that halts the experiment",
+      "Disabling alarms",
+      "Using only AMIs",
+      "Running them in production blindly"
+     ],
+     "answer": 0,
+     "explain": "FIS halts if the high-error-rate alarm fires."
+    },
+    {
+     "q": "Which action simulates a network partition between AZs?",
+     "options": [
+      "aws:network:disrupt-connectivity",
+      "aws:eks:pod-delete",
+      "aws:ecs:stop-task",
+      "aws:ec2:terminate-instances"
+     ],
+     "answer": 0,
+     "explain": "It directly tests multi-AZ reliability claims."
+    },
+    {
+     "q": "What does PERCENT(50) selectionMode do in the template?",
+     "options": [
+      "Targets half of the matching tagged instances",
+      "Costs 50% less",
+      "Waits 50 seconds",
+      "Stops 50% of traffic"
+     ],
+     "answer": 0,
+     "explain": "The resourceTags select staging training-app instances."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What goes in the log-archive account?",
+     "options": [
+      "Transit Gateway",
+      "The EKS cluster",
+      "Org CloudTrail and the Config aggregator",
+      "Prod ECR images"
+     ],
+     "answer": 2,
+     "explain": "It sits in the Security OU."
+    },
+    {
+     "q": "How is the Transit Gateway shared to workload accounts?",
+     "options": [
+      "By copying",
+      "By VPN",
+      "By IAM user",
+      "Via RAM (Resource Access Manager) to the Workloads OU"
+     ],
+     "answer": 3,
+     "explain": "The network account owns the TGW."
+    },
+    {
+     "q": "Why does remote Terraform state with DynamoDB locking live in a shared account bucket?",
+     "options": [
+      "It's cheaper",
+      "To avoid plans",
+      "Both staging and prod pipelines share the same backend safely",
+      "Terraform requires S3"
+     ],
+     "answer": 2,
+     "explain": "It prevents concurrent applies from corrupting state."
+    },
+    {
+     "q": "What do the OU-level SCPs do in the capstone?",
+     "options": [
+      "Restrict regions and block root-user API calls org-wide",
+      "Create accounts",
+      "Deploy code",
+      "Grant admin access"
+     ],
+     "answer": 0,
+     "explain": "New accounts come from Control Tower's Account Factory."
+    }
+   ]
+  }
+ }
+}
