@@ -1,0 +1,2152 @@
+{
+ "course": "ml-math-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-why-math-matters": {
+   "questions": [
+    {
+     "q": "What are the three mathematical pillars of ML in this lesson?",
+     "options": [
+      "Linear algebra, calculus and probability & statistics",
+      "Algebra, graph theory and number theory",
+      "Geometry, trigonometry and logic",
+      "Statistics, discrete math and topology"
+     ],
+     "answer": 0,
+     "explain": "Data and parameters are vectors and matrices; training needs derivatives; loss functions come from probability."
+    },
+    {
+     "q": "What do the symbols in θ_new = θ_old − α∇J(θ) mean?",
+     "options": [
+      "J is the dataset",
+      "∇J is the learning rate",
+      "θ is a parameter vector, ∇J the gradient of the cost, α a scalar learning rate",
+      "θ is a scalar, α a vector"
+     ],
+     "answer": 2,
+     "explain": "It's the gradient descent update."
+    },
+    {
+     "q": "Why is calculus needed for training?",
+     "options": [
+      "It splits datasets",
+      "It makes data larger",
+      "The derivative of the error tells you which direction to adjust each parameter",
+      "It encodes labels"
+     ],
+     "answer": 2,
+     "explain": "It is the mechanism of learning."
+    },
+    {
+     "q": "Why does the lesson say math matters even if .fit() runs without it?",
+     "options": [
+      "Libraries require math",
+      "It is needed for installing",
+      "When training diverges, loss becomes NaN or a model won't learn, the math is the only way through",
+      "Math speeds up .fit()"
+     ],
+     "answer": 2,
+     "explain": "It also helps you read papers' notation."
+    }
+   ]
+  },
+  "level-1/02-scalars-vectors-matrices": {
+   "questions": [
+    {
+     "q": "A dataset has n examples with d features each. What is its matrix shape?",
+     "options": [
+      "n × n",
+      "d × d",
+      "d × n, one row per example",
+      "n × d, one row per example"
+     ],
+     "answer": 3,
+     "explain": "Each row is an example vector and each column a feature."
+    },
+    {
+     "q": "What does 'rows first, columns second' mean for a 3 × 2 matrix?",
+     "options": [
+      "6 rows",
+      "3 columns only",
+      "2 rows and 3 columns",
+      "3 rows and 2 columns"
+     ],
+     "answer": 3,
+     "explain": "Entry a_ij is row i, column j."
+    },
+    {
+     "q": "What is a tensor?",
+     "options": [
+      "A single number",
+      "A 2D matrix only",
+      "A generalization with more axes, like a batch of images stacked into 3D/4D",
+      "A scalar list"
+     ],
+     "answer": 2,
+     "explain": "Level 1 sticks to scalars, vectors and matrices."
+    },
+    {
+     "q": "What does the identity matrix do when you multiply by it?",
+     "options": [
+      "Transposes it",
+      "Zeroes the matrix",
+      "Changes nothing, like the number 1",
+      "Doubles it"
+     ],
+     "answer": 2,
+     "explain": "It has 1s on the diagonal and 0s elsewhere."
+    }
+   ]
+  },
+  "level-1/03-vector-operations": {
+   "questions": [
+    {
+     "q": "What is the dot product of [1,2,3] and [4,5,6]?",
+     "options": [
+      "32",
+      "6",
+      "15",
+      "21"
+     ],
+     "answer": 0,
+     "explain": "1·4 + 2·5 + 3·6 = 4 + 10 + 18."
+    },
+    {
+     "q": "What does a dot product of 0 tell you about two vectors?",
+     "options": [
+      "One is zero-length only",
+      "They point the same way",
+      "They are identical",
+      "They are orthogonal (perpendicular)"
+     ],
+     "answer": 3,
+     "explain": "u·v = ‖u‖‖v‖cos θ, which is 0 at 90°."
+    },
+    {
+     "q": "What is the Euclidean norm of [3, 4]?",
+     "options": [
+      "25",
+      "7",
+      "5",
+      "12"
+     ],
+     "answer": 2,
+     "explain": "√(9 + 16) = √25."
+    },
+    {
+     "q": "What does a linear model's prediction ŷ = w·x correspond to?",
+     "options": [
+      "A transpose",
+      "A scalar multiple only",
+      "A norm",
+      "A dot product of weights and features"
+     ],
+     "answer": 3,
+     "explain": "Every linear layer in a neural network is a stack of dot products; cosine similarity compares embeddings."
+    }
+   ]
+  },
+  "level-1/04-matrix-operations": {
+   "questions": [
+    {
+     "q": "For AB to be defined with A (m×n) and B (p×q), what must hold?",
+     "options": [
+      "m = q",
+      "n = p, and the result is m × q",
+      "n = q",
+      "m = p"
+     ],
+     "answer": 1,
+     "explain": "The inner dimensions must match."
+    },
+    {
+     "q": "For A = [[1,2],[3,4]] and B = [[5,6],[7,8]], what is (AB)₁₁?",
+     "options": [
+      "5",
+      "23",
+      "19",
+      "29"
+     ],
+     "answer": 2,
+     "explain": "1·5 + 2·7 = 19."
+    },
+    {
+     "q": "Is matrix multiplication commutative?",
+     "options": [
+      "Yes always",
+      "Only for vectors",
+      "No, AB ≠ BA in general",
+      "Only for square matrices"
+     ],
+     "answer": 2,
+     "explain": "Check it yourself in the exercise."
+    },
+    {
+     "q": "What does ŷ = Xw compute?",
+     "options": [
+      "One prediction",
+      "The loss",
+      "All n predictions at once",
+      "The gradient"
+     ],
+     "answer": 2,
+     "explain": "X is n × d and w is d × 1."
+    }
+   ]
+  },
+  "level-1/05-functions-graphs": {
+   "questions": [
+    {
+     "q": "What is training a model, in terms of the cost function J(θ)?",
+     "options": [
+      "Setting θ to 0",
+      "Finding the input θ that minimizes J",
+      "Maximizing J",
+      "Plotting J"
+     ],
+     "answer": 1,
+     "explain": "J takes parameters as input and outputs how wrong the model is."
+    },
+    {
+     "q": "Why can gradient descent reliably find the minimum of a linear regression cost?",
+     "options": [
+      "It's linear",
+      "It's flat",
+      "It's random",
+      "It is a quadratic 'bowl' with one unique minimum"
+     ],
+     "answer": 3,
+     "explain": "A parabola with a > 0 opens upward with a single minimum."
+    },
+    {
+     "q": "What is a composite function?",
+     "options": [
+      "One function plugged into another, h(x) = f(g(x))",
+      "A product of functions",
+      "A constant",
+      "A sum of functions"
+     ],
+     "answer": 0,
+     "explain": "A neural network is a long chain of compositions, differentiated by the chain rule."
+    },
+    {
+     "q": "What is the average rate of change between x₁ and x₂?",
+     "options": [
+      "The slope of the secant line: (f(x₂) − f(x₁)) / (x₂ − x₁)",
+      "The derivative at x₁",
+      "The area",
+      "The value f(x₂)"
+     ],
+     "answer": 0,
+     "explain": "Shrinking the gap to zero gives the instantaneous rate of change."
+    }
+   ]
+  },
+  "level-1/06-what-is-a-derivative": {
+   "questions": [
+    {
+     "q": "What is the derivative geometrically?",
+     "options": [
+      "The area under the curve",
+      "The maximum",
+      "The slope of the tangent line at a point",
+      "The length of the curve"
+     ],
+     "answer": 2,
+     "explain": "It's the instantaneous rate of change."
+    },
+    {
+     "q": "What is f'(x) for f(x) = x² derived from first principles?",
+     "options": [
+      "2x",
+      "x",
+      "2",
+      "x²"
+     ],
+     "answer": 0,
+     "explain": "Expanding (x+h)² and cancelling h gives lim (2x + h) = 2x."
+    },
+    {
+     "q": "Using h = 0.001 at x = 3 for f(x) = x², the finite-difference estimate is?",
+     "options": [
+      "0.006",
+      "9.006",
+      "3",
+      "6.001"
+     ],
+     "answer": 3,
+     "explain": "(9.006001 − 9)/0.001 = 6.001, close to the exact 6."
+    },
+    {
+     "q": "Where f'(x) = 0, what does the tangent look like and why does it matter for ML?",
+     "options": [
+      "It is vertical",
+      "It is undefined",
+      "It is flat, marking a candidate minimum, maximum or saddle; minima of the cost occur there",
+      "It is steepest"
+     ],
+     "answer": 2,
+     "explain": "That's why derivatives matter for training."
+    }
+   ]
+  },
+  "level-1/07-derivative-rules": {
+   "questions": [
+    {
+     "q": "What is d/dx[x³] by the power rule?",
+     "options": [
+      "x²",
+      "3x²",
+      "3x³",
+      "x⁴"
+     ],
+     "answer": 1,
+     "explain": "n·x^(n−1) with n = 3."
+    },
+    {
+     "q": "What is the derivative of f(x) = 3x² + 4x + 7?",
+     "options": [
+      "6x²",
+      "3x + 4",
+      "6x + 4",
+      "6x + 4 + 7"
+     ],
+     "answer": 2,
+     "explain": "The sum rule works term by term; the constant's derivative is 0."
+    },
+    {
+     "q": "For h(x) = (3x + 1)², what is h'(x) by the chain rule?",
+     "options": [
+      "2(3x + 1)",
+      "6x + 1",
+      "18x + 6",
+      "9x"
+     ],
+     "answer": 2,
+     "explain": "Outer derivative 2(3x+1) times inner derivative 3, which equals 18x + 6."
+    },
+    {
+     "q": "Why is the chain rule the most important rule for ML?",
+     "options": [
+      "It simplifies sums",
+      "It handles constants",
+      "It finds integrals",
+      "It is the mathematical mechanism behind backpropagation, since a network is a composition of functions"
+     ],
+     "answer": 3,
+     "explain": "Backpropagation is covered in Level 3."
+    }
+   ]
+  },
+  "level-1/08-partial-derivatives-gradients": {
+   "questions": [
+    {
+     "q": "What is ∂f/∂x for f(x,y) = x²y + 3y² + 5x?",
+     "options": [
+      "2xy + 5",
+      "2xy + 6y + 5",
+      "2x + 5",
+      "x² + 6y"
+     ],
+     "answer": 0,
+     "explain": "Treat y as a constant: x²y gives 2xy, 3y² gives 0, and 5x gives 5."
+    },
+    {
+     "q": "What is the gradient ∇f?",
+     "options": [
+      "A scalar",
+      "A vector of all partial derivatives",
+      "A matrix of second derivatives",
+      "A single derivative"
+     ],
+     "answer": 1,
+     "explain": "For the example, ∇f = [2xy + 5, x² + 6y]."
+    },
+    {
+     "q": "What does ∇f(2, 1) equal for that function?",
+     "options": [
+      "[5, 6]",
+      "[9, 10]",
+      "[4, 10]",
+      "[9, 4]"
+     ],
+     "answer": 1,
+     "explain": "2(2)(1) + 5 = 9 and 2² + 6(1) = 10."
+    },
+    {
+     "q": "Which direction does −∇f point?",
+     "options": [
+      "Flat",
+      "Steepest increase",
+      "The direction of steepest decrease, which is why gradient descent steps along it",
+      "Perpendicular"
+     ],
+     "answer": 2,
+     "explain": "It's the locally best direction to reduce the cost."
+    }
+   ]
+  },
+  "level-1/09-linear-regression-math": {
+   "questions": [
+    {
+     "q": "What cost function does the lesson use for linear regression?",
+     "options": [
+      "Cross-entropy",
+      "Mean squared error J(w,b) = (1/n) Σ (wx_i + b − y_i)²",
+      "Mean absolute error",
+      "Hinge loss"
+     ],
+     "answer": 1,
+     "explain": "A function of two variables, w and b."
+    },
+    {
+     "q": "What is ∂J/∂b for that cost?",
+     "options": [
+      "(2/n) Σ (wx_i + b − y_i)",
+      "(2/n) Σ x_i(wx_i + b − y_i)",
+      "2b",
+      "(1/n) Σ x_i"
+     ],
+     "answer": 0,
+     "explain": "By the chain rule ∂u_i/∂b = 1; for w it's x_i."
+    },
+    {
+     "q": "Why does the cost have a single global minimum?",
+     "options": [
+      "It is quadratic in (w, b), a bowl shape",
+      "It's random",
+      "It's linear",
+      "It's discontinuous"
+     ],
+     "answer": 0,
+     "explain": "Set both partial derivatives to zero to solve."
+    },
+    {
+     "q": "What does the closed-form b* equal?",
+     "options": [
+      "ȳ − w*x̄",
+      "w*x̄",
+      "ȳ + w*x̄",
+      "x̄ − ȳ"
+     ],
+     "answer": 0,
+     "explain": "With w* = Σ(x−x̄)(y−ȳ)/Σ(x−x̄)²."
+    }
+   ]
+  },
+  "level-1/10-capstone-gradient": {
+   "questions": [
+    {
+     "q": "For J(w,b) = (w−3)² + (b+2)² + wb, what is ∂J/∂w?",
+     "options": [
+      "2w + b",
+      "2(w − 3) + w",
+      "2(b + 2) + w",
+      "2(w − 3) + b"
+     ],
+     "answer": 3,
+     "explain": "The (b+2)² term has no w, and wb differentiates to b."
+    },
+    {
+     "q": "What is ∇J(1, 1)?",
+     "options": [
+      "[−3, 6]",
+      "[3, −7]",
+      "[−3, 7]",
+      "[−4, 6]"
+     ],
+     "answer": 2,
+     "explain": "2(1−3)+1 = −3 and 2(1+2)+1 = 7."
+    },
+    {
+     "q": "What is J(1, 1)?",
+     "options": [
+      "9",
+      "4",
+      "14",
+      "13"
+     ],
+     "answer": 2,
+     "explain": "4 + 9 + 1."
+    },
+    {
+     "q": "Why verify a hand-derived gradient numerically in NumPy?",
+     "options": [
+      "To speed up training",
+      "To cross-check the hand work against finite differences",
+      "To avoid calculus",
+      "To change the cost"
+     ],
+     "answer": 1,
+     "explain": "Both a symbolic formula and a numerical check are compared."
+    }
+   ]
+  },
+  "level-2/01-gradient-descent": {
+   "questions": [
+    {
+     "q": "What is the gradient descent update?",
+     "options": [
+      "θ_{t+1} = θ_t − α∇J(θ_t)",
+      "θ_{t+1} = θ_t + α∇J(θ_t)",
+      "θ_{t+1} = α∇J",
+      "θ_{t+1} = θ_t"
+     ],
+     "answer": 0,
+     "explain": "α is the learning rate."
+    },
+    {
+     "q": "For J(θ) = (θ−3)² + 2, starting at 0 with α = 0.3, what is θ₁?",
+     "options": [
+      "1.8",
+      "−1.8",
+      "3",
+      "0.6"
+     ],
+     "answer": 0,
+     "explain": "J'(0) = −6, so θ₁ = 0 − 0.3(−6) = 1.8."
+    },
+    {
+     "q": "By what factor does the distance to the minimum shrink each step in that example?",
+     "options": [
+      "0.6",
+      "0.4 (1 − 2α)",
+      "2",
+      "0.3"
+     ],
+     "answer": 1,
+     "explain": "The contraction factor is |1 − 2α|."
+    },
+    {
+     "q": "What happens for that quadratic when α > 1?",
+     "options": [
+      "It diverges, since |1 − 2α| exceeds 1",
+      "It converges faster",
+      "It oscillates forever",
+      "It stays at 0"
+     ],
+     "answer": 0,
+     "explain": "Too small a rate is slow; α near 0.5 converges in one step here."
+    }
+   ]
+  },
+  "level-2/02-chain-rule-deep-dive": {
+   "questions": [
+    {
+     "q": "What is the multivariable chain rule for z = f(x,y) with x(t), y(t)?",
+     "options": [
+      "dz/dt = ∂f/∂t",
+      "dz/dt = ∂f/∂x · ∂f/∂y",
+      "dz/dt = dx/dt · dy/dt",
+      "dz/dt = ∂f/∂x · dx/dt + ∂f/∂y · dy/dt"
+     ],
+     "answer": 3,
+     "explain": "Each path from t to z contributes a term."
+    },
+    {
+     "q": "For z = x²y, x = t², y = 3t, what is dz/dt?",
+     "options": [
+      "3t⁵",
+      "12t⁴",
+      "6t⁴",
+      "15t⁴"
+     ],
+     "answer": 3,
+     "explain": "z = 3t⁵ by substitution, so dz/dt = 15t⁴."
+    },
+    {
+     "q": "Why does this rule matter for ML?",
+     "options": [
+      "It splits data",
+      "It speeds up sorting",
+      "It makes backpropagation possible: each layer contributes a gradient term combined via dot products along the graph",
+      "It encodes labels"
+     ],
+     "answer": 2,
+     "explain": "Neural networks compose many multivariable functions."
+    },
+    {
+     "q": "What does the numeric check at t = 2 expect?",
+     "options": [
+      "15",
+      "60",
+      "0.9375",
+      "exact and numeric both 240"
+     ],
+     "answer": 3,
+     "explain": "15·2⁴ = 240."
+    }
+   ]
+  },
+  "level-2/03-jacobians-hessians": {
+   "questions": [
+    {
+     "q": "What shape is the Jacobian of f: ℝⁿ → ℝᵐ?",
+     "options": [
+      "n × n",
+      "m × m",
+      "m × n",
+      "n × m"
+     ],
+     "answer": 2,
+     "explain": "Row i is ∇f_i transposed: all the per-output gradients stacked."
+    },
+    {
+     "q": "What is the Jacobian of f(x,y) = (x²y, x + y²) at (1, 2)?",
+     "options": [
+      "[[4, 1], [1, 4]]",
+      "[[2, 1], [1, 4]]",
+      "[[1, 4], [4, 1]]",
+      "[[4, 1], [1, 2]]"
+     ],
+     "answer": 0,
+     "explain": "J = [[2xy, x²], [1, 2y]]."
+    },
+    {
+     "q": "What does the Hessian contain?",
+     "options": [
+      "First partials",
+      "Eigenvectors",
+      "The gradient",
+      "Second partial derivatives of a scalar function, describing local curvature"
+     ],
+     "answer": 3,
+     "explain": "For smooth functions it is symmetric."
+    },
+    {
+     "q": "All Hessian eigenvalues are positive at a critical point. What is it?",
+     "options": [
+      "A saddle",
+      "A minimum",
+      "A maximum",
+      "Undefined"
+     ],
+     "answer": 1,
+     "explain": "All negative means maximum; mixed signs means saddle."
+    }
+   ]
+  },
+  "level-2/04-eigenvalues-eigenvectors": {
+   "questions": [
+    {
+     "q": "What is an eigenvector of a square matrix A?",
+     "options": [
+      "A zero vector",
+      "A vector A rotates",
+      "A nonzero v with Av = λv, which A only scales without changing its direction",
+      "A row of A"
+     ],
+     "answer": 2,
+     "explain": "λ is its eigenvalue."
+    },
+    {
+     "q": "How are eigenvalues found?",
+     "options": [
+      "By transposing A",
+      "By summing entries",
+      "By solving the characteristic equation det(A − λI) = 0",
+      "By inverting A"
+     ],
+     "answer": 2,
+     "explain": "A − λI must be singular for a nonzero v to exist."
+    },
+    {
+     "q": "What are the eigenvalues of A = [[4,1],[2,3]]?",
+     "options": [
+      "4 and 3",
+      "5 and 2",
+      "7 and 10",
+      "1 and 2"
+     ],
+     "answer": 1,
+     "explain": "λ² − 7λ + 10 = 0 gives (λ − 5)(λ − 2) = 0."
+    },
+    {
+     "q": "Which property do symmetric matrices like covariance and Hessians have?",
+     "options": [
+      "No eigenvalues",
+      "Real eigenvalues and orthogonal eigenvectors",
+      "Identical eigenvalues",
+      "Complex eigenvalues only"
+     ],
+     "answer": 1,
+     "explain": "For PCA, eigenvectors of the covariance matrix are the principal directions."
+    }
+   ]
+  },
+  "level-2/05-matrix-decompositions": {
+   "questions": [
+    {
+     "q": "Which decomposition applies to any matrix, even non-square?",
+     "options": [
+      "Eigendecomposition",
+      "QR only",
+      "LU only",
+      "SVD: A = UΣVᵀ"
+     ],
+     "answer": 3,
+     "explain": "Eigendecomposition needs a square matrix."
+    },
+    {
+     "q": "How do singular values relate to eigenvalues?",
+     "options": [
+      "σ_i = λ_i(A)",
+      "σ_i = λ_i²",
+      "They're unrelated",
+      "σ_i = √λ_i(AᵀA)"
+     ],
+     "answer": 3,
+     "explain": "They're non-negative and sorted descending."
+    },
+    {
+     "q": "For a symmetric A, eigendecomposition becomes?",
+     "options": [
+      "A = LU",
+      "A = VΛVᵀ with orthogonal V",
+      "A = UΣ",
+      "A = VΛV⁻¹ only"
+     ],
+     "answer": 1,
+     "explain": "Because V⁻¹ = Vᵀ when V is orthogonal."
+    },
+    {
+     "q": "For A = diag(3, −2), what are the singular values?",
+     "options": [
+      "1 and 1",
+      "3 and −2",
+      "3 and 2",
+      "9 and 4"
+     ],
+     "answer": 2,
+     "explain": "AᵀA has eigenvalues 9 and 4, so σ = 3 and 2."
+    }
+   ]
+  },
+  "level-2/06-probability-basics": {
+   "questions": [
+    {
+     "q": "What is P(A ∪ B) in general?",
+     "options": [
+      "P(A) + P(B) − P(A ∩ B)",
+      "P(A) + P(B)",
+      "P(A) − P(B)",
+      "P(A)P(B)"
+     ],
+     "answer": 0,
+     "explain": "Inclusion–exclusion."
+    },
+    {
+     "q": "For a fair die, A = even, B = ≥ 4. What is P(A | B)?",
+     "options": [
+      "2/3",
+      "1/3",
+      "1/2",
+      "1/6"
+     ],
+     "answer": 0,
+     "explain": "P(A∩B) = 2/6 and P(B) = 3/6."
+    },
+    {
+     "q": "Are A and B independent there?",
+     "options": [
+      "Cannot tell",
+      "No: P(A)P(B) = 0.25 but P(A∩B) = 1/3",
+      "Only for odd rolls",
+      "Yes"
+     ],
+     "answer": 1,
+     "explain": "Independence needs P(A∩B) = P(A)P(B)."
+    },
+    {
+     "q": "What does 'naive' in naive Bayes mean?",
+     "options": [
+      "The model is simple only",
+      "It ignores labels",
+      "It uses no probability",
+      "The assumption that features are independent, often false but useful"
+     ],
+     "answer": 3,
+     "explain": "It applies conditional probability and independence rules directly."
+    }
+   ]
+  },
+  "level-2/07-expectation-variance": {
+   "questions": [
+    {
+     "q": "What is E[X] for a fair die roll?",
+     "options": [
+      "3.5",
+      "3",
+      "21",
+      "4"
+     ],
+     "answer": 0,
+     "explain": "(1+2+3+4+5+6)/6 = 21/6."
+    },
+    {
+     "q": "What is Var(X) for a fair die?",
+     "options": [
+      "About 1.7",
+      "About 15.17",
+      "About 3.5",
+      "About 2.9167"
+     ],
+     "answer": 3,
+     "explain": "E[X²] − (E[X])² = 91/6 − 12.25."
+    },
+    {
+     "q": "What does Var(aX + b) equal?",
+     "options": [
+      "aVar(X) + b",
+      "a Var(X)",
+      "a²Var(X)",
+      "Var(X) + b"
+     ],
+     "answer": 2,
+     "explain": "Shifting doesn't change spread; scaling by a scales variance by a²."
+    },
+    {
+     "q": "Is E[X + Y] = E[X] + E[Y] true for dependent variables?",
+     "options": [
+      "Only if independent",
+      "No",
+      "Only for dice",
+      "Yes, expectation is linear"
+     ],
+     "answer": 3,
+     "explain": "Linearity holds regardless of dependence."
+    }
+   ]
+  },
+  "level-2/08-bayes-theorem": {
+   "questions": [
+    {
+     "q": "What is Bayes' theorem?",
+     "options": [
+      "P(A|B) = P(A∩B)P(B)",
+      "P(A|B) = P(B|A)P(A) / P(B)",
+      "P(A|B) = P(A)P(B)",
+      "P(A|B) = P(B|A) + P(A)"
+     ],
+     "answer": 1,
+     "explain": "Posterior = likelihood × prior / evidence."
+    },
+    {
+     "q": "A disease affects 1%; a test has a 99% true positive rate and 5% false positive rate. What is P(D | +)?",
+     "options": [
+      "50%",
+      "About 16.7%",
+      "95%",
+      "99%"
+     ],
+     "answer": 1,
+     "explain": "0.0099 / 0.0594 ≈ 0.1667."
+    },
+    {
+     "q": "Why is the positive result only about 16.7% reliable?",
+     "options": [
+      "The test is broken",
+      "The disease is rare, so false positives from the large healthy population dominate (base-rate fallacy)",
+      "Bayes is approximate",
+      "The sample is small"
+     ],
+     "answer": 1,
+     "explain": "Bayes' theorem corrects for the base rate."
+    },
+    {
+     "q": "What does naive Bayes assume?",
+     "options": [
+      "Priors are equal",
+      "Features are conditionally independent given the class",
+      "Features are identical",
+      "Classes are independent"
+     ],
+     "answer": 1,
+     "explain": "So P(x|c) = ∏ P(x_i|c)."
+    }
+   ]
+  },
+  "level-2/09-distributions-in-ml": {
+   "questions": [
+    {
+     "q": "What are the mean and variance of a Bernoulli(p)?",
+     "options": [
+      "p and p²",
+      "p and p(1−p)",
+      "1−p and p",
+      "np and np(1−p)"
+     ],
+     "answer": 1,
+     "explain": "It models a single binary trial."
+    },
+    {
+     "q": "What is P(X = 6) for 10 fair coin flips?",
+     "options": [
+      "6/10",
+      "1/1024",
+      "210/1024 ≈ 0.2051",
+      "0.5"
+     ],
+     "answer": 2,
+     "explain": "C(10,6)·0.5¹⁰ = 210/1024."
+    },
+    {
+     "q": "What are the Binomial mean and variance for n = 10, p = 0.5?",
+     "options": [
+      "2.5 and 5",
+      "5 and 5",
+      "10 and 2.5",
+      "5 and 2.5"
+     ],
+     "answer": 3,
+     "explain": "np and np(1−p)."
+    },
+    {
+     "q": "Why is the Gaussian so common in ML?",
+     "options": [
+      "The Central Limit Theorem: sums of many independent effects tend toward it; Gaussian errors lead to MSE loss",
+      "It is always exact",
+      "It has no parameters",
+      "It is discrete"
+     ],
+     "answer": 0,
+     "explain": "Noise and weight initializations often assume it."
+    }
+   ]
+  },
+  "level-2/10-capstone-probability-optimization": {
+   "questions": [
+    {
+     "q": "What does the capstone estimate with gradient descent?",
+     "options": [
+      "A matrix inverse",
+      "A regression slope",
+      "A cluster count",
+      "The heads probability p, by minimizing the negative log-likelihood of Bernoulli flips"
+     ],
+     "answer": 3,
+     "explain": "The same strategy trains logistic regression."
+    },
+    {
+     "q": "Why take logs of the likelihood?",
+     "options": [
+      "It makes numbers larger",
+      "It removes p",
+      "It makes it convex always",
+      "It turns the product into a sum, which is much easier to differentiate"
+     ],
+     "answer": 3,
+     "explain": "ℓ(p) = Σ[y ln p + (1−y) ln(1−p)]."
+    },
+    {
+     "q": "With 7 heads in 10 flips, what is the closed-form optimum p*?",
+     "options": [
+      "7",
+      "0.3",
+      "0.7",
+      "0.5"
+     ],
+     "answer": 2,
+     "explain": "n₁/n, the sample mean."
+    },
+    {
+     "q": "For n₁ = 7, n₀ = 3 and α = 0.02, what is p₁ starting from p = 0.5?",
+     "options": [
+      "0.66",
+      "0.5",
+      "0.7",
+      "0.34"
+     ],
+     "answer": 0,
+     "explain": "dJ/dp = −14 + 6 = −8, so p₁ = 0.5 + 0.16."
+    }
+   ]
+  },
+  "level-3/01-backpropagation-chain-rule": {
+   "questions": [
+    {
+     "q": "What is backpropagation, per the lesson?",
+     "options": [
+      "A sampling method",
+      "The multivariable chain rule applied layer by layer, reusing intermediate results",
+      "A data-cleaning step",
+      "A separate algorithm unrelated to calculus"
+     ],
+     "answer": 1,
+     "explain": "The forward pass caches every intermediate value so none is recomputed."
+    },
+    {
+     "q": "For a = σ(z), what is ∂a/∂z?",
+     "options": [
+      "a",
+      "1 − a",
+      "a(1 − a)",
+      "σ(z)²"
+     ],
+     "answer": 2,
+     "explain": "The sigmoid derivative."
+    },
+    {
+     "q": "For x = 2, y = 1, w = 0.5, b = 0, what are z and a?",
+     "options": [
+      "z = 1.0 and a = 1",
+      "z = 1.0 and a ≈ 0.7311",
+      "z = 0.5 and a ≈ 0.62",
+      "z = 2 and a ≈ 0.88"
+     ],
+     "answer": 1,
+     "explain": "z = 0.5·2 + 0 = 1 and σ(1) ≈ 0.7311."
+    },
+    {
+     "q": "What is the shared upstream term δ?",
+     "options": [
+      "∂L/∂z = 2(a − y)a(1 − a), reused for both ∂L/∂w (× x) and ∂L/∂b",
+      "x",
+      "a",
+      "∂L/∂a only"
+     ],
+     "answer": 0,
+     "explain": "That reuse is the 'backward propagation of error'."
+    }
+   ]
+  },
+  "level-3/02-loss-functions-derivatives": {
+   "questions": [
+    {
+     "q": "What is the gradient of MSE with respect to a single prediction?",
+     "options": [
+      "1/n",
+      "(ŷ_i − y_i)²",
+      "(2/n)(ŷ_i − y_i)",
+      "2n(ŷ_i − y_i)"
+     ],
+     "answer": 2,
+     "explain": "Power rule plus linearity under the sum."
+    },
+    {
+     "q": "What does composing BCE with a sigmoid give for ∂L/∂z_i?",
+     "options": [
+      "ŷ(1 − ŷ)",
+      "0",
+      "(1/n)(ŷ_i − y_i), because the ŷ(1−ŷ) terms cancel",
+      "(ŷ − y)²"
+     ],
+     "answer": 2,
+     "explain": "It's why frameworks fuse sigmoid + BCE into one stable operation."
+    },
+    {
+     "q": "For ŷ = [0.8, 0.3] and y = [1, 0], what is the MSE?",
+     "options": [
+      "0.065",
+      "0.29",
+      "0.13",
+      "0.5"
+     ],
+     "answer": 0,
+     "explain": "½(0.04 + 0.09)."
+    },
+    {
+     "q": "What is BCE the per-example, averaged form of?",
+     "options": [
+      "The negative log-likelihood from the Bernoulli model",
+      "MSE",
+      "A hinge loss",
+      "The norm"
+     ],
+     "answer": 0,
+     "explain": "It's the same strategy as Level 2's capstone."
+    }
+   ]
+  },
+  "level-3/03-momentum-adam": {
+   "questions": [
+    {
+     "q": "What does momentum use instead of the raw gradient?",
+     "options": [
+      "The loss value",
+      "A random gradient",
+      "An exponentially decaying running average of past gradients",
+      "The Hessian"
+     ],
+     "answer": 2,
+     "explain": "Like a ball rolling downhill, it smooths oscillations."
+    },
+    {
+     "q": "For J(θ) = (θ−3)² + 2, θ₀ = 0, α = 0.3, β = 0.9, what is θ₁ with momentum?",
+     "options": [
+      "0.18",
+      "3",
+      "0.6",
+      "1.8"
+     ],
+     "answer": 0,
+     "explain": "v₁ = 0.1(−6) = −0.6, so θ₁ = 0 + 0.3·0.6."
+    },
+    {
+     "q": "What two running averages does Adam track?",
+     "options": [
+      "Two losses",
+      "Two parameters",
+      "Two learning rates",
+      "The gradient mean (first moment) and the squared-gradient average (second moment)"
+     ],
+     "answer": 3,
+     "explain": "It uses both to adapt step size per parameter."
+    },
+    {
+     "q": "Why does Adam bias-correct m_t and v_t?",
+     "options": [
+      "To increase ε",
+      "Because they start at zero, early estimates are biased toward zero",
+      "To add noise",
+      "To change β"
+     ],
+     "answer": 1,
+     "explain": "m̂ = m/(1−β₁ᵗ) and v̂ = v/(1−β₂ᵗ)."
+    }
+   ]
+  },
+  "level-3/04-regularization-math": {
+   "questions": [
+    {
+     "q": "What is the regularized objective?",
+     "options": [
+      "J(w) = R(w) only",
+      "J(w) = L(w) − R(w)",
+      "J(w) = L(w) + λR(w)",
+      "J(w) = L(w) × λ"
+     ],
+     "answer": 2,
+     "explain": "λ controls the penalty strength."
+    },
+    {
+     "q": "Why is L2 called weight decay?",
+     "options": [
+      "It deletes weights",
+      "It sets weights to 1",
+      "Each step shrinks w multiplicatively by (1 − 2ηλ) before the data gradient",
+      "It adds noise"
+     ],
+     "answer": 2,
+     "explain": "The gradient is ∇L + 2λw."
+    },
+    {
+     "q": "Why does L1 give sparsity?",
+     "options": [
+      "It subtracts a constant amount from each weight regardless of magnitude, and its diamond contour has corners on the axes",
+      "It is smooth",
+      "It squares weights",
+      "It scales inputs"
+     ],
+     "answer": 0,
+     "explain": "L2 shrinks smoothly but rarely to exactly zero."
+    },
+    {
+     "q": "For w = 3, L = (w−1)², λ = 0.5, η = 0.1, what is the L2 step result?",
+     "options": [
+      "1",
+      "2.3",
+      "3",
+      "2.55"
+     ],
+     "answer": 1,
+     "explain": "∇ = 4 + 2(0.5)(3) = 7, so w = 3 − 0.7."
+    }
+   ]
+  },
+  "level-3/05-maximum-likelihood-estimation": {
+   "questions": [
+    {
+     "q": "What does MLE choose?",
+     "options": [
+      "Parameters that make the observed data most probable under an assumed distribution",
+      "Parameters that minimize variance",
+      "The mean of the data always",
+      "Random parameters"
+     ],
+     "answer": 0,
+     "explain": "Maximizing the likelihood is equivalent to minimizing the negative log-likelihood."
+    },
+    {
+     "q": "Why maximize the log-likelihood instead of the likelihood?",
+     "options": [
+      "Products underflow numerically; log is monotonic so the maximizer is unchanged",
+      "Likelihood is undefined",
+      "Logs remove parameters",
+      "Logs make values larger"
+     ],
+     "answer": 0,
+     "explain": "It also turns products into sums."
+    },
+    {
+     "q": "MSE is the MLE under which noise model?",
+     "options": [
+      "Bernoulli noise",
+      "Poisson noise",
+      "Gaussian noise",
+      "Uniform noise"
+     ],
+     "answer": 2,
+     "explain": "Dropping constants, minimizing −ℓ is minimizing Σ(y − f)²."
+    },
+    {
+     "q": "Binary cross-entropy is the negative log-likelihood of which model?",
+     "options": [
+      "Binomial counts",
+      "Uniform",
+      "Bernoulli",
+      "Gaussian"
+     ],
+     "answer": 2,
+     "explain": "p(y|x) = p̂^y(1−p̂)^(1−y)."
+    }
+   ]
+  },
+  "level-3/06-softmax-cross-entropy": {
+   "questions": [
+    {
+     "q": "What does softmax do?",
+     "options": [
+      "Turns raw logits into a probability distribution",
+      "Clips logits",
+      "Computes a norm",
+      "Normalizes weights"
+     ],
+     "answer": 0,
+     "explain": "softmax(z)_i = e^{z_i} / Σ e^{z_j}."
+    },
+    {
+     "q": "What is the combined gradient of softmax + cross-entropy with respect to the logits?",
+     "options": [
+      "y − p²",
+      "p(1 − p)",
+      "−y/p",
+      "p − y"
+     ],
+     "answer": 3,
+     "explain": "The cleanest gradient in deep learning."
+    },
+    {
+     "q": "For logits (2.0, 1.0, 0.1) and true class 0, which is the approximate loss?",
+     "options": [
+      "1.0",
+      "2.0",
+      "0.4170",
+      "0.6590"
+     ],
+     "answer": 2,
+     "explain": "−log(0.6590)."
+    },
+    {
+     "q": "Why subtract max(z) in a softmax implementation?",
+     "options": [
+      "To compute the gradient",
+      "To change the probabilities",
+      "Numerical stability, avoiding overflow in exp",
+      "To normalize labels"
+     ],
+     "answer": 2,
+     "explain": "It doesn't change the result."
+    }
+   ]
+  },
+  "level-3/07-computational-graphs-autodiff": {
+   "questions": [
+    {
+     "q": "What does reverse-mode autodiff do?",
+     "options": [
+      "Differentiates symbolically",
+      "Only works for one input",
+      "A forward pass computes node values, then a backward pass propagates ∂L/∂v from the output using the chain rule",
+      "Computes numeric differences"
+     ],
+     "answer": 2,
+     "explain": "It is what backprop is."
+    },
+    {
+     "q": "When is reverse mode cheaper than forward mode?",
+     "options": [
+      "With many inputs and one scalar output, like millions of weights and a loss",
+      "With few inputs and many outputs",
+      "Always",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "One backward pass regardless of parameter count."
+    },
+    {
+     "q": "For f = (x+y)(xy) at x = 2, y = 3, what is ∂f/∂x?",
+     "options": [
+      "16",
+      "6",
+      "30",
+      "21"
+     ],
+     "answer": 3,
+     "explain": "2xy + y² = 12 + 9."
+    },
+    {
+     "q": "Why are gradients summed at nodes with several consumers?",
+     "options": [
+      "It's a bug",
+      "To normalize",
+      "x contributes through multiple paths; the multivariable chain rule sums over paths",
+      "To reduce memory"
+     ],
+     "answer": 2,
+     "explain": "x feeds both a and b."
+    }
+   ]
+  },
+  "level-3/08-batch-normalization-math": {
+   "questions": [
+    {
+     "q": "What does batch normalization do?",
+     "options": [
+      "Standardizes activations over a mini-batch, then applies a learnable rescale y = γx̂ + β",
+      "Normalizes weights only",
+      "Normalizes the labels",
+      "Drops activations"
+     ],
+     "answer": 0,
+     "explain": "It stabilizes training."
+    },
+    {
+     "q": "Why do γ and β exist?",
+     "options": [
+      "To compute the mean",
+      "To prevent division by zero",
+      "They let the network undo the normalization if that's optimal",
+      "To set the batch size"
+     ],
+     "answer": 2,
+     "explain": "ε prevents division by zero."
+    },
+    {
+     "q": "For batch (1, 2, 3), what are μ_B and σ_B²?",
+     "options": [
+      "2 and 2/3",
+      "1 and 2",
+      "3 and 2/3",
+      "2 and 1"
+     ],
+     "answer": 0,
+     "explain": "The population variance is (1 + 0 + 1)/3."
+    },
+    {
+     "q": "Why is the backward pass easy to get wrong?",
+     "options": [
+      "It uses integrals",
+      "It ignores γ",
+      "Batch norm has no gradient",
+      "μ_B and σ_B² depend on every x_i in the batch, so gradients must account for that shared dependency"
+     ],
+     "answer": 3,
+     "explain": "It's the sum-over-paths rule applied to the two shared nodes."
+    }
+   ]
+  },
+  "level-3/09-numerical-stability": {
+   "questions": [
+    {
+     "q": "What is the log-sum-exp trick for softmax?",
+     "options": [
+      "Add max(z)",
+      "Use float16",
+      "Square the logits",
+      "Subtract max(z) before exponentiating: mathematically identical but safe from overflow"
+     ],
+     "answer": 3,
+     "explain": "Every exponent becomes ≤ 0, so each term is in (0, 1]."
+    },
+    {
+     "q": "Why not compute log(softmax(z)) in two steps?",
+     "options": [
+      "A probability can underflow to exactly 0, giving log(0); fuse as z_k − logsumexp(z)",
+      "Softmax has no log",
+      "It changes the answer",
+      "Logs are slow"
+     ],
+     "answer": 0,
+     "explain": "The fused form never materializes a zero probability."
+    },
+    {
+     "q": "What is catastrophic cancellation?",
+     "options": [
+      "Dividing by zero",
+      "Subtracting two nearly equal large floats destroys precision, e.g. the one-pass variance going negative",
+      "Underflow",
+      "Overflow"
+     ],
+     "answer": 1,
+     "explain": "The two-pass formula Σ(x − x̄)²/n is more stable."
+    },
+    {
+     "q": "For logits (1000, 1001, 999), what does the stable softmax give approximately?",
+     "options": [
+      "(1, 0, 0)",
+      "(0.2447, 0.6652, 0.0900)",
+      "(0.33, 0.33, 0.33)",
+      "NaN, NaN, NaN"
+     ],
+     "answer": 1,
+     "explain": "With c = 1001 the exponents are (−1, 0, −2); the naive version overflows to NaN."
+    }
+   ]
+  },
+  "level-3/10-capstone-small-network": {
+   "questions": [
+    {
+     "q": "What is the combined gradient ∂L/∂z₂ for sigmoid output with BCE loss?",
+     "options": [
+      "−y/ŷ",
+      "ŷ − y",
+      "ŷ(1 − ŷ)",
+      "y − ŷ²"
+     ],
+     "answer": 1,
+     "explain": "For y = 1 and ŷ ≈ 0.4944, δ₂ = −0.5056."
+    },
+    {
+     "q": "How does the gradient flow into the hidden layer?",
+     "options": [
+      "δ₁ = a₁",
+      "δ₁ = δ₂",
+      "δ₁ = w₂",
+      "δ₁ = δ₂ w₂ ⊙ a₁(1 − a₁): through w₂, then through the sigmoid derivative"
+     ],
+     "answer": 3,
+     "explain": "Then ∂L/∂W₁ = δ₁ xᵀ and ∂L/∂b₁ = δ₁."
+    },
+    {
+     "q": "What are z₁ for W₁ = [[0.5, −0.3], [0.8, 0.2]] and x = (1, 2)?",
+     "options": [
+      "(0.2, 1.0)",
+      "(−0.1, 1.2)",
+      "(−0.3, 0.2)",
+      "(0.5, 0.8)"
+     ],
+     "answer": 1,
+     "explain": "0.5 − 0.6 = −0.1 and 0.8 + 0.4 = 1.2."
+    },
+    {
+     "q": "How is the hand derivation verified?",
+     "options": [
+      "By training longer",
+      "By guessing",
+      "By plotting",
+      "Numerically against finite-difference gradients"
+     ],
+     "answer": 3,
+     "explain": "The capstone combines backprop, loss derivatives and numeric checks."
+    }
+   ]
+  },
+  "level-4/01-convexity-optimization": {
+   "questions": [
+    {
+     "q": "What is true of every local minimum of a convex function?",
+     "options": [
+      "It is a maximum",
+      "It doesn't exist",
+      "It may be a saddle",
+      "It is a global minimum"
+     ],
+     "answer": 3,
+     "explain": "There are no traps."
+    },
+    {
+     "q": "How do you test a twice-differentiable function in n dimensions for convexity?",
+     "options": [
+      "Its Jacobian is square",
+      "Its Hessian is positive semi-definite everywhere (all eigenvalues ≥ 0)",
+      "Its norm is 1",
+      "Its gradient is zero"
+     ],
+     "answer": 1,
+     "explain": "This connects to the eigenvalue module."
+    },
+    {
+     "q": "Why does gradient descent find the global optimum for linear and logistic regression but not neural networks?",
+     "options": [
+      "Their losses are convex in the weights; network loss landscapes are non-convex",
+      "They use sigmoid",
+      "They have fewer parameters",
+      "They use momentum"
+     ],
+     "answer": 0,
+     "explain": "Networks can get stuck in local minima or saddle points."
+    },
+    {
+     "q": "f(w₁,w₂) = w₁² + 2w₂² − w₁w₂ has Hessian eigenvalues of about 1.586 and 4.414. What does that imply?",
+     "options": [
+      "It is strictly convex",
+      "It is concave",
+      "It has a saddle",
+      "It is linear"
+     ],
+     "answer": 0,
+     "explain": "Both are positive, so the Hessian is positive definite."
+    }
+   ]
+  },
+  "level-4/02-lagrange-multipliers": {
+   "questions": [
+    {
+     "q": "What condition holds at a constrained optimum with g(x) = 0?",
+     "options": [
+      "f = g",
+      "∇f = 0",
+      "∇g = 0",
+      "∇f is parallel to ∇g: ∇f = λ∇g"
+     ],
+     "answer": 3,
+     "explain": "Otherwise you could slide along the constraint and decrease f."
+    },
+    {
+     "q": "Minimizing x² + y² subject to x + y = 1 gives what point and value?",
+     "options": [
+      "(0, 0) with value 0",
+      "(0.25, 0.75) with value 0.625",
+      "(1, 0) with value 1",
+      "(0.5, 0.5) with value 0.5"
+     ],
+     "answer": 3,
+     "explain": "x = y = λ/2 with λ = 1."
+    },
+    {
+     "q": "What does complementary slackness say about an inequality constraint?",
+     "options": [
+      "Both are nonzero",
+      "Neither matters",
+      "μ must be negative",
+      "Either the constraint is active (h = 0) or its multiplier μ is zero"
+     ],
+     "answer": 3,
+     "explain": "The KKT condition μ·h(x) = 0."
+    },
+    {
+     "q": "How does this relate to SVM support vectors?",
+     "options": [
+      "Only points on the margin (active constraints) get nonzero μ",
+      "All points get nonzero μ",
+      "No points do",
+      "Only outliers do"
+     ],
+     "answer": 0,
+     "explain": "That's their 'support'."
+    }
+   ]
+  },
+  "level-4/03-information-theory-basics": {
+   "questions": [
+    {
+     "q": "What does entropy H(p) measure?",
+     "options": [
+      "The mode",
+      "The variance",
+      "The average surprise of a distribution, maximal for the uniform distribution and 0 when all mass is on one outcome",
+      "The mean"
+     ],
+     "answer": 2,
+     "explain": "−log p_i is the surprise of outcome i."
+    },
+    {
+     "q": "What is D_KL(p‖q) in terms of cross-entropy?",
+     "options": [
+      "H(q,p)",
+      "H(p) + H(q)",
+      "H(p,q) − H(p)",
+      "H(p) − H(p,q)"
+     ],
+     "answer": 2,
+     "explain": "It is always ≥ 0, with equality iff p = q."
+    },
+    {
+     "q": "Why does minimizing cross-entropy equal minimizing KL divergence?",
+     "options": [
+      "Cross-entropy is constant",
+      "H(p) doesn't depend on the model",
+      "Both are zero",
+      "KL is constant"
+     ],
+     "answer": 1,
+     "explain": "Training a classifier minimizes KL from the true label distribution to the prediction."
+    },
+    {
+     "q": "For p = (1,0,0) and q = (0.7,0.2,0.1), what is H(p,q)?",
+     "options": [
+      "About 1.2",
+      "About 0.7",
+      "0",
+      "About 0.3567"
+     ],
+     "answer": 3,
+     "explain": "−log(0.7), with H(p) = 0 for a one-hot label."
+    }
+   ]
+  },
+  "level-4/04-logistic-regression-gradient": {
+   "questions": [
+    {
+     "q": "What is the gradient of the logistic loss with respect to w?",
+     "options": [
+      "Xᵀ(ŷ)",
+      "(1/n) X(ŷ − y)",
+      "(1/n) Xᵀ(ŷ − y)",
+      "ŷ − y"
+     ],
+     "answer": 2,
+     "explain": "The same form as linear regression, with ŷ = σ(z) instead of identity."
+    },
+    {
+     "q": "Why is the logistic loss convex?",
+     "options": [
+      "Its Hessian XᵀSX with S = diag(ŷ(1−ŷ)) is positive semi-definite",
+      "The loss is a norm",
+      "The sigmoid is linear",
+      "It has no minimum"
+     ],
+     "answer": 0,
+     "explain": "ŷ(1 − ŷ) > 0 for all ŷ in (0, 1)."
+    },
+    {
+     "q": "For x = (1,2), y = 1, w = (0.1, −0.2), b = 0, what is ŷ?",
+     "options": [
+      "About 0.9",
+      "About 0.5744",
+      "About 0.4256",
+      "About 0.3"
+     ],
+     "answer": 2,
+     "explain": "z = −0.3 and σ(−0.3) ≈ 0.4256."
+    },
+    {
+     "q": "What does convexity guarantee here?",
+     "options": [
+      "A perfect fit",
+      "Faster training",
+      "Gradient descent finds the global optimum",
+      "No overfitting"
+     ],
+     "answer": 2,
+     "explain": "The gradient there is (ŷ − y)x = (−0.5744, −1.1488)."
+    }
+   ]
+  },
+  "level-4/05-kernel-methods": {
+   "questions": [
+    {
+     "q": "What does the kernel trick avoid?",
+     "options": [
+      "Computing dot products",
+      "Labels",
+      "Training",
+      "Explicitly computing the high-dimensional feature map φ(x)"
+     ],
+     "answer": 3,
+     "explain": "k(x,z) = φ(x)ᵀφ(z) computed in the original space."
+    },
+    {
+     "q": "For x = (1,2), z = (3,1), what is the polynomial kernel (xᵀz)²?",
+     "options": [
+      "5",
+      "10",
+      "25",
+      "9"
+     ],
+     "answer": 2,
+     "explain": "(3 + 2)² = 25, matching the explicit feature-map dot product."
+    },
+    {
+     "q": "What does the RBF kernel correspond to?",
+     "options": [
+      "A linear map",
+      "A 3D map",
+      "No map",
+      "An infinite-dimensional feature map"
+     ],
+     "answer": 3,
+     "explain": "k = exp(−‖x−z‖² / 2σ²)."
+    },
+    {
+     "q": "What is Mercer's condition?",
+     "options": [
+      "The kernel must be linear",
+      "The kernel must be positive",
+      "The kernel must be 1",
+      "A valid kernel's Gram matrix must be positive semi-definite for every finite point set"
+     ],
+     "answer": 3,
+     "explain": "It guarantees a valid φ exists."
+    }
+   ]
+  },
+  "level-4/06-svd-deep-dive": {
+   "questions": [
+    {
+     "q": "What does SVD A = UΣVᵀ guarantee?",
+     "options": [
+      "It needs positive entries",
+      "It exists for any m × n matrix, with orthogonal U and V and non-negative singular values",
+      "It exists only for square matrices",
+      "It requires symmetry"
+     ],
+     "answer": 1,
+     "explain": "Σ is diagonal with σ₁ ≥ σ₂ ≥ … ≥ 0."
+    },
+    {
+     "q": "How are singular values related to AᵀA?",
+     "options": [
+      "σ_i² are the eigenvalues of AᵀA, and the columns of V are its eigenvectors",
+      "σ_i = trace",
+      "σ_i are the eigenvalues of A",
+      "They're unrelated"
+     ],
+     "answer": 0,
+     "explain": "AᵀA and AAᵀ are symmetric PSD, so SVD always exists."
+    },
+    {
+     "q": "What does the Eckart–Young theorem say?",
+     "options": [
+      "Rank doesn't matter",
+      "Σ is always the identity",
+      "SVD is unique",
+      "Keeping the top k singular values gives the best rank-k approximation in Frobenius error"
+     ],
+     "answer": 3,
+     "explain": "It underlies PCA and compression."
+    },
+    {
+     "q": "What are the singular values of diag(3, −2)?",
+     "options": [
+      "9 and 4",
+      "3 and 2",
+      "3 and −2",
+      "1 and 1"
+     ],
+     "answer": 1,
+     "explain": "AᵀA has eigenvalues 9 and 4."
+    }
+   ]
+  },
+  "level-4/07-bayesian-inference": {
+   "questions": [
+    {
+     "q": "What are the prior, likelihood and posterior?",
+     "options": [
+      "The loss, the gradient and the step",
+      "Three datasets",
+      "Three optimizers",
+      "Belief before data, the data's probability given θ, and the updated belief after data"
+     ],
+     "answer": 3,
+     "explain": "The evidence p(D) is a normalizing constant."
+    },
+    {
+     "q": "How does MAP differ from MLE?",
+     "options": [
+      "They're identical",
+      "MAP maximizes likelihood × prior (prior-informed); MLE ignores the prior",
+      "MLE uses a posterior",
+      "MAP ignores data"
+     ],
+     "answer": 1,
+     "explain": "A Gaussian prior on weights adds an L2 penalty λ‖w‖²."
+    },
+    {
+     "q": "A Beta(1,1) prior and 7 heads in 10 flips give which posterior?",
+     "options": [
+      "Beta(1, 1)",
+      "Beta(10, 7)",
+      "Beta(8, 4), with mean about 0.667",
+      "Beta(7, 3)"
+     ],
+     "answer": 2,
+     "explain": "Posterior = Beta(α + k, β + n − k)."
+    },
+    {
+     "q": "What does 'conjugate' mean here?",
+     "options": [
+      "The likelihood is constant",
+      "The posterior is in the same family as the prior, with a simple update",
+      "The prior is Gaussian",
+      "There is no posterior"
+     ],
+     "answer": 1,
+     "explain": "Beta is conjugate to Bernoulli."
+    }
+   ]
+  },
+  "level-4/08-numerical-optimization-methods": {
+   "questions": [
+    {
+     "q": "What does Newton's method use that gradient descent doesn't?",
+     "options": [
+      "Random steps",
+      "Momentum",
+      "Labels",
+      "The Hessian, modeling f locally as a quadratic and jumping to its minimum"
+     ],
+     "answer": 3,
+     "explain": "x_{k+1} = x_k − H⁻¹∇f."
+    },
+    {
+     "q": "How many steps does Newton's method need for a truly quadratic f?",
+     "options": [
+      "A thousand",
+      "It diverges",
+      "Ten",
+      "One"
+     ],
+     "answer": 3,
+     "explain": "Near the optimum it converges quadratically for general convex f."
+    },
+    {
+     "q": "Why is Newton's method rarely used directly in deep learning?",
+     "options": [
+      "It doesn't converge",
+      "It needs labels",
+      "Computing and inverting the Hessian costs O(n³), infeasible for millions or billions of parameters",
+      "It uses momentum"
+     ],
+     "answer": 2,
+     "explain": "Practitioners use quasi-Newton methods like L-BFGS or Adam."
+    },
+    {
+     "q": "For f(x) = x⁴ − 3x³ + 2 from x₀ = 3, what is the Newton step's x₁?",
+     "options": [
+      "3",
+      "2.25",
+      "2.73",
+      "2.5"
+     ],
+     "answer": 3,
+     "explain": "3 − 27/54."
+    }
+   ]
+  },
+  "level-4/09-attention-math": {
+   "questions": [
+    {
+     "q": "What is scaled dot-product attention?",
+     "options": [
+      "softmax(V)QKᵀ",
+      "softmax(QK)V",
+      "softmax(QKᵀ/√d_k)V",
+      "QKᵀV"
+     ],
+     "answer": 2,
+     "explain": "It's a weighted average of the values."
+    },
+    {
+     "q": "Why divide by √d_k?",
+     "options": [
+      "To add noise",
+      "Dot products have variance d_k; without scaling softmax saturates and gradients vanish",
+      "To normalize V",
+      "To reduce memory"
+     ],
+     "answer": 1,
+     "explain": "Dividing restores variance to about 1 regardless of dimension."
+    },
+    {
+     "q": "What does row i, column j of QKᵀ represent?",
+     "options": [
+      "qᵢ · kⱼ, how much query i attends to key j",
+      "A value",
+      "A gradient",
+      "A softmax"
+     ],
+     "answer": 0,
+     "explain": "Softmax is applied row-wise."
+    },
+    {
+     "q": "In the worked example both keys score 1 with d_k = 4. What is the output?",
+     "options": [
+      "(1, 1)",
+      "(0, 1)",
+      "(1, 0)",
+      "(0.5, 0.5)"
+     ],
+     "answer": 3,
+     "explain": "A tie gives an even blend of v₁ and v₂."
+    }
+   ]
+  },
+  "level-4/10-capstone-linear-regression-scratch": {
+   "questions": [
+    {
+     "q": "What do the normal equations give?",
+     "options": [
+      "w* = y/X",
+      "w* = (XᵀX)⁻¹Xᵀy",
+      "w* = Xy",
+      "w* = XᵀX"
+     ],
+     "answer": 1,
+     "explain": "It requires XᵀX to be invertible."
+    },
+    {
+     "q": "When do the normal equations fail or become unstable?",
+     "options": [
+      "When n is large",
+      "When y is positive",
+      "When there is a bias",
+      "When features are collinear (XᵀX singular or ill-conditioned)"
+     ],
+     "answer": 3,
+     "explain": "SVD handles near-zero singular values gracefully."
+    },
+    {
+     "q": "For X = [[1,1],[1,2],[1,3]] and y = (2,3,5), what are the fitted bias and slope?",
+     "options": [
+      "About 0.333 and 1.5",
+      "1.5 and 0.333",
+      "0 and 2",
+      "1 and 1"
+     ],
+     "answer": 0,
+     "explain": "w* = (1/6)(2, 9)."
+    },
+    {
+     "q": "What are the three methods the capstone compares?",
+     "options": [
+      "Normal equations, gradient descent and the SVD pseudoinverse",
+      "Lasso, ridge and elastic net",
+      "Newton, Adam and momentum",
+      "KNN, SVM and trees"
+     ],
+     "answer": 0,
+     "explain": "All three agree numerically."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A model's loss becomes NaN during training with large logits. Which fix applies?",
+    "options": [
+     "Add more layers",
+     "Use the log-sum-exp / subtract-max trick in softmax",
+     "Remove the loss",
+     "Increase the learning rate"
+    ],
+    "answer": 1,
+    "explain": "Naive softmax overflows exp; subtracting the max is mathematically identical but safe."
+   },
+   {
+    "q": "You need all n predictions of a linear model at once. Which expression?",
+    "options": [
+     "ŷ = Xᵀ",
+     "ŷ = X + w",
+     "ŷ = wX with w (d × 1)",
+     "ŷ = Xw with X (n × d) and w (d × 1)"
+    ],
+    "answer": 3,
+    "explain": "Matrix-vector multiplication computes every prediction in one step."
+   },
+   {
+    "q": "The gradient of a cost points in which direction, and which way does gradient descent step?",
+    "options": [
+     "They are unrelated",
+     "∇J is perpendicular to the surface",
+     "∇J points steepest down; descent steps along ∇J",
+     "∇J points steepest up; descent steps along −∇J"
+    ],
+    "answer": 3,
+    "explain": "θ ← θ − α∇J."
+   },
+   {
+    "q": "You want the derivative of (3x + 1)². Which rule and result?",
+    "options": [
+     "Product rule: 9x",
+     "Sum rule: 6x",
+     "Power rule only: 2x",
+     "Chain rule: 2(3x+1)·3 = 18x + 6"
+    ],
+    "answer": 3,
+    "explain": "Outer derivative times the inner derivative."
+   },
+   {
+    "q": "Why is a quick check of a hand-derived gradient with finite differences useful?",
+    "options": [
+     "It sets the learning rate",
+     "It picks features",
+     "It cross-checks the analytic gradient numerically",
+     "It trains the model"
+    ],
+    "answer": 2,
+    "explain": "The capstones verify every hand derivation numerically."
+   },
+   {
+    "q": "A positive-definite Hessian at a critical point means what?",
+    "options": [
+     "A local minimum",
+     "Nothing",
+     "A saddle",
+     "A maximum"
+    ],
+    "answer": 0,
+    "explain": "All eigenvalues positive means a minimum."
+   },
+   {
+    "q": "Which matrix factorization applies to a non-square matrix?",
+    "options": [
+     "Cholesky",
+     "SVD",
+     "Eigendecomposition",
+     "LU with pivoting only"
+    ],
+    "answer": 1,
+    "explain": "SVD exists for any matrix."
+   },
+   {
+    "q": "For a fair die, what are E[X] and Var(X)?",
+    "options": [
+     "3.5 and about 2.92",
+     "3 and 3",
+     "6 and 1",
+     "3.5 and 3.5"
+    ],
+    "answer": 0,
+    "explain": "E[X²] = 91/6 and Var = 91/6 − 12.25."
+   },
+   {
+    "q": "A disease affects 1% of people; a test has 99% sensitivity and 5% false positives. A positive result means roughly?",
+    "options": [
+     "50%",
+     "99%",
+     "95%",
+     "A 16.7% chance of disease (base-rate fallacy)"
+    ],
+    "answer": 3,
+    "explain": "Bayes' theorem corrects for the rare base rate."
+   },
+   {
+    "q": "Which loss is the MLE under Gaussian noise, and which under a Bernoulli model?",
+    "options": [
+     "L1 and L2",
+     "Cross-entropy and MSE",
+     "MSE and binary cross-entropy",
+     "Hinge and MSE"
+    ],
+    "answer": 2,
+    "explain": "Negative log-likelihood under each model yields those losses."
+   },
+   {
+    "q": "Why does a softmax + cross-entropy gradient simplify to p − y?",
+    "options": [
+     "Softmax is linear",
+     "y is zero",
+     "Logits are equal",
+     "The p_i(δ_ij − p_j) terms cancel against −y_i/p_i"
+    ],
+    "answer": 3,
+    "explain": "That is why frameworks fuse the two operations."
+   },
+   {
+    "q": "Adam divides each step by √v̂. What does that provide?",
+    "options": [
+     "Adaptive per-parameter learning rates",
+     "A larger Hessian",
+     "Momentum only",
+     "Random noise"
+    ],
+    "answer": 0,
+    "explain": "Large consistent gradients get smaller steps; sparse small gradients get larger ones."
+   },
+   {
+    "q": "What does L1 regularization tend to do that L2 does not?",
+    "options": [
+     "Push many weights exactly to zero (sparsity)",
+     "Remove the loss",
+     "Increase variance",
+     "Shrink all weights equally"
+    ],
+    "answer": 0,
+    "explain": "Its diamond contour has corners on the axes."
+   },
+   {
+    "q": "In reverse-mode autodiff, why are gradients summed at a node with two consumers?",
+    "options": [
+     "To save memory",
+     "It is a bug",
+     "To normalize",
+     "The value contributes through multiple paths (multivariable chain rule)"
+    ],
+    "answer": 3,
+    "explain": "For f = (x+y)(xy), x contributes via both a and b."
+   },
+   {
+    "q": "Why can gradient descent be trusted to find the global optimum of logistic regression but not of a neural network?",
+    "options": [
+     "It uses momentum",
+     "Its loss is convex in the weights; network losses are non-convex",
+     "It uses the sigmoid",
+     "It has fewer features"
+    ],
+    "answer": 1,
+    "explain": "Convexity means every local minimum is global."
+   },
+   {
+    "q": "You must minimize f subject to g(x) = 0. What do you set up?",
+    "options": [
+     "A Hessian",
+     "A Lagrangian L = f − λg and solve its stationary points",
+     "A norm",
+     "A Jacobian"
+    ],
+    "answer": 1,
+    "explain": "∇f = λ∇g at the constrained optimum."
+   },
+   {
+    "q": "What does the RBF kernel let an SVM do?",
+    "options": [
+     "Avoid labels",
+     "Reduce classes",
+     "Skip the data",
+     "Use an infinite-dimensional feature map without ever constructing it"
+    ],
+    "answer": 3,
+    "explain": "Only dot products (kernel evaluations) are needed."
+   },
+   {
+    "q": "What does KL divergence minimization correspond to in classifier training?",
+    "options": [
+     "Maximizing entropy",
+     "Maximizing loss",
+     "Minimizing cross-entropy, since H(p) is constant",
+     "Minimizing variance"
+    ],
+    "answer": 2,
+    "explain": "D_KL = H(p,q) − H(p)."
+   },
+   {
+    "q": "In attention, why divide QKᵀ by √d_k?",
+    "options": [
+     "To keep dot-product variance near 1 so softmax doesn't saturate",
+     "To speed up exp",
+     "To shrink V",
+     "To remove keys"
+    ],
+    "answer": 0,
+    "explain": "Raw dot products have variance d_k."
+   },
+   {
+    "q": "Which approach to least squares is numerically best when features are nearly collinear?",
+    "options": [
+     "Gradient descent with a huge rate",
+     "The SVD pseudoinverse",
+     "Guessing",
+     "The normal equations with an explicit inverse"
+    ],
+    "answer": 1,
+    "explain": "SVD handles near-zero singular values with a cutoff."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
