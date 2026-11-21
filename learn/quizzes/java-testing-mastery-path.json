@@ -1,0 +1,2159 @@
+{
+ "course": "java-testing-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-software-testing": {
+   "questions": [
+    {
+     "q": "What is software testing?",
+     "options": [
+      "Evaluating a program against expectations to find defects and provide quality information",
+      "Writing code",
+      "Proving no bugs",
+      "Clicking around"
+     ],
+     "answer": 0,
+     "explain": "Disciplined and repeatable."
+    },
+    {
+     "q": "Why can't you prove a program has no bugs by testing?",
+     "options": [
+      "Bugs are random",
+      "Tests are weak",
+      "Tools fail",
+      "Exhaustive testing is impossible; tests show presence, not absence, of defects"
+     ],
+     "answer": 3,
+     "explain": "Choose tests wisely."
+    },
+    {
+     "q": "What does an oracle provide?",
+     "options": [
+      "A tool",
+      "The expected result against which actual output is compared",
+      "Test data",
+      "A report"
+     ],
+     "answer": 1,
+     "explain": "No oracle, no test."
+    },
+    {
+     "q": "What's the cost of late defects?",
+     "options": [
+      "Same",
+      "Much higher than early ones",
+      "Zero",
+      "Lower"
+     ],
+     "answer": 1,
+     "explain": "Shift left."
+    }
+   ]
+  },
+  "level-1/02-test-case-design": {
+   "questions": [
+    {
+     "q": "What's the difference between a test scenario and a test case?",
+     "options": [
+      "None",
+      "A scenario is a high-level thing to test; a case has precise steps, data and expected results",
+      "Reverse",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Specificity."
+    },
+    {
+     "q": "What does boundary value analysis suggest for a valid age range 18..65?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nint[] v = {17, 18, 19, 64, 65, 66};\nfor (int a : v) System.out.print((a >= 18 && a <= 65 ? \"Y\" : \"N\"));\n}\n}\n```\n",
+     "options": [
+      "NNNNNN",
+      "NYYYYN",
+      "YYYYYY",
+      "YNNNNY"
+     ],
+     "answer": 1,
+     "explain": "Test just inside and outside each boundary. Verified by compiling and running it."
+    },
+    {
+     "q": "What's equivalence partitioning?",
+     "options": [
+      "Copying",
+      "Grouping inputs expected to behave the same and testing one per group",
+      "Exhaustive",
+      "Random"
+     ],
+     "answer": 1,
+     "explain": "Reduce tests."
+    },
+    {
+     "q": "What makes a good expected result?",
+     "options": [
+      "Implied",
+      "Specific and observable",
+      "Vague",
+      "Missing"
+     ],
+     "answer": 1,
+     "explain": "Unambiguous."
+    }
+   ]
+  },
+  "level-1/03-test-types-levels": {
+   "questions": [
+    {
+     "q": "List the test levels from small to large.",
+     "options": [
+      "UI, API",
+      "Alpha, beta",
+      "Smoke, load",
+      "Unit, integration, system, acceptance"
+     ],
+     "answer": 3,
+     "explain": "Scope."
+    },
+    {
+     "q": "What does regression testing verify?",
+     "options": [
+      "Perf",
+      "Previously working behavior still works after changes",
+      "New features",
+      "Install"
+     ],
+     "answer": 1,
+     "explain": "Automate it."
+    },
+    {
+     "q": "Which is non-functional?",
+     "options": [
+      "Performance, security and usability testing",
+      "Unit test",
+      "Boundary",
+      "Login works"
+     ],
+     "answer": 0,
+     "explain": "How well it works."
+    },
+    {
+     "q": "What's a smoke test?",
+     "options": [
+      "Fire drill",
+      "A quick check that critical functions work before deeper testing",
+      "Code review",
+      "Load test"
+     ],
+     "answer": 1,
+     "explain": "Gate builds."
+    }
+   ]
+  },
+  "level-1/04-defect-lifecycle": {
+   "questions": [
+    {
+     "q": "What's the typical defect lifecycle?",
+     "options": [
+      "Open, close",
+      "Fixed, new",
+      "New, assigned, fixed, retested/verified, closed (or reopened)",
+      "New, done"
+     ],
+     "answer": 2,
+     "explain": "State machine."
+    },
+    {
+     "q": "What belongs in a good bug report?",
+     "options": [
+      "Blame",
+      "Steps to reproduce, expected vs actual, environment and evidence",
+      "Opinion",
+      "Title only"
+     ],
+     "answer": 1,
+     "explain": "Reproducible."
+    },
+    {
+     "q": "Severity vs priority?",
+     "options": [
+      "Severity is impact; priority is urgency to fix",
+      "Reverse",
+      "Same",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Different axes."
+    },
+    {
+     "q": "What if a bug can't be reproduced?",
+     "options": [
+      "Gather logs/environment details and add precise steps or mark needs info",
+      "Ignore",
+      "Close",
+      "Argue"
+     ],
+     "answer": 0,
+     "explain": "Collaboration."
+    }
+   ]
+  },
+  "level-1/05-manual-testing-practice": {
+   "questions": [
+    {
+     "q": "When is manual testing most valuable?",
+     "options": [
+      "Load",
+      "Nightly",
+      "Regression",
+      "Exploratory, usability and one-off checks not worth automating"
+     ],
+     "answer": 3,
+     "explain": "Human judgment."
+    },
+    {
+     "q": "What's exploratory testing?",
+     "options": [
+      "Scripted",
+      "Random",
+      "Simultaneous learning, test design and execution guided by a charter",
+      "Automated"
+     ],
+     "answer": 2,
+     "explain": "Time-boxed."
+    },
+    {
+     "q": "Why take notes during sessions?",
+     "options": [
+      "Style",
+      "Speed",
+      "To reproduce findings and show coverage",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What's a test charter?",
+     "options": [
+      "Bug",
+      "A short mission guiding an exploratory session",
+      "Plan",
+      "Log"
+     ],
+     "answer": 1,
+     "explain": "Focus."
+    }
+   ]
+  },
+  "level-1/06-java-setup-for-testers": {
+   "questions": [
+    {
+     "q": "Which JDK/tool builds Java test projects?",
+     "options": [
+      "Python",
+      "JDK plus Maven or Gradle",
+      "Docker",
+      "Node"
+     ],
+     "answer": 1,
+     "explain": "Dependency management."
+    },
+    {
+     "q": "What does `mvn test` do?",
+     "options": [
+      "Compiles and runs unit tests",
+      "Packages",
+      "Cleans",
+      "Deploys"
+     ],
+     "answer": 0,
+     "explain": "Lifecycle."
+    },
+    {
+     "q": "Where do Maven test sources live?",
+     "options": [
+      "tests/",
+      "src/test/java",
+      "src/main",
+      "test/"
+     ],
+     "answer": 1,
+     "explain": "Conventions."
+    },
+    {
+     "q": "Why use an IDE?",
+     "options": [
+      "Run/debug tests quickly with navigation and refactoring",
+      "Style",
+      "Law",
+      "Speed only"
+     ],
+     "answer": 0,
+     "explain": "Productivity."
+    }
+   ]
+  },
+  "level-1/07-junit5-fundamentals": {
+   "questions": [
+    {
+     "q": "What does this print (a tiny assertion helper in the style of JUnit)?\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nint pass = 0, fail = 0;\nint[][] cases = {{2, 3, 5}, {0, 0, 0}, {-1, 1, 0}, {2, 2, 5}};\nfor (int[] c : cases) { if (c[0] + c[1] == c[2]) pass++; else fail++; }\nSystem.out.println(pass + \" passed, \" + fail + \" failed\");\n}\n}\n```\n",
+     "options": [
+      "Error",
+      "4 passed",
+      "3 passed, 1 failed",
+      "2 passed, 2 failed"
+     ],
+     "answer": 2,
+     "explain": "A test is input, action and assertion. Verified by compiling and running it."
+    },
+    {
+     "q": "Which annotation marks a JUnit 5 test?",
+     "options": [
+      "@Case",
+      "@Run",
+      "@Test",
+      "@Check"
+     ],
+     "answer": 2,
+     "explain": "org.junit.jupiter.api.Test."
+    },
+    {
+     "q": "What does assertEquals(expected, actual) do?",
+     "options": [
+      "Skips",
+      "Logs",
+      "Prints",
+      "Fails the test when the values differ"
+     ],
+     "answer": 3,
+     "explain": "Order matters for messages."
+    },
+    {
+     "q": "What do @BeforeEach/@AfterEach do?",
+     "options": [
+      "Never",
+      "Run setup/cleanup around every test",
+      "Class",
+      "Once"
+     ],
+     "answer": 1,
+     "explain": "Fresh state."
+    }
+   ]
+  },
+  "level-1/08-selenium-webdriver-basics": {
+   "questions": [
+    {
+     "q": "What is Selenium WebDriver?",
+     "options": [
+      "Mock lib",
+      "A browser automation API for testing web apps",
+      "Unit test lib",
+      "DB"
+     ],
+     "answer": 1,
+     "explain": "Drives real browsers."
+    },
+    {
+     "q": "Which locator is usually most stable?",
+     "options": [
+      "Text only",
+      "XPath index",
+      "Absolute XPath",
+      "IDs or dedicated test attributes (data-testid)"
+     ],
+     "answer": 3,
+     "explain": "Resilient."
+    },
+    {
+     "q": "Why use explicit waits?",
+     "options": [
+      "Speed",
+      "Wait for a condition instead of fixed sleeps, reducing flakiness",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "WebDriverWait."
+    },
+    {
+     "q": "What does driver.quit() do?",
+     "options": [
+      "Closes tab",
+      "Saves",
+      "Closes all windows and ends the session",
+      "Navigates"
+     ],
+     "answer": 2,
+     "explain": "Always in teardown."
+    }
+   ]
+  },
+  "level-1/09-testng-basics": {
+   "questions": [
+    {
+     "q": "What does TestNG add over basic JUnit 4?",
+     "options": [
+      "Groups, data providers, dependencies and flexible suites (XML)",
+      "Mocks",
+      "Browsers",
+      "DB"
+     ],
+     "answer": 0,
+     "explain": "Common in Selenium."
+    },
+    {
+     "q": "What's @DataProvider?",
+     "options": [
+      "Page",
+      "Mock",
+      "Locator",
+      "Supplies multiple data sets to a parameterized test"
+     ],
+     "answer": 3,
+     "explain": "Data-driven."
+    },
+    {
+     "q": "What's testng.xml?",
+     "options": [
+      "Report",
+      "Page",
+      "Suite configuration selecting classes, groups and parallelism",
+      "pom"
+     ],
+     "answer": 2,
+     "explain": "Run control."
+    },
+    {
+     "q": "What does `dependsOnMethods` do?",
+     "options": [
+      "Parallel",
+      "Retry",
+      "Skip",
+      "Runs a test only after another passes"
+     ],
+     "answer": 3,
+     "explain": "Use sparingly."
+    }
+   ]
+  },
+  "level-1/10-project-test-plan-suite": {
+   "questions": [
+    {
+     "q": "What does the test plan + suite project combine?",
+     "options": [
+      "Only plan",
+      "A written test plan and automated JUnit/Selenium tests",
+      "Only code",
+      "Only report"
+     ],
+     "answer": 1,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "What should a test plan define?",
+     "options": [
+      "Logs",
+      "Names",
+      "Code",
+      "Scope, approach, risks, environments and exit criteria"
+     ],
+     "answer": 3,
+     "explain": "Guidance."
+    },
+    {
+     "q": "What's traceability?",
+     "options": [
+      "Linking tests to requirements",
+      "Logs",
+      "Cost",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Coverage."
+    },
+    {
+     "q": "What do you automate first?",
+     "options": [
+      "Stable, repetitive, high-value checks",
+      "One-offs",
+      "Everything",
+      "UI visuals"
+     ],
+     "answer": 0,
+     "explain": "ROI."
+    }
+   ]
+  },
+  "level-2/01-page-object-model": {
+   "questions": [
+    {
+     "q": "What is the Page Object Model?",
+     "options": [
+      "A class per page encapsulating locators and actions",
+      "A locator",
+      "A mock",
+      "A report"
+     ],
+     "answer": 0,
+     "explain": "Maintainability."
+    },
+    {
+     "q": "What should page objects avoid?",
+     "options": [
+      "Methods",
+      "Putting assertions that hide test intent inside them",
+      "Locators",
+      "Return types"
+     ],
+     "answer": 1,
+     "explain": "Keep assertions in tests."
+    },
+    {
+     "q": "What do page methods typically return?",
+     "options": [
+      "void",
+      "String",
+      "int",
+      "The next page object (fluent navigation)"
+     ],
+     "answer": 3,
+     "explain": "Readable."
+    },
+    {
+     "q": "Why is POM valuable?",
+     "options": [
+      "Speed",
+      "Law",
+      "UI changes are fixed in one place",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "DRY."
+    }
+   ]
+  },
+  "level-2/02-selenium-advanced": {
+   "questions": [
+    {
+     "q": "What are fluent waits?",
+     "options": [
+      "Implicit",
+      "None",
+      "Waits with custom polling and ignored exceptions",
+      "Sleep"
+     ],
+     "answer": 2,
+     "explain": "More control."
+    },
+    {
+     "q": "Why avoid mixing implicit and explicit waits?",
+     "options": [
+      "Style",
+      "Faster",
+      "They interact unpredictably, causing long/flaky waits",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Prefer explicit."
+    },
+    {
+     "q": "How handle iframes?",
+     "options": [
+      "Nothing",
+      "scroll",
+      "switchTo().frame(...) then switch back",
+      "click"
+     ],
+     "answer": 2,
+     "explain": "Context."
+    },
+    {
+     "q": "What does JavascriptExecutor allow?",
+     "options": [
+      "Running JS in the page for edge cases",
+      "Wait",
+      "Lint",
+      "Faster"
+     ],
+     "answer": 0,
+     "explain": "Use sparingly."
+    }
+   ]
+  },
+  "level-2/03-testng-advanced": {
+   "questions": [
+    {
+     "q": "What does TestNG's retryAnalyzer do?",
+     "options": [
+      "Fix",
+      "Skip",
+      "Re-runs failed tests to detect flakiness (use carefully)",
+      "Parallel"
+     ],
+     "answer": 2,
+     "explain": "Don't mask bugs."
+    },
+    {
+     "q": "How run tests in parallel in TestNG?",
+     "options": [
+      "Loop",
+      "parallel/thread-count in the suite XML",
+      "Thread",
+      "Sleep"
+     ],
+     "answer": 1,
+     "explain": "Thread-safe drivers needed."
+    },
+    {
+     "q": "What's ThreadLocal<WebDriver> for?",
+     "options": [
+      "Log",
+      "Cache",
+      "Giving each thread its own driver",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Parallel safety."
+    },
+    {
+     "q": "What are listeners?",
+     "options": [
+      "Pages",
+      "Data",
+      "Mocks",
+      "Hooks reacting to test events (screenshots on failure)"
+     ],
+     "answer": 3,
+     "explain": "ITestListener."
+    }
+   ]
+  },
+  "level-2/04-api-testing-restassured": {
+   "questions": [
+    {
+     "q": "What does REST Assured do?",
+     "options": [
+      "Mock",
+      "DB",
+      "UI",
+      "A Java DSL for testing REST APIs"
+     ],
+     "answer": 3,
+     "explain": "given/when/then."
+    },
+    {
+     "q": "What should API tests verify?",
+     "options": [
+      "Only status",
+      "Only body",
+      "None",
+      "Status code, headers, body and schema"
+     ],
+     "answer": 3,
+     "explain": "Contracts."
+    },
+    {
+     "q": "Why test APIs rather than only UI?",
+     "options": [
+      "Cost",
+      "Faster, more stable and closer to the logic",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Pyramid."
+    },
+    {
+     "q": "What does JSON schema validation check?",
+     "options": [
+      "Data",
+      "Response structure and types",
+      "Speed",
+      "Auth"
+     ],
+     "answer": 1,
+     "explain": "Contract."
+    }
+   ]
+  },
+  "level-2/05-test-data-management": {
+   "questions": [
+    {
+     "q": "What's good test data practice?",
+     "options": [
+      "Manual",
+      "Production data",
+      "Create data per test and clean up, avoiding shared state",
+      "Shared data"
+     ],
+     "answer": 2,
+     "explain": "Isolation."
+    },
+    {
+     "q": "Where store data sets?",
+     "options": [
+      "Env",
+      "Comments",
+      "External files (JSON/CSV) or generators, not hard-coded",
+      "Code"
+     ],
+     "answer": 2,
+     "explain": "Data-driven."
+    },
+    {
+     "q": "What's data masking for tests?",
+     "options": [
+      "Obfuscating real data to protect privacy",
+      "Deleting",
+      "Encrypting",
+      "Copying"
+     ],
+     "answer": 0,
+     "explain": "Compliance."
+    },
+    {
+     "q": "What does a factory/builder give tests?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Readable object creation with sensible defaults"
+     ],
+     "answer": 3,
+     "explain": "Test data builders."
+    }
+   ]
+  },
+  "level-2/06-maven-gradle-test-projects": {
+   "questions": [
+    {
+     "q": "What does Maven Surefire do?",
+     "options": [
+      "Deploys",
+      "Cleans",
+      "Packages",
+      "Runs unit tests in the test phase"
+     ],
+     "answer": 3,
+     "explain": "Reports in target/."
+    },
+    {
+     "q": "What's Failsafe for?",
+     "options": [
+      "Clean",
+      "Unit",
+      "Deploy",
+      "Integration tests in the verify phase"
+     ],
+     "answer": 3,
+     "explain": "Separation."
+    },
+    {
+     "q": "What do profiles do?",
+     "options": [
+      "Tests",
+      "Roles",
+      "Switch configuration/environments (e.g. -P staging)",
+      "Users"
+     ],
+     "answer": 2,
+     "explain": "Parameterize."
+    },
+    {
+     "q": "What's a BOM?",
+     "options": [
+      "Build",
+      "A bill of materials aligning dependency versions",
+      "Test",
+      "Report"
+     ],
+     "answer": 1,
+     "explain": "Consistency."
+    }
+   ]
+  },
+  "level-2/07-assertions-matchers": {
+   "questions": [
+    {
+     "q": "What does this print (hand-rolled matchers like Hamcrest)?\n```java\nimport java.util.*;\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nList<Integer> l = List.of(3, 1, 2);\nSystem.out.println(l.contains(2) + \" \" + (l.size() == 3) + \" \" + l.stream().allMatch(x -> x > 0) + \" \" + l.stream().anyMatch(x -> x > 5));\n}\n}\n```\n",
+     "options": [
+      "true true true false",
+      "true false true false",
+      "false true true false",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Matchers express intent. Verified by compiling and running it."
+    },
+    {
+     "q": "What does assertThrows verify?",
+     "options": [
+      "Order",
+      "That a given exception type is thrown",
+      "Value",
+      "Time"
+     ],
+     "answer": 1,
+     "explain": "Error paths."
+    },
+    {
+     "q": "Why use assertAll?",
+     "options": [
+      "Law",
+      "Speed",
+      "Report all failures in a group, not just the first",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Soft assertions."
+    },
+    {
+     "q": "Why prefer descriptive failure messages?",
+     "options": [
+      "Speed",
+      "Law",
+      "Faster diagnosis without a debugger",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Readable."
+    }
+   ]
+  },
+  "level-2/08-reporting": {
+   "questions": [
+    {
+     "q": "What do Allure/Extent reports provide?",
+     "options": [
+      "Rich HTML reports with steps, attachments and trends",
+      "Mocks",
+      "Pages",
+      "Logs"
+     ],
+     "answer": 0,
+     "explain": "Stakeholder-friendly."
+    },
+    {
+     "q": "What should failed UI tests attach?",
+     "options": [
+      "Names",
+      "Ids",
+      "Screenshots, page source and logs",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What do trends show?",
+     "options": [
+      "Names",
+      "Pass rate, duration and flakiness over time",
+      "Code",
+      "Fonts"
+     ],
+     "answer": 1,
+     "explain": "Health."
+    },
+    {
+     "q": "Why publish reports from CI?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Everyone can see results without running tests"
+     ],
+     "answer": 3,
+     "explain": "Transparency."
+    }
+   ]
+  },
+  "level-2/09-cross-browser-testing": {
+   "questions": [
+    {
+     "q": "How run on multiple browsers?",
+     "options": [
+      "Copy tests",
+      "Parameterize the browser in the driver factory",
+      "One",
+      "Manual"
+     ],
+     "answer": 1,
+     "explain": "Config."
+    },
+    {
+     "q": "What do cloud grids (BrowserStack/Sauce) offer?",
+     "options": [
+      "DB",
+      "Many browser/OS combinations on demand",
+      "Mocks",
+      "Unit tests"
+     ],
+     "answer": 1,
+     "explain": "Coverage."
+    },
+    {
+     "q": "What should cross-browser tests prioritize?",
+     "options": [
+      "Critical flows on the browsers your users actually use",
+      "Everything",
+      "Oldest",
+      "Newest"
+     ],
+     "answer": 0,
+     "explain": "Analytics-driven."
+    },
+    {
+     "q": "What's a common cross-browser issue?",
+     "options": [
+      "Syntax",
+      "Timing/rendering differences needing robust waits",
+      "Types",
+      "Imports"
+     ],
+     "answer": 1,
+     "explain": "Avoid sleeps."
+    }
+   ]
+  },
+  "level-2/10-project-pom-framework": {
+   "questions": [
+    {
+     "q": "What does the POM framework project combine?",
+     "options": [
+      "Only CI",
+      "Only TestNG",
+      "Page objects, TestNG, data-driven tests, reports and CI",
+      "Only POM"
+     ],
+     "answer": 2,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How keep tests independent?",
+     "options": [
+      "Static",
+      "Order",
+      "Shared",
+      "Fresh state per test and no order dependence"
+     ],
+     "answer": 3,
+     "explain": "Reliability."
+    },
+    {
+     "q": "How configure environments?",
+     "options": [
+      "Prompt",
+      "Hard-code",
+      "Comments",
+      "Properties/env vars loaded by a config class"
+     ],
+     "answer": 3,
+     "explain": "Flexibility."
+    },
+    {
+     "q": "What proves framework quality?",
+     "options": [
+      "Stable runs, readable tests and quick failure diagnosis",
+      "Speed",
+      "Size",
+      "Count"
+     ],
+     "answer": 0,
+     "explain": "Maintainable."
+    }
+   ]
+  },
+  "level-3/01-bdd-cucumber": {
+   "questions": [
+    {
+     "q": "What is BDD?",
+     "options": [
+      "Binary",
+      "Behavior-driven development: specifying behavior in shared, readable language",
+      "Browser",
+      "Bug-driven"
+     ],
+     "answer": 1,
+     "explain": "Collaboration."
+    },
+    {
+     "q": "What's Gherkin?",
+     "options": [
+      "XML",
+      "Given/When/Then syntax for scenarios",
+      "SQL",
+      "Java"
+     ],
+     "answer": 1,
+     "explain": "Feature files."
+    },
+    {
+     "q": "What do step definitions do?",
+     "options": [
+      "Mock",
+      "Page",
+      "Report",
+      "Bind Gherkin steps to executable code"
+     ],
+     "answer": 3,
+     "explain": "Cucumber."
+    },
+    {
+     "q": "What's a BDD smell?",
+     "options": [
+      "Few",
+      "Scenarios full of UI details instead of business behavior",
+      "Short",
+      "Clear"
+     ],
+     "answer": 1,
+     "explain": "Declarative style."
+    }
+   ]
+  },
+  "level-3/02-mocking-mockito": {
+   "questions": [
+    {
+     "q": "What does this hand-written mock record (the idea behind Mockito)?\n```java\npublic class Main {\nstatic class Recorder<T> implements Notifier { java.util.List<String> calls = new java.util.ArrayList<>(); public void send(String m) { calls.add(\"sent:\" + m); } }\ninterface Notifier { void send(String m); }\nstatic class OrderService { Notifier n; OrderService(Notifier n) { this.n = n; } void place(String id) { n.send(id); } }\npublic static void main(String[] args) throws Exception {\nRecorder<String> mailer = new Recorder<>();\nOrderService svc = new OrderService(mailer);\nsvc.place(\"A1\"); svc.place(\"A2\");\nSystem.out.println(mailer.calls + \" \" + mailer.calls.size());\n}\n}\n```\n",
+     "options": [
+      "[sent:A1, sent:A2] 2",
+      "[] 0",
+      "Error",
+      "[sent:A1] 1"
+     ],
+     "answer": 0,
+     "explain": "Mocks verify interactions with collaborators. Verified by compiling and running it."
+    },
+    {
+     "q": "What's the difference between a stub and a mock?",
+     "options": [
+      "Stubs supply canned answers; mocks verify interactions",
+      "Same",
+      "Reverse",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Mockito does both."
+    },
+    {
+     "q": "What does `verify(mock).method()` check?",
+     "options": [
+      "Time",
+      "Memory",
+      "Returns",
+      "That the method was called as expected"
+     ],
+     "answer": 3,
+     "explain": "Interaction testing."
+    },
+    {
+     "q": "What's over-mocking?",
+     "options": [
+      "Good",
+      "Mocking so much that tests check implementation details",
+      "Fast",
+      "Required"
+     ],
+     "answer": 1,
+     "explain": "Brittle."
+    }
+   ]
+  },
+  "level-3/03-cicd-integration": {
+   "questions": [
+    {
+     "q": "What should CI run for tests?",
+     "options": [
+      "Deploy",
+      "Build, unit and integration tests with reports on every change",
+      "Manual",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Fast feedback."
+    },
+    {
+     "q": "Why run tests headless in CI?",
+     "options": [
+      "Law",
+      "No display is needed and runs are faster",
+      "Cost",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Chrome headless."
+    },
+    {
+     "q": "What speeds CI?",
+     "options": [
+      "More tests",
+      "Retries",
+      "Sleep",
+      "Caching dependencies and parallelizing suites"
+     ],
+     "answer": 3,
+     "explain": "Efficiency."
+    },
+    {
+     "q": "What should fail the build?",
+     "options": [
+      "Warnings",
+      "Slow",
+      "Names",
+      "Any test failure or quality gate violation"
+     ],
+     "answer": 3,
+     "explain": "Gate."
+    }
+   ]
+  },
+  "level-3/04-selenium-grid-parallel": {
+   "questions": [
+    {
+     "q": "What is Selenium Grid?",
+     "options": [
+      "Mock",
+      "DB",
+      "Report",
+      "A hub that distributes tests across nodes/browsers for parallel runs"
+     ],
+     "answer": 3,
+     "explain": "Scale."
+    },
+    {
+     "q": "What does RemoteWebDriver need?",
+     "options": [
+      "Port",
+      "Key",
+      "The Grid URL and desired capabilities/options",
+      "File"
+     ],
+     "answer": 2,
+     "explain": "Remote."
+    },
+    {
+     "q": "What's a challenge of parallel UI tests?",
+     "options": [
+      "Law",
+      "None",
+      "Speed",
+      "Shared state and non-thread-safe drivers"
+     ],
+     "answer": 3,
+     "explain": "Isolate."
+    },
+    {
+     "q": "How size a grid?",
+     "options": [
+      "Guess",
+      "Min",
+      "Match nodes to the number of parallel sessions",
+      "Max"
+     ],
+     "answer": 2,
+     "explain": "Capacity."
+    }
+   ]
+  },
+  "level-3/05-performance-testing-jmeter": {
+   "questions": [
+    {
+     "q": "What does JMeter test?",
+     "options": [
+      "Security",
+      "Performance: load, stress and endurance of services",
+      "Unit",
+      "UI"
+     ],
+     "answer": 1,
+     "explain": "Thread groups."
+    },
+    {
+     "q": "What's a thread group?",
+     "options": [
+      "Test",
+      "Report",
+      "Page",
+      "Simulated users running a test plan"
+     ],
+     "answer": 3,
+     "explain": "Concurrency."
+    },
+    {
+     "q": "Which metrics matter?",
+     "options": [
+      "Response time percentiles, throughput and error rate",
+      "Colors",
+      "Names",
+      "Average only"
+     ],
+     "answer": 0,
+     "explain": "p95/p99."
+    },
+    {
+     "q": "Why run performance tests in a prod-like environment?",
+     "options": [
+      "Results depend on realistic capacity and data",
+      "Law",
+      "Cost",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Representative."
+    }
+   ]
+  },
+  "level-3/06-mobile-testing-appium": {
+   "questions": [
+    {
+     "q": "What's Appium?",
+     "options": [
+      "DB",
+      "Automation for mobile apps using the WebDriver protocol",
+      "Unit",
+      "Perf"
+     ],
+     "answer": 1,
+     "explain": "iOS/Android."
+    },
+    {
+     "q": "What are desired capabilities?",
+     "options": [
+      "Pages",
+      "Settings describing the device/app/platform to automate",
+      "Locators",
+      "Data"
+     ],
+     "answer": 1,
+     "explain": "Session config."
+    },
+    {
+     "q": "What's a mobile test challenge?",
+     "options": [
+      "None",
+      "Device fragmentation and flaky gestures",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Real devices/emulators."
+    },
+    {
+     "q": "What's an emulator vs real device?",
+     "options": [
+      "Same",
+      "Reverse",
+      "None",
+      "Emulators are fast and cheap; real devices catch hardware quirks"
+     ],
+     "answer": 3,
+     "explain": "Use both."
+    }
+   ]
+  },
+  "level-3/07-database-testing": {
+   "questions": [
+    {
+     "q": "What should database tests verify?",
+     "options": [
+      "Latency",
+      "Data changes made by the app and constraints/migrations",
+      "UI",
+      "Names"
+     ],
+     "answer": 1,
+     "explain": "Integrity."
+    },
+    {
+     "q": "How isolate DB tests?",
+     "options": [
+      "Manual",
+      "None",
+      "Shared prod",
+      "Transactions rolled back or containerized throwaway databases"
+     ],
+     "answer": 3,
+     "explain": "Repeatable."
+    },
+    {
+     "q": "What's a safe way to query test DBs?",
+     "options": [
+      "Trim",
+      "Parameterized queries via JDBC",
+      "Concatenate",
+      "Escape"
+     ],
+     "answer": 1,
+     "explain": "Avoid injection."
+    },
+    {
+     "q": "What do migration tests ensure?",
+     "options": [
+      "Schema changes apply cleanly and keep data intact",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Flyway/Liquibase."
+    }
+   ]
+  },
+  "level-3/08-framework-design-patterns": {
+   "questions": [
+    {
+     "q": "Which pattern helps test frameworks?",
+     "options": [
+      "God class",
+      "None",
+      "Factory (drivers), Builder (data), Singleton-free config and Strategy (browsers)",
+      "Singleton"
+     ],
+     "answer": 2,
+     "explain": "Design."
+    },
+    {
+     "q": "What's a fluent interface?",
+     "options": [
+      "Locks",
+      "Static",
+      "Method chaining for readable setup/actions",
+      "Async"
+     ],
+     "answer": 2,
+     "explain": "Page objects."
+    },
+    {
+     "q": "What's the Single Responsibility principle for tests?",
+     "options": [
+      "Each class/test has one reason to change",
+      "One class",
+      "One file",
+      "One test"
+     ],
+     "answer": 0,
+     "explain": "Cohesion."
+    },
+    {
+     "q": "What's a framework smell?",
+     "options": [
+      "Builders",
+      "Pages",
+      "Static state and sleeps scattered throughout",
+      "Config"
+     ],
+     "answer": 2,
+     "explain": "Refactor."
+    }
+   ]
+  },
+  "level-3/09-flaky-test-diagnosis": {
+   "questions": [
+    {
+     "q": "What's the first step to diagnose a flaky test?",
+     "options": [
+      "Delete",
+      "Retry",
+      "Run it repeatedly and capture failures with evidence",
+      "Sleep"
+     ],
+     "answer": 2,
+     "explain": "Data."
+    },
+    {
+     "q": "Common flakiness causes?",
+     "options": [
+      "Async timing, shared state, order dependence and environment",
+      "Names",
+      "Imports",
+      "Assertions"
+     ],
+     "answer": 0,
+     "explain": "Fix root cause."
+    },
+    {
+     "q": "Is a retry a fix?",
+     "options": [
+      "Never",
+      "Yes",
+      "Always",
+      "No, it masks the issue; quarantine and fix"
+     ],
+     "answer": 3,
+     "explain": "Track flake rate."
+    },
+    {
+     "q": "What reduces timing flakes?",
+     "options": [
+      "Skip",
+      "Waiting on conditions instead of fixed delays",
+      "Retry",
+      "Sleep"
+     ],
+     "answer": 1,
+     "explain": "Explicit waits."
+    }
+   ]
+  },
+  "level-3/10-project-bdd-framework-ci": {
+   "questions": [
+    {
+     "q": "What does the BDD + CI project combine?",
+     "options": [
+      "Cucumber features, page objects, reports and a CI pipeline",
+      "Only CI",
+      "Only BDD",
+      "Only POM"
+     ],
+     "answer": 0,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How keep feature files maintainable?",
+     "options": [
+      "Long",
+      "Random",
+      "Business-readable steps reused across scenarios",
+      "UI"
+     ],
+     "answer": 2,
+     "explain": "Declarative."
+    },
+    {
+     "q": "How publish results?",
+     "options": [
+      "CI artifacts and HTML/Allure reports",
+      "Local",
+      "None",
+      "Email"
+     ],
+     "answer": 0,
+     "explain": "Visible."
+    },
+    {
+     "q": "What proves reliability?",
+     "options": [
+      "One run",
+      "Speed",
+      "Repeated green runs and low flake rate",
+      "Hope"
+     ],
+     "answer": 2,
+     "explain": "Trend."
+    }
+   ]
+  },
+  "level-4/01-test-architecture-at-scale": {
+   "questions": [
+    {
+     "q": "What does test architecture at scale require?",
+     "options": [
+      "One repo",
+      "One team",
+      "Layered, modular frameworks with shared libraries and clear ownership",
+      "One file"
+     ],
+     "answer": 2,
+     "explain": "Scalable."
+    },
+    {
+     "q": "What's the test pyramid's advice?",
+     "options": [
+      "Only e2e",
+      "Inverse",
+      "Equal",
+      "Many fast unit tests, fewer integration, fewest end-to-end"
+     ],
+     "answer": 3,
+     "explain": "Cost and speed."
+    },
+    {
+     "q": "What reduces duplication across teams?",
+     "options": [
+      "A shared test library with versioned APIs",
+      "Copy",
+      "None",
+      "Fork"
+     ],
+     "answer": 0,
+     "explain": "Reuse."
+    },
+    {
+     "q": "What governs a big suite?",
+     "options": [
+      "Ownership, tagging and running policies",
+      "Hope",
+      "Size",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Maintainability."
+    }
+   ]
+  },
+  "level-4/02-shift-left-continuous-testing": {
+   "questions": [
+    {
+     "q": "What does shift-left mean?",
+     "options": [
+      "Right",
+      "Later",
+      "Testing earlier in the lifecycle (requirements, design, dev)",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Cheaper fixes."
+    },
+    {
+     "q": "What's continuous testing?",
+     "options": [
+      "Never",
+      "Nightly",
+      "Manual",
+      "Automated tests running throughout the pipeline for fast feedback"
+     ],
+     "answer": 3,
+     "explain": "CI/CD."
+    },
+    {
+     "q": "What helps shift-left?",
+     "options": [
+      "Unit/API tests, static analysis and test-first practices",
+      "More UI",
+      "Cron",
+      "Manual"
+     ],
+     "answer": 0,
+     "explain": "Earlier."
+    },
+    {
+     "q": "What are quality gates?",
+     "options": [
+      "Automated criteria blocking progression when unmet",
+      "Docs",
+      "Meetings",
+      "Reports"
+     ],
+     "answer": 0,
+     "explain": "Enforced."
+    }
+   ]
+  },
+  "level-4/03-contract-testing-pact": {
+   "questions": [
+    {
+     "q": "What problem does contract testing solve?",
+     "options": [
+      "Verifying service interfaces between consumers and providers without full integration",
+      "Perf",
+      "UI",
+      "Load"
+     ],
+     "answer": 0,
+     "explain": "Pact."
+    },
+    {
+     "q": "Who defines the contract in consumer-driven testing?",
+     "options": [
+      "Gateway",
+      "Provider",
+      "QA",
+      "The consumer's expectations"
+     ],
+     "answer": 3,
+     "explain": "CDC."
+    },
+    {
+     "q": "What's a Pact broker?",
+     "options": [
+      "Grid",
+      "A server sharing and versioning contracts",
+      "DB",
+      "Mock"
+     ],
+     "answer": 1,
+     "explain": "Can-I-deploy."
+    },
+    {
+     "q": "Why not rely only on end-to-end tests?",
+     "options": [
+      "Fast",
+      "They're slow and flaky for service interactions",
+      "Stable",
+      "Cheap"
+     ],
+     "answer": 1,
+     "explain": "Contracts localize failures."
+    }
+   ]
+  },
+  "level-4/04-security-testing-basics": {
+   "questions": [
+    {
+     "q": "What basic security tests can QA do?",
+     "options": [
+      "Pentest",
+      "Nothing",
+      "Input validation, auth/authorization checks and dependency scanning",
+      "Perf"
+     ],
+     "answer": 2,
+     "explain": "Basics."
+    },
+    {
+     "q": "What does OWASP ZAP do?",
+     "options": [
+      "Load",
+      "Mocks",
+      "Scans web apps for common vulnerabilities (authorized targets)",
+      "Unit tests"
+     ],
+     "answer": 2,
+     "explain": "DAST."
+    },
+    {
+     "q": "What does SCA find?",
+     "options": [
+      "Leaks",
+      "Typos",
+      "Races",
+      "Known vulnerabilities in dependencies"
+     ],
+     "answer": 3,
+     "explain": "OWASP Dependency-Check."
+    },
+    {
+     "q": "Where integrate security tests?",
+     "options": [
+      "Manual",
+      "In CI so issues are caught early",
+      "Prod",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Shift left."
+    }
+   ]
+  },
+  "level-4/05-test-metrics-quality-gates": {
+   "questions": [
+    {
+     "q": "Which metrics are meaningful?",
+     "options": [
+      "Defect escape rate, flake rate and time to feedback",
+      "Test count",
+      "Lines",
+      "Hours"
+     ],
+     "answer": 0,
+     "explain": "Outcomes."
+    },
+    {
+     "q": "What's wrong with chasing coverage numbers?",
+     "options": [
+      "They can be gamed and don't measure assertion quality",
+      "Free",
+      "Easy",
+      "Accurate"
+     ],
+     "answer": 0,
+     "explain": "Goodhart."
+    },
+    {
+     "q": "What's a quality gate example?",
+     "options": [
+      "None",
+      "Manual",
+      "100%",
+      "No new critical bugs and coverage not decreasing"
+     ],
+     "answer": 3,
+     "explain": "Ratchet."
+    },
+    {
+     "q": "What does mutation testing assess?",
+     "options": [
+      "Speed",
+      "Whether tests detect small code changes",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "PIT."
+    }
+   ]
+  },
+  "level-4/06-containerized-test-environments": {
+   "questions": [
+    {
+     "q": "Why use Docker for test environments?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Reproducible, isolated and disposable environments"
+     ],
+     "answer": 3,
+     "explain": "Consistency."
+    },
+    {
+     "q": "What's Testcontainers?",
+     "options": [
+      "A library starting throwaway containers (DB, Kafka) for tests",
+      "Report",
+      "Grid",
+      "Mock"
+     ],
+     "answer": 0,
+     "explain": "Realistic."
+    },
+    {
+     "q": "What's docker-compose used for in testing?",
+     "options": [
+      "Build",
+      "Report",
+      "Bringing up multi-service environments",
+      "Lint"
+     ],
+     "answer": 2,
+     "explain": "Integration."
+    },
+    {
+     "q": "What's a downside?",
+     "options": [
+      "Startup time and resource use",
+      "None",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Reuse containers."
+    }
+   ]
+  },
+  "level-4/07-ai-assisted-testing": {
+   "questions": [
+    {
+     "q": "How can AI assist testing?",
+     "options": [
+      "Generating test ideas/data and summarizing failures, with human review",
+      "Run tests",
+      "Replace testers",
+      "Fix prod"
+     ],
+     "answer": 0,
+     "explain": "Assistive."
+    },
+    {
+     "q": "What's a risk of AI-generated tests?",
+     "options": [
+      "Speed",
+      "None",
+      "Law",
+      "Plausible but wrong assertions and false confidence"
+     ],
+     "answer": 3,
+     "explain": "Verify."
+    },
+    {
+     "q": "What data shouldn't go into public AI tools?",
+     "options": [
+      "Names",
+      "Public",
+      "Confidential or personal data",
+      "Docs"
+     ],
+     "answer": 2,
+     "explain": "Privacy."
+    },
+    {
+     "q": "How validate AI output?",
+     "options": [
+      "Review, run and mutation-check generated tests",
+      "Hope",
+      "Skip",
+      "Trust"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-4/08-in-house-test-framework": {
+   "questions": [
+    {
+     "q": "When build an in-house framework?",
+     "options": [
+      "Never",
+      "Always",
+      "When constraints exceed existing tools and you can maintain it",
+      "For fun"
+     ],
+     "answer": 2,
+     "explain": "Cost."
+    },
+    {
+     "q": "What are core components?",
+     "options": [
+      "DB",
+      "Runner, assertions, reporting and utilities",
+      "Cloud",
+      "GUI"
+     ],
+     "answer": 1,
+     "explain": "Minimal."
+    },
+    {
+     "q": "What's the cost?",
+     "options": [
+      "Speed",
+      "None",
+      "Law",
+      "Ongoing maintenance and missing community features"
+     ],
+     "answer": 3,
+     "explain": "Prefer standard."
+    },
+    {
+     "q": "How design for adoption?",
+     "options": [
+      "Hidden",
+      "Simple API, docs and examples",
+      "Complex",
+      "Secret"
+     ],
+     "answer": 1,
+     "explain": "Developer experience."
+    }
+   ]
+  },
+  "level-4/09-qa-leadership-strategy": {
+   "questions": [
+    {
+     "q": "What does QA leadership focus on?",
+     "options": [
+      "Writing all tests",
+      "Tools",
+      "Reports",
+      "Strategy, risk-based testing, people and quality culture"
+     ],
+     "answer": 3,
+     "explain": "Enablement."
+    },
+    {
+     "q": "What's risk-based testing?",
+     "options": [
+      "Random",
+      "Equal",
+      "Alphabetical",
+      "Prioritizing effort by likelihood and impact of failure"
+     ],
+     "answer": 3,
+     "explain": "Focus."
+    },
+    {
+     "q": "How grow a team?",
+     "options": [
+      "Silence",
+      "Tools",
+      "Pressure",
+      "Mentoring, clear standards and learning time"
+     ],
+     "answer": 3,
+     "explain": "People."
+    },
+    {
+     "q": "How communicate quality?",
+     "options": [
+      "Slides",
+      "Counts",
+      "Silence",
+      "Dashboards with actionable metrics and trends"
+     ],
+     "answer": 3,
+     "explain": "Transparency."
+    }
+   ]
+  },
+  "level-4/10-capstone-test-framework": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only POM",
+      "Architecture, CI/CD, contracts, security, metrics and containers",
+      "Only BDD",
+      "Only CI"
+     ],
+     "answer": 1,
+     "explain": "Production framework."
+    },
+    {
+     "q": "How prove it works?",
+     "options": [
+      "Hope",
+      "Demo",
+      "Slides",
+      "Stable runs, fast feedback and documented onboarding"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "None",
+      "Slides",
+      "Code",
+      "Architecture, how to run/extend and troubleshooting"
+     ],
+     "answer": 3,
+     "explain": "Adoption."
+    },
+    {
+     "q": "What sustains it?",
+     "options": [
+      "Tools",
+      "Luck",
+      "Ownership, refactoring and flake budgets",
+      "Silence"
+     ],
+     "answer": 2,
+     "explain": "Care."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What is the best definition of testing?",
+    "options": [
+     "Evaluating a program against expectations to find defects and give quality information",
+     "Writing code",
+     "Clicking around",
+     "Proving no bugs"
+    ],
+    "answer": 0,
+    "explain": "It can't prove absence of defects."
+   },
+   {
+    "q": "Which inputs does boundary value analysis pick for a valid range of 18 to 65? (Y = accepted)\n```java\npublic class Main {\n\npublic static void main(String[] args) throws Exception {\nint[] v = {17, 18, 19, 64, 65, 66};\nfor (int a : v) System.out.print(a >= 18 && a <= 65 ? \"Y\" : \"N\");\n}\n}\n```\n",
+    "options": [
+     "NNNNNN",
+     "YYYYYY",
+     "NYYYYN",
+     "YNNNNY"
+    ],
+    "answer": 2,
+    "explain": "Test both sides of each boundary. Verified by compiling and running it."
+   },
+   {
+    "q": "What's the difference between severity and priority of a defect?",
+    "options": [
+     "Reverse",
+     "None",
+     "Severity is the impact; priority is how urgently to fix it",
+     "Same"
+    ],
+    "answer": 2,
+    "explain": "Triage uses both."
+   },
+   {
+    "q": "A test needs to wait for a button to become clickable. What do you use in Selenium?",
+    "options": [
+     "Thread.sleep(5000)",
+     "An explicit wait on the condition (WebDriverWait)",
+     "Implicit wait only",
+     "Retry the test"
+    ],
+    "answer": 1,
+    "explain": "Condition-based waits reduce flakiness."
+   },
+   {
+    "q": "Which locator is usually most stable?",
+    "options": [
+     "Visible text of a long paragraph",
+     "Absolute XPath",
+     "A dedicated test attribute or ID",
+     "Index-based XPath"
+    ],
+    "answer": 2,
+    "explain": "Locators should survive layout changes."
+   },
+   {
+    "q": "What is the Page Object Model's main benefit?",
+    "options": [
+     "No waits needed",
+     "Faster browsers",
+     "UI changes are fixed in one place instead of every test",
+     "Fewer assertions"
+    ],
+    "answer": 2,
+    "explain": "Keep assertions in tests."
+   },
+   {
+    "q": "What does this hand-written mock/spy record?\n```java\nimport java.util.*;\npublic class Main {\ninterface Notifier { void send(String m); }\nstatic class Svc { Notifier n; Svc(Notifier n) { this.n = n; } void place(String id) { n.send(id); } }\npublic static void main(String[] args) throws Exception {\nList<String> sent = new ArrayList<>();\nNotifier n = sent::add;\nnew Svc(n).place(\"A1\"); new Svc(n).place(\"A2\");\nSystem.out.println(sent);\n}\n}\n```\n",
+    "options": [
+     "[A1]",
+     "Error",
+     "[A1, A2]",
+     "[]"
+    ],
+    "answer": 2,
+    "explain": "Test doubles let you verify interactions. Verified by compiling and running it."
+   },
+   {
+    "q": "What's the difference between a stub and a mock?",
+    "options": [
+     "Stubs return canned answers; mocks verify interactions",
+     "Mocks are real objects",
+     "Reverse",
+     "Same"
+    ],
+    "answer": 0,
+    "explain": "Mockito supports both."
+   },
+   {
+    "q": "A test passes on retry but fails first time. What should you do?",
+    "options": [
+     "Delete it",
+     "Ignore",
+     "Treat it as flaky: find the root cause (timing, shared state), quarantine and fix",
+     "Add retries forever"
+    ],
+    "answer": 2,
+    "explain": "Retries mask problems."
+   },
+   {
+    "q": "Where should test data come from for independent tests?",
+    "options": [
+     "Hard-coded in the UI",
+     "A shared prod DB",
+     "Order-dependent tests",
+     "Created per test (builders/factories) and cleaned up, not shared mutable data"
+    ],
+    "answer": 3,
+    "explain": "Isolation."
+   },
+   {
+    "q": "What does REST Assured let you do in Java?",
+    "options": [
+     "Mock the DB",
+     "Write readable given/when/then tests for HTTP APIs",
+     "Load test",
+     "Drive browsers"
+    ],
+    "answer": 1,
+    "explain": "Verify status, headers and body."
+   },
+   {
+    "q": "Why test at the API level more than the UI level?",
+    "options": [
+     "It's easier to see",
+     "It's faster and more stable while covering the same logic",
+     "Law",
+     "UI can't be tested"
+    ],
+    "answer": 1,
+    "explain": "The test pyramid."
+   },
+   {
+    "q": "What does a Cucumber step definition do?",
+    "options": [
+     "Mocks",
+     "Reports",
+     "Binds a Gherkin step to executable code",
+     "Locators"
+    ],
+    "answer": 2,
+    "explain": "BDD."
+   },
+   {
+    "q": "What does Selenium Grid add?",
+    "options": [
+     "Mocks",
+     "Unit tests",
+     "Parallel execution across browsers/nodes",
+     "Reports"
+    ],
+    "answer": 2,
+    "explain": "Drivers must be per-thread."
+   },
+   {
+    "q": "Why give each parallel test thread its own WebDriver?",
+    "options": [
+     "Speed",
+     "Law",
+     "Style",
+     "WebDriver isn't thread-safe"
+    ],
+    "answer": 3,
+    "explain": "ThreadLocal<WebDriver>."
+   },
+   {
+    "q": "What does contract testing (Pact) verify?",
+    "options": [
+     "Security",
+     "That a consumer and provider agree on an API without a full integration environment",
+     "UI",
+     "Load"
+    ],
+    "answer": 1,
+    "explain": "Consumer-driven."
+   },
+   {
+    "q": "A service dependency is slow to start in CI. What helps?",
+    "options": [
+     "Skip",
+     "Prod",
+     "Sleep",
+     "Containerized throwaway environments (Testcontainers/docker-compose)"
+    ],
+    "answer": 3,
+    "explain": "Reproducible."
+   },
+   {
+    "q": "Why is a 90% coverage gate not enough?",
+    "options": [
+     "Coverage doesn't measure assertion quality; use mutation testing and meaningful gates",
+     "Coverage is fake",
+     "It's perfect",
+     "It's too low"
+    ],
+    "answer": 0,
+    "explain": "Metrics can be gamed."
+   },
+   {
+    "q": "An AI tool generates tests for you. What must you do?",
+    "options": [
+     "Review and run them; verify assertions are meaningful and no sensitive data was shared",
+     "Trust them",
+     "Delete old tests",
+     "Commit blindly"
+    ],
+    "answer": 0,
+    "explain": "AI is an assistant."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A tiny JUnit-style runner",
+    "prompt": "Complete run(): discover @Test methods by reflection (sorted by name), create a fresh instance per test, run @BeforeEach methods, and report PASS/FAIL, honoring @Test(expected=...). Finish with a summary line.",
+    "starter": "import java.lang.annotation.*;\nimport java.lang.reflect.*;\nimport java.util.*;\n\npublic class Main {\n    @Retention(RetentionPolicy.RUNTIME) @interface Test { Class<? extends Throwable> expected() default None.class; }\n    @Retention(RetentionPolicy.RUNTIME) @interface BeforeEach {}\n    static class None extends Throwable {}\n\n    static class CalcTests {\n        int acc;\n        @BeforeEach void reset() { acc = 10; }\n        @Test void adds() { acc += 5; check(acc == 15, \"acc should be 15\"); }\n        @Test void freshStatePerTest() { check(acc == 10, \"setup must run before each test\"); }\n        @Test void fails() { check(acc == 99, \"expected 99\"); }\n        @Test(expected = ArithmeticException.class) void throwsExpected() { int z = 0; int r = 1 / z; }\n        @Test(expected = IllegalStateException.class) void wrongException() { throw new IllegalArgumentException(\"x\"); }\n    }\n\n    static void check(boolean ok, String msg) { if (!ok) throw new AssertionError(msg); }\n\n    static void run(Class<?> cls) throws Exception {\n        // for every @Test method (sorted by name): create a fresh instance, run @BeforeEach methods, invoke it;\n        // PASS when it returns normally (and no exception was expected) or throws the expected exception;\n        // otherwise print FAIL with the reason; finish with \"<n> passed, <m> failed\"\n    }\n\n    public static void main(String[] args) throws Exception { run(CalcTests.class); }\n}\n",
+    "expected": "PASS adds\nFAIL fails: AssertionError expected 99\nPASS freshStatePerTest\nPASS throwsExpected\nFAIL wrongException: IllegalArgumentException x\n3 passed, 2 failed",
+    "solution": "import java.lang.annotation.*;\nimport java.lang.reflect.*;\nimport java.util.*;\n\npublic class Main {\n    @Retention(RetentionPolicy.RUNTIME) @interface Test { Class<? extends Throwable> expected() default None.class; }\n    @Retention(RetentionPolicy.RUNTIME) @interface BeforeEach {}\n    static class None extends Throwable {}\n\n    static class CalcTests {\n        int acc;\n        @BeforeEach void reset() { acc = 10; }\n        @Test void adds() { acc += 5; check(acc == 15, \"acc should be 15\"); }\n        @Test void freshStatePerTest() { check(acc == 10, \"setup must run before each test\"); }\n        @Test void fails() { check(acc == 99, \"expected 99\"); }\n        @Test(expected = ArithmeticException.class) void throwsExpected() { int z = 0; int r = 1 / z; }\n        @Test(expected = IllegalStateException.class) void wrongException() { throw new IllegalArgumentException(\"x\"); }\n    }\n\n    static void check(boolean ok, String msg) { if (!ok) throw new AssertionError(msg); }\n\n    static void run(Class<?> cls) throws Exception {\n        int pass = 0, fail = 0;\n        List<Method> tests = new ArrayList<>();\n        for (Method m : cls.getDeclaredMethods()) if (m.isAnnotationPresent(Test.class)) tests.add(m);\n        tests.sort(Comparator.comparing(Method::getName));\n        for (Method t : tests) {\n            Object inst = cls.getDeclaredConstructor().newInstance();\n            for (Method m : cls.getDeclaredMethods()) if (m.isAnnotationPresent(BeforeEach.class)) { m.setAccessible(true); m.invoke(inst); }\n            Class<? extends Throwable> expected = t.getAnnotation(Test.class).expected();\n            t.setAccessible(true);\n            try {\n                t.invoke(inst);\n                if (expected != None.class) { fail++; System.out.println(\"FAIL \" + t.getName() + \": expected \" + expected.getSimpleName()); }\n                else { pass++; System.out.println(\"PASS \" + t.getName()); }\n            } catch (InvocationTargetException e) {\n                Throwable c = e.getCause();\n                if (expected.isInstance(c)) { pass++; System.out.println(\"PASS \" + t.getName()); }\n                else { fail++; System.out.println(\"FAIL \" + t.getName() + \": \" + c.getClass().getSimpleName() + (c.getMessage() != null ? \" \" + c.getMessage() : \"\")); }\n            }\n        }\n        System.out.println(pass + \" passed, \" + fail + \" failed\");\n    }\n\n    public static void main(String[] args) throws Exception { run(CalcTests.class); }\n}\n",
+    "explain": "This is how JUnit works conceptually: annotations mark tests, a fresh instance per test gives isolation, and an exception either fails the test or satisfies `expected`. Verified by running the solution with java Main.java."
+   },
+   {
+    "title": "Test doubles for a checkout",
+    "prompt": "Implement Checkout.pay: reject non-positive amounts before touching the gateway, charge, email a receipt on success and return PAID, otherwise DECLINED. The fake gateway and spy mailer record interactions so the assertions can verify them.",
+    "starter": "import java.util.*;\n\npublic class Main {\n    interface PaymentGateway { boolean charge(String customer, int cents); }\n    interface Mailer { void send(String to, String body); }\n\n    static class FakeGateway implements PaymentGateway {\n        final List<String> calls = new ArrayList<>();\n        final Set<String> declines = new HashSet<>();\n        public boolean charge(String customer, int cents) { calls.add(customer + \":\" + cents); return !declines.contains(customer); }\n    }\n    static class SpyMailer implements Mailer {\n        final List<String> sent = new ArrayList<>();\n        public void send(String to, String body) { sent.add(to + \"|\" + body); }\n    }\n\n    static class Checkout {\n        final PaymentGateway gw; final Mailer mailer;\n        Checkout(PaymentGateway gw, Mailer mailer) { this.gw = gw; this.mailer = mailer; }\n        String pay(String customer, int cents) {\n            // throw IllegalArgumentException(\"amount must be positive\") BEFORE touching the gateway when cents <= 0;\n            // charge; on success email a receipt (\"receipt <cents>\") and return \"PAID\"; otherwise return \"DECLINED\"\n            return \"\";\n        }\n    }\n\n    public static void main(String[] args) {\n        FakeGateway gw = new FakeGateway(); SpyMailer mail = new SpyMailer();\n        gw.declines.add(\"bo\");\n        Checkout c = new Checkout(gw, mail);\n        System.out.println(c.pay(\"ada\", 500));\n        System.out.println(c.pay(\"bo\", 700));\n        try { c.pay(\"cy\", 0); } catch (IllegalArgumentException e) { System.out.println(\"rejected: \" + e.getMessage()); }\n        System.out.println(\"gateway calls: \" + gw.calls);\n        System.out.println(\"emails: \" + mail.sent);\n        System.out.println(\"no email for declined: \" + mail.sent.stream().noneMatch(s -> s.startsWith(\"bo\")));\n        System.out.println(\"gateway untouched for invalid amount: \" + !gw.calls.contains(\"cy:0\"));\n    }\n}\n",
+    "expected": "PAID\nDECLINED\nrejected: amount must be positive\ngateway calls: [ada:500, bo:700]\nemails: [ada|receipt 500]\nno email for declined: true\ngateway untouched for invalid amount: true",
+    "solution": "import java.util.*;\n\npublic class Main {\n    interface PaymentGateway { boolean charge(String customer, int cents); }\n    interface Mailer { void send(String to, String body); }\n\n    static class FakeGateway implements PaymentGateway {\n        final List<String> calls = new ArrayList<>();\n        final Set<String> declines = new HashSet<>();\n        public boolean charge(String customer, int cents) { calls.add(customer + \":\" + cents); return !declines.contains(customer); }\n    }\n    static class SpyMailer implements Mailer {\n        final List<String> sent = new ArrayList<>();\n        public void send(String to, String body) { sent.add(to + \"|\" + body); }\n    }\n\n    static class Checkout {\n        final PaymentGateway gw; final Mailer mailer;\n        Checkout(PaymentGateway gw, Mailer mailer) { this.gw = gw; this.mailer = mailer; }\n        String pay(String customer, int cents) {\n            if (cents <= 0) throw new IllegalArgumentException(\"amount must be positive\");\n            if (gw.charge(customer, cents)) { mailer.send(customer, \"receipt \" + cents); return \"PAID\"; }\n            return \"DECLINED\";\n        }\n    }\n\n    public static void main(String[] args) {\n        FakeGateway gw = new FakeGateway(); SpyMailer mail = new SpyMailer();\n        gw.declines.add(\"bo\");\n        Checkout c = new Checkout(gw, mail);\n        System.out.println(c.pay(\"ada\", 500));\n        System.out.println(c.pay(\"bo\", 700));\n        try { c.pay(\"cy\", 0); } catch (IllegalArgumentException e) { System.out.println(\"rejected: \" + e.getMessage()); }\n        System.out.println(\"gateway calls: \" + gw.calls);\n        System.out.println(\"emails: \" + mail.sent);\n        System.out.println(\"no email for declined: \" + mail.sent.stream().noneMatch(s -> s.startsWith(\"bo\")));\n        System.out.println(\"gateway untouched for invalid amount: \" + !gw.calls.contains(\"cy:0\"));\n    }\n}\n",
+    "explain": "A fake gateway controls outcomes and a spy mailer records calls, so behavior and interactions can be asserted without real services. Verified by running the solution with java Main.java."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
