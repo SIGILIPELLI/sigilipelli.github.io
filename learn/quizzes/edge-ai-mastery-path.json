@@ -1,0 +1,2159 @@
+{
+ "course": "edge-ai-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-edge-ai": {
+   "questions": [
+    {
+     "q": "What is edge AI?",
+     "options": [
+      "Data warehousing",
+      "Running ML inference on the device that owns the data rather than in the cloud",
+      "Cloud inference",
+      "Training in the cloud"
+     ],
+     "answer": 1,
+     "explain": "Models are usually trained elsewhere."
+    },
+    {
+     "q": "Which is a benefit of on-device inference?",
+     "options": [
+      "Unlimited compute",
+      "Cloud access",
+      "Bigger models",
+      "Low latency, privacy, offline operation and no per-request cloud cost"
+     ],
+     "answer": 3,
+     "explain": "Constraints are memory, power and compute."
+    },
+    {
+     "q": "What constrains models on a microcontroller?",
+     "options": [
+      "Kilobytes of RAM, limited flash and compute, and a power budget",
+      "Network",
+      "Storage",
+      "GPU memory"
+     ],
+     "answer": 0,
+     "explain": "Design small."
+    },
+    {
+     "q": "Why is an always-on wake word model tiny?",
+     "options": [
+      "It runs continuously on a battery, so it must be small and low power",
+      "Speed",
+      "Accuracy",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Power dominates."
+    }
+   ]
+  },
+  "level-1/02-edge-ai-workflow": {
+   "questions": [
+    {
+     "q": "What are the four pipeline stages?",
+     "options": [
+      "Train, test, ship, bill",
+      "Design, code, build, run",
+      "Train, convert, quantize, deploy",
+      "Collect, label, test, ship"
+     ],
+     "answer": 2,
+     "explain": "Repeat for any model."
+    },
+    {
+     "q": "Where is the model usually trained?",
+     "options": [
+      "On a workstation or in the cloud",
+      "On the MCU",
+      "On a sensor",
+      "On a phone only"
+     ],
+     "answer": 0,
+     "explain": "Then shipped to the device."
+    },
+    {
+     "q": "What does conversion produce?",
+     "options": [
+      "A CSV",
+      "A PNG",
+      "A C binary",
+      "A .tflite flatbuffer consumed by interpreters"
+     ],
+     "answer": 3,
+     "explain": "TFLite and TFLM read it."
+    },
+    {
+     "q": "Why prototype with a toy model first?",
+     "options": [
+      "Speed only",
+      "To master the whole pipeline cheaply before a real model",
+      "Law",
+      "Fun"
+     ],
+     "answer": 1,
+     "explain": "The sine model is the hello world."
+    }
+   ]
+  },
+  "level-1/03-training-a-tiny-model": {
+   "questions": [
+    {
+     "q": "What does the sine 'hello world' model learn?",
+     "options": [
+      "A mapping from x to sin(x) from noisy samples",
+      "Audio",
+      "Images",
+      "Text"
+     ],
+     "answer": 0,
+     "explain": "The official TFLM example."
+    },
+    {
+     "q": "Why add noise to the training samples?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "To make a realistic regression problem and avoid an exact lookup"
+     ],
+     "answer": 3,
+     "explain": "Generalization."
+    },
+    {
+     "q": "What does a tiny dense network look like?",
+     "options": [
+      "A few small dense layers (e.g. 16 units each)",
+      "Transformer",
+      "ResNet",
+      "CNN"
+     ],
+     "answer": 0,
+     "explain": "Small by design."
+    },
+    {
+     "q": "How do you check the trained model?",
+     "options": [
+      "Compare predictions to true sin(x) on held-out points",
+      "Eyeball",
+      "Trust loss",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "Validation."
+    }
+   ]
+  },
+  "level-1/04-converting-to-tflite": {
+   "questions": [
+    {
+     "q": "What is a .tflite file?",
+     "options": [
+      "A FlatBuffer model for TensorFlow Lite runtimes",
+      "Log",
+      "Python code",
+      "Image"
+     ],
+     "answer": 0,
+     "explain": "Compact and zero-copy."
+    },
+    {
+     "q": "Which tool converts a Keras model?",
+     "options": [
+      "adb",
+      "tf.lite.TFLiteConverter",
+      "gcc",
+      "pip"
+     ],
+     "answer": 1,
+     "explain": "from_keras_model."
+    },
+    {
+     "q": "Why inspect the converted model?",
+     "options": [
+      "Style",
+      "To verify input/output shapes, types and ops are what you expect",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Use the interpreter's tensor details."
+    },
+    {
+     "q": "What can go wrong in conversion?",
+     "options": [
+      "Speed",
+      "Nothing",
+      "Law",
+      "Unsupported ops or unexpected data types"
+     ],
+     "answer": 3,
+     "explain": "Check supported op list."
+    }
+   ]
+  },
+  "level-1/05-quantization": {
+   "questions": [
+    {
+     "q": "What does int8 quantization give?",
+     "options": [
+      "Larger",
+      "About 4x smaller models and faster integer inference at slight precision cost",
+      "More accurate",
+      "Slower"
+     ],
+     "answer": 1,
+     "explain": "float32 is 4 bytes, int8 is 1."
+    },
+    {
+     "q": "A float range [-1.0, 1.0] maps to int8 with scale and zero-point. What's the scale?\n```python\nlo,hi=-1.0,1.0\nscale=(hi-lo)/255\nzp=round(-128-lo/scale)\nprint(round(scale,5), zp)\n```\n",
+     "options": [
+      "0.00784 -128",
+      "0.00392 -128",
+      "0.00392 0",
+      "0.00784 0"
+     ],
+     "answer": 3,
+     "explain": "scale = range/255; zero_point = round(qmin - min/scale). Verified by running it."
+    },
+    {
+     "q": "What's post-training quantization?",
+     "options": [
+      "Training in int8",
+      "Distillation",
+      "Pruning",
+      "Converting a trained float model to int8 using a representative dataset to calibrate ranges"
+     ],
+     "answer": 3,
+     "explain": "Needs representative data."
+    },
+    {
+     "q": "Why supply a representative dataset?",
+     "options": [
+      "So activation ranges are calibrated for realistic inputs",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Bad calibration hurts accuracy."
+    }
+   ]
+  },
+  "level-1/06-tflite-micro-c-arrays": {
+   "questions": [
+    {
+     "q": "How does a model get onto a microcontroller without a filesystem?",
+     "options": [
+      "Network",
+      "SD only",
+      "As a C byte array compiled into the firmware",
+      "Download"
+     ],
+     "answer": 2,
+     "explain": "xxd -i."
+    },
+    {
+     "q": "What is TensorFlow Lite for Microcontrollers (TFLM)?",
+     "options": [
+      "Python lib",
+      "Cloud API",
+      "Compiler",
+      "A stripped-down C++ interpreter for devices with kilobytes of RAM"
+     ],
+     "answer": 3,
+     "explain": "No dynamic allocation."
+    },
+    {
+     "q": "What is the tensor arena?",
+     "options": [
+      "Flash",
+      "A statically allocated buffer TFLM uses for tensors and scratch",
+      "Stack",
+      "Heap"
+     ],
+     "answer": 1,
+     "explain": "Size it by trial."
+    },
+    {
+     "q": "Why register only the ops you use (OpResolver)?",
+     "options": [
+      "Law",
+      "Style",
+      "To save flash by linking only needed kernels",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "MicroMutableOpResolver."
+    }
+   ]
+  },
+  "level-1/07-deploying-to-microcontroller": {
+   "questions": [
+    {
+     "q": "Which board is the course's reference?",
+     "options": [
+      "Jetson",
+      "Arduino Uno",
+      "Raspberry Pi",
+      "ESP32 (~520 KB RAM, 4 MB flash, 240 MHz, WiFi)"
+     ],
+     "answer": 3,
+     "explain": "Cheap and capable."
+    },
+    {
+     "q": "What's the main difference moving from desktop to the MCU?",
+     "options": [
+      "New model",
+      "New math",
+      "Memory and I/O limits, with near-identical inference code",
+      "New file"
+     ],
+     "answer": 2,
+     "explain": "Same bytes."
+    },
+    {
+     "q": "How do you verify the on-device result?",
+     "options": [
+      "Eyeball",
+      "Assume",
+      "Compare outputs to the desktop interpreter for the same inputs",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Parity testing."
+    },
+    {
+     "q": "What can fail only on hardware?",
+     "options": [
+      "Imports",
+      "Types",
+      "Arena too small, stack overflow, timing and sensor quirks",
+      "Syntax"
+     ],
+     "answer": 2,
+     "explain": "Measure on device."
+    }
+   ]
+  },
+  "level-1/08-sensors-feature-extraction": {
+   "questions": [
+    {
+     "q": "100 Hz accelerometer, 2-second windows with 50% overlap. How many windows from a 10 s recording?\n```python\nfs=100; win=2*fs; step=win//2; n=10*fs\nprint((n-win)//step+1)\n```\n",
+     "options": [
+      "8",
+      "10",
+      "5",
+      "9"
+     ],
+     "answer": 3,
+     "explain": "Windows slide by 1 s: starts at 0..8 s. Verified by running it."
+    },
+    {
+     "q": "Why extract features from sensor streams?",
+     "options": [
+      "Law",
+      "Speed only",
+      "Style",
+      "Models need fixed-size inputs and features compress raw data into informative values"
+     ],
+     "answer": 3,
+     "explain": "Windowing and statistics."
+    },
+    {
+     "q": "Which are common time-domain features?",
+     "options": [
+      "Mean, RMS, variance, min/max and zero crossings",
+      "IDs",
+      "Fonts",
+      "Colors"
+     ],
+     "answer": 0,
+     "explain": "Cheap to compute."
+    },
+    {
+     "q": "Why must training and deployment preprocessing match exactly?",
+     "options": [
+      "Law",
+      "Any mismatch shifts inputs and degrades accuracy",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Same code path."
+    }
+   ]
+  },
+  "level-1/09-evaluating-debugging": {
+   "questions": [
+    {
+     "q": "Why can a model pass notebook tests and fail in the field?",
+     "options": [
+      "Bad luck",
+      "Quantization, on-device preprocessing and real sensors each leak accuracy",
+      "Overfitting only",
+      "Bugs"
+     ],
+     "answer": 1,
+     "explain": "Evaluate the deployed system."
+    },
+    {
+     "q": "What should you evaluate on device?",
+     "options": [
+      "Loss",
+      "Only offline",
+      "Nothing",
+      "End-to-end accuracy with real sensor data"
+     ],
+     "answer": 3,
+     "explain": "Field testing."
+    },
+    {
+     "q": "What does a confusion matrix reveal?",
+     "options": [
+      "Which classes are confused, beyond overall accuracy",
+      "Memory",
+      "Power",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Targeted fixes."
+    },
+    {
+     "q": "How do you debug a quantized model?",
+     "options": [
+      "Compare layer outputs against the float model to find where error enters",
+      "Rewrite",
+      "Skip",
+      "Guess"
+     ],
+     "answer": 0,
+     "explain": "Layer-wise."
+    }
+   ]
+  },
+  "level-1/10-capstone-gesture-recognition": {
+   "questions": [
+    {
+     "q": "What does the gesture capstone classify?",
+     "options": [
+      "Images",
+      "2-second accelerometer windows as circle, shake or still",
+      "Audio",
+      "Text"
+     ],
+     "answer": 1,
+     "explain": "Magic wand task."
+    },
+    {
+     "q": "Why generate labeled data in the project?",
+     "options": [
+      "Speed",
+      "Law",
+      "To practice the full pipeline reproducibly",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Then collect real data."
+    },
+    {
+     "q": "What's the final verification step?",
+     "options": [
+      "Eyeball",
+      "Assume",
+      "Skip",
+      "Check int8 model accuracy and on-device behavior"
+     ],
+     "answer": 3,
+     "explain": "Close the loop."
+    },
+    {
+     "q": "What ties Level 1 together?",
+     "options": [
+      "Only deploy",
+      "Only data",
+      "Only training",
+      "Data, features, training, quantization and deployment"
+     ],
+     "answer": 3,
+     "explain": "End to end."
+    }
+   ]
+  },
+  "level-2/01-audio-wake-words": {
+   "questions": [
+    {
+     "q": "What features do wake word models commonly use?",
+     "options": [
+      "Video",
+      "Text",
+      "Log-mel spectrograms or MFCCs computed from short audio frames",
+      "Raw images"
+     ],
+     "answer": 2,
+     "explain": "Compact spectral features."
+    },
+    {
+     "q": "Why are false accepts and false rejects both costly?",
+     "options": [
+      "Law",
+      "False accepts wake the device (annoying, privacy); rejects frustrate users",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Tune threshold."
+    },
+    {
+     "q": "What reduces always-on power?",
+     "options": [
+      "A tiny first-stage detector that wakes bigger stages only when needed",
+      "Bigger model",
+      "Faster clock",
+      "Constant cloud"
+     ],
+     "answer": 0,
+     "explain": "Cascade."
+    },
+    {
+     "q": "How do you handle background noise?",
+     "options": [
+      "Quieter room",
+      "Ignore",
+      "Filter only",
+      "Train with noisy/augmented data and a 'background' class"
+     ],
+     "answer": 3,
+     "explain": "Dataset matters."
+    }
+   ]
+  },
+  "level-2/02-image-classification-mcu": {
+   "questions": [
+    {
+     "q": "Why can't a ResNet run on a Cortex-M4 with 256 KB RAM?",
+     "options": [
+      "Law",
+      "Speed",
+      "Activations and weights exceed memory",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Use MobileNet-style small nets."
+    },
+    {
+     "q": "What do depthwise-separable convolutions do?",
+     "options": [
+      "Quantize",
+      "Increase",
+      "Cut parameters and compute versus standard convolutions",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "MobileNet building block."
+    },
+    {
+     "q": "How do you account for peak RAM?",
+     "options": [
+      "Weights only",
+      "Sum the largest simultaneously live activation buffers (plus scratch)",
+      "Flash",
+      "Stack"
+     ],
+     "answer": 1,
+     "explain": "Not total activations."
+    },
+    {
+     "q": "Why use small input resolutions (e.g. 96x96)?",
+     "options": [
+      "Color",
+      "Memory and latency scale with pixels",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Trade accuracy."
+    }
+   ]
+  },
+  "level-2/03-edge-impulse-workflows": {
+   "questions": [
+    {
+     "q": "What does Edge Impulse provide?",
+     "options": [
+      "A cloud DB",
+      "A hosted workflow for data, DSP, training and deployment to devices",
+      "A chip",
+      "A language"
+     ],
+     "answer": 1,
+     "explain": "Fast prototyping."
+    },
+    {
+     "q": "What's an 'impulse'?",
+     "options": [
+      "A bug",
+      "A signal",
+      "A chip",
+      "The pipeline from input window through processing block to learning block"
+     ],
+     "answer": 3,
+     "explain": "Configurable."
+    },
+    {
+     "q": "When might you leave a platform and hand-build?",
+     "options": [
+      "Always",
+      "For speed",
+      "Never",
+      "For custom models, unusual targets or full control and cost"
+     ],
+     "answer": 3,
+     "explain": "Know the trade."
+    },
+    {
+     "q": "What does the EON compiler do?",
+     "options": [
+      "Collects",
+      "Trains",
+      "Labels",
+      "Reduces RAM/flash versus a generic interpreter by compiling the model"
+     ],
+     "answer": 3,
+     "explain": "Optimization."
+    }
+   ]
+  },
+  "level-2/04-data-collection-datasets": {
+   "questions": [
+    {
+     "q": "What causes the gap between test set and real world?",
+     "options": [
+      "Algorithms only",
+      "Speed",
+      "Bugs",
+      "Dataset differences like noise, lighting and devices"
+     ],
+     "answer": 3,
+     "explain": "Collect representative data."
+    },
+    {
+     "q": "Why record from the target hardware?",
+     "options": [
+      "Law",
+      "Style",
+      "Microphones and sensors differ and shape the data",
+      "Cost"
+     ],
+     "answer": 2,
+     "explain": "Match deployment."
+    },
+    {
+     "q": "What is dataset leakage?",
+     "options": [
+      "Speed",
+      "The same subject/session in both train and test, inflating accuracy",
+      "Missing data",
+      "Noise"
+     ],
+     "answer": 1,
+     "explain": "Split by subject/session."
+    },
+    {
+     "q": "How do you balance classes?",
+     "options": [
+      "Duplicate",
+      "Collect more of the minority class and augment, rather than only reweight",
+      "Delete",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Coverage."
+    }
+   ]
+  },
+  "level-2/05-pruning-distillation": {
+   "questions": [
+    {
+     "q": "What is pruning?",
+     "options": [
+      "Conversion",
+      "Quantization",
+      "Removing low-importance weights or structures to reduce size or compute",
+      "Training"
+     ],
+     "answer": 2,
+     "explain": "Sparsity."
+    },
+    {
+     "q": "What's knowledge distillation?",
+     "options": [
+      "Pruning",
+      "Labeling",
+      "Training a small student to mimic a larger teacher's outputs",
+      "Quantizing"
+     ],
+     "answer": 2,
+     "explain": "Soft targets."
+    },
+    {
+     "q": "Why unstructured sparsity often doesn't speed up MCU inference?",
+     "options": [
+      "Kernels don't exploit scattered zeros; structured pruning does",
+      "Style",
+      "Always speeds",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Hardware support."
+    },
+    {
+     "q": "When prefer distillation?",
+     "options": [
+      "Quantized",
+      "Always",
+      "Never",
+      "When a small architecture trained alone underperforms"
+     ],
+     "answer": 3,
+     "explain": "Student benefits from teacher."
+    }
+   ]
+  },
+  "level-2/06-quantization-aware-training": {
+   "questions": [
+    {
+     "q": "What is QAT?",
+     "options": [
+      "Post-training",
+      "Quantization-aware training: simulate quantization during training so weights adapt",
+      "Distillation",
+      "Pruning"
+     ],
+     "answer": 1,
+     "explain": "Recovers accuracy."
+    },
+    {
+     "q": "When is QAT needed over PTQ?",
+     "options": [
+      "When PTQ loses unacceptable accuracy (small nets, wide ranges)",
+      "Always",
+      "For speed",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "More effort."
+    },
+    {
+     "q": "What does fake quantization do in training?",
+     "options": [
+      "Drops",
+      "Real int8",
+      "Rounds values in the forward pass but keeps float gradients",
+      "Prunes"
+     ],
+     "answer": 2,
+     "explain": "Straight-through estimator."
+    },
+    {
+     "q": "What must you still do after QAT?",
+     "options": [
+      "Nothing",
+      "Convert to a true int8 model and re-verify on device",
+      "Skip",
+      "Deploy raw"
+     ],
+     "answer": 1,
+     "explain": "Validate."
+    }
+   ]
+  },
+  "level-2/07-esp32-cam-projects": {
+   "questions": [
+    {
+     "q": "What constraints does the ESP32-CAM have?",
+     "options": [
+      "GPU",
+      "No camera",
+      "Limited RAM (PSRAM helps), modest CPU, and tight power/heat",
+      "Lots of RAM"
+     ],
+     "answer": 2,
+     "explain": "Cheap board."
+    },
+    {
+     "q": "Why is the camera frame size a problem?",
+     "options": [
+      "Speed",
+      "Style",
+      "Frame buffers consume large RAM; downscale or crop",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Use grayscale 96x96."
+    },
+    {
+     "q": "What does PSRAM provide?",
+     "options": [
+      "Flash",
+      "Extra external RAM for frame buffers and larger arenas",
+      "ROM",
+      "Cache"
+     ],
+     "answer": 1,
+     "explain": "Slower than internal."
+    },
+    {
+     "q": "How do you save power on the ESP32-CAM?",
+     "options": [
+      "Streaming",
+      "Capture on trigger and sleep between frames",
+      "Max clock",
+      "Always on"
+     ],
+     "answer": 1,
+     "explain": "Duty cycle."
+    }
+   ]
+  },
+  "level-2/08-person-detection": {
+   "questions": [
+    {
+     "q": "What is person detection as a task?",
+     "options": [
+      "Pose",
+      "Segmentation",
+      "A binary visual wake word: person or not in the frame",
+      "Object detection"
+     ],
+     "answer": 2,
+     "explain": "Cheap and widely deployed."
+    },
+    {
+     "q": "Which model family is used for the standard example?",
+     "options": [
+      "ResNet-152",
+      "MobileNet-style small CNNs on 96x96 grayscale",
+      "BERT",
+      "GAN"
+     ],
+     "answer": 1,
+     "explain": "Fits MCUs."
+    },
+    {
+     "q": "What privacy benefit does on-device detection offer?",
+     "options": [
+      "Law",
+      "Cost",
+      "Images never leave the device",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Send only results."
+    },
+    {
+     "q": "What's a typical failure in the field?",
+     "options": [
+      "Lighting and pose differences from the training data",
+      "Types",
+      "Syntax",
+      "Imports"
+     ],
+     "answer": 0,
+     "explain": "Collect varied data."
+    }
+   ]
+  },
+  "level-2/09-memory-latency-optimization": {
+   "questions": [
+    {
+     "q": "What first when optimizing memory/latency?",
+     "options": [
+      "Profile where RAM and time go, per layer",
+      "Prune",
+      "Guess",
+      "Quantize blindly"
+     ],
+     "answer": 0,
+     "explain": "Measure."
+    },
+    {
+     "q": "Which reduces peak RAM?",
+     "options": [
+      "More layers",
+      "Smaller activations (lower resolution, fewer channels) and in-place ops",
+      "Bigger arena",
+      "Floats"
+     ],
+     "answer": 1,
+     "explain": "Activation memory dominates."
+    },
+    {
+     "q": "What does CMSIS-NN provide?",
+     "options": [
+      "A compiler",
+      "A model",
+      "A dataset",
+      "Optimized int8 kernels for Arm Cortex-M"
+     ],
+     "answer": 3,
+     "explain": "Faster than reference."
+    },
+    {
+     "q": "How do you choose between accuracy and latency?",
+     "options": [
+      "Set a budget and pick the best model within it",
+      "Random",
+      "Min latency",
+      "Max accuracy"
+     ],
+     "answer": 0,
+     "explain": "Constraints first."
+    }
+   ]
+  },
+  "level-2/10-project-voice-controlled-device": {
+   "questions": [
+    {
+     "q": "What does the voice-controlled device capstone combine?",
+     "options": [
+      "Audio pipeline, keyword model, quantization and an on-device action",
+      "Only model",
+      "Only audio",
+      "Only hardware"
+     ],
+     "answer": 0,
+     "explain": "Offline commands."
+    },
+    {
+     "q": "How do you reduce false triggers?",
+     "options": [
+      "Louder mic",
+      "Ignore",
+      "More triggers",
+      "Add a background/unknown class, thresholds and debouncing"
+     ],
+     "answer": 3,
+     "explain": "Tune on real audio."
+    },
+    {
+     "q": "Why no cloud connection?",
+     "options": [
+      "Law",
+      "Style",
+      "Privacy, latency and offline use",
+      "Speed only"
+     ],
+     "answer": 2,
+     "explain": "On-device."
+    },
+    {
+     "q": "What should you measure?",
+     "options": [
+      "Loss",
+      "Colors",
+      "Size",
+      "Accuracy, latency, power and false-trigger rate in realistic conditions"
+     ],
+     "answer": 3,
+     "explain": "End to end."
+    }
+   ]
+  },
+  "level-3/01-npus-accelerators-coral": {
+   "questions": [
+    {
+     "q": "What is an NPU?",
+     "options": [
+      "A radio",
+      "A sensor",
+      "A neural processing unit that accelerates tensor operations",
+      "A CPU"
+     ],
+     "answer": 2,
+     "explain": "Much faster than CPU for supported ops."
+    },
+    {
+     "q": "Why do Coral Edge TPU models need compiling?",
+     "options": [
+      "Only supported int8 ops map to the TPU; the compiler partitions the graph",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Unsupported ops fall back to CPU."
+    },
+    {
+     "q": "What's the cost of CPU fallbacks?",
+     "options": [
+      "Cheaper",
+      "None",
+      "Data transfers and slower execution that erode the speedup",
+      "Faster"
+     ],
+     "answer": 2,
+     "explain": "Check the compile report."
+    },
+    {
+     "q": "What input type does the Edge TPU require?",
+     "options": [
+      "float32",
+      "float64",
+      "bool",
+      "Fully int8-quantized models"
+     ],
+     "answer": 3,
+     "explain": "Quantize first."
+    }
+   ]
+  },
+  "level-3/02-vendor-npu-toolchains": {
+   "questions": [
+    {
+     "q": "Why do vendor NPUs need their own toolchains?",
+     "options": [
+      "Law",
+      "Each has its own compiler, supported ops and runtime",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "eIQ, Vela for Ethos-U."
+    },
+    {
+     "q": "What does Arm's Vela tool do?",
+     "options": [
+      "Labels",
+      "Trains",
+      "Compiles TFLite models for the Ethos-U NPU",
+      "Debugs"
+     ],
+     "answer": 2,
+     "explain": "Optimizes memory movement."
+    },
+    {
+     "q": "What should you check before choosing an NPU?",
+     "options": [
+      "Name",
+      "Color",
+      "Price only",
+      "Supported ops, toolchain maturity, memory and power"
+     ],
+     "answer": 3,
+     "explain": "Fit the model."
+    },
+    {
+     "q": "Why benchmark on the real device?",
+     "options": [
+      "Style",
+      "Vendor numbers don't reflect your model and memory setup",
+      "Cost",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Measure."
+    }
+   ]
+  },
+  "level-3/03-onnx-runtime": {
+   "questions": [
+    {
+     "q": "What is ONNX?",
+     "options": [
+      "A dataset",
+      "A chip",
+      "An open model interchange format supported by many runtimes",
+      "A language"
+     ],
+     "answer": 2,
+     "explain": "PyTorch exports to it."
+    },
+    {
+     "q": "Why use ONNX Runtime at the edge?",
+     "options": [
+      "Run PyTorch-origin models without converting to TFLite, with hardware execution providers",
+      "Cleaning",
+      "Training",
+      "Labeling"
+     ],
+     "answer": 0,
+     "explain": "Flexible."
+    },
+    {
+     "q": "What are execution providers?",
+     "options": [
+      "Tools",
+      "Backends that run the graph on specific hardware (CPU, NPU, GPU)",
+      "Datasets",
+      "Models"
+     ],
+     "answer": 1,
+     "explain": "Select per target."
+    },
+    {
+     "q": "What's a downside of ONNX Runtime on tiny MCUs?",
+     "options": [
+      "Larger footprint than TFLM",
+      "Free",
+      "Unsupported",
+      "Slower always"
+     ],
+     "answer": 0,
+     "explain": "Use for Linux-class edge."
+    }
+   ]
+  },
+  "level-3/04-streaming-inference": {
+   "questions": [
+    {
+     "q": "Why can't a microphone stream be fed as a single input?",
+     "options": [
+      "Style",
+      "It's endless, so you window it with overlap",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Streaming inference."
+    },
+    {
+     "q": "What's the benefit of streaming models with state?",
+     "options": [
+      "Size",
+      "They reuse computation across overlapping windows",
+      "Law",
+      "Accuracy"
+     ],
+     "answer": 1,
+     "explain": "Lower latency and power."
+    },
+    {
+     "q": "Why smooth predictions over time?",
+     "options": [
+      "Style",
+      "Reduce flicker from single noisy windows",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Moving average or voting."
+    },
+    {
+     "q": "What buffer structure is common?",
+     "options": [
+      "Tree",
+      "Heap",
+      "A ring buffer of recent samples",
+      "Stack"
+     ],
+     "answer": 2,
+     "explain": "Fixed memory."
+    }
+   ]
+  },
+  "level-3/05-object-detection-edge": {
+   "questions": [
+    {
+     "q": "What does object detection output?",
+     "options": [
+      "Masks",
+      "Boxes, class labels and confidence scores",
+      "Class only",
+      "Pose"
+     ],
+     "answer": 1,
+     "explain": "More than classification."
+    },
+    {
+     "q": "Why is detection costlier on the edge?",
+     "options": [
+      "Speed",
+      "Law",
+      "Larger models and post-processing like NMS",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Use light detectors (SSD-MobileNet, YOLO-nano)."
+    },
+    {
+     "q": "What does NMS do?",
+     "options": [
+      "Removes overlapping duplicate boxes keeping the best",
+      "Scales",
+      "Quantizes",
+      "Adds"
+     ],
+     "answer": 0,
+     "explain": "Threshold on IoU."
+    },
+    {
+     "q": "How to lower detection compute?",
+     "options": [
+      "More classes",
+      "Higher res",
+      "Bigger",
+      "Smaller input size, lighter backbone and frame skipping"
+     ],
+     "answer": 3,
+     "explain": "Trade accuracy."
+    }
+   ]
+  },
+  "level-3/06-ml-compiler-stacks": {
+   "questions": [
+    {
+     "q": "What does an ML compiler stack (TVM, TFLite) do?",
+     "options": [
+      "Collects",
+      "Optimizes and generates code for a target from a model graph",
+      "Trains",
+      "Labels"
+     ],
+     "answer": 1,
+     "explain": "Graph and operator optimizations."
+    },
+    {
+     "q": "What's operator fusion?",
+     "options": [
+      "Splitting",
+      "Quantizing",
+      "Combining adjacent ops into one kernel to cut memory traffic",
+      "Dropping"
+     ],
+     "answer": 2,
+     "explain": "Faster."
+    },
+    {
+     "q": "Why autotuning?",
+     "options": [
+      "Cost",
+      "Search schedules for the best performance on specific hardware",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Time-intensive."
+    },
+    {
+     "q": "What's a trade-off of compilers?",
+     "options": [
+      "Law",
+      "Speed",
+      "Peak speed versus portability and complexity",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Choose pragmatically."
+    }
+   ]
+  },
+  "level-3/07-model-security": {
+   "questions": [
+    {
+     "q": "Why protect a deployed model?",
+     "options": [
+      "It's valuable IP and can be extracted or tampered with",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Secure boot and encryption."
+    },
+    {
+     "q": "What's a model extraction attack?",
+     "options": [
+      "Querying or dumping the model to reproduce it",
+      "Training",
+      "Compression",
+      "Pruning"
+     ],
+     "answer": 0,
+     "explain": "Rate limit and protect flash."
+    },
+    {
+     "q": "What helps against model tampering?",
+     "options": [
+      "Nothing",
+      "Signed model files verified before loading",
+      "Obscurity",
+      "Compression"
+     ],
+     "answer": 1,
+     "explain": "Secure update."
+    },
+    {
+     "q": "What's an adversarial example?",
+     "options": [
+      "Noise",
+      "Bug",
+      "Slow",
+      "An input perturbed to cause a wrong prediction"
+     ],
+     "answer": 3,
+     "explain": "Robustness testing."
+    }
+   ]
+  },
+  "level-3/08-multi-model-sensor-fusion": {
+   "questions": [
+    {
+     "q": "What is sensor fusion?",
+     "options": [
+      "One sensor",
+      "Combining multiple sensors' data for better inference",
+      "Training",
+      "Compression"
+     ],
+     "answer": 1,
+     "explain": "E.g. IMU plus microphone."
+    },
+    {
+     "q": "What's an architecture for multiple models on one MCU?",
+     "options": [
+      "A scheduler sharing the arena and time, running models in sequence",
+      "Parallel only",
+      "One model",
+      "Cloud"
+     ],
+     "answer": 0,
+     "explain": "Memory is the constraint."
+    },
+    {
+     "q": "Why synchronize sensor timestamps?",
+     "options": [
+      "Fusing misaligned data corrupts features",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Timebase."
+    },
+    {
+     "q": "What helps when one sensor fails?",
+     "options": [
+      "Ignore",
+      "Graceful degradation using remaining sensors",
+      "Crash",
+      "Reset"
+     ],
+     "answer": 1,
+     "explain": "Robustness."
+    }
+   ]
+  },
+  "level-3/09-benchmarking-mlperf-tiny": {
+   "questions": [
+    {
+     "q": "What is MLPerf Tiny?",
+     "options": [
+      "A tool",
+      "A chip",
+      "A benchmark suite for ultra-low-power ML inference",
+      "A model"
+     ],
+     "answer": 2,
+     "explain": "Standard tasks."
+    },
+    {
+     "q": "What does benchmarking report?",
+     "options": [
+      "Colors",
+      "Names",
+      "Latency, energy and accuracy under defined rules",
+      "Prices"
+     ],
+     "answer": 2,
+     "explain": "Comparable results."
+    },
+    {
+     "q": "Why report accuracy with latency?",
+     "options": [
+      "Style",
+      "Fast but inaccurate isn't useful",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Pareto trade-off."
+    },
+    {
+     "q": "What makes a benchmark fair?",
+     "options": [
+      "Selective",
+      "Marketing",
+      "Same task, dataset, accuracy target and measurement method",
+      "Any"
+     ],
+     "answer": 2,
+     "explain": "Rules matter."
+    }
+   ]
+  },
+  "level-3/10-project-accelerated-vision-node": {
+   "questions": [
+    {
+     "q": "What does the accelerated vision node combine?",
+     "options": [
+      "Only NPU",
+      "A camera, an NPU-compiled detector and streaming post-processing",
+      "Only camera",
+      "Only MCU"
+     ],
+     "answer": 1,
+     "explain": "End to end."
+    },
+    {
+     "q": "How do you validate speedup?",
+     "options": [
+      "Spec sheet",
+      "Skip",
+      "Guess",
+      "Measure end-to-end FPS and power against the CPU baseline"
+     ],
+     "answer": 3,
+     "explain": "Real numbers."
+    },
+    {
+     "q": "What limits real-time performance besides the NPU?",
+     "options": [
+      "Law",
+      "Camera capture, pre/post-processing and memory bandwidth",
+      "Colors",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Profile the pipeline."
+    },
+    {
+     "q": "What do you log in the field?",
+     "options": [
+      "Latency, confidence distribution and errors",
+      "Pixels",
+      "Nothing",
+      "Everything"
+     ],
+     "answer": 0,
+     "explain": "Telemetry for drift."
+    }
+   ]
+  },
+  "level-4/01-production-edge-ai-architecture": {
+   "questions": [
+    {
+     "q": "What should a production edge AI architecture include?",
+     "options": [
+      "Only model",
+      "Only firmware",
+      "Model lifecycle, OTA updates, telemetry, security and fallbacks",
+      "Only cloud"
+     ],
+     "answer": 2,
+     "explain": "Operate fleets."
+    },
+    {
+     "q": "Why separate model from firmware updates?",
+     "options": [
+      "Style",
+      "Law",
+      "Models change more often and updating them shouldn't need a full firmware release",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Modular."
+    },
+    {
+     "q": "What's a safe fallback?",
+     "options": [
+      "Crash",
+      "A known-good previous model or a safe default behavior",
+      "Random",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Resilience."
+    },
+    {
+     "q": "What should be monitored?",
+     "options": [
+      "Colors",
+      "Logs",
+      "Inference health, drift and device status",
+      "Names"
+     ],
+     "answer": 2,
+     "explain": "Observability."
+    }
+   ]
+  },
+  "level-4/02-ota-model-updates": {
+   "questions": [
+    {
+     "q": "What's OTA model update best practice?",
+     "options": [
+      "Unsigned",
+      "Push all",
+      "Manual",
+      "Signed, versioned updates with staged rollout and rollback"
+     ],
+     "answer": 3,
+     "explain": "Safety."
+    },
+    {
+     "q": "Why staged rollouts?",
+     "options": [
+      "Speed",
+      "Limit blast radius if a model misbehaves",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Canary devices first."
+    },
+    {
+     "q": "How do you ensure update integrity?",
+     "options": [
+      "Compress",
+      "Trust",
+      "Verify signatures and checksums before activating",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Secure boot."
+    },
+    {
+     "q": "What if an update fails?",
+     "options": [
+      "Automatic rollback to the previous version",
+      "Ignore",
+      "Retry forever",
+      "Brick"
+     ],
+     "answer": 0,
+     "explain": "A/B slots."
+    }
+   ]
+  },
+  "level-4/03-fleet-monitoring-drift": {
+   "questions": [
+    {
+     "q": "What is data drift?",
+     "options": [
+      "Bug",
+      "Power",
+      "The input distribution changes over time, degrading the model",
+      "Model change"
+     ],
+     "answer": 2,
+     "explain": "Monitor."
+    },
+    {
+     "q": "How can you detect drift on constrained devices?",
+     "options": [
+      "Track simple statistics of inputs/outputs (e.g. confidence, feature means) and report them",
+      "Nothing",
+      "Full data upload",
+      "Retrain"
+     ],
+     "answer": 0,
+     "explain": "Lightweight telemetry."
+    },
+    {
+     "q": "What do you do when drift is detected?",
+     "options": [
+      "Ignore",
+      "Delete",
+      "Collect samples, retrain and roll out an update",
+      "Reboot"
+     ],
+     "answer": 2,
+     "explain": "Close the loop."
+    },
+    {
+     "q": "Why privacy-aware telemetry?",
+     "options": [
+      "Law only",
+      "Cost",
+      "Style",
+      "Raw data may be sensitive; send aggregates or features"
+     ],
+     "answer": 3,
+     "explain": "Minimize."
+    }
+   ]
+  },
+  "level-4/04-on-device-learning": {
+   "questions": [
+    {
+     "q": "What is on-device learning?",
+     "options": [
+      "Pruning",
+      "Adapting a model locally with the device's own data",
+      "Cloud training",
+      "Conversion"
+     ],
+     "answer": 1,
+     "explain": "Personalization."
+    },
+    {
+     "q": "Why is it hard on MCUs?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Training needs more memory and compute than inference"
+     ],
+     "answer": 3,
+     "explain": "Limited to last layers or small models."
+    },
+    {
+     "q": "What's a practical approach?",
+     "options": [
+      "Retrain all",
+      "Cloud",
+      "Never",
+      "Fine-tune only the final layer or use few-shot embeddings"
+     ],
+     "answer": 3,
+     "explain": "Lightweight."
+    },
+    {
+     "q": "What risk does on-device learning add?",
+     "options": [
+      "Cost",
+      "Speed",
+      "Drift or poisoning from bad local data without validation",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Guard with checks."
+    }
+   ]
+  },
+  "level-4/05-federated-learning": {
+   "questions": [
+    {
+     "q": "What is federated learning?",
+     "options": [
+      "Central training",
+      "Training across devices by sharing model updates, not raw data",
+      "Pruning",
+      "Cloud"
+     ],
+     "answer": 1,
+     "explain": "Privacy-friendly."
+    },
+    {
+     "q": "What does the server do in FedAvg?",
+     "options": [
+      "Store data",
+      "Label",
+      "Average client model updates into a new global model",
+      "Clean"
+     ],
+     "answer": 2,
+     "explain": "Repeat rounds."
+    },
+    {
+     "q": "What are federated learning's challenges?",
+     "options": [
+      "None",
+      "Communication cost, non-IID data and device heterogeneity",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Real constraints."
+    },
+    {
+     "q": "Does federated learning guarantee privacy?",
+     "options": [
+      "No: updates can leak information; add secure aggregation/differential privacy",
+      "Never",
+      "Always",
+      "Yes"
+     ],
+     "answer": 0,
+     "explain": "Defense in depth."
+    }
+   ]
+  },
+  "level-4/06-custom-kernels-cmsis-nn": {
+   "questions": [
+    {
+     "q": "When write custom kernels?",
+     "options": [
+      "When a bottleneck op isn't well served by existing optimized kernels",
+      "For fun",
+      "Always",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Profile first."
+    },
+    {
+     "q": "What does CMSIS-NN use to speed up int8?",
+     "options": [
+      "Cloud",
+      "Floats",
+      "SIMD instructions and optimized memory access on Cortex-M",
+      "GPU"
+     ],
+     "answer": 2,
+     "explain": "DSP extensions."
+    },
+    {
+     "q": "How do you verify a custom kernel?",
+     "options": [
+      "Eyeball",
+      "Assume",
+      "One test",
+      "Compare against the reference kernel across many inputs"
+     ],
+     "answer": 3,
+     "explain": "Bit-exact where possible."
+    },
+    {
+     "q": "What's the maintenance cost?",
+     "options": [
+      "Law",
+      "None",
+      "Keeping kernels correct across toolchains and hardware",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Prefer vendor libs."
+    }
+   ]
+  },
+  "level-4/07-ultra-low-power-inference": {
+   "questions": [
+    {
+     "q": "How do you minimize inference energy?",
+     "options": [
+      "Reduce computation, use duty cycling and sleep between inferences",
+      "Always on",
+      "Bigger model",
+      "Max clock"
+     ],
+     "answer": 0,
+     "explain": "Energy = power x time."
+    },
+    {
+     "q": "What does duty cycling mean?",
+     "options": [
+      "Overclock",
+      "Always on",
+      "Running briefly then sleeping to cut average power",
+      "Cloud"
+     ],
+     "answer": 2,
+     "explain": "Wake on events."
+    },
+    {
+     "q": "What hardware helps always-on?",
+     "options": [
+      "Big CPU",
+      "Low-power wake-up sensors and tiny co-processors",
+      "GPU",
+      "Cloud"
+     ],
+     "answer": 1,
+     "explain": "Cascade."
+    },
+    {
+     "q": "What should you measure?",
+     "options": [
+      "Loss",
+      "Size",
+      "Energy per inference and average current in real usage",
+      "Colors"
+     ],
+     "answer": 2,
+     "explain": "Use a power analyzer."
+    }
+   ]
+  },
+  "level-4/08-hardware-codesign": {
+   "questions": [
+    {
+     "q": "What is hardware/software co-design?",
+     "options": [
+      "Hardware only",
+      "Separate",
+      "Software only",
+      "Designing the model and hardware together to meet constraints"
+     ],
+     "answer": 3,
+     "explain": "E.g. choose the NPU for the model."
+    },
+    {
+     "q": "Why consider memory bandwidth?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "Data movement often costs more energy and time than compute"
+     ],
+     "answer": 3,
+     "explain": "Locality."
+    },
+    {
+     "q": "What's quantization's hardware link?",
+     "options": [
+      "Integer MAC units are smaller and more efficient than floating point",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Design for int8."
+    },
+    {
+     "q": "How do you choose hardware?",
+     "options": [
+      "Match model needs (ops, memory) and product constraints (power, cost)",
+      "Hype",
+      "Brand",
+      "Price"
+     ],
+     "answer": 0,
+     "explain": "Requirements first."
+    }
+   ]
+  },
+  "level-4/09-privacy-safety-compliance": {
+   "questions": [
+    {
+     "q": "What privacy benefit does edge AI provide?",
+     "options": [
+      "None",
+      "Law",
+      "Speed",
+      "Raw data can stay on the device"
+     ],
+     "answer": 3,
+     "explain": "Minimize data collection."
+    },
+    {
+     "q": "What does safety-critical use require?",
+     "options": [
+      "Demo",
+      "Nothing",
+      "Verification, fail-safes and documented validation",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Standards like IEC 61508."
+    },
+    {
+     "q": "What regulations may apply?",
+     "options": [
+      "None",
+      "Law",
+      "Style",
+      "GDPR, product safety and sector rules depending on use"
+     ],
+     "answer": 3,
+     "explain": "Know your market."
+    },
+    {
+     "q": "Why document model limitations?",
+     "options": [
+      "Speed",
+      "Users and regulators need to know failure modes",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Transparency."
+    }
+   ]
+  },
+  "level-4/10-capstone-production-edge-ai": {
+   "questions": [
+    {
+     "q": "What does the capstone integrate?",
+     "options": [
+      "Only firmware",
+      "Only model",
+      "Model, OTA, telemetry, security, power and compliance for a fleet",
+      "Only cloud"
+     ],
+     "answer": 2,
+     "explain": "Production edge AI."
+    },
+    {
+     "q": "How do you prove readiness?",
+     "options": [
+      "Slides",
+      "Hope",
+      "Demo",
+      "Field tests, monitoring, rollback drills and benchmarks"
+     ],
+     "answer": 3,
+     "explain": "Operate it."
+    },
+    {
+     "q": "What's the final measure of success?",
+     "options": [
+      "Size",
+      "Reliable value to users within power, cost and privacy constraints",
+      "Speed",
+      "Accuracy"
+     ],
+     "answer": 1,
+     "explain": "System thinking."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "Code",
+      "None",
+      "Slides",
+      "Architecture, runbooks, model cards and update procedures"
+     ],
+     "answer": 3,
+     "explain": "Maintainability."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A sensor must run a keyword model 24/7 on a coin cell. What's the right approach?",
+    "options": [
+     "A tiny always-on first-stage model with duty cycling, waking bigger stages only on a hit",
+     "A cloud call per second",
+     "A large model at full clock",
+     "Streaming raw audio"
+    ],
+    "answer": 0,
+    "explain": "Power dominates edge design."
+   },
+   {
+    "q": "Why quantize a model to int8 for an MCU?",
+    "options": [
+     "Needs a GPU",
+     "More accurate",
+     "Larger but faster",
+     "About 4x smaller and faster on integer hardware, with a small accuracy cost"
+    ],
+    "answer": 3,
+    "explain": "Often required to fit."
+   },
+   {
+    "q": "A float range [-2.0, 6.0] is quantized to int8 asymmetrically. What are scale and zero point?\n```python\nlo,hi=-2.0,6.0\nscale=(hi-lo)/255\nzp=round(-128-lo/scale)\nprint(round(scale,5), zp)\n```\n",
+    "options": [
+     "0.03137 -64",
+     "0.0625 -64",
+     "0.03137 0",
+     "0.03137 64"
+    ],
+    "answer": 0,
+    "explain": "zero_point = round(-128 - min/scale). Verified by running it."
+   },
+   {
+    "q": "Post-training quantization loses too much accuracy. What next?",
+    "options": [
+     "Give up",
+     "Try quantization-aware training so weights adapt to int8 rounding",
+     "Use float32",
+     "Remove layers"
+    ],
+    "answer": 1,
+    "explain": "QAT simulates quantization in training."
+   },
+   {
+    "q": "A 1-second audio clip at 16 kHz is split into 30 ms frames with a 20 ms stride. How many frames?\n```python\nfs=16000; frame=480; stride=320; n=16000\nprint((n-frame)//stride+1)\n```\n",
+    "options": [
+     "50",
+     "30",
+     "49",
+     "33"
+    ],
+    "answer": 2,
+    "explain": "floor((16000-480)/320)+1. Verified by running it."
+   },
+   {
+    "q": "Training used librosa MFCCs but firmware computes them differently and accuracy collapses. Why?",
+    "options": [
+     "Quantization only",
+     "Too much RAM",
+     "Bad luck",
+     "Preprocessing mismatch shifts the input distribution; use the same implementation or verify parity"
+    ],
+    "answer": 3,
+    "explain": "Test features end to end."
+   },
+   {
+    "q": "The tensor arena is too small and inference fails at AllocateTensors. What do you do?",
+    "options": [
+     "Increase the arena (or reduce activation sizes) and measure arena_used_bytes",
+     "Ignore",
+     "Disable ops",
+     "Reduce flash"
+    ],
+    "answer": 0,
+    "explain": "Size by measurement."
+   },
+   {
+    "q": "Your model needs ops not in the OpResolver. What happens and what's the fix?",
+    "options": [
+     "Slow",
+     "Works",
+     "Silent",
+     "AllocateTensors fails; register the needed ops (or change the architecture)"
+    ],
+    "answer": 3,
+    "explain": "Only link the ops you use."
+   },
+   {
+    "q": "Test accuracy is 95% but the field accuracy is 70%. What's the most likely cause?",
+    "options": [
+     "Bad compiler",
+     "Dataset mismatch: noise, devices, lighting or subjects absent from training",
+     "Too many epochs",
+     "Wrong loss"
+    ],
+    "answer": 1,
+    "explain": "Collect representative data."
+   },
+   {
+    "q": "Why split train and test by subject or session?",
+    "options": [
+     "Law",
+     "Speed",
+     "Style",
+     "Same-subject leakage inflates accuracy"
+    ],
+    "answer": 3,
+    "explain": "Generalization to new users."
+   },
+   {
+    "q": "Unstructured pruning removed 80% of weights but latency barely changed. Why?",
+    "options": [
+     "Pruning is useless",
+     "Bug",
+     "Quantization",
+     "Kernels don't exploit scattered zeros; structured pruning or smaller dense layers speed up inference"
+    ],
+    "answer": 3,
+    "explain": "Hardware must exploit sparsity."
+   },
+   {
+    "q": "A Coral Edge TPU model runs slower than expected. What do you check first?",
+    "options": [
+     "Fonts",
+     "Wi-Fi",
+     "The compile report for ops falling back to the CPU",
+     "Battery"
+    ],
+    "answer": 2,
+    "explain": "Unsupported ops split the graph."
+   },
+   {
+    "q": "Why benchmark on your own device instead of trusting vendor TOPS?",
+    "options": [
+     "Cost",
+     "Law",
+     "Style",
+     "Real throughput depends on supported ops, memory bandwidth and your model"
+    ],
+    "answer": 3,
+    "explain": "Measure."
+   },
+   {
+    "q": "A microphone stream is endless. How do you feed it to a fixed-size model?",
+    "options": [
+     "Resize audio",
+     "One big input",
+     "Slide overlapping windows over a ring buffer and smooth the predictions",
+     "Wait"
+    ],
+    "answer": 2,
+    "explain": "Streaming inference."
+   },
+   {
+    "q": "An object detector produces many overlapping boxes for one object. What post-processing do you apply?",
+    "options": [
+     "Quantization",
+     "Non-maximum suppression",
+     "Dropout",
+     "Pruning"
+    ],
+    "answer": 1,
+    "explain": "Keep the highest-confidence box."
+   },
+   {
+    "q": "A model update bricks 2% of a pilot fleet. Which practices would have limited the damage?",
+    "options": [
+     "Signed, staged (canary) rollouts with automatic rollback to the previous model",
+     "All at once",
+     "Bigger update",
+     "Manual fixes"
+    ],
+    "answer": 0,
+    "explain": "Safe OTA."
+   },
+   {
+    "q": "How can you detect drift on devices that can't upload raw data?",
+    "options": [
+     "Upload everything",
+     "Reboot",
+     "Report lightweight statistics such as confidence histograms and feature means",
+     "Nothing"
+    ],
+    "answer": 2,
+    "explain": "Privacy-preserving telemetry."
+   },
+   {
+    "q": "Federated learning sends model updates instead of data. Does it guarantee privacy?",
+    "options": [
+     "No: updates can leak information, so add secure aggregation or differential privacy",
+     "Yes always",
+     "Only on MCUs",
+     "Never useful"
+    ],
+    "answer": 0,
+    "explain": "Defense in depth."
+   },
+   {
+    "q": "Which is the best measure of an always-on model's efficiency?",
+    "options": [
+     "File size",
+     "Energy per inference and average current in real usage, alongside accuracy",
+     "Parameter count",
+     "Training loss"
+    ],
+    "answer": 1,
+    "explain": "Measure power."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Int8 quantization by hand",
+    "prompt": "Implement quant_params (asymmetric int8: scale = range/255, zero_point = round(-128 - min/scale)), quantize (round, shift by zero point, clamp to int8) and dequantize. Verify the rounding error never exceeds half a quantization step and compare model sizes.",
+    "starter": "def quant_params(lo, hi):\n    # asymmetric int8: scale = (hi-lo)/255, zero_point = round(-128 - lo/scale)\n    return 1.0, 0\n\ndef quantize(x, scale, zp):\n    # round(x/scale) + zp, clamped to [-128, 127]\n    return 0\n\ndef dequantize(q, scale, zp):\n    # (q - zp) * scale\n    return 0.0\n\nweights = [-0.92, -0.31, 0.0, 0.18, 0.55, 0.99]\nscale, zp = quant_params(min(weights), max(weights))\nprint(\"scale=%.5f zero_point=%d\" % (scale, zp))\nqs = [quantize(w, scale, zp) for w in weights]\nprint(qs)\nerrs = [abs(w - dequantize(q, scale, zp)) for w, q in zip(weights, qs)]\nprint(\"max error=%.4f  (<= scale/2: %s)\" % (max(errs), max(errs) <= scale / 2 + 1e-9))\nprint(\"size: float32=%d bytes, int8=%d bytes\" % (4 * len(weights), len(weights)))\n",
+    "expected": "scale=0.00749 zero_point=-5\n[-128, -46, -5, 19, 68, 127]\nmax error=0.0032  (<= scale/2: True)\nsize: float32=24 bytes, int8=6 bytes",
+    "solution": "def quant_params(lo, hi):\n    scale = (hi - lo) / 255\n    zero_point = round(-128 - lo / scale)\n    return scale, zero_point\n\ndef quantize(x, scale, zp):\n    q = round(x / scale) + zp\n    return max(-128, min(127, q))\n\ndef dequantize(q, scale, zp):\n    return (q - zp) * scale\n\nweights = [-0.92, -0.31, 0.0, 0.18, 0.55, 0.99]\nscale, zp = quant_params(min(weights), max(weights))\nprint(\"scale=%.5f zero_point=%d\" % (scale, zp))\nqs = [quantize(w, scale, zp) for w in weights]\nprint(qs)\nerrs = [abs(w - dequantize(q, scale, zp)) for w, q in zip(weights, qs)]\nprint(\"max error=%.4f  (<= scale/2: %s)\" % (max(errs), max(errs) <= scale / 2 + 1e-9))\nprint(\"size: float32=%d bytes, int8=%d bytes\" % (4 * len(weights), len(weights)))\n",
+    "explain": "Each real value is rounded to the nearest quantization step, so the error is at most scale/2 while the model shrinks 4x. TFLite does this per tensor or per channel using calibration data. Verified by running the solution."
+   },
+   {
+    "title": "Windows and features for a gesture classifier",
+    "prompt": "Implement windows() (overlapping full windows), features() (RMS to two decimals and zero-mean crossings) and classify() (rms < 0.2 is still; at least 6 crossings is shake; otherwise slow-move). Run it on three synthetic windows.",
+    "starter": "import math\n\ndef windows(samples, size, step):\n    # overlapping windows (only full-size windows)\n    return []\n\ndef features(w):\n    # return (rms rounded to 2 decimals, number of zero-mean crossings between neighbouring samples)\n    return (0, 0)\n\ndef classify(w):\n    # rms < 0.2 -> \"still\"; else crossings >= 6 -> \"shake\"; else \"slow-move\"\n    return \"\"\n\nstill = [0.02, -0.03, 0.01, 0.0, 0.02, -0.01, 0.0, 0.03]\nshake = [1.0, -1.1, 0.9, -1.0, 1.2, -0.9, 1.0, -1.1]\nslow = [0.0, 0.4, 0.8, 1.0, 0.8, 0.4, 0.0, -0.4]\nfor name, s in [(\"still\", still), (\"shake\", shake), (\"slow\", slow)]:\n    print(name, features(s), classify(s))\nprint(\"windows:\", len(windows(list(range(20)), 8, 4)))\n",
+    "expected": "still (0.02, 6) still\nshake (1.03, 7) shake\nslow (0.59, 2) slow-move\nwindows: 4",
+    "solution": "import math\n\ndef windows(samples, size, step):\n    return [samples[i:i + size] for i in range(0, len(samples) - size + 1, step)]\n\ndef features(w):\n    n = len(w)\n    mean = sum(w) / n\n    rms = math.sqrt(sum(x * x for x in w) / n)\n    crossings = sum(1 for a, b in zip(w, w[1:]) if (a - mean) * (b - mean) < 0)\n    return round(rms, 2), crossings\n\ndef classify(w):\n    rms, zc = features(w)\n    if rms < 0.2:\n        return \"still\"\n    return \"shake\" if zc >= 6 else \"slow-move\"\n\nstill = [0.02, -0.03, 0.01, 0.0, 0.02, -0.01, 0.0, 0.03]\nshake = [1.0, -1.1, 0.9, -1.0, 1.2, -0.9, 1.0, -1.1]\nslow = [0.0, 0.4, 0.8, 1.0, 0.8, 0.4, 0.0, -0.4]\nfor name, s in [(\"still\", still), (\"shake\", shake), (\"slow\", slow)]:\n    print(name, features(s), classify(s))\nprint(\"windows:\", len(windows(list(range(20)), 8, 4)))\n",
+    "explain": "Windowing plus cheap time-domain features is the standard first stage of an edge sensor pipeline. A tiny rule or model on those features can run in microseconds. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
