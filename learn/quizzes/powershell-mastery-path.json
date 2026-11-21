@@ -1,0 +1,1927 @@
+{
+ "course": "powershell-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What makes PowerShell different from traditional shells?",
+     "options": [
+      "GUI",
+      "Compiled",
+      "Text only",
+      "Cmdlets pass .NET objects through the pipeline, not just text"
+     ],
+     "answer": 3,
+     "explain": "Objects with properties and methods."
+    },
+    {
+     "q": "What naming pattern do cmdlets follow?",
+     "options": [
+      "Verb-Noun (e.g. Get-Process)",
+      "noun_verb",
+      "camelCase",
+      "kebab"
+     ],
+     "answer": 0,
+     "explain": "Approved verbs via Get-Verb."
+    },
+    {
+     "q": "Which cmdlet helps you discover commands?",
+     "options": [
+      "List",
+      "Find",
+      "Get-Command (and Get-Help for usage)",
+      "Show"
+     ],
+     "answer": 2,
+     "explain": "Update-Help first."
+    },
+    {
+     "q": "Which cmdlet shows an object's properties and methods?",
+     "options": [
+      "Show-Object",
+      "Get-Member",
+      "Get-Item",
+      "Get-Type"
+     ],
+     "answer": 1,
+     "explain": "Inspect pipeline output."
+    }
+   ]
+  },
+  "level-1/02-variables-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\n$a = 5; $b = \"5\"; $c = 2.5\n\"$($a -eq $b) $($b -eq $a) $($a.GetType().Name) $($c.GetType().Name) $([int]\"12\" + 1)\"\n```\n",
+     "options": [
+      "True True Int Double 13",
+      "Error",
+      "False True Int32 Double 13",
+      "True True Int32 Double 13"
+     ],
+     "answer": 3,
+     "explain": "-eq coerces the right side to the left type. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What does this print?\n```powershell\n[string]$s = 42\n$n = $null\n\"$($s.GetType().Name) [$n] $($n -eq $null) $('abc' -like 'a*') $(\"Hi $s\")\"\n```\n",
+     "options": [
+      "Error",
+      "String [] True True Hi 42",
+      "Int32 [] True True Hi 42",
+      "String [null] True True Hi 42"
+     ],
+     "answer": 1,
+     "explain": "Typed variables convert on assignment. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What does `$null -eq $x` vs `$x -eq $null` matter for?",
+     "options": [
+      "Law",
+      "Speed",
+      "With arrays, put $null on the left so the comparison isn't a filter",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Array -eq filters."
+    },
+    {
+     "q": "Which quoting expands variables?",
+     "options": [
+      "Single",
+      "Double quotes (single quotes are literal)",
+      "Both",
+      "Backtick"
+     ],
+     "answer": 1,
+     "explain": "\"$x\" vs '$x'."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\n$out = foreach ($i in 1..6) { if ($i % 2) { continue }; $i * 10 }\n$out -join \",\"\nswitch (5) { {$_ -gt 3} { \"big\" } {$_ -gt 1} { \"medium\" } default { \"small\" } }\n```\n",
+     "options": [
+      "20,40,60\nbig",
+      "20,40,60\nbig\nmedium",
+      "10,30,50\nbig\nmedium",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "switch runs every matching clause unless break. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What does this print?\n```powershell\n$i = 0\ndo { $i++ } while ($i -lt 3)\n$j = 10\nwhile ($j -gt 7) { $j-- }\n\"$i $j \" + ($true ? \"x\" : \"y\")\n```\n",
+     "options": [
+      "3 7 y",
+      "Error",
+      "2 7 x",
+      "3 7 x"
+     ],
+     "answer": 3,
+     "explain": "do/while runs at least once; the ternary needs PowerShell 7. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "Which operator is the ternary in PowerShell 7?",
+     "options": [
+      "$cond ? 'a' : 'b'",
+      "if then",
+      "iif()",
+      "cond ?? a"
+     ],
+     "answer": 0,
+     "explain": "PS 7+."
+    },
+    {
+     "q": "What does `break` do inside switch?",
+     "options": [
+      "Stops evaluating further matching clauses",
+      "Continue",
+      "Exit script",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Otherwise all matches run."
+    }
+   ]
+  },
+  "level-1/04-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\nfunction Get-Area {\n    [CmdletBinding()]\n    param([Parameter(Mandatory)][double]$Width, [double]$Height = 2)\n    $Width * $Height\n}\n(Get-Area -Width 3) + (Get-Area 4 5)\n```\n",
+     "options": [
+      "14",
+      "Error",
+      "26",
+      "6"
+     ],
+     "answer": 2,
+     "explain": "Defaults and positional parameters. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What does this print?\n```powershell\nfunction f { param($x) return \"got $x\" ; \"never\" }\nf 7\nfunction g { \"a\"; \"b\"; 3 }\n(g).Count\n```\n",
+     "options": [
+      "got 7\n1",
+      "Error",
+      "got 7\n3",
+      "got 7 never\n3"
+     ],
+     "answer": 2,
+     "explain": "Everything not captured is output. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What does [CmdletBinding()] add?",
+     "options": [
+      "Types",
+      "Common parameters like -Verbose and -ErrorAction and advanced function behavior",
+      "Speed",
+      "Modules"
+     ],
+     "answer": 1,
+     "explain": "Makes it cmdlet-like."
+    },
+    {
+     "q": "What does `return` do besides emit a value?",
+     "options": [
+      "Pauses",
+      "Loops",
+      "Exits the function immediately",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Later statements don't run."
+    }
+   ]
+  },
+  "level-1/05-objects-pipeline": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\n$p = [pscustomobject]@{Name='a'; Size=30}, [pscustomobject]@{Name='b'; Size=10}, [pscustomobject]@{Name='c'; Size=20}\n($p | Where-Object Size -gt 15 | Sort-Object Size | ForEach-Object Name) -join \",\"\n($p | Measure-Object Size -Sum -Average).Sum\n($p | Select-Object -First 1).Name\n```\n",
+     "options": [
+      "c,a\n60\na",
+      "Error",
+      "c,a\n60\nc",
+      "a,c\n60\na"
+     ],
+     "answer": 0,
+     "explain": "Objects flow through the pipeline. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What does this print?\n```powershell\n$p = 1..10 | Group-Object { $_ % 3 }\n($p | ForEach-Object { \"$($_.Name):$($_.Count)\" }) -join \" \"\n(1..5 | Select-Object -Last 2) -join \",\"\n(Get-Date '2026-01-31').AddMonths(1).ToString('yyyy-MM-dd')\n```\n",
+     "options": [
+      "0:3 1:3 2:4\n4,5\n2026-02-28",
+      "0:3 1:4 2:3\n1,2\n2026-03-03",
+      "0:3 1:4 2:3\n4,5\n2026-02-28",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Group-Object and date arithmetic. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What does Select-Object -Property do?",
+     "options": [
+      "Filters",
+      "Creates new objects with chosen properties (or calculated ones)",
+      "Deletes",
+      "Sorts"
+     ],
+     "answer": 1,
+     "explain": "Projection."
+    },
+    {
+     "q": "When prefer Where-Object -Property syntax to a script block?",
+     "options": [
+      "Loops",
+      "Never",
+      "For simple comparisons; it's concise and faster to read",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "PS 3+ syntax."
+    }
+   ]
+  },
+  "level-1/06-arrays-hashtables": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\n$a = 1,2,3\n$a += 4\n$h = @{b=2; a=1}\n$h['c'] = 3\n\"$($a.Count) $($h.Count) $(($h.Keys | Sort-Object) -join '') $($a[-1]) $($h.ContainsKey('z'))\"\n```\n",
+     "options": [
+      "3 3 abc 4 False",
+      "4 3 cba 4 True",
+      "4 3 abc 4 False",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Arrays are fixed size: += creates a new array. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What does this print?\n```powershell\n$o = [ordered]@{x=1; y=2}\n$o.Keys -join \",\"\n$s = @{a=1}.GetEnumerator() | ForEach-Object { \"$($_.Key)=$($_.Value)\" }\n$s\n@(1,2,3)[1..2] -join \",\"\n```\n",
+     "options": [
+      "Error",
+      "y,x\na=1\n2,3",
+      "x,y\na=1\n1,2",
+      "x,y\na=1\n2,3"
+     ],
+     "answer": 3,
+     "explain": "Ordered hashtables keep insertion order. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "Why use a generic List instead of += on big arrays?",
+     "options": [
+      "Law",
+      "+= copies the entire array each time (O(n²))",
+      "Style",
+      "Safer"
+     ],
+     "answer": 1,
+     "explain": "System.Collections.Generic.List."
+    },
+    {
+     "q": "How splat parameters?",
+     "options": [
+      "Put them in a hashtable and pass @params",
+      "&params",
+      "%params",
+      "$params"
+     ],
+     "answer": 0,
+     "explain": "Readable calls."
+    }
+   ]
+  },
+  "level-1/07-working-with-files": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\n$d = Join-Path ([IO.Path]::GetTempPath()) \"pstest$(Get-Random)\"\nNew-Item -ItemType Directory $d | Out-Null\n'one','two' | Set-Content \"$d/a.txt\"\nAdd-Content \"$d/a.txt\" 'three'\n(Get-Content \"$d/a.txt\").Count\n(Get-Content \"$d/a.txt\" -Raw).Length\n(Get-ChildItem $d).Name\nRemove-Item $d -Recurse\n```\n",
+     "options": [
+      "3\n10\na.txt",
+      "Error",
+      "2\n14\na.txt",
+      "3\n14\na.txt"
+     ],
+     "answer": 3,
+     "explain": "Set-Content writes lines; -Raw returns one string (with newlines). Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "Which parameter treats a path literally (no wildcards)?",
+     "options": [
+      "-LiteralPath",
+      "-Raw",
+      "-Path",
+      "-Force"
+     ],
+     "answer": 0,
+     "explain": "Brackets in names."
+    },
+    {
+     "q": "What does Test-Path return?",
+     "options": [
+      "True or False for whether the path exists",
+      "Object",
+      "Null",
+      "Text"
+     ],
+     "answer": 0,
+     "explain": "Guard file operations."
+    },
+    {
+     "q": "Which encoding does PowerShell 7 write by default?",
+     "options": [
+      "ANSI",
+      "ASCII",
+      "UTF-8 without BOM",
+      "UTF-16"
+     ],
+     "answer": 2,
+     "explain": "Windows PowerShell 5.1 differs."
+    }
+   ]
+  },
+  "level-1/08-error-handling-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\ntry { 1/0 } catch { \"caught: $($_.Exception.GetType().Name)\" } finally { \"done\" }\ntry { Get-Item /nonexistent_zzz -ErrorAction Stop } catch { \"stop: \" + $_.CategoryInfo.Category }\nGet-Item /nonexistent_zzz -ErrorAction SilentlyContinue\n\"after\"\n```\n",
+     "options": [
+      "Error",
+      "caught: DivideByZeroException\ndone\nstop: ObjectNotFound\nafter",
+      "done\nafter",
+      "caught: RuntimeException\ndone\nstop: ObjectNotFound\nafter"
+     ],
+     "answer": 3,
+     "explain": "Non-terminating errors need -ErrorAction Stop to be caught. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What does this print?\n```powershell\n$ErrorActionPreference = 'Stop'\ntry { Get-Item /nonexistent_zzz; \"not here\" } catch { \"handled\" }\n$Error.Count -ge 1\n```\n",
+     "options": [
+      "Error",
+      "handled\nFalse",
+      "not here\nTrue",
+      "handled\nTrue"
+     ],
+     "answer": 3,
+     "explain": "Preference variable affects the scope. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What's the difference between terminating and non-terminating errors?",
+     "options": [
+      "Terminating errors stop execution and are caught; non-terminating ones continue unless made terminating",
+      "Reverse",
+      "Same",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "-ErrorAction Stop."
+    },
+    {
+     "q": "What does $? hold?",
+     "options": [
+      "Error text",
+      "Exit code",
+      "Whether the last command succeeded",
+      "Path"
+     ],
+     "answer": 2,
+     "explain": "$LASTEXITCODE for native."
+    }
+   ]
+  },
+  "level-1/09-modules-basics": {
+   "questions": [
+    {
+     "q": "What does Import-Module do?",
+     "options": [
+      "Installs",
+      "Deletes",
+      "Loads a module's commands into the session",
+      "Updates"
+     ],
+     "answer": 2,
+     "explain": "Auto-loading often handles it."
+    },
+    {
+     "q": "Where do you find modules in the gallery?",
+     "options": [
+      "Find-Module / Find-PSResource (PowerShell Gallery)",
+      "Pip",
+      "Get-Web",
+      "Search"
+     ],
+     "answer": 0,
+     "explain": "Install-PSResource in newer versions."
+    },
+    {
+     "q": "What does $env:PSModulePath contain?",
+     "options": [
+      "Profiles",
+      "Aliases",
+      "Folders searched for modules",
+      "Settings"
+     ],
+     "answer": 2,
+     "explain": "Auto-discovery."
+    },
+    {
+     "q": "Why review modules before installing?",
+     "options": [
+      "Style",
+      "They run code with your privileges; check publisher and source",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Supply chain."
+    }
+   ]
+  },
+  "level-1/10-project-system-info-reporter": {
+   "questions": [
+    {
+     "q": "What does the system info reporter combine?",
+     "options": [
+      "Cmdlets, objects, formatting and file output",
+      "Only files",
+      "Only loops",
+      "Only strings"
+     ],
+     "answer": 0,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "Which cmdlet exports objects to a file as CSV?",
+     "options": [
+      "Export-Csv",
+      "Set-Csv",
+      "Write-Csv",
+      "Out-String"
+     ],
+     "answer": 0,
+     "explain": "-NoTypeInformation is default in 7."
+    },
+    {
+     "q": "Why output objects rather than formatted text from your script?",
+     "options": [
+      "Style",
+      "Callers can filter, sort and export them; format only at the end",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Format-* last."
+    },
+    {
+     "q": "How make the report cross-platform?",
+     "options": [
+      "Aliases",
+      "Ignore",
+      "Use cmdlets/properties available on all OSes and test on each",
+      "Windows only"
+     ],
+     "answer": 2,
+     "explain": "Check $IsWindows."
+    }
+   ]
+  },
+  "level-2/01-advanced-pipeline": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\n1..4 | ForEach-Object { \"in$_\"; $_ } | ForEach-Object { if ($_ -is [int]) { $_ * 2 } }\n```\n",
+     "options": [
+      "in1\n2",
+      "2\n4\n6\n8",
+      "Error",
+      "in1\nin2"
+     ],
+     "answer": 1,
+     "explain": "Strings are filtered out by the type test; only ints are doubled. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What does this print?\n```powershell\n$r = 1..5 | ForEach-Object -Begin { $sum = 0 } -Process { $sum += $_ } -End { \"total=$sum\" }\n$r\n(1..10 | Where-Object { $_ % 2 -eq 0 } | Select-Object -First 2) -join \",\"\n```\n",
+     "options": [
+      "15\n2,4",
+      "Error",
+      "total=15\n2,4",
+      "total=15\n2,4,6"
+     ],
+     "answer": 2,
+     "explain": "Begin/Process/End blocks. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "Why is Select-Object -First N efficient on streams?",
+     "options": [
+      "Caches",
+      "It stops the upstream pipeline once N objects arrive",
+      "Sorts",
+      "Buffers"
+     ],
+     "answer": 1,
+     "explain": "Early exit."
+    },
+    {
+     "q": "Which cmdlets must buffer all input?",
+     "options": [
+      "Sort-Object and Group-Object",
+      "ForEach-Object",
+      "Select -First",
+      "Where-Object"
+     ],
+     "answer": 0,
+     "explain": "Memory cost."
+    }
+   ]
+  },
+  "level-2/02-cmdlet-design": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\nfunction Get-Square {\n    [CmdletBinding()]\n    param([Parameter(Mandatory, ValueFromPipeline)][int[]]$Number)\n    process { foreach ($n in $Number) { [pscustomobject]@{ Number = $n; Square = $n * $n } } }\n}\n(1..3 | Get-Square | ForEach-Object { \"$($_.Number)^2=$($_.Square)\" }) -join \" \"\n```\n",
+     "options": [
+      "1^2=1",
+      "1^2=1 2^2=4 3^2=9",
+      "Error",
+      "1 4 9"
+     ],
+     "answer": 1,
+     "explain": "process{} runs per pipeline input. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "Which block runs once per pipeline object?",
+     "options": [
+      "end",
+      "clean",
+      "process",
+      "begin"
+     ],
+     "answer": 2,
+     "explain": "begin/process/end."
+    },
+    {
+     "q": "What does SupportsShouldProcess add?",
+     "options": [
+      "-WhatIf and -Confirm support for changing commands",
+      "Logs",
+      "Types",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Safety."
+    },
+    {
+     "q": "What should a cmdlet-style function emit?",
+     "options": [
+      "Host text",
+      "XML",
+      "Objects (not formatted text)",
+      "Strings"
+     ],
+     "answer": 2,
+     "explain": "Composable."
+    }
+   ]
+  },
+  "level-2/03-error-handling-advanced": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\ntry {\n    try { throw [System.IO.FileNotFoundException]::new(\"missing.txt\") }\n    catch [System.IO.FileNotFoundException] { throw \"wrapped: $($_.Exception.Message)\" }\n} catch { $_.Exception.Message }\n$ErrorActionPreference = 'Continue'\n$null = Get-Item /zzz_none -ErrorVariable ev -ErrorAction SilentlyContinue\n$ev.Count\n```\n",
+     "options": [
+      "Error",
+      "wrapped: missing.txt\n0",
+      "missing.txt\n1",
+      "wrapped: missing.txt\n1"
+     ],
+     "answer": 3,
+     "explain": "Typed catch, rethrow, ErrorVariable. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What does -ErrorAction SilentlyContinue do?",
+     "options": [
+      "Stops",
+      "Throws",
+      "Suppresses non-terminating error display but still records it in $Error",
+      "Hides all"
+     ],
+     "answer": 2,
+     "explain": "Not a try/catch."
+    },
+    {
+     "q": "What does `throw` produce?",
+     "options": [
+      "A terminating error",
+      "Log",
+      "Warning",
+      "Output"
+     ],
+     "answer": 0,
+     "explain": "Caught by catch."
+    },
+    {
+     "q": "Why use finally?",
+     "options": [
+      "Cleanup that must run whether or not an error occurred",
+      "Retry",
+      "Log",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "Close handles."
+    }
+   ]
+  },
+  "level-2/04-regular-expressions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\n$text = \"Order #1234 shipped 2026-03-15 to ann@example.com\"\n$m = [regex]::Match($text, '#(?<id>\\d+).*?(?<date>\\d{4}-\\d{2}-\\d{2})')\n\"$($m.Groups['id'].Value) $($m.Groups['date'].Value)\"\n$text -match '(\\w+)@(\\w+)\\.com'; $Matches[1] + \"/\" + $Matches[2]\n\"a1b22c333\" -replace '\\d+', '#'\n([regex]::Matches(\"a1b22c333\", '\\d+') | ForEach-Object Value) -join \"|\"\n```\n",
+     "options": [
+      "1234 2026-03-15\nTrue\nann/example\na1b22c333\n1|22|333",
+      "1234 2026-03-15\nTrue\nann/example\na#b#c#\n1|22|333",
+      "1234 2026\nTrue\nann/example\na#b#c#\n1|22|333",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Named groups and -replace. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "Which operator tests a regex match and fills $Matches?",
+     "options": [
+      "-match",
+      "-eq",
+      "-like",
+      "-contains"
+     ],
+     "answer": 0,
+     "explain": "Case-insensitive by default."
+    },
+    {
+     "q": "How make matching case-sensitive?",
+     "options": [
+      "-imatch",
+      "-match",
+      "(?c)",
+      "Use -cmatch"
+     ],
+     "answer": 3,
+     "explain": "c prefix."
+    },
+    {
+     "q": "What is the difference between -like and -match?",
+     "options": [
+      "None",
+      "Reverse",
+      "-like uses wildcards; -match uses regular expressions",
+      "Same"
+     ],
+     "answer": 2,
+     "explain": "Choose per need."
+    }
+   ]
+  },
+  "level-2/05-remoting-basics": {
+   "questions": [
+    {
+     "q": "Which cmdlet runs commands on a remote machine?",
+     "options": [
+      "Invoke-Command (over WinRM or SSH)",
+      "Start-Process",
+      "Get-Remote",
+      "Enter-Pipe"
+     ],
+     "answer": 0,
+     "explain": "Remoting."
+    },
+    {
+     "q": "What does Enter-PSSession do?",
+     "options": [
+      "Copies",
+      "Runs jobs",
+      "Starts an interactive session on a remote computer",
+      "Locks"
+     ],
+     "answer": 2,
+     "explain": "Exit-PSSession."
+    },
+    {
+     "q": "What do remote results look like?",
+     "options": [
+      "Binary",
+      "Text",
+      "Deserialized objects (properties but no live methods)",
+      "Live"
+     ],
+     "answer": 2,
+     "explain": "Remember when calling methods."
+    },
+    {
+     "q": "Which transport does cross-platform PowerShell 7 remoting commonly use?",
+     "options": [
+      "HTTP",
+      "FTP",
+      "Telnet",
+      "SSH"
+     ],
+     "answer": 3,
+     "explain": "WinRM on Windows."
+    }
+   ]
+  },
+  "level-2/06-testing-pester": {
+   "questions": [
+    {
+     "q": "What is Pester?",
+     "options": [
+      "Module host",
+      "PowerShell's testing framework",
+      "Linter",
+      "Editor"
+     ],
+     "answer": 1,
+     "explain": "Describe/It/Should."
+    },
+    {
+     "q": "What does Should -Be do?",
+     "options": [
+      "Mocks",
+      "Logs",
+      "Asserts a value equals the expected value",
+      "Skips"
+     ],
+     "answer": 2,
+     "explain": "Assertions."
+    },
+    {
+     "q": "What does Mock do?",
+     "options": [
+      "Replaces a command's behavior during a test",
+      "Deletes",
+      "Installs",
+      "Runs"
+     ],
+     "answer": 0,
+     "explain": "Isolation."
+    },
+    {
+     "q": "Which command runs the tests?",
+     "options": [
+      "Run-Pester",
+      "Test-Run",
+      "Invoke-Pester",
+      "Start-Test"
+     ],
+     "answer": 2,
+     "explain": "Configuration objects."
+    }
+   ]
+  },
+  "level-2/07-json-rest-apis": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\n$j = '{\"name\":\"Ada\",\"tags\":[\"a\",\"b\"],\"n\":{\"k\":1.5}}'\n$o = $j | ConvertFrom-Json\n\"$($o.name) $($o.tags.Count) $($o.n.k)\"\n[pscustomobject]@{x=1; y=@(1,2)} | ConvertTo-Json -Compress\n@{a=@{b=1}} | ConvertTo-Json -Depth 1 -Compress\n```\n",
+     "options": [
+      "Ada 2 1.5\n{\"x\":1,\"y\":[1,2]}\n{\"a\":{\"b\":1}}",
+      "Ada 1 1.5\n{\"x\":1}\n{\"a\":{}}",
+      "Ada 2 1.5\n{\"x\":1,\"y\":[1,2]}\n{\"a\":\"System.Collections.Hashtable\"}",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "JSON round trip. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "Which cmdlet calls a REST API and parses JSON?",
+     "options": [
+      "Fetch",
+      "Invoke-WebRequest",
+      "Get-Json",
+      "Invoke-RestMethod"
+     ],
+     "answer": 3,
+     "explain": "Invoke-WebRequest returns raw response."
+    },
+    {
+     "q": "What controls nested JSON output?",
+     "options": [
+      "-Deep",
+      "-Level",
+      "ConvertTo-Json -Depth",
+      "-Nest"
+     ],
+     "answer": 2,
+     "explain": "Default depth 2."
+    },
+    {
+     "q": "How send a JSON body?",
+     "options": [
+      "-Raw",
+      "-Json",
+      "-Body ($obj | ConvertTo-Json) -ContentType 'application/json'",
+      "-Data"
+     ],
+     "answer": 2,
+     "explain": "Headers too."
+    }
+   ]
+  },
+  "level-2/08-script-modules-manifests": {
+   "questions": [
+    {
+     "q": "What does a module manifest (.psd1) describe?",
+     "options": [
+      "Code",
+      "Tests",
+      "Logs",
+      "Version, author, exports and dependencies"
+     ],
+     "answer": 3,
+     "explain": "New-ModuleManifest."
+    },
+    {
+     "q": "What does Export-ModuleMember do?",
+     "options": [
+      "Install",
+      "Import",
+      "Test",
+      "Controls which functions are visible outside the module"
+     ],
+     "answer": 3,
+     "explain": "Public API."
+    },
+    {
+     "q": "What's the file extension of a script module?",
+     "options": [
+      "*.psm1",
+      "*.dll",
+      "*.ps1",
+      "*.psd1"
+     ],
+     "answer": 0,
+     "explain": "Loaded by Import-Module."
+    },
+    {
+     "q": "Why put private helpers in the module but not export them?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Keeps the public surface small and stable"
+     ],
+     "answer": 3,
+     "explain": "Encapsulation."
+    }
+   ]
+  },
+  "level-2/09-csv-excel-data": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\n$csv = @\"\nname,dept,salary\nann,eng,100\nbob,ops,80\ncy,eng,120\n\"@\n$rows = $csv | ConvertFrom-Csv\n($rows | Group-Object dept | ForEach-Object { \"$($_.Name)=$(($_.Group | Measure-Object salary -Sum).Sum)\" }) -join \" \"\n($rows | Sort-Object { [int]$_.salary } -Descending | Select-Object -First 1).name\n$rows[0].salary.GetType().Name\n```\n",
+     "options": [
+      "eng=220 ops=80\ncy\nInt32",
+      "eng=100100 ops=80\ncy\nString",
+      "Error",
+      "eng=220 ops=80\ncy\nString"
+     ],
+     "answer": 3,
+     "explain": "CSV values are strings unless cast. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "Why not export CSV from formatted output?",
+     "options": [
+      "Size",
+      "Slow",
+      "Law",
+      "Format-* output is for display; export the objects"
+     ],
+     "answer": 3,
+     "explain": "Format-Table breaks it."
+    },
+    {
+     "q": "How read Excel without Excel installed?",
+     "options": [
+      "Import-Csv",
+      "Get-Excel",
+      "COM",
+      "Use the ImportExcel module"
+     ],
+     "answer": 3,
+     "explain": "Gallery module."
+    },
+    {
+     "q": "What does Import-Csv -Delimiter do?",
+     "options": [
+      "Filter",
+      "Reads files with other separators like ; or tab",
+      "Sort",
+      "Encode"
+     ],
+     "answer": 1,
+     "explain": "Locale CSVs."
+    }
+   ]
+  },
+  "level-2/10-project-log-monitoring": {
+   "questions": [
+    {
+     "q": "What does the log monitoring project combine?",
+     "options": [
+      "Only tests",
+      "Only CSV",
+      "Regex parsing, grouping, thresholds, CSV/JSON reports and tests",
+      "Only regex"
+     ],
+     "answer": 2,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How stream a big log efficiently?",
+     "options": [
+      "Raw",
+      "Array",
+      "Sort",
+      "Get-Content | Where-Object or Select-String instead of loading all lines"
+     ],
+     "answer": 3,
+     "explain": "Streaming."
+    },
+    {
+     "q": "Which cmdlet searches text files with regex?",
+     "options": [
+      "Match-String",
+      "Find-Text",
+      "Select-String",
+      "Grep"
+     ],
+     "answer": 2,
+     "explain": "-Pattern."
+    },
+    {
+     "q": "How avoid duplicate alerts?",
+     "options": [
+      "Ignore",
+      "Delete log",
+      "Hope",
+      "Track state (e.g. last offset or timestamp) between runs"
+     ],
+     "answer": 3,
+     "explain": "Idempotence."
+    }
+   ]
+  },
+  "level-3/01-advanced-functions-validation": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\nfunction Set-Level {\n    [CmdletBinding()]\n    param(\n        [ValidateSet('low','mid','high')][string]$Level = 'mid',\n        [ValidateRange(1,10)][int]$Count = 1,\n        [ValidatePattern('^[a-z]+$')][string]$Name = 'x'\n    )\n    \"$Level $Count $Name\"\n}\nSet-Level -Level high -Count 3 -Name abc\ntry { Set-Level -Count 11 } catch { \"invalid\" }\ntry { Set-Level -Level nope } catch { \"invalid\" }\n```\n",
+     "options": [
+      "high 3 abc\ninvalid\ninvalid",
+      "high 3 abc\n11\ninvalid",
+      "high 3 abc\ninvalid",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Validation attributes reject bad input before the body runs. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What does ValidateNotNullOrEmpty do?",
+     "options": [
+      "Defaults",
+      "Trims",
+      "Casts",
+      "Rejects null or empty values"
+     ],
+     "answer": 3,
+     "explain": "Common guard."
+    },
+    {
+     "q": "What are parameter sets for?",
+     "options": [
+      "Order",
+      "Defaults",
+      "Mutually exclusive groups of parameters",
+      "Types"
+     ],
+     "answer": 2,
+     "explain": "DefaultParameterSetName."
+    },
+    {
+     "q": "Why use ValueFromPipelineByPropertyName?",
+     "options": [
+      "Bind parameters from matching property names on piped objects",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Composable commands."
+    }
+   ]
+  },
+  "level-3/02-dsc-basics": {
+   "questions": [
+    {
+     "q": "What is DSC?",
+     "options": [
+      "A shell",
+      "Desired State Configuration: declare the state; the engine makes it so",
+      "A module",
+      "Imperative"
+     ],
+     "answer": 1,
+     "explain": "Idempotent."
+    },
+    {
+     "q": "What is idempotence?",
+     "options": [
+      "Rollback",
+      "Applying a configuration repeatedly gives the same result without extra changes",
+      "Speed",
+      "Logging"
+     ],
+     "answer": 1,
+     "explain": "Key concept."
+    },
+    {
+     "q": "What does Test-DscConfiguration/Test-TargetResource do?",
+     "options": [
+      "Applies",
+      "Installs",
+      "Reports whether the machine matches the desired state",
+      "Deletes"
+     ],
+     "answer": 2,
+     "explain": "Check before set."
+    },
+    {
+     "q": "What's a modern alternative for cross-platform config?",
+     "options": [
+      "Batch",
+      "Ansible, Azure Automanage/Guest Config, or DSC v3",
+      "None",
+      "Cron only"
+     ],
+     "answer": 1,
+     "explain": "Choose per environment."
+    }
+   ]
+  },
+  "level-3/03-working-with-dotnet": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\n$sb = [System.Text.StringBuilder]::new()\n[void]$sb.Append(\"a\").Append(\"b\")\n$sb.ToString()\n[math]::Round(2.5), [math]::Round(3.5), [math]::Pow(2,10), [Math]::Floor(-1.5)\n[datetime]::new(2026,3,15).DayOfWeek\n[guid]::Empty.ToString().Length\n```\n",
+     "options": [
+      "ab\n2\n4\n1024\n-2\nSunday\n36",
+      "ab\n2\n4\n1024\n-2\nMonday\n36",
+      "ab\n3\n4\n1024\n-1\nSunday\n36",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Banker's rounding; static .NET members. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "How call a static .NET method?",
+     "options": [
+      "Type->Method",
+      "Type.Method()",
+      "call",
+      "[Namespace.Type]::Method()"
+     ],
+     "answer": 3,
+     "explain": "Double colon."
+    },
+    {
+     "q": "How load an extra .NET assembly?",
+     "options": [
+      "Add-Type (-AssemblyName or -Path)",
+      "Import-Dll",
+      "Load",
+      "Using"
+     ],
+     "answer": 0,
+     "explain": "Or `using assembly`."
+    },
+    {
+     "q": "Why use .NET types sparingly?",
+     "options": [
+      "Law",
+      "Cmdlets are more discoverable and cross-platform-safe; use .NET for gaps and performance",
+      "Never",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Balance."
+    }
+   ]
+  },
+  "level-3/04-building-reusable-modules": {
+   "questions": [
+    {
+     "q": "What makes a module reusable?",
+     "options": [
+      "Clear public functions, help, validation, tests and a manifest",
+      "No docs",
+      "One file",
+      "Globals"
+     ],
+     "answer": 0,
+     "explain": "Design for others."
+    },
+    {
+     "q": "What should functions avoid?",
+     "options": [
+      "Help",
+      "Parameters",
+      "Writing to the host and relying on global state",
+      "Output"
+     ],
+     "answer": 2,
+     "explain": "Return objects."
+    },
+    {
+     "q": "What does comment-based help provide?",
+     "options": [
+      "Tests",
+      "Get-Help documentation from comments above functions",
+      "Types",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": ".SYNOPSIS/.EXAMPLE."
+    },
+    {
+     "q": "How version modules?",
+     "options": [
+      "Dates",
+      "None",
+      "Hashes",
+      "Semantic versioning in the manifest"
+     ],
+     "answer": 3,
+     "explain": "Breaking changes bump major."
+    }
+   ]
+  },
+  "level-3/05-testing-advanced-mocking": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\nRemove-Module Pester -ErrorAction SilentlyContinue\nfunction Get-Greeting { param($Name) \"hi $Name\" }\nfunction Say { Get-Greeting -Name 'x' }\nfunction Get-Greeting { param($Name) \"mock $Name\" }\nSay\n```\n",
+     "options": [
+      "mock x",
+      "hi x",
+      "Error",
+      "x"
+     ],
+     "answer": 0,
+     "explain": "Redefining a function shadows the earlier one (mocking in spirit). Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What does Should -Invoke verify?",
+     "options": [
+      "That a mocked command was called (and how many times)",
+      "Types",
+      "Speed",
+      "Output"
+     ],
+     "answer": 0,
+     "explain": "Interaction checks."
+    },
+    {
+     "q": "What is BeforeAll/BeforeEach for?",
+     "options": [
+      "Mocks",
+      "Skips",
+      "Teardown",
+      "Setup shared by tests (once vs per test)"
+     ],
+     "answer": 3,
+     "explain": "Fixtures."
+    },
+    {
+     "q": "What goes wrong with over-mocking?",
+     "options": [
+      "Faster",
+      "Tests mirror implementation and break on refactors",
+      "Nothing",
+      "Safer"
+     ],
+     "answer": 1,
+     "explain": "Mock boundaries only."
+    }
+   ]
+  },
+  "level-3/06-security": {
+   "questions": [
+    {
+     "q": "What does Set-ExecutionPolicy control?",
+     "options": [
+      "Which scripts may run (a safety feature, not a security boundary)",
+      "Admin",
+      "Network",
+      "Permissions"
+     ],
+     "answer": 0,
+     "explain": "Windows."
+    },
+    {
+     "q": "How store credentials securely?",
+     "options": [
+      "Code",
+      "Env",
+      "Files",
+      "SecretManagement/SecretStore or a vault; never in plain text"
+     ],
+     "answer": 3,
+     "explain": "PSCredential objects."
+    },
+    {
+     "q": "What does Get-Credential return?",
+     "options": [
+      "Hash",
+      "Text",
+      "A PSCredential with the password as a SecureString",
+      "Token"
+     ],
+     "answer": 2,
+     "explain": "Prompt."
+    },
+    {
+     "q": "What should you do with logs?",
+     "options": [
+      "Hash",
+      "Add",
+      "Avoid writing secrets or tokens",
+      "Ignore"
+     ],
+     "answer": 2,
+     "explain": "Redact."
+    }
+   ]
+  },
+  "level-3/07-performance-optimization": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\n$n = 20000\n$a = 1..$n | ForEach-Object { $_ }\n$l = [System.Collections.Generic.List[int]]::new()\nforeach ($i in 1..$n) { $l.Add($i) }\n\"$($a.Count) $($l.Count) $(($a | Measure-Object -Sum).Sum -eq ($l | Measure-Object -Sum).Sum)\"\n$swa = (Measure-Command { foreach ($i in 1..1000) { $null = $i * 2 } }).TotalMilliseconds -ge 0\n$swa\n```\n",
+     "options": [
+      "Error",
+      "20000 20000 True\nTrue",
+      "20000 1 True\nTrue",
+      "20000 20000 False\nTrue"
+     ],
+     "answer": 1,
+     "explain": "Both approaches produce the same data; the List avoids array copying. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "What is the fastest way to build a large collection in a loop?",
+     "options": [
+      "A generic List (Add) or assign the loop output directly",
+      "Array copy",
+      "+=",
+      "Pipeline"
+     ],
+     "answer": 0,
+     "explain": "Avoid += on arrays."
+    },
+    {
+     "q": "How measure code speed?",
+     "options": [
+      "Measure-Command (repeat and compare)",
+      "Guess",
+      "Timer",
+      "Get-Date"
+     ],
+     "answer": 0,
+     "explain": "Profile."
+    },
+    {
+     "q": "Why filter left in a pipeline?",
+     "options": [
+      "Style",
+      "Law",
+      "Reduce objects early so later stages do less work",
+      "Speed only"
+     ],
+     "answer": 2,
+     "explain": "-Filter on providers."
+    }
+   ]
+  },
+  "level-3/08-active-directory-admin": {
+   "questions": [
+    {
+     "q": "Which module manages Active Directory?",
+     "options": [
+      "Pester",
+      "ActiveDirectory (RSAT) with Get-ADUser etc.",
+      "AzureAD",
+      "PSReadLine"
+     ],
+     "answer": 1,
+     "explain": "Windows."
+    },
+    {
+     "q": "Why use -Filter with Get-ADUser?",
+     "options": [
+      "Style",
+      "Colors",
+      "Law",
+      "Server-side filtering is far faster than fetching all users"
+     ],
+     "answer": 3,
+     "explain": "Don't Where-Object everything."
+    },
+    {
+     "q": "What should bulk AD changes use first?",
+     "options": [
+      "Prod",
+      "-WhatIf and a pilot run",
+      "Delete",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Safe change."
+    },
+    {
+     "q": "How limit property retrieval?",
+     "options": [
+      "None",
+      "*",
+      "All",
+      "-Properties with only the needed attributes"
+     ],
+     "answer": 3,
+     "explain": "Performance."
+    }
+   ]
+  },
+  "level-3/09-scheduled-tasks-automation": {
+   "questions": [
+    {
+     "q": "Which cmdlets register scheduled tasks on Windows?",
+     "options": [
+      "Start-Job",
+      "at",
+      "Register-ScheduledTask with New-ScheduledTaskAction/Trigger",
+      "cron"
+     ],
+     "answer": 2,
+     "explain": "Windows only."
+    },
+    {
+     "q": "What should scheduled scripts do?",
+     "options": [
+      "Prompt",
+      "Log, handle errors, use least privilege and be idempotent",
+      "Run as admin",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Unattended."
+    },
+    {
+     "q": "How run something on Linux on a schedule?",
+     "options": [
+      "WinRM",
+      "None",
+      "cron or systemd timers calling pwsh",
+      "Task Scheduler"
+     ],
+     "answer": 2,
+     "explain": "Cross-platform."
+    },
+    {
+     "q": "How prevent overlapping runs?",
+     "options": [
+      "None",
+      "Sleep",
+      "A lock file/mutex or checking for a running instance",
+      "Hope"
+     ],
+     "answer": 2,
+     "explain": "Reliability."
+    }
+   ]
+  },
+  "level-3/10-project-admin-toolkit": {
+   "questions": [
+    {
+     "q": "What does the admin toolkit project combine?",
+     "options": [
+      "Only tests",
+      "Only functions",
+      "Reusable module, validation, logging, tests, remoting and scheduling",
+      "Only logs"
+     ],
+     "answer": 2,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How structure the toolkit?",
+     "options": [
+      "One script",
+      "A module with public/private functions, manifest and Pester tests",
+      "Aliases",
+      "Notes"
+     ],
+     "answer": 1,
+     "explain": "Maintainable."
+    },
+    {
+     "q": "How make it safe to run?",
+     "options": [
+      "Admin",
+      "Nothing",
+      "-WhatIf/-Confirm, validation, least privilege and logging",
+      "Silent"
+     ],
+     "answer": 2,
+     "explain": "Defence."
+    },
+    {
+     "q": "How share it?",
+     "options": [
+      "USB",
+      "Zip",
+      "Publish to a private repository/feed or the PowerShell Gallery",
+      "Email"
+     ],
+     "answer": 2,
+     "explain": "Versioned."
+    }
+   ]
+  },
+  "level-4/01-advanced-remoting-jobs": {
+   "questions": [
+    {
+     "q": "What does Start-Job do?",
+     "options": [
+      "Runs a script block in a background job",
+      "Remote",
+      "Schedule",
+      "Log"
+     ],
+     "answer": 0,
+     "explain": "Receive-Job gets output."
+    },
+    {
+     "q": "What does ForEach-Object -Parallel do (PS 7)?",
+     "options": [
+      "Runs the script block for items in parallel with -ThrottleLimit",
+      "Debug",
+      "Sequential",
+      "Remote"
+     ],
+     "answer": 0,
+     "explain": "Use $using: for variables."
+    },
+    {
+     "q": "When is parallelism not worth it?",
+     "options": [
+      "Never",
+      "For tiny tasks where startup overhead dominates",
+      "Always",
+      "Large"
+     ],
+     "answer": 1,
+     "explain": "Measure."
+    },
+    {
+     "q": "How handle remoting at scale?",
+     "options": [
+      "Loop",
+      "Serial",
+      "Manual",
+      "Invoke-Command to many hosts with -ThrottleLimit and error collection"
+     ],
+     "answer": 3,
+     "explain": "Fan-out."
+    }
+   ]
+  },
+  "level-4/02-cicd-powershell": {
+   "questions": [
+    {
+     "q": "What should a PowerShell CI pipeline run?",
+     "options": [
+      "Pester tests, PSScriptAnalyzer and module build/publish steps",
+      "Nothing",
+      "Deploy",
+      "Only lint"
+     ],
+     "answer": 0,
+     "explain": "Quality gates."
+    },
+    {
+     "q": "What does PSScriptAnalyzer do?",
+     "options": [
+      "Format only",
+      "Static analysis for best-practice and style issues",
+      "Run tests",
+      "Deploy"
+     ],
+     "answer": 1,
+     "explain": "Invoke-ScriptAnalyzer."
+    },
+    {
+     "q": "How store pipeline secrets?",
+     "options": [
+      "Git",
+      "Logs",
+      "CI secret variables, never in the repo",
+      "Code"
+     ],
+     "answer": 2,
+     "explain": "Security."
+    },
+    {
+     "q": "What artifacts help?",
+     "options": [
+      "Nothing",
+      "Source",
+      "Test results and code coverage reports",
+      "Cache"
+     ],
+     "answer": 2,
+     "explain": "Visibility."
+    }
+   ]
+  },
+  "level-4/03-cross-platform": {
+   "questions": [
+    {
+     "q": "What does this print?\n```powershell\n$IsWindows -or $IsLinux -or $IsMacOS\n[System.IO.Path]::DirectorySeparatorChar.ToString().Length\nJoin-Path 'a' 'b' | ForEach-Object { $_ -replace '[\\\\/]', '/' }\n$PSVersionTable.PSEdition\n```\n",
+     "options": [
+      "Error",
+      "True\n2\na/b\nDesktop",
+      "True\n1\na/b\nCore",
+      "False\n1\na/b\nCore"
+     ],
+     "answer": 2,
+     "explain": "PowerShell 7 is Core and cross-platform. Verified by running it in PowerShell 7."
+    },
+    {
+     "q": "Which cmdlet builds paths safely across OSes?",
+     "options": [
+      "String +",
+      "Join-Path",
+      "Path",
+      "Combine"
+     ],
+     "answer": 1,
+     "explain": "Separators."
+    },
+    {
+     "q": "What's a cross-platform pitfall?",
+     "options": [
+      "Case-sensitive file systems and Windows-only cmdlets/modules",
+      "None",
+      "Speed",
+      "Colors"
+     ],
+     "answer": 0,
+     "explain": "Test on each OS."
+    },
+    {
+     "q": "How check the platform?",
+     "options": [
+      "$Platform",
+      "$IsWindows / $IsLinux / $IsMacOS",
+      "$OS",
+      "$Env:OS"
+     ],
+     "answer": 1,
+     "explain": "Automatic variables."
+    }
+   ]
+  },
+  "level-4/04-security-hardening-jea": {
+   "questions": [
+    {
+     "q": "What is JEA?",
+     "options": [
+      "Backup",
+      "DSC",
+      "Just Enough Administration: constrained remoting endpoints exposing only allowed commands",
+      "Jobs"
+     ],
+     "answer": 2,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "What defines a JEA endpoint?",
+     "options": [
+      "Profile",
+      "A role capability file and a session configuration",
+      "Module",
+      "Script"
+     ],
+     "answer": 1,
+     "explain": ".psrc/.pssc."
+    },
+    {
+     "q": "What does constrained language mode do?",
+     "options": [
+      "Speeds",
+      "Restricts risky language features to reduce attack surface",
+      "Sorts",
+      "Logs"
+     ],
+     "answer": 1,
+     "explain": "Security."
+    },
+    {
+     "q": "What logging detects abuse?",
+     "options": [
+      "Debug",
+      "Verbose",
+      "Script block, module and transcription logging",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Audit."
+    }
+   ]
+  },
+  "level-4/05-testing-at-scale-ci": {
+   "questions": [
+    {
+     "q": "How scale test suites in CI?",
+     "options": [
+      "Skip",
+      "Serial",
+      "Parallel jobs, tags and cached modules",
+      "Manual"
+     ],
+     "answer": 2,
+     "explain": "Faster feedback."
+    },
+    {
+     "q": "What should tests avoid?",
+     "options": [
+      "Names",
+      "Data",
+      "Dependence on real servers or clocks (mock boundaries)",
+      "Mocks"
+     ],
+     "answer": 2,
+     "explain": "Deterministic."
+    },
+    {
+     "q": "How report results?",
+     "options": [
+      "HTML only",
+      "Text",
+      "NUnit/JUnit XML consumed by CI",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Dashboards."
+    },
+    {
+     "q": "What do you do with flaky tests?",
+     "options": [
+      "Ignore",
+      "Retry",
+      "Fix isolation/timing or quarantine with a ticket",
+      "Delete"
+     ],
+     "answer": 2,
+     "explain": "Trust."
+    }
+   ]
+  },
+  "level-4/06-performance-at-scale": {
+   "questions": [
+    {
+     "q": "Which technique saves memory on huge inputs?",
+     "options": [
+      "ToString",
+      "Stream with the pipeline or Get-Content -ReadCount instead of loading everything",
+      "Sort",
+      "Arrays"
+     ],
+     "answer": 1,
+     "explain": "Batching."
+    },
+    {
+     "q": "What does -ReadCount do?",
+     "options": [
+      "Counts",
+      "Limits",
+      "Sends lines to the pipeline in chunks",
+      "Sorts"
+     ],
+     "answer": 2,
+     "explain": "Throughput."
+    },
+    {
+     "q": "How avoid slow string concatenation in loops?",
+     "options": [
+      "Format",
+      "+=",
+      "StringBuilder or -join",
+      "Out-String"
+     ],
+     "answer": 2,
+     "explain": "Quadratic cost."
+    },
+    {
+     "q": "What first?",
+     "options": [
+      "Guess",
+      "Measure before optimizing",
+      "Rewrite",
+      "Cache"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-4/07-devops-tools": {
+   "questions": [
+    {
+     "q": "Which tools do DevOps scripts often call?",
+     "options": [
+      "Only DB",
+      "git, docker, kubectl, az/aws CLIs and REST APIs",
+      "Only GUI",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Glue."
+    },
+    {
+     "q": "How check a native command's success?",
+     "options": [
+      "Name",
+      "$LASTEXITCODE (and $? for cmdlets)",
+      "Output",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Native exit codes."
+    },
+    {
+     "q": "How capture native output as objects?",
+     "options": [
+      "Never",
+      "Convert text with ConvertFrom-Json or parse lines",
+      "Automatic",
+      "Select"
+     ],
+     "answer": 1,
+     "explain": "--output json."
+    },
+    {
+     "q": "Why wrap native tools in functions?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "Consistent errors, parameters and testability"
+     ],
+     "answer": 3,
+     "explain": "Abstraction."
+    }
+   ]
+  },
+  "level-4/08-publishing-modules": {
+   "questions": [
+    {
+     "q": "What do you need to publish a module?",
+     "options": [
+      "Zip",
+      "Nothing",
+      "A manifest, tests and an API key for the gallery/feed",
+      "Admin"
+     ],
+     "answer": 2,
+     "explain": "Publish-Module/Publish-PSResource."
+    },
+    {
+     "q": "What belongs in a README/changelog?",
+     "options": [
+      "Secrets",
+      "Logs",
+      "Source",
+      "Install steps, examples and version history"
+     ],
+     "answer": 3,
+     "explain": "User docs."
+    },
+    {
+     "q": "How sign scripts?",
+     "options": [
+      "Authenticode certificates (Set-AuthenticodeSignature)",
+      "Hash",
+      "Zip",
+      "Encode"
+     ],
+     "answer": 0,
+     "explain": "Trust."
+    },
+    {
+     "q": "How version breaking changes?",
+     "options": [
+      "None",
+      "Patch",
+      "Bump the major version and document migration",
+      "Silent"
+     ],
+     "answer": 2,
+     "explain": "SemVer."
+    }
+   ]
+  },
+  "level-4/09-logging-observability": {
+   "questions": [
+    {
+     "q": "What makes logs useful?",
+     "options": [
+      "Structured, levelled entries with correlation IDs and timestamps",
+      "Plain",
+      "Huge",
+      "Colors"
+     ],
+     "answer": 0,
+     "explain": "Query later."
+    },
+    {
+     "q": "Which streams exist?",
+     "options": [
+      "One",
+      "Three",
+      "Output, Error, Warning, Verbose, Debug, Information",
+      "Two"
+     ],
+     "answer": 2,
+     "explain": "Redirect with 1>..6>."
+    },
+    {
+     "q": "What does Start-Transcript capture?",
+     "options": [
+      "Sessions",
+      "Jobs",
+      "Console input and output to a file",
+      "Objects"
+     ],
+     "answer": 2,
+     "explain": "Audit trail."
+    },
+    {
+     "q": "How emit metrics?",
+     "options": [
+      "Email",
+      "Write structured events to a log system or counters to monitoring",
+      "Beep",
+      "Host"
+     ],
+     "answer": 1,
+     "explain": "Observability."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only code",
+      "Only CI",
+      "Only tests",
+      "A tested, secured, published module with CI, logging and docs"
+     ],
+     "answer": 3,
+     "explain": "Production-ready."
+    },
+    {
+     "q": "How prove readiness?",
+     "options": [
+      "Slides",
+      "Demo",
+      "Hope",
+      "CI green on all platforms, security review and release notes"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "README, examples, runbooks and a contributing guide",
+      "None",
+      "Slides",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Onboarding."
+    },
+    {
+     "q": "What sustains it?",
+     "options": [
+      "Luck",
+      "Tools",
+      "Silence",
+      "Ownership, dependency updates and issue triage"
+     ],
+     "answer": 3,
+     "explain": "Maintenance."
+    }
+   ]
+  }
+ }
+}
