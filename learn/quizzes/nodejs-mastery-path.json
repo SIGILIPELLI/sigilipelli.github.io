@@ -1,0 +1,2170 @@
+{
+ "course": "nodejs-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-node": {
+   "questions": [
+    {
+     "q": "What is Node.js, in the lesson's framing?",
+     "options": [
+      "A browser",
+      "A runtime that runs JavaScript outside a browser, with built-in modules for the OS",
+      "A language",
+      "A framework"
+     ],
+     "answer": 1,
+     "explain": "It's the node executable plus built-in modules for files, sockets, processes, timers and cryptography."
+    },
+    {
+     "q": "What does V8 do, and what does libuv do?",
+     "options": [
+      "V8 handles I/O; libuv runs JavaScript",
+      "Both run JavaScript",
+      "Both handle sockets",
+      "V8 executes JavaScript; libuv provides the event loop and asynchronous OS access"
+     ],
+     "answer": 3,
+     "explain": "V8 knows nothing about files or networks."
+    },
+    {
+     "q": "A setTimeout of 10 ms is queued, then a 500 ms busy loop runs. Roughly when does the timer fire?",
+     "options": [
+      "At 250 ms",
+      "Never",
+      "After the loop, around 504 ms, because the thread was busy",
+      "At 10 ms"
+     ],
+     "answer": 2,
+     "explain": "The event loop only checks timers once the current JavaScript finishes."
+    },
+    {
+     "q": "What is the 'good consequence' of one main thread?",
+     "options": [
+      "No locks or data races on your objects",
+      "Parallel callbacks",
+      "More memory",
+      "Faster CPU"
+     ],
+     "answer": 0,
+     "explain": "The bad one: a long-running function makes everything else wait."
+    }
+   ]
+  },
+  "level-1/02-installing-node-nvm": {
+   "questions": [
+    {
+     "q": "Which Node major versions become LTS?",
+     "options": [
+      "Even-numbered ones, promoted in October",
+      "None",
+      "Odd-numbered ones",
+      "All of them"
+     ],
+     "answer": 0,
+     "explain": "Odd-numbered majors are Current only and are abandoned after a few months."
+    },
+    {
+     "q": "What does `node -p \"process.release.lts\"` print on a Current build?",
+     "options": [
+      "An error",
+      "undefined (on LTS builds it prints the codename)",
+      "false",
+      "null"
+     ],
+     "answer": 1,
+     "explain": "It reveals whether you're running an LTS build."
+    },
+    {
+     "q": "Why is a version manager recommended over the official installer?",
+     "options": [
+      "It installs versions in your home directory and switches per shell or project, with no sudo",
+      "It's faster at runtime",
+      "It's the only way to get npm",
+      "It includes more modules"
+     ],
+     "answer": 0,
+     "explain": "The installer is fine for a single version, but upgrades mean reinstalling and global packages may need sudo."
+    },
+    {
+     "q": "What should you use for servers and anything you deploy?",
+     "options": [
+      "Any version",
+      "An Active or Maintenance LTS version",
+      "An odd major",
+      "The newest Current"
+     ],
+     "answer": 1,
+     "explain": "Check github.com/nodejs/release for the schedule."
+    }
+   ]
+  },
+  "level-1/03-modules-esm-cjs": {
+   "questions": [
+    {
+     "q": "How does Node decide a .js file's module type?",
+     "options": [
+      "By its imports only",
+      "Always ESM",
+      "By file size",
+      "The nearest package.json: \"type\": \"module\" means ESM; commonjs or no type means CommonJS"
+     ],
+     "answer": 3,
+     "explain": "*.mjs is always ESM and *.cjs always CommonJS."
+    },
+    {
+     "q": "What must relative imports include in ESM?",
+     "options": [
+      "The file extension, e.g. './math.js'",
+      "index.js",
+      "Nothing",
+      "A leading slash"
+     ],
+     "answer": 0,
+     "explain": "ESM resolution doesn't guess extensions or look for index.js."
+    },
+    {
+     "q": "What replaces __dirname and __filename in ESM?",
+     "options": [
+      "require.resolve",
+      "process.cwd() only",
+      "global.dirname",
+      "import.meta.dirname and import.meta.filename, or import.meta.url with new URL()"
+     ],
+     "answer": 3,
+     "explain": "require is also unavailable by default."
+    },
+    {
+     "q": "What does a dynamic import('./math.mjs') return?",
+     "options": [
+      "A callback",
+      "The module directly",
+      "undefined",
+      "A promise"
+     ],
+     "answer": 3,
+     "explain": "Top-level await also works in ESM."
+    }
+   ]
+  },
+  "level-1/04-npm-package-json": {
+   "questions": [
+    {
+     "q": "What does ^5.1.0 accept?",
+     "options": [
+      ">=5.1.0 <6.0.0",
+      "Exactly 5.1.0",
+      ">=5.1.0 <5.2.0",
+      "Anything"
+     ],
+     "answer": 0,
+     "explain": "~5.1.0 accepts patches only; for 0.x versions, caret is stricter (^0.4.2 means >=0.4.2 <0.5.0)."
+    },
+    {
+     "q": "How does `npm ci` differ from `npm install`?",
+     "options": [
+      "It skips scripts",
+      "It updates the lockfile",
+      "It installs exactly what the lockfile says, deletes node_modules first, and fails if package.json and the lockfile disagree",
+      "It installs globally"
+     ],
+     "answer": 2,
+     "explain": "Use it in CI and Docker builds for reproducibility."
+    },
+    {
+     "q": "What does \"private\": true prevent?",
+     "options": [
+      "Running scripts",
+      "An accidental npm publish of an application",
+      "Using dependencies",
+      "Installing the package"
+     ],
+     "answer": 1,
+     "explain": "It's typical for applications."
+    },
+    {
+     "q": "Why have devDependencies?",
+     "options": [
+      "They are global",
+      "They're optional at runtime",
+      "They load first",
+      "They're only needed to develop, test or build, and `npm ci --omit=dev` skips them, shrinking container images"
+     ],
+     "answer": 3,
+     "explain": "dependencies are needed at runtime."
+    }
+   ]
+  },
+  "level-1/05-fs-and-path": {
+   "questions": [
+    {
+     "q": "Which fs style is the default for application code and servers?",
+     "options": [
+      "Callbacks",
+      "fs/promises with await",
+      "*Sync everywhere",
+      "Streams only"
+     ],
+     "answer": 1,
+     "explain": "*Sync suits startup code, CLIs and build scripts, where blocking is harmless."
+    },
+    {
+     "q": "Why prefer attempting the operation and handling errors over checking first with access?",
+     "options": [
+      "Another process can change the file between the check and the use (a TOCTOU race)",
+      "access is slow",
+      "access doesn't exist",
+      "Errors are cheaper"
+     ],
+     "answer": 0,
+     "explain": "Handle errors by code, such as ENOENT, and rethrow real problems like EACCES."
+    },
+    {
+     "q": "What does mkdir('data/cache', { recursive: true }) do?",
+     "options": [
+      "Like mkdir -p: creates parents and doesn't error if it exists",
+      "Deletes the folder",
+      "Lists files",
+      "Moves files"
+     ],
+     "answer": 0,
+     "explain": "rm with recursive and force is like rm -rf — careful."
+    },
+    {
+     "q": "When should you use createReadStream?",
+     "options": [
+      "For large files, or to start processing before the whole file is in memory",
+      "For small configs",
+      "Never",
+      "For writes only"
+     ],
+     "answer": 0,
+     "explain": "readFile loads the whole file."
+    }
+   ]
+  },
+  "level-1/06-async-patterns": {
+   "questions": [
+    {
+     "q": "What is the error-first callback convention?",
+     "options": [
+      "The last argument is a callback whose first parameter is an error (or null)",
+      "The first argument is a callback",
+      "Errors are returned",
+      "Errors are thrown"
+     ],
+     "answer": 0,
+     "explain": "For example fs.readFile(file, enc, (err, text) => ...)."
+    },
+    {
+     "q": "Why can't a try/catch around the original call catch an exception thrown inside a callback?",
+     "options": [
+      "try/catch is async",
+      "The stack has already unwound by the time the callback runs",
+      "Node blocks it",
+      "Callbacks never throw"
+     ],
+     "answer": 1,
+     "explain": "That's one of the problems with callbacks, alongside the callback pyramid."
+    },
+    {
+     "q": "What does util.promisify do?",
+     "options": [
+      "Removes errors",
+      "Converts an error-first callback function into a promise-returning one",
+      "Adds retries",
+      "Makes code sync"
+     ],
+     "answer": 1,
+     "explain": "Many built-ins also have promise versions such as node:fs/promises."
+    },
+    {
+     "q": "Why wrap errors with new Error(msg, { cause: err })?",
+     "options": [
+      "It retries",
+      "It's required",
+      "It preserves the original root cause for logs",
+      "It hides the error"
+     ],
+     "answer": 2,
+     "explain": "Use it when rethrowing with more context."
+    }
+   ]
+  },
+  "level-1/07-events-eventemitter": {
+   "questions": [
+    {
+     "q": "In the order queue example, when does `added #1` print relative to `before add` and `after add`?",
+     "options": [
+      "Before both",
+      "On the next tick",
+      "After both",
+      "Between them, because emit is synchronous"
+     ],
+     "answer": 3,
+     "explain": "Listeners run synchronously inside emit."
+    },
+    {
+     "q": "What happens if an EventEmitter emits 'error' with no listener?",
+     "options": [
+      "The error is thrown and can crash the process",
+      "It's ignored",
+      "It retries",
+      "It's logged"
+     ],
+     "answer": 0,
+     "explain": "That's why the example registers q.on('error', …) — the 'error' event is special."
+    },
+    {
+     "q": "Why did 'queue full - flushing' print only once even though the queue stayed full?",
+     "options": [
+      "emit dedupes events",
+      "It was registered with once, which removes the listener after one call",
+      "The queue emptied",
+      "It was off"
+     ],
+     "answer": 1,
+     "explain": "The listener count for 'added' stayed at 1."
+    },
+    {
+     "q": "What does events.once(emitter, name) return?",
+     "options": [
+      "A listener",
+      "The emitter",
+      "A promise for the next event, resolving to an array of its arguments",
+      "A boolean"
+     ],
+     "answer": 2,
+     "explain": "It's the cleanest way to await something like a 'ready' event."
+    }
+   ]
+  },
+  "level-1/08-raw-http-server": {
+   "questions": [
+    {
+     "q": "What are req and res in node:http?",
+     "options": [
+      "Both writable",
+      "Plain objects",
+      "Both readable",
+      "req is a readable stream (IncomingMessage); res is a writable stream (ServerResponse)"
+     ],
+     "answer": 3,
+     "explain": "req.url holds the path and query string only."
+    },
+    {
+     "q": "What happens if you forget res.end()?",
+     "options": [
+      "Node ends it for you",
+      "The client hangs until it times out",
+      "The response is sent anyway",
+      "Node throws"
+     ],
+     "answer": 1,
+     "explain": "Always end every response path."
+    },
+    {
+     "q": "Why does readJsonBody cap the body size at MAX_BODY?",
+     "options": [
+      "To validate JSON",
+      "It's required by HTTP",
+      "To reject oversized bodies with 413 instead of buffering unbounded input",
+      "To speed up JSON"
+     ],
+     "answer": 2,
+     "explain": "Invalid JSON returns 400."
+    },
+    {
+     "q": "How is the query string read in the example?",
+     "options": [
+      "req.query",
+      "req.params",
+      "With new URL(req.url, base) and url.searchParams.get('q')",
+      "Regex on headers"
+     ],
+     "answer": 2,
+     "explain": "The pathname is matched with regexes such as /^\\/notes\\/(\\d+)$/."
+    }
+   ]
+  },
+  "level-1/09-env-config": {
+   "questions": [
+    {
+     "q": "What type are process.env values?",
+     "options": [
+      "Numbers",
+      "Always strings or undefined",
+      "Booleans",
+      "Any type"
+     ],
+     "answer": 1,
+     "explain": "process.env.X = 1 stores '1', and assigning undefined stores 'undefined'."
+    },
+    {
+     "q": "Which takes precedence: a variable in the real environment or one in the .env file?",
+     "options": [
+      "The file",
+      "They merge",
+      "The first alphabetically",
+      "The real environment"
+     ],
+     "answer": 3,
+     "explain": "On a test run, PORT=5000 node --env-file=.env app.js used 5000, not the file's 4000."
+    },
+    {
+     "q": "How do current Node releases load .env files?",
+     "options": [
+      "Automatically",
+      "Natively with --env-file or process.loadEnvFile(), no dotenv needed",
+      "Only with dotenv",
+      "Only with a bundler"
+     ],
+     "answer": 1,
+     "explain": "--env-file-if-exists is available for optional files."
+    },
+    {
+     "q": "Why centralise and validate configuration in one module?",
+     "options": [
+      "Node requires it",
+      "It's faster",
+      "It hides secrets",
+      "A typo then fails at startup instead of giving undefined at 3 a.m."
+     ],
+     "answer": 3,
+     "explain": "It also shows what a service needs at a glance."
+    }
+   ]
+  },
+  "level-1/10-project-cli-tool": {
+   "questions": [
+    {
+     "q": "What do logstat's exit codes mean?",
+     "options": [
+      "0 failure, 1 success",
+      "Random",
+      "Only 0 and 1",
+      "0 success, 1 runtime failure (e.g. unreadable file), 2 usage error"
+     ],
+     "answer": 3,
+     "explain": "Conventional exit codes make a CLI scriptable."
+    },
+    {
+     "q": "How does logstat handle files larger than memory?",
+     "options": [
+      "It requires a database",
+      "It processes line by line via readline and async iteration",
+      "It truncates",
+      "It reads all into memory"
+     ],
+     "answer": 1,
+     "explain": "It also reads standard input when no file is given, so cat *.log | logstat works."
+    },
+    {
+     "q": "What does the bin entry in package.json do?",
+     "options": [
+      "Adds dependencies",
+      "Maps a command name to a file; npm link or npm install -g puts an executable on your PATH",
+      "Sets the main file",
+      "Lists binaries to compile"
+     ],
+     "answer": 1,
+     "explain": "The entry is { \"logstat\": \"./bin/logstat.js\" }."
+    },
+    {
+     "q": "Why keep parsing and statistics as pure functions?",
+     "options": [
+      "Node requires it",
+      "They're easy to test and reuse; only the bin file touches process",
+      "They run faster",
+      "They avoid streams"
+     ],
+     "answer": 1,
+     "explain": "parse.js and stats.js do no I/O."
+    }
+   ]
+  },
+  "level-2/01-express-fundamentals": {
+   "questions": [
+    {
+     "q": "Which Express 5 change affects async handlers?",
+     "options": [
+      "next is required",
+      "Handlers must return",
+      "Rejected promises from async handlers are forwarded to error handlers automatically",
+      "Async handlers aren't allowed"
+     ],
+     "answer": 2,
+     "explain": "Another change: req.body is undefined, not {}, when no body parser ran."
+    },
+    {
+     "q": "What does express.json() replace from the raw http version?",
+     "options": [
+      "The router",
+      "sendJson",
+      "readJsonBody (with a default 100 KB limit)",
+      "The server"
+     ],
+     "answer": 2,
+     "explain": "res.json replaces sendJson, and app.get replaces the if chain."
+    },
+    {
+     "q": "What type are values in req.params?",
+     "options": [
+      "Arrays",
+      "Numbers when numeric",
+      "Always strings",
+      "Booleans"
+     ],
+     "answer": 2,
+     "explain": "/books/:id gives { id: '42' }."
+    },
+    {
+     "q": "What is in req.body without a body-parsing middleware?",
+     "options": [
+      "{}",
+      "null",
+      "The raw string",
+      "undefined"
+     ],
+     "answer": 3,
+     "explain": "Mount express.json() to parse JSON bodies."
+    }
+   ]
+  },
+  "level-2/02-routing-middleware": {
+   "questions": [
+    {
+     "q": "What distinguishes middleware from a route handler?",
+     "options": [
+      "Middleware is async",
+      "Different signatures",
+      "Both are (req, res, next); middleware calls next() to pass control on",
+      "Handlers can't use res"
+     ],
+     "answer": 2,
+     "explain": "Auth, logging, CORS, rate limiting and body parsing all look the same: functions in a pipeline."
+    },
+    {
+     "q": "In what order does middleware run?",
+     "options": [
+      "Alphabetically",
+      "Last first",
+      "In the order registered, only for matching mount paths",
+      "Random"
+     ],
+     "answer": 2,
+     "explain": "The lesson's order: helmet, json, logger, /admin guard, routers, 404, error handler."
+    },
+    {
+     "q": "What is the shape of Express error-handling middleware?",
+     "options": [
+      "Any, registered first",
+      "Three arguments",
+      "Four arguments (err, req, res, next), registered last",
+      "Two arguments"
+     ],
+     "answer": 2,
+     "explain": "The notFoundHandler comes just before it."
+    },
+    {
+     "q": "What changed in Express 5 route paths?",
+     "options": [
+      "Wildcards must be named, like /files/*filepath, and regex characters are no longer special",
+      "Params removed",
+      "Wildcards unlimited",
+      "Regex expanded"
+     ],
+     "answer": 0,
+     "explain": "Old '/files/*' or '/:id?' forms need updating; use {/:section} for optional segments."
+    }
+   ]
+  },
+  "level-2/03-rest-api-design": {
+   "questions": [
+    {
+     "q": "Which pair is correct for creating a resource?",
+     "options": [
+      "POST /tasks returns 201 with a Location header",
+      "GET /createTask returns 200",
+      "PUT /tasks returns 204",
+      "POST /tasks returns 404"
+     ],
+     "answer": 0,
+     "explain": "Model nouns as resources and let HTTP methods be the verbs."
+    },
+    {
+     "q": "Which methods are idempotent?",
+     "options": [
+      "None",
+      "POST and PATCH",
+      "POST only",
+      "GET, PUT and DELETE"
+     ],
+     "answer": 3,
+     "explain": "POST is neither safe nor idempotent, so retrying a create-payment POST is dangerous without idempotency keys."
+    },
+    {
+     "q": "What is the difference between 401 and 403?",
+     "options": [
+      "401: not found; 403: invalid",
+      "401: forbidden; 403: missing credentials",
+      "401: not authenticated; 403: authenticated but not allowed",
+      "Same meaning"
+     ],
+     "answer": 2,
+     "explain": "404 means no such resource."
+    },
+    {
+     "q": "What is the difference between PATCH and PUT?",
+     "options": [
+      "PUT is partial",
+      "PATCH replaces all",
+      "PATCH sends only the fields to change; PUT sends the whole representation",
+      "They are identical"
+     ],
+     "answer": 2,
+     "explain": "With PUT, missing fields mean remove or reset."
+    }
+   ]
+  },
+  "level-2/04-validation": {
+   "questions": [
+    {
+     "q": "Why validate input at the edge?",
+     "options": [
+      "Because Express requires it",
+      "So the rest of the code can trust its inputs' shape, or the client gets a clear 400",
+      "To speed up requests",
+      "To hide errors"
+     ],
+     "answer": 1,
+     "explain": "Anything arriving over HTTP is untrusted, even an added \"isAdmin\": true."
+    },
+    {
+     "q": "What did CreateUser.parse({ email, name: '  Ada ', age: '36' }) return?",
+     "options": [
+      "The original input",
+      "A string",
+      "An error",
+      "A new object: name trimmed to 'Ada', age coerced to 36, defaults added (role 'member', tags [])"
+     ],
+     "answer": 3,
+     "explain": "Use the parsed output, not the original input."
+    },
+    {
+     "q": "How does safeParse differ from parse?",
+     "options": [
+      "It ignores errors",
+      "It's faster",
+      "It trims",
+      "It returns { success, data } or { success: false, error } instead of throwing a ZodError"
+     ],
+     "answer": 3,
+     "explain": "It's easier to turn into an HTTP response."
+    },
+    {
+     "q": "Why does a Zod schema count as 'one declaration, three benefits'?",
+     "options": [
+      "Only defaults",
+      "Only validation",
+      "Runtime validation, parsing (coercion, trimming, defaults), and a static TypeScript type",
+      "Only types"
+     ],
+     "answer": 2,
+     "explain": "Alternatives include Valibot, ArkType, Joi, Yup and Ajv."
+    }
+   ]
+  },
+  "level-2/05-error-handling": {
+   "questions": [
+    {
+     "q": "What is an operational error?",
+     "options": [
+      "A bug in the code",
+      "A memory leak",
+      "A syntax error",
+      "An expected failure of a correct program, such as bad JSON, a missing record or a dropped DB connection"
+     ],
+     "answer": 3,
+     "explain": "You handle these with a 4xx, a retry or degraded behaviour."
+    },
+    {
+     "q": "What should you do for a programmer error (a bug) outside any request?",
+     "options": [
+      "Let the process crash and be restarted, since state may be inconsistent",
+      "Retry forever",
+      "Catch it everywhere",
+      "Ignore it"
+     ],
+     "answer": 0,
+     "explain": "For a bug inside a request, return 500, log loudly, and fix the code."
+    },
+    {
+     "q": "What does the errorHandler return to the client for status ≥ 500?",
+     "options": [
+      "The raw error",
+      "Nothing",
+      "A generic 'internal server error', not the real message",
+      "The stack trace"
+     ],
+     "answer": 2,
+     "explain": "The details go to the log, not the client."
+    },
+    {
+     "q": "Why check res.headersSent in the error handler?",
+     "options": [
+      "To set headers",
+      "If a response has already started, delegate to the default handler with next(err)",
+      "It speeds up",
+      "It's required for 404"
+     ],
+     "answer": 1,
+     "explain": "You can't send a second response."
+    }
+   ]
+  },
+  "level-2/06-databases-postgres": {
+   "questions": [
+    {
+     "q": "What do pg and Kysely each do?",
+     "options": [
+      "Both are ORMs",
+      "Kysely is the driver; pg is the builder",
+      "pg is the driver (wire protocol and connection pool); Kysely is a type-safe query builder on top",
+      "Both are pools"
+     ],
+     "answer": 2,
+     "explain": "Kysely compiles to parameterized SQL and keeps you close to SQL."
+    },
+    {
+     "q": "How many Kysely instances (pools) should a process create?",
+     "options": [
+      "One per process at startup, with db.destroy() on shutdown",
+      "One per request",
+      "One per query",
+      "One per router"
+     ],
+     "answer": 0,
+     "explain": "Pass it to your routers."
+    },
+    {
+     "q": "What are migrations?",
+     "options": [
+      "Query caches",
+      "Versioned scripts applied in order and recorded in a table so each runs once",
+      "Connection settings",
+      "Data backups"
+     ],
+     "answer": 1,
+     "explain": "Kysely's Migrator runs files exporting up (and optionally down)."
+    },
+    {
+     "q": "What is PGlite used for in the lesson?",
+     "options": [
+      "A driver",
+      "A cloud service",
+      "A WebAssembly build of Postgres inside Node, handy for tests",
+      "An ORM"
+     ],
+     "answer": 2,
+     "explain": "It's used for the Level 2 project's tests."
+    }
+   ]
+  },
+  "level-2/07-authentication": {
+   "questions": [
+    {
+     "q": "Why not store a plain fast hash like SHA-256 of a password?",
+     "options": [
+      "It can't be verified",
+      "Attackers can guess billions of candidates per second on GPUs after a leak",
+      "It's too slow",
+      "SHA-256 is invalid"
+     ],
+     "answer": 1,
+     "explain": "Use a deliberately slow, salted, memory-hard function: argon2id, scrypt or bcrypt."
+    },
+    {
+     "q": "Why does hashing the same password twice give different results?",
+     "options": [
+      "A new random salt is generated each time",
+      "Compression",
+      "Time stamps",
+      "A bug"
+     ],
+     "answer": 0,
+     "explain": "The lesson shows (await hashPassword(p)) === stored is false."
+    },
+    {
+     "q": "Why use timingSafeEqual when comparing hashes?",
+     "options": [
+      "It's required by crypto",
+      "To avoid leaking information via comparison timing",
+      "It hashes",
+      "It's faster"
+     ],
+     "answer": 1,
+     "explain": "Cost parameters are stored with each hash so they can be raised later."
+    },
+    {
+     "q": "What is the difference between authentication and authorization?",
+     "options": [
+      "Authorization is login",
+      "Authentication is who is making the request; authorization is whether they may do that",
+      "They are the same",
+      "Authentication is after authorization"
+     ],
+     "answer": 1,
+     "explain": "Authorization is usually plain code like where user_id = req.user.id."
+    }
+   ]
+  },
+  "level-2/08-testing": {
+   "questions": [
+    {
+     "q": "What does the built-in node:test runner need?",
+     "options": [
+      "Vitest",
+      "No test framework dependency at all (with node:assert)",
+      "Mocha",
+      "Jest"
+     ],
+     "answer": 1,
+     "explain": "Add Supertest for HTTP-level tests without opening a real port."
+    },
+    {
+     "q": "Which test layer gives the best confidence per test for an API?",
+     "options": [
+      "Integration tests through HTTP, covering routing, validation, middleware, SQL and serialization together",
+      "Snapshot tests",
+      "Unit tests only",
+      "Manual tests"
+     ],
+     "answer": 0,
+     "explain": "Keep unit tests for logic with many edge cases."
+    },
+    {
+     "q": "In the retry test where the function fails twice then succeeds, how many calls are made?",
+     "options": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "answer": 2,
+     "explain": "callCount() is 3 and the result is 'finally'."
+    },
+    {
+     "q": "What does assert.rejects check?",
+     "options": [
+      "That promises resolve",
+      "That an async function rejects with the expected error",
+      "That tests fail",
+      "That a value is rejected by a filter"
+     ],
+     "answer": 1,
+     "explain": "The give-up test expects the last error to be rethrown."
+    }
+   ]
+  },
+  "level-2/09-logging": {
+   "questions": [
+    {
+     "q": "Why use structured JSON logs rather than console.log strings in production?",
+     "options": [
+      "They are prettier",
+      "Machines can filter and aggregate fields, e.g. every error for request b7e1c2",
+      "They are shorter",
+      "They are encrypted"
+     ],
+     "answer": 1,
+     "explain": "One JSON object per line with consistent fields."
+    },
+    {
+     "q": "What is the Pino call signature?",
+     "options": [
+      "logger.level(message, data)",
+      "logger.level(string only)",
+      "logger.level(mergingObject, message), with data in the object and a constant message",
+      "logger.log(level, string)"
+     ],
+     "answer": 2,
+     "explain": "A constant message ('order placed') lets you count occurrences, while orderId stays queryable."
+    },
+    {
+     "q": "What does the redact option do?",
+     "options": [
+      "Shortens messages",
+      "Encrypts logs",
+      "Deletes the logs",
+      "Replaces sensitive paths such as *.password with [redacted] in log output"
+     ],
+     "answer": 3,
+     "explain": "The example censors req.headers.authorization, *.password and card.number."
+    },
+    {
+     "q": "At level 'info', what happens to logger.debug(...)?",
+     "options": [
+      "It's dropped; levels are numbers (debug 20, info 30)",
+      "It prints to stderr",
+      "It errors",
+      "It prints"
+     ],
+     "answer": 0,
+     "explain": "trace 10, debug 20, info 30, warn 40, error 50, fatal 60."
+    }
+   ]
+  },
+  "level-2/10-project-rest-api-auth": {
+   "questions": [
+    {
+     "q": "What should the API return when a user requests another user's task?",
+     "options": [
+      "403",
+      "200",
+      "500",
+      "404, not 403, so it doesn't reveal that the task exists"
+     ],
+     "answer": 3,
+     "explain": "Users can never read or modify another user's tasks."
+    },
+    {
+     "q": "What are the project's lifetime and format for access tokens?",
+     "options": [
+      "A 24-hour API key",
+      "A session cookie forever",
+      "A basic-auth password",
+      "A JWT access token valid for 15 minutes, sent as Authorization: Bearer <token>"
+     ],
+     "answer": 3,
+     "explain": "Registration and login return it."
+    },
+    {
+     "q": "Which status codes does the project use for validation errors, duplicates and unknown routes?",
+     "options": [
+      "500, 400, 200",
+      "400 with per-field details, 409, and a JSON 404",
+      "400, 401, 500",
+      "422, 403, 301"
+     ],
+     "answer": 1,
+     "explain": "Bugs return a 500 without internals."
+    },
+    {
+     "q": "How does the test suite run against a real Postgres engine without a server?",
+     "options": [
+      "A mock array",
+      "SQLite",
+      "A remote DB",
+      "PGlite via a test-only in-process pool adapter"
+     ],
+     "answer": 3,
+     "explain": "It's driven with Supertest."
+    }
+   ]
+  },
+  "level-3/01-event-loop-deep-dive": {
+   "questions": [
+    {
+     "q": "Which two queues are drained after every single callback, in every phase?",
+     "options": [
+      "The process.nextTick queue, then the microtask queue",
+      "Poll and close",
+      "Idle and prepare",
+      "The timers and check queues"
+     ],
+     "answer": 0,
+     "explain": "The loop advances only when both are empty."
+    },
+    {
+     "q": "Inside an I/O (fs) callback, which runs first: setImmediate or setTimeout(fn, 0)?",
+     "options": [
+      "Neither",
+      "Random",
+      "setImmediate, because the check phase follows the poll phase",
+      "setTimeout"
+     ],
+     "answer": 2,
+     "explain": "Verified: 'immediate inside I/O' printed before 'timeout inside I/O'. From the main module their order can vary."
+    },
+    {
+     "q": "Why could a recursive process.nextTick freeze a server?",
+     "options": [
+      "It leaks memory",
+      "nextTick is async",
+      "The nextTick queue is drained completely before the loop proceeds, so it starves I/O",
+      "It blocks the thread permanently by design"
+     ],
+     "answer": 2,
+     "explain": "The same applies to microtasks queuing microtasks."
+    },
+    {
+     "q": "In which phase do setImmediate callbacks run?",
+     "options": [
+      "Timers",
+      "Close callbacks",
+      "Check, right after poll",
+      "Pending callbacks"
+     ],
+     "answer": 2,
+     "explain": "Timers handle setTimeout and setInterval; poll waits for I/O."
+    }
+   ]
+  },
+  "level-3/02-streams-backpressure": {
+   "questions": [
+    {
+     "q": "What does write() returning false mean?",
+     "options": [
+      "The write failed",
+      "The internal buffer is full; stop until the 'drain' event",
+      "The data was invalid",
+      "The stream closed"
+     ],
+     "answer": 1,
+     "explain": "It's advisory: nothing forces you to stop, but ignoring it piles data up in memory."
+    },
+    {
+     "q": "What does highWaterMark control?",
+     "options": [
+      "Read speed",
+      "Number of streams",
+      "How many bytes can be buffered before write() returns false",
+      "Maximum file size"
+     ],
+     "answer": 2,
+     "explain": "It bounds memory regardless of how slow the consumer is."
+    },
+    {
+     "q": "Which stream type is zlib.createGzip()?",
+     "options": [
+      "Readable",
+      "Duplex",
+      "Writable",
+      "Transform"
+     ],
+     "answer": 3,
+     "explain": "Transform streams derive output from input; Duplex has independent sides, like a TCP socket."
+    },
+    {
+     "q": "What helper handles backpressure for you so you rarely write the drain loop by hand?",
+     "options": [
+      "emit",
+      "cluster",
+      "once",
+      "pipeline"
+     ],
+     "answer": 3,
+     "explain": "The hand-written loop shows how it works."
+    }
+   ]
+  },
+  "level-3/03-buffers": {
+   "questions": [
+    {
+     "q": "Buffer.from('héllo €', 'utf8') has what length versus the string's length?",
+     "options": [
+      "7 versus 10",
+      "10 bytes versus 7 characters",
+      "10 versus 10",
+      "7 versus 7"
+     ],
+     "answer": 1,
+     "explain": "é is 2 bytes and € is 3 bytes. Use Buffer.byteLength(str) for Content-Length, never str.length."
+    },
+    {
+     "q": "Does Buffer.subarray copy memory?",
+     "options": [
+      "No: it shares memory, so changing the view changes the original",
+      "Yes, always",
+      "Only in strict mode",
+      "Only for large buffers"
+     ],
+     "answer": 0,
+     "explain": "Buffer.from(buffer) makes an independent copy."
+    },
+    {
+     "q": "What goes wrong when a chunk boundary falls inside the multi-byte character €?",
+     "options": [
+      "An exception",
+      "The chunk is dropped",
+      "Nothing",
+      "toString() on each chunk yields replacement characters; StringDecoder holds back incomplete sequences"
+     ],
+     "answer": 3,
+     "explain": "setEncoding('utf8') on a stream does this internally."
+    },
+    {
+     "q": "What is base64url used for?",
+     "options": [
+      "Compression",
+      "Encryption",
+      "URL-safe base64 without padding, as in JWTs",
+      "Hex output"
+     ],
+     "answer": 2,
+     "explain": "Buffer is a subclass of Uint8Array."
+    }
+   ]
+  },
+  "level-3/04-worker-threads-child-processes": {
+   "questions": [
+    {
+     "q": "When do you use worker_threads versus child_process?",
+     "options": [
+      "child_process for JS only",
+      "worker_threads for ffmpeg",
+      "They are the same",
+      "worker_threads for CPU-bound JavaScript in the same process; child_process for external programs or strong isolation"
+     ],
+     "answer": 3,
+     "explain": "Each worker has its own V8 isolate and event loop."
+    },
+    {
+     "q": "Why does heavy computation on the main thread hurt a server?",
+     "options": [
+      "It crashes Node",
+      "It uses more memory",
+      "It blocks the event loop, so every other request waits",
+      "It closes sockets"
+     ],
+     "answer": 2,
+     "explain": "The lesson's heartbeat counter shows the main thread stalling."
+    },
+    {
+     "q": "How do the main thread and a worker communicate?",
+     "options": [
+      "HTTP",
+      "By messages: parentPort.on('message') and postMessage",
+      "Shared global variables",
+      "stdout"
+     ],
+     "answer": 1,
+     "explain": "The worker posts { id, result } back."
+    },
+    {
+     "q": "What do four workers running four jobs achieve?",
+     "options": [
+      "Shared memory by default",
+      "Nothing",
+      "Slower runs",
+      "True parallelism across CPU cores while the main thread stays free"
+     ],
+     "answer": 3,
+     "explain": "The comparison measured heartbeats during each run."
+    }
+   ]
+  },
+  "level-3/05-clustering": {
+   "questions": [
+    {
+     "q": "Why run several copies of a Node process?",
+     "options": [
+      "Node is slow",
+      "To share memory",
+      "To avoid garbage collection",
+      "One process uses one core, so an 8-core server stays mostly idle once request handling is the bottleneck"
+     ],
+     "answer": 3,
+     "explain": "Two ways: node:cluster, or N replicas behind a load balancer as containers and Kubernetes do."
+    },
+    {
+     "q": "How are requests distributed in the lesson's three-worker demo?",
+     "options": [
+      "Round-robin across workers, and the primary replaces a worker that dies",
+      "By URL",
+      "To the first worker only",
+      "Randomly"
+     ],
+     "answer": 0,
+     "explain": "The port stays open throughout because the primary owns it."
+    },
+    {
+     "q": "What does clustering not give you?",
+     "options": [
+      "Load balancing",
+      "Parallelism",
+      "Restarts",
+      "Shared memory: each worker has its own heap, so in-memory caches, rate-limit counters and sessions exist per worker"
+     ],
+     "answer": 3,
+     "explain": "Use Redis or another shared store."
+    },
+    {
+     "q": "What does worker.disconnect() on SIGTERM do?",
+     "options": [
+      "Pauses them",
+      "Restarts them",
+      "Kills them immediately",
+      "Lets workers finish in-flight requests, then exit"
+     ],
+     "answer": 3,
+     "explain": "exitedAfterDisconnect tells the primary it was intentional, so it doesn't fork a replacement."
+    }
+   ]
+  },
+  "level-3/06-caching-redis": {
+   "questions": [
+    {
+     "q": "What is the cache-aside pattern?",
+     "options": [
+      "On read, try the cache, load from the database on a miss and store with a TTL; on write, update the database and delete the cache key",
+      "Cache everything forever",
+      "Write to cache only",
+      "Read from DB first always"
+     ],
+     "answer": 0,
+     "explain": "Deleting is safer than updating the cached value."
+    },
+    {
+     "q": "What is the downside of in-process caches compared with Redis?",
+     "options": [
+      "They need a network",
+      "They're slower than Redis",
+      "They can't use TTLs",
+      "Each process has its own copy, it's lost on restart, and it competes with your heap"
+     ],
+     "answer": 3,
+     "explain": "Redis is shared by all processes and survives app restarts."
+    },
+    {
+     "q": "Why must the node-redis client have an 'error' listener?",
+     "options": [
+      "It's an EventEmitter, and an unhandled 'error' would crash the process on a Redis blip",
+      "It enables logging",
+      "It enables TTLs",
+      "It's optional"
+     ],
+     "answer": 0,
+     "explain": "The client reconnects automatically."
+    },
+    {
+     "q": "What does the lesson say about the Redis calls it shows?",
+     "options": [
+      "None were checked",
+      "All were run against Redis",
+      "They were checked against the package's type definitions but not run; the cache logic was run against an in-memory stand-in",
+      "They were run in production"
+     ],
+     "answer": 2,
+     "explain": "The lesson is honest about what was verified."
+    }
+   ]
+  },
+  "level-3/07-websockets": {
+   "questions": [
+    {
+     "q": "What do WebSockets provide beyond HTTP?",
+     "options": [
+      "A long-lived full-duplex connection where either side can send at any time",
+      "Compression",
+      "Faster HTTP",
+      "Caching"
+     ],
+     "answer": 0,
+     "explain": "Useful for chat, live dashboards and multiplayer games."
+    },
+    {
+     "q": "When is Server-Sent Events (SSE) enough?",
+     "options": [
+      "For bidirectional games",
+      "For file uploads",
+      "For binary protocols",
+      "For one-way server-to-client streams like notifications and dashboards, with browser auto-reconnect"
+     ],
+     "answer": 3,
+     "explain": "It's a plain HTTP response that stays open."
+    },
+    {
+     "q": "What does the heartbeat with ping and terminate do?",
+     "options": [
+      "Speeds up messages",
+      "Compresses data",
+      "Detects and terminates connections that stop answering (dead NAT paths, sleeping laptops)",
+      "Authenticates users"
+     ],
+     "answer": 2,
+     "explain": "A socket is marked not alive until it answers pong."
+    },
+    {
+     "q": "Why does the server set maxPayload and close with 1007 for invalid JSON?",
+     "options": [
+      "To log faster",
+      "To broadcast",
+      "To bound memory per message and reject malformed input",
+      "To use binary"
+     ],
+     "answer": 2,
+     "explain": "Binary frames are closed with 1003 'text only'."
+    }
+   ]
+  },
+  "level-3/08-file-uploads": {
+   "questions": [
+    {
+     "q": "Why not use the client's filename on disk?",
+     "options": [
+      "It may be something like ../../app/server.js; generate your own name (e.g. randomUUID)",
+      "Filenames are too long",
+      "Disk is case-sensitive",
+      "Multer requires it"
+     ],
+     "answer": 0,
+     "explain": "The diskStorage filename callback returns randomUUID()."
+    },
+    {
+     "q": "How should you check an uploaded file's type?",
+     "options": [
+      "Check the filename",
+      "Trust the mimetype",
+      "Trust the extension",
+      "Check the actual bytes (magic-number signatures), not the client-supplied mimetype or extension"
+     ],
+     "answer": 3,
+     "explain": "For example PNG starts with 89 50 4e 47 and JPEG with ff d8 ff."
+    },
+    {
+     "q": "Why doesn't express.json() work for file uploads?",
+     "options": [
+      "Uploads are binary only",
+      "Multipart bodies need a streaming multipart parser such as multer (built on busboy)",
+      "Express blocks it",
+      "JSON is too small"
+     ],
+     "answer": 1,
+     "explain": "The body has parts separated by a boundary string."
+    },
+    {
+     "q": "Which limits does the example set?",
+     "options": [
+      "fileSize 2 MB, one file and five fields",
+      "fileSize 2 GB",
+      "No limits",
+      "Only files: 100"
+     ],
+     "answer": 0,
+     "explain": "Limits prevent enormous uploads; production systems often upload directly to object storage."
+    }
+   ]
+  },
+  "level-3/09-security": {
+   "questions": [
+    {
+     "q": "What is broken access control in a Node API?",
+     "options": [
+      "A missing helmet header",
+      "A bad password hash",
+      "GET /tasks/:id returning any user's task; defend by scoping every query by owner",
+      "A slow endpoint"
+     ],
+     "answer": 2,
+     "explain": "It's the first OWASP category."
+    },
+    {
+     "q": "What does helmet() do?",
+     "options": [
+      "Sets security headers such as content-security-policy and x-content-type-options",
+      "Rate limits",
+      "Validates JSON",
+      "Encrypts bodies"
+     ],
+     "answer": 0,
+     "explain": "The lesson checks that the headers appear on a response."
+    },
+    {
+     "q": "What does rateLimit({ windowMs: 60_000, limit: 5 }) on /auth/login do?",
+     "options": [
+      "Blocks all logins",
+      "Allows 5 requests per minute per client, slowing credential guessing",
+      "Sets a 5 s timeout",
+      "Allows 5 users"
+     ],
+     "answer": 1,
+     "explain": "No rate limit on login is an 'insecure design' example."
+    },
+    {
+     "q": "How do you defend against SSRF, where the server fetches a user-supplied URL?",
+     "options": [
+      "Helmet",
+      "Longer timeouts",
+      "URL allowlists",
+      "Bigger buffers"
+     ],
+     "answer": 2,
+     "explain": "Also use execFile rather than exec for injection defense."
+    }
+   ]
+  },
+  "level-3/10-project-realtime-app": {
+   "questions": [
+    {
+     "q": "How does the chat server authenticate connections?",
+     "options": [
+      "Never",
+      "With cookies only",
+      "After the first message",
+      "During the upgrade, with a signed expiring token and an Origin check"
+     ],
+     "answer": 3,
+     "explain": "Tokens are short-lived and issued by the Express app."
+    },
+    {
+     "q": "How are client messages validated?",
+     "options": [
+      "By hand-written ifs",
+      "By length only",
+      "With a Zod discriminated union keyed by type (join, leave, say, typing)",
+      "Not validated"
+     ],
+     "answer": 2,
+     "explain": "Anything else is rejected before it reaches the room logic."
+    },
+    {
+     "q": "What protects against slow consumers?",
+     "options": [
+      "Checking bufferedAmount (streams and backpressure)",
+      "Heartbeats only",
+      "Bigger servers",
+      "Ignoring them"
+     ],
+     "answer": 0,
+     "explain": "Each connection also has a token-bucket rate limit."
+    },
+    {
+     "q": "Why does the Rooms state need pub/sub to scale out?",
+     "options": [
+      "It's slow",
+      "It uses sockets",
+      "It's in-memory for one process, so other processes wouldn't see it",
+      "It uses Redis already"
+     ],
+     "answer": 2,
+     "explain": "Graceful shutdown uses close code 1001."
+    }
+   ]
+  },
+  "level-4/01-profiling-memory-leaks": {
+   "questions": [
+    {
+     "q": "What is the most time-saving rule of performance work?",
+     "options": [
+      "Add caching first",
+      "Rewrite in C",
+      "Profile before optimizing; the slow part is rarely where you expect",
+      "Optimize the biggest function"
+     ],
+     "answer": 2,
+     "explain": "Guessing at causes wastes days."
+    },
+    {
+     "q": "How does V8's sampling CPU profiler work?",
+     "options": [
+      "It counts lines",
+      "It reads logs",
+      "Roughly every millisecond it records the current JavaScript call stack; functions in many samples are where CPU time goes",
+      "It times each function call"
+     ],
+     "answer": 2,
+     "explain": "Collect with node --cpu-prof, or --inspect with Chrome DevTools."
+    },
+    {
+     "q": "What does `node --cpu-prof` write?",
+     "options": [
+      "A heap dump",
+      "A .cpuprofile file when the process exits",
+      "A core dump",
+      "A log"
+     ],
+     "answer": 1,
+     "explain": "It's JSON, viewable as a flame chart in DevTools."
+    },
+    {
+     "q": "What were the two hidden inefficiencies in buildReport?",
+     "options": [
+      "A missing await and a missing cache",
+      "Too many imports",
+      "A memory leak and a deadlock",
+      "Re-sorting the whole array for every order, and JSON round-trips to copy objects"
+     ],
+     "answer": 3,
+     "explain": "The report of 3000 orders took about 910 ms."
+    }
+   ]
+  },
+  "level-4/02-diagnostics": {
+   "questions": [
+    {
+     "q": "What is a Node diagnostic report?",
+     "options": [
+      "A log file",
+      "A test result",
+      "A metrics endpoint",
+      "A JSON snapshot of the process: versions, stacks, heap stats, resource usage and every libuv handle"
+     ],
+     "answer": 3,
+     "explain": "process.report.getReport() generates one on demand."
+    },
+    {
+     "q": "How do you get a report from a hung process without killing it?",
+     "options": [
+      "Attach a debugger only",
+      "Run with --report-on-signal and send SIGUSR2: kill -USR2 <pid>",
+      "Restart it",
+      "Delete the PID file"
+     ],
+     "answer": 1,
+     "explain": "The libuv section then shows open sockets and timers."
+    },
+    {
+     "q": "What did the lesson find when --report-directory pointed to a missing directory?",
+     "options": [
+      "It crashed silently",
+      "Node printed 'Failed to open Node.js report file' and wrote nothing",
+      "It created the directory",
+      "It wrote to /tmp"
+     ],
+     "answer": 1,
+     "explain": "The directory must already exist."
+    },
+    {
+     "q": "Why treat diagnostic reports as sensitive?",
+     "options": [
+      "They are huge",
+      "They contain PII only",
+      "They're encrypted",
+      "They contain environment variables, potentially secrets"
+     ],
+     "answer": 3,
+     "explain": "Newer versions can exclude them with --report-exclude-env."
+    }
+   ]
+  },
+  "level-4/03-typescript-for-node": {
+   "questions": [
+    {
+     "q": "What two separate jobs does TypeScript tooling do?",
+     "options": [
+      "Type checking (tsc) and producing runnable JavaScript (removing annotations)",
+      "Linting and formatting",
+      "Testing and deploying",
+      "Bundling and minifying"
+     ],
+     "answer": 0,
+     "explain": "Current Node can strip types itself when you run node file.ts; type checking remains tsc's job."
+    },
+    {
+     "q": "Why must imports use './money.ts' with the extension when running .ts directly?",
+     "options": [
+      "TypeScript demands it",
+      "It's optional",
+      "It's faster",
+      "Node resolves the file exactly as written (ESM rules)"
+     ],
+     "answer": 3,
+     "explain": "The type modifier (import { type Money }) marks an import as erased at runtime."
+    },
+    {
+     "q": "What does `node src/main.ts` print for add($19.99, $5.00) in the lesson?",
+     "options": [
+      "$24.9",
+      "$2,499",
+      "1999",
+      "$24.99"
+     ],
+     "answer": 3,
+     "explain": "Amounts are integer minor units: 1999 + 500 = 2499 cents."
+    },
+    {
+     "q": "Why store money as integer minor units?",
+     "options": [
+      "To save memory",
+      "To avoid floating-point errors with currency",
+      "It looks nicer",
+      "It's required by Intl"
+     ],
+     "answer": 1,
+     "explain": "The format function divides by 100 for display."
+    }
+   ]
+  },
+  "level-4/04-architecture": {
+   "questions": [
+    {
+     "q": "In the layered architecture, what belongs in route handlers?",
+     "options": [
+      "SQL",
+      "Business rules",
+      "HTTP translation only: parse and validate input, call a service, shape the response",
+      "Both rules and SQL"
+     ],
+     "answer": 2,
+     "explain": "Services hold business rules with no req/res; repositories hold data access."
+    },
+    {
+     "q": "Why should services take plain arguments and return plain values?",
+     "options": [
+      "It's faster",
+      "So a CLI, a queue worker or a test can call them too",
+      "To avoid async",
+      "Express requires it"
+     ],
+     "answer": 1,
+     "explain": "They contain no req or res."
+    },
+    {
+     "q": "In hexagonal architecture, who defines ports and who implements them?",
+     "options": [
+      "The core defines ports (interfaces it needs); adapters implement them",
+      "Adapters define ports; the core implements",
+      "The database defines them",
+      "Express defines them"
+     ],
+     "answer": 0,
+     "explain": "Dependency arrows all point inward."
+    },
+    {
+     "q": "What does this make easier?",
+     "options": [
+      "Testing the core with in-memory adapters, and swapping infrastructure",
+      "Removing tests",
+      "Shorter code",
+      "Faster SQL"
+     ],
+     "answer": 0,
+     "explain": "The core imports nothing from Express, Kysely or an SDK."
+    }
+   ]
+  },
+  "level-4/05-queues-background-jobs": {
+   "questions": [
+    {
+     "q": "Why move slow work (emails, PDFs, image resizing) out of the request?",
+     "options": [
+      "It saves CPU",
+      "It avoids databases",
+      "Express can't do it",
+      "Doing it inline slows responses, ties latency to third-party reliability, and loses work on a restart"
+     ],
+     "answer": 3,
+     "explain": "The request enqueues a job and returns, often 202 Accepted."
+    },
+    {
+     "q": "What does FOR UPDATE SKIP LOCKED do in the Postgres queue?",
+     "options": [
+      "Lets multiple workers claim different jobs without waiting on rows another worker has locked",
+      "Retries jobs",
+      "Deletes jobs",
+      "Orders jobs"
+     ],
+     "answer": 0,
+     "explain": "pg-boss and Graphile Worker build on the same technique."
+    },
+    {
+     "q": "Which is the most widely used Node job library on Redis?",
+     "options": [
+      "BullMQ",
+      "Kafka",
+      "pg-boss",
+      "RabbitMQ"
+     ],
+     "answer": 0,
+     "explain": "It offers delays, retries, priorities, rate limits and repeatable jobs."
+    },
+    {
+     "q": "What happens to a job that keeps failing past max_attempts?",
+     "options": [
+      "It's deleted",
+      "It retries forever",
+      "It ends in a 'dead' status for inspection",
+      "It runs twice"
+     ],
+     "answer": 2,
+     "explain": "Statuses: queued, running, done, dead."
+    }
+   ]
+  },
+  "level-4/06-microservices-communication": {
+   "questions": [
+    {
+     "q": "What must every service-to-service HTTP call have?",
+     "options": [
+      "A circuit",
+      "A cookie",
+      "A cache",
+      "A timeout, so a hung dependency doesn't hang you"
+     ],
+     "answer": 3,
+     "explain": "Also bounded retries with exponential backoff and jitter, a circuit breaker and propagated request ids."
+    },
+    {
+     "q": "What does the lesson's circuit breaker do after `threshold` consecutive failures?",
+     "options": [
+      "Logs only",
+      "Restarts the service",
+      "Retries forever",
+      "Fails fast for coolDownMs, then allows one trial request (half-open)"
+     ],
+     "answer": 3,
+     "explain": "It stops a dead dependency from consuming resources."
+    },
+    {
+     "q": "Which statuses are treated as retryable?",
+     "options": [
+      "All 4xx",
+      "502, 503 and 504 (transient failures)",
+      "400 and 404",
+      "401 and 403"
+     ],
+     "answer": 1,
+     "explain": "Only transient failures should be retried."
+    },
+    {
+     "q": "What does the lesson caution about microservices?",
+     "options": [
+      "Many teams are better served by a modular monolith until organisational or scaling pressure justifies splitting",
+      "Always split",
+      "Never use them",
+      "They are faster in-process"
+     ],
+     "answer": 0,
+     "explain": "Every in-process call becomes a network call that can be slow or fail."
+    }
+   ]
+  },
+  "level-4/07-containerize-deploy": {
+   "questions": [
+    {
+     "q": "Why copy package manifests before the source in a Dockerfile?",
+     "options": [
+      "So the npm ci layer is cached and only re-runs when dependencies change",
+      "To reduce image size",
+      "To pass tests",
+      "Docker requires it"
+     ],
+     "answer": 0,
+     "explain": "npm ci --omit=dev installs exactly the lockfile without test tools."
+    },
+    {
+     "q": "Why USER node?",
+     "options": [
+      "Permission to bind port 80",
+      "Required by Node",
+      "Faster startup",
+      "A compromised process shouldn't be root inside the container"
+     ],
+     "answer": 3,
+     "explain": "Official images include an unprivileged node user."
+    },
+    {
+     "q": "What does the lesson honestly say about its Dockerfile?",
+     "options": [
+      "It was fully tested",
+      "It is a Docker Compose file",
+      "It was run on Kubernetes",
+      "It was written for Docker but not built or run, because the authoring machine had no container runtime"
+     ],
+     "answer": 3,
+     "explain": "Build it yourself and fix anything your environment disagrees with."
+    },
+    {
+     "q": "How do -slim and -alpine images differ?",
+     "options": [
+      "They're identical",
+      "-slim is larger",
+      "-slim is Debian-based without compilers; -alpine is smaller but uses musl libc, which some native modules don't support well",
+      "-alpine is Debian"
+     ],
+     "answer": 2,
+     "explain": "Distroless images are smaller still, with no shell."
+    }
+   ]
+  },
+  "level-4/08-observability": {
+   "questions": [
+    {
+     "q": "What is the difference between monitoring and observability?",
+     "options": [
+      "Monitoring is only traces",
+      "They are the same",
+      "Observability is only logs",
+      "Monitoring tells you that something is wrong; observability lets you ask why without shipping new code"
+     ],
+     "answer": 3,
+     "explain": "It rests on logs, metrics and traces."
+    },
+    {
+     "q": "What do traces show?",
+     "options": [
+      "Discrete events",
+      "The path of one request through services as a tree of timed spans",
+      "Aggregated numbers over time",
+      "Heap size"
+     ],
+     "answer": 1,
+     "explain": "They answer 'which of the 14 calls behind this slow request was slow?'."
+    },
+    {
+     "q": "What is OpenTelemetry?",
+     "options": [
+      "A logger",
+      "A dashboard product",
+      "A vendor-neutral standard for producing logs, metrics and traces, exported over OTLP to a collector",
+      "A database"
+     ],
+     "answer": 2,
+     "explain": "Route data to Jaeger, Grafana, Honeycomb, Datadog and so on."
+    },
+    {
+     "q": "Why does instrumentation live in its own file loaded with --import?",
+     "options": [
+      "To be shorter",
+      "To avoid TypeScript",
+      "It must load before the app imports the modules it patches, and ESM needs a loader hook via register()",
+      "To run twice"
+     ],
+     "answer": 2,
+     "explain": "For CommonJS require it's easy to intercept; ESM needs the hook."
+    }
+   ]
+  },
+  "level-4/09-graceful-shutdown-reliability": {
+   "questions": [
+    {
+     "q": "What does a platform send when it stops an instance, and what can't be caught?",
+     "options": [
+      "SIGHUP",
+      "Only SIGINT",
+      "SIGTERM, then after a grace period SIGKILL, which can't be caught",
+      "SIGKILL, then SIGTERM"
+     ],
+     "answer": 2,
+     "explain": "A good service finishes within the grace period."
+    },
+    {
+     "q": "What is the first step of the shutdown sequence?",
+     "options": [
+      "Close the DB",
+      "Stop being ready (e.g. /readyz returns 503) so the load balancer stops sending new requests",
+      "Exit",
+      "Drop connections"
+     ],
+     "answer": 1,
+     "explain": "Then server.close(), finish in-flight work, close idle keep-alives, close resources in order, and exit."
+    },
+    {
+     "q": "Why set a hard deadline timer with unref()?",
+     "options": [
+      "To speed shutdown",
+      "To retry",
+      "To log",
+      "So the process never hangs forever, without keeping the event loop alive on its own"
+     ],
+     "answer": 3,
+     "explain": "Keep it below the platform's kill timeout."
+    },
+    {
+     "q": "In what order should resources close?",
+     "options": [
+      "Never",
+      "Randomly",
+      "Telemetry first",
+      "In order, such as DB pools, Redis, message consumers, then telemetry exporters (to flush buffered spans and logs)"
+     ],
+     "answer": 3,
+     "explain": "The example uses a db.end() step."
+    }
+   ]
+  },
+  "level-4/10-capstone": {
+   "questions": [
+    {
+     "q": "Which key constraint does the Bookings capstone highlight?",
+     "options": [
+      "Many users",
+      "Two overlapping bookings for the same resource must be impossible, even under concurrent requests",
+      "Pretty UI",
+      "Fast pages"
+     ],
+     "answer": 1,
+     "explain": "Constraints in the database enforce invariants."
+    },
+    {
+     "q": "When should the confirmation email job be enqueued?",
+     "options": [
+      "Never",
+      "Before booking",
+      "When a booking is created, in the same transaction",
+      "Weekly"
+     ],
+     "answer": 2,
+     "explain": "A reminder job runs 30 minutes before the start."
+    },
+    {
+     "q": "How should the utilization report be computed?",
+     "options": [
+      "Without blocking the event loop, whatever the date range",
+      "Only for short ranges",
+      "In the browser",
+      "On the main thread synchronously"
+     ],
+     "answer": 0,
+     "explain": "It draws on worker threads and streaming ideas from Level 3."
+    },
+    {
+     "q": "What shape should the domain and use cases have?",
+     "options": [
+      "Inside middleware",
+      "Independent of Express and the DB, with a composition root",
+      "Inside route handlers",
+      "Inside SQL"
+     ],
+     "answer": 1,
+     "explain": "The non-functional table also requires TypeScript strict, Zod at boundaries and one error format."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What is printed?\n```javascript\nimport { EventEmitter } from 'node:events'\nconst e = new EventEmitter()\ne.on('x', () => console.log('A'))\ne.once('x', () => console.log('B'))\nconsole.log('start')\nconsole.log(e.emit('x'))\nconsole.log(e.emit('x'))\nconsole.log(e.emit('nobody'), e.listenerCount('x'))\n```\n",
+    "options": [
+     "start, true, A, B, A, true, false 1",
+     "start, A, B, true, A, B, true, false 2",
+     "A, B, start, true, A, true, false 1",
+     "start, A, B, true, A, true, false 1 (one per line)"
+    ],
+    "answer": 3,
+    "explain": "emit is synchronous, so listeners run before emit returns true. The once listener is removed after the first call. emit returns false with no listeners, and one listener remains."
+   },
+   {
+    "q": "What does this print?\n```javascript\nconsole.log(Buffer.from('héllo €').length, 'héllo €'.length, Buffer.byteLength('€'))\n```\n",
+    "options": [
+     "10 7 3",
+     "10 10 3",
+     "7 10 3",
+     "7 7 1"
+    ],
+    "answer": 0,
+    "explain": "In UTF-8, é takes 2 bytes and € takes 3, so the string has 7 characters but 10 bytes."
+   },
+   {
+    "q": "What is printed?\n```javascript\nconst b = Buffer.from('abcdef')\nconst v = b.subarray(0, 3); v[0] = 0x5a\nconsole.log(b.toString())\nconst c = Buffer.from(b); c[0] = 0x71\nconsole.log(b.toString(), c.toString())\n```\n",
+    "options": [
+     "Zbcdef, then Zbcdef qbcdef",
+     "Zbcdef, then qbcdef qbcdef",
+     "abcdef, then abcdef qbcdef",
+     "abcdef, then Zbcdef Zbcdef"
+    ],
+    "answer": 0,
+    "explain": "subarray shares memory with the original, but Buffer.from(buffer) makes an independent copy."
+   },
+   {
+    "q": "What does this print?\n```javascript\nprocess.env.N = 5\nconsole.log(typeof process.env.N, process.env.N, process.env.NOPE)\n```\n",
+    "options": [
+     "string 5 undefined",
+     "string 5 null",
+     "number 5 undefined",
+     "number 5 null"
+    ],
+    "answer": 0,
+    "explain": "Values in process.env are always strings (or undefined when missing)."
+   },
+   {
+    "q": "In what order are these lines printed?\n```javascript\nasync function f() { console.log('f1'); await null; console.log('f2') }\nf()\nPromise.resolve().then(() => console.log('p1'))\nconsole.log('sync')\n```\n",
+    "options": [
+     "sync, f1, f2, p1",
+     "f1, sync, p1, f2",
+     "f1, sync, f2, p1",
+     "f1, f2, sync, p1"
+    ],
+    "answer": 2,
+    "explain": "f runs synchronously up to its first await; the continuation is queued as a microtask before the .then callback, so f2 prints before p1."
+   },
+   {
+    "q": "What is printed?\n```javascript\nconst r = await Promise.allSettled([Promise.resolve(1), Promise.reject(new Error('no')), 3])\nconsole.log(r.map(x => x.status).join(','))\n```\n",
+    "options": [
+     "fulfilled,rejected",
+     "fulfilled,rejected,fulfilled",
+     "rejected",
+     "fulfilled,fulfilled,fulfilled"
+    ],
+    "answer": 1,
+    "explain": "allSettled never rejects: it reports each outcome. Promise.all would reject on the first failure."
+   },
+   {
+    "q": "What does this print?\n```javascript\nconsole.log(path.join('/srv/app', 'uploads', '../logs', 'app.log'), path.basename('/a/b/c.txt', '.txt'), path.extname('x.tar.gz'))\n```\n",
+    "options": [
+     "/srv/app/uploads/../logs/app.log c .gz",
+     "/srv/app/logs/app.log c.txt .gz",
+     "/srv/app/uploads/logs/app.log c .tar.gz",
+     "/srv/app/logs/app.log c .gz"
+    ],
+    "answer": 3,
+    "explain": "path.join normalises '..', basename strips the given extension, and extname returns only the last extension."
+   },
+   {
+    "q": "What does this print?\n```javascript\nconst u = new URL('/notes?q=Tea&q=Milk&limit=5', 'http://localhost')\nconsole.log(u.pathname, u.searchParams.get('q'), u.searchParams.getAll('q').length, Number(u.searchParams.get('limit')) + 1)\n```\n",
+    "options": [
+     "/notes Tea 2 6",
+     "/notes Tea 1 6",
+     "/notes?q=Tea 2 6",
+     "/notes Milk 2 51"
+    ],
+    "answer": 0,
+    "explain": "get returns the first value, getAll returns all of them, and query values are strings, so limit needs Number()."
+   },
+   {
+    "q": "Which of these does the range ^5.1.0 accept, and which does ^0.4.2 accept? (5.9.1, 6.0.0 against ^5.1.0; 0.4.9, 0.5.0 against ^0.4.2)",
+    "options": [
+     "^5.1.0: 5.9.1 yes, 6.0.0 no. ^0.4.2: 0.4.9 yes, 0.5.0 no",
+     "^5.1.0: 6.0.0 yes. ^0.4.2: 0.5.0 yes",
+     "^5.1.0: 5.9.1 no. ^0.4.2: 0.4.9 no",
+     "^5.1.0: both yes. ^0.4.2: both yes"
+    ],
+    "answer": 0,
+    "explain": "Caret allows changes that don't bump the leftmost non-zero part, so for 0.x versions a minor bump may break."
+   },
+   {
+    "q": "What does this pipeline produce?\n```javascript\nconst out = []\nawait pipeline(\n  Readable.from(['a', 'b', 'c']),\n  new Transform({ transform(ch, enc, cb) { cb(null, ch.toString().toUpperCase()) } }),\n  async function (src) { for await (const x of src) out.push(x.toString()) },\n)\nconsole.log(out.join(''))\n```\n",
+    "options": [
+     "a,b,c",
+     "An error",
+     "abc",
+     "ABC"
+    ],
+    "answer": 3,
+    "explain": "Transform maps each chunk to upper case; pipeline wires the streams and handles backpressure and errors."
+   },
+   {
+    "q": "A server hashes passwords with scrypt and a random salt per password. For the same password, are two stored hashes equal?",
+    "options": [
+     "Only on the same day",
+     "Yes, always",
+     "Yes if the cost is the same",
+     "No: a different random salt gives a different hash, so compare with the stored salt and timingSafeEqual"
+    ],
+    "answer": 3,
+    "explain": "The same password and the same salt gives equal output (verified by running), but a fresh salt does not."
+   },
+   {
+    "q": "What delays does exponential backoff with base 100 ms give for four retries?",
+    "options": [
+     "100, 200, 400, 800 ms (plus jitter in production)",
+     "100, 300, 500, 700 ms",
+     "100, 100, 100, 100 ms",
+     "100, 1000, 10000, 100000 ms"
+    ],
+    "answer": 0,
+    "explain": "base × 2^i. Add jitter so many clients don't retry at the same instant."
+   },
+   {
+    "q": "A circuit breaker has threshold 3. The calls fail, fail, fail, then succeed, succeed. What are the results?\n(breaker returns 'open' while failures ≥ threshold)",
+    "options": [
+     "fail, fail, fail, ok, ok",
+     "fail, fail, fail, fail, ok",
+     "open, open, open, ok, ok",
+     "fail, fail, fail, open, open"
+    ],
+    "answer": 3,
+    "explain": "After three consecutive failures it fails fast until the cool-down, even though the dependency may have recovered (the simulated breaker has no cool-down here)."
+   },
+   {
+    "q": "Why does a 500 ms CPU-bound loop make a 10 ms timer fire at about 500 ms?",
+    "options": [
+     "libuv sleeps",
+     "V8 pauses timers",
+     "Node runs JavaScript on one main thread, so the event loop can only check timers when the current code finishes",
+     "Timers are inaccurate"
+    ],
+    "answer": 2,
+    "explain": "Move CPU-heavy work to worker_threads."
+   },
+   {
+    "q": "Inside an fs callback, which runs first: setImmediate or setTimeout(fn, 0)?",
+    "options": [
+     "Random",
+     "Neither",
+     "setImmediate, because the check phase follows the poll phase",
+     "setTimeout"
+    ],
+    "answer": 2,
+    "explain": "Verified by running: 'immediate inside I/O' printed before 'timeout inside I/O'."
+   },
+   {
+    "q": "What should a service do on SIGTERM?",
+    "options": [
+     "Restart itself",
+     "Ignore it",
+     "Exit immediately",
+     "Report not ready, stop accepting connections, finish in-flight requests, close resources, then exit before SIGKILL"
+    ],
+    "answer": 3,
+    "explain": "SIGKILL can't be caught, so use a hard deadline timer."
+   },
+   {
+    "q": "Why should file uploads be sniffed by bytes and renamed on disk?",
+    "options": [
+     "It saves disk space",
+     "It makes uploads faster",
+     "Multer requires it",
+     "The client's mimetype, extension and filename can lie or contain ../ paths; use magic numbers and a generated name"
+    ],
+    "answer": 3,
+    "explain": "Also set size limits."
+   },
+   {
+    "q": "How does Express recognise an error-handling middleware, and where is it registered?",
+    "options": [
+     "It is named errorHandler and registered first",
+     "It has two parameters and runs before routes",
+     "It returns a promise",
+     "It takes four parameters (err, req, res, next) and is registered last"
+    ],
+    "answer": 3,
+    "explain": "Express 5 also forwards rejected promises from async handlers to it."
+   },
+   {
+    "q": "A user asks for GET /tasks/17 owned by someone else. What should the API return, and why?",
+    "options": [
+     "500",
+     "403 with the owner's name",
+     "200 with empty data",
+     "404, so it doesn't reveal that the task exists, with the query scoped by owner"
+    ],
+    "answer": 3,
+    "explain": "Scoping every query by the owner also prevents broken access control."
+   },
+   {
+    "q": "You run three cluster workers and keep a Map as a rate-limit counter in each. What goes wrong?",
+    "options": [
+     "Each worker has its own heap, so counters aren't shared; use a shared store such as Redis",
+     "Nothing, memory is shared",
+     "The Map is faster",
+     "Workers crash"
+    ],
+    "answer": 0,
+    "explain": "Clustering doesn't give shared memory."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Retry with exponential backoff",
+    "prompt": "Write an async function retry(fn, { attempts, baseMs }) that calls fn(i). If it throws, wait baseMs * 2**i ms (not after the last attempt) and try again. After the last attempt rethrow the last error. Track the waits and print them for a function that fails twice and then succeeds.",
+    "starter": "import { setTimeout as sleep } from 'node:timers/promises'\n\nexport async function retry(fn, { attempts = 3, baseMs = 10, onWait = () => {} } = {}) {\n  // your code\n}\n\nconst waits = []\nlet calls = 0\nconst result = await retry(async () => {\n  if (++calls < 3) throw new Error('flaky')\n  return 'finally'\n}, { attempts: 4, baseMs: 10, onWait: (ms) => waits.push(ms) })\nconsole.log(result, calls, waits.join(','))\n",
+    "expected": "finally 3 10,20",
+    "solution": "import { setTimeout as sleep } from 'node:timers/promises'\n\nexport async function retry(fn, { attempts = 3, baseMs = 10, onWait = () => {} } = {}) {\n  let lastErr\n  for (let i = 0; i < attempts; i++) {\n    try {\n      return await fn(i)\n    } catch (err) {\n      lastErr = err\n      if (i < attempts - 1) {\n        const ms = baseMs * 2 ** i\n        onWait(ms)\n        await sleep(ms)\n      }\n    }\n  }\n  throw lastErr\n}\n\nconst waits = []\nlet calls = 0\nconst result = await retry(async () => {\n  if (++calls < 3) throw new Error('flaky')\n  return 'finally'\n}, { attempts: 4, baseMs: 10, onWait: (ms) => waits.push(ms) })\nconsole.log(result, calls, waits.join(','))\n",
+    "explain": "Waits grow as base × 2^i, and the last attempt doesn't wait. Verified by running the solution in Node: output matches."
+   },
+   {
+    "title": "Parse access-log lines",
+    "prompt": "Write parseLine(line) that matches the common log format and returns { method, path, status, bytes } or null for invalid lines. Then count requests by status class (2xx, 4xx…) for the sample lines.",
+    "starter": "const LINE = /^(\\S+) \\S+ \\S+ \\[([^\\]]+)\\] \"(\\S+) (\\S+) [^\"]*\" (\\d{3}) (\\d+|-)/\n\nexport function parseLine(line) {\n  // your code\n}\n\nconst lines = [\n  '203.0.113.9 - - [10/Oct/2025:13:55:36 +0000] \"GET /api/users HTTP/1.1\" 200 512',\n  '203.0.113.9 - - [10/Oct/2025:13:55:37 +0000] \"POST /api/login HTTP/1.1\" 401 64',\n  'garbage line',\n  '198.51.100.7 - - [10/Oct/2025:13:55:38 +0000] \"GET /missing HTTP/1.1\" 404 -',\n]\nconst classes = {}\nlet invalid = 0\nfor (const l of lines) {\n  const p = parseLine(l)\n  if (!p) { invalid++; continue }\n  const k = Math.floor(p.status / 100) + 'xx'\n  classes[k] = (classes[k] ?? 0) + 1\n}\nconsole.log(JSON.stringify(classes), 'invalid:', invalid)\n",
+    "expected": "{\"2xx\":1,\"4xx\":2} invalid: 1",
+    "solution": "const LINE = /^(\\S+) \\S+ \\S+ \\[([^\\]]+)\\] \"(\\S+) (\\S+) [^\"]*\" (\\d{3}) (\\d+|-)/\n\nexport function parseLine(line) {\n  const m = LINE.exec(line)\n  if (!m) return null\n  return { method: m[3], path: m[4], status: Number(m[5]), bytes: m[6] === '-' ? 0 : Number(m[6]) }\n}\n\nconst lines = [\n  '203.0.113.9 - - [10/Oct/2025:13:55:36 +0000] \"GET /api/users HTTP/1.1\" 200 512',\n  '203.0.113.9 - - [10/Oct/2025:13:55:37 +0000] \"POST /api/login HTTP/1.1\" 401 64',\n  'garbage line',\n  '198.51.100.7 - - [10/Oct/2025:13:55:38 +0000] \"GET /missing HTTP/1.1\" 404 -',\n]\nconst classes = {}\nlet invalid = 0\nfor (const l of lines) {\n  const p = parseLine(l)\n  if (!p) { invalid++; continue }\n  const k = Math.floor(p.status / 100) + 'xx'\n  classes[k] = (classes[k] ?? 0) + 1\n}\nconsole.log(JSON.stringify(classes), 'invalid:', invalid)\n",
+    "explain": "Keeping the parser a pure function makes it easy to test. A '-' byte count becomes 0. Verified by running the solution in Node: output matches."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
