@@ -1,0 +1,2159 @@
+{
+ "course": "automotive-testing-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-automotive-testing": {
+   "questions": [
+    {
+     "q": "What is automotive testing?",
+     "options": [
+      "Road testing only",
+      "Software and systems testing applied to ECUs, the 70–150+ small computers in a vehicle",
+      "Testing tyres",
+      "Testing car paint"
+     ],
+     "answer": 1,
+     "explain": "General testing principles still apply."
+    },
+    {
+     "q": "What three things does automotive add to general testing?",
+     "options": [
+      "Only tools",
+      "Only cost",
+      "ECUs talking over shared buses, hardware in the loop, and safety standards with legal teeth",
+      "Only speed"
+     ],
+     "answer": 2,
+     "explain": "ISO 26262 and ISO 21434 apply."
+    },
+    {
+     "q": "Why does a tester think in terms of bus messages?",
+     "options": [
+      "ECUs are isolated",
+      "Functions don't exist",
+      "Dozens of ECUs cooperate over CAN/LIN/Ethernet, so a bug can span ECUs",
+      "Buses are rare"
+     ],
+     "answer": 2,
+     "explain": "Not just function calls."
+    },
+    {
+     "q": "What does the V-model connect?",
+     "options": [
+      "Hardware and software",
+      "Teams",
+      "Development activities on the left to increasingly integrated test levels on the right (unit, integration, system, acceptance)",
+      "Releases"
+     ],
+     "answer": 2,
+     "explain": "Horizontal arrows say 'this test verifies that activity'."
+    }
+   ]
+  },
+  "level-1/02-can-bus-fundamentals": {
+   "questions": [
+    {
+     "q": "Why a shared bus instead of point-to-point wiring?",
+     "options": [
+      "It's faster",
+      "It's secret",
+      "With 70–150+ ECUs, wiring every pair needs an unserviceable harness; CAN uses one pair of wires (CAN_H and CAN_L)",
+      "It's cheaper only"
+     ],
+     "answer": 2,
+     "explain": "Every node listens and can transmit."
+    },
+    {
+     "q": "Why does differential signalling tolerate noise?",
+     "options": [
+      "It's digital only",
+      "Noise hits both wires equally and cancels when the receiver reads the difference",
+      "It's slow",
+      "It uses shielding only"
+     ],
+     "answer": 1,
+     "explain": "Important in noisy vehicles."
+    },
+    {
+     "q": "What is the termination rule?",
+     "options": [
+      "120 Ω at both ends (about 60 Ω across the bus); missing or duplicate termination is a common fault",
+      "Only at one end",
+      "No resistors",
+      "One 10 Ω"
+     ],
+     "answer": 0,
+     "explain": "Check termination before blaming software when scope signals look reflected."
+    },
+    {
+     "q": "Dominant versus recessive?",
+     "options": [
+      "Recessive wins",
+      "Both 1",
+      "They tie",
+      "Dominant (logical 0) is actively driven and always wins; recessive (logical 1) is the passive state"
+     ],
+     "answer": 3,
+     "explain": "This one fact explains arbitration."
+    }
+   ]
+  },
+  "level-1/03-can-frame-structure": {
+   "questions": [
+    {
+     "q": "What does a classic CAN data frame carry?",
+     "options": [
+      "A URL",
+      "An IP",
+      "SOF, arbitration (ID), control (DLC), data (0–8 bytes), CRC, ACK and EOF",
+      "A MAC address"
+     ],
+     "answer": 2,
+     "explain": "Every tool is a view onto these bits."
+    },
+    {
+     "q": "Does a CAN frame carry a destination address?",
+     "options": [
+      "Yes",
+      "No: an identifier describing what the data is; each node filters",
+      "Only for diagnostics",
+      "Only on FD"
+     ],
+     "answer": 1,
+     "explain": "You observe and inject on the shared bus."
+    },
+    {
+     "q": "What do arbitration and acknowledgment fall out of?",
+     "options": [
+      "The DLC",
+      "The CRC",
+      "The dominant/recessive rule",
+      "The ID size"
+     ],
+     "answer": 2,
+     "explain": "Lower ID wins arbitration."
+    },
+    {
+     "q": "What's the data field size in classic CAN?",
+     "options": [
+      "Unlimited",
+      "16 bytes",
+      "0–64 bytes",
+      "0–8 bytes"
+     ],
+     "answer": 3,
+     "explain": "CAN FD allows more."
+    }
+   ]
+  },
+  "level-1/04-introduction-to-canoe": {
+   "questions": [
+    {
+     "q": "What three roles does CANoe play at once?",
+     "options": [
+      "Only simulation",
+      "Only logging",
+      "Only reporting",
+      "Simulation (act as missing ECUs), analysis (trace, decode, timing, bus load) and stimulation/test execution"
+     ],
+     "answer": 3,
+     "explain": "One PC with a Vector interface connected to the bus."
+    },
+    {
+     "q": "Why simulate other ECUs?",
+     "options": [
+      "To save software",
+      "Early in development or on a bench most neighbouring ECUs don't exist, or you don't want to risk expensive prototypes",
+      "It's required",
+      "For marketing"
+     ],
+     "answer": 1,
+     "explain": "The ECU under test believes it's on a complete network."
+    },
+    {
+     "q": "What does a database (DBC/ARXML) provide?",
+     "options": [
+      "Test cases",
+      "Maps raw CAN IDs and bytes to named, scaled signals",
+      "Hardware drivers",
+      "Licences"
+     ],
+     "answer": 1,
+     "explain": "Used to decode raw bytes in the trace."
+    },
+    {
+     "q": "What does the lesson state about CANoe?",
+     "options": [
+      "It's open source",
+      "It's commercial software the course can't run, so it describes documented capabilities as a conceptual map",
+      "It's free",
+      "It ran it all"
+     ],
+     "answer": 1,
+     "explain": "Use vendor training when you have access."
+    }
+   ]
+  },
+  "level-1/05-capl-scripting-basics": {
+   "questions": [
+    {
+     "q": "What is CAPL's execution model?",
+     "options": [
+      "Threads",
+      "A single main()",
+      "Batch",
+      "A collection of event procedures invoked by CANoe's runtime, not a single main()"
+     ],
+     "answer": 3,
+     "explain": "C-like syntax, event-driven."
+    },
+    {
+     "q": "What does `on message SensorNodeStatus` do?",
+     "options": [
+      "Sends a frame",
+      "Runs on timer",
+      "Runs every time a frame matching that message arrives, with `this` referring to it",
+      "Runs once"
+     ],
+     "answer": 2,
+     "explain": "Matched by symbolic name or raw ID."
+    },
+    {
+     "q": "What does `on start` do?",
+     "options": [
+      "Fires at stop",
+      "Fires on key",
+      "Fires every message",
+      "Fires once at the beginning of a measurement: initialise variables, arm timers, send an initial state"
+     ],
+     "answer": 3,
+     "explain": "on preStart and on stopMeasurement are setup/teardown."
+    },
+    {
+     "q": "How do timers work?",
+     "options": [
+      "Blocking sleep",
+      "Hardware only",
+      "Automatic",
+      "Declare an msTimer, start it with setTimer(), and `on timer` fires once when it expires"
+     ],
+     "answer": 3,
+     "explain": "The lesson notes snippets weren't run on live CANoe."
+    }
+   ]
+  },
+  "level-1/06-uds-diagnostics-basics": {
+   "questions": [
+    {
+     "q": "What is UDS?",
+     "options": [
+      "Unified Diagnostic Services (ISO 14229), the request/response diagnostic protocol ECUs speak",
+      "A flash format",
+      "A tool",
+      "A bus"
+     ],
+     "answer": 0,
+     "explain": "Client-server: tester requests, ECU responds."
+    },
+    {
+     "q": "What does a positive response's SID look like?",
+     "options": [
+      "Same SID",
+      "SID − 1",
+      "Request SID + 0x40 (e.g. 0x22 → 0x62)",
+      "0x7F"
+     ],
+     "answer": 2,
+     "explain": "It makes responses unmistakable."
+    },
+    {
+     "q": "What shape does a negative response have?",
+     "options": [
+      "NRC only",
+      "0x00",
+      "0x7F, the request SID, then an NRC",
+      "SID + 0x40"
+     ],
+     "answer": 2,
+     "explain": "NRC is the negative response code."
+    },
+    {
+     "q": "Which SID reads a live value by identifier, and which keeps a session alive?",
+     "options": [
+      "0x27; 0x2E",
+      "0x10; 0x11",
+      "0x22 Read Data By Identifier; 0x3E Tester Present",
+      "0x19; 0x14"
+     ],
+     "answer": 2,
+     "explain": "0x27 is Security Access seed/key."
+    }
+   ]
+  },
+  "level-1/07-introduction-to-hil-testing": {
+   "questions": [
+    {
+     "q": "What is HIL testing?",
+     "options": [
+      "A real physical ECU connected to a simulated environment (sensors, actuators, other ECUs, electrical environment) without a real vehicle",
+      "A paper review",
+      "A road test",
+      "A pure software test"
+     ],
+     "answer": 0,
+     "explain": "It's the dominant system-test technique."
+    },
+    {
+     "q": "What does HIL add beyond bench network testing?",
+     "options": [
+      "More CAN traffic",
+      "Faster compile",
+      "Cheaper tools",
+      "Physical realism: sensor curves, actuator loads, supply transients and physical faults like a shorted wire"
+     ],
+     "answer": 3,
+     "explain": "A pure CAN simulation can't represent them."
+    },
+    {
+     "q": "Why is HIL the sweet spot?",
+     "options": [
+      "It's real vehicles",
+      "It's the cheapest",
+      "It's untested",
+      "Real enough that the ECU can't tell it isn't in a vehicle, yet fully controllable and repeatable, at lower cost and safety risk"
+     ],
+     "answer": 3,
+     "explain": "You can deliberately break things safely."
+    },
+    {
+     "q": "What runs the plant model in a rig?",
+     "options": [
+      "A cloud server",
+      "A real-time simulation computer with a guaranteed fixed cycle (commonly 1 ms or faster)",
+      "A phone",
+      "A laptop"
+     ],
+     "answer": 1,
+     "explain": "The course describes architecture, not hands-on operation."
+    }
+   ]
+  },
+  "level-1/08-test-case-design-for-ecus": {
+   "questions": [
+    {
+     "q": "What's partitioned in ECU test design?",
+     "options": [
+      "Team members",
+      "Source files",
+      "Signal ranges: the physical values a CAN signal, DID or sensor input can carry",
+      "Colours"
+     ],
+     "answer": 2,
+     "explain": "Each case specifies the bus-level or diagnostic representation too."
+    },
+    {
+     "q": "With a 120 °C overheat threshold ('above 120'), what are the four partitions of CoolantTemp (−40 to 150 °C)?",
+     "options": [
+      "Two",
+      "Three equal",
+      "Below −40 invalid, −40..120 normal, >120..150 overheat, above 150 invalid",
+      "Ten"
+     ],
+     "answer": 2,
+     "explain": "Representative values: −45, 90, 135, 155."
+    },
+    {
+     "q": "Which boundary values do you test for 'strictly greater than 120'?",
+     "options": [
+      "100, 150",
+      "Only 130",
+      "Only 120",
+      "119.9 (no warning), 120.0 (no warning), 120.1 (warning)"
+     ],
+     "answer": 3,
+     "explain": "120.0 is where a > versus >= bug lives."
+    },
+    {
+     "q": "Why not sweep every 16-bit raw value?",
+     "options": [
+      "It's faster",
+      "It's required",
+      "It's cheap",
+      "It's impossible and pointless once you've reasoned about which values behave alike"
+     ],
+     "answer": 3,
+     "explain": "Equivalence partitioning needs one representative per class."
+    }
+   ]
+  },
+  "level-1/09-automotive-test-standards-overview": {
+   "questions": [
+    {
+     "q": "What are the two standards behind much automotive rigour?",
+     "options": [
+      "ISO 9001 and ISO 27001",
+      "CAN and LIN",
+      "MISRA and AUTOSAR",
+      "ASPICE (process maturity) and ISO 26262 (functional safety)"
+     ],
+     "answer": 3,
+     "explain": "ISO 21434 (cybersecurity) comes in Level 4."
+    },
+    {
+     "q": "What are ASPICE capability levels 0 to 5?",
+     "options": [
+      "Alpha to omega",
+      "Incomplete, performed, managed, established, predictable, innovating",
+      "Red to green",
+      "Low to high"
+     ],
+     "answer": 1,
+     "explain": "Most OEM contracts target level 2 or 3."
+    },
+    {
+     "q": "Which ASPICE processes are testing-relevant?",
+     "options": [
+      "SUP.1 only",
+      "MAN.3 only",
+      "SWE.4 unit verification, SWE.5 integration test, SWE.6 qualification test, and SYS.4/SYS.5 system levels",
+      "ACQ.4 only"
+     ],
+     "answer": 2,
+     "explain": "The course practices map onto them."
+    },
+    {
+     "q": "Why is ASPICE 'as much a commercial gate as a technical one'?",
+     "options": [
+      "OEMs require a specific capability level from suppliers as a condition of business",
+      "It's decorative",
+      "It's free",
+      "It's optional"
+     ],
+     "answer": 0,
+     "explain": "Traceability and documented results become obligations."
+    }
+   ]
+  },
+  "level-1/10-project-capl-test-script": {
+   "questions": [
+    {
+     "q": "When does the fuel node raise and clear LowFuelWarning?",
+     "options": [
+      "Raises above 15",
+      "Never clears",
+      "Raises below 10%, clears only above 15% (hysteresis)",
+      "Raises at 10 and clears at 10"
+     ],
+     "answer": 2,
+     "explain": "warningActive holds the hysteresis state."
+    },
+    {
+     "q": "What does the DiagnosticResetRequest do?",
+     "options": [
+      "Resets the node's alive counter to 0, standing in for a UDS-style diagnostic trigger",
+      "Clears the warning",
+      "Resets the fuel level",
+      "Stops the node"
+     ],
+     "answer": 0,
+     "explain": "Received, not sent, by the node."
+    },
+    {
+     "q": "How often does FuelLevelStatus transmit?",
+     "options": [
+      "Every 100 ms, with FuelLevelPct, LowFuelWarning and a 4-bit AliveCounter",
+      "Every 1 s",
+      "On request",
+      "Once"
+     ],
+     "answer": 0,
+     "explain": "A msTimer cycleTimer drives it."
+    },
+    {
+     "q": "How honest is the project about verification?",
+     "options": [
+      "It was reviewed for accuracy against CAPL conventions but not compiled or run in live CANoe",
+      "It's unverified guess",
+      "It was run in CANoe",
+      "It was HIL tested"
+     ],
+     "answer": 0,
+     "explain": "Treat it as a template to adapt."
+    }
+   ]
+  },
+  "level-2/01-advanced-capl-scripting": {
+   "questions": [
+    {
+     "q": "What does CAPL lack compared with C?",
+     "options": [
+      "Loops",
+      "Functions",
+      "Types",
+      "Pointers and dynamic memory: every array is fixed-size and declared up front"
+     ],
+     "answer": 3,
+     "explain": "Functions return void, int, long, float, byte, char[] or a message."
+    },
+    {
+     "q": "What does `this.byte(i)` give?",
+     "options": [
+      "A message ID",
+      "A timer",
+      "A raw payload byte by index, regardless of whether a database defines signals",
+      "A signal"
+     ],
+     "answer": 2,
+     "explain": "The fallback for diagnostics, unknown traffic and checksum/CRC routines."
+    },
+    {
+     "q": "What is a system variable (sysvar)?",
+     "options": [
+      "A timer",
+      "A local variable",
+      "A message",
+      "State shared across the whole CANoe configuration"
+     ],
+     "answer": 3,
+     "explain": "Used for panels and cross-node state."
+    },
+    {
+     "q": "What does the additive checksum example compute?",
+     "options": [
+      "(b0 + b1 + b2 + b3) & 0xFF",
+      "A CRC16",
+      "A hash",
+      "An XOR"
+     ],
+     "answer": 0,
+     "explain": "Many real ECUs use CRC8 or CRC16 with the same calling convention."
+    }
+   ]
+  },
+  "level-2/02-canoe-test-modules": {
+   "questions": [
+    {
+     "q": "Why use a test module instead of a simulation node?",
+     "options": [
+      "It's faster",
+      "It's smaller",
+      "It produces a structured verdict (Pass/Fail/Inconclusive) and report, which makes suites auditable and machine-consumable for CI",
+      "It's free"
+     ],
+     "answer": 2,
+     "explain": "write() text can't answer 'did it pass?'."
+    },
+    {
+     "q": "What does `testStepFail(...)` do?",
+     "options": [
+      "Stops CANoe",
+      "Clears a timer",
+      "Records a failing step verdict with a message",
+      "Sends a frame"
+     ],
+     "answer": 2,
+     "explain": "testStepPass records a pass."
+    },
+    {
+     "q": "What does testWaitForTimeout(500) do?",
+     "options": [
+      "Sets a baud rate",
+      "Blocks up to 500 ms waiting for the next assertion",
+      "Waits forever",
+      "Sleeps CANoe"
+     ],
+     "answer": 1,
+     "explain": "Used in the startup sequence example."
+    },
+    {
+     "q": "What does testCaseTitle give?",
+     "options": [
+      "A human-readable name for the case in the report",
+      "A verdict",
+      "A timer",
+      "A node"
+     ],
+     "answer": 0,
+     "explain": "Test cases roll up into a report."
+    }
+   ]
+  },
+  "level-2/03-can-fd-basics": {
+   "questions": [
+    {
+     "q": "What's the max payload in CAN-FD versus classic CAN?",
+     "options": [
+      "8 versus 64",
+      "32 versus 8",
+      "16 versus 8",
+      "64 bytes versus 8 bytes"
+     ],
+     "answer": 3,
+     "explain": "The data phase can run at 5–8 Mbit/s."
+    },
+    {
+     "q": "What is the byte length for DLC 13 in CAN-FD?",
+     "options": [
+      "32 bytes",
+      "24 bytes",
+      "48 bytes",
+      "13 bytes"
+     ],
+     "answer": 0,
+     "explain": "DLC 9→12, 10→16, 11→20, 12→24, 13→32, 14→48, 15→64."
+    },
+    {
+     "q": "What new control bits does CAN-FD add?",
+     "options": [
+      "FDF (FD format), BRS (bit-rate switch) and ESI (error state indicator)",
+      "RTR, IDE, SRR",
+      "SOF, EOF, ACK",
+      "CRC, DLC, ID"
+     ],
+     "answer": 0,
+     "explain": "BRS switches to the faster data-phase rate."
+    },
+    {
+     "q": "What happens to the arbitration bit rate?",
+     "options": [
+      "It's halved",
+      "Unchanged, up to 1 Mbit/s; only the data phase speeds up",
+      "It's 8 Mbit/s",
+      "It's removed"
+     ],
+     "answer": 1,
+     "explain": "CRC grows to 17 or 21 bits."
+    }
+   ]
+  },
+  "level-2/04-lin-bus-basics": {
+   "questions": [
+    {
+     "q": "What is LIN's topology?",
+     "options": [
+      "Peer-to-peer",
+      "Master/slave: the master owns a schedule table of when every message is sent",
+      "Ring",
+      "Mesh"
+     ],
+     "answer": 1,
+     "explain": "A low-cost bus for simple devices."
+    },
+    {
+     "q": "What does a LIN header consist of?",
+     "options": [
+      "Data and checksum",
+      "CRC",
+      "ID and DLC",
+      "Break (≥13 bit-times low), Sync 0x55 and the Protected ID"
+     ],
+     "answer": 3,
+     "explain": "The PID is a 6-bit ID plus 2 parity bits."
+    },
+    {
+     "q": "What does the Sync field 0x55 do?",
+     "options": [
+      "Identifies the frame",
+      "Checksums",
+      "Carries data",
+      "Lets slaves calibrate their baud rate"
+     ],
+     "answer": 3,
+     "explain": "Sent by the master."
+    },
+    {
+     "q": "Classic versus enhanced checksum?",
+     "options": [
+      "They're the same",
+      "Enhanced covers sync",
+      "Classic covers data only; enhanced covers data plus the PID, depending on LIN version",
+      "Classic covers PID only"
+     ],
+     "answer": 2,
+     "explain": "Sent by the node that provides the data."
+    }
+   ]
+  },
+  "level-2/05-dtc-deep-dive": {
+   "questions": [
+    {
+     "q": "What does the DTC status byte's confirmedDTC bit (bit 3) mean?",
+     "options": [
+      "The fault met confirmation criteria: the 'real' stored DTC",
+      "The test hasn't run",
+      "The lamp is on",
+      "The fault is failing now"
+     ],
+     "answer": 0,
+     "explain": "pendingDTC (bit 2) means failed but not yet confirmed."
+    },
+    {
+     "q": "What does testFailed (bit 0) mean?",
+     "options": [
+      "It's confirmed",
+      "The fault is failing right now, this operation cycle",
+      "The lamp requested",
+      "It failed since the last clear"
+     ],
+     "answer": 1,
+     "explain": "testFailedSinceLastClear is bit 5."
+    },
+    {
+     "q": "What is bit 7 warningIndicatorRequested?",
+     "options": [
+      "Whether the malfunction indicator lamp should be on because of this DTC",
+      "A test result",
+      "A clear flag",
+      "A session flag"
+     ],
+     "answer": 0,
+     "explain": "Lamp state follows DTC status."
+    },
+    {
+     "q": "What do the testNotCompleted bits mean?",
+     "options": [
+      "The test failed",
+      "The DTC is stored",
+      "The ECU reset",
+      "The diagnostic test hasn't run since the last clear or this operation cycle"
+     ],
+     "answer": 3,
+     "explain": "Absence of a failure isn't proof the test ran."
+    }
+   ]
+  },
+  "level-2/06-dbc-signal-definitions": {
+   "questions": [
+    {
+     "q": "Which DBC blocks define nodes, messages and signals?",
+     "options": [
+      "SG_ only",
+      "CM_, BA_, VAL_",
+      "BO_ only",
+      "BU_ nodes, BO_ messages, SG_ signals"
+     ],
+     "answer": 3,
+     "explain": "CM_ comments often carry the real spec; VAL_ gives enumerations; BA_ attributes."
+    },
+    {
+     "q": "A signal has scale 1, offset −40 and raw 130. What's the physical value?",
+     "options": [
+      "170",
+      "90",
+      "−40",
+      "130"
+     ],
+     "answer": 1,
+     "explain": "physical = raw × 1 + (−40) = 90."
+    },
+    {
+     "q": "What do @1 and @0 mean in a signal definition?",
+     "options": [
+      "Signed and unsigned",
+      "@1 little-endian (Intel); @0 big-endian (Motorola)",
+      "Min and max",
+      "Start and end"
+     ],
+     "answer": 1,
+     "explain": "The sign column is + unsigned or − signed."
+    },
+    {
+     "q": "Why does the valid range [-40|215] matter?",
+     "options": [
+      "It sets the ID",
+      "It's cosmetic",
+      "It's used for validation and plausibility checks",
+      "It sets the baud"
+     ],
+     "answer": 2,
+     "explain": "Raw 8-bit values 0–255 with offset −40 give −40..215."
+    }
+   ]
+  },
+  "level-2/07-automated-test-sequences": {
+   "questions": [
+    {
+     "q": "What does `testpreparation` do?",
+     "options": [
+      "Defines a timer",
+      "Runs at the end",
+      "Runs after every testcase",
+      "Runs once before any testcase in the module (shared setup)"
+     ],
+     "answer": 3,
+     "explain": "Teardown is test completion."
+    },
+    {
+     "q": "Why chain cases into sequences?",
+     "options": [
+      "Speed only",
+      "To hide failures",
+      "Shared setup/teardown and reporting that survives one case failing without aborting the whole run",
+      "To skip tests"
+     ],
+     "answer": 2,
+     "explain": "Orchestration layer for real suites."
+    },
+    {
+     "q": "What does the boundary test of 120.0 then 120.1 check?",
+     "options": [
+      "Both warn",
+      "Warning at 119",
+      "Warning stays 0 at 120.0 and goes to 1 at 120.1 (strictly above)",
+      "Neither warns"
+     ],
+     "answer": 2,
+     "explain": "testStepCheck asserts each."
+    },
+    {
+     "q": "Why must cases be independent and well ordered?",
+     "options": [
+      "A failure in one shouldn't corrupt the others, and state must be reset",
+      "Order is random always",
+      "They run in parallel",
+      "It's cosmetic"
+     ],
+     "answer": 0,
+     "explain": "Ordering and independence section."
+    }
+   ]
+  },
+  "level-2/08-restbus-simulation": {
+   "questions": [
+    {
+     "q": "What is restbus simulation?",
+     "options": [
+      "A logger",
+      "Simulating a rest stop",
+      "Simulating all the other ECUs' bus traffic around the ECU under test so it sees a complete network",
+      "Testing buses at rest"
+     ],
+     "answer": 2,
+     "explain": "The missing ECUs may not exist yet."
+    },
+    {
+     "q": "How can a restbus be generated quickly?",
+     "options": [
+      "Not possible",
+      "By hand only",
+      "Automatically from a DBC (cycle times and messages per node)",
+      "From logs only"
+     ],
+     "answer": 2,
+     "explain": "Attributes like cycle time drive transmission."
+    },
+    {
+     "q": "Why is it needed at all?",
+     "options": [
+      "For aesthetics",
+      "For licensing",
+      "For HIL only",
+      "ECUs monitor neighbours' messages and set faults or fallback modes when they're missing"
+     ],
+     "answer": 3,
+     "explain": "A silent bus triggers timeout DTCs."
+    },
+    {
+     "q": "What should the simulated node do besides send?",
+     "options": [
+      "React to messages sent to it as the real ECU would",
+      "Block",
+      "Nothing",
+      "Log only"
+     ],
+     "answer": 0,
+     "explain": "Simulation is both transmit and react."
+    }
+   ]
+  },
+  "level-2/09-hil-test-bench-components": {
+   "questions": [
+    {
+     "q": "Where does HIL sit among test tiers?",
+     "options": [
+      "Before unit tests",
+      "The same as vehicle test",
+      "The same as simulation",
+      "Between pure simulation (nothing physical) and vehicle test (everything real): the ECU is real, the rest simulated"
+     ],
+     "answer": 3,
+     "explain": "It catches defects only visible with real hardware and software."
+    },
+    {
+     "q": "What does the real-time simulation computer do?",
+     "options": [
+      "Stores logs",
+      "Runs the plant model in hard real time, completing each step within its cycle",
+      "Powers the ECU",
+      "Hosts CANoe only"
+     ],
+     "answer": 1,
+     "explain": "Missing a cycle breaks determinism."
+    },
+    {
+     "q": "What does I/O interface hardware do?",
+     "options": [
+      "Stores data",
+      "Compiles code",
+      "Runs tests",
+      "Converts between model values and real electrical signals the ECU expects"
+     ],
+     "answer": 3,
+     "explain": "Sensor emulation and actuator loads."
+    },
+    {
+     "q": "What is the ECU under test in a HIL?",
+     "options": [
+      "A simulation",
+      "A model",
+      "A emulator",
+      "The real, unmodified production or pre-production hardware and software"
+     ],
+     "answer": 3,
+     "explain": "Bus interfaces connect it to the network."
+    }
+   ]
+  },
+  "level-2/10-project-can-signal-validation": {
+   "questions": [
+    {
+     "q": "What are the three messages in the project?",
+     "options": [
+      "Only one",
+      "Five messages",
+      "LIN frames",
+      "EngineStatus (256), BrakeStatus (512) and SensorFusionFrame (1024, CAN-FD)"
+     ],
+     "answer": 3,
+     "explain": "Cycle times 10, 20 and 20 ms via GenMsgCycleTime."
+    },
+    {
+     "q": "What does the suite validate?",
+     "options": [
+      "Only GUI",
+      "Signal range plausibility, CAN-FD frame properties and cycle timing, with a restbus as supporting cast",
+      "Only IDs",
+      "Only DLC"
+     ],
+     "answer": 1,
+     "explain": "Pulls every Level 2 module together."
+    },
+    {
+     "q": "How is the 32-byte frame marked as FD?",
+     "options": [
+      "The ID",
+      "A VFrameFormat attribute on the message",
+      "The DLC only",
+      "The node"
+     ],
+     "answer": 1,
+     "explain": "DLC 13 means 32 bytes."
+    },
+    {
+     "q": "What does the restbus provide in this project?",
+     "options": [
+      "Test verdicts",
+      "The other ECUs' traffic so the ECU under test sees a complete network",
+      "A database",
+      "Reports"
+     ],
+     "answer": 1,
+     "explain": "It's the supporting cast."
+    }
+   ]
+  },
+  "level-3/01-advanced-hil-automation": {
+   "questions": [
+    {
+     "q": "What are the two HIL automation layers?",
+     "options": [
+      "A real-time layer (plant model each fixed timestep) and a test orchestration layer (what scenario, parameters, results, pass/fail)",
+      "Build and deploy",
+      "Client and server",
+      "GUI and DB"
+     ],
+     "answer": 0,
+     "explain": "The orchestration layer never touches the real-time loop's internals."
+    },
+    {
+     "q": "What does 'parameterize, don't hardcode' mean for scenarios?",
+     "options": [
+      "Drive scenario variations from parameters/tables instead of copying scripts",
+      "Hardcode values",
+      "Use one scenario",
+      "Avoid parameters"
+     ],
+     "answer": 0,
+     "explain": "It scales coverage."
+    },
+    {
+     "q": "What must the real-time layer guarantee?",
+     "options": [
+      "Large logs",
+      "Many tests",
+      "Deterministic execution every fixed timestep, no exceptions",
+      "Fast GUI"
+     ],
+     "answer": 2,
+     "explain": "Examples: dSPACE or NI real-time OS."
+    },
+    {
+     "q": "Which layer makes pass/fail calls?",
+     "options": [
+      "Real-time",
+      "I/O",
+      "Power supply",
+      "Test orchestration"
+     ],
+     "answer": 3,
+     "explain": "It reads results."
+    }
+   ]
+  },
+  "level-3/02-canape-measurement-calibration": {
+   "questions": [
+    {
+     "q": "How do CANoe and CANape differ?",
+     "options": [
+      "CANoe sees bus traffic and signals; CANape sees ECU-internal variables (RAM addresses) via XCP/CCP",
+      "The same",
+      "CANoe uses A2L",
+      "CANape is a bus simulator"
+     ],
+     "answer": 0,
+     "explain": "CANoe needs a DBC; CANape needs an A2L."
+    },
+    {
+     "q": "What is an A2L (ASAP2) file?",
+     "options": [
+      "A log format",
+      "The map from symbol name to ECU memory address, like a DBC for calibration",
+      "A script",
+      "A test report"
+     ],
+     "answer": 1,
+     "explain": "It describes internal symbols and addresses."
+    },
+    {
+     "q": "Which two A2L categories matter for testing?",
+     "options": [
+      "Frames and signals",
+      "DTCs and DIDs",
+      "Nodes and buses",
+      "MEASUREMENT (read live values) and CHARACTERISTIC (calibration parameters)"
+     ],
+     "answer": 3,
+     "explain": "Only measurement is read-only."
+    },
+    {
+     "q": "Which protocol does CANape use?",
+     "options": [
+      "HTTP",
+      "UDS only",
+      "ASAM XCP (or CCP, its predecessor)",
+      "LIN"
+     ],
+     "answer": 2,
+     "explain": "Over CAN or Ethernet."
+    }
+   ]
+  },
+  "level-3/03-automotive-ethernet-basics": {
+   "questions": [
+    {
+     "q": "Why Ethernet in vehicles?",
+     "options": [
+      "CAN tops out around 1 Mbit/s (5 for CAN-FD data phase); vehicle Ethernet runs 100 Mbit/s to multi-gigabit for cameras, radar and infotainment",
+      "It's cheaper than CAN",
+      "It's simpler",
+      "It's older"
+     ],
+     "answer": 0,
+     "explain": "ADAS and infotainment need the bandwidth."
+    },
+    {
+     "q": "What's automotive Ethernet's physical layer?",
+     "options": [
+      "100BASE-T1 / 1000BASE-T1: a single unshielded twisted pair, chosen to cut harness weight and cost",
+      "Coax",
+      "RJ45 two-pair",
+      "Fibre only"
+     ],
+     "answer": 0,
+     "explain": "Office Ethernet uses 100BASE-TX."
+    },
+    {
+     "q": "What is SOME/IP?",
+     "options": [
+      "A cable",
+      "A bus",
+      "An AUTOSAR-standard service-oriented middleware over IP, with services and methods",
+      "A diagnostic tool"
+     ],
+     "answer": 2,
+     "explain": "CAN signals are static; Ethernet comms are often service-oriented."
+    },
+    {
+     "q": "Which protocols ride on automotive Ethernet?",
+     "options": [
+      "SOME/IP, DoIP (diagnostics) and AVB/TSN for time-sync media",
+      "Only HTTP",
+      "Only CAN",
+      "Only UDS"
+     ],
+     "answer": 0,
+     "explain": "TCP/IP underneath."
+    }
+   ]
+  },
+  "level-3/04-functional-safety-testing": {
+   "questions": [
+    {
+     "q": "What is ASIL?",
+     "options": [
+      "A bus",
+      "A DTC",
+      "A test tool",
+      "Automotive Safety Integrity Level (QM, A–D, D strictest) assigned per hazard from severity, exposure and controllability"
+     ],
+     "answer": 3,
+     "explain": "It's risk-graded, not a pass/fail badge."
+    },
+    {
+     "q": "What does ASIL attach to?",
+     "options": [
+      "The tool",
+      "Specific safety goals/functions, not the whole ECU",
+      "The whole vehicle",
+      "The supplier"
+     ],
+     "answer": 1,
+     "explain": "Higher ASIL means more rigorous traceable, reviewed verification."
+    },
+    {
+     "q": "What are the three ASIL factors?",
+     "options": [
+      "Range, rate, rank",
+      "Cost, time, scope",
+      "Speed, size, weight",
+      "Severity (S0–S3), exposure (E0–E4), controllability (C0–C3)"
+     ],
+     "answer": 3,
+     "explain": "Each hazard is rated on all three."
+    },
+    {
+     "q": "What are safety mechanisms?",
+     "options": [
+      "Specific detections with safe reactions, e.g. a range check that triggers a fallback",
+      "Reports",
+      "Test tools",
+      "Bug trackers"
+     ],
+     "answer": 0,
+     "explain": "You test that they work when faults occur."
+    }
+   ]
+  },
+  "level-3/05-test-automation-frameworks": {
+   "questions": [
+    {
+     "q": "Why wrap CAPL in a framework?",
+     "options": [
+      "A layer above CANoe handles sequencing, rig state, data, traceability and CI-readable reporting beyond CAPL's strengths",
+      "It's required by Vector",
+      "CAPL is deprecated",
+      "CAPL can't run"
+     ],
+     "answer": 0,
+     "explain": "CAPL is great at driving bus traffic."
+    },
+    {
+     "q": "What are the framework layers?",
+     "options": [
+      "Client, server",
+      "UI, DB, API",
+      "Build, test, ship",
+      "Execution core, orchestration, data layer, reporting"
+     ],
+     "answer": 3,
+     "explain": "Orchestration is often Python via CANoe's COM API."
+    },
+    {
+     "q": "What does driving CANoe via COM require?",
+     "options": [
+      "Linux",
+      "A Windows host with CANoe installed and pywin32 (exact interface names vary by version)",
+      "Docker only",
+      "A browser"
+     ],
+     "answer": 1,
+     "explain": "The snippet is illustrative."
+    },
+    {
+     "q": "Which report formats suit CI?",
+     "options": [
+      "Audio",
+      "Plain text only",
+      "JUnit XML and HTML dashboards",
+      "Images"
+     ],
+     "answer": 2,
+     "explain": "Machine-consumable outputs."
+    }
+   ]
+  },
+  "level-3/06-fault-injection-testing": {
+   "questions": [
+    {
+     "q": "What are the fault classes in the taxonomy?",
+     "options": [
+      "Only signal",
+      "Signal-level, communication-level, electrical-level, power-level, software/timing-level",
+      "Only electrical",
+      "Only software"
+     ],
+     "answer": 1,
+     "explain": "A test plan covering only signal values misses the rest."
+    },
+    {
+     "q": "Which class can CAPL alone inject?",
+     "options": [
+      "Shorts to battery",
+      "Electrical open circuits",
+      "Signal-level: e.g. setSignal() to an implausible value",
+      "Brownouts"
+     ],
+     "answer": 2,
+     "explain": "Communication faults are partially possible by suppressing frames."
+    },
+    {
+     "q": "What do electrical faults need?",
+     "options": [
+      "A bigger PC",
+      "More CAN",
+      "A physical relay/fault-insertion unit in the HIL rig",
+      "CAPL only"
+     ],
+     "answer": 2,
+     "explain": "Open, short to ground, short to battery."
+    },
+    {
+     "q": "What do power-level faults need?",
+     "options": [
+      "A programmable power supply to create sags, brownouts and ignition glitches",
+      "Nothing",
+      "A script",
+      "A LIN node"
+     ],
+     "answer": 0,
+     "explain": "For example a glitch during a flash write."
+    }
+   ]
+  },
+  "level-3/07-regression-test-suites": {
+   "questions": [
+    {
+     "q": "Which property makes a regression suite trustworthy?",
+     "options": [
+      "Colourful",
+      "Deterministic: same input, same result every run; a flaky suite erodes trust and is worse than none",
+      "Large",
+      "Long"
+     ],
+     "answer": 1,
+     "explain": "Also fast enough to gate changes and independent testcases."
+    },
+    {
+     "q": "How are tiers arranged?",
+     "options": [
+      "One tier",
+      "Smoke (2–5 min), functional (30–60 min), full regression (hours: fault injection, HIL matrices, soak)",
+      "By ECU",
+      "By author"
+     ],
+     "answer": 1,
+     "explain": "Tiering solves the speed-versus-depth tension."
+    },
+    {
+     "q": "Why 'clear failure attribution'?",
+     "options": [
+      "For speed",
+      "For style",
+      "A failing name/log should point at what broke, not just 'suite failed'",
+      "For cost"
+     ],
+     "answer": 2,
+     "explain": "It shortens triage."
+    },
+    {
+     "q": "What does 'maintained, not just accumulated' mean?",
+     "options": [
+      "Keep everything",
+      "Never delete",
+      "Remove tests for removed features and update tests for changed behaviour",
+      "Rewrite weekly"
+     ],
+     "answer": 2,
+     "explain": "Otherwise the suite rots."
+    }
+   ]
+  },
+  "level-3/08-requirements-based-traceability": {
+   "questions": [
+    {
+     "q": "What's forward versus backward traceability?",
+     "options": [
+      "Forward: requirement → its tests; backward: test → the requirement(s) it verifies",
+      "Backward is optional always",
+      "Same",
+      "Forward is manual"
+     ],
+     "answer": 0,
+     "explain": "Without backward traceability a suite accumulates orphan tests."
+    },
+    {
+     "q": "What does verdict coverage measure?",
+     "options": [
+      "Number of tests",
+      "Lines of code",
+      "Bug count",
+      "Of covered requirements, how many have a passing latest result versus never-run or failing"
+     ],
+     "answer": 3,
+     "explain": "A requirement with one failing test is very different from a passing one."
+    },
+    {
+     "q": "What does ASIL-weighted coverage check?",
+     "options": [
+      "Only reports",
+      "Only speed",
+      "Only test count",
+      "For safety-relevant requirements, that the required rigour (review, test techniques) was applied"
+     ],
+     "answer": 3,
+     "explain": "Higher ASIL demands more."
+    },
+    {
+     "q": "Why traceability at all?",
+     "options": [
+      "It lets a suite answer 'is this requirement verified?' and supports audits (ASPICE, ISO 26262)",
+      "Speed",
+      "Decoration",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "The chain runs from stakeholder need to test result."
+    }
+   ]
+  },
+  "level-3/09-sotif-autonomous-testing": {
+   "questions": [
+    {
+     "q": "What does SOTIF (ISO 21448) address?",
+     "options": [
+      "Cybersecurity",
+      "Component failures",
+      "Hazards when the system works exactly as designed but the design is insufficient for the real world",
+      "Wiring"
+     ],
+     "answer": 2,
+     "explain": "ISO 26262 covers malfunctions."
+    },
+    {
+     "q": "Example of a SOTIF problem?",
+     "options": [
+      "A fuse blows",
+      "A radar correctly reports what it sees but fails to classify a stationary object",
+      "A CAN fault",
+      "A radar ECU crashes"
+     ],
+     "answer": 1,
+     "explain": "Root fix: broaden the validated operating envelope or add complementary sensing."
+    },
+    {
+     "q": "What are the SOTIF areas?",
+     "options": [
+      "Known safe, known unsafe, unknown unsafe, unknown safe (four areas of the operating space)",
+      "ASIL A–D",
+      "Hot, cold, wet, dry",
+      "Urban, rural"
+     ],
+     "answer": 0,
+     "explain": "The goal is to shrink the unknown-unsafe area."
+    },
+    {
+     "q": "For Area 1 (known safe), what's the testing goal?",
+     "options": [
+      "Ignore it",
+      "Randomise it",
+      "Regression-test to keep it that way",
+      "Delete it"
+     ],
+     "answer": 2,
+     "explain": "Area 2 needs design restrictions."
+    }
+   ]
+  },
+  "level-3/10-project-hil-test-plan": {
+   "questions": [
+    {
+     "q": "What feature does the project plan test?",
+     "options": [
+      "Automatic Emergency Braking (AEB), scoped down to one clear feature",
+      "ABS only",
+      "Wipers",
+      "Infotainment"
+     ],
+     "answer": 0,
+     "explain": "Scoping keeps it concrete."
+    },
+    {
+     "q": "Why list out-of-scope items with reasons?",
+     "options": [
+      "For length",
+      "It's part of the plan: it states what isn't being verified and why",
+      "To avoid work",
+      "To pad the plan"
+     ],
+     "answer": 1,
+     "explain": "Explicit boundaries prevent false assurance."
+    },
+    {
+     "q": "What's SW-REQ-201?",
+     "options": [
+      "AEB commands full braking within 150 ms of a validated imminent-collision condition (ASIL D)",
+      "AEB disabled",
+      "AEB logging",
+      "A cosmetic rule"
+     ],
+     "answer": 0,
+     "explain": "SW-REQ-202: no activation on implausible signals."
+    },
+    {
+     "q": "What does the plan trace each requirement to?",
+     "options": [
+      "Test cases and ASIL, so rigour and coverage are explicit",
+      "Cost",
+      "Dates",
+      "Developers"
+     ],
+     "answer": 0,
+     "explain": "From Module 8."
+    }
+   ]
+  },
+  "level-4/01-test-strategy-vehicle-programs": {
+   "questions": [
+    {
+     "q": "How does a test strategy differ from a test plan?",
+     "options": [
+      "A strategy is one testcase",
+      "A plan is bigger",
+      "Strategy covers the whole vehicle program and all ECUs (owned by the program test lead); a plan covers one feature or ECU",
+      "Same"
+     ],
+     "answer": 2,
+     "explain": "A testcase is one check by a test engineer."
+    },
+    {
+     "q": "What backs the strategy?",
+     "options": [
+      "A calendar",
+      "A tool list",
+      "The V-model: vehicle, system and software requirements each paired with a test level",
+      "A budget"
+     ],
+     "answer": 2,
+     "explain": "Vehicle validation, multi-ECU HIL, then unit and component HIL."
+    },
+    {
+     "q": "What's the strategy's central job per level?",
+     "options": [
+      "Hiring",
+      "Writing code",
+      "Budgeting only",
+      "Deciding what gets tested where, by whom, and with what environment"
+     ],
+     "answer": 3,
+     "explain": "Including the OEM/supplier split."
+    },
+    {
+     "q": "Who builds most ECUs?",
+     "options": [
+      "Customers",
+      "Suppliers, so the strategy must define OEM versus supplier test responsibility",
+      "Nobody",
+      "The OEM only"
+     ],
+     "answer": 1,
+     "explain": "Typical owner varies per level."
+    }
+   ]
+  },
+  "level-4/02-continuous-testing-automotive": {
+   "questions": [
+    {
+     "q": "How does automotive CI differ from pure software CI?",
+     "options": [
+      "Easier",
+      "HIL rigs are expensive and physical, so rig time caps parallelism; flaky failures may be rig wiring; rollback may mean re-flashing an ECU",
+      "Cheaper",
+      "Identical"
+     ],
+     "answer": 1,
+     "explain": "Rig scheduling is the bottleneck."
+    },
+    {
+     "q": "Why run SIL before hardware steps?",
+     "options": [
+      "It's more accurate",
+      "It's cheap and fast, filtering out failures before scarce rig time is spent",
+      "It replaces HIL",
+      "It's required"
+     ],
+     "answer": 1,
+     "explain": "Software-in-the-loop catches logic problems first."
+    },
+    {
+     "q": "What can a flaky failure be?",
+     "options": [
+      "Only a test problem",
+      "Nothing",
+      "A test problem, a rig wiring problem, or a genuine intermittent ECU defect",
+      "Only a code problem"
+     ],
+     "answer": 2,
+     "explain": "Triage needs rig health data."
+    },
+    {
+     "q": "What does rig scheduling do?",
+     "options": [
+      "Plans releases",
+      "Edits code",
+      "Reserves physical rigs for jobs to avoid conflicts and maximise use",
+      "Runs unit tests"
+     ],
+     "answer": 2,
+     "explain": "The pipeline queues for a rig."
+    }
+   ]
+  },
+  "level-4/03-advanced-fault-injection": {
+   "questions": [
+    {
+     "q": "Why test cascading faults, not just single faults?",
+     "options": [
+      "A mechanism proven for fault A alone and fault B alone may fail when both occur together",
+      "Single faults are impossible",
+      "It's cheaper",
+      "They're easier"
+     ],
+     "answer": 0,
+     "explain": "Single-fault testing structurally can't find that."
+    },
+    {
+     "q": "What is robustness testing?",
+     "options": [
+      "Speed testing",
+      "Checking colour",
+      "Load testing only",
+      "Exercising the ECU under combinations, timing and stress to find unexpected behaviour"
+     ],
+     "answer": 3,
+     "explain": "Beyond the taxonomy's single faults."
+    },
+    {
+     "q": "What must a fault-injection test always do afterwards?",
+     "options": [
+      "Restore the system to a known state so later tests are independent",
+      "Reboot the building",
+      "Skip cleanup",
+      "Leave faults active"
+     ],
+     "answer": 0,
+     "explain": "Module 6's 'always restore' discipline."
+    },
+    {
+     "q": "What does the second assertion in the cascading example check?",
+     "options": [
+      "That CAN works",
+      "That DTCs are cleared",
+      "That faults are absent",
+      "That the combined fault still reaches the safe state"
+     ],
+     "answer": 3,
+     "explain": "Safe state under combined faults."
+    }
+   ]
+  },
+  "level-4/04-cybersecurity-testing": {
+   "questions": [
+    {
+     "q": "What is TARA?",
+     "options": [
+      "A test tool",
+      "Threat Analysis and Risk Assessment: ISO 21434's structured way to find assets, threats, attack paths, impact and a CAL",
+      "A bus",
+      "A DTC"
+     ],
+     "answer": 1,
+     "explain": "The cybersecurity analogue of FMEA."
+    },
+    {
+     "q": "What does the Cybersecurity Assurance Level (CAL) drive?",
+     "options": [
+      "The ID",
+      "The baud rate",
+      "How much testing rigour a requirement needs, like ASIL for safety",
+      "The colour"
+     ],
+     "answer": 2,
+     "explain": "Test rigour scales with risk."
+    },
+    {
+     "q": "What's an example attack path?",
+     "options": [
+      "A flat tyre",
+      "A noisy wire",
+      "A compromised infotainment unit → gateway → braking ECU if the gateway doesn't segment traffic",
+      "A dead battery"
+     ],
+     "answer": 2,
+     "explain": "Segmentation is a countermeasure."
+    },
+    {
+     "q": "What protects sensitive UDS services?",
+     "options": [
+      "Read DTC",
+      "Security Access (0x27) seed/key, which test engineers exercise often",
+      "ECU Reset",
+      "Tester Present"
+     ],
+     "answer": 1,
+     "explain": "Calibration writes are protected."
+    }
+   ]
+  },
+  "level-4/05-test-data-management": {
+   "questions": [
+    {
+     "q": "What must be versioned together?",
+     "options": [
+      "DBC, A2L, ECU software build, test case source and fault-injection matrix, so they match",
+      "Only code",
+      "Nothing",
+      "Only DBC"
+     ],
+     "answer": 0,
+     "explain": "The biggest failure mode at scale is mismatched artifacts."
+    },
+    {
+     "q": "What is a configuration baseline?",
+     "options": [
+      "A report",
+      "A DBC",
+      "A single record naming the exact versions of all artifacts used for a result",
+      "A schedule"
+     ],
+     "answer": 2,
+     "explain": "For example AEB-DomainController-v2.4.1-baseline."
+    },
+    {
+     "q": "Why is it needed?",
+     "options": [
+      "For speed",
+      "For billing",
+      "It's decorative",
+      "Without it a result from six months ago is nearly meaningless"
+     ],
+     "answer": 3,
+     "explain": "You can't reproduce what you can't identify."
+    },
+    {
+     "q": "How should DBC, A2L and CAPL be handled?",
+     "options": [
+      "Left on benches",
+      "Edited in place",
+      "Emailed",
+      "Version-controlled like code, even if structured-binary"
+     ],
+     "answer": 3,
+     "explain": "Non-code artifacts need version control."
+    }
+   ]
+  },
+  "level-4/06-building-test-automation-team": {
+   "questions": [
+    {
+     "q": "Which roles does a mature practice include?",
+     "options": [
+      "Test engineer, automation/framework engineer, test architect/lead, rig/infrastructure engineer, safety/security specialist",
+      "Only testers",
+      "Only developers",
+      "Only managers"
+     ],
+     "answer": 0,
+     "explain": "Smaller teams collapse several into one person."
+    },
+    {
+     "q": "Why is bus-factor sharper in this domain?",
+     "options": [
+      "Too many people",
+      "Scarce combined skills (CAPL, rigs, safety) sit with few people",
+      "Tools are simple",
+      "Rigs are cheap"
+     ],
+     "answer": 1,
+     "explain": "Mitigations include pairing."
+    },
+    {
+     "q": "How does pairing on ASIL C/D test authorship help?",
+     "options": [
+      "It slows work",
+      "It forces knowledge transfer as a side effect of the independent-review requirement",
+      "It's optional",
+      "It hides knowledge"
+     ],
+     "answer": 1,
+     "explain": "Two birds, one stone."
+    },
+    {
+     "q": "What does the rig engineer maintain?",
+     "options": [
+      "Requirements",
+      "Reports",
+      "Code",
+      "Physical HIL rigs, fault-injection hardware and calibration of the test equipment itself"
+     ],
+     "answer": 3,
+     "explain": "A key infrastructure role."
+    }
+   ]
+  },
+  "level-4/07-supplier-oem-collaboration": {
+   "questions": [
+    {
+     "q": "What's the fundamental tension?",
+     "options": [
+      "The OEM needs confidence a supplier's ECU meets requirements without owning the supplier's internal process",
+      "Language",
+      "Schedule only",
+      "Price"
+     ],
+     "answer": 0,
+     "explain": "ASPICE gives both sides a shared language."
+    },
+    {
+     "q": "Which ASPICE processes cover software unit, integration and qualification testing?",
+     "options": [
+      "SYS.1",
+      "SWE.4, SWE.5 and SWE.6",
+      "SUP.8",
+      "MAN.3"
+     ],
+     "answer": 1,
+     "explain": "SYS.4/SYS.5 cover system levels, often OEM-owned."
+    },
+    {
+     "q": "Is an ASPICE capability level a pass/fail grade on CAPL tests?",
+     "options": [
+      "No: you can pass every test and still score poorly if traceability and process evidence are weak",
+      "Only for suppliers",
+      "Yes",
+      "Only for OEMs"
+     ],
+     "answer": 0,
+     "explain": "It assesses process maturity."
+    },
+    {
+     "q": "Which work product does SWE.6 expect?",
+     "options": [
+      "A contract",
+      "A schedule",
+      "A traceability matrix linking requirements to qualification tests",
+      "A BOM"
+     ],
+     "answer": 2,
+     "explain": "From Level 3 Module 8."
+    }
+   ]
+  },
+  "level-4/08-homologation-compliance-testing": {
+   "questions": [
+    {
+     "q": "How does homologation differ from internal validation?",
+     "options": [
+      "A regulator defines the requirement and failure means the vehicle can't be legally sold; evidence often needs accredited labs",
+      "OEM defines it",
+      "Same",
+      "No consequences"
+     ],
+     "answer": 0,
+     "explain": "Internal failure means delay and rework."
+    },
+    {
+     "q": "Which functions are homologation-relevant?",
+     "options": [
+      "Specific regulated functions: braking, lighting, emissions, certain ADAS functions",
+      "None",
+      "Only infotainment",
+      "All ECUs"
+     ],
+     "answer": 0,
+     "explain": "A courtesy light usually isn't."
+    },
+    {
+     "q": "How does HIL testing support homologation?",
+     "options": [
+      "It replaces it",
+      "It's illegal",
+      "Pre-homologation validation against the anticipated procedure, regression after late changes, and supporting evidence",
+      "It's irrelevant"
+     ],
+     "answer": 2,
+     "explain": "It supports but doesn't replace formal testing."
+    },
+    {
+     "q": "Who issues the requirements?",
+     "options": [
+      "The dealer",
+      "Regulatory bodies such as UN ECE or NHTSA/FMVSS",
+      "The supplier",
+      "The tester"
+     ],
+     "answer": 1,
+     "explain": "Market-specific."
+    }
+   ]
+  },
+  "level-4/09-career-growth": {
+   "questions": [
+    {
+     "q": "Which career paths does the course name?",
+     "options": [
+      "Specialist (safety, cybersecurity, SOTIF), architecture/leadership, move to ECU development, systems engineering, tooling/framework specialist",
+      "Only development",
+      "Only management",
+      "Only sales"
+     ],
+     "answer": 0,
+     "explain": "None closes off the others later."
+    },
+    {
+     "q": "Which role is often the scarcest on a team?",
+     "options": [
+      "Test engineer",
+      "Tooling/framework specialist",
+      "Manager",
+      "Tester"
+     ],
+     "answer": 1,
+     "explain": "Deep automation and infrastructure skill."
+    },
+    {
+     "q": "What signals readiness for Senior Test Engineer?",
+     "options": [
+      "Independently designing a fault-injection matrix or similar Level 3 work",
+      "A new title",
+      "Certificates only",
+      "Years served"
+     ],
+     "answer": 0,
+     "explain": "Evidence beats tenure."
+    },
+    {
+     "q": "What signals readiness for Test Architect/Lead?",
+     "options": [
+      "Having navigated a real supplier/OEM disagreement or built a working strategy",
+      "A bigger rig",
+      "More tools",
+      "More hours"
+     ],
+     "answer": 0,
+     "explain": "Level 4 skillset."
+    }
+   ]
+  },
+  "level-4/10-capstone-ecu-test-strategy": {
+   "questions": [
+    {
+     "q": "What program does the capstone use?",
+     "options": [
+      "A new Battery Management System (BMS) ECU with genuine safety and security content",
+      "A wiper",
+      "A mirror",
+      "An infotainment unit"
+     ],
+     "answer": 0,
+     "explain": "Chosen as new, not carryover."
+    },
+    {
+     "q": "What does SW-REQ-501 require?",
+     "options": [
+      "Charge faster",
+      "Show a message",
+      "Disconnect the pack contactor within 200 ms of detecting cell overvoltage (ASIL D)",
+      "Log a value"
+     ],
+     "answer": 2,
+     "explain": "SW-REQ-502 rejects implausible readings."
+    },
+    {
+     "q": "What does SW-REQ-503 involve?",
+     "options": [
+      "Authenticating charging-station communication before accepting a charge-current setpoint (ASIL B with a cybersecurity level)",
+      "Door locks",
+      "Fuel gauge",
+      "Colour themes"
+     ],
+     "answer": 0,
+     "explain": "Safety and security meet."
+    },
+    {
+     "q": "What does the fault matrix include?",
+     "options": [
+      "Mechanisms, faults tested and combined-fault cases from Level 4 Module 3",
+      "Only names",
+      "Only single faults",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Scope states what's explicitly out of scope."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "Two ECUs transmit at the same instant. ECU A sends ID 0x100 and ECU B sends 0x200. Who wins arbitration?",
+    "options": [
+     "ECU A: the lower ID has dominant bits first and dominant always wins; B backs off and retries",
+     "Whichever sent more data",
+     "ECU B",
+     "Both are lost"
+    ],
+    "answer": 0,
+    "explain": "Arbitration falls out of the dominant/recessive rule."
+   },
+   {
+    "q": "The scope shows reflected, garbled CAN signals. What do you check first?",
+    "options": [
+     "The ECU firmware",
+     "Termination: 120 Ω at both ends (about 60 Ω across), since missing or duplicate termination is a common fault",
+     "The CAPL script",
+     "The DBC"
+    ],
+    "answer": 1,
+    "explain": "Don't blame software before checking the physical layer."
+   },
+   {
+    "q": "A CAN-FD frame has DLC 13. How many data bytes?",
+    "options": [
+     "24",
+     "13",
+     "32",
+     "48"
+    ],
+    "answer": 2,
+    "explain": "DLC 9 to 15 map to 12, 16, 20, 24, 32, 48, 64 bytes."
+   },
+   {
+    "q": "A signal is defined with start bit 16, length 8, scale 1, offset −40 (Intel). Raw byte 2 is 130. What is the physical value?",
+    "options": [
+     "90 °C",
+     "170",
+     "130",
+     "−40"
+    ],
+    "answer": 0,
+    "explain": "physical = raw × 1 − 40. Verified by decoding a test frame."
+   },
+   {
+    "q": "A signal with scale 0.1 and raw 0x012C (300) means:",
+    "options": [
+     "300",
+     "30.0 physical units",
+     "0.3",
+     "3.0"
+    ],
+    "answer": 1,
+    "explain": "300 × 0.1 = 30.0. Verified by computation."
+   },
+   {
+    "q": "A UDS request is 22 F1 90. What does a positive response start with?",
+    "options": [
+     "62 F1 90 followed by the data",
+     "F1 90 62",
+     "7F 22",
+     "22 F1 90"
+    ],
+    "answer": 0,
+    "explain": "Positive response SID = request SID + 0x40; the DID is echoed. Verified with a small responder."
+   },
+   {
+    "q": "What's the response to 22 12 34 when DID 0x1234 isn't supported?",
+    "options": [
+     "22 12 34",
+     "62 12 34",
+     "7F 22 11",
+     "7F 22 31 (negative response, requestOutOfRange)"
+    ],
+    "answer": 3,
+    "explain": "Negative responses are 7F, the SID, then the NRC."
+   },
+   {
+    "q": "What's the response to an unknown service 0x99?",
+    "options": [
+     "No reply",
+     "7F 99 31",
+     "99 40",
+     "7F 99 11 (serviceNotSupported)"
+    ],
+    "answer": 3,
+    "explain": "Verified with the responder."
+   },
+   {
+    "q": "Which UDS service keeps a non-default session alive?",
+    "options": [
+     "0x14",
+     "0x3E Tester Present",
+     "0x10",
+     "0x11"
+    ],
+    "answer": 1,
+    "explain": "0x10 changes session; 0x3E pings."
+   },
+   {
+    "q": "A CoolantTemp warning must trigger when temperature is strictly above 120 °C. Which boundary tests are best?",
+    "options": [
+     "100 and 150",
+     "Only 120",
+     "119.9 (no warning), 120.0 (no warning), 120.1 (warning)",
+     "0 and 255"
+    ],
+    "answer": 2,
+    "explain": "120.0 is where > versus >= bugs hide."
+   },
+   {
+    "q": "A low-fuel warning raises below 10% and clears above 15%. At 12% after having been below 10%, is the warning on?",
+    "options": [
+     "No",
+     "Depends on timer",
+     "Yes: hysteresis keeps it on until above 15%",
+     "Only at exactly 12"
+    ],
+    "answer": 2,
+    "explain": "warningActive holds the state."
+   },
+   {
+    "q": "In CAPL, which handler runs each time a particular frame arrives?",
+    "options": [
+     "on timer",
+     "on message <name or ID>",
+     "on key",
+     "on start"
+    ],
+    "answer": 1,
+    "explain": "on start fires once; on timer when a timer expires."
+   },
+   {
+    "q": "Why use a CANoe test module rather than a simulation node with write()?",
+    "options": [
+     "It's faster",
+     "It needs no database",
+     "It uses less memory",
+     "It produces structured verdicts and reports that CI and auditors can consume"
+    ],
+    "answer": 3,
+    "explain": "Text in a log isn't a verdict."
+   },
+   {
+    "q": "A requirement has one test case which is currently failing. What does coverage say?",
+    "options": [
+     "Not covered",
+     "Requirement covered but verdict not passing; verdict coverage separates covered from passing",
+     "Fully verified",
+     "Unneeded"
+    ],
+    "answer": 1,
+    "explain": "Requirement coverage alone isn't enough."
+   },
+   {
+    "q": "Which standard covers hazards when the system works as designed but the design is insufficient (e.g. perception limits)?",
+    "options": [
+     "ISO 21448 SOTIF",
+     "ISO 21434",
+     "ASPICE",
+     "ISO 26262"
+    ],
+    "answer": 0,
+    "explain": "ISO 26262 covers malfunctions; 21434 cybersecurity."
+   },
+   {
+    "q": "Why test combined (cascading) faults?",
+    "options": [
+     "It replaces ASIL",
+     "Single faults can't be injected",
+     "Mechanisms proven separately for faults A and B may still fail when both occur",
+     "It's cheaper"
+    ],
+    "answer": 2,
+    "explain": "Single-fault testing can't find that."
+   },
+   {
+    "q": "A test result from six months ago can't be reproduced. What was missing?",
+    "options": [
+     "A bigger rig",
+     "A configuration baseline naming the exact DBC, A2L, ECU build, test source and fault matrix versions",
+     "A faster bus",
+     "More tests"
+    ],
+    "answer": 1,
+    "explain": "Artifacts must be versioned together."
+   },
+   {
+    "q": "A HIL rig is shared by 10 pipelines. What is the automotive-specific bottleneck?",
+    "options": [
+     "Network speed",
+     "CPU cores",
+     "Disk space",
+     "Rig time: parallelism is capped by the number of physical rigs, so reservations are scheduled"
+    ],
+    "answer": 3,
+    "explain": "Run SIL first to save rig time."
+   },
+   {
+    "q": "An ASPICE assessor scores a supplier low although all CAPL tests pass. Why can that happen?",
+    "options": [
+     "DBC was big",
+     "Tests were too many",
+     "ASPICE assesses process maturity and evidence such as traceability, not just test outcomes",
+     "Rigs were old"
+    ],
+    "answer": 2,
+    "explain": "Capability levels 0–5 grade process."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Decode a DBC signal",
+    "prompt": "Write decode(raw_bytes, start_bit, length, scale, offset) that extracts a little-endian (Intel) signal and returns physical = raw × scale + offset. Decode CoolantTemp (start 16, length 8, scale 1, offset −40) from raw byte 130, and a 16-bit signal with scale 0.1 from 0x012C.",
+    "starter": "def decode(raw_bytes, start_bit, length, scale, offset, little_endian=True):\n    # extract `length` bits at `start_bit` (Intel/little-endian) and apply physical = raw * scale + offset\n    pass\n\nframe = bytes([0x00, 0x00, 130, 0, 0, 0, 0, 0])\nprint(decode(frame, 16, 8, 1, -40))\nprint(decode(bytes([0x2C, 0x01]) + bytes(6), 0, 16, 0.1, 0))\n",
+    "expected": "90\n30.0",
+    "solution": "def decode(raw_bytes, start_bit, length, scale, offset, little_endian=True):\n    value = int.from_bytes(raw_bytes, \"little\" if little_endian else \"big\")\n    raw = (value >> start_bit) & ((1 << length) - 1)\n    return raw * scale + offset\n\nframe = bytes([0x00, 0x00, 130, 0, 0, 0, 0, 0])\nprint(decode(frame, 16, 8, 1, -40))\nprint(decode(bytes([0x2C, 0x01]) + bytes(6), 0, 16, 0.1, 0))\n",
+    "explain": "A DBC maps bit position, length, endianness, scale and offset to a physical value. Verified by running the solution."
+   },
+   {
+    "title": "A tiny UDS responder",
+    "prompt": "Write respond(req) for three services: 0x10, 0x22 (Read Data By Identifier with DID 0xF190 = a VIN) and 0x3E. Positive response = SID + 0x40 (for 0x22 echo the DID then the data). Unknown service: 7F SID 11. Unknown DID: 7F 22 31. Print each response as hex.",
+    "starter": "SERVICES = {0x10: \"Session\", 0x22: \"ReadDID\", 0x3E: \"TesterPresent\"}\nDIDS = {0xF190: b\"WVWZZZ1JZXW000001\"}\n\ndef respond(req):\n    # positive: SID+0x40 (+ DID echo + data for 0x22); negative: 7F SID NRC\n    # NRC 0x11 serviceNotSupported, 0x31 requestOutOfRange\n    pass\n\nfor r in ([0x22, 0xF1, 0x90], [0x22, 0x12, 0x34], [0x3E, 0x00], [0x99]):\n    print(respond(bytes(r)).hex(\" \"))\n",
+    "expected": "62 f1 90 57 56 57 5a 5a 5a 31 4a 5a 58 57 30 30 30 30 30 31\n7f 22 31\n7e 00\n7f 99 11",
+    "solution": "SERVICES = {0x10: \"Session\", 0x22: \"ReadDID\", 0x3E: \"TesterPresent\"}\nDIDS = {0xF190: b\"WVWZZZ1JZXW000001\"}\n\ndef respond(req):\n    sid = req[0]\n    if sid not in SERVICES:\n        return bytes([0x7F, sid, 0x11])          # serviceNotSupported\n    if sid == 0x22:\n        did = (req[1] << 8) | req[2]\n        if did not in DIDS:\n            return bytes([0x7F, sid, 0x31])      # requestOutOfRange\n        return bytes([sid + 0x40, req[1], req[2]]) + DIDS[did]\n    return bytes([sid + 0x40]) + req[1:2]\n\nfor r in ([0x22, 0xF1, 0x90], [0x22, 0x12, 0x34], [0x3E, 0x00], [0x99]):\n    print(respond(bytes(r)).hex(\" \"))\n",
+    "explain": "UDS positive responses add 0x40 to the SID; negative responses are 0x7F, the SID and an NRC. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
