@@ -1922,6 +1922,54 @@
      "explain": "Hard problem."
     }
    ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the order management capstone layer its service as?",
+     "options": [
+      "Controller → DB",
+      "Service → UI",
+      "Controller → Service → Repository, with DTO validation and a global exception handler",
+      "One class"
+     ],
+     "answer": 2,
+     "explain": "Separation of concerns makes each layer testable."
+    },
+    {
+     "q": "Which tests does the capstone include?",
+     "options": [
+      "Mockito unit tests for the service and a @SpringBootTest + MockMvc integration test",
+      "Only UI tests",
+      "Only manual tests",
+      "No tests"
+     ],
+     "answer": 0,
+     "explain": "Fast unit tests plus a few integration tests."
+    },
+    {
+     "q": "What does @RestControllerAdvice provide?",
+     "options": [
+      "Auth",
+      "A single place that maps exceptions to consistent HTTP error responses",
+      "Caching",
+      "Routing"
+     ],
+     "answer": 1,
+     "explain": "Uniform error format."
+    },
+    {
+     "q": "What does the CI workflow do for the capstone?",
+     "options": [
+      "Only lints",
+      "Deploys blindly",
+      "Nothing",
+      "Builds the project and runs the tests on every push/pull request"
+     ],
+     "answer": 3,
+     "explain": "Fast feedback and a merge gate."
+    }
+   ]
   }
  },
  "final": {
