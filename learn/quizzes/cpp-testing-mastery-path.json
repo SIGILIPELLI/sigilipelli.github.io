@@ -1,0 +1,2170 @@
+{
+ "course": "cpp-testing-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-software-testing": {
+   "questions": [
+    {
+     "q": "What is software testing, in one sentence?",
+     "options": [
+      "Clicking around until something breaks",
+      "Writing code",
+      "Evaluating a program against expectations to find defects and provide information about quality",
+      "Proving there are no bugs"
+     ],
+     "answer": 2,
+     "explain": "It's disciplined, planned and repeatable."
+    },
+    {
+     "q": "Why can't you test without expected results?",
+     "options": [
+      "Without knowing the correct behavior you can't tell a defect from a feature; you've only observed output",
+      "Tests need numbers",
+      "It's a rule of Jira",
+      "Tools require it"
+     ],
+     "answer": 0,
+     "explain": "An oracle is required."
+    },
+    {
+     "q": "What does 'testing shows the presence, not the absence, of defects' imply?",
+     "options": [
+      "Tests prove correctness",
+      "Tests are useless",
+      "Passing tests can't prove a program is bug-free",
+      "Bugs never exist"
+     ],
+     "answer": 2,
+     "explain": "Exhaustive testing is impossible."
+    },
+    {
+     "q": "Why is a test that lives only in your head not a test?",
+     "options": [
+      "It isn't repeatable or reviewable by anyone else",
+      "It's secret",
+      "It's short",
+      "It's fast"
+     ],
+     "answer": 0,
+     "explain": "Turn intent into artifacts."
+    }
+   ]
+  },
+  "level-1/02-test-case-design-documentation": {
+   "questions": [
+    {
+     "q": "What is the difference between a test scenario and a test case?",
+     "options": [
+      "A case is vaguer",
+      "No difference",
+      "A scenario has code",
+      "A scenario is a high-level thing to test; a case has precise inputs, steps and expected results"
+     ],
+     "answer": 3,
+     "explain": "Scenario, case and step differ in size and precision."
+    },
+    {
+     "q": "What does traceability link?",
+     "options": [
+      "Builds to servers",
+      "Code to people",
+      "Tests back to the requirements they verify",
+      "Tests to bugs only"
+     ],
+     "answer": 2,
+     "explain": "It shows what's covered and what isn't."
+    },
+    {
+     "q": "What should a good test case's expected result be?",
+     "options": [
+      "Vague",
+      "Implied",
+      "Specific and observable, so pass/fail is unambiguous",
+      "Optional"
+     ],
+     "answer": 2,
+     "explain": "Avoid 'works correctly'."
+    },
+    {
+     "q": "What belongs in test data design?",
+     "options": [
+      "Nothing",
+      "Production secrets",
+      "Random only",
+      "Representative, boundary and invalid values, kept under control and documented"
+     ],
+     "answer": 3,
+     "explain": "Data is part of the test."
+    }
+   ]
+  },
+  "level-1/03-test-types-and-levels": {
+   "questions": [
+    {
+     "q": "Which are the test levels from smallest to largest?",
+     "options": [
+      "Black, white",
+      "Smoke, load, stress",
+      "Alpha, beta",
+      "Unit, integration, system, acceptance"
+     ],
+     "answer": 3,
+     "explain": "Levels describe how much of the system is under test."
+    },
+    {
+     "q": "Which is a non-functional test type?",
+     "options": [
+      "A unit test of add()",
+      "Performance or security testing",
+      "Checking a login works",
+      "A boundary test"
+     ],
+     "answer": 1,
+     "explain": "Functional checks what; non-functional checks how well."
+    },
+    {
+     "q": "What does regression testing check?",
+     "options": [
+      "Installation",
+      "Performance only",
+      "New features only",
+      "That previously working behavior still works after a change"
+     ],
+     "answer": 3,
+     "explain": "Automate them."
+    },
+    {
+     "q": "Why say precisely 'which tests at which level'?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "'We tested it' hides what wasn't tested"
+     ],
+     "answer": 3,
+     "explain": "Notice gaps."
+    }
+   ]
+  },
+  "level-1/04-defect-lifecycle-bug-reporting": {
+   "questions": [
+    {
+     "q": "What must a C/C++ bug report include beyond steps?",
+     "options": [
+      "Build flags, sanitizer output, version and the exact input bytes",
+      "Only a title",
+      "Only a screenshot",
+      "Only opinion"
+     ],
+     "answer": 0,
+     "explain": "Developers must reproduce without asking."
+    },
+    {
+     "q": "Which is the best bug title?",
+     "options": [
+      "'Bug'",
+      "'Please fix'",
+      "'It doesn't work'",
+      "'Crash in parse_header() on 0-length input (ASan heap-buffer-overflow)'"
+     ],
+     "answer": 3,
+     "explain": "Specific, searchable and precise."
+    },
+    {
+     "q": "What's the typical defect lifecycle order?",
+     "options": [
+      "Closed, new",
+      "Verified, new",
+      "Fixed, open",
+      "New, assigned/open, fixed, verified (retested), closed"
+     ],
+     "answer": 3,
+     "explain": "Names vary by tool."
+    },
+    {
+     "q": "A developer says 'cannot reproduce'. What helps?",
+     "options": [
+      "Repeating the title",
+      "A minimal reproducer with exact environment and inputs",
+      "Closing it",
+      "Arguing"
+     ],
+     "answer": 1,
+     "explain": "Reproducibility is everything."
+    }
+   ]
+  },
+  "level-1/05-manual-testing-in-practice": {
+   "questions": [
+    {
+     "q": "When is exploratory testing valuable?",
+     "options": [
+      "Only at the end",
+      "Instead of all tests",
+      "To find unexpected problems by learning and testing at once, guided by a charter",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Time-boxed and noted."
+    },
+    {
+     "q": "Why note what you did during exploratory sessions?",
+     "options": [
+      "For law",
+      "For style",
+      "So findings can be reproduced and coverage understood",
+      "For speed"
+     ],
+     "answer": 2,
+     "explain": "Session notes."
+    },
+    {
+     "q": "Which task suits manual testing?",
+     "options": [
+      "Nightly checks",
+      "Perf benchmarks",
+      "Usability and one-off investigation that isn't worth automating",
+      "Thousands of regressions"
+     ],
+     "answer": 2,
+     "explain": "Automate the repetitive."
+    },
+    {
+     "q": "What's a smoke test?",
+     "options": [
+      "A code review",
+      "A load test",
+      "A quick check that the build's basic functions work before deeper testing",
+      "A fire drill"
+     ],
+     "answer": 2,
+     "explain": "Fail fast."
+    }
+   ]
+  },
+  "level-1/06-toolchain-setup-for-testers": {
+   "questions": [
+    {
+     "q": "Why enable -Wall -Wextra?",
+     "options": [
+      "Warnings find bugs at compile time for free",
+      "They add features",
+      "They slow code",
+      "They're optional noise"
+     ],
+     "answer": 0,
+     "explain": "The cheapest defect detector."
+    },
+    {
+     "q": "What does -g do?",
+     "options": [
+      "Adds debug symbols so debuggers and sanitizers show source lines",
+      "Optimizes",
+      "Removes asserts",
+      "Links"
+     ],
+     "answer": 0,
+     "explain": "Pair with -O0 for debugging."
+    },
+    {
+     "q": "What does -Werror do?",
+     "options": [
+      "Treats warnings as errors so they can't be ignored",
+      "Disables errors",
+      "Hides warnings",
+      "Adds warnings"
+     ],
+     "answer": 0,
+     "explain": "Use in CI."
+    },
+    {
+     "q": "Why record compiler and version in a bug report?",
+     "options": [
+      "Style",
+      "Behavior and diagnostics differ across compilers and versions",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Reproducibility."
+    }
+   ]
+  },
+  "level-1/07-unit-testing-googletest": {
+   "questions": [
+    {
+     "q": "What does TEST(Suite, Name) do?",
+     "options": [
+      "Runs main",
+      "Registers a test case automatically with GoogleTest",
+      "Links",
+      "Mocks"
+     ],
+     "answer": 1,
+     "explain": "No manual registration."
+    },
+    {
+     "q": "What's the difference between EXPECT_EQ and ASSERT_EQ?",
+     "options": [
+      "ASSERT continues",
+      "EXPECT stops",
+      "No difference",
+      "EXPECT_* records a failure and continues; ASSERT_* stops the current test"
+     ],
+     "answer": 3,
+     "explain": "Use ASSERT when continuing is meaningless."
+    },
+    {
+     "q": "Why add a descriptive failure message?",
+     "options": [
+      "Required",
+      "So a failure is understandable without opening the source",
+      "For style",
+      "For color"
+     ],
+     "answer": 1,
+     "explain": "'false is not true' isn't enough."
+    },
+    {
+     "q": "What do fixtures share?",
+     "options": [
+      "Globals",
+      "Threads",
+      "Binaries",
+      "Setup and teardown for related tests via TEST_F"
+     ],
+     "answer": 3,
+     "explain": "SetUp runs per test."
+    }
+   ]
+  },
+  "level-1/08-unit-testing-c-unity-cmocka": {
+   "questions": [
+    {
+     "q": "When is Unity a good choice?",
+     "options": [
+      "Mocking everything",
+      "Web tests",
+      "Tiny embedded targets: it is small with zero dependencies",
+      "Large C++ suites"
+     ],
+     "answer": 2,
+     "explain": "CMocka has more features."
+    },
+    {
+     "q": "What does CMocka offer that Unity lacks out of the box?",
+     "options": [
+      "Assertions",
+      "A runner",
+      "Printing",
+      "Mocking support and leak detection"
+     ],
+     "answer": 3,
+     "explain": "Choose by need."
+    },
+    {
+     "q": "How do you test C code with GoogleTest?",
+     "options": [
+      "Convert to C++",
+      "Wrap the C headers in extern \"C\" and compile tests as C++",
+      "It can't",
+      "Use Java"
+     ],
+     "answer": 1,
+     "explain": "Name mangling otherwise breaks linking."
+    },
+    {
+     "q": "Why do plain C tests need a runner?",
+     "options": [
+      "Required by gcc",
+      "C has no automatic test registration; tests are listed explicitly or via macros",
+      "C is older",
+      "C is slow"
+     ],
+     "answer": 1,
+     "explain": "Unity uses RUN_TEST."
+    }
+   ]
+  },
+  "level-1/09-test-builds-running-suites": {
+   "questions": [
+    {
+     "q": "What does ctest do?",
+     "options": [
+      "Runs the tests registered with CMake and reports each separately",
+      "Compiles",
+      "Formats",
+      "Links"
+     ],
+     "answer": 0,
+     "explain": "Supports filtering with -R."
+    },
+    {
+     "q": "Why use the same tests in debug, release and sanitizer builds?",
+     "options": [
+      "Speed",
+      "Different configurations expose different bugs",
+      "No reason",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Configure with options."
+    },
+    {
+     "q": "What does `ctest --output-on-failure` do?",
+     "options": [
+      "Shows test output only for failing tests",
+      "Hides failures",
+      "Runs twice",
+      "Skips tests"
+     ],
+     "answer": 0,
+     "explain": "Keeps logs readable."
+    },
+    {
+     "q": "How should a growing suite be organized?",
+     "options": [
+      "Separate test targets per module",
+      "Random",
+      "One giant file",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Keeps navigation manageable."
+    }
+   ]
+  },
+  "level-1/10-project-test-plan-and-suite": {
+   "questions": [
+    {
+     "q": "Why pair a manual test plan with an automated suite?",
+     "options": [
+      "The plan says what to verify and why; automation locks in what's cheap to rerun",
+      "Speed",
+      "Law",
+      "Duplication"
+     ],
+     "answer": 0,
+     "explain": "Neither replaces the other."
+    },
+    {
+     "q": "What should a test plan include?",
+     "options": [
+      "Only names",
+      "Only bugs",
+      "Nothing",
+      "Scope, approach, risks, cases, environment and exit criteria"
+     ],
+     "answer": 3,
+     "explain": "It guides testing."
+    },
+    {
+     "q": "What's the right candidate for automation?",
+     "options": [
+      "Stable, repetitive, high-value checks",
+      "Every one-off",
+      "Exploratory",
+      "Visual judgement"
+     ],
+     "answer": 0,
+     "explain": "ROI matters."
+    },
+    {
+     "q": "How do you keep the plan useful?",
+     "options": [
+      "Delete",
+      "Print it",
+      "Never update",
+      "Link cases to requirements and update as the product changes"
+     ],
+     "answer": 3,
+     "explain": "Living documents."
+    }
+   ]
+  },
+  "level-2/01-googletest-advanced": {
+   "questions": [
+    {
+     "q": "What do parameterized tests (TEST_P) avoid?",
+     "options": [
+      "Linking",
+      "Compilation",
+      "Fixtures",
+      "Copy-pasting the same test logic for many inputs"
+     ],
+     "answer": 3,
+     "explain": "INSTANTIATE_TEST_SUITE_P supplies values."
+    },
+    {
+     "q": "When do SetUpTestSuite/TearDownTestSuite run?",
+     "options": [
+      "Never",
+      "Once per suite rather than per test, e.g. for expensive shared setup",
+      "Per test",
+      "Per line"
+     ],
+     "answer": 1,
+     "explain": "Beware shared state coupling tests."
+    },
+    {
+     "q": "What do typed tests verify?",
+     "options": [
+      "Colors",
+      "One contract against several types",
+      "Threads",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "TYPED_TEST_SUITE."
+    },
+    {
+     "q": "How do you make failure messages useful?",
+     "options": [
+      "Print nothing",
+      "Use asserts only",
+      "Stream context with << or use matchers with descriptive output",
+      "Skip them"
+     ],
+     "answer": 2,
+     "explain": "EXPECT_THAT with matchers."
+    }
+   ]
+  },
+  "level-2/02-mocking-with-googlemock": {
+   "questions": [
+    {
+     "q": "What does a mock let you assert?",
+     "options": [
+      "Compile time",
+      "Return types",
+      "Speed",
+      "The interaction itself: whether a call happened, with what args, in what order"
+     ],
+     "answer": 3,
+     "explain": "EXPECT_CALL."
+    },
+    {
+     "q": "What makes a collaborator mockable in C++?",
+     "options": [
+      "An interface (virtual functions) to substitute",
+      "A macro",
+      "A template only",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Seam by abstraction."
+    },
+    {
+     "q": "Why do mocks make tests faster and more reliable?",
+     "options": [
+      "They add them",
+      "They remove slow, non-deterministic dependencies like networks",
+      "They're global",
+      "They compile"
+     ],
+     "answer": 1,
+     "explain": "Unit tests fail for one reason."
+    },
+    {
+     "q": "What is over-mocking?",
+     "options": [
+      "Good practice",
+      "Faster",
+      "Mocking so much that tests check implementation details instead of behavior",
+      "Required"
+     ],
+     "answer": 2,
+     "explain": "Brittle tests."
+    }
+   ]
+  },
+  "level-2/03-cmocka-advanced": {
+   "questions": [
+    {
+     "q": "How do you control a mocked C function's return?",
+     "options": [
+      "Reflection",
+      "Edit the source",
+      "Environment",
+      "will_return() queues values that mock() returns"
+     ],
+     "answer": 3,
+     "explain": "A queue of return values."
+    },
+    {
+     "q": "What does expect_value / check_expected do?",
+     "options": [
+      "Logs",
+      "Verifies the arguments passed to the mocked function",
+      "Returns values",
+      "Allocates"
+     ],
+     "answer": 1,
+     "explain": "Argument checking."
+    },
+    {
+     "q": "Why use linker wrapping (--wrap) for mocking C?",
+     "options": [
+      "Required",
+      "It's faster",
+      "Prettier",
+      "It substitutes functions you don't own without changing source"
+     ],
+     "answer": 3,
+     "explain": "Portability traps exist."
+    },
+    {
+     "q": "What does CMocka's test_malloc detect?",
+     "options": [
+      "Style",
+      "Speed",
+      "Races",
+      "Leaks and heap corruption in code under test"
+     ],
+     "answer": 3,
+     "explain": "Built-in memory checks."
+    }
+   ]
+  },
+  "level-2/04-memory-error-detection": {
+   "questions": [
+    {
+     "q": "What does AddressSanitizer detect?",
+     "options": [
+      "Style",
+      "Perf",
+      "Races only",
+      "Heap/stack buffer overflows, use-after-free and leaks"
+     ],
+     "answer": 3,
+     "explain": "Compile with -fsanitize=address."
+    },
+    {
+     "q": "Why can a program with a buffer overflow still pass tests?",
+     "options": [
+      "ASan hides it",
+      "The write may hit unused memory and the answer is right until the layout shifts",
+      "It can't",
+      "Tests are fuzzy"
+     ],
+     "answer": 1,
+     "explain": "Instrument accesses."
+    },
+    {
+     "q": "How does valgrind differ from ASan?",
+     "options": [
+      "It runs the unmodified binary under emulation: slower, no recompile",
+      "Same",
+      "Faster always",
+      "Compile-time"
+     ],
+     "answer": 0,
+     "explain": "Both find memory errors."
+    },
+    {
+     "q": "What does LeakSanitizer report?",
+     "options": [
+      "Races",
+      "UB",
+      "Heap allocations never freed at exit",
+      "Overflows"
+     ],
+     "answer": 2,
+     "explain": "Included with ASan on Linux."
+    }
+   ]
+  },
+  "level-2/05-undefined-behavior-ubsan": {
+   "questions": [
+    {
+     "q": "Why can UB pass at -O0 and fail at -O2?",
+     "options": [
+      "Bug in gcc",
+      "Slow CPU",
+      "The optimizer may assume UB never happens and transform the code",
+      "Randomness"
+     ],
+     "answer": 2,
+     "explain": "UB isn't just 'garbage value'."
+    },
+    {
+     "q": "Which is undefined behavior?",
+     "options": [
+      "Array of structs",
+      "Unsigned wraparound",
+      "Division of floats",
+      "Signed integer overflow"
+     ],
+     "answer": 3,
+     "explain": "Unsigned overflow is defined."
+    },
+    {
+     "q": "What does UBSan do?",
+     "options": [
+      "Prints types",
+      "Compiles faster",
+      "Blocks",
+      "Instruments code to report UB like overflow and invalid shifts at runtime"
+     ],
+     "answer": 3,
+     "explain": "-fsanitize=undefined."
+    },
+    {
+     "q": "Why run UBSan in tests?",
+     "options": [
+      "UB bugs are invisible to ordinary assertions",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Turn the invisible into diagnostics."
+    }
+   ]
+  },
+  "level-2/06-code-coverage": {
+   "questions": [
+    {
+     "q": "What does line coverage tell you?",
+     "options": [
+      "Correctness",
+      "Which lines executed during tests, not whether assertions were meaningful",
+      "Quality",
+      "No bugs"
+     ],
+     "answer": 1,
+     "explain": "It's narrow."
+    },
+    {
+     "q": "Why can 100% line coverage hide untested logic?",
+     "options": [
+      "Coverage lies",
+      "It can't",
+      "gcov bugs",
+      "A line with multiple conditions can run without exercising every outcome"
+     ],
+     "answer": 3,
+     "explain": "Use branch coverage and strong assertions."
+    },
+    {
+     "q": "Which flag enables gcov instrumentation?",
+     "options": [
+      "-Wall",
+      "-g0",
+      "-O3",
+      "--coverage"
+     ],
+     "answer": 3,
+     "explain": "lcov builds reports."
+    },
+    {
+     "q": "Branch coverage measures...",
+     "options": [
+      "Lines",
+      "Functions",
+      "Whether each decision's true and false outcomes were taken",
+      "Files"
+     ],
+     "answer": 2,
+     "explain": "Stronger than line coverage."
+    }
+   ]
+  },
+  "level-2/07-test-doubles-hardware-os": {
+   "questions": [
+    {
+     "q": "What is a seam?",
+     "options": [
+      "A tool",
+      "A bug",
+      "A place where behavior can be substituted for testing",
+      "A framework"
+     ],
+     "answer": 2,
+     "explain": "Code lacking seams is untestable as written."
+    },
+    {
+     "q": "Which double returns canned answers?",
+     "options": [
+      "A fake",
+      "A stub",
+      "A spy",
+      "A mock"
+     ],
+     "answer": 1,
+     "explain": "Mocks verify interactions."
+    },
+    {
+     "q": "What's a fake?",
+     "options": [
+      "A broken test",
+      "A working but simplified implementation, like an in-memory filesystem",
+      "A stub",
+      "A mock"
+     ],
+     "answer": 1,
+     "explain": "Useful for OS and hardware."
+    },
+    {
+     "q": "How do you test code reading a register at 0x40?",
+     "options": [
+      "Abstract the register access behind an interface or function you can replace",
+      "Skip tests",
+      "Run on hardware only",
+      "Mock main"
+     ],
+     "answer": 0,
+     "explain": "Create a seam."
+    }
+   ]
+  },
+  "level-2/08-cmake-ctest-deep-dive": {
+   "questions": [
+    {
+     "q": "Why prefer targets with PUBLIC/PRIVATE properties over global variables?",
+     "options": [
+      "Older",
+      "Slower",
+      "Requirements propagate correctly through dependencies",
+      "Shorter"
+     ],
+     "answer": 2,
+     "explain": "Modern CMake."
+    },
+    {
+     "q": "What does add_test register?",
+     "options": [
+      "A test for ctest to run, reported individually",
+      "A library",
+      "A header",
+      "A target"
+     ],
+     "answer": 0,
+     "explain": "Enables selection and reporting."
+    },
+    {
+     "q": "How do you run a sanitizer build alongside normal one?",
+     "options": [
+      "Never",
+      "One build",
+      "Separate build directories or presets with different flags",
+      "Edit source"
+     ],
+     "answer": 2,
+     "explain": "Topology."
+    },
+    {
+     "q": "What does `ctest -R name` do?",
+     "options": [
+      "Builds",
+      "Lists",
+      "Reruns all",
+      "Runs tests whose names match the regex"
+     ],
+     "answer": 3,
+     "explain": "Selection."
+    }
+   ]
+  },
+  "level-2/09-static-analysis": {
+   "questions": [
+    {
+     "q": "How does static analysis differ from dynamic testing?",
+     "options": [
+      "It's manual",
+      "It reasons about source paths without running them",
+      "It runs tests",
+      "It's slower"
+     ],
+     "answer": 1,
+     "explain": "Finds issues on unexecuted paths."
+    },
+    {
+     "q": "Why do analyzers get a bad reputation?",
+     "options": [
+      "They're slow",
+      "Poor configuration buries real findings under noise",
+      "They're free",
+      "They're wrong always"
+     ],
+     "answer": 1,
+     "explain": "Tune the rule set."
+    },
+    {
+     "q": "Which tool is a C/C++ static analyzer/linter?",
+     "options": [
+      "gdb",
+      "valgrind",
+      "ctest",
+      "clang-tidy"
+     ],
+     "answer": 3,
+     "explain": "Also cppcheck."
+    },
+    {
+     "q": "How should findings be triaged?",
+     "options": [
+      "Disable analysis",
+      "Fix real bugs, suppress with justification and tune noisy checks",
+      "Fix all blindly",
+      "Ignore all"
+     ],
+     "answer": 1,
+     "explain": "Keep signal high."
+    }
+   ]
+  },
+  "level-2/10-project-instrumented-suite": {
+   "questions": [
+    {
+     "q": "What does the instrumented suite combine?",
+     "options": [
+      "Only unit tests",
+      "Sanitizers, coverage and static analysis on one test suite",
+      "Only manual",
+      "Only builds"
+     ],
+     "answer": 1,
+     "explain": "Layered defenses."
+    },
+    {
+     "q": "Why build each configuration separately?",
+     "options": [
+      "Speed",
+      "Law",
+      "Sanitizers and coverage change codegen and shouldn't mix",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Clean topology."
+    },
+    {
+     "q": "What is the purpose of coverage reports in CI?",
+     "options": [
+      "Decoration",
+      "Spot untested code and watch trends, not as a goal by itself",
+      "A target to chase",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Goodhart's law applies."
+    },
+    {
+     "q": "What should fail the CI job?",
+     "options": [
+      "Style",
+      "Warnings only",
+      "Failing tests, sanitizer reports and static-analysis errors",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Automatic gates."
+    }
+   ]
+  },
+  "level-3/01-integration-testing-strategies": {
+   "questions": [
+    {
+     "q": "What is a big-bang integration approach's weakness?",
+     "options": [
+      "Too fast",
+      "Failures are hard to localize because everything is integrated at once",
+      "Too cheap",
+      "Too small"
+     ],
+     "answer": 1,
+     "explain": "Incremental is easier."
+    },
+    {
+     "q": "What does top-down integration use for missing lower modules?",
+     "options": [
+      "Mocks of main",
+      "Stubs",
+      "Nothing",
+      "Drivers"
+     ],
+     "answer": 1,
+     "explain": "Bottom-up uses drivers."
+    },
+    {
+     "q": "What does integration testing verify?",
+     "options": [
+      "Interfaces and interactions between components",
+      "Single functions",
+      "Compile time",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Units are tested before."
+    },
+    {
+     "q": "What's a contract test?",
+     "options": [
+      "A legal test",
+      "A UI test",
+      "Verifies both sides of an interface agree on its behavior",
+      "A unit test"
+     ],
+     "answer": 2,
+     "explain": "Reduces integration surprises."
+    }
+   ]
+  },
+  "level-3/02-embedded-target-testing": {
+   "questions": [
+    {
+     "q": "Why run some tests on the real target?",
+     "options": [
+      "Compiler, word size and hardware behavior can differ from the host",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Host tests aren't enough."
+    },
+    {
+     "q": "What is a common technique for on-target results?",
+     "options": [
+      "Screenshots",
+      "Email",
+      "Guess",
+      "Report results over UART/semihosting to the host"
+     ],
+     "answer": 3,
+     "explain": "Collect pass/fail."
+    },
+    {
+     "q": "What limits embedded tests?",
+     "options": [
+      "Big disks",
+      "Nothing",
+      "Fast CPUs",
+      "Small RAM/flash, so frameworks must be tiny"
+     ],
+     "answer": 3,
+     "explain": "Unity fits."
+    },
+    {
+     "q": "What does a host-based test with a hardware abstraction layer give you?",
+     "options": [
+      "Hardware proof",
+      "Speed on target",
+      "Fast feedback on logic without the device",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Then confirm on target."
+    }
+   ]
+  },
+  "level-3/03-hardware-in-the-loop-basics": {
+   "questions": [
+    {
+     "q": "What is HIL testing?",
+     "options": [
+      "Manual clicking",
+      "Code review",
+      "Only unit tests",
+      "Running real firmware against simulated or real hardware inputs under automation"
+     ],
+     "answer": 3,
+     "explain": "Real device, controlled environment."
+    },
+    {
+     "q": "What makes HIL tests slow and costly?",
+     "options": [
+      "Git",
+      "Software",
+      "Physical devices, setup and limited parallelism",
+      "Compilers"
+     ],
+     "answer": 2,
+     "explain": "Use for what only hardware can show."
+    },
+    {
+     "q": "Which belongs in HIL rather than host tests?",
+     "options": [
+      "Pure math",
+      "String parsing",
+      "Timing, interrupts and peripheral behavior",
+      "Sorting"
+     ],
+     "answer": 2,
+     "explain": "Hardware-dependent behavior."
+    },
+    {
+     "q": "What helps HIL reliability?",
+     "options": [
+      "Luck",
+      "Automated reset/power control and known initial state",
+      "Manual setup",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Determinism."
+    }
+   ]
+  },
+  "level-3/04-fuzz-testing": {
+   "questions": [
+    {
+     "q": "What does fuzzing do?",
+     "options": [
+      "Runs unit tests",
+      "Feeds many generated/mutated inputs to find crashes and sanitizer errors",
+      "Measures speed",
+      "Reads code"
+     ],
+     "answer": 1,
+     "explain": "Finds what you didn't think of."
+    },
+    {
+     "q": "Why combine fuzzing with sanitizers?",
+     "options": [
+      "Silent memory errors become visible failures",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "ASan finds hidden overflows."
+    },
+    {
+     "q": "What is a corpus?",
+     "options": [
+      "A bug list",
+      "A set of interesting inputs that guide and persist fuzzing progress",
+      "A thread",
+      "A library"
+     ],
+     "answer": 1,
+     "explain": "Seeds."
+    },
+    {
+     "q": "What should you do with a fuzzer crash?",
+     "options": [
+      "Rename",
+      "Ignore",
+      "Minimize it into a regression test",
+      "Delete"
+     ],
+     "answer": 2,
+     "explain": "Keep it as a test."
+    }
+   ]
+  },
+  "level-3/05-property-based-testing": {
+   "questions": [
+    {
+     "q": "What is a property-based test?",
+     "options": [
+      "A load test",
+      "A UI test",
+      "It checks an invariant over many generated inputs instead of fixed examples",
+      "A manual test"
+     ],
+     "answer": 2,
+     "explain": "Example: reverse(reverse(x)) == x."
+    },
+    {
+     "q": "What does shrinking do?",
+     "options": [
+      "Reduces a failing input to a minimal counterexample",
+      "Speeds tests",
+      "Compresses files",
+      "Drops tests"
+     ],
+     "answer": 0,
+     "explain": "Easier debugging."
+    },
+    {
+     "q": "Which is a good property for sort()?",
+     "options": [
+      "Output equals input",
+      "Output is random",
+      "Output is empty",
+      "Output is ordered and a permutation of the input"
+     ],
+     "answer": 3,
+     "explain": "Describe behavior, not implementation."
+    },
+    {
+     "q": "When do examples still matter?",
+     "options": [
+      "Always only",
+      "Not at all",
+      "For documenting key cases and regressions",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Combine both."
+    }
+   ]
+  },
+  "level-3/06-ci-cd-for-test-suites": {
+   "questions": [
+    {
+     "q": "What should a CI pipeline for C/C++ tests include?",
+     "options": [
+      "Only lint",
+      "Build matrix, tests, sanitizers, coverage and static analysis",
+      "Only build",
+      "Manual runs"
+     ],
+     "answer": 1,
+     "explain": "Fast feedback first."
+    },
+    {
+     "q": "Why cache dependencies and build outputs in CI?",
+     "options": [
+      "Law",
+      "To cut run time and keep feedback fast",
+      "Security",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "ccache."
+    },
+    {
+     "q": "Why run sanitizer builds as separate jobs?",
+     "options": [
+      "They need different flags and are slower",
+      "Style",
+      "Nothing",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Parallel jobs."
+    },
+    {
+     "q": "What's a flaky test's effect on CI?",
+     "options": [
+      "Nothing",
+      "Improves",
+      "Speeds",
+      "It erodes trust and teaches people to ignore failures"
+     ],
+     "answer": 3,
+     "explain": "Quarantine and fix."
+    }
+   ]
+  },
+  "level-3/07-performance-benchmark-testing": {
+   "questions": [
+    {
+     "q": "Why benchmark in release builds?",
+     "options": [
+      "Nothing",
+      "Debug builds have different performance characteristics",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Use -O2 and warm up."
+    },
+    {
+     "q": "What can the optimizer do to a benchmark?",
+     "options": [
+      "Nothing",
+      "Run it twice",
+      "Slow it",
+      "Eliminate work whose result is unused, so use sinks or DoNotOptimize"
+     ],
+     "answer": 3,
+     "explain": "Check what's measured."
+    },
+    {
+     "q": "Why run benchmarks multiple times?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "Noise: report distributions rather than one number"
+     ],
+     "answer": 3,
+     "explain": "Use medians and variance."
+    },
+    {
+     "q": "What's a performance regression test?",
+     "options": [
+      "A unit test",
+      "A smoke test",
+      "A UI test",
+      "Compares results against a baseline and fails on significant slowdown"
+     ],
+     "answer": 3,
+     "explain": "Allow for noise."
+    }
+   ]
+  },
+  "level-3/08-concurrency-testing": {
+   "questions": [
+    {
+     "q": "Which tool finds data races?",
+     "options": [
+      "clang-format",
+      "ThreadSanitizer (-fsanitize=thread)",
+      "gcov",
+      "AddressSanitizer"
+     ],
+     "answer": 1,
+     "explain": "TSan instruments memory accesses."
+    },
+    {
+     "q": "Why are concurrency bugs hard to test?",
+     "options": [
+      "They depend on timing and may appear rarely",
+      "They're simple",
+      "They're always visible",
+      "Compilers hide them"
+     ],
+     "answer": 0,
+     "explain": "Stress and tools help."
+    },
+    {
+     "q": "What helps reproduce a race?",
+     "options": [
+      "Running many iterations, forcing interleavings and using TSan",
+      "Running once",
+      "Waiting",
+      "Printing"
+     ],
+     "answer": 0,
+     "explain": "Repetition."
+    },
+    {
+     "q": "Which is a deadlock cause?",
+     "options": [
+      "Small RAM",
+      "Slow CPU",
+      "Inconsistent lock ordering across threads",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Define lock hierarchies."
+    }
+   ]
+  },
+  "level-3/09-legacy-code-under-test": {
+   "questions": [
+    {
+     "q": "What is a characterization test?",
+     "options": [
+      "A UI test",
+      "A test that records current behavior before changing legacy code",
+      "A unit test",
+      "A load test"
+     ],
+     "answer": 1,
+     "explain": "It protects against unintended change."
+    },
+    {
+     "q": "What does the 'seam' idea allow in legacy code?",
+     "options": [
+      "Rewriting",
+      "Ignoring",
+      "Deleting code",
+      "Substituting behavior at a point without editing the code there"
+     ],
+     "answer": 3,
+     "explain": "Preprocessor, link or object seams."
+    },
+    {
+     "q": "What's the first step before refactoring untested code?",
+     "options": [
+      "Guess",
+      "Get it under test with characterization tests",
+      "Rewrite",
+      "Delete"
+     ],
+     "answer": 1,
+     "explain": "Safety net first."
+    },
+    {
+     "q": "Why make small, safe dependency-breaking changes?",
+     "options": [
+      "To create seams with minimal risk",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Then add tests."
+    }
+   ]
+  },
+  "level-3/10-project-ci-pipeline": {
+   "questions": [
+    {
+     "q": "What does the pipeline combine?",
+     "options": [
+      "Only docs",
+      "Only build",
+      "Sanitizers, coverage and fuzzing in CI",
+      "Only unit tests"
+     ],
+     "answer": 2,
+     "explain": "Layered checks."
+    },
+    {
+     "q": "Why run fuzzing for a short time in CI and longer offline?",
+     "options": [
+      "Law",
+      "Style",
+      "CI needs fast feedback; long fuzzing finds deeper bugs",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Both have roles."
+    },
+    {
+     "q": "What should happen to a new fuzz crash?",
+     "options": [
+      "Delete",
+      "Rename",
+      "Add the input as a regression test",
+      "Ignore"
+     ],
+     "answer": 2,
+     "explain": "Locks the fix in."
+    },
+    {
+     "q": "What should fail the pipeline?",
+     "options": [
+      "Nothing",
+      "Test failures, sanitizer findings and new crashes",
+      "Style",
+      "Warnings only"
+     ],
+     "answer": 1,
+     "explain": "Gates."
+    }
+   ]
+  },
+  "level-4/01-test-architecture-large-codebases": {
+   "questions": [
+    {
+     "q": "Why organize tests by layers (unit, integration, system)?",
+     "options": [
+      "Fun",
+      "Law",
+      "Style",
+      "So fast tests run often and slow tests run where needed"
+     ],
+     "answer": 3,
+     "explain": "The pyramid."
+    },
+    {
+     "q": "What does test isolation require?",
+     "options": [
+      "Global state",
+      "No shared mutable state or order dependence between tests",
+      "Luck",
+      "Order"
+     ],
+     "answer": 1,
+     "explain": "Tests must run in any order."
+    },
+    {
+     "q": "Why share fixtures and helpers in a common library?",
+     "options": [
+      "Speed",
+      "To reduce duplication and keep tests consistent",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Maintainability."
+    },
+    {
+     "q": "What makes large suites slow?",
+     "options": [
+      "Unit tests",
+      "Names",
+      "Asserts",
+      "Too many integration tests and expensive setup; parallelize and prune"
+     ],
+     "answer": 3,
+     "explain": "Measure test time."
+    }
+   ]
+  },
+  "level-4/02-safety-critical-standards": {
+   "questions": [
+    {
+     "q": "What do standards like DO-178C or ISO 26262 demand of testing?",
+     "options": [
+      "Only unit tests",
+      "Nothing",
+      "Speed",
+      "Rigor and evidence scaled to the criticality level"
+     ],
+     "answer": 3,
+     "explain": "Higher integrity needs more."
+    },
+    {
+     "q": "Why is requirement-to-test traceability central?",
+     "options": [
+      "Law",
+      "Style",
+      "Auditors must see each requirement verified",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What does MC/DC coverage check?",
+     "options": [
+      "Line coverage",
+      "That each condition independently affects a decision's outcome",
+      "Statement",
+      "Function coverage"
+     ],
+     "answer": 1,
+     "explain": "Required at highest levels."
+    },
+    {
+     "q": "Does passing tests alone satisfy a safety standard?",
+     "options": [
+      "Always",
+      "No: process, documentation and independence are also required",
+      "Yes",
+      "Never needed"
+     ],
+     "answer": 1,
+     "explain": "Standards cover the process."
+    }
+   ]
+  },
+  "level-4/03-requirements-based-testing": {
+   "questions": [
+    {
+     "q": "What is requirements-based testing?",
+     "options": [
+      "From code",
+      "From bugs",
+      "From guess",
+      "Deriving tests from requirements so each is verified"
+     ],
+     "answer": 3,
+     "explain": "Black-box focus."
+    },
+    {
+     "q": "What does a traceability matrix show?",
+     "options": [
+      "Bug count",
+      "Which tests cover which requirements and gaps",
+      "Test speed",
+      "Code size"
+     ],
+     "answer": 1,
+     "explain": "Coverage of requirements."
+    },
+    {
+     "q": "What should a testable requirement be?",
+     "options": [
+      "Vague",
+      "Optional",
+      "Clear, unambiguous and verifiable",
+      "Long"
+     ],
+     "answer": 2,
+     "explain": "Otherwise it can't be tested."
+    },
+    {
+     "q": "What happens when a requirement changes?",
+     "options": [
+      "Ignore",
+      "Update linked tests and trace",
+      "Nothing",
+      "Delete"
+     ],
+     "answer": 1,
+     "explain": "Maintain trace."
+    }
+   ]
+  },
+  "level-4/04-formal-methods-static-verification": {
+   "questions": [
+    {
+     "q": "How does formal verification differ from testing?",
+     "options": [
+      "It's manual",
+      "It proves properties over all inputs rather than sampling some",
+      "It samples",
+      "It runs"
+     ],
+     "answer": 1,
+     "explain": "Within a model."
+    },
+    {
+     "q": "What can bounded model checking do?",
+     "options": [
+      "Fuzz",
+      "Run tests",
+      "Prove all",
+      "Explore all executions up to a bound to find violations"
+     ],
+     "answer": 3,
+     "explain": "Counterexamples."
+    },
+    {
+     "q": "What is a limitation of formal methods?",
+     "options": [
+      "They're fast",
+      "They're free",
+      "They're easy",
+      "They need precise specifications and effort, and verify only the model"
+     ],
+     "answer": 3,
+     "explain": "Use where risk justifies."
+    },
+    {
+     "q": "What is an assertion's role in verification?",
+     "options": [
+      "Prints",
+      "States a property tools can check",
+      "Logs",
+      "Compiles"
+     ],
+     "answer": 1,
+     "explain": "Specifications."
+    }
+   ]
+  },
+  "level-4/05-certification-evidence-reporting": {
+   "questions": [
+    {
+     "q": "What does certification evidence include?",
+     "options": [
+      "Nothing",
+      "Slides",
+      "Plans, traceability, test results, coverage reports and reviews",
+      "Opinions"
+     ],
+     "answer": 2,
+     "explain": "Auditors check artifacts."
+    },
+    {
+     "q": "Why must reports be reproducible?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "A reviewer must be able to regenerate results from the same inputs"
+     ],
+     "answer": 3,
+     "explain": "Version everything."
+    },
+    {
+     "q": "What makes a test report credible?",
+     "options": [
+      "Colors",
+      "Summary only",
+      "Charts",
+      "Exact versions, configuration, raw results and unexplained failures investigated"
+     ],
+     "answer": 3,
+     "explain": "Transparency."
+    },
+    {
+     "q": "What is test independence?",
+     "options": [
+      "Someone other than the author verifies critical work",
+      "Hardware",
+      "Time",
+      "Language"
+     ],
+     "answer": 0,
+     "explain": "Reduces blind spots."
+    }
+   ]
+  },
+  "level-4/06-cross-compilation-test-strategies": {
+   "questions": [
+    {
+     "q": "What is cross-compilation?",
+     "options": [
+      "Building on one architecture for another",
+      "Compiling Java",
+      "Compiling twice",
+      "Linking"
+     ],
+     "answer": 0,
+     "explain": "Host to target."
+    },
+    {
+     "q": "How can you run target binaries on the host?",
+     "options": [
+      "Docker only",
+      "Magic",
+      "Python",
+      "With an emulator such as QEMU user mode"
+     ],
+     "answer": 3,
+     "explain": "Slower but convenient."
+    },
+    {
+     "q": "Why still test on real hardware?",
+     "options": [
+      "Cost",
+      "Law",
+      "Emulators are perfect",
+      "Emulators can miss timing and peripheral behavior"
+     ],
+     "answer": 3,
+     "explain": "Confirm key behavior."
+    },
+    {
+     "q": "What does a toolchain file do in CMake?",
+     "options": [
+      "Runs tests",
+      "Installs",
+      "Formats",
+      "Defines compiler and target settings for cross builds"
+     ],
+     "answer": 3,
+     "explain": "CMAKE_TOOLCHAIN_FILE."
+    }
+   ]
+  },
+  "level-4/07-simulation-emulation-qemu": {
+   "questions": [
+    {
+     "q": "What does QEMU provide for testing?",
+     "options": [
+      "Compilers",
+      "Emulated CPUs and boards to run firmware without hardware",
+      "Static analysis",
+      "Real hardware"
+     ],
+     "answer": 1,
+     "explain": "Fast and parallelizable."
+    },
+    {
+     "q": "What's a limitation of emulation?",
+     "options": [
+      "It's slow only",
+      "It may not match real timing or all peripherals",
+      "It's free",
+      "It's exact"
+     ],
+     "answer": 1,
+     "explain": "Know the gaps."
+    },
+    {
+     "q": "How do you capture results from a QEMU test run?",
+     "options": [
+      "Semihosting or serial output parsed by the host",
+      "Email",
+      "Screenshots",
+      "Guess"
+     ],
+     "answer": 0,
+     "explain": "Automate."
+    },
+    {
+     "q": "What can emulation parallelize?",
+     "options": [
+      "Many instances in CI without physical boards",
+      "Hardware",
+      "Wires",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Scales testing."
+    }
+   ]
+  },
+  "level-4/08-quality-gates-metrics": {
+   "questions": [
+    {
+     "q": "What is a quality gate?",
+     "options": [
+      "A meeting",
+      "An automated pass/fail criterion that blocks release when unmet",
+      "A tool",
+      "A report"
+     ],
+     "answer": 1,
+     "explain": "Examples: tests, coverage floor, no new critical findings."
+    },
+    {
+     "q": "Why not chase a coverage number as a goal?",
+     "options": [
+      "It's easy",
+      "People game it; coverage doesn't measure assertion quality",
+      "It's free",
+      "It's accurate"
+     ],
+     "answer": 1,
+     "explain": "Use trends."
+    },
+    {
+     "q": "Which metric is useful with care?",
+     "options": [
+      "Commits",
+      "Slides",
+      "Lines of code",
+      "Escaped defects and mean time to detect/repair"
+     ],
+     "answer": 3,
+     "explain": "Outcome metrics."
+    },
+    {
+     "q": "How should gates be introduced?",
+     "options": [
+      "Overnight",
+      "Ratchet: don't allow regressions, then improve gradually",
+      "Never",
+      "Randomly"
+     ],
+     "answer": 1,
+     "explain": "Avoid blocking everything."
+    }
+   ]
+  },
+  "level-4/09-in-house-test-framework": {
+   "questions": [
+    {
+     "q": "When might you build an in-house test framework?",
+     "options": [
+      "Always",
+      "Never",
+      "Unusual constraints (tiny targets, safety needs) that off-the-shelf tools don't meet",
+      "For fun"
+     ],
+     "answer": 2,
+     "explain": "Weigh maintenance cost."
+    },
+    {
+     "q": "What are core components of a minimal framework?",
+     "options": [
+      "A compiler",
+      "A database",
+      "A GUI",
+      "Test registration, assertions, a runner and result reporting"
+     ],
+     "answer": 3,
+     "explain": "Small is fine."
+    },
+    {
+     "q": "What's the main cost of in-house frameworks?",
+     "options": [
+      "Ongoing maintenance and missing community features",
+      "None",
+      "Licensing",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Prefer standard tools when possible."
+    },
+    {
+     "q": "How should assertion macros report failures?",
+     "options": [
+      "Nothing",
+      "With file, line and expression",
+      "Color",
+      "Only pass"
+     ],
+     "answer": 1,
+     "explain": "Debuggability."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone integrate?",
+     "options": [
+      "Only docs",
+      "Only unit",
+      "Only CI",
+      "Unit, integration, sanitizers, coverage, fuzzing, CI and reporting"
+     ],
+     "answer": 3,
+     "explain": "Production-grade infrastructure."
+    },
+    {
+     "q": "What makes infrastructure production-grade?",
+     "options": [
+      "Reproducible, automated, fast and maintainable with clear gates",
+      "Big",
+      "Secret",
+      "Manual"
+     ],
+     "answer": 0,
+     "explain": "Sustainable."
+    },
+    {
+     "q": "How do you prove the infrastructure works?",
+     "options": [
+      "Ask",
+      "Hope",
+      "Skip",
+      "Inject known defects and confirm the gates catch them"
+     ],
+     "answer": 3,
+     "explain": "Test the tests."
+    },
+    {
+     "q": "What should be documented for the team?",
+     "options": [
+      "Source only",
+      "Nothing",
+      "Slides",
+      "How to run, extend and interpret the suite"
+     ],
+     "answer": 3,
+     "explain": "Onboarding."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A manager asks: 'Can you guarantee the release has no bugs if all tests pass?' What's the accurate answer?",
+    "options": [
+     "Yes, if reviewed",
+     "Yes, if coverage is 100%",
+     "Yes, if CI is green",
+     "No: testing shows the presence of defects, not their absence"
+    ],
+    "answer": 3,
+    "explain": "Exhaustive testing is impossible."
+   },
+   {
+    "q": "A function takes two 32-bit ints. Why can't you test every combination?",
+    "options": [
+     "It's only 4 billion",
+     "It's easy",
+     "About 1.8x10^19 combinations, roughly 585,000 years at a million tests per second",
+     "Ints are small"
+    ],
+    "answer": 2,
+    "explain": "Testing is a selection problem."
+   },
+   {
+    "q": "A valid age range is 18 to 65. Which inputs best expose off-by-one bugs?",
+    "options": [
+     "1, 2, 3",
+     "17, 18, 19, 64, 65 and 66 (boundary values)",
+     "100, 200",
+     "Random only"
+    ],
+    "answer": 1,
+    "explain": "Boundary value analysis."
+   },
+   {
+    "q": "Test inputs 20, 30 and 40 are all valid ages. What does equivalence partitioning say?",
+    "options": [
+     "Test all three always",
+     "They're invalid",
+     "They're in the same partition, so one representative is usually enough",
+     "They're boundaries"
+    ],
+    "answer": 2,
+    "explain": "Pick one per partition plus boundaries."
+   },
+   {
+    "q": "A defect report says only 'program crashes'. What's missing?",
+    "options": [
+     "A nicer title",
+     "Steps, exact input, environment/build flags and sanitizer output to reproduce it",
+     "A screenshot",
+     "A priority only"
+    ],
+    "answer": 1,
+    "explain": "A bug report must let a developer reproduce it alone."
+   },
+   {
+    "q": "A line shows 100% line coverage yet an `if (a && b)` bug slipped through. Why?",
+    "options": [
+     "gcov is wrong",
+     "Executing a line doesn't mean every condition outcome was tested or asserted",
+     "Coverage is infallible",
+     "The bug isn't real"
+    ],
+    "answer": 1,
+    "explain": "Use branch/MC/DC coverage and strong assertions."
+   },
+   {
+    "q": "A test passes at -O0 but the product misbehaves at -O2. What should you suspect?",
+    "options": [
+     "Slow hardware",
+     "A flaky CI",
+     "A broken test runner",
+     "Undefined behavior, which the optimizer may exploit; run UBSan"
+    ],
+    "answer": 3,
+    "explain": "UB isn't just a wrong value."
+   },
+   {
+    "q": "Tests pass but production corrupts memory occasionally. Which tool finds it?",
+    "options": [
+     "ctest -R",
+     "AddressSanitizer (or valgrind) on the test run",
+     "gcov",
+     "clang-format"
+    ],
+    "answer": 1,
+    "explain": "Memory errors can be invisible to assertions."
+   },
+   {
+    "q": "Why mock a payment gateway in a unit test?",
+    "options": [
+     "Mocks are required",
+     "Real networks are slow and non-deterministic; a mock isolates the unit and lets you assert on interactions",
+     "The gateway is free",
+     "Mocks are prettier"
+    ],
+    "answer": 1,
+    "explain": "A unit test should fail for one reason."
+   },
+   {
+    "q": "Code reads a register at fixed address 0x40 and can't be unit tested. What's the fix?",
+    "options": [
+     "Introduce a seam: put register access behind an interface you can fake or stub",
+     "Test only on hardware",
+     "Remove the register",
+     "Skip testing"
+    ],
+    "answer": 0,
+    "explain": "Untestable as written means it lacks a seam."
+   },
+   {
+    "q": "Which pairing is right: stub, mock, fake?",
+    "options": [
+     "Mock returns canned only",
+     "Fake verifies calls",
+     "Stub returns canned answers, mock verifies interactions, fake is a simplified working implementation",
+     "All identical"
+    ],
+    "answer": 2,
+    "explain": "Choose the right double."
+   },
+   {
+    "q": "A parser crashes on one malformed packet found by a fuzzer. What's the right follow-up?",
+    "options": [
+     "Disable the fuzzer",
+     "Ignore",
+     "Delete the corpus",
+     "Minimize the input and add it as a regression test with the fix"
+    ],
+    "answer": 3,
+    "explain": "Fuzz findings become permanent tests."
+   },
+   {
+    "q": "Which property fits property-based testing of sort()?",
+    "options": [
+     "Output equals input",
+     "Output is ordered and a permutation of the input",
+     "Output is empty",
+     "Output has fixed values"
+    ],
+    "answer": 1,
+    "explain": "Check invariants over many generated inputs."
+   },
+   {
+    "q": "A race appears once in 1000 runs. Which tool helps?",
+    "options": [
+     "gcov",
+     "AddressSanitizer only",
+     "ThreadSanitizer plus repeated stress runs",
+     "clang-format"
+    ],
+    "answer": 2,
+    "explain": "Timing bugs need instrumentation."
+   },
+   {
+    "q": "You must change untested legacy code. What first?",
+    "options": [
+     "Refactor immediately",
+     "Delete it",
+     "Write characterization tests capturing current behavior, creating seams as needed",
+     "Rewrite"
+    ],
+    "answer": 2,
+    "explain": "Get it under test first."
+   },
+   {
+    "q": "Which is the best pipeline order for C/C++ test CI?",
+    "options": [
+     "Manual only",
+     "Everything serially at the end",
+     "Fast checks first (build, unit tests), then sanitizers, coverage, static analysis and longer fuzzing",
+     "Fuzz only"
+    ],
+    "answer": 2,
+    "explain": "Fast feedback with layered depth."
+   },
+   {
+    "q": "A safety standard requires MC/DC coverage. What does that mean?",
+    "options": [
+     "Every line ran",
+     "Every function was called",
+     "Each condition must be shown to independently affect the decision outcome",
+     "Every file compiled"
+    ],
+    "answer": 2,
+    "explain": "A rigorous structural criterion."
+   },
+   {
+    "q": "What does a requirements traceability matrix reveal?",
+    "options": [
+     "Test speed",
+     "Code size",
+     "Which requirements have tests and which don't",
+     "Bug count"
+    ],
+    "answer": 2,
+    "explain": "Gaps in verification."
+   },
+   {
+    "q": "A team sets a 90% coverage gate and tests start asserting nothing. What's the lesson?",
+    "options": [
+     "Metrics become targets and get gamed; pair coverage with assertion quality (e.g. mutation testing)",
+     "Remove tests",
+     "Raise to 100%",
+     "Ignore"
+    ],
+    "answer": 0,
+    "explain": "Goodhart's law."
+   },
+   {
+    "q": "When should you write an in-house test framework?",
+    "options": [
+     "Always",
+     "To save time",
+     "When constraints (tiny targets, certification) rule out existing ones, accepting the maintenance cost",
+     "Never"
+    ],
+    "answer": 2,
+    "explain": "Prefer off-the-shelf when possible."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Boundary value analysis",
+    "prompt": "Write boundary_values(lo, hi) returning the inputs to test for a valid range [lo, hi]: just below, on and just above each boundary, plus a nominal middle value. Then run them through valid_age (18 to 65).",
+    "starter": "def boundary_values(lo, hi):\n    # return [lo-1, lo, lo+1, a nominal middle value, hi-1, hi, hi+1]\n    return []\n\ndef valid_age(n):\n    return 18 <= n <= 65\n\ncases = boundary_values(18, 65)\nprint(cases)\nprint([valid_age(n) for n in cases])\n",
+    "expected": "[17, 18, 19, 41, 64, 65, 66]\n[False, True, True, True, True, True, False]",
+    "solution": "def boundary_values(lo, hi):\n    \"\"\"Boundary value analysis for a valid range [lo, hi]:\n    just below, on and just above each boundary, plus a nominal value.\"\"\"\n    mid = (lo + hi) // 2\n    return [lo - 1, lo, lo + 1, mid, hi - 1, hi, hi + 1]\n\ndef valid_age(n):\n    return 18 <= n <= 65\n\ncases = boundary_values(18, 65)\nprint(cases)\nprint([valid_age(n) for n in cases])\n",
+    "explain": "Bugs cluster at boundaries (off-by-one: < versus <=). Testing both sides of each edge detects them with just seven cases instead of the whole range. Verified by running the solution."
+   },
+   {
+    "title": "Mutation score",
+    "prompt": "Implement mutation_report(ages): check that the suite passes on the original is_adult, then report which mutants it kills (the suite fails on them) and which survive. Compare a weak suite that only tests age 40 with a strong suite that tests 17, 18 and 40.",
+    "starter": "def is_adult(age):\n    return age >= 18\n\n# Mutants: small deliberate changes a good test suite must notice (kill).\nMUTANTS = {\n    \"boundary >= to >\": lambda age: age > 18,\n    \"threshold 18 to 21\": lambda age: age >= 21,\n    \"negated\": lambda age: not (age >= 18),\n    \"always true\": lambda age: True,\n}\n\ndef run_suite(fn, ages):\n    \"\"\"The suite passes only if every expected result matches.\"\"\"\n    expected = {17: False, 18: True, 40: True}\n    return all(fn(a) == expected[a] for a in ages)\n\ndef mutation_report(ages):\n    # return (killed, survived): names of mutants the suite detects (suite fails on them)\n    # and those it misses. The suite must pass on the original is_adult first.\n    return [], list(MUTANTS)\n\nfor label, ages in [(\"weak suite   \", [40]), (\"strong suite \", [17, 18, 40])]:\n    killed, survived = mutation_report(ages)\n    print(\"%s score %d/%d  survived: %s\" % (label, len(killed), len(MUTANTS), survived))\n",
+    "expected": "weak suite    score 1/4  survived: ['boundary >= to >', 'threshold 18 to 21', 'always true']\nstrong suite  score 4/4  survived: []",
+    "solution": "def is_adult(age):\n    return age >= 18\n\n# Mutants: small deliberate changes a good test suite must notice (kill).\nMUTANTS = {\n    \"boundary >= to >\": lambda age: age > 18,\n    \"threshold 18 to 21\": lambda age: age >= 21,\n    \"negated\": lambda age: not (age >= 18),\n    \"always true\": lambda age: True,\n}\n\ndef run_suite(fn, ages):\n    \"\"\"The suite passes only if every expected result matches.\"\"\"\n    expected = {17: False, 18: True, 40: True}\n    return all(fn(a) == expected[a] for a in ages)\n\ndef mutation_report(ages):\n    assert run_suite(is_adult, ages), \"suite must pass on the original code\"\n    killed = [name for name, fn in MUTANTS.items() if not run_suite(fn, ages)]\n    survived = [name for name in MUTANTS if name not in killed]\n    return killed, survived\n\nfor label, ages in [(\"weak suite   \", [40]), (\"strong suite \", [17, 18, 40])]:\n    killed, survived = mutation_report(ages)\n    print(\"%s score %d/%d  survived: %s\" % (label, len(killed), len(MUTANTS), survived))\n",
+    "explain": "The weak suite kills only the 'negated' mutant yet still passes on the original, much like a high-coverage suite with weak assertions. Boundary tests (17 and 18) kill all four. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
