@@ -1,0 +1,2148 @@
+{
+ "course": "rest-api-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-rest": {
+   "questions": [
+    {
+     "q": "What is REST?",
+     "options": [
+      "A standard with a certification",
+      "A library",
+      "A protocol",
+      "An architectural style defined by constraints, described by Roy Fielding in his 2000 dissertation"
+     ],
+     "answer": 3,
+     "explain": "Few public APIs satisfy every constraint strictly."
+    },
+    {
+     "q": "What does statelessness mean for the API server?",
+     "options": [
+      "No caching",
+      "No authentication",
+      "The database has no state",
+      "Every request carries all the information needed, and the server stores no per-client session state between requests"
+     ],
+     "answer": 3,
+     "explain": "The database can have state; the API server just can't hold per-client session memory."
+    },
+    {
+     "q": "Why does statelessness matter for scaling?",
+     "options": [
+      "Any server instance can handle any request, so no sticky sessions are needed",
+      "It removes the database",
+      "It's faster per request",
+      "It avoids HTTPS"
+     ],
+     "answer": 0,
+     "explain": "It makes horizontal scaling and load balancing easy."
+    },
+    {
+     "q": "What does the client-server constraint allow?",
+     "options": [
+      "Removing the API",
+      "Skipping HTTP",
+      "Sharing a database",
+      "Rewriting the backend (e.g. swapping Postgres for MongoDB) without touching the client if the API contract stays the same"
+     ],
+     "answer": 3,
+     "explain": "They are independently evolvable components."
+    }
+   ]
+  },
+  "level-1/02-http-methods-status-codes": {
+   "questions": [
+    {
+     "q": "Which methods are both safe and idempotent?",
+     "options": [
+      "PUT and DELETE",
+      "PATCH and POST",
+      "POST and PUT",
+      "GET, HEAD and OPTIONS"
+     ],
+     "answer": 3,
+     "explain": "PUT and DELETE are idempotent but not safe."
+    },
+    {
+     "q": "What does idempotent mean?",
+     "options": [
+      "Calling it once has the same effect as calling it many times",
+      "It changes nothing",
+      "It returns the same body",
+      "It's cacheable"
+     ],
+     "answer": 0,
+     "explain": "DELETE /books/17 five times still ends with book 17 gone, though later responses may be 404."
+    },
+    {
+     "q": "Why is GET /books/17/delete an anti-pattern?",
+     "options": [
+      "It violates safety, so prefetchers, crawlers and back-button caching could trigger deletes",
+      "GET can't have a path",
+      "It's not RESTful naming only",
+      "It's too long"
+     ],
+     "answer": 0,
+     "explain": "Use DELETE for deletions."
+    },
+    {
+     "q": "Is PATCH guaranteed idempotent by the HTTP spec?",
+     "options": [
+      "No: 'set field X to Y' is idempotent but 'increment X by 1' is not",
+      "Only with PUT",
+      "Never",
+      "Yes always"
+     ],
+     "answer": 0,
+     "explain": "It depends on the operation."
+    }
+   ]
+  },
+  "level-1/03-url-resource-design": {
+   "questions": [
+    {
+     "q": "Which URL design is preferred?",
+     "options": [
+      "GET /order_delete/482",
+      "GET /getOrder?id=482",
+      "DELETE /orders/482 rather than POST /deleteOrder?id=482",
+      "POST /deleteOrder"
+     ],
+     "answer": 2,
+     "explain": "URLs identify resources (nouns); the HTTP method carries the action."
+    },
+    {
+     "q": "How should a genuine non-CRUD action be modelled?",
+     "options": [
+      "Always avoid actions",
+      "Use random names",
+      "Either a controlled verb segment like POST /orders/482/cancel, or a sub-resource like POST /password-reset-requests; pick one convention",
+      "Use GET with a verb"
+     ],
+     "answer": 2,
+     "explain": "What to avoid is verbs for standard CRUD."
+    },
+    {
+     "q": "How deep should nesting go?",
+     "options": [
+      "Avoid more than 2–3 levels; give deep children their own filterable top-level collection",
+      "Exactly 5 levels",
+      "Never nest",
+      "As deep as possible"
+     ],
+     "answer": 0,
+     "explain": "For example GET /reviews/9/comments or GET /comments/4."
+    },
+    {
+     "q": "Should collections be singular or plural?",
+     "options": [
+      "Verbs",
+      "Mixed",
+      "Plural, consistently (/books)",
+      "Singular"
+     ],
+     "answer": 2,
+     "explain": "It reads naturally for both the collection and singular forms."
+    }
+   ]
+  },
+  "level-1/04-request-response-anatomy": {
+   "questions": [
+    {
+     "q": "What are the four parts of an HTTP message?",
+     "options": [
+      "Status, cookie, body, trailer",
+      "Start line, headers, a blank line, and an optional body",
+      "Header, footer, body, signature",
+      "Method, URL, version, host"
+     ],
+     "answer": 1,
+     "explain": "The blank line tells the parser the headers are done."
+    },
+    {
+     "q": "Are HTTP header names case-sensitive?",
+     "options": [
+      "Only for requests",
+      "Only in HTTP/2",
+      "Yes",
+      "No: content-type equals Content-Type"
+     ],
+     "answer": 3,
+     "explain": "Header order mostly doesn't matter either."
+    },
+    {
+     "q": "Which should clients check: the status code or the reason phrase?",
+     "options": [
+      "The reason phrase",
+      "Both equally",
+      "Neither",
+      "The numeric status code; the reason phrase is informational only"
+     ],
+     "answer": 3,
+     "explain": "For example 201 versus 'Created'."
+    },
+    {
+     "q": "What does the request line contain?",
+     "options": [
+      "The method, the path (not the full URL) and the HTTP version",
+      "The status",
+      "The headers",
+      "The host and body"
+     ],
+     "answer": 0,
+     "explain": "The host is a separate header."
+    }
+   ]
+  },
+  "level-1/05-query-vs-path-params": {
+   "questions": [
+    {
+     "q": "What is the rule of thumb for a path parameter?",
+     "options": [
+      "Use it for sorting",
+      "Use it for filters",
+      "If removing the value would leave you unable to say which resource you mean, it's a path parameter",
+      "Use it for pagination"
+     ],
+     "answer": 2,
+     "explain": "For example /books/17."
+    },
+    {
+     "q": "Which is the better design?",
+     "options": [
+      "GET /books?id=17",
+      "GET /books/17 rather than GET /books?id=17",
+      "GET /getBook",
+      "GET /book/author/Asimov"
+     ],
+     "answer": 1,
+     "explain": "17 identifies the resource; it isn't a filter."
+    },
+    {
+     "q": "What are query parameters for?",
+     "options": [
+      "Request bodies",
+      "Authentication only",
+      "Identifying one resource",
+      "Filtering, sorting, paginating or optional modifiers on a collection"
+     ],
+     "answer": 3,
+     "explain": "If removing it leaves a meaningful, broader request, it's a query parameter."
+    },
+    {
+     "q": "How should GET /authors/3/books?sort=-published_year&limit=10 be read?",
+     "options": [
+      "Body params",
+      "All are path params",
+      "All are query params",
+      "Path parameter authorId=3 picks which author's books; sort and limit are query parameters"
+     ],
+     "answer": 3,
+     "explain": "Most real endpoints use both together."
+    }
+   ]
+  },
+  "level-1/06-curl-httpie-postman": {
+   "questions": [
+    {
+     "q": "What does `curl -i` do?",
+     "options": [
+      "Follows redirects",
+      "Sends JSON",
+      "Installs",
+      "Prepends the response headers to the output"
+     ],
+     "answer": 3,
+     "explain": "-v goes further and shows the request curl sent."
+    },
+    {
+     "q": "What does `-w \"%{http_code}\\n\"` help with?",
+     "options": [
+      "Setting a timeout",
+      "Checking success or failure in shell scripts without parsing the body",
+      "Pretty-printing",
+      "Sending a body"
+     ],
+     "answer": 1,
+     "explain": "It prints the status code."
+    },
+    {
+     "q": "How do you send query values safely with curl?",
+     "options": [
+      "Concatenate strings",
+      "-G with --data-urlencode, which encodes values like 'Ursula K. Le Guin'",
+      "Use spaces",
+      "Use -X GET only"
+     ],
+     "answer": 1,
+     "explain": "-G turns the data into a query string."
+    },
+    {
+     "q": "When is curl preferred over httpie?",
+     "options": [
+      "For scripting and CI, since it's preinstalled almost everywhere",
+      "For collections",
+      "For GUIs",
+      "For colour output"
+     ],
+     "answer": 0,
+     "explain": "httpie reads more like English and pretty-prints JSON; Postman suits saved collections and teams."
+    }
+   ]
+  },
+  "level-1/07-authentication-basics": {
+   "questions": [
+    {
+     "q": "What does authentication answer versus authorization?",
+     "options": [
+      "The reverse",
+      "They are the same",
+      "Authentication: who is calling; authorization: what they are allowed to do",
+      "Both about passwords"
+     ],
+     "answer": 2,
+     "explain": "The lesson expands authorization with OAuth2 in Level 3."
+    },
+    {
+     "q": "Why avoid API keys in query parameters?",
+     "options": [
+      "Query params are slower",
+      "URLs get logged by proxies, browser history and server logs, leaking the secret",
+      "They expire",
+      "They aren't allowed"
+     ],
+     "answer": 1,
+     "explain": "Prefer a header such as X-API-Key."
+    },
+    {
+     "q": "What does a leaked API key mean?",
+     "options": [
+      "It's useless",
+      "It expires in an hour",
+      "It's valid until manually revoked; keys carry no built-in expiry or scoping",
+      "It is auto-rotated"
+     ],
+     "answer": 2,
+     "explain": "Never embed a secret key in client-side JS or a mobile app binary."
+    },
+    {
+     "q": "Why must Bearer tokens only be sent over HTTPS?",
+     "options": [
+      "HTTP blocks them",
+      "They're large",
+      "They're encrypted anyway",
+      "Whoever holds the token can use it, with no additional proof"
+     ],
+     "answer": 3,
+     "explain": "Sent as Authorization: Bearer <token>."
+    }
+   ]
+  },
+  "level-1/08-error-handling-conventions": {
+   "questions": [
+    {
+     "q": "What are the three ingredients of a good error response?",
+     "options": [
+      "The right HTTP status, a consistent structured body, and a human-readable message",
+      "A code, a trace and a hash",
+      "A status, a redirect and an ID",
+      "A stack trace, a cookie and a log"
+     ],
+     "answer": 0,
+     "explain": "Generic tooling and monitoring check the status first."
+    },
+    {
+     "q": "Why make error.code a stable machine-readable string?",
+     "options": [
+      "It's required by HTTP",
+      "It hides errors",
+      "It's shorter",
+      "Clients can switch on it without parsing English, and it won't change when the message wording does"
+     ],
+     "answer": 3,
+     "explain": "For example validation_failed."
+    },
+    {
+     "q": "Why is error.details an array?",
+     "options": [
+      "For retries",
+      "To hide errors",
+      "For logging",
+      "To report multiple validation failures at once instead of making the client fix and resubmit one at a time"
+     ],
+     "answer": 3,
+     "explain": "For example both email and age issues in one 422."
+    },
+    {
+     "q": "What is RFC 9457?",
+     "options": [
+      "A caching standard",
+      "An auth standard",
+      "A pagination standard",
+      "The IETF Problem Details standard for HTTP APIs, with application/problem+json, obsoleting RFC 7807"
+     ],
+     "answer": 3,
+     "explain": "It includes fields like type and title."
+    }
+   ]
+  },
+  "level-1/09-versioning-basics": {
+   "questions": [
+    {
+     "q": "Which change is breaking?",
+     "options": [
+      "Adding an optional response field",
+      "Adding an optional query parameter",
+      "Removing a field, renaming a field, changing a field's type, or making validation stricter",
+      "Adding an endpoint"
+     ],
+     "answer": 2,
+     "explain": "Rule of thumb: if unmodified client code could start erroring, it's breaking."
+    },
+    {
+     "q": "What are the pros of URL path versioning (/v1/books/17)?",
+     "options": [
+      "It keeps one URL per resource",
+      "It needs no routing",
+      "It follows REST purity",
+      "Very visible and explicit, and trivial to route versions to different backends"
+     ],
+     "answer": 3,
+     "explain": "The con: the same resource has two URLs, a pragmatic tradeoff Stripe and GitHub accept."
+    },
+    {
+     "q": "Why does versioning matter at all?",
+     "options": [
+      "To rename resources",
+      "Versions improve speed",
+      "It's required by HTTP",
+      "You can't change a field's meaning or remove an endpoint when consumers you don't control depend on it"
+     ],
+     "answer": 3,
+     "explain": "It lets old consumers keep working until they migrate."
+    },
+    {
+     "q": "How does header versioning differ?",
+     "options": [
+      "The version is in the body",
+      "The version is in the path",
+      "The URL stays the same and the client requests a version through a header like X-API-Version: 2",
+      "No versioning"
+     ],
+     "answer": 2,
+     "explain": "It keeps the URL as the single stable identifier."
+    }
+   ]
+  },
+  "level-1/10-capstone-bookshelf-api": {
+   "questions": [
+    {
+     "q": "How is 'a book on a shelf' modelled in the capstone?",
+     "options": [
+      "As a separate /shelf-items endpoint with IDs",
+      "As a header",
+      "As a query parameter",
+      "As the nested path /v1/shelves/{shelfId}/books rather than a separate shelf-item ID"
+     ],
+     "answer": 3,
+     "explain": "It avoids inventing an ID the client must track."
+    },
+    {
+     "q": "What do unauthenticated requests receive?",
+     "options": [
+      "403",
+      "404",
+      "200",
+      "401 Unauthorized with a structured error body (code 'unauthorized')"
+     ],
+     "answer": 3,
+     "explain": "All endpoints require a bearer token."
+    },
+    {
+     "q": "What is the deliverable of the capstone?",
+     "options": [
+      "A UI",
+      "A database",
+      "A server",
+      "A precise, well-documented API design (spec), not a running server"
+     ],
+     "answer": 3,
+     "explain": "Exactly as you'd hand it to another engineer to implement."
+    },
+    {
+     "q": "Which URL design points does the capstone highlight?",
+     "options": [
+      "Verbs in paths",
+      "The /v1/ prefix, plural resource names, path parameters identifying resources, and nesting for the relationship",
+      "Singular names",
+      "No versioning"
+     ],
+     "answer": 1,
+     "explain": "They come from modules 3 and 9."
+    }
+   ]
+  },
+  "level-2/01-pagination": {
+   "questions": [
+    {
+     "q": "What are the two problems with offset/limit pagination at scale?",
+     "options": [
+      "It needs a cursor",
+      "It lacks a total",
+      "It can't jump to pages",
+      "OFFSET scans and discards rows so it slows as offset grows, and inserts or deletes between requests cause page drift"
+     ],
+     "answer": 3,
+     "explain": "A client may see an item twice or skip one."
+    },
+    {
+     "q": "How does cursor-based pagination work?",
+     "options": [
+      "The client sends page numbers",
+      "The server sends all items",
+      "The client sends offsets",
+      "The server returns an opaque cursor (often base64 of the last sort key) and the next request asks for items after it, e.g. WHERE id > 60"
+     ],
+     "answer": 3,
+     "explain": "It's an indexed range query, fast at any depth."
+    },
+    {
+     "q": "What is the main limitation of cursors?",
+     "options": [
+      "They aren't consistent",
+      "They need an offset",
+      "You can't jump directly to page 5, only traverse forward or backward",
+      "They're slow"
+     ],
+     "answer": 2,
+     "explain": "They're also slightly more complex to implement."
+    },
+    {
+     "q": "What is page-number pagination?",
+     "options": [
+      "Offset/limit in disguise: offset = (page - 1) * per_page, with the same tradeoffs",
+      "A cursor scheme",
+      "A caching header",
+      "A sort option"
+     ],
+     "answer": 0,
+     "explain": "It has a more human-readable query shape."
+    }
+   ]
+  },
+  "level-2/02-filtering-sorting": {
+   "questions": [
+    {
+     "q": "How are multiple filter parameters combined?",
+     "options": [
+      "Implicitly AND-ed together",
+      "OR-ed",
+      "XOR",
+      "Only one allowed"
+     ],
+     "answer": 0,
+     "explain": "One query parameter per filterable field."
+    },
+    {
+     "q": "What does ?sort=-published_date,title mean?",
+     "options": [
+      "Sort by published_date descending, then title ascending as a tiebreaker",
+      "Sort by both ascending",
+      "Sort title descending",
+      "Filter by published_date"
+     ],
+     "answer": 0,
+     "explain": "Compound sort keys matter for stable pagination."
+    },
+    {
+     "q": "What does ?genre=scifi,fantasy usually mean?",
+     "options": [
+      "Invalid",
+      "genre is scifi OR fantasy",
+      "genre is scifi AND fantasy",
+      "A literal genre named 'scifi,fantasy'"
+     ],
+     "answer": 1,
+     "explain": "Some APIs repeat the parameter instead; both are common."
+    },
+    {
+     "q": "Why should you pick one convention for range filters?",
+     "options": [
+      "Mixing price_gte on one resource and min_price on another makes an API feel unfinished",
+      "Both forms are invalid",
+      "It saves bandwidth",
+      "Servers can't parse them"
+     ],
+     "answer": 0,
+     "explain": "Stripe uses created[gte]; suffix operators are also valid."
+    }
+   ]
+  },
+  "level-2/03-hateoas-basics": {
+   "questions": [
+    {
+     "q": "What is HATEOAS?",
+     "options": [
+      "An auth scheme",
+      "A caching header",
+      "Hypermedia As The Engine Of Application State: clients navigate the API by following links returned in responses",
+      "A versioning style"
+     ],
+     "answer": 2,
+     "explain": "It's the most-cited, least-implemented part of Fielding's uniform interface constraint."
+    },
+    {
+     "q": "What does a missing cancel link in an order response tell the client?",
+     "options": [
+      "A bug",
+      "The API is broken",
+      "Cancellation isn't currently allowed, so the client needn't copy 'only pending orders can be cancelled'",
+      "The order doesn't exist"
+     ],
+     "answer": 2,
+     "explain": "The server decides which actions are available."
+    },
+    {
+     "q": "Which are two widely used hypermedia formats?",
+     "options": [
+      "YAML and TOML",
+      "HAL (application/hal+json) and JSON:API (application/vnd.api+json)",
+      "XML-RPC and SOAP",
+      "gRPC and Thrift"
+     ],
+     "answer": 1,
+     "explain": "They standardise where links live in the payload so generic clients can parse them."
+    },
+    {
+     "q": "What do most real-world APIs do?",
+     "options": [
+      "Use SOAP",
+      "Use full HAL always",
+      "Skip a formal spec and use a plain _links or links object, HAL-ish",
+      "Avoid links entirely"
+     ],
+     "answer": 2,
+     "explain": "The lesson shows a minimal ad-hoc convention."
+    }
+   ]
+  },
+  "level-2/04-openapi-swagger-basics": {
+   "questions": [
+    {
+     "q": "What is OpenAPI?",
+     "options": [
+      "A machine-readable specification (YAML or JSON) describing endpoints, request/response shapes and auth",
+      "A test runner",
+      "A server framework",
+      "A database"
+     ],
+     "answer": 0,
+     "explain": "It was formerly called Swagger."
+    },
+    {
+     "q": "What can tools generate from an OpenAPI document?",
+     "options": [
+      "Only SDKs",
+      "Interactive docs, client SDKs, server stubs and test suites",
+      "Nothing",
+      "Only docs"
+     ],
+     "answer": 1,
+     "explain": "The spec becomes a single source of truth instead of drifting hand-written docs."
+    },
+    {
+     "q": "What does $ref: '#/components/schemas/Book' do?",
+     "options": [
+      "Reuses a shared schema defined once under components",
+      "Fetches a URL",
+      "Declares a parameter",
+      "Imports a file"
+     ],
+     "answer": 0,
+     "explain": "Book and NewBook are shared definitions."
+    },
+    {
+     "q": "How is the path parameter {id} declared in the spec?",
+     "options": [
+      "As a parameter with in: path and required: true",
+      "As a query parameter",
+      "In the servers block",
+      "In the body"
+     ],
+     "answer": 0,
+     "explain": "Query parameters use in: query."
+    }
+   ]
+  },
+  "level-2/05-idempotency": {
+   "questions": [
+    {
+     "q": "Why is POST risky to retry?",
+     "options": [
+      "POST is cached",
+      "It typically creates a new resource, so a retry after a lost response can create duplicates",
+      "POST can't be retried",
+      "POST is idempotent"
+     ],
+     "answer": 1,
+     "explain": "For example two orders instead of one."
+    },
+    {
+     "q": "Which patch is idempotent?",
+     "options": [
+      "None",
+      "{\"increment\": 1}",
+      "{\"price\": 15} (set an absolute value), unlike {\"price_delta\": -5}",
+      "{\"price_delta\": -5}"
+     ],
+     "answer": 2,
+     "explain": "Applying the delta twice decreases the price by 10."
+    },
+    {
+     "q": "How does the idempotency-key pattern work?",
+     "options": [
+      "Keys are in the URL",
+      "The server generates keys",
+      "Keys expire immediately",
+      "The client sends a unique token per logical operation; the server remembers processed keys and returns the original result instead of repeating the side effect"
+     ],
+     "answer": 3,
+     "explain": "It's used for payments and orders, where duplicates are costly."
+    },
+    {
+     "q": "Which methods are idempotent by definition?",
+     "options": [
+      "POST",
+      "PATCH always",
+      "GET, PUT, DELETE, HEAD and OPTIONS",
+      "POST and PUT"
+     ],
+     "answer": 2,
+     "explain": "PATCH isn't guaranteed."
+    }
+   ]
+  },
+  "level-2/06-rate-limiting": {
+   "questions": [
+    {
+     "q": "What is the boundary-burst problem of the fixed window algorithm?",
+     "options": [
+      "Counters overflow",
+      "Windows never reset",
+      "It rejects everything",
+      "A client can send 200 requests in the 2 seconds straddling a boundary, well above 100 per minute"
+     ],
+     "answer": 3,
+     "explain": "Sliding windows smooth this at the cost of more bookkeeping."
+    },
+    {
+     "q": "How does a token bucket behave?",
+     "options": [
+      "It counts per minute only",
+      "It queues requests",
+      "Tokens refill at a steady rate up to a cap, each request uses one; it allows short bursts while enforcing a long-run average",
+      "It never allows bursts"
+     ],
+     "answer": 2,
+     "explain": "A bucket of 20 with refill 10/s lets 20 requests through instantly, then 10 more after 1 s."
+    },
+    {
+     "q": "What does the leaky bucket do?",
+     "options": [
+      "Processes (or discards) queued requests at a constant rate, trading burst tolerance for steady output",
+      "Resets hourly",
+      "Allows bursts",
+      "Counts windows"
+     ],
+     "answer": 0,
+     "explain": "It's common in network traffic shaping."
+    },
+    {
+     "q": "What does RateLimit-Reset: 37 mean?",
+     "options": [
+      "37 requests per second",
+      "A Unix time",
+      "37 requests left",
+      "Seconds until the window or bucket resets"
+     ],
+     "answer": 3,
+     "explain": "GitHub's X-RateLimit-Reset is a Unix timestamp instead."
+    }
+   ]
+  },
+  "level-2/07-caching-headers": {
+   "questions": [
+    {
+     "q": "What does Cache-Control: no-cache actually mean?",
+     "options": [
+      "Only CDNs may cache",
+      "It may be cached but must be revalidated with the server before reuse",
+      "Never cache",
+      "Cache forever"
+     ],
+     "answer": 1,
+     "explain": "It's misleadingly named; no-store means do not cache anywhere."
+    },
+    {
+     "q": "What does the server return to If-None-Match when the ETag is unchanged?",
+     "options": [
+      "404",
+      "304 Not Modified with no body",
+      "200 with the body",
+      "204"
+     ],
+     "answer": 1,
+     "explain": "The client keeps using its cached copy, saving the payload transfer."
+    },
+    {
+     "q": "What does private mean in Cache-Control?",
+     "options": [
+      "No one may cache",
+      "Only the end client may cache it, not a shared proxy or CDN (typical for per-user data)",
+      "It's encrypted",
+      "CDNs may cache"
+     ],
+     "answer": 1,
+     "explain": "public allows any cache."
+    },
+    {
+     "q": "What is an ETag?",
+     "options": [
+      "An opaque fingerprint of a resource's current state, often a content hash",
+      "A signature",
+      "A timestamp",
+      "A cookie"
+     ],
+     "answer": 0,
+     "explain": "Last-Modified is a coarser, second-level alternative."
+    }
+   ]
+  },
+  "level-2/08-content-negotiation": {
+   "questions": [
+    {
+     "q": "What does Accept: application/json;q=0.9, application/xml;q=0.5, */*;q=0.1 express?",
+     "options": [
+      "Only XML",
+      "Only JSON",
+      "Anything equally",
+      "Prefer JSON, XML is an acceptable fallback, anything as a last resort"
+     ],
+     "answer": 3,
+     "explain": "The server picks the highest-q type it can produce."
+    },
+    {
+     "q": "What should a server return if it can't produce any acceptable format?",
+     "options": [
+      "404",
+      "406 Not Acceptable",
+      "500",
+      "415"
+     ],
+     "answer": 1,
+     "explain": "Many JSON-only APIs skip strict 406 handling, which is fine if documented."
+    },
+    {
+     "q": "What does 415 Unsupported Media Type signal?",
+     "options": [
+      "The response format isn't available",
+      "The request's Content-Type isn't supported",
+      "The URL is wrong",
+      "The method is invalid"
+     ],
+     "answer": 1,
+     "explain": "Accept negotiates the response; Content-Type describes the request body."
+    },
+    {
+     "q": "Which header handles language negotiation?",
+     "options": [
+      "Language",
+      "Accept-Encoding",
+      "Accept-Language",
+      "Content-Language only"
+     ],
+     "answer": 2,
+     "explain": "It uses the same mechanism as Accept."
+    }
+   ]
+  },
+  "level-2/09-bulk-operations": {
+   "questions": [
+    {
+     "q": "Why have bulk endpoints?",
+     "options": [
+      "One request per item costs round trips, overhead and more chances to partially fail",
+      "Bulk is simpler",
+      "To avoid validation",
+      "HTTP requires it"
+     ],
+     "answer": 0,
+     "explain": "500 records would mean 500 round trips."
+    },
+    {
+     "q": "What status does a bulk request with mixed outcomes return?",
+     "options": [
+      "422 for all",
+      "500",
+      "200 only",
+      "207 Multi-Status with a per-item result"
+     ],
+     "answer": 3,
+     "explain": "The request as a whole doesn't have one status; check each item."
+    },
+    {
+     "q": "Why is partial success the norm in bulk operations?",
+     "options": [
+      "One bad item shouldn't fail the other 499",
+      "HTTP requires it",
+      "Servers can't be atomic",
+      "It's simpler to code"
+     ],
+     "answer": 0,
+     "explain": "The example returns 201, 201 and 422 for the three items."
+    },
+    {
+     "q": "What should each item in a bulk result carry?",
+     "options": [
+      "Its own status and either data or an error",
+      "Only an ID",
+      "Nothing",
+      "Only a count"
+     ],
+     "answer": 0,
+     "explain": "The client then inspects each item."
+    }
+   ]
+  },
+  "level-2/10-project-paginated-api": {
+   "questions": [
+    {
+     "q": "Why does the project use cursor pagination?",
+     "options": [
+      "It needs no index",
+      "It's simpler",
+      "It supports page jumping",
+      "The collection grows continuously as users add books"
+     ],
+     "answer": 3,
+     "explain": "The response carries next_cursor and has_more."
+    },
+    {
+     "q": "How are unrecognised sort or filter fields handled?",
+     "options": [
+      "Passed to SQL",
+      "Ignored",
+      "Validated against an allowlist; unknown fields return 400 with invalid_sort_field or invalid_filter_field",
+      "Return 500"
+     ],
+     "answer": 2,
+     "explain": "The allowlist also protects the database."
+    },
+    {
+     "q": "What is If-Match used for on writes?",
+     "options": [
+      "Caching reads",
+      "Authentication",
+      "Rate limiting",
+      "Optimistic concurrency: the write succeeds only if the ETag still matches"
+     ],
+     "answer": 3,
+     "explain": "It prevents lost updates."
+    },
+    {
+     "q": "What does a retried POST with the same Idempotency-Key return?",
+     "options": [
+      "500",
+      "409",
+      "A second book",
+      "The original 201 response, without creating a duplicate book"
+     ],
+     "answer": 3,
+     "explain": "The server remembers processed keys."
+    }
+   ]
+  },
+  "level-3/01-oauth2-flows": {
+   "questions": [
+    {
+     "q": "What is the point of OAuth2?",
+     "options": [
+      "To cache tokens",
+      "A third-party app gets a scoped, revocable access token without ever seeing the user's password",
+      "To encrypt data",
+      "To store passwords"
+     ],
+     "answer": 1,
+     "explain": "It's the framework for how a token gets issued."
+    },
+    {
+     "q": "Why does the Authorization Code flow use two exchanges?",
+     "options": [
+      "The code is exposed in the redirect URL but is single-use and short-lived; the token exchange happens server-to-server with a secret the browser never sees",
+      "For speed",
+      "For logging",
+      "Because tokens are large"
+     ],
+     "answer": 0,
+     "explain": "A leaked code alone is useless without the client secret."
+    },
+    {
+     "q": "What is the state parameter for?",
+     "options": [
+      "A CSRF defense: the client verifies the same random value comes back in the redirect",
+      "Setting expiry",
+      "Choosing the flow",
+      "Selecting scopes"
+     ],
+     "answer": 0,
+     "explain": "Without it an attacker could trick a victim into completing an attacker-initiated flow."
+    },
+    {
+     "q": "Who are the four OAuth2 actors?",
+     "options": [
+      "Sender, receiver, router, proxy",
+      "User, admin, DB, cache",
+      "Browser, CDN, API, DB",
+      "Resource owner, client, authorization server and resource server"
+     ],
+     "answer": 3,
+     "explain": "PKCE is required for public clients like mobile apps and SPAs."
+    }
+   ]
+  },
+  "level-3/02-webhooks": {
+   "questions": [
+    {
+     "q": "How do webhooks differ from polling?",
+     "options": [
+      "They need no endpoint",
+      "The server pushes an event to a registered URL when something happens, with no wasted polling requests",
+      "They're slower",
+      "The client asks repeatedly"
+     ],
+     "answer": 1,
+     "explain": "The cost: the receiver needs a publicly reachable, always-on endpoint."
+    },
+    {
+     "q": "How does a receiver verify a webhook?",
+     "options": [
+      "Trust the JSON",
+      "Check the IP only",
+      "Check the User-Agent",
+      "Recompute an HMAC signature over the raw body with the shared secret and compare"
+     ],
+     "answer": 3,
+     "explain": "Otherwise anyone who finds the URL could POST fake events."
+    },
+    {
+     "q": "Why use hmac.compare_digest instead of ==?",
+     "options": [
+      "Constant-time comparison avoids leaking information through timing",
+      "It's shorter",
+      "== is invalid",
+      "It's faster"
+     ],
+     "answer": 0,
+     "explain": "The handler returns 401 for an invalid signature."
+    },
+    {
+     "q": "What should a webhook receiver do quickly?",
+     "options": [
+      "Return 500",
+      "Process everything before responding",
+      "Ignore the request",
+      "Respond (e.g. 200) fast and process heavy work separately"
+     ],
+     "answer": 3,
+     "explain": "Slow responses cause the sender to retry."
+    }
+   ]
+  },
+  "level-3/03-api-gateways-basics": {
+   "questions": [
+    {
+     "q": "What is an API gateway?",
+     "options": [
+      "A database",
+      "The single entry point in front of services that routes, secures and shapes traffic",
+      "A cache",
+      "A UI"
+     ],
+     "answer": 1,
+     "explain": "Clients don't need to know every backend's address."
+    },
+    {
+     "q": "Why validate tokens once at the gateway?",
+     "options": [
+      "It's slower",
+      "It avoids HTTPS",
+      "Individual services don't each re-implement JWT verification",
+      "Tokens expire"
+     ],
+     "answer": 2,
+     "explain": "It's authentication at the edge."
+    },
+    {
+     "q": "What does TLS termination at the gateway mean?",
+     "options": [
+      "TLS in the DB",
+      "Services hold certificates",
+      "No TLS",
+      "The gateway holds the certificate; internal traffic can run plain HTTP inside a trusted network"
+     ],
+     "answer": 3,
+     "explain": "It's one of the gateway's jobs."
+    },
+    {
+     "q": "Which of these is a gateway responsibility?",
+     "options": [
+      "Rendering HTML",
+      "Compiling code",
+      "Routing, auth, rate limiting, transformation and observability",
+      "Storing data"
+     ],
+     "answer": 2,
+     "explain": "For example /v1/orders/* goes to orders-service."
+    }
+   ]
+  },
+  "level-3/04-graphql-vs-rest": {
+   "questions": [
+    {
+     "q": "What problems does GraphQL address compared with REST?",
+     "options": [
+      "File uploads",
+      "Caching",
+      "Authentication",
+      "Over-fetching, under-fetching (chains of calls) and client-driven response shape"
+     ],
+     "answer": 3,
+     "explain": "One request returns exactly the fields asked for."
+    },
+    {
+     "q": "Why does GraphQL defeat standard HTTP caching?",
+     "options": [
+      "A single POST /graphql endpoint isn't cacheable by URL, so caching must be rebuilt at the application layer",
+      "It always returns 304",
+      "GraphQL has no responses",
+      "It uses UDP"
+     ],
+     "answer": 0,
+     "explain": "For example persisted queries and a normalized client cache."
+    },
+    {
+     "q": "Why do GraphQL servers need query complexity analysis?",
+     "options": [
+      "Queries are long",
+      "To log queries",
+      "One query can ask for deeply nested, expensive data, unlike a REST endpoint with predictable cost",
+      "To validate JSON"
+     ],
+     "answer": 2,
+     "explain": "It prevents abuse."
+    },
+    {
+     "q": "What is the GraphQL schema?",
+     "options": [
+      "A database schema",
+      "A URL list",
+      "A typed definition of the data the client can query, e.g. type User { id: ID! name: String! }",
+      "An OpenAPI file"
+     ],
+     "answer": 2,
+     "explain": "The exclamation mark means non-null."
+    }
+   ]
+  },
+  "level-3/05-api-testing-strategy": {
+   "questions": [
+    {
+     "q": "What does the API testing pyramid say?",
+     "options": [
+      "Many fast unit tests at the bottom, then contract and integration tests, with few slow end-to-end tests on top",
+      "Mostly end-to-end",
+      "Only integration",
+      "Only unit"
+     ],
+     "answer": 0,
+     "explain": "Most bugs should be caught at the bottom layers."
+    },
+    {
+     "q": "What does an integration test catch that a unit test can't?",
+     "options": [
+      "Typos",
+      "Pure logic",
+      "Formatting",
+      "A wrong status code or JSON shape, or a route that isn't wired up, against a real test DB and the real HTTP layer"
+     ],
+     "answer": 3,
+     "explain": "It also verifies the row landed in the DB."
+    },
+    {
+     "q": "How does consumer-driven contract testing (Pact) work?",
+     "options": [
+      "The provider writes tests only",
+      "Users test manually",
+      "The gateway tests",
+      "The consumer records what it expects; the provider's CI replays that contract before every deploy"
+     ],
+     "answer": 3,
+     "explain": "It catches breaking changes without needing both full codebases."
+    },
+    {
+     "q": "What is the purpose of end-to-end tests?",
+     "options": [
+      "To catch what only shows up when the whole system runs together",
+      "To replace unit tests",
+      "To test pure functions",
+      "To check formatting"
+     ],
+     "answer": 0,
+     "explain": "They are few and slow."
+    }
+   ]
+  },
+  "level-3/06-backward-compatibility-deprecation": {
+   "questions": [
+    {
+     "q": "Which is a non-breaking change?",
+     "options": [
+      "Changing a field's type",
+      "Renaming a field",
+      "Adding an optional response field or a new endpoint",
+      "Making an optional field required"
+     ],
+     "answer": 2,
+     "explain": "Well-behaved clients ignore what they don't recognise."
+    },
+    {
+     "q": "What do the Deprecation and Sunset headers do?",
+     "options": [
+      "Version the API",
+      "Encrypt data",
+      "Block requests",
+      "Let tooling detect deprecated usage and the retirement date without humans reading changelogs"
+     ],
+     "answer": 3,
+     "explain": "A Link header can point to the migration guide."
+    },
+    {
+     "q": "Why is URL-path versioning the most common?",
+     "options": [
+      "It needs no routing",
+      "It is hidden",
+      "It's visible, cacheable per version and trivial to route at the gateway",
+      "It's RESTful purity"
+     ],
+     "answer": 2,
+     "explain": "Header versioning is harder to test in a browser and easy to forget."
+    },
+    {
+     "q": "How should v1 be retired?",
+     "options": [
+      "Rename it",
+      "Remove it overnight",
+      "Hide it",
+      "Ship v2 alongside, announce with a concrete sunset date, then remove after the runway"
+     ],
+     "answer": 3,
+     "explain": "Bundle breaking changes into one release rather than drip-feeding."
+    }
+   ]
+  },
+  "level-3/07-api-documentation": {
+   "questions": [
+    {
+     "q": "Why generate reference docs from the OpenAPI spec?",
+     "options": [
+      "They're prettier",
+      "They're shorter",
+      "They stay accurate because they're generated, not hand-written",
+      "They need no review"
+     ],
+     "answer": 2,
+     "explain": "Guides and tutorials are hand-written."
+    },
+    {
+     "q": "What is a changelog's role?",
+     "options": [
+      "A test log",
+      "A server log",
+      "A dated, human-readable list of changes linked to migration guides for breaking changes",
+      "An API key list"
+     ],
+     "answer": 2,
+     "explain": "It's part of the documentation stack."
+    },
+    {
+     "q": "What does an interactive playground allow?",
+     "options": [
+      "Monitoring",
+      "Making a real call from the browser, such as Swagger UI, Redoc or Postman collections",
+      "Editing code",
+      "Deploying"
+     ],
+     "answer": 1,
+     "explain": "It lowers the barrier to a first request."
+    },
+    {
+     "q": "What is the key doc goal described?",
+     "options": [
+      "Marketing",
+      "Legal",
+      "SEO",
+      "Usable by a developer integrating for the first time at 11pm with no one to ask"
+     ],
+     "answer": 3,
+     "explain": "Guides are task-oriented."
+    }
+   ]
+  },
+  "level-3/08-grpc-alternatives": {
+   "questions": [
+    {
+     "q": "What does gRPC use?",
+     "options": [
+      "GraphQL over WebSockets",
+      "JSON over HTTP/1.1",
+      "XML over SOAP",
+      "Compact binary Protocol Buffers over HTTP/2, with services defined in a .proto file"
+     ],
+     "answer": 3,
+     "explain": "It generates strongly typed client and server code in many languages."
+    },
+    {
+     "q": "Why does gRPC catch contract mismatches earlier than REST/JSON?",
+     "options": [
+      "It validates JSON",
+      "It retries",
+      "The .proto file is the single source of truth generated on both sides, so mismatches fail at compile time",
+      "It logs errors"
+     ],
+     "answer": 2,
+     "explain": "With JSON, a malformed body fails at runtime."
+    },
+    {
+     "q": "Why does REST still win for public and browser-facing APIs?",
+     "options": [
+      "REST has streaming",
+      "REST is faster",
+      "gRPC is deprecated",
+      "Browsers can't natively speak gRPC, REST/JSON is debuggable with curl, and public integrators expect REST"
+     ],
+     "answer": 3,
+     "explain": "gRPC-Web exists but adds a proxy layer."
+    },
+    {
+     "q": "Where is gRPC the common choice?",
+     "options": [
+      "Email",
+      "Public browser APIs",
+      "Static sites",
+      "Internal service-to-service calls in microservices"
+     ],
+     "answer": 3,
+     "explain": "Both sides control their codegen pipeline within one company."
+    }
+   ]
+  },
+  "level-3/09-monitoring-observability": {
+   "questions": [
+    {
+     "q": "What are the four golden signals?",
+     "options": [
+      "Latency, traffic, errors and saturation",
+      "Logs, metrics, traces, alerts",
+      "CPU, RAM, disk, network",
+      "Uptime, cost, speed, size"
+     ],
+     "answer": 0,
+     "explain": "Saturation is the leading indicator before latency and errors spike."
+    },
+    {
+     "q": "Why alert on error rate rather than raw error count?",
+     "options": [
+      "12 errors in 18,432 requests (0.07%) is very different from 12 in 40 (30%)",
+      "Counts are hidden",
+      "Rates are simpler",
+      "Counts are inaccurate"
+     ],
+     "answer": 0,
+     "explain": "The rate tells you how bad it is."
+    },
+    {
+     "q": "What does distributed tracing show?",
+     "options": [
+      "CPU usage",
+      "How one request fans out across services under a trace_id, revealing e.g. a slow Postgres query in orders-service",
+      "Total traffic",
+      "Log volume"
+     ],
+     "answer": 1,
+     "explain": "Without it, 'the dashboard is slow' is a mystery."
+    },
+    {
+     "q": "Why use structured JSON logs with request_id?",
+     "options": [
+      "They're smaller",
+      "They're queryable, and request_id threads through every log line and downstream call for a request",
+      "They're prettier",
+      "They're encrypted"
+     ],
+     "answer": 1,
+     "explain": "The request_id is generated at the gateway."
+    }
+   ]
+  },
+  "level-3/10-project-oauth2-webhooks": {
+   "questions": [
+    {
+     "q": "Which OAuth2 flow does the project use?",
+     "options": [
+      "Client credentials only",
+      "Authorization Code with PKCE",
+      "Implicit",
+      "Password grant"
+     ],
+     "answer": 1,
+     "explain": "The token exchange includes code_verifier."
+    },
+    {
+     "q": "What happens when a token has only books:read and tries POST /v1/books?",
+     "options": [
+      "404",
+      "201",
+      "403 Forbidden (insufficient scope)",
+      "401"
+     ],
+     "answer": 2,
+     "explain": "The test test_requires_write_scope asserts 403."
+    },
+    {
+     "q": "Where is the OAuth2 token signature validated?",
+     "options": [
+      "In the browser",
+      "In each service",
+      "In the DB",
+      "Once at the gateway, before the request reaches books-service or webhooks-service"
+     ],
+     "answer": 3,
+     "explain": "The gateway applies jwt and rate-limiting plugins."
+    },
+    {
+     "q": "How are webhook deliveries made reliable and trustworthy?",
+     "options": [
+      "Sent over email",
+      "Polled by clients",
+      "Signed with the webhook's secret via X-Signature and retried with exponential backoff on failure",
+      "Sent once unsigned"
+     ],
+     "answer": 2,
+     "explain": "The subscriber receives a secret when registering."
+    }
+   ]
+  },
+  "level-4/01-microservices-api-patterns": {
+   "questions": [
+    {
+     "q": "What does database-per-service mean?",
+     "options": [
+      "One DB per team",
+      "One shared DB",
+      "Each microservice owns its database and no service reaches into another's tables",
+      "No databases"
+     ],
+     "answer": 2,
+     "explain": "orders-service calls users-service's API for a user's name."
+    },
+    {
+     "q": "What is the API composition pattern?",
+     "options": [
+      "A cache",
+      "A gateway or BFF layer merges data from multiple services into one response",
+      "A client merges data",
+      "A database join across services"
+     ],
+     "answer": 1,
+     "explain": "The client sees one endpoint like /v1/orders/42/summary."
+    },
+    {
+     "q": "What is a Backend-for-Frontend (BFF)?",
+     "options": [
+      "A database",
+      "A test",
+      "A cache",
+      "A layer per client type (mobile, web) shaping responses, such as a lean mobile payload versus a full web one"
+     ],
+     "answer": 3,
+     "explain": "Different clients need different shapes from the same services."
+    },
+    {
+     "q": "Why does database-per-service make services independently deployable?",
+     "options": [
+      "It's cheaper",
+      "It avoids migrations",
+      "No one can break another team's queries by changing a table they don't own",
+      "It avoids network calls"
+     ],
+     "answer": 2,
+     "explain": "It's the key ownership rule."
+    }
+   ]
+  },
+  "level-4/02-api-security-hardening": {
+   "questions": [
+    {
+     "q": "What does BOLA (Broken Object Level Authorization) mean?",
+     "options": [
+      "A CORS error",
+      "A weak password policy",
+      "A missing HTTPS",
+      "Checking that a token is valid but not that this user owns this specific resource"
+     ],
+     "answer": 3,
+     "explain": "The fix: every lookup filters by the authenticated user as well as the ID."
+    },
+    {
+     "q": "What is the safe way to handle a user-supplied sort parameter?",
+     "options": [
+      "Trust the ORM",
+      "Interpolate into SQL",
+      "Validate against an allowlist of known-safe columns, and use parameterized queries",
+      "Escape quotes only"
+     ],
+     "answer": 2,
+     "explain": "?sort=id;DROP+TABLE+orders is catastrophic when interpolated directly."
+    },
+    {
+     "q": "What is the correct CORS configuration?",
+     "options": [
+      "An explicit origin allowlist (e.g. https://app.example.com) with Vary: Origin, not reflecting any Origin",
+      "Access-Control-Allow-Origin: * with credentials",
+      "Reflect the request's Origin header",
+      "No CORS"
+     ],
+     "answer": 0,
+     "explain": "Reflecting Origin recreates the hole even though browsers reject * with credentials."
+    },
+    {
+     "q": "What happens to a preflight from an origin not on the allowlist?",
+     "options": [
+      "The real request is sent",
+      "It returns the data anyway",
+      "It's ignored",
+      "It's rejected, so the browser never sends the real request"
+     ],
+     "answer": 3,
+     "explain": "The example returns 403 for evil.com."
+    }
+   ]
+  },
+  "level-4/03-performance-at-scale": {
+   "questions": [
+    {
+     "q": "Why does a public product listing with Cache-Control: public, max-age=300 scale well?",
+     "options": [
+      "It's served from the CDN edge for 5 minutes, so the origin never sees most of the traffic",
+      "It's encrypted",
+      "It uses a database cache",
+      "It's compressed"
+     ],
+     "answer": 0,
+     "explain": "Private per-user caching still hits the origin but skips the database."
+    },
+    {
+     "q": "Why invalidate the Redis cache on write, not just by expiry?",
+     "options": [
+      "To log",
+      "To save memory",
+      "Redis requires it",
+      "So the next read repopulates fresh data instead of serving stale data until the TTL"
+     ],
+     "answer": 3,
+     "explain": "update_product deletes the key."
+    },
+    {
+     "q": "What does connection pooling solve?",
+     "options": [
+      "Cache misses",
+      "Slow DNS",
+      "Slow queries",
+      "Opening a DB connection per request is expensive (TCP handshake, auth); a pool reuses warm connections"
+     ],
+     "answer": 3,
+     "explain": "Too small a pool makes requests queue; too large overwhelms the database. Size by measurement."
+    },
+    {
+     "q": "Why return 202 Accepted for a long report job?",
+     "options": [
+      "The client gets an immediate response with a job ID, then polls or receives a webhook when it's done",
+      "It's cached",
+      "202 means success",
+      "It's faster"
+     ],
+     "answer": 0,
+     "explain": "Generating the report might take two minutes."
+    }
+   ]
+  },
+  "level-4/04-public-developer-apis": {
+   "questions": [
+    {
+     "q": "Why is the raw API key shown only once at creation?",
+     "options": [
+      "To save space",
+      "It's a bug",
+      "To hide it from the owner",
+      "Only its prefix and metadata are kept retrievable, so a leaked key can be identified and revoked without storing the plaintext"
+     ],
+     "answer": 3,
+     "explain": "Keys are scoped and revocable independently."
+    },
+    {
+     "q": "What does an sk_test_ key route to?",
+     "options": [
+      "Production",
+      "A fully isolated sandbox with fake payment processing and resettable data",
+      "A cache",
+      "A staging server shared with all"
+     ],
+     "answer": 1,
+     "explain": "The key prefix signals the environment."
+    },
+    {
+     "q": "Why generate SDKs from the OpenAPI spec?",
+     "options": [
+      "They're smaller",
+      "They need no tests",
+      "Every language binding stays in sync automatically as the spec changes",
+      "They're faster"
+     ],
+     "answer": 2,
+     "explain": "Hand-maintained SDKs drift out of date."
+    },
+    {
+     "q": "Why publish rate limit headers for public APIs?",
+     "options": [
+      "For marketing",
+      "To block requests",
+      "To hide limits",
+      "Third-party developers build automated systems against them and can't just be told by your team"
+     ],
+     "answer": 3,
+     "explain": "For example X-RateLimit-Limit, Remaining and Reset."
+    }
+   ]
+  },
+  "level-4/05-api-governance": {
+   "questions": [
+    {
+     "q": "What is a design-first review process?",
+     "options": [
+      "Teams submit an OpenAPI spec for review before writing implementation code",
+      "Only security reviews",
+      "Code first, then docs",
+      "No reviews"
+     ],
+     "answer": 0,
+     "explain": "Catching inconsistency at spec stage is far cheaper than migrating later."
+    },
+    {
+     "q": "What does the style guide excerpt say about money?",
+     "options": [
+      "Strings with symbols",
+      "Floats",
+      "Integer cents with a _cents suffix (total_cents: 4250), never a float",
+      "Decimals with commas"
+     ],
+     "answer": 2,
+     "explain": "Timestamps are ISO 8601 UTC with an _at suffix."
+    },
+    {
+     "q": "What does a written style guide change about reviews?",
+     "options": [
+      "More meetings",
+      "Subjective comments become objective checks against a section, giving faster reviews and less friction",
+      "Slower reviews",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "It's the actual standard."
+    },
+    {
+     "q": "Why does governance matter with dozens of teams?",
+     "options": [
+      "To rename teams",
+      "To add bureaucracy",
+      "To slow releases",
+      "Without coordination APIs diverge in pagination, error formats and auth, instead of feeling like one coherent platform"
+     ],
+     "answer": 3,
+     "explain": "The checklist covers pagination, errors, naming, versioning and scopes."
+    }
+   ]
+  },
+  "level-4/06-multi-region-ha": {
+   "questions": [
+    {
+     "q": "What are the three reasons for multi-region?",
+     "options": [
+      "Logging, testing, billing",
+      "Speed, memory, cache",
+      "Latency, availability and regulatory data residency",
+      "Cost, brand, SEO"
+     ],
+     "answer": 2,
+     "explain": "A Singapore customer on a US-only API pays about 200 ms of network transit."
+    },
+    {
+     "q": "How do active-passive and active-active differ?",
+     "options": [
+      "Active-passive has one region serving with a replicated idle standby; active-active has several serving live traffic at once",
+      "Active-passive serves all regions",
+      "They're the same",
+      "Active-active has one region"
+     ],
+     "answer": 0,
+     "explain": "Active-active is harder (cross-region consistency) but wastes no capacity."
+    },
+    {
+     "q": "What happens to a region failing health checks?",
+     "options": [
+      "It's automatically removed from DNS/routing so traffic reroutes within seconds",
+      "Humans must intervene",
+      "Nothing",
+      "All traffic stops"
+     ],
+     "answer": 0,
+     "explain": "GeoDNS routes customers to their nearest healthy region."
+    },
+    {
+     "q": "What's the hard part of multi-region?",
+     "options": [
+      "The database and data consistency; stateless app servers replicate trivially",
+      "DNS",
+      "App servers",
+      "TLS"
+     ],
+     "answer": 0,
+     "explain": "There is a trade-off between consistency and write latency."
+    }
+   ]
+  },
+  "level-4/07-event-driven-apis": {
+   "questions": [
+    {
+     "q": "What is the difference between a request and an event?",
+     "options": [
+      "A request says 'do this and tell me what happened'; an event says 'this happened' with no expectation of who reacts",
+      "Events expect replies",
+      "Requests are async",
+      "They're the same"
+     ],
+     "answer": 0,
+     "explain": "orders-service publishes order.confirmed without knowing its consumers."
+    },
+    {
+     "q": "Why do brokers durably store events?",
+     "options": [
+      "A consumer that's down processes the backlog when back, instead of losing the event as a failed direct HTTP call would",
+      "To encrypt",
+      "To speed up",
+      "To bill"
+     ],
+     "answer": 0,
+     "explain": "Examples: Kafka, SQS, RabbitMQ."
+    },
+    {
+     "q": "Why must consumers be idempotent?",
+     "options": [
+      "Events are huge",
+      "Brokers drop events",
+      "Brokers give at-least-once delivery, so the same event may arrive twice",
+      "Consumers are slow"
+     ],
+     "answer": 2,
+     "explain": "Check processed_events before handling."
+    },
+    {
+     "q": "What does the outbox pattern solve?",
+     "options": [
+      "Slow queries",
+      "Losing events on a crash between a DB write and a publish, by writing the event in the same transaction and relaying it separately",
+      "Auth",
+      "Caching"
+     ],
+     "answer": 1,
+     "explain": "Either both commit or neither does."
+    }
+   ]
+  },
+  "level-4/08-api-monetization": {
+   "questions": [
+    {
+     "q": "Why record usage metering asynchronously?",
+     "options": [
+      "It's required",
+      "To hide usage",
+      "So metering adds no latency to the actual response",
+      "It's cheaper"
+     ],
+     "answer": 2,
+     "explain": "It uses the event-driven pattern from module 7."
+    },
+    {
+     "q": "How does quota exhaustion differ from rate limiting?",
+     "options": [
+      "Quota returns 200",
+      "Quota resets per minute",
+      "They're identical",
+      "It's a billing boundary that resets on the billing cycle, and the fix is upgrading a plan rather than waiting 60 seconds"
+     ],
+     "answer": 3,
+     "explain": "Both can return 429, but the semantics differ."
+    },
+    {
+     "q": "Why offer a real-time usage dashboard?",
+     "options": [
+      "It looks nice",
+      "It's required by law",
+      "It avoids a customer discovering a huge bill at month end with no warning",
+      "It reduces calls"
+     ],
+     "answer": 2,
+     "explain": "It returns calls_used, calls_included and projected overage."
+    },
+    {
+     "q": "What does a developer portal bundle?",
+     "options": [
+      "Sign-up and key generation, docs, usage dashboard, billing and plan upgrades, and support links",
+      "Only keys",
+      "Only docs",
+      "Only a blog"
+     ],
+     "answer": 0,
+     "explain": "It makes a paid API self-service."
+    }
+   ]
+  },
+  "level-4/09-zero-downtime-migrations": {
+   "questions": [
+    {
+     "q": "What is the danger window in a rolling deploy?",
+     "options": [
+      "DNS changes",
+      "Old and new code serve traffic simultaneously, so a change incompatible with the previous version breaks requests",
+      "Caches clear",
+      "Instances restart"
+     ],
+     "answer": 1,
+     "explain": "It lasts seconds to minutes."
+    },
+    {
+     "q": "What are the three phases of expand-contract?",
+     "options": [
+      "Drop, add, rename",
+      "Lock, alter, unlock",
+      "Rename, copy, delete",
+      "Expand (add the new column and write both), migrate (backfill and switch reads), contract (drop the old column)"
+     ],
+     "answer": 3,
+     "explain": "Each is an independent, individually safe deploy."
+    },
+    {
+     "q": "Why backfill all rows before switching reads?",
+     "options": [
+      "To lock the table",
+      "To save space",
+      "For indexes",
+      "Otherwise old rows read as null"
+     ],
+     "answer": 3,
+     "explain": "Switch reads only after every row is backfilled."
+    },
+    {
+     "q": "How does a rolling deployment protect against a bad build?",
+     "options": [
+      "New instances are health-checked before receiving traffic, and a failing one halts the rollout",
+      "Traffic is mirrored",
+      "Nothing",
+      "All instances swap at once"
+     ],
+     "answer": 0,
+     "explain": "The load balancer only routes to healthy instances."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What is the capstone, OrderFlow?",
+     "options": [
+      "A coding project",
+      "A design exercise: a public, monetized, multi-region order/inventory/payments API at tens of thousands of requests per second",
+      "A database",
+      "A UI"
+     ],
+     "answer": 1,
+     "explain": "Work through each decision as in a real architecture review and justify it."
+    },
+    {
+     "q": "What is expected of each decision?",
+     "options": [
+      "Avoid documentation",
+      "Skip trade-offs",
+      "Be able to justify it, as in an architecture review",
+      "Copy defaults"
+     ],
+     "answer": 2,
+     "explain": "It pulls together every module from all four levels."
+    },
+    {
+     "q": "What do the capstone's requirements span?",
+     "options": [
+      "Only security",
+      "Only performance",
+      "Only docs",
+      "All four levels: REST design, pagination, auth, webhooks, gateways, security, performance, governance, multi-region, events, monetization and zero-downtime releases"
+     ],
+     "answer": 3,
+     "explain": "The platform is monetized as a paid product."
+    },
+    {
+     "q": "What scale does the brief set?",
+     "options": [
+      "One region",
+      "10 requests per second",
+      "One customer",
+      "Tens of thousands of requests per second across multiple continents"
+     ],
+     "answer": 3,
+     "explain": "That scale drives the multi-region and performance choices."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A mobile client POSTs /payments, the network times out, and it retries the same request. How should the API prevent a double charge?",
+    "options": [
+     "Reject all retries with 429",
+     "Make POST idempotent by changing it to GET",
+     "Ask the user to wait a minute",
+     "Require an Idempotency-Key header; return the stored original result when the key repeats"
+    ],
+    "answer": 3,
+    "explain": "Verified by simulation: the second call with the same key returns the original result (status 200 versus 201 for a new key) and creates no second record."
+   },
+   {
+    "q": "A client's list request used offset pagination: page 1 returned ids [1, 2, 3]. Before page 2, a new item was inserted at the front. What does page 2 (offset 3) return?",
+    "options": [
+     "[3, 4, 5]: item 3 appears twice (page drift)",
+     "An error",
+     "[0, 1, 2]",
+     "[4, 5, 6]"
+    ],
+    "answer": 0,
+    "explain": "Offsets shift when rows are inserted or deleted. Cursor pagination (WHERE id > last_id) avoids this."
+   },
+   {
+    "q": "A token bucket has capacity 3 and refills 1 token per second. Requests arrive at t = 0, 0, 0, 0, 1, 1, 2 seconds. Which are allowed (1) or rejected (0)?",
+    "options": [
+     "1, 1, 1, 0, 0, 0, 0",
+     "1, 1, 1, 1, 1, 1, 1",
+     "1, 0, 0, 0, 1, 0, 0",
+     "1, 1, 1, 0, 1, 0, 1"
+    ],
+    "answer": 3,
+    "explain": "The burst of three drains the bucket, the 4th is rejected, then one token returns per second. Verified by simulation."
+   },
+   {
+    "q": "`GET /v1/orders/999` with user A's valid token returns user B's order. Which vulnerability is this, and what is the fix?",
+    "options": [
+     "CORS misconfiguration; add Vary: Origin",
+     "SQL injection; use parameterised queries",
+     "CSRF; add a state parameter",
+     "Broken Object Level Authorization (BOLA); filter every lookup by the authenticated user as well as the ID"
+    ],
+    "answer": 3,
+    "explain": "Checking only that a token is valid isn't enough. Returning 404 for others' resources also avoids confirming they exist."
+   },
+   {
+    "q": "A client sends `If-None-Match: \"b7e2f9\"` and the resource hasn't changed. What does the server return?",
+    "options": [
+     "304 Not Modified with no body",
+     "200 with the full body",
+     "204 No Content",
+     "412 Precondition Failed"
+    ],
+    "answer": 0,
+    "explain": "The client keeps using its cached copy. If-Match (not If-None-Match) is for optimistic concurrency on writes."
+   },
+   {
+    "q": "A client sends `If-Match: \"old-etag\"` on a PUT but the resource has changed since. What should the server return?",
+    "options": [
+     "412 Precondition Failed, so the client doesn't overwrite someone else's change",
+     "201 Created",
+     "304 Not Modified",
+     "200 and overwrite"
+    ],
+    "answer": 0,
+    "explain": "If-Match gives optimistic concurrency and prevents lost updates."
+   },
+   {
+    "q": "You must rename the `total` column to `total_amount` on a live API with rolling deploys. What is the safe order?",
+    "options": [
+     "Drop and re-create the table",
+     "Rename it in one migration",
+     "Stop the API for the migration window",
+     "Expand (add column, write both), migrate (backfill, switch reads), contract (drop the old column), each as a separate deploy"
+    ],
+    "answer": 3,
+    "explain": "During a rolling deploy old and new code run together, so every step must be compatible with both versions."
+   },
+   {
+    "q": "An endpoint accepts `?sort=` and builds `ORDER BY` from it. Which fix is correct?",
+    "options": [
+     "Trust the ORM",
+     "Strip quotes from the input",
+     "Escape semicolons only",
+     "Validate against an allowlist of known columns (and use parameterised queries elsewhere)"
+    ],
+    "answer": 3,
+    "explain": "Never interpolate user input into SQL, even for ORDER BY."
+   },
+   {
+    "q": "A public API returns `429 Too Many Requests` with `RateLimit-Reset: 37`. What should a well-behaved client do?",
+    "options": [
+     "Switch to a different API key",
+     "Retry 37 times",
+     "Retry immediately",
+     "Wait about 37 seconds (the time until the window resets) before retrying"
+    ],
+    "answer": 3,
+    "explain": "RateLimit-Reset here means seconds until the window or bucket resets. A Retry-After header may also be present."
+   },
+   {
+    "q": "A webhook receiver gets a POST with an X-Webhook-Signature header. What is the right verification?",
+    "options": [
+     "Recompute the HMAC-SHA256 of the raw body with the shared secret and compare in constant time",
+     "Check that the request came from a known IP only",
+     "Parse the JSON and trust the event id",
+     "Compare the signature with == on the parsed body"
+    ],
+    "answer": 0,
+    "explain": "Verify the raw bytes. Parsing and re-serialising can change them, and == leaks timing information."
+   },
+   {
+    "q": "A report takes two minutes to generate. Which design is best?",
+    "options": [
+     "Return 200 with an empty body",
+     "POST returns 202 Accepted with a job id; the client polls the job or receives a webhook",
+     "Hold the connection open for two minutes",
+     "Return 504 and ask the client to retry"
+    ],
+    "answer": 1,
+    "explain": "Long work belongs in a background job, not in the request."
+   },
+   {
+    "q": "Which change to an existing v1 response is breaking?",
+    "options": [
+     "Renaming a field or changing its type (for example 42 to \"42\")",
+     "Adding a new optional query parameter",
+     "Adding an optional field",
+     "Adding a new endpoint"
+    ],
+    "answer": 0,
+    "explain": "Rule of thumb: if unmodified client code could start erroring, it's breaking."
+   },
+   {
+    "q": "Which headers help clients prepare for retiring v1?",
+    "options": [
+     "Accept and Content-Type",
+     "Deprecation and Sunset (with a Link to the migration guide)",
+     "Allow and Vary",
+     "ETag and Last-Modified"
+    ],
+    "answer": 1,
+    "explain": "They let tooling detect deprecated usage and the removal date automatically."
+   },
+   {
+    "q": "An orders service needs the customer's name, which lives in another team's database. What is the microservices-correct approach?",
+    "options": [
+     "Add a read-only DB connection to users_db",
+     "Call the users service's API (or consume its events); never query its tables",
+     "Copy the tables nightly by hand",
+     "Join across databases"
+    ],
+    "answer": 1,
+    "explain": "Database-per-service keeps services independently deployable."
+   },
+   {
+    "q": "After the orders service writes the order row, it crashes before publishing `order.confirmed`. Which pattern avoids lost events?",
+    "options": [
+     "Retry the whole HTTP request",
+     "The transactional outbox: write the event row in the same DB transaction and relay it separately",
+     "Publish first, then write the row",
+     "Ignore it"
+    ],
+    "answer": 1,
+    "explain": "Both writes commit or neither does; a relay publishes from the outbox."
+   },
+   {
+    "q": "A broker delivers the same event twice after a rebalance. What must the consumer be?",
+    "options": [
+     "Single-threaded",
+     "Stateless and ignoring ids",
+     "Exactly-once by default",
+     "Idempotent: it records processed event ids and skips duplicates"
+    ],
+    "answer": 3,
+    "explain": "Most brokers give at-least-once delivery."
+   },
+   {
+    "q": "A browser app on https://app.example.com calls your API. Which CORS setup is right?",
+    "options": [
+     "Access-Control-Allow-Origin: * with credentials",
+     "Allow that explicit origin (with Vary: Origin), not a reflected or wildcard origin with credentials",
+     "Disable CORS",
+     "Reflect whatever Origin arrives"
+    ],
+    "answer": 1,
+    "explain": "Reflecting any origin recreates the hole the same-origin policy is protecting against."
+   },
+   {
+    "q": "Which protocol suits internal service-to-service calls with strong contracts and streaming, and which suits public browser-facing APIs?",
+    "options": [
+     "SOAP for both",
+     "REST internally; gRPC publicly",
+     "GraphQL internally only",
+     "gRPC internally; REST/JSON publicly"
+    ],
+    "answer": 3,
+    "explain": "Browsers can't natively speak gRPC, and public integrators expect REST."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Cursor pagination",
+    "prompt": "Implement list_books(limit, cursor=None) over BOOKS (ids 1..7). The cursor is the base64 (urlsafe) of JSON {\"id\": last_id}. Return {data: ids, has_more, next_cursor}. Fetch limit+1 rows to know whether more exist. Then page through with limit 3.",
+    "starter": "import base64, json\nBOOKS = [{\"id\": i, \"title\": f\"Book {i}\"} for i in range(1, 8)]\n\ndef encode_cursor(last_id):\n    return base64.urlsafe_b64encode(json.dumps({\"id\": last_id}).encode()).decode()\n\ndef decode_cursor(cursor):\n    return json.loads(base64.urlsafe_b64decode(cursor.encode()))[\"id\"]\n\ndef list_books(limit, cursor=None):\n    # your code\n    pass\n\np1 = list_books(3)\np2 = list_books(3, p1[\"next_cursor\"])\np3 = list_books(3, p2[\"next_cursor\"])\nprint(p1[\"data\"], p1[\"has_more\"], decode_cursor(p1[\"next_cursor\"]))\nprint(p2[\"data\"], p2[\"has_more\"])\nprint(p3[\"data\"], p3[\"has_more\"], p3[\"next_cursor\"])\n",
+    "expected": "[1, 2, 3] True 3\n[4, 5, 6] True\n[7] False None",
+    "solution": "import base64, json\nBOOKS = [{\"id\": i, \"title\": f\"Book {i}\"} for i in range(1, 8)]\n\ndef encode_cursor(last_id):\n    return base64.urlsafe_b64encode(json.dumps({\"id\": last_id}).encode()).decode()\n\ndef decode_cursor(cursor):\n    return json.loads(base64.urlsafe_b64decode(cursor.encode()))[\"id\"]\n\ndef list_books(limit, cursor=None):\n    after = decode_cursor(cursor) if cursor else 0\n    rows = [b for b in BOOKS if b[\"id\"] > after][: limit + 1]\n    page = rows[:limit]\n    has_more = len(rows) > limit\n    return {\"data\": [b[\"id\"] for b in page], \"has_more\": has_more,\n            \"next_cursor\": encode_cursor(page[-1][\"id\"]) if has_more else None}\n\np1 = list_books(3)\np2 = list_books(3, p1[\"next_cursor\"])\np3 = list_books(3, p2[\"next_cursor\"])\nprint(p1[\"data\"], p1[\"has_more\"], decode_cursor(p1[\"next_cursor\"]))\nprint(p2[\"data\"], p2[\"has_more\"])\nprint(p3[\"data\"], p3[\"has_more\"], p3[\"next_cursor\"])\n",
+    "explain": "Fetching limit+1 rows tells you whether another page exists without a count query. The cursor encodes the last id, so the next page is WHERE id > last_id, which stays consistent when rows are inserted or deleted. Verified by running the solution: output matches."
+   },
+   {
+    "title": "Verify a webhook signature",
+    "prompt": "Write sign(body) that returns \"sha256=\" + the hex HMAC-SHA256 of the raw body using the shared secret, and verify(body, header) using a constant-time comparison. Print the signature length and prefix, then verify a good signature, a tampered body and a wrong signature.",
+    "starter": "import hmac, hashlib\nSECRET = \"whsec_abc123\"\n\ndef sign(body: bytes) -> str:\n    # your code\n    pass\n\ndef verify(body: bytes, header: str) -> bool:\n    # your code\n    pass\n\nbody = b'{\"event\": \"book.added\", \"id\": \"evt_1\"}'\ngood = sign(body)\nprint(len(good), good[:7])\nprint(verify(body, good), verify(body + b\" \", good), verify(body, \"sha256=\" + \"0\" * 64))\n",
+    "expected": "71 sha256=\nTrue False False",
+    "solution": "import hmac, hashlib\nSECRET = \"whsec_abc123\"\ndef sign(body: bytes) -> str:\n    return \"sha256=\" + hmac.new(SECRET.encode(), body, hashlib.sha256).hexdigest()\ndef verify(body: bytes, header: str) -> bool:\n    return hmac.compare_digest(sign(body), header)\nbody = b'{\"event\": \"book.added\", \"id\": \"evt_1\"}'\ngood = sign(body)\nprint(len(good), good[:7])\nprint(verify(body, good), verify(body + b\" \", good), verify(body, \"sha256=\" + \"0\" * 64))\n",
+    "explain": "The hex SHA-256 digest is 64 characters, plus the 7-character prefix, so 71. Any change to the body changes the signature, and compare_digest avoids timing leaks. Verified by running the solution: output matches."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
