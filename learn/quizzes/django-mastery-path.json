@@ -1,0 +1,2159 @@
+{
+ "course": "django-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-django-is": {
+   "questions": [
+    {
+     "q": "What does 'batteries included' mean for Django?",
+     "options": [
+      "It needs plugins for everything",
+      "It's tiny",
+      "It ships with ORM, admin, auth, forms, templates, migrations and security features out of the box",
+      "It has no ORM"
+     ],
+     "answer": 2,
+     "explain": "A full-stack framework."
+    },
+    {
+     "q": "Which architecture pattern does Django follow?",
+     "options": [
+      "MVVM",
+      "MVC exactly",
+      "Microkernel",
+      "MTV: Model, Template, View"
+     ],
+     "answer": 3,
+     "explain": "Django's view is the controller-like piece."
+    },
+    {
+     "q": "What does the request/response cycle look like?",
+     "options": [
+      "URLconf routes to a view, which returns an HttpResponse (often rendering a template)",
+      "Template then URL",
+      "View then model only",
+      "Model then URL"
+     ],
+     "answer": 0,
+     "explain": "urls.py maps paths to views."
+    },
+    {
+     "q": "What is an app in Django?",
+     "options": [
+      "A server",
+      "A browser",
+      "A database",
+      "A reusable Python package with models, views and templates inside a project"
+     ],
+     "answer": 3,
+     "explain": "A project has many apps."
+    }
+   ]
+  },
+  "level-1/02-project-setup": {
+   "questions": [
+    {
+     "q": "What does `python manage.py runserver` do?",
+     "options": [
+      "Migrates",
+      "Tests",
+      "Starts the development server",
+      "Deploys"
+     ],
+     "answer": 2,
+     "explain": "Not for production."
+    },
+    {
+     "q": "What does `startapp` create?",
+     "options": [
+      "A project",
+      "A database",
+      "A new app package with models.py, views.py and more",
+      "A server"
+     ],
+     "answer": 2,
+     "explain": "Add it to INSTALLED_APPS."
+    },
+    {
+     "q": "Why use a virtual environment?",
+     "options": [
+      "Law",
+      "Style",
+      "Isolate project dependencies",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Pin with requirements."
+    },
+    {
+     "q": "Which file holds project settings?",
+     "options": [
+      "wsgi.py",
+      "settings.py",
+      "manage.py",
+      "urls.py"
+     ],
+     "answer": 1,
+     "explain": "Use environment variables for secrets."
+    }
+   ]
+  },
+  "level-1/03-urls-views": {
+   "questions": [
+    {
+     "q": "What does `path('books/<int:pk>/', views.detail)` do?",
+     "options": [
+      "Creates a model",
+      "Reads a file",
+      "Captures an integer from the URL and passes it to the view as pk",
+      "Redirects"
+     ],
+     "answer": 2,
+     "explain": "Path converters."
+    },
+    {
+     "q": "What must a view return?",
+     "options": [
+      "A dict",
+      "None",
+      "A string only",
+      "An HttpResponse (or subclass)"
+     ],
+     "answer": 3,
+     "explain": "render() returns one."
+    },
+    {
+     "q": "Why name URL patterns (name='detail')?",
+     "options": [
+      "So you can reverse them instead of hard-coding paths",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "reverse('detail', args=[1])."
+    },
+    {
+     "q": "What does `include('books.urls')` do?",
+     "options": [
+      "Loads templates",
+      "Runs tests",
+      "Imports models",
+      "Delegates a URL prefix to another URLconf"
+     ],
+     "answer": 3,
+     "explain": "Keeps apps modular."
+    }
+   ]
+  },
+  "level-1/04-templates": {
+   "questions": [
+    {
+     "q": "How does Django's template language escape variables?",
+     "options": [
+      "Automatically HTML-escapes output by default",
+      "Never",
+      "Only in forms",
+      "Only JSON"
+     ],
+     "answer": 0,
+     "explain": "Use |safe sparingly."
+    },
+    {
+     "q": "What does `{% extends 'base.html' %}` do?",
+     "options": [
+      "Imports Python",
+      "Loads static",
+      "Inherits a base template and overrides its blocks",
+      "Includes a file"
+     ],
+     "answer": 2,
+     "explain": "Template inheritance."
+    },
+    {
+     "q": "Where should logic live?",
+     "options": [
+      "Settings",
+      "Templates",
+      "URLs",
+      "In views/models, with templates kept to presentation"
+     ],
+     "answer": 3,
+     "explain": "Keep templates simple."
+    },
+    {
+     "q": "What does `{% for b in books %}` do?",
+     "options": [
+      "Defines a block",
+      "Loops over a list in the template",
+      "Includes file",
+      "Queries DB"
+     ],
+     "answer": 1,
+     "explain": "Use {% empty %}."
+    }
+   ]
+  },
+  "level-1/05-models-migrations": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    pages = models.IntegerField(default=100)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n\n# ... tables created in a throwaway in-memory SQLite database ...\n\na1 = Author.objects.create(name=\"Ada\")\na2 = Author.objects.create(name=\"Bo\")\nBook.objects.create(title=\"X\", pages=100, author=a1)\nBook.objects.create(title=\"Y\", pages=300, author=a1)\nBook.objects.create(title=\"Z\", pages=200, author=a2)\nprint(Book.objects.count(), Author.objects.get(name='Ada').books.count())\n```\n",
+     "options": [
+      "2 2",
+      "3 1",
+      "3 3",
+      "3 2"
+     ],
+     "answer": 3,
+     "explain": "related_name gives the reverse accessor. Verified by running it with Django."
+    },
+    {
+     "q": "What does `makemigrations` do?",
+     "options": [
+      "Backs up",
+      "Generates migration files from model changes",
+      "Deletes",
+      "Applies them"
+     ],
+     "answer": 1,
+     "explain": "migrate applies them."
+    },
+    {
+     "q": "What does `migrate` do?",
+     "options": [
+      "Applies migrations to the database",
+      "Dumps",
+      "Tests",
+      "Creates files"
+     ],
+     "answer": 0,
+     "explain": "Tracks applied ones in django_migrations."
+    },
+    {
+     "q": "Why commit migrations to version control?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "They're the shared history of the schema"
+     ],
+     "answer": 3,
+     "explain": "Teammates apply the same changes."
+    }
+   ]
+  },
+  "level-1/06-orm-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    pages = models.IntegerField(default=100)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n\n# ... tables created in a throwaway in-memory SQLite database ...\n\na1 = Author.objects.create(name=\"Ada\")\na2 = Author.objects.create(name=\"Bo\")\nBook.objects.create(title=\"X\", pages=100, author=a1)\nBook.objects.create(title=\"Y\", pages=300, author=a1)\nBook.objects.create(title=\"Z\", pages=200, author=a2)\nprint(list(Book.objects.filter(pages__gt=150).order_by('title').values_list('title', flat=True)))\n```\n",
+     "options": [
+      "[]",
+      "['Y']",
+      "['X', 'Y', 'Z']",
+      "['Y', 'Z']"
+     ],
+     "answer": 3,
+     "explain": "Field lookups like __gt. Verified by running it with Django."
+    },
+    {
+     "q": "What does this print?\n```python\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    pages = models.IntegerField(default=100)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n\n# ... tables created in a throwaway in-memory SQLite database ...\n\na1 = Author.objects.create(name=\"Ada\")\na2 = Author.objects.create(name=\"Bo\")\nBook.objects.create(title=\"X\", pages=100, author=a1)\nBook.objects.create(title=\"Y\", pages=300, author=a1)\nBook.objects.create(title=\"Z\", pages=200, author=a2)\nb,created=Book.objects.get_or_create(title='X', defaults={'author':a1})\nb2,c2=Book.objects.get_or_create(title='New', defaults={'author':a1})\nprint(created, c2, Book.objects.count())\n```\n",
+     "options": [
+      "True False 4",
+      "True True 4",
+      "False False 3",
+      "False True 4"
+     ],
+     "answer": 3,
+     "explain": "get_or_create returns (obj, created). Verified by running it with Django."
+    },
+    {
+     "q": "When does a QuerySet hit the database?",
+     "options": [
+      "On creation",
+      "When it's evaluated (iterated, sliced with step, list(), count(), etc.)",
+      "On filter()",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "QuerySets are lazy."
+    },
+    {
+     "q": "What does `Model.objects.get()` raise if no row matches?",
+     "options": [
+      "IndexError",
+      "None",
+      "KeyError",
+      "Model.DoesNotExist"
+     ],
+     "answer": 3,
+     "explain": "MultipleObjectsReturned if many."
+    }
+   ]
+  },
+  "level-1/07-admin": {
+   "questions": [
+    {
+     "q": "What do you need to expose a model in the admin?",
+     "options": [
+      "A view",
+      "Register it with admin.site.register or @admin.register",
+      "Nothing",
+      "A template"
+     ],
+     "answer": 1,
+     "explain": "ModelAdmin customizes."
+    },
+    {
+     "q": "What does `createsuperuser` do?",
+     "options": [
+      "Creates an admin user with all permissions",
+      "Runs server",
+      "Migrates",
+      "Creates DB"
+     ],
+     "answer": 0,
+     "explain": "Use strong passwords."
+    },
+    {
+     "q": "What does `list_display` control?",
+     "options": [
+      "Forms",
+      "Permissions",
+      "Columns shown in the admin changelist",
+      "URLs"
+     ],
+     "answer": 2,
+     "explain": "Also list_filter, search_fields."
+    },
+    {
+     "q": "Is the admin meant for end-user UIs?",
+     "options": [
+      "Yes",
+      "Always",
+      "Public",
+      "No, it's an internal back-office tool"
+     ],
+     "answer": 3,
+     "explain": "Build real views for users."
+    }
+   ]
+  },
+  "level-1/08-forms": {
+   "questions": [
+    {
+     "q": "What does `form.is_valid()` do?",
+     "options": [
+      "Saves",
+      "Runs validation and populates cleaned_data and errors",
+      "Redirects",
+      "Renders"
+     ],
+     "answer": 1,
+     "explain": "Then save()."
+    },
+    {
+     "q": "What's a ModelForm?",
+     "options": [
+      "A migration",
+      "A view",
+      "A form generated from a model's fields",
+      "A template"
+     ],
+     "answer": 2,
+     "explain": "Also saves the instance."
+    },
+    {
+     "q": "What does {% csrf_token %} protect against?",
+     "options": [
+      "Cross-site request forgery on POST forms",
+      "SQLi",
+      "XSS",
+      "DoS"
+     ],
+     "answer": 0,
+     "explain": "Required for POST."
+    },
+    {
+     "q": "What should a successful POST do?",
+     "options": [
+      "Redirect (Post/Redirect/Get) to avoid resubmission",
+      "Error",
+      "Nothing",
+      "Render again"
+     ],
+     "answer": 0,
+     "explain": "Use redirect()."
+    }
+   ]
+  },
+  "level-1/09-static-media": {
+   "questions": [
+    {
+     "q": "What's the difference between static and media files?",
+     "options": [
+      "Reverse",
+      "None",
+      "Same",
+      "Static are your assets (CSS/JS); media are user-uploaded files"
+     ],
+     "answer": 3,
+     "explain": "STATIC_URL vs MEDIA_URL."
+    },
+    {
+     "q": "What does `collectstatic` do?",
+     "options": [
+      "Compiles",
+      "Gathers static files into STATIC_ROOT for production serving",
+      "Uploads media",
+      "Tests"
+     ],
+     "answer": 1,
+     "explain": "Serve via a web server/CDN."
+    },
+    {
+     "q": "Should Django serve media in production?",
+     "options": [
+      "Yes",
+      "Only DEBUG",
+      "No: use a web server, object storage or CDN",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "Dev-only helpers."
+    },
+    {
+     "q": "What does `{% load static %}` enable?",
+     "options": [
+      "Models",
+      "Auth",
+      "The {% static %} tag for asset URLs",
+      "Forms"
+     ],
+     "answer": 2,
+     "explain": "Needed in each template."
+    }
+   ]
+  },
+  "level-1/10-project-reading-list": {
+   "questions": [
+    {
+     "q": "What does the reading list project combine?",
+     "options": [
+      "Only admin",
+      "Only models",
+      "Models, views, templates, forms and admin in one CRUD app",
+      "Only forms"
+     ],
+     "answer": 2,
+     "explain": "End to end."
+    },
+    {
+     "q": "How should you test the app?",
+     "options": [
+      "Never",
+      "Django's test client against views and models",
+      "Manually only",
+      "Browser only"
+     ],
+     "answer": 1,
+     "explain": "Automate."
+    },
+    {
+     "q": "What's a good structure for CRUD views?",
+     "options": [
+      "None",
+      "One view",
+      "List, detail, create, update and delete with named URLs",
+      "Random"
+     ],
+     "answer": 2,
+     "explain": "RESTful-ish."
+    },
+    {
+     "q": "What should you validate?",
+     "options": [
+      "User input via forms and model constraints",
+      "Nothing",
+      "Only URLs",
+      "Only client side"
+     ],
+     "answer": 0,
+     "explain": "Server-side validation."
+    }
+   ]
+  },
+  "level-2/01-relationships": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    pages = models.IntegerField(default=100)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n\n# ... tables created in a throwaway in-memory SQLite database ...\n\na1 = Author.objects.create(name=\"Ada\")\na2 = Author.objects.create(name=\"Bo\")\nBook.objects.create(title=\"X\", pages=100, author=a1)\nBook.objects.create(title=\"Y\", pages=300, author=a1)\nBook.objects.create(title=\"Z\", pages=200, author=a2)\nprint(sorted(a1.books.values_list('title', flat=True)), Book.objects.get(title='Z').author.name)\n```\n",
+     "options": [
+      "['X', 'Y'] Ada",
+      "['Z'] Bo",
+      "[] Bo",
+      "['X', 'Y'] Bo"
+     ],
+     "answer": 3,
+     "explain": "Forward and reverse relations. Verified by running it with Django."
+    },
+    {
+     "q": "What does on_delete=CASCADE do?",
+     "options": [
+      "Protects",
+      "Nulls",
+      "Deletes related objects when the referenced object is deleted",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "PROTECT blocks; SET_NULL nulls."
+    },
+    {
+     "q": "When use ManyToManyField?",
+     "options": [
+      "One-to-one",
+      "One-to-many",
+      "When each side can relate to many of the other (e.g. tags)",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Creates a join table."
+    },
+    {
+     "q": "What is a OneToOneField for?",
+     "options": [
+      "Many to many",
+      "Extending a model with exactly one related record (e.g. profile)",
+      "Tags",
+      "Foreign"
+     ],
+     "answer": 1,
+     "explain": "Unique ForeignKey."
+    }
+   ]
+  },
+  "level-2/02-advanced-querysets": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    pages = models.IntegerField(default=100)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n\n# ... tables created in a throwaway in-memory SQLite database ...\n\na1 = Author.objects.create(name=\"Ada\")\na2 = Author.objects.create(name=\"Bo\")\nBook.objects.create(title=\"X\", pages=100, author=a1)\nBook.objects.create(title=\"Y\", pages=300, author=a1)\nBook.objects.create(title=\"Z\", pages=200, author=a2)\nfrom django.db.models import Count, Avg, F, Q\nr=Author.objects.annotate(n=Count('books'), avg=Avg('books__pages')).order_by('name').values_list('name','n','avg')\nprint(list(r))\n```\n",
+     "options": [
+      "[('Ada', 2, 200.0), ('Bo', 1, 200.0)]",
+      "[('Ada', 3, 200.0)]",
+      "[('Ada', 2, 100.0)]",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "annotate aggregates per row. Verified by running it with Django."
+    },
+    {
+     "q": "What does this print?\n```python\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    pages = models.IntegerField(default=100)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n\n# ... tables created in a throwaway in-memory SQLite database ...\n\na1 = Author.objects.create(name=\"Ada\")\na2 = Author.objects.create(name=\"Bo\")\nBook.objects.create(title=\"X\", pages=100, author=a1)\nBook.objects.create(title=\"Y\", pages=300, author=a1)\nBook.objects.create(title=\"Z\", pages=200, author=a2)\nfrom django.db.models import F, Q\nBook.objects.update(pages=F('pages')+10)\nprint(sorted(Book.objects.values_list('pages', flat=True)), Book.objects.filter(Q(pages__lt=120)|Q(title='Z')).count())\n```\n",
+     "options": [
+      "[110, 210, 310] 2",
+      "[110, 210, 310] 1",
+      "Error",
+      "[100, 200, 300] 2"
+     ],
+     "answer": 0,
+     "explain": "F updates in the database; Q combines with OR. Verified by running it with Django."
+    },
+    {
+     "q": "Why use F() for increments?",
+     "options": [
+      "Law",
+      "Speed",
+      "It avoids race conditions by updating in the database",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "read-modify-write is unsafe."
+    },
+    {
+     "q": "What does `exclude()` do?",
+     "options": [
+      "Matches",
+      "Returns rows that do NOT match the condition",
+      "Deletes",
+      "Sorts"
+     ],
+     "answer": 1,
+     "explain": "Chain with filter."
+    }
+   ]
+  },
+  "level-2/03-n-plus-one": {
+   "questions": [
+    {
+     "q": "How many queries do the two loops run?\n```python\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    pages = models.IntegerField(default=100)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n\n# ... tables created in a throwaway in-memory SQLite database ...\n\na1 = Author.objects.create(name=\"Ada\")\na2 = Author.objects.create(name=\"Bo\")\nBook.objects.create(title=\"X\", pages=100, author=a1)\nBook.objects.create(title=\"Y\", pages=300, author=a1)\nBook.objects.create(title=\"Z\", pages=200, author=a2)\nfrom django.test.utils import CaptureQueriesContext\nwith CaptureQueriesContext(connection) as c1:\n    for b in Book.objects.all(): b.author.name\nwith CaptureQueriesContext(connection) as c2:\n    for b in Book.objects.select_related('author'): b.author.name\nprint(len(c1), len(c2))\n```\n",
+     "options": [
+      "1 1",
+      "4 4",
+      "3 1",
+      "4 1"
+     ],
+     "answer": 3,
+     "explain": "N+1: one query for books plus one per author lookup; select_related joins. Verified by running it with Django."
+    },
+    {
+     "q": "When use prefetch_related instead of select_related?",
+     "options": [
+      "Never",
+      "For FK only",
+      "Always",
+      "For many-to-many and reverse foreign keys (separate query joined in Python)"
+     ],
+     "answer": 3,
+     "explain": "select_related is for single-valued relations."
+    },
+    {
+     "q": "How do you detect N+1 queries?",
+     "options": [
+      "Watch CPU",
+      "Guess",
+      "Ignore",
+      "Query counts in tests, django-debug-toolbar or logging SQL"
+     ],
+     "answer": 3,
+     "explain": "assertNumQueries."
+    },
+    {
+     "q": "What does `only()`/`defer()` do?",
+     "options": [
+      "Filter rows",
+      "Sort",
+      "Load fewer columns",
+      "Join"
+     ],
+     "answer": 2,
+     "explain": "Reduce data transferred."
+    }
+   ]
+  },
+  "level-2/04-class-based-views": {
+   "questions": [
+    {
+     "q": "What do class-based views offer?",
+     "options": [
+      "Reusable behavior via inheritance and mixins (ListView, DetailView...)",
+      "Nothing",
+      "Less code always",
+      "Faster"
+     ],
+     "answer": 0,
+     "explain": "Pick by clarity."
+    },
+    {
+     "q": "What does `get_queryset()` customize?",
+     "options": [
+      "Form",
+      "URL",
+      "The rows a view operates on",
+      "Template"
+     ],
+     "answer": 2,
+     "explain": "Filter by user, for example."
+    },
+    {
+     "q": "What does `get_context_data()` do?",
+     "options": [
+      "Queries",
+      "Forms",
+      "Adds extra data to the template context",
+      "Routes"
+     ],
+     "answer": 2,
+     "explain": "Call super()."
+    },
+    {
+     "q": "Which mixin requires login for a CBV?",
+     "options": [
+      "require_POST",
+      "login()",
+      "csrf",
+      "LoginRequiredMixin"
+     ],
+     "answer": 3,
+     "explain": "Put it first in MRO."
+    }
+   ]
+  },
+  "level-2/05-authentication": {
+   "questions": [
+    {
+     "q": "What does `authenticate()` do?",
+     "options": [
+      "Checks credentials and returns a user or None",
+      "Creates",
+      "Hashes",
+      "Logs in"
+     ],
+     "answer": 0,
+     "explain": "Then login(request, user)."
+    },
+    {
+     "q": "How are passwords stored?",
+     "options": [
+      "Plain",
+      "Salted hashes (PBKDF2 by default)",
+      "Encrypted",
+      "Base64"
+     ],
+     "answer": 1,
+     "explain": "Never stored raw."
+    },
+    {
+     "q": "What does `@login_required` do?",
+     "options": [
+      "Redirects anonymous users to the login page",
+      "Logs in",
+      "Hides",
+      "Blocks"
+     ],
+     "answer": 0,
+     "explain": "LOGIN_URL."
+    },
+    {
+     "q": "What does `request.user.is_authenticated` tell you?",
+     "options": [
+      "Superuser",
+      "Whether the request comes from a logged-in user",
+      "Admin",
+      "Active"
+     ],
+     "answer": 1,
+     "explain": "Anonymous otherwise."
+    }
+   ]
+  },
+  "level-2/06-permissions": {
+   "questions": [
+    {
+     "q": "What's the difference between a permission and a group?",
+     "options": [
+      "Same",
+      "A permission allows an action on a model; groups bundle permissions for users",
+      "None",
+      "Reverse"
+     ],
+     "answer": 1,
+     "explain": "user.has_perm()."
+    },
+    {
+     "q": "Why check object-level access in views?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Model permissions don't restrict which rows a user can see"
+     ],
+     "answer": 3,
+     "explain": "Filter queryset by owner."
+    },
+    {
+     "q": "What does PermissionRequiredMixin require?",
+     "options": [
+      "Group name",
+      "A permission string like 'app.change_model'",
+      "Login only",
+      "Staff"
+     ],
+     "answer": 1,
+     "explain": "Raises 403."
+    },
+    {
+     "q": "What's least privilege here?",
+     "options": [
+      "None",
+      "All perms",
+      "Admin",
+      "Give users only the permissions they need"
+     ],
+     "answer": 3,
+     "explain": "Review regularly."
+    }
+   ]
+  },
+  "level-2/07-custom-user-model": {
+   "questions": [
+    {
+     "q": "Why set AUTH_USER_MODEL early?",
+     "options": [
+      "Speed",
+      "Swapping the user model mid-project is hard because of migrations and foreign keys",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Do it at the start."
+    },
+    {
+     "q": "What should a custom user subclass?",
+     "options": [
+      "User",
+      "AbstractUser (or AbstractBaseUser for full control)",
+      "object",
+      "Model"
+     ],
+     "answer": 1,
+     "explain": "Keep admin compatibility."
+    },
+    {
+     "q": "Why reference users via settings.AUTH_USER_MODEL?",
+     "options": [
+      "So foreign keys work with a custom user model",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Use get_user_model() in code."
+    },
+    {
+     "q": "What does USERNAME_FIELD define?",
+     "options": [
+      "Password",
+      "Email only",
+      "The field used as the unique identifier at login",
+      "Display"
+     ],
+     "answer": 2,
+     "explain": "e.g. email."
+    }
+   ]
+  },
+  "level-2/08-sessions-middleware": {
+   "questions": [
+    {
+     "q": "What is middleware?",
+     "options": [
+      "A form",
+      "Hooks that process requests and responses globally",
+      "A view",
+      "A model"
+     ],
+     "answer": 1,
+     "explain": "Order matters."
+    },
+    {
+     "q": "Where are sessions stored by default?",
+     "options": [
+      "File",
+      "Memory",
+      "In the database (django_session), with a session id cookie",
+      "Browser"
+     ],
+     "answer": 2,
+     "explain": "Configurable backends."
+    },
+    {
+     "q": "Why is SESSION_COOKIE_SECURE useful?",
+     "options": [
+      "Speed",
+      "Sends the cookie only over HTTPS",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Plus HttpOnly."
+    },
+    {
+     "q": "What does the middleware order imply?",
+     "options": [
+      "Request goes top to bottom, response bottom to top",
+      "Reverse",
+      "Random",
+      "Parallel"
+     ],
+     "answer": 0,
+     "explain": "Position matters for auth/session."
+    }
+   ]
+  },
+  "level-2/09-testing": {
+   "questions": [
+    {
+     "q": "What does Django's TestCase provide?",
+     "options": [
+      "Production DB",
+      "Mock DB",
+      "No DB",
+      "A test database with each test wrapped in a transaction that's rolled back"
+     ],
+     "answer": 3,
+     "explain": "Isolation."
+    },
+    {
+     "q": "How do you test a view?",
+     "options": [
+      "Skip",
+      "Call function",
+      "Open browser",
+      "self.client.get('/url/') and assert status and content"
+     ],
+     "answer": 3,
+     "explain": "Test client."
+    },
+    {
+     "q": "What should you test?",
+     "options": [
+      "Nothing",
+      "Templates only",
+      "Behavior including permissions, validation and edge cases",
+      "Only happy path"
+     ],
+     "answer": 2,
+     "explain": "Meaningful tests."
+    },
+    {
+     "q": "What does assertNumQueries check?",
+     "options": [
+      "Memory",
+      "The number of database queries a block executes",
+      "Time",
+      "Rows"
+     ],
+     "answer": 1,
+     "explain": "Catches N+1."
+    }
+   ]
+  },
+  "level-2/10-project-task-board": {
+   "questions": [
+    {
+     "q": "What does the task board project show?",
+     "options": [
+      "Only forms",
+      "Only models",
+      "Only admin",
+      "Relationships, permissions, CBVs and tests together"
+     ],
+     "answer": 3,
+     "explain": "A fuller app."
+    },
+    {
+     "q": "How do you restrict tasks to their owner?",
+     "options": [
+      "Trust users",
+      "Hide links",
+      "Template check",
+      "Filter the queryset by request.user in get_queryset"
+     ],
+     "answer": 3,
+     "explain": "Server-side."
+    },
+    {
+     "q": "Why add tests for permissions?",
+     "options": [
+      "Style",
+      "Authorization bugs are security bugs",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Test denial cases."
+    },
+    {
+     "q": "What belongs in model methods vs views?",
+     "options": [
+      "All in templates",
+      "Business rules in models/services; HTTP concerns in views",
+      "None",
+      "All in views"
+     ],
+     "answer": 1,
+     "explain": "Fat models, thin views."
+    }
+   ]
+  },
+  "level-3/01-drf-serializers": {
+   "questions": [
+    {
+     "q": "What does a DRF serializer do?",
+     "options": [
+      "Migrates",
+      "Converts model instances to JSON and validates incoming data",
+      "Routes",
+      "Renders HTML"
+     ],
+     "answer": 1,
+     "explain": "Like forms for APIs."
+    },
+    {
+     "q": "Why use ModelSerializer?",
+     "options": [
+      "It generates fields and validators from a model",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Customize as needed."
+    },
+    {
+     "q": "Where should extra validation go?",
+     "options": [
+      "Settings",
+      "Template",
+      "View",
+      "validate_<field> or validate() in the serializer"
+     ],
+     "answer": 3,
+     "explain": "Raise ValidationError."
+    },
+    {
+     "q": "What is a nested serializer?",
+     "options": [
+      "A model",
+      "A route",
+      "A view",
+      "A serializer embedded for related objects"
+     ],
+     "answer": 3,
+     "explain": "Mind query counts."
+    }
+   ]
+  },
+  "level-3/02-drf-viewsets": {
+   "questions": [
+    {
+     "q": "What does a ViewSet with a Router provide?",
+     "options": [
+      "Admin",
+      "Templates",
+      "Only list",
+      "CRUD endpoints and URLs from one class"
+     ],
+     "answer": 3,
+     "explain": "DefaultRouter."
+    },
+    {
+     "q": "What does ModelViewSet include?",
+     "options": [
+      "Only GET",
+      "Only POST",
+      "list, create, retrieve, update, partial_update and destroy",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Customize with mixins."
+    },
+    {
+     "q": "What does @action do?",
+     "options": [
+      "Filters",
+      "Serializers",
+      "Permissions",
+      "Adds extra custom routes to a ViewSet"
+     ],
+     "answer": 3,
+     "explain": "detail=True/False."
+    },
+    {
+     "q": "How do you paginate?",
+     "options": [
+      "Set a pagination class in settings or per view",
+      "Manual slicing only",
+      "Template",
+      "Not possible"
+     ],
+     "answer": 0,
+     "explain": "Avoid huge payloads."
+    }
+   ]
+  },
+  "level-3/03-drf-auth-permissions": {
+   "questions": [
+    {
+     "q": "What does TokenAuthentication/JWT provide for APIs?",
+     "options": [
+      "Stateless credential per request instead of session cookies",
+      "Forms",
+      "HTML",
+      "Templates"
+     ],
+     "answer": 0,
+     "explain": "Choose per client."
+    },
+    {
+     "q": "What's the DRF default permission to tighten?",
+     "options": [
+      "None",
+      "Admin",
+      "Set DEFAULT_PERMISSION_CLASSES (e.g. IsAuthenticated)",
+      "AllowAny"
+     ],
+     "answer": 2,
+     "explain": "Deny by default."
+    },
+    {
+     "q": "What does IsAuthenticatedOrReadOnly do?",
+     "options": [
+      "Allows all",
+      "Allows reads to anyone, writes to authenticated users",
+      "Blocks reads",
+      "Admin only"
+     ],
+     "answer": 1,
+     "explain": "Useful for public APIs."
+    },
+    {
+     "q": "Why check object permissions?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "Authenticated users shouldn't edit others' objects"
+     ],
+     "answer": 3,
+     "explain": "has_object_permission."
+    }
+   ]
+  },
+  "level-3/04-signals": {
+   "questions": [
+    {
+     "q": "What do signals let you do?",
+     "options": [
+      "Migrate",
+      "Render",
+      "React to events like post_save in decoupled code",
+      "Route"
+     ],
+     "answer": 2,
+     "explain": "Use sparingly."
+    },
+    {
+     "q": "What's a downside of heavy signal use?",
+     "options": [
+      "Speed",
+      "None",
+      "Law",
+      "Hidden control flow that's hard to trace and test"
+     ],
+     "answer": 3,
+     "explain": "Prefer explicit calls."
+    },
+    {
+     "q": "When does post_save fire?",
+     "options": [
+      "Before",
+      "On delete",
+      "On read",
+      "After a model instance's save()"
+     ],
+     "answer": 3,
+     "explain": "created flag."
+    },
+    {
+     "q": "Do bulk_create and queryset.update fire post_save?",
+     "options": [
+      "No, they bypass save() and its signals",
+      "Sometimes",
+      "Yes",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Be aware."
+    }
+   ]
+  },
+  "level-3/05-transactions-integrity": {
+   "questions": [
+    {
+     "q": "What does this print after the failed block?\n```python\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    pages = models.IntegerField(default=100)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n\n# ... tables created in a throwaway in-memory SQLite database ...\n\na1 = Author.objects.create(name=\"Ada\")\na2 = Author.objects.create(name=\"Bo\")\nBook.objects.create(title=\"X\", pages=100, author=a1)\nBook.objects.create(title=\"Y\", pages=300, author=a1)\nBook.objects.create(title=\"Z\", pages=200, author=a2)\nfrom django.db import transaction\ntry:\n    with transaction.atomic():\n        Book.objects.create(title='Tmp', author=a1)\n        raise ValueError('boom')\nexcept ValueError:\n    pass\nprint(Book.objects.filter(title='Tmp').exists())\n```\n",
+     "options": [
+      "False",
+      "None",
+      "Error",
+      "True"
+     ],
+     "answer": 0,
+     "explain": "atomic rolls back on exceptions. Verified by running it with Django."
+    },
+    {
+     "q": "When do you use select_for_update()?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "To lock rows inside a transaction and avoid lost updates"
+     ],
+     "answer": 3,
+     "explain": "Requires atomic."
+    },
+    {
+     "q": "What does ATOMIC_REQUESTS do?",
+     "options": [
+      "Logs",
+      "Wraps each request's view in a transaction",
+      "Auth",
+      "Cache"
+     ],
+     "answer": 1,
+     "explain": "Trade-offs."
+    },
+    {
+     "q": "What does transaction.on_commit do?",
+     "options": [
+      "Never",
+      "Immediately",
+      "On error",
+      "Runs a function only after the transaction commits (e.g. enqueue a task)"
+     ],
+     "answer": 3,
+     "explain": "Avoid tasks seeing uncommitted data."
+    }
+   ]
+  },
+  "level-3/06-migrations-in-depth": {
+   "questions": [
+    {
+     "q": "Why never edit an applied migration in shared repos?",
+     "options": [
+      "Law",
+      "Speed",
+      "Others have already applied it; add a new migration instead",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "History is shared."
+    },
+    {
+     "q": "What's a data migration (RunPython) for?",
+     "options": [
+      "Transforming data alongside schema changes",
+      "Static",
+      "Tests",
+      "Schema"
+     ],
+     "answer": 0,
+     "explain": "Provide reverse functions."
+    },
+    {
+     "q": "How do you avoid downtime on a column rename?",
+     "options": [
+      "One migration",
+      "Drop",
+      "Rename",
+      "Multi-step: add new, backfill, switch code, drop old"
+     ],
+     "answer": 3,
+     "explain": "Expand/contract."
+    },
+    {
+     "q": "What does `squashmigrations` do?",
+     "options": [
+      "Tests",
+      "Deletes",
+      "Applies",
+      "Combines many migrations into one"
+     ],
+     "answer": 3,
+     "explain": "Keeps history manageable."
+    }
+   ]
+  },
+  "level-3/07-caching": {
+   "questions": [
+    {
+     "q": "What does Django's cache framework cache?",
+     "options": [
+      "Arbitrary data, view output or template fragments, via pluggable backends",
+      "Only pages",
+      "Only static",
+      "Only DB"
+     ],
+     "answer": 0,
+     "explain": "Redis/Memcached."
+    },
+    {
+     "q": "What's the hard part of caching?",
+     "options": [
+      "Reads",
+      "Invalidation",
+      "Writes",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Keys and timeouts."
+    },
+    {
+     "q": "Why not use LocMemCache in multi-process production?",
+     "options": [
+      "Costly",
+      "Slow",
+      "Law",
+      "Each process has its own cache and they won't share"
+     ],
+     "answer": 3,
+     "explain": "Use a shared backend."
+    },
+    {
+     "q": "When is per-user data unsafe to cache per URL?",
+     "options": [
+      "Always",
+      "Never",
+      "When responses vary by user: key on user or use Vary headers",
+      "Static"
+     ],
+     "answer": 2,
+     "explain": "Avoid leaks."
+    }
+   ]
+  },
+  "level-3/08-background-tasks": {
+   "questions": [
+    {
+     "q": "Why run work in a background task queue (Celery/RQ)?",
+     "options": [
+      "Law",
+      "Cost",
+      "Style",
+      "Keep requests fast and handle retries for slow jobs like email"
+     ],
+     "answer": 3,
+     "explain": "Don't block the request."
+    },
+    {
+     "q": "What should task arguments be?",
+     "options": [
+      "Objects",
+      "Files",
+      "Sessions",
+      "Simple serializable values like ids, not model instances"
+     ],
+     "answer": 3,
+     "explain": "Reload inside the task."
+    },
+    {
+     "q": "Why make tasks idempotent?",
+     "options": [
+      "Speed",
+      "Law",
+      "Retries may run them more than once",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "At-least-once delivery."
+    },
+    {
+     "q": "What's a broker?",
+     "options": [
+      "Server",
+      "Database",
+      "Message transport between the app and workers (e.g. Redis, RabbitMQ)",
+      "Cache"
+     ],
+     "answer": 2,
+     "explain": "Plus result backend."
+    }
+   ]
+  },
+  "level-3/09-async-django": {
+   "questions": [
+    {
+     "q": "When is async Django useful?",
+     "options": [
+      "Always",
+      "I/O-bound work like calling external APIs concurrently",
+      "Never",
+      "CPU work"
+     ],
+     "answer": 1,
+     "explain": "ASGI server needed."
+    },
+    {
+     "q": "What happens when sync ORM code is called in an async view?",
+     "options": [
+      "Faster",
+      "Error only",
+      "Works",
+      "It must be wrapped (sync_to_async) or use async ORM methods"
+     ],
+     "answer": 3,
+     "explain": "Avoid blocking the loop."
+    },
+    {
+     "q": "What server runs async Django?",
+     "options": [
+      "An ASGI server like Uvicorn or Daphne",
+      "WSGI only",
+      "Gunicorn sync",
+      "Apache"
+     ],
+     "answer": 0,
+     "explain": "WSGI is sync."
+    },
+    {
+     "q": "Is async always faster?",
+     "options": [
+      "Yes",
+      "Never",
+      "Always",
+      "No: CPU-bound or DB-heavy code doesn't benefit"
+     ],
+     "answer": 3,
+     "explain": "Measure."
+    }
+   ]
+  },
+  "level-3/10-project-rest-api": {
+   "questions": [
+    {
+     "q": "What does the REST API project combine?",
+     "options": [
+      "Only models",
+      "Only admin",
+      "DRF serializers, viewsets, auth, tests and pagination",
+      "Only templates"
+     ],
+     "answer": 2,
+     "explain": "Complete API."
+    },
+    {
+     "q": "How should errors be returned?",
+     "options": [
+      "Silent",
+      "HTML",
+      "Consistent status codes with a clear JSON body",
+      "200 always"
+     ],
+     "answer": 2,
+     "explain": "DRF exceptions."
+    },
+    {
+     "q": "How do you document the API?",
+     "options": [
+      "PDF",
+      "None",
+      "Comments",
+      "OpenAPI schema (e.g. drf-spectacular)"
+     ],
+     "answer": 3,
+     "explain": "Keep in sync."
+    },
+    {
+     "q": "How do you version an API?",
+     "options": [
+      "Random",
+      "URL or header versioning",
+      "Never",
+      "No"
+     ],
+     "answer": 1,
+     "explain": "Avoid breaking clients."
+    }
+   ]
+  },
+  "level-4/01-security": {
+   "questions": [
+    {
+     "q": "Which Django feature mitigates XSS by default?",
+     "options": [
+      "CSRF",
+      "Admin",
+      "Sessions",
+      "Template auto-escaping"
+     ],
+     "answer": 3,
+     "explain": "Avoid |safe on user input."
+    },
+    {
+     "q": "What prevents SQL injection in the ORM?",
+     "options": [
+      "Escaping",
+      "Filters",
+      "Parameterized queries (never build raw SQL with string formatting)",
+      "Sessions"
+     ],
+     "answer": 2,
+     "explain": "Use params in raw()."
+    },
+    {
+     "q": "What does `manage.py check --deploy` do?",
+     "options": [
+      "Tests",
+      "Flags insecure production settings",
+      "Migrates",
+      "Runs"
+     ],
+     "answer": 1,
+     "explain": "HTTPS, HSTS, DEBUG."
+    },
+    {
+     "q": "What does clickjacking protection use?",
+     "options": [
+      "X-Frame-Options via XFrameOptionsMiddleware",
+      "Cookies",
+      "CORS",
+      "CSRF"
+     ],
+     "answer": 0,
+     "explain": "Default on."
+    }
+   ]
+  },
+  "level-4/02-production-settings": {
+   "questions": [
+    {
+     "q": "What must be False in production?",
+     "options": [
+      "STATIC_URL",
+      "DEBUG",
+      "USE_TZ",
+      "ALLOWED_HOSTS"
+     ],
+     "answer": 1,
+     "explain": "DEBUG leaks details."
+    },
+    {
+     "q": "Where should SECRET_KEY come from?",
+     "options": [
+      "Git",
+      "Template",
+      "An environment variable or secret manager",
+      "Source code"
+     ],
+     "answer": 2,
+     "explain": "Rotate if leaked."
+    },
+    {
+     "q": "Why set ALLOWED_HOSTS?",
+     "options": [
+      "Speed",
+      "Style",
+      "Prevents Host header attacks",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "List your domains."
+    },
+    {
+     "q": "How should settings be split?",
+     "options": [
+      "None",
+      "Per-environment overrides with shared base and env vars",
+      "Copy",
+      "One file"
+     ],
+     "answer": 1,
+     "explain": "12-factor."
+    }
+   ]
+  },
+  "level-4/03-deployment": {
+   "questions": [
+    {
+     "q": "What does gunicorn do in deployment?",
+     "options": [
+      "Cache",
+      "Runs the WSGI app with worker processes behind a reverse proxy",
+      "Serves static",
+      "DB"
+     ],
+     "answer": 1,
+     "explain": "Nginx in front."
+    },
+    {
+     "q": "Why put Nginx (or a CDN) in front?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "TLS, buffering and static/media serving"
+     ],
+     "answer": 3,
+     "explain": "Offload."
+    },
+    {
+     "q": "What does a health check endpoint do?",
+     "options": [
+      "Lets orchestrators know the app is alive/ready",
+      "Auth",
+      "Cache",
+      "Logs"
+     ],
+     "answer": 0,
+     "explain": "Used by load balancers."
+    },
+    {
+     "q": "What's needed before serving new code?",
+     "options": [
+      "Manual",
+      "Run migrations and collectstatic in the release process",
+      "Restart only",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Automate."
+    }
+   ]
+  },
+  "level-4/04-database-performance": {
+   "questions": [
+    {
+     "q": "What does `EXPLAIN` help with?",
+     "options": [
+      "Tests",
+      "Seeing how the database executes a query (indexes, scans)",
+      "Migrations",
+      "Syntax"
+     ],
+     "answer": 1,
+     "explain": "queryset.explain()."
+    },
+    {
+     "q": "When add db_index=True?",
+     "options": [
+      "All",
+      "On columns used often in filters/joins/order_by",
+      "PKs",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Indexes cost writes."
+    },
+    {
+     "q": "What does `.iterator()` help with?",
+     "options": [
+      "Speed",
+      "Law",
+      "Streaming large result sets without caching all rows",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Memory."
+    },
+    {
+     "q": "Why use bulk_create/bulk_update?",
+     "options": [
+      "Style",
+      "Fewer queries for many rows",
+      "Law",
+      "Signals"
+     ],
+     "answer": 1,
+     "explain": "Beware signals/save()."
+    }
+   ]
+  },
+  "level-4/05-management-commands": {
+   "questions": [
+    {
+     "q": "What are management commands for?",
+     "options": [
+      "Custom CLI tasks like imports and maintenance via manage.py",
+      "Models",
+      "Views",
+      "Forms"
+     ],
+     "answer": 0,
+     "explain": "BaseCommand.handle()."
+    },
+    {
+     "q": "Where do they live?",
+     "options": [
+      "app/management/commands/<name>.py",
+      "models.py",
+      "views.py",
+      "settings"
+     ],
+     "answer": 0,
+     "explain": "Discovered automatically."
+    },
+    {
+     "q": "What should long commands be?",
+     "options": [
+      "One-shot",
+      "Silent",
+      "Idempotent and resumable with logging",
+      "Fast"
+     ],
+     "answer": 2,
+     "explain": "Operational."
+    },
+    {
+     "q": "How do you accept arguments?",
+     "options": [
+      "env only",
+      "Not possible",
+      "sys.argv",
+      "add_arguments with argparse"
+     ],
+     "answer": 3,
+     "explain": "self.stdout.write for output."
+    }
+   ]
+  },
+  "level-4/06-template-tags-partials": {
+   "questions": [
+    {
+     "q": "What do custom template tags/filters offer?",
+     "options": [
+      "Reusable presentation logic in templates",
+      "Routing",
+      "Models",
+      "Queries"
+     ],
+     "answer": 0,
+     "explain": "Register in templatetags/."
+    },
+    {
+     "q": "What are template partials/includes for?",
+     "options": [
+      "Models",
+      "Reusing fragments across templates",
+      "Forms",
+      "Routing"
+     ],
+     "answer": 1,
+     "explain": "{% include %}."
+    },
+    {
+     "q": "What belongs in a template tag?",
+     "options": [
+      "Auth",
+      "Everything",
+      "Presentation helpers, not business logic",
+      "DB writes"
+     ],
+     "answer": 2,
+     "explain": "Keep simple."
+    },
+    {
+     "q": "What does `simple_tag` do?",
+     "options": [
+      "Filter",
+      "View",
+      "Model",
+      "Defines a tag returning a value or string"
+     ],
+     "answer": 3,
+     "explain": "inclusion_tag renders a template."
+    }
+   ]
+  },
+  "level-4/07-logging-errors": {
+   "questions": [
+    {
+     "q": "How should you log errors in production?",
+     "options": [
+      "Nothing",
+      "DEBUG page",
+      "print",
+      "Use the logging framework with handlers and structured context, plus error tracking"
+     ],
+     "answer": 3,
+     "explain": "Sentry etc."
+    },
+    {
+     "q": "What does the 'django.request' logger capture?",
+     "options": [
+      "Auth",
+      "4xx/5xx request errors",
+      "SQL",
+      "Static"
+     ],
+     "answer": 1,
+     "explain": "Configure LOGGING."
+    },
+    {
+     "q": "Why avoid logging secrets and PII?",
+     "options": [
+      "Style",
+      "Speed",
+      "Logs are widely accessible and persistent",
+      "Law only"
+     ],
+     "answer": 2,
+     "explain": "Redact."
+    },
+    {
+     "q": "What does ADMINS/mail_admins do?",
+     "options": [
+      "Migrates",
+      "Deploys",
+      "Emails errors to admins (legacy; prefer trackers)",
+      "Tests"
+     ],
+     "answer": 2,
+     "explain": "Limited."
+    }
+   ]
+  },
+  "level-4/08-i18n-timezones": {
+   "questions": [
+    {
+     "q": "Why store datetimes in UTC (USE_TZ=True)?",
+     "options": [
+      "Speed",
+      "Avoid ambiguity across time zones and DST",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Convert at display."
+    },
+    {
+     "q": "What does `gettext`/_() do?",
+     "options": [
+      "Escapes",
+      "Formats",
+      "Marks strings for translation",
+      "Queries"
+     ],
+     "answer": 2,
+     "explain": "makemessages/compilemessages."
+    },
+    {
+     "q": "What's the difference between TIME_ZONE and a user's zone?",
+     "options": [
+      "None",
+      "Reverse",
+      "Same",
+      "TIME_ZONE is the default; activate per user for display"
+     ],
+     "answer": 3,
+     "explain": "timezone.activate()."
+    },
+    {
+     "q": "What does LocaleMiddleware do?",
+     "options": [
+      "Static",
+      "Auth",
+      "Picks the language per request",
+      "Caching"
+     ],
+     "answer": 2,
+     "explain": "Order after Session."
+    }
+   ]
+  },
+  "level-4/09-upgrading": {
+   "questions": [
+    {
+     "q": "What's a safe upgrade approach?",
+     "options": [
+      "Upgrade blindly",
+      "Skip versions",
+      "Rewrite",
+      "Read release notes, move through supported versions, fix deprecation warnings, run tests"
+     ],
+     "answer": 3,
+     "explain": "Run with -W error."
+    },
+    {
+     "q": "Why prefer LTS versions in production?",
+     "options": [
+      "Newer",
+      "Cheaper",
+      "Faster",
+      "Longer security support"
+     ],
+     "answer": 3,
+     "explain": "Plan upgrades."
+    },
+    {
+     "q": "What do deprecation warnings tell you?",
+     "options": [
+      "Style",
+      "Bugs",
+      "Nothing",
+      "What will break in a future version"
+     ],
+     "answer": 3,
+     "explain": "Fix early."
+    },
+    {
+     "q": "What protects upgrades?",
+     "options": [
+      "A good test suite and CI",
+      "Hope",
+      "Luck",
+      "Manual"
+     ],
+     "answer": 0,
+     "explain": "Confidence."
+    }
+   ]
+  },
+  "level-4/10-capstone": {
+   "questions": [
+    {
+     "q": "What does the capstone integrate?",
+     "options": [
+      "Only admin",
+      "Models, views, API, auth, tests, caching/tasks and deployment practices",
+      "Only API",
+      "Only models"
+     ],
+     "answer": 1,
+     "explain": "Production app."
+    },
+    {
+     "q": "How do you prove readiness?",
+     "options": [
+      "Slides",
+      "Tests, deploy checks, monitoring and rollback",
+      "Hope",
+      "Demo"
+     ],
+     "answer": 1,
+     "explain": "Operate."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "None",
+      "Code",
+      "README, architecture, runbooks and API docs",
+      "Slides"
+     ],
+     "answer": 2,
+     "explain": "Onboarding."
+    },
+    {
+     "q": "What guards against regressions?",
+     "options": [
+      "Manual",
+      "CI running tests and linters on every change",
+      "Hope",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Automation."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "Which Django architecture description is correct?",
+    "options": [
+     "URLconf routes to a view; the view uses models and returns a response, often via a template",
+     "Controller, view, model",
+     "Model renders HTML",
+     "Template calls the database"
+    ],
+    "answer": 0,
+    "explain": "Django calls it MTV."
+   },
+   {
+    "q": "You change a model field. What two commands bring the database up to date?",
+    "options": [
+     "shell",
+     "makemigrations to create the migration, then migrate to apply it",
+     "runserver",
+     "collectstatic"
+    ],
+    "answer": 1,
+    "explain": "Commit the migration files."
+   },
+   {
+    "q": "What does this print?\n```python\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    pages = models.IntegerField(default=100)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n\n# ... tables created in a throwaway in-memory SQLite database ...\n\na1 = Author.objects.create(name=\"Ada\")\na2 = Author.objects.create(name=\"Bo\")\nBook.objects.create(title=\"X\", pages=100, author=a1)\nBook.objects.create(title=\"Y\", pages=300, author=a1)\nBook.objects.create(title=\"Z\", pages=200, author=a2)\nprint(list(Book.objects.filter(pages__gte=200).order_by('-pages').values_list('title', flat=True)))\n```\n",
+    "options": [
+     "['Z', 'Y']",
+     "['Y', 'Z']",
+     "['X', 'Y', 'Z']",
+     "['Y']"
+    ],
+    "answer": 1,
+    "explain": "Descending by pages: Y (300), Z (200). Verified by running it with Django."
+   },
+   {
+    "q": "How many queries does listing books with their authors take, with and without select_related?\n```python\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    pages = models.IntegerField(default=100)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n\n# ... tables created in a throwaway in-memory SQLite database ...\n\na1 = Author.objects.create(name=\"Ada\")\na2 = Author.objects.create(name=\"Bo\")\nBook.objects.create(title=\"X\", pages=100, author=a1)\nBook.objects.create(title=\"Y\", pages=300, author=a1)\nBook.objects.create(title=\"Z\", pages=200, author=a2)\nfrom django.test.utils import CaptureQueriesContext\nwith CaptureQueriesContext(connection) as a:\n    [b.author.name for b in Book.objects.all()]\nwith CaptureQueriesContext(connection) as b_:\n    [b.author.name for b in Book.objects.select_related('author')]\nprint(len(a), len(b_))\n```\n",
+    "options": [
+     "1 1",
+     "4 4",
+     "3 3",
+     "4 1"
+    ],
+    "answer": 3,
+    "explain": "The N+1 pattern: 1 + one query per book. Verified by running it with Django."
+   },
+   {
+    "q": "What does this print?\n```python\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    pages = models.IntegerField(default=100)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n\n# ... tables created in a throwaway in-memory SQLite database ...\n\na1 = Author.objects.create(name=\"Ada\")\na2 = Author.objects.create(name=\"Bo\")\nBook.objects.create(title=\"X\", pages=100, author=a1)\nBook.objects.create(title=\"Y\", pages=300, author=a1)\nBook.objects.create(title=\"Z\", pages=200, author=a2)\nfrom django.db.models import Count\nprint(list(Author.objects.annotate(n=Count('books')).filter(n__gt=1).values_list('name', flat=True)))\n```\n",
+    "options": [
+     "['Ada', 'Bo']",
+     "['Bo']",
+     "[]",
+     "['Ada']"
+    ],
+    "answer": 3,
+    "explain": "Annotate with Count then filter on it. Verified by running it with Django."
+   },
+   {
+    "q": "What does this print after the failed block?\n```python\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    pages = models.IntegerField(default=100)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n\n# ... tables created in a throwaway in-memory SQLite database ...\n\na1 = Author.objects.create(name=\"Ada\")\na2 = Author.objects.create(name=\"Bo\")\nBook.objects.create(title=\"X\", pages=100, author=a1)\nBook.objects.create(title=\"Y\", pages=300, author=a1)\nBook.objects.create(title=\"Z\", pages=200, author=a2)\nfrom django.db import transaction\ntry:\n    with transaction.atomic():\n        Book.objects.create(title='Tmp', author=a1)\n        raise RuntimeError('x')\nexcept RuntimeError:\n    pass\nprint(Book.objects.count())\n```\n",
+    "options": [
+     "3",
+     "4",
+     "Error",
+     "0"
+    ],
+    "answer": 0,
+    "explain": "atomic rolls back the whole block. Verified by running it with Django."
+   },
+   {
+    "q": "What does this print?\n```python\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    pages = models.IntegerField(default=100)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n\n# ... tables created in a throwaway in-memory SQLite database ...\n\na1 = Author.objects.create(name=\"Ada\")\na2 = Author.objects.create(name=\"Bo\")\nBook.objects.create(title=\"X\", pages=100, author=a1)\nBook.objects.create(title=\"Y\", pages=300, author=a1)\nBook.objects.create(title=\"Z\", pages=200, author=a2)\nfrom django.db.models import F\nBook.objects.filter(author=a1).update(pages=F('pages')*2)\nprint(sorted(Book.objects.values_list('pages', flat=True)))\n```\n",
+    "options": [
+     "[200, 400, 600]",
+     "[200, 200, 600]",
+     "[100, 200, 300]",
+     "[100, 200, 600]"
+    ],
+    "answer": 1,
+    "explain": "F() does the arithmetic in the database for Ada's two books. Verified by running it with Django."
+   },
+   {
+    "q": "A user edits /orders/42/ for an order owned by someone else and it works. What's missing?",
+    "options": [
+     "CSRF",
+     "HTTPS",
+     "Object-level authorization: filter the queryset (or check ownership) by request.user",
+     "A template"
+    ],
+    "answer": 2,
+    "explain": "Login isn't authorization."
+   },
+   {
+    "q": "A form POST is submitted twice when the user refreshes. What pattern prevents it?",
+    "options": [
+     "Caching",
+     "Sessions",
+     "Post/Redirect/Get: redirect after a successful POST",
+     "More validation"
+    ],
+    "answer": 2,
+    "explain": "Use redirect()."
+   },
+   {
+    "q": "Why must AUTH_USER_MODEL be chosen at project start?",
+    "options": [
+     "Speed",
+     "Swapping the user model later is painful because migrations and foreign keys already point at the default",
+     "Style",
+     "Law"
+    ],
+    "answer": 1,
+    "explain": "Start with a custom user model."
+   },
+   {
+    "q": "What's the right way to send an email after saving an order?",
+    "options": [
+     "Use a signal with sleep",
+     "Send before saving",
+     "Send inline in the view",
+     "Enqueue a background task via transaction.on_commit so it runs only after the commit"
+    ],
+    "answer": 3,
+    "explain": "Keep requests fast and consistent."
+   },
+   {
+    "q": "A signal handler hides a bug because nobody knows it runs. What's the guidance?",
+    "options": [
+     "Use more signals",
+     "Use signals sparingly; prefer explicit calls for core business logic",
+     "Disable signals",
+     "Put logic in templates"
+    ],
+    "answer": 1,
+    "explain": "Hidden control flow."
+   },
+   {
+    "q": "DRF serializer validation passes but a business rule across fields is violated. Where do you enforce it?",
+    "options": [
+     "In the serializer's validate() method (and in the model/service layer)",
+     "In the URL",
+     "In the template",
+     "Nowhere"
+    ],
+    "answer": 0,
+    "explain": "Raise ValidationError."
+   },
+   {
+    "q": "An API list endpoint is slow with nested authors. What do you check?",
+    "options": [
+     "Query count: use select_related/prefetch_related in the viewset's queryset",
+     "Bigger server",
+     "More workers",
+     "Cache everything"
+    ],
+    "answer": 0,
+    "explain": "N+1 hides in serializers."
+   },
+   {
+    "q": "Which setting must be False in production and why?",
+    "options": [
+     "STATIC_URL",
+     "DEBUG, because it exposes settings, queries and tracebacks",
+     "USE_TZ",
+     "ROOT_URLCONF"
+    ],
+    "answer": 1,
+    "explain": "Run manage.py check --deploy."
+   },
+   {
+    "q": "How should the SECRET_KEY be supplied?",
+    "options": [
+     "Git history",
+     "settings.py",
+     "README",
+     "From an environment variable or secret manager, never committed"
+    ],
+    "answer": 3,
+    "explain": "Rotate if leaked."
+   },
+   {
+    "q": "A migration renames a column used by running code during a rolling deploy. What's safe?",
+    "options": [
+     "Lock the table",
+     "Expand/contract: add the new column, backfill, switch code, then drop the old one in a later release",
+     "Rename in one step",
+     "Drop and recreate"
+    ],
+    "answer": 1,
+    "explain": "Never break running versions."
+   },
+   {
+    "q": "What belongs behind Nginx or a CDN in production?",
+    "options": [
+     "Migrations",
+     "Tests",
+     "Django runserver",
+     "Static and media files, with Gunicorn serving the Django app"
+    ],
+    "answer": 3,
+    "explain": "runserver is for development."
+   },
+   {
+    "q": "Caching a view per URL leaks one user's data to another. Why?",
+    "options": [
+     "The response varies by user but the cache key doesn't; key on user or avoid caching private pages",
+     "Redis",
+     "Cache bug",
+     "DNS"
+    ],
+    "answer": 0,
+    "explain": "Vary correctly."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Eliminate N+1 queries",
+    "prompt": "report_slow() issues one query per book. Implement report_fast() to return the same strings in a single query with select_related, and implement counts() to return (author, number of books) using annotate and Count. The script prints query counts for both.",
+    "starter": "import sys, types\nshop = types.ModuleType(\"shop\"); shop.__path__ = [\".\"]; sys.modules[\"shop\"] = shop\nimport django\nfrom django.conf import settings\nsettings.configure(DATABASES={\"default\": {\"ENGINE\": \"django.db.backends.sqlite3\", \"NAME\": \":memory:\"}},\n                   INSTALLED_APPS=[\"shop\"], DEFAULT_AUTO_FIELD=\"django.db.models.BigAutoField\")\ndjango.setup()\nfrom django.db import models, connection, transaction\nfrom django.db.models import F, Count\nfrom django.test.utils import CaptureQueriesContext\n\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n    class Meta: app_label = \"shop\"\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n    class Meta: app_label = \"shop\"\n\nwith connection.schema_editor() as se:\n    se.create_model(Author); se.create_model(Book)\nfor n in [\"Ada\", \"Bo\", \"Cy\"]:\n    a = Author.objects.create(name=n)\n    for i in range(2):\n        Book.objects.create(title=f\"{n}-{i}\", author=a)\n\ndef report_slow():\n    return [f\"{b.title} by {b.author.name}\" for b in Book.objects.all()]\n\ndef report_fast():\n    # same output as report_slow but in ONE query (avoid N+1)\n    return []\n\ndef counts():\n    # [(author name, number of books)] ordered by name, computed in the database\n    return []\n\nwith CaptureQueriesContext(connection) as slow:\n    a = report_slow()\nwith CaptureQueriesContext(connection) as fast:\n    b = report_fast()\nprint(\"slow queries:\", len(slow), \"fast queries:\", len(fast), \"same output:\", a == b)\nprint(counts())\n",
+    "expected": "slow queries: 7 fast queries: 1 same output: True\n[('Ada', 2), ('Bo', 2), ('Cy', 2)]",
+    "solution": "import sys, types\nshop = types.ModuleType(\"shop\"); shop.__path__ = [\".\"]; sys.modules[\"shop\"] = shop\nimport django\nfrom django.conf import settings\nsettings.configure(DATABASES={\"default\": {\"ENGINE\": \"django.db.backends.sqlite3\", \"NAME\": \":memory:\"}},\n                   INSTALLED_APPS=[\"shop\"], DEFAULT_AUTO_FIELD=\"django.db.models.BigAutoField\")\ndjango.setup()\nfrom django.db import models, connection, transaction\nfrom django.db.models import F, Count\nfrom django.test.utils import CaptureQueriesContext\n\nclass Author(models.Model):\n    name = models.CharField(max_length=50)\n    class Meta: app_label = \"shop\"\n\nclass Book(models.Model):\n    title = models.CharField(max_length=50)\n    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name=\"books\")\n    class Meta: app_label = \"shop\"\n\nwith connection.schema_editor() as se:\n    se.create_model(Author); se.create_model(Book)\nfor n in [\"Ada\", \"Bo\", \"Cy\"]:\n    a = Author.objects.create(name=n)\n    for i in range(2):\n        Book.objects.create(title=f\"{n}-{i}\", author=a)\n\ndef report_slow():\n    return [f\"{b.title} by {b.author.name}\" for b in Book.objects.all()]\n\ndef report_fast():\n    return [f\"{b.title} by {b.author.name}\" for b in Book.objects.select_related(\"author\")]\n\ndef counts():\n    return list(Author.objects.annotate(n=Count(\"books\")).order_by(\"name\").values_list(\"name\", \"n\"))\n\nwith CaptureQueriesContext(connection) as slow:\n    a = report_slow()\nwith CaptureQueriesContext(connection) as fast:\n    b = report_fast()\nprint(\"slow queries:\", len(slow), \"fast queries:\", len(fast), \"same output:\", a == b)\nprint(counts())\n",
+    "explain": "Accessing b.author for each book triggers an extra query unless the relation is joined up front. annotate(Count) pushes per-author counting into the database. Verified by running the solution with Django."
+   },
+   {
+    "title": "An atomic money transfer",
+    "prompt": "Implement transfer(src, dst, amount): in one transaction subtract with F() from the source, raise InsufficientFunds if it would go negative (rolling everything back), otherwise add to the destination with F().",
+    "starter": "import sys, types\nshop = types.ModuleType(\"shop\"); shop.__path__ = [\".\"]; sys.modules[\"shop\"] = shop\nimport django\nfrom django.conf import settings\nsettings.configure(DATABASES={\"default\": {\"ENGINE\": \"django.db.backends.sqlite3\", \"NAME\": \":memory:\"}},\n                   INSTALLED_APPS=[\"shop\"], DEFAULT_AUTO_FIELD=\"django.db.models.BigAutoField\")\ndjango.setup()\nfrom django.db import models, connection, transaction\nfrom django.db.models import F, Count\nfrom django.test.utils import CaptureQueriesContext\n\nclass Account(models.Model):\n    name = models.CharField(max_length=20)\n    balance = models.IntegerField()\n    class Meta: app_label = \"shop\"\n\nwith connection.schema_editor() as se:\n    se.create_model(Account)\nAccount.objects.create(name=\"a\", balance=100)\nAccount.objects.create(name=\"b\", balance=50)\n\nclass InsufficientFunds(Exception):\n    pass\n\ndef transfer(src, dst, amount):\n    # in ONE transaction: subtract from src and add to dst using F() expressions;\n    # if src would go negative raise InsufficientFunds so everything rolls back\n    pass\n\ndef balances():\n    return dict(Account.objects.order_by(\"name\").values_list(\"name\", \"balance\"))\n\ntransfer(\"a\", \"b\", 30)\nprint(balances())\ntry:\n    transfer(\"a\", \"b\", 500)\nexcept InsufficientFunds as e:\n    print(\"rejected:\", e)\nprint(balances())\n",
+    "expected": "{'a': 70, 'b': 80}\nrejected: a\n{'a': 70, 'b': 80}",
+    "solution": "import sys, types\nshop = types.ModuleType(\"shop\"); shop.__path__ = [\".\"]; sys.modules[\"shop\"] = shop\nimport django\nfrom django.conf import settings\nsettings.configure(DATABASES={\"default\": {\"ENGINE\": \"django.db.backends.sqlite3\", \"NAME\": \":memory:\"}},\n                   INSTALLED_APPS=[\"shop\"], DEFAULT_AUTO_FIELD=\"django.db.models.BigAutoField\")\ndjango.setup()\nfrom django.db import models, connection, transaction\nfrom django.db.models import F, Count\nfrom django.test.utils import CaptureQueriesContext\n\nclass Account(models.Model):\n    name = models.CharField(max_length=20)\n    balance = models.IntegerField()\n    class Meta: app_label = \"shop\"\n\nwith connection.schema_editor() as se:\n    se.create_model(Account)\nAccount.objects.create(name=\"a\", balance=100)\nAccount.objects.create(name=\"b\", balance=50)\n\nclass InsufficientFunds(Exception):\n    pass\n\ndef transfer(src, dst, amount):\n    with transaction.atomic():\n        Account.objects.filter(name=src).update(balance=F(\"balance\") - amount)\n        if Account.objects.get(name=src).balance < 0:\n            raise InsufficientFunds(src)\n        Account.objects.filter(name=dst).update(balance=F(\"balance\") + amount)\n\ndef balances():\n    return dict(Account.objects.order_by(\"name\").values_list(\"name\", \"balance\"))\n\ntransfer(\"a\", \"b\", 30)\nprint(balances())\ntry:\n    transfer(\"a\", \"b\", 500)\nexcept InsufficientFunds as e:\n    print(\"rejected:\", e)\nprint(balances())\n",
+    "explain": "transaction.atomic rolls back the debit when InsufficientFunds is raised, and F() expressions avoid read-modify-write races. On a production database you would also lock the rows with select_for_update(). Verified by running the solution with Django (SQLite)."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
