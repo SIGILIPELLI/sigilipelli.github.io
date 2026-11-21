@@ -1,0 +1,2207 @@
+{
+ "course": "terraform-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-iac-why-terraform": {
+   "questions": [
+    {
+     "q": "What problems does clicking through a console have that IaC fixes?",
+     "options": [
+      "It's too fast",
+      "It needs code",
+      "It's insecure only",
+      "No history, not repeatable, and not reviewable"
+     ],
+     "answer": 3,
+     "explain": "IaC makes infrastructure changes look like software changes: a diff, a review, a merge, then an apply."
+    },
+    {
+     "q": "What does 'declarative' mean for Terraform?",
+     "options": [
+      "You describe the end state and Terraform works out the steps",
+      "You write shell scripts",
+      "You click through a console",
+      "You list every API call in order"
+     ],
+     "answer": 0,
+     "explain": "It compares desired state to actual state and applies only the difference."
+    },
+    {
+     "q": "What kind of tool is Terraform?",
+     "options": [
+      "A configuration manager for software inside machines",
+      "A container orchestrator",
+      "A CI server",
+      "A provisioning tool that creates, updates and destroys infrastructure resources across many providers"
+     ],
+     "answer": 3,
+     "explain": "Ansible, Chef and Puppet handle configuration inside running machines."
+    },
+    {
+     "q": "What is the problem with an imperative shell script like `aws s3 mb ...`?",
+     "options": [
+      "It must be re-run carefully to avoid errors on a second run (bucket already exists)",
+      "It's declarative",
+      "It can't create buckets",
+      "It's too short"
+     ],
+     "answer": 0,
+     "explain": "A declarative tool is idempotent by design."
+    }
+   ]
+  },
+  "level-1/02-installing-terraform-providers": {
+   "questions": [
+    {
+     "q": "What does Terraform's core binary know, and what doesn't it know?",
+     "options": [
+      "It knows nothing",
+      "It knows the HCL language and plan/apply/state workflow; it has no built-in knowledge of AWS or any other API",
+      "It knows only AWS",
+      "It knows every cloud"
+     ],
+     "answer": 1,
+     "explain": "That knowledge lives in providers, plugins downloaded separately."
+    },
+    {
+     "q": "What does required_version = \">= 1.6.0, < 2.0.0\" do?",
+     "options": [
+      "Installs Terraform",
+      "Pins providers",
+      "Documents and enforces which CLI versions are acceptable; plan fails immediately on an incompatible version",
+      "Sets the region"
+     ],
+     "answer": 2,
+     "explain": "It avoids confusing syntax or behaviour mismatches later."
+    },
+    {
+     "q": "Why use tfenv or tfswitch?",
+     "options": [
+      "To install providers",
+      "To store state",
+      "Different projects may require different Terraform versions, like nvm for Node",
+      "To speed up apply"
+     ],
+     "answer": 2,
+     "explain": "tfenv install 1.9.5 then tfenv use 1.9.5."
+    },
+    {
+     "q": "How is Terraform distributed?",
+     "options": [
+      "As a Python package",
+      "As a single self-contained binary with no runtime to install",
+      "As a Java app",
+      "As a Docker image only"
+     ],
+     "answer": 1,
+     "explain": "Verify with terraform version."
+    }
+   ]
+  },
+  "level-1/03-hcl-syntax-basics": {
+   "questions": [
+    {
+     "q": "In `resource \"aws_instance\" \"web\" { ... }`, what are the two labels?",
+     "options": [
+      "The block type and body",
+      "The provider and region",
+      "The name and tags",
+      "The resource type (aws_instance) and the local name (web)"
+     ],
+     "answer": 3,
+     "explain": "provider and variable blocks take one label; terraform takes none."
+    },
+    {
+     "q": "What is the difference between `tags = { ... }` and `ebs_block_device { ... }`?",
+     "options": [
+      "tags is an argument whose value is a map; ebs_block_device is a nested block with no =",
+      "They're the same",
+      "Both are arguments",
+      "Both are nested blocks"
+     ],
+     "answer": 0,
+     "explain": "The provider's schema decides which form a resource uses."
+    },
+    {
+     "q": "What is the preferred single-line comment style?",
+     "options": [
+      "-- comment",
+      "// comment",
+      "<!-- comment -->",
+      "# comment"
+     ],
+     "answer": 3,
+     "explain": "// and /* */ are also valid."
+    },
+    {
+     "q": "What can the right-hand side of an argument be?",
+     "options": [
+      "Only a block",
+      "Only a number",
+      "Only a string",
+      "An expression: a literal, a reference, a function call or a combination"
+     ],
+     "answer": 3,
+     "explain": "The left side is always an identifier."
+    }
+   ]
+  },
+  "level-1/04-providers-registry": {
+   "questions": [
+    {
+     "q": "Where do AWS provider credentials come from, in order, when none are in the provider block?",
+     "options": [
+      "The state file, then the registry",
+      "The plan, then the module",
+      "Environment variables, the shared credentials file, then an attached IAM role",
+      "The Terraform binary"
+     ],
+     "answer": 2,
+     "explain": "Literal credentials in HCL would be committed to version control and written to state in plaintext."
+    },
+    {
+     "q": "What does the provider block configure, compared with required_providers?",
+     "options": [
+      "The provider block downloads plugins",
+      "required_providers says which plugin to download; the provider block configures how to talk to it (region, profile…)",
+      "They're the same",
+      "required_providers sets region"
+     ],
+     "answer": 1,
+     "explain": "Arguments are defined entirely by each provider, so check its registry page."
+    },
+    {
+     "q": "What does `version = \"~> 5.0\"` accept?",
+     "options": [
+      "Only 5.0.x",
+      "Anything",
+      "Exactly 5.0",
+      "Any 5.x version, not 6.0"
+     ],
+     "answer": 3,
+     "explain": "~> allows the rightmost component to increment."
+    },
+    {
+     "q": "What does each registry provider page document?",
+     "options": [
+      "Only pricing",
+      "Resources, data sources, argument references, import instructions and guides",
+      "Only versions",
+      "Only source code"
+     ],
+     "answer": 1,
+     "explain": "The registry also hosts reusable modules."
+    }
+   ]
+  },
+  "level-1/05-resources-data-sources": {
+   "questions": [
+    {
+     "q": "What is the difference between a resource and a data block?",
+     "options": [
+      "A resource is managed (created, updated, destroyed) by Terraform; a data block only reads something that already exists",
+      "Resources only read",
+      "Data blocks create things",
+      "They're the same"
+     ],
+     "answer": 0,
+     "explain": "terraform destroy never removes anything a data block referred to."
+    },
+    {
+     "q": "How does Terraform know to create aws_s3_bucket before aws_s3_bucket_versioning?",
+     "options": [
+      "depends_on is required",
+      "The reference aws_s3_bucket.reports.id creates an implicit dependency",
+      "Alphabetical order",
+      "File order"
+     ],
+     "answer": 1,
+     "explain": "Explicit dependencies are covered in Level 3."
+    },
+    {
+     "q": "What does `data \"aws_ami\" \"amazon_linux\"` do?",
+     "options": [
+      "Deletes an AMI",
+      "Creates an AMI",
+      "Queries AWS at plan time for the newest matching AMI and exposes its attributes",
+      "Copies an AMI"
+     ],
+     "answer": 2,
+     "explain": "You'd then use data.aws_ami.amazon_linux.id."
+    },
+    {
+     "q": "What is <local_name> in resource \"aws_s3_bucket\" \"reports\"?",
+     "options": [
+      "The bucket's real name",
+      "The region",
+      "The provider",
+      "Your name for the instance, scoped to this configuration, used to reference it elsewhere"
+     ],
+     "answer": 3,
+     "explain": "The type is defined by the provider."
+    }
+   ]
+  },
+  "level-1/06-variables-outputs": {
+   "questions": [
+    {
+     "q": "What happens when you pass a string where `type = number` is declared?",
+     "options": [
+      "It's ignored",
+      "It's silently coerced",
+      "It fails at apply",
+      "It fails at plan time with a clear type-mismatch error"
+     ],
+     "answer": 3,
+     "explain": "Types catch mistakes early."
+    },
+    {
+     "q": "In which order do variable sources take precedence (lowest to highest)?",
+     "options": [
+      "-var, default, tfvars",
+      "default, terraform.tfvars, *.auto.tfvars, -var-file, -var",
+      "default, -var, tfvars",
+      "tfvars, default, -var"
+     ],
+     "answer": 1,
+     "explain": "Later wins over earlier."
+    },
+    {
+     "q": "What does object({ engine = string, storage_gb = number }) describe?",
+     "options": [
+      "A resource",
+      "A map",
+      "A list of strings",
+      "A structured value with named, typed fields"
+     ],
+     "answer": 3,
+     "explain": "It groups related settings instead of many flat variables."
+    },
+    {
+     "q": "How do you reference a variable named environment?",
+     "options": [
+      "var.environment",
+      "variable.environment",
+      "$environment",
+      "env.environment"
+     ],
+     "answer": 0,
+     "explain": "Outputs expose values to whoever ran the configuration or other configurations."
+    }
+   ]
+  },
+  "level-1/07-state-basics": {
+   "questions": [
+    {
+     "q": "Which three things does Terraform compare on each run?",
+     "options": [
+      "Files, folders and logs",
+      "Configuration, state, and real infrastructure",
+      "Providers, modules and variables",
+      "Plan, apply and destroy"
+     ],
+     "answer": 1,
+     "explain": "State is the record of what Terraform believes exists and how it maps to your config."
+    },
+    {
+     "q": "What does state contain for each resource?",
+     "options": [
+      "Only the arguments you wrote",
+      "The mapping from the Terraform address to every attribute the provider returned, including computed ones like arn",
+      "Only the id",
+      "Only the type"
+     ],
+     "answer": 1,
+     "explain": "That's why outputs like bucket_arn work without a separate lookup."
+    },
+    {
+     "q": "Why is state sensitive?",
+     "options": [
+      "It's public",
+      "It's large",
+      "It's binary",
+      "It records every attribute, so it can contain plaintext secrets such as generated passwords or keys, even if not in your .tf files"
+     ],
+     "answer": 3,
+     "explain": "Treat it like a secret and restrict access."
+    },
+    {
+     "q": "Why is local state risky for teams?",
+     "options": [
+      "It's slow",
+      "It's read-only",
+      "It's a local terraform.tfstate file that isn't shared or lockable; remote state (e.g. S3, Terraform Cloud) solves this",
+      "It's encrypted"
+     ],
+     "answer": 2,
+     "explain": "Remote state is covered in Level 2."
+    }
+   ]
+  },
+  "level-1/08-first-real-resource": {
+   "questions": [
+    {
+     "q": "Why start with the local provider's local_file?",
+     "options": [
+      "It manages S3",
+      "It replaces state",
+      "It's faster in production",
+      "It manages files on the machine running Terraform, so you can learn the full lifecycle with no cloud account or credentials"
+     ],
+     "answer": 3,
+     "explain": "terraform destroy deletes the file again."
+    },
+    {
+     "q": "What is path.module?",
+     "options": [
+      "The state path",
+      "The provider path",
+      "The home directory",
+      "The directory containing the current module's .tf files, keeping paths correct regardless of where terraform is run"
+     ],
+     "answer": 3,
+     "explain": "Prefer it over bare relative paths."
+    },
+    {
+     "q": "How does the data \"local_file\" block relate to the local_file resource?",
+     "options": [
+      "The resource owns the file; the data block only reads it, with an implicit dependency via the reference",
+      "They're unrelated",
+      "The data block creates it",
+      "Both own it"
+     ],
+     "answer": 0,
+     "explain": "It reuses module 5's distinction."
+    },
+    {
+     "q": "What does the lesson say about its AWS S3 example?",
+     "options": [
+      "It was run on a laptop",
+      "It needs no verification",
+      "It isn't run against a live account; treat it as a careful read-through and verify argument names on the registry before applying",
+      "It was run in production"
+     ],
+     "answer": 2,
+     "explain": "Provider argument names change between versions."
+    }
+   ]
+  },
+  "level-1/09-plan-apply-destroy": {
+   "questions": [
+    {
+     "q": "What do +, ~, - and -/+ mean in plan output?",
+     "options": [
+      "Add, move, delete, copy",
+      "Plus, minus, tilde, slash",
+      "Warning symbols",
+      "Create, update in place, destroy, and destroy-and-recreate"
+     ],
+     "answer": 3,
+     "explain": "-/+ appears when the provider can't update an attribute in place."
+    },
+    {
+     "q": "What does `terraform plan -out=tfplan` followed by `terraform apply tfplan` guarantee?",
+     "options": [
+      "Auto-approval",
+      "The applied changes are exactly what was reviewed, with nothing drifting between plan and apply",
+      "No state",
+      "Faster applies"
+     ],
+     "answer": 1,
+     "explain": "It's the standard CI/CD pattern."
+    },
+    {
+     "q": "What does terraform validate not catch?",
+     "options": [
+      "Missing arguments",
+      "Syntax errors",
+      "Things only the provider knows, like an invalid AMI ID, which show up at plan or apply",
+      "Type mismatches"
+     ],
+     "answer": 2,
+     "explain": "It checks syntax, required arguments and types locally, without touching providers or state."
+    },
+    {
+     "q": "What does the line 'Plan: 1 to add, 1 to change, 1 to destroy.' summarise?",
+     "options": [
+      "Resources already applied",
+      "The counts of resources that will be created, updated and destroyed",
+      "Providers",
+      "Errors"
+     ],
+     "answer": 1,
+     "explain": "plan changes nothing."
+    }
+   ]
+  },
+  "level-1/10-fmt-validate": {
+   "questions": [
+    {
+     "q": "What does terraform fmt do?",
+     "options": [
+      "Validates providers",
+      "Applies changes",
+      "Formats state",
+      "Rewrites .tf files in place to canonical style: two-space indentation and aligned = signs"
+     ],
+     "answer": 3,
+     "explain": "Like gofmt or prettier, it settles style debates."
+    },
+    {
+     "q": "What does terraform validate check?",
+     "options": [
+      "State drift",
+      "Plan output",
+      "Internal consistency (syntax, required arguments, types) without touching any provider or state",
+      "Cloud permissions"
+     ],
+     "answer": 2,
+     "explain": "Provider-specific problems appear at plan or apply."
+    },
+    {
+     "q": "How can fmt be used in CI?",
+     "options": [
+      "fmt -apply",
+      "terraform fmt -check fails the pipeline when files aren't formatted",
+      "fmt -destroy",
+      "fmt -out"
+     ],
+     "answer": 1,
+     "explain": "It enforces one style without anyone arguing in review."
+    },
+    {
+     "q": "Why run fmt and validate before every plan?",
+     "options": [
+      "They speed up apply",
+      "They catch cheap mistakes instantly and locally before anything reaches a provider",
+      "They update state",
+      "They install providers"
+     ],
+     "answer": 1,
+     "explain": "They're built into Terraform."
+    }
+   ]
+  },
+  "level-1/11-capstone-multi-resource": {
+   "questions": [
+    {
+     "q": "What does a `validation` block on a variable do?",
+     "options": [
+      "Formats the variable",
+      "Declares acceptable values with a custom error message, rejecting a typo like \"prd\" at plan time",
+      "Encrypts the value",
+      "Sets a default"
+     ],
+     "answer": 1,
+     "explain": "The example uses contains([\"dev\",\"staging\",\"prod\"], var.environment)."
+    },
+    {
+     "q": "Why does the capstone use a random_id suffix in the bucket name?",
+     "options": [
+      "For security",
+      "S3 bucket names are globally unique, so a random suffix avoids collisions",
+      "To save cost",
+      "For tagging"
+     ],
+     "answer": 1,
+     "explain": "The name is built in locals as project-environment-suffix."
+    },
+    {
+     "q": "What are locals for in the capstone?",
+     "options": [
+      "Computed values reused in the configuration, such as bucket_name and common_tags built with merge()",
+      "Input variables",
+      "Outputs",
+      "Providers"
+     ],
+     "answer": 0,
+     "explain": "They avoid repeating expressions."
+    },
+    {
+     "q": "What does `status = var.enable_versioning ? \"Enabled\" : \"Suspended\"` demonstrate?",
+     "options": [
+      "A function",
+      "A data source",
+      "A conditional expression choosing a value from a boolean variable",
+      "A loop"
+     ],
+     "answer": 2,
+     "explain": "It parameterises one configuration for multiple environments."
+    }
+   ]
+  },
+  "level-2/01-modules-structure": {
+   "questions": [
+    {
+     "q": "What is a module?",
+     "options": [
+      "Any directory containing .tf files; the root module is one too and can call others",
+      "Only a registry package",
+      "A provider",
+      "A state file"
+     ],
+     "answer": 0,
+     "explain": "Modules package infrastructure as a reusable, parameterised unit."
+    },
+    {
+     "q": "Are main.tf, variables.tf and outputs.tf special filenames?",
+     "options": [
+      "Yes, required",
+      "Only outputs.tf",
+      "Only main.tf",
+      "No: Terraform merges every .tf file in a directory; the split is a strong community convention"
+     ],
+     "answer": 3,
+     "explain": "The convention makes modules navigable."
+    },
+    {
+     "q": "What are a module's inputs and outputs?",
+     "options": [
+      "Neither exists",
+      "Inputs are outputs",
+      "Inputs are its variables (parameters the caller sets); outputs are values it exposes to its caller",
+      "Both are state"
+     ],
+     "answer": 2,
+     "explain": "Like root-level variables and outputs, but for a called module."
+    },
+    {
+     "q": "What does `count = var.enable_versioning ? 1 : 0` do?",
+     "options": [
+      "Destroys it",
+      "Creates it twice",
+      "Names it",
+      "Creates the resource only when the variable is true"
+     ],
+     "answer": 3,
+     "explain": "It's the conditional-resource idiom."
+    }
+   ]
+  },
+  "level-2/02-module-versioning": {
+   "questions": [
+    {
+     "q": "Why pin a module version?",
+     "options": [
+      "To save state",
+      "To rename it",
+      "So a change to the module doesn't silently change every caller on the next terraform init",
+      "To speed up apply"
+     ],
+     "answer": 2,
+     "explain": "The version argument works for registry modules; Git sources pin via ref."
+    },
+    {
+     "q": "What does `~> 5.8` mean?",
+     "options": [
+      "Any version",
+      ">= 5.8.0 and < 6.0.0 (non-breaking updates, no major bump)",
+      "Exactly 5.8",
+      ">= 5.8.1 < 5.9.0"
+     ],
+     "answer": 1,
+     "explain": "~> 5.8.1 allows only patch releases."
+    },
+    {
+     "q": "What does the `//` in a Git module source mean?",
+     "options": [
+      "A branch",
+      "A comment",
+      "A protocol",
+      "It separates the repository root from a subdirectory, e.g. tf-modules.git//s3-bucket"
+     ],
+     "answer": 3,
+     "explain": "One repo can host many independently versioned modules."
+    },
+    {
+     "q": "Which Git pin is maximally reproducible?",
+     "options": [
+      "No ref",
+      "A branch name",
+      "A specific commit via ?ref=<sha>",
+      "latest"
+     ],
+     "answer": 2,
+     "explain": "Tags are good too; commits can't move."
+    }
+   ]
+  },
+  "level-2/03-remote-state-backends": {
+   "questions": [
+    {
+     "q": "What two problems of local state does a backend solve?",
+     "options": [
+      "It's public and old",
+      "It's slow and large",
+      "It isn't shared with teammates and isn't safe to commit (secrets); a backend stores it somewhere shared and lockable",
+      "It's binary and encrypted"
+     ],
+     "answer": 2,
+     "explain": "It also tells Terraform where to store state and how to lock it."
+    },
+    {
+     "q": "Why does the S3 backend use a dynamodb_table?",
+     "options": [
+      "S3 has no native locking primitive, so DynamoDB provides state locking",
+      "To encrypt",
+      "To store data",
+      "To version"
+     ],
+     "answer": 0,
+     "explain": "key sets the path in the bucket, so many configurations can share a bucket."
+    },
+    {
+     "q": "Why can't a backend block use variables or locals?",
+     "options": [
+      "It's a bug",
+      "Terraform must resolve where the state lives before evaluating anything else; use literals or -backend-config at init",
+      "Locals are secret",
+      "Variables are slow"
+     ],
+     "answer": 1,
+     "explain": "Partial configuration supplies values at init time."
+    },
+    {
+     "q": "What happens when you add a backend block and re-run terraform init?",
+     "options": [
+      "A state migration prompt offers to copy your current state to the new backend",
+      "Resources are destroyed",
+      "Nothing",
+      "State is deleted"
+     ],
+     "answer": 0,
+     "explain": "No resource tracking is lost."
+    }
+   ]
+  },
+  "level-2/04-workspaces": {
+   "questions": [
+    {
+     "q": "What does a workspace give you?",
+     "options": [
+      "Multiple modules",
+      "Multiple clouds",
+      "Multiple providers",
+      "Multiple separate state files from one configuration directory, without duplicating .tf code"
+     ],
+     "answer": 3,
+     "explain": "Every configuration starts with the default workspace."
+    },
+    {
+     "q": "What is terraform.workspace?",
+     "options": [
+      "A provider",
+      "A state file",
+      "A declared variable",
+      "A built-in reference holding the current workspace's name as a string, so config can vary naming, sizing and tags"
+     ],
+     "answer": 3,
+     "explain": "For example instance_type = terraform.workspace == \"prod\" ? ... : ..."
+    },
+    {
+     "q": "Where does a non-default workspace's local state live?",
+     "options": [
+      "terraform.tfstate.d/<workspace>/terraform.tfstate",
+      "In the cloud",
+      "terraform.tfstate",
+      "~/.terraform"
+     ],
+     "answer": 0,
+     "explain": "default keeps the plain terraform.tfstate; the S3 backend namespaces per workspace automatically."
+    },
+    {
+     "q": "What is a good use of workspaces?",
+     "options": [
+      "A sandbox per developer or a lightweight dev/staging split",
+      "Sharing secrets",
+      "Replacing modules",
+      "Production isolation by itself"
+     ],
+     "answer": 0,
+     "explain": "The fuller multi-environment patterns are in Level 3."
+    }
+   ]
+  },
+  "level-2/05-provisioners": {
+   "questions": [
+    {
+     "q": "What is a provisioner?",
+     "options": [
+      "A script or command run against a resource at create or destroy time, an escape hatch recommended as a last resort",
+      "A module",
+      "A provider plugin",
+      "A variable"
+     ],
+     "answer": 0,
+     "explain": "remote-exec runs on the created resource; local-exec runs on the machine running Terraform."
+    },
+    {
+     "q": "What does `self` refer to inside a provisioner?",
+     "options": [
+      "The resource the provisioner is attached to (e.g. self.public_ip)",
+      "The provider",
+      "The module",
+      "The state"
+     ],
+     "answer": 0,
+     "explain": "It's valid only inside a provisioner block."
+    },
+    {
+     "q": "When do provisioners run?",
+     "options": [
+      "On every apply",
+      "Only on update",
+      "Only at create or destroy, never on update; a destroy-time one runs before the resource is destroyed",
+      "Only on plan"
+     ],
+     "answer": 2,
+     "explain": "Changing the script doesn't re-run it against an existing resource."
+    },
+    {
+     "q": "Why is a failed provisioner hard to handle?",
+     "options": [
+      "Terraform has no visibility into what the script changed, so it can only mark the resource tainted, not retry a specific step",
+      "It's logged",
+      "It's reverted",
+      "It always retries"
+     ],
+     "answer": 0,
+     "explain": "That's why configuration management tools or images are preferred."
+    }
+   ]
+  },
+  "level-2/06-locals-functions": {
+   "questions": [
+    {
+     "q": "How does a local differ from a variable?",
+     "options": [
+      "They're identical",
+      "Locals can be set with -var",
+      "Variables are computed",
+      "A local has no default, no type constraint and can't be set from outside; it's a named expression"
+     ],
+     "answer": 3,
+     "explain": "Use locals to avoid repeating expressions."
+    },
+    {
+     "q": "Can you define your own functions in HCL?",
+     "options": [
+      "Only in locals",
+      "Only in modules",
+      "No: only built-in functions exist, so fluency with the library matters",
+      "Yes"
+     ],
+     "answer": 2,
+     "explain": "The lesson stresses this."
+    },
+    {
+     "q": "What are name_prefix and common_tags in the example?",
+     "options": [
+      "Outputs",
+      "Providers",
+      "Variables",
+      "Locals reused across multiple resources, such as bucket names and tags"
+     ],
+     "answer": 3,
+     "explain": "Referenced as local.name_prefix, not var."
+    },
+    {
+     "q": "How do you reference a local?",
+     "options": [
+      "local.<name> (singular)",
+      "var.<name>",
+      "locals.<name>",
+      "local_value.<name>"
+     ],
+     "answer": 0,
+     "explain": "Declare with a locals block (plural)."
+    }
+   ]
+  },
+  "level-2/07-conditional-expressions": {
+   "questions": [
+    {
+     "q": "Why is `condition ? \"a\" : 5` a type error?",
+     "options": [
+      "Strings can't be compared",
+      "? is not allowed",
+      "Both branches must produce compatible types, because Terraform must know the result type during validation",
+      "5 is invalid"
+     ],
+     "answer": 2,
+     "explain": "It can't know which branch runs until values are known."
+    },
+    {
+     "q": "How do you create a resource only if a condition holds?",
+     "options": [
+      "when = condition",
+      "resource ... if ...",
+      "count = condition ? 1 : 0",
+      "if (condition) { }"
+     ],
+     "answer": 2,
+     "explain": "HCL has no if/else statements, only the conditional expression."
+    },
+    {
+     "q": "How do you reference a resource that has `count`, even if it is 0 or 1?",
+     "options": [
+      "Without an index",
+      "Not possible",
+      "With a key",
+      "With indexing, e.g. aws_cloudwatch_metric_alarm.high_cpu[0].arn"
+     ],
+     "answer": 3,
+     "explain": "As soon as count is set, the resource is a list of instances."
+    },
+    {
+     "q": "What do try() and coalesce() do?",
+     "options": [
+      "Both loop",
+      "Both create resources",
+      "Both throw errors",
+      "try() falls back if the first expression errors; coalesce() returns the first non-null argument"
+     ],
+     "answer": 3,
+     "explain": "They solve 'use this value unless unavailable' without a full ternary."
+    }
+   ]
+  },
+  "level-2/08-count-for-each": {
+   "questions": [
+    {
+     "q": "How is each instance addressed with count and with for_each?",
+     "options": [
+      "Both by key",
+      "Both by index",
+      "count by numeric index (web[0]); for_each by key (web[\"web-1\"])",
+      "By name only"
+     ],
+     "answer": 2,
+     "explain": "for_each accepts a set(string) or map."
+    },
+    {
+     "q": "You remove web-2 from the middle of [web-1, web-2, web-3] used with count. What does Terraform propose?",
+     "options": [
+      "Nothing",
+      "Recreating web-1",
+      "Destroying and recreating index 1 (and index 2), since everything shifts, even though web-3 didn't conceptually change",
+      "Removing only web-2"
+     ],
+     "answer": 2,
+     "explain": "Identity by position causes needless recreation."
+    },
+    {
+     "q": "Why does for_each avoid that problem?",
+     "options": [
+      "It recreates all",
+      "A resource's identity in state is its key, so removing one key leaves the others untouched",
+      "It copies state",
+      "It sorts them"
+     ],
+     "answer": 1,
+     "explain": "That's why module authors default to for_each when elements have natural keys."
+    },
+    {
+     "q": "What are each.key and each.value for a set versus a map?",
+     "options": [
+      "Always identical",
+      "Identical for a set; distinct for a map",
+      "Always distinct",
+      "Undefined"
+     ],
+     "answer": 1,
+     "explain": "count.index is the 0-based index inside a count block."
+    }
+   ]
+  },
+  "level-2/09-composing-modules": {
+   "questions": [
+    {
+     "q": "How does one module use another's output?",
+     "options": [
+      "With imports",
+      "With data blocks only",
+      "With the reference syntax module.<name>.<output>, e.g. vpc_id = module.network.vpc_id",
+      "By copying files"
+     ],
+     "answer": 2,
+     "explain": "The reference also creates a dependency."
+    },
+    {
+     "q": "In the network/app/database example, what order may app and database be created in?",
+     "options": [
+      "app first always",
+      "database first always",
+      "Sequentially only",
+      "Any order or concurrently, once network is ready; neither depends on the other"
+     ],
+     "answer": 3,
+     "explain": "Both depend on network through references."
+    },
+    {
+     "q": "Why pass an object-typed output rather than three separate outputs?",
+     "options": [
+      "It avoids state",
+      "It keeps calling code shorter and makes the module's 'shape' contract explicit in one type constraint",
+      "It's faster",
+      "It's required"
+     ],
+     "answer": 1,
+     "explain": "The consumer declares variable \"vpc\" with an object type."
+    },
+    {
+     "q": "When is depends_on on a module appropriate?",
+     "options": [
+      "Never",
+      "When ordering matters for reasons Terraform can't infer from references, such as eventual-consistency of an IAM policy attachment",
+      "For all modules",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "Prefer implicit references."
+    }
+   ]
+  },
+  "level-2/10-capstone-reusable-modules": {
+   "questions": [
+    {
+     "q": "What does the Level 2 capstone combine?",
+     "options": [
+      "Only a VPC",
+      "A reusable networking module and app module composed from a root configuration, with conditionals, for_each and shared locals for naming and tags",
+      "A Kubernetes cluster",
+      "Only providers"
+     ],
+     "answer": 1,
+     "explain": "It uses every Level 2 concept."
+    },
+    {
+     "q": "How was the capstone verified?",
+     "options": [
+      "Unverified guess",
+      "Reasoned through against documented Terraform and AWS provider behaviour; not run against a real cloud account",
+      "Run in production",
+      "Run on a laptop with AWS"
+     ],
+     "answer": 1,
+     "explain": "The course is honest about this."
+    },
+    {
+     "q": "Which technique repeats resources by key in the capstone?",
+     "options": [
+      "loops",
+      "count with index",
+      "for_each",
+      "recursion"
+     ],
+     "answer": 2,
+     "explain": "It avoids positional recreation."
+    },
+    {
+     "q": "What gives consistent names and tags across modules?",
+     "options": [
+      "Shared locals",
+      "State",
+      "Hard-coded strings",
+      "Providers"
+     ],
+     "answer": 0,
+     "explain": "Locals centralise naming and tagging."
+    }
+   ]
+  },
+  "level-3/01-state-locking-team-workflows": {
+   "questions": [
+    {
+     "q": "What happens without state locking when Alice and Bob apply at the same time?",
+     "options": [
+      "Both fail",
+      "The second waits",
+      "Whichever finishes last overwrites the other's changes in the state file, even though both sets of real changes happened",
+      "They merge automatically"
+     ],
+     "answer": 2,
+     "explain": "The state file, not reality, silently loses information."
+    },
+    {
+     "q": "What does a second concurrent apply do with locking?",
+     "options": [
+      "It queues silently",
+      "It overwrites",
+      "It fails loudly with 'Error acquiring the state lock', showing who holds it and since when",
+      "It ignores state"
+     ],
+     "answer": 2,
+     "explain": "The conflict is visible immediately."
+    },
+    {
+     "q": "How is locking implemented for the S3 backend?",
+     "options": [
+      "A local file",
+      "With a paired DynamoDB table using conditional writes, since S3 has no native lock primitive",
+      "S3 object locks",
+      "A Git lock"
+     ],
+     "answer": 1,
+     "explain": "The local backend's file lock only protects against processes on the same machine."
+    },
+    {
+     "q": "When is terraform force-unlock appropriate?",
+     "options": [
+      "Only when you're certain the process that acquired the lock crashed and won't continue",
+      "Every apply",
+      "Whenever a lock is slow",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "A last resort."
+    }
+   ]
+  },
+  "level-3/02-moving-importing-resources": {
+   "questions": [
+    {
+     "q": "What happens if you rename a resource in .tf without updating state?",
+     "options": [
+      "A rename",
+      "An error",
+      "Terraform plans to create the new address and destroy the old one, since state knows resources by address",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "terraform state mv updates the address in state so no create or destroy occurs."
+    },
+    {
+     "q": "Why prefer a moved block over terraform state mv?",
+     "options": [
+      "It's faster",
+      "It deletes state",
+      "It's committed with the code, so everyone who pulls gets the same no-recreate outcome and the migration is part of review",
+      "It edits infrastructure"
+     ],
+     "answer": 2,
+     "explain": "state mv is an imperative one-off command someone must remember."
+    },
+    {
+     "q": "What does `terraform import aws_s3_bucket.reports acme-reports-2026` do?",
+     "options": [
+      "Generates configuration",
+      "Creates the bucket",
+      "Reads the real bucket's attributes into state under that address; it does not write the .tf block for you",
+      "Deletes the bucket"
+     ],
+     "answer": 2,
+     "explain": "You must write a matching resource block or the next plan will want to destroy it."
+    },
+    {
+     "q": "Do state mv and import touch real infrastructure?",
+     "options": [
+      "Yes, both",
+      "Only state mv",
+      "No: they only edit state",
+      "Only import"
+     ],
+     "answer": 2,
+     "explain": "They keep state and configuration honest without recreate cycles."
+    }
+   ]
+  },
+  "level-3/03-terraform-cloud-enterprise": {
+   "questions": [
+    {
+     "q": "How does Terraform Cloud differ from an S3 backend?",
+     "options": [
+      "It only stores state",
+      "It only locks",
+      "It only formats",
+      "It also runs plan/apply for you on its own infrastructure, with locking, policy enforcement and run history"
+     ],
+     "answer": 3,
+     "explain": "Terraform Enterprise is the self-hosted version."
+    },
+    {
+     "q": "What is a Terraform Cloud workspace compared with the CLI's?",
+     "options": [
+      "A VM",
+      "A full unit of configuration, state, variables and run history, roughly one configuration directory",
+      "A slice of state in one configuration",
+      "A module"
+     ],
+     "answer": 1,
+     "explain": "The name overlaps but the concept differs."
+    },
+    {
+     "q": "What does replacing a backend \"s3\" block with a cloud block and running terraform login switch?",
+     "options": [
+      "Only locking",
+      "Only state",
+      "State storage, locking and run execution to Terraform Cloud, so apply runs remotely",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Output streams back to your terminal."
+    },
+    {
+     "q": "What's a benefit of remote runs?",
+     "options": [
+      "A laptop with no cloud credentials can trigger plan/apply, and every run is auditable centrally",
+      "No plan",
+      "No state",
+      "Faster laptops"
+     ],
+     "answer": 0,
+     "explain": "Credentials and variables are stored in the workspace; variable sets share them."
+    }
+   ]
+  },
+  "level-3/04-testing-iac-plan-review": {
+   "questions": [
+    {
+     "q": "What does `terraform show -json tfplan` produce?",
+     "options": [
+      "A structured, machine-readable plan that CI and policy engines inspect, instead of parsing terminal output",
+      "State",
+      "A graph",
+      "A human summary"
+     ],
+     "answer": 0,
+     "explain": "Attach the human output to PRs for reviewers."
+    },
+    {
+     "q": "What does terraform test (since 1.6) do?",
+     "options": [
+      "Formats code",
+      "Runs assertion-based tests defined in .tftest.hcl, entirely against plan or mocked providers, without real infrastructure",
+      "Validates providers",
+      "Applies to production"
+     ],
+     "answer": 1,
+     "explain": "Each run block is one test case; command = plan runs only a plan."
+    },
+    {
+     "q": "What is validate's limit?",
+     "options": [
+      "It's the floor, not the ceiling: it catches syntax and type errors but not whether the plan does what you intend",
+      "It catches everything",
+      "It tests",
+      "It deploys"
+     ],
+     "answer": 0,
+     "explain": "Combine with fmt -check, plan review and tests."
+    },
+    {
+     "q": "What does the assert block in a test contain?",
+     "options": [
+      "A provider",
+      "A condition and an error_message",
+      "A variable",
+      "A resource"
+     ],
+     "answer": 1,
+     "explain": "Example: aws_s3_bucket.this.bucket == \"test-bucket\"."
+    }
+   ]
+  },
+  "level-3/05-policy-as-code": {
+   "questions": [
+    {
+     "q": "What is policy as code?",
+     "options": [
+      "A wiki",
+      "Organisational rules written as version-controlled, automatically enforced code rather than a wiki page",
+      "A spreadsheet",
+      "A manual review"
+     ],
+     "answer": 1,
+     "explain": "For example 'no public S3 buckets' or 'instances must be tagged with a cost centre'."
+    },
+    {
+     "q": "What are the two dominant policy engines?",
+     "options": [
+      "Packer and Vagrant",
+      "Sentinel (HashiCorp, native to Terraform Cloud/Enterprise) and OPA/Rego (via conftest on a JSON plan)",
+      "Jenkins and Make",
+      "Ansible and Chef"
+     ],
+     "answer": 1,
+     "explain": "Both evaluate the structured JSON plan, not .tf source text."
+    },
+    {
+     "q": "What does the Sentinel allowlist policy do for a plan proposing t3.xlarge?",
+     "options": [
+      "It's applied anyway",
+      "It's ignored",
+      "It warns only",
+      "It fails before apply is ever permitted, regardless of who submitted it"
+     ],
+     "answer": 3,
+     "explain": "Every aws_instance's planned instance_type must be in the allowlist."
+    },
+    {
+     "q": "How does conftest evaluate a plan?",
+     "options": [
+      "By reading state",
+      "terraform show -json tfplan > plan.json, then conftest test plan.json against Rego deny rules",
+      "By applying",
+      "By parsing HCL"
+     ],
+     "answer": 1,
+     "explain": "deny[msg] accumulates violation messages."
+    }
+   ]
+  },
+  "level-3/06-multi-environment-patterns": {
+   "questions": [
+    {
+     "q": "What does directory-per-environment give each environment?",
+     "options": [
+      "A fully separate configuration with its own state, backend key and provider credentials (possibly another cloud account)",
+      "One backend key",
+      "One credential",
+      "A shared state"
+     ],
+     "answer": 0,
+     "explain": "Shared logic lives once in modules/."
+    },
+    {
+     "q": "What is the risk of .tfvars-per-environment with one configuration?",
+     "options": [
+      "No variables",
+      "Syntax errors",
+      "Slow applies",
+      "Accidentally applying the wrong .tfvars against the wrong state if the backend or workspace selected is wrong"
+     ],
+     "answer": 3,
+     "explain": "It suits environments sharing the same backend and account."
+    },
+    {
+     "q": "Why aren't CLI workspaces enough for dev/staging/prod?",
+     "options": [
+      "They lack state",
+      "They share backend configuration and credentials, while real environments need a stronger isolation boundary",
+      "They're deprecated",
+      "They're slow"
+     ],
+     "answer": 1,
+     "explain": "Separate accounts are common."
+    },
+    {
+     "q": "What does each environment's main.tf mostly contain?",
+     "options": [
+      "Different input values passed to the same shared modules",
+      "Providers only",
+      "Copies of resources",
+      "State"
+     ],
+     "answer": 0,
+     "explain": "It's deliberately small."
+    }
+   ]
+  },
+  "level-3/07-dependency-graph": {
+   "questions": [
+    {
+     "q": "How is an implicit dependency created?",
+     "options": [
+      "By naming",
+      "With depends_on",
+      "By a reference such as vpc_id = aws_vpc.this.id, as a side effect of needing a value",
+      "By file order"
+     ],
+     "answer": 2,
+     "explain": "It's the default and the goal."
+    },
+    {
+     "q": "When is depends_on appropriate?",
+     "options": [
+      "For every resource",
+      "Never",
+      "When an ordering requirement exists that no value reference expresses, such as an IAM policy attachment that must exist first",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "Terraform's attribute-level inference can't see behavioural ordering."
+    },
+    {
+     "q": "What does `terraform graph | dot -Tsvg > graph.svg` do?",
+     "options": [
+      "Applies",
+      "Renders the DOT-format dependency graph as a diagram, useful to confirm a dependency does or doesn't exist",
+      "Formats",
+      "Plans"
+     ],
+     "answer": 1,
+     "explain": "Large graphs are too dense to read directly."
+    },
+    {
+     "q": "What can run concurrently?",
+     "options": [
+      "Nothing",
+      "Everything",
+      "Only one resource at a time",
+      "Resources with no dependency path between them, e.g. subnets that depend only on the VPC"
+     ],
+     "answer": 3,
+     "explain": "The plan output shows parallelism once the VPC is created."
+    }
+   ]
+  },
+  "level-3/08-secrets-management": {
+   "questions": [
+    {
+     "q": "Why is hard-coding password = \"hunter2\" in a .tf file bad even if removed later?",
+     "options": [
+      "It stays in Git history, readable by anyone with repo access",
+      "Terraform rejects it",
+      "It breaks apply",
+      "It's too short"
+     ],
+     "answer": 0,
+     "explain": "Never commit secrets."
+    },
+    {
+     "q": "What does `sensitive = true` on a variable do?",
+     "options": [
+      "Removes the variable",
+      "Hides the value in plan and apply output (but it can still be stored in state)",
+      "Makes it a secret manager",
+      "Encrypts state"
+     ],
+     "answer": 1,
+     "explain": "State may still contain the value, so protect state."
+    },
+    {
+     "q": "Which two places should secrets stay out of as much as possible?",
+     "options": [
+      "Logs and plans",
+      "Version control and state",
+      "Variables and outputs",
+      "Providers and modules"
+     ],
+     "answer": 1,
+     "explain": "For residual cases limit exposure with encrypted, access-controlled remote state."
+    },
+    {
+     "q": "What pattern supplies secrets without writing them in code?",
+     "options": [
+      "Use default values",
+      "Put them in outputs",
+      "Write them in comments",
+      "Read them from a secrets manager or environment variables at runtime"
+     ],
+     "answer": 3,
+     "explain": "The lesson covers several such patterns."
+    }
+   ]
+  },
+  "level-3/09-refactoring-state-safely": {
+   "questions": [
+    {
+     "q": "What do moved blocks accomplish when extracting resources into a module?",
+     "options": [
+      "They delete state",
+      "They apply faster",
+      "The plan shows zero changes for them instead of destroy 2 / create 2",
+      "They rename providers"
+     ],
+     "answer": 2,
+     "explain": "Many resource types can't be recreated without downtime or data loss."
+    },
+    {
+     "q": "How do you split one state into two configurations?",
+     "options": [
+      "terraform import only",
+      "terraform copy",
+      "Edit JSON by hand",
+      "terraform state mv -state-out=extracted.tfstate ... then terraform state push in the destination configuration"
+     ],
+     "answer": 3,
+     "explain": "It's rarer and higher-stakes than a moved refactor, so back up state first."
+    },
+    {
+     "q": "Why is a moved refactor safer than recreate?",
+     "options": [
+      "It rebuilds",
+      "It deletes resources",
+      "Real infrastructure isn't touched; only addresses in state change",
+      "It copies"
+     ],
+     "answer": 2,
+     "explain": "Same resources, new addresses."
+    },
+    {
+     "q": "When can directory-per-domain splitting be used?",
+     "options": [
+      "To split by domain (networking, app), not just by environment",
+      "Only for modules",
+      "Only for environments",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "It physically moves state entries between backends."
+    }
+   ]
+  },
+  "level-3/10-capstone-multi-environment": {
+   "questions": [
+    {
+     "q": "How do dev and prod avoid blocking each other's locks?",
+     "options": [
+      "Different regions",
+      "Different providers",
+      "Same bucket and lock table but disjoint state keys (platform/dev vs platform/prod)",
+      "Different Terraform versions"
+     ],
+     "answer": 2,
+     "explain": "Each environment's state is independently locked and encrypted."
+    },
+    {
+     "q": "What does each environment's main.tf do?",
+     "options": [
+      "Calls the same network and app modules with different inputs (AZ count, instance count, monitoring)",
+      "Defines unique resources",
+      "Is a copy of everything",
+      "Contains state"
+     ],
+     "answer": 0,
+     "explain": "Prod uses 3 AZs, 4 instances, monitoring on; dev uses 2, 1, off."
+    },
+    {
+     "q": "Which parts does the capstone combine?",
+     "options": [
+      "Directory-per-env, locked remote state, a policy check and a terraform test suite",
+      "Only CI",
+      "Only workspaces",
+      "Only modules"
+     ],
+     "answer": 0,
+     "explain": "It builds around the Level 2 modules."
+    },
+    {
+     "q": "How was the capstone verified?",
+     "options": [
+      "Run in prod",
+      "Fully tested",
+      "Reasoned against documented behaviour; not run against a real cloud account",
+      "Run on dev"
+     ],
+     "answer": 2,
+     "explain": "The course is honest about this."
+    }
+   ]
+  },
+  "level-4/01-large-scale-module-design": {
+   "questions": [
+    {
+     "q": "What makes a module worth reuse at scale?",
+     "options": [
+      "It wraps one resource",
+      "It's undocumented",
+      "It's tiny",
+      "It encapsulates a decision (how the org does encrypted, replicated storage), not just a resource type"
+     ],
+     "answer": 3,
+     "explain": "Thin wrappers add indirection with no value."
+    },
+    {
+     "q": "What should reusable modules know about teams or environments?",
+     "options": [
+      "Everything",
+      "Account IDs",
+      "Nothing: environment-specific decisions belong in the composition root",
+      "Team names"
+     ],
+     "answer": 2,
+     "explain": "A hard-coded team name or account ID makes callers work around or fork the module."
+    },
+    {
+     "q": "Why group related arguments in one object variable (e.g. encryption)?",
+     "options": [
+      "It avoids types",
+      "It's shorter",
+      "It keeps the interface stable and explicit, like an API contract, with optional fields and defaults",
+      "Terraform requires it"
+     ],
+     "answer": 2,
+     "explain": "Variables and outputs are a module's API."
+    },
+    {
+     "q": "What is a composition root?",
+     "options": [
+      "A generic module",
+      "A provider",
+      "A state file",
+      "An opinionated configuration that wires several reusable modules for one team's stack"
+     ],
+     "answer": 3,
+     "explain": "For example platforms/data-team."
+    }
+   ]
+  },
+  "level-4/02-cicd-for-terraform": {
+   "questions": [
+    {
+     "q": "What is the two-workflow pattern?",
+     "options": [
+      "Plan on pull request (commented on the PR) and apply on merge to main",
+      "Only apply",
+      "Apply on PR, plan on merge",
+      "Only plan"
+     ],
+     "answer": 0,
+     "explain": "It runs fmt -check, validate and plan on PRs touching envs/prod or modules."
+    },
+    {
+     "q": "What does `environment: production` on the apply job do?",
+     "options": [
+      "Runs it locally",
+      "Skips approval",
+      "Ties it to a GitHub Environment with required reviewers, so it pauses for human approval before terraform apply runs",
+      "Sets AWS_REGION"
+     ],
+     "answer": 2,
+     "explain": "It's a controlled deployment gate."
+    },
+    {
+     "q": "Why attach the plan to the PR automatically?",
+     "options": [
+      "It's shorter",
+      "It can never be forgotten or run against a stale checkout",
+      "It's required by Terraform",
+      "It speeds apply"
+     ],
+     "answer": 1,
+     "explain": "Reviewers see exactly what will change."
+    },
+    {
+     "q": "Why pin terraform_version in setup-terraform?",
+     "options": [
+      "It speeds installs",
+      "It skips init",
+      "Every run uses the same CLI version, avoiding behaviour differences",
+      "It's required by GitHub"
+     ],
+     "answer": 2,
+     "explain": "Reproducible pipelines."
+    }
+   ]
+  },
+  "level-4/03-drift-detection-remediation": {
+   "questions": [
+    {
+     "q": "What is drift?",
+     "options": [
+      "Real infrastructure no longer matching what Terraform's state believes (console edits, autoscaling, other tools)",
+      "A provider upgrade",
+      "A module update",
+      "A syntax error"
+     ],
+     "answer": 0,
+     "explain": "Detect it systematically."
+    },
+    {
+     "q": "What does `terraform plan -detailed-exitcode` return when there's a diff?",
+     "options": [
+      "1",
+      "3",
+      "0",
+      "Exit code 2 (0 means in sync, 1 means error)"
+     ],
+     "answer": 3,
+     "explain": "A scheduled job can fail only when something needs attention."
+    },
+    {
+     "q": "How does Terraform label detected drift in a plan?",
+     "options": [
+      "As errors",
+      "Not at all",
+      "'changes made outside of Terraform since the last apply', distinct from changes your own .tf edits caused",
+      "As warnings only"
+     ],
+     "answer": 2,
+     "explain": "For example a security group rule widened to 0.0.0.0/0 in the console."
+    },
+    {
+     "q": "When is the drift-detection job scheduled in the lesson?",
+     "options": [
+      "Manually",
+      "On every push",
+      "Weekly",
+      "Daily by cron across dev, staging and prod via a matrix"
+     ],
+     "answer": 3,
+     "explain": "It exits 1 when exit code 2 is detected to trigger normal CI alerts."
+    }
+   ]
+  },
+  "level-4/04-cost-estimation-concepts": {
+   "questions": [
+    {
+     "q": "Why doesn't Terraform Core know what anything costs?",
+     "options": [
+      "Provider schemas describe shape, not price; pricing lives in separate billing/price-list data",
+      "Costs are in state",
+      "It's hidden",
+      "It's encrypted"
+     ],
+     "answer": 0,
+     "explain": "instance_type is just a string to the provider schema."
+    },
+    {
+     "q": "What do cost tools like Infracost build on?",
+     "options": [
+      "HCL text",
+      "Provider source",
+      "terraform show -json output: resource_changes with planned attribute values (change.after)",
+      "State files"
+     ],
+     "answer": 2,
+     "explain": "They cross-reference attributes like instance_type and volume_size against a price catalog."
+    },
+    {
+     "q": "Why do cost estimators go stale?",
+     "options": [
+      "They're slow",
+      "Plans change",
+      "They need a per-resource-type mapping, which lags when providers add new resource types or attributes",
+      "Prices are fixed"
+     ],
+     "answer": 2,
+     "explain": "There are also limits to estimating cost from configuration alone."
+    },
+    {
+     "q": "What does -out=tfplan save?",
+     "options": [
+      "State",
+      "Logs",
+      "The plan in Terraform's binary plan format",
+      "Variables"
+     ],
+     "answer": 2,
+     "explain": "show -json converts it to documented JSON."
+    }
+   ]
+  },
+  "level-4/05-security-scanning-iac": {
+   "questions": [
+    {
+     "q": "Why does terraform validate pass a bucket with all public-access blocks set to false?",
+     "options": [
+      "It has security rules",
+      "It reads cloud state",
+      "It scans policies",
+      "It checks types, required arguments and references; schema validity and security posture are orthogonal"
+     ],
+     "answer": 3,
+     "explain": "Provider schemas don't know that false is dangerous."
+    },
+    {
+     "q": "What do IaC security scanners do?",
+     "options": [
+      "Run the infrastructure",
+      "Estimate cost",
+      "Apply fixes",
+      "Statically analyse configuration (or the plan) for risky patterns like public buckets before apply"
+     ],
+     "answer": 3,
+     "explain": "They reason about your configuration to catch misconfiguration."
+    },
+    {
+     "q": "When should scanning run?",
+     "options": [
+      "Before apply, such as in CI on pull requests",
+      "After production incidents",
+      "Only manually",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Shift security left."
+    },
+    {
+     "q": "A world-readable bucket is perfectly valid HCL. What does that imply?",
+     "options": [
+      "It's invalid",
+      "Terraform blocks it",
+      "Valid syntax doesn't mean safe, so security checks need separate tooling",
+      "It's fine"
+     ],
+     "answer": 2,
+     "explain": "It's as much a bug as a syntax error."
+    }
+   ]
+  },
+  "level-4/06-platform-architecture": {
+   "questions": [
+    {
+     "q": "What is the core tension in platform Terraform architecture?",
+     "options": [
+      "Cost versus quality",
+      "Modules versus resources",
+      "Speed versus security",
+      "Blast radius versus duplication/coordination: one big state is simple but a lock or bad plan affects everyone; many states shrink blast radius but need cross-state contracts"
+     ],
+     "answer": 3,
+     "explain": "Choose where to draw the boundaries deliberately."
+    },
+    {
+     "q": "How do you read another state's values across a boundary?",
+     "options": [
+      "Module references",
+      "Local variables",
+      "Direct state access",
+      "A terraform_remote_state data source reading the other state's outputs (or an explicit output/input contract)"
+     ],
+     "answer": 3,
+     "explain": "module.network.vpc_id stops being a local reference."
+    },
+    {
+     "q": "What may the database configuration depend on from the network state?",
+     "options": [
+      "Only its outputs, not internal resource addresses or module structure",
+      "Its source",
+      "Everything",
+      "Its providers"
+     ],
+     "answer": 0,
+     "explain": "Outputs are the contract."
+    },
+    {
+     "q": "What is the downside of one giant state with all modules?",
+     "options": [
+      "A lock held by anyone blocks everyone, and a bad plan anywhere risks touching unrelated resources",
+      "It lacks outputs",
+      "It can't hold modules",
+      "It's too fast"
+     ],
+     "answer": 0,
+     "explain": "The upside is local references."
+    }
+   ]
+  },
+  "level-4/07-governance-at-scale": {
+   "questions": [
+    {
+     "q": "Why isn't per-team IAM enough for governance?",
+     "options": [
+      "IAM is insecure",
+      "IAM bounds what a pipeline can do but can't express configuration rules like 'no S3 bucket without encryption'; policy as code fills that gap",
+      "IAM can't scope teams",
+      "IAM is slow"
+     ],
+     "answer": 1,
+     "explain": "You need both layers."
+    },
+    {
+     "q": "What do hard-mandatory and soft-mandatory enforcement levels mean?",
+     "options": [
+      "Both are optional",
+      "hard-mandatory fails the run with no override; soft-mandatory can be overridden by someone with permission, for legitimate exceptions",
+      "Both warn",
+      "Both fail"
+     ],
+     "answer": 1,
+     "explain": "There's also advisory."
+    },
+    {
+     "q": "Why centralise one policy set attached to many workspaces?",
+     "options": [
+      "It's required",
+      "It's shorter",
+      "It avoids IAM",
+      "The platform team writes and versions it once, attached by tag, instead of every team copying policy logic into pipelines"
+     ],
+     "answer": 3,
+     "explain": "For example a production tag."
+    },
+    {
+     "q": "What is governance at scale about?",
+     "options": [
+      "Who may change what, which rules apply to which workloads, and enforcing it without a platform team reviewing every plan by hand",
+      "Reducing costs only",
+      "Writing more modules",
+      "Formatting code"
+     ],
+     "answer": 0,
+     "explain": "It sits on top of policy-as-code."
+    }
+   ]
+  },
+  "level-4/08-disaster-recovery": {
+   "questions": [
+    {
+     "q": "If a state file is lost, what happens to the real infrastructure?",
+     "options": [
+      "It's recreated automatically",
+      "Nothing",
+      "It's destroyed",
+      "It keeps running, but the next plan sees empty state and proposes creating everything, which fails loudly or duplicates resources"
+     ],
+     "answer": 3,
+     "explain": "State, not .tf files, is the disaster-recovery-critical asset."
+    },
+    {
+     "q": "What does S3 versioning on the state bucket give you?",
+     "options": [
+      "Recovery from an accidental delete or bad overwrite by promoting a previous version",
+      "Faster applies",
+      "Locking",
+      "Encryption"
+     ],
+     "answer": 0,
+     "explain": "It's not optional hardening for production."
+    },
+    {
+     "q": "What does cross-region replication protect against?",
+     "options": [
+      "Typos",
+      "Losing the entire bucket or region, not just one object version",
+      "Slow plans",
+      "Drift"
+     ],
+     "answer": 1,
+     "explain": "The example replicates to a DR region."
+    },
+    {
+     "q": "Why are .tf files easy to recover?",
+     "options": [
+      "They're backed up by AWS",
+      "They're text in version control",
+      "They're encrypted",
+      "They're in state"
+     ],
+     "answer": 1,
+     "explain": "The state file is the single point of failure."
+    }
+   ]
+  },
+  "level-4/09-observability-infra-changes": {
+   "questions": [
+    {
+     "q": "Why isn't apply output alone observability?",
+     "options": [
+      "It's encrypted",
+      "It scrolls past in a CI log that may expire and isn't searchable as a timeline",
+      "It's binary",
+      "It's too detailed"
+     ],
+     "answer": 1,
+     "explain": "You need to retain the plan diff, resource events and approval metadata."
+    },
+    {
+     "q": "What does TF_LOG_JSON=1 do?",
+     "options": [
+      "Encrypts logs",
+      "Hides output",
+      "Emits structured JSON lines with stable schemas so a log shipper can parse resource.addr, action and elapsed_seconds without regex",
+      "Turns off logs"
+     ],
+     "answer": 2,
+     "explain": "It turns log output into log data."
+    },
+    {
+     "q": "Why retain the JSON plan as well as the apply log?",
+     "options": [
+      "Plans are faster",
+      "The plan is smaller",
+      "The log is encrypted",
+      "The apply log shows what happened but not why: what the planned diff was"
+     ],
+     "answer": 3,
+     "explain": "Store plan JSON in an audit bucket."
+    },
+    {
+     "q": "Which three things should every apply export?",
+     "options": [
+      "The plan diff, the resource-level events and identity/approval metadata",
+      "Only state",
+      "Only logs",
+      "Only costs"
+     ],
+     "answer": 0,
+     "explain": "Into systems built to retain and query them."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the Level 4 capstone deliver?",
+     "options": [
+      "A single resource",
+      "A new mechanism",
+      "A platform-shaped Terraform layout with CI/CD, drift detection, cost estimation, security scanning and governance in one pipeline, plus a written DR and observability plan",
+      "A test"
+     ],
+     "answer": 2,
+     "explain": "It introduces no new mechanisms."
+    },
+    {
+     "q": "How does the capstone relate to modules 01–09?",
+     "options": [
+      "Every piece is a direct application of them",
+      "It replaces them",
+      "It's unrelated",
+      "It contradicts them"
+     ],
+     "answer": 0,
+     "explain": "It assembles them."
+    },
+    {
+     "q": "What does the written plan cover?",
+     "options": [
+      "Pricing",
+      "Disaster recovery and observability",
+      "Marketing",
+      "Hiring"
+     ],
+     "answer": 1,
+     "explain": "Alongside the code."
+    },
+    {
+     "q": "What is a service in the scenario?",
+     "options": [
+      "A database only",
+      "A game",
+      "A static site",
+      "An internal API on a new team's platform, with CI/CD gating changes"
+     ],
+     "answer": 3,
+     "explain": "The pipeline wires policy, security and cost checks."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this configuration do when it is applied?\n```hcl\nvariable \"enable_monitoring\" {\n  type    = bool\n  default = false\n}\nresource \"aws_cloudwatch_metric_alarm\" \"cpu\" {\n  count = var.enable_monitoring ? 1 : 0\n}\n```\n",
+    "options": [
+     "Creates no alarm by default; with enable_monitoring = true it creates exactly one, addressed as ...cpu[0]",
+     "Fails: count can't be conditional",
+     "Creates two alarms",
+     "Always creates one alarm"
+    ],
+    "answer": 0,
+    "explain": "count = condition ? 1 : 0 is the conditional-resource idiom, and a resource with count is addressed by index."
+   },
+   {
+    "q": "`condition ? \"a\" : 5` fails validation. Why?",
+    "options": [
+     "Strings can't be used in conditionals",
+     "Conditionals need parentheses",
+     "5 is invalid",
+     "Both branches must produce compatible types so Terraform knows the result type before it knows which branch runs"
+    ],
+    "answer": 3,
+    "explain": "HCL has no if/else statement, only the conditional expression."
+   },
+   {
+    "q": "You use `count` over [\"web-1\", \"web-2\", \"web-3\"] and remove \"web-2\". What happens to the instances?",
+    "options": [
+     "All three are recreated by design",
+     "Only web-2 is destroyed",
+     "Everything after the removed index shifts: web[1] now means web-3 and web[2] disappears, causing needless changes; for_each keyed by name touches only web-2",
+     "Nothing changes"
+    ],
+    "answer": 2,
+    "explain": "Identity by position versus by key. Verified with a small simulation: count gives an update to web[1] and a destroy of web[2]; for_each gives one destroy."
+   },
+   {
+    "q": "Which type fits `for_each` over instance names?",
+    "options": [
+     "A single string",
+     "A list(string)",
+     "A set(string) or a map, addressed as aws_instance.web[\"web-1\"]",
+     "A number"
+    ],
+    "answer": 2,
+    "explain": "for_each accepts a set of strings or a map; each.key and each.value are available."
+   },
+   {
+    "q": "A teammate renamed `aws_instance.web` to `aws_instance.app_server` in code, and the plan wants to destroy and create. What is the safest fix?",
+    "options": [
+     "Apply and accept the recreate",
+     "Add a moved { from = aws_instance.web to = aws_instance.app_server } block (or terraform state mv)",
+     "Delete the state file",
+     "Use terraform import"
+    ],
+    "answer": 1,
+    "explain": "State knows resources by address, so a rename looks like a different resource. A moved block makes the migration part of code review."
+   },
+   {
+    "q": "You imported an existing bucket with `terraform import aws_s3_bucket.reports acme-reports-2026` but haven't written the resource block. What will the next plan do?",
+    "options": [
+     "Propose to destroy it, because import records state but doesn't write configuration; write the matching resource block first",
+     "Do nothing",
+     "Create a second bucket",
+     "Generate the .tf for you"
+    ],
+    "answer": 0,
+    "explain": "Import writes to state only."
+   },
+   {
+    "q": "Two engineers run `terraform apply` simultaneously on the same S3 backend with DynamoDB locking. What happens to the second run?",
+    "options": [
+     "It merges both plans",
+     "It runs on a copy of state",
+     "It waits silently and overwrites",
+     "It fails with 'Error acquiring the state lock' and shows who holds it"
+    ],
+    "answer": 3,
+    "explain": "Without a lock, the last writer would overwrite the other's state changes."
+   },
+   {
+    "q": "Which backend settings differ between dev and prod so their locks can't block each other?",
+    "options": [
+     "The provider alias",
+     "The module names",
+     "The Terraform version",
+     "The state key (e.g. platform/dev/terraform.tfstate vs platform/prod/terraform.tfstate)"
+    ],
+    "answer": 3,
+    "explain": "Same bucket and lock table, different keys, give independent state and locks."
+   },
+   {
+    "q": "Why can't a backend block use variables?",
+    "options": [
+     "Backends are secret",
+     "Variables are slow",
+     "It's just a style rule",
+     "Terraform must resolve where state lives before evaluating anything else; use literals or -backend-config"
+    ],
+    "answer": 3,
+    "explain": "Partial configuration supplies the values at init time."
+   },
+   {
+    "q": "Your CI wants machine-readable plan output for a policy engine. Which commands?",
+    "options": [
+     "terraform fmt -json",
+     "terraform validate -json",
+     "terraform state list",
+     "terraform plan -out=tfplan then terraform show -json tfplan"
+    ],
+    "answer": 3,
+    "explain": "Sentinel and OPA/conftest evaluate the JSON plan (resource_changes[].change.after), not your .tf text."
+   },
+   {
+    "q": "A plan proposes `t3.xlarge` but your policy allows only t3.micro/small/medium. Which layer should block it before apply?",
+    "options": [
+     "terraform fmt",
+     "A policy check (Sentinel or OPA/conftest) on the plan, in addition to least-privilege IAM",
+     "Only IAM",
+     "terraform validate"
+    ],
+    "answer": 1,
+    "explain": "IAM bounds what a pipeline can do; policy bounds what it may configure. Verified with a small policy checker over a JSON plan."
+   },
+   {
+    "q": "A security group rule was widened to 0.0.0.0/0 in the console. How do scheduled pipelines detect it?",
+    "options": [
+     "terraform output",
+     "terraform fmt -check",
+     "terraform plan -detailed-exitcode returns 2 when there's a diff, which fails the job",
+     "terraform validate"
+    ],
+    "answer": 2,
+    "explain": "Exit 0 means in sync, 1 means error, 2 means changes."
+   },
+   {
+    "q": "A bucket has all four public_access_block settings set to false. What does `terraform validate` say?",
+    "options": [
+     "It auto-fixes them",
+     "Invalid: public buckets are rejected",
+     "A warning about security",
+     "Valid: it checks syntax, types and references, not security posture; use an IaC scanner or policy"
+    ],
+    "answer": 3,
+    "explain": "Schema validity and security posture are orthogonal."
+   },
+   {
+    "q": "A secret password is hard-coded in a .tf file and later removed in a new commit. Is it safe now?",
+    "options": [
+     "No: it remains in Git history; rotate it, and use sensitive variables or a secrets manager (state can still hold values)",
+     "Yes after terraform apply",
+     "Yes if the repo is private",
+     "Yes, removed from history"
+    ],
+    "answer": 0,
+    "explain": "Treat state as sensitive too."
+   },
+   {
+    "q": "You lost terraform.tfstate but the cloud resources still exist. What will the next plan propose?",
+    "options": [
+     "Destroying everything",
+     "Creating everything from scratch (failing on collisions or duplicating); restore versioned state from the S3 bucket instead",
+     "Renaming resources",
+     "Nothing"
+    ],
+    "answer": 1,
+    "explain": "State loss doesn't touch real resources; versioning and replication on the state bucket are the first lines of defence."
+   },
+   {
+    "q": "Which module design rule keeps a module reusable at scale?",
+    "options": [
+     "No knowledge of specific teams, environments or accounts; those decisions live in the composition root",
+     "Wrap exactly one resource",
+     "Hard-code the team name",
+     "Avoid variables"
+    ],
+    "answer": 0,
+    "explain": "A hard-coded team or account ID makes callers fork the module."
+   },
+   {
+    "q": "Which version constraint accepts 5.9.2 but not 6.0.0?",
+    "options": [
+     "~> 5.8.1",
+     "> 6.0",
+     "= 5.8.0",
+     "~> 5.8 (>= 5.8.0, < 6.0.0)"
+    ],
+    "answer": 3,
+    "explain": "~> 5.8.1 allows only patch releases (< 5.9.0)."
+   },
+   {
+    "q": "When is `depends_on` justified?",
+    "options": [
+     "Never",
+     "Always, for safety",
+     "To pass values between modules",
+     "When ordering matters but no value is referenced, such as an IAM policy attachment that must exist first"
+    ],
+    "answer": 3,
+    "explain": "References already create implicit dependencies, which are preferred."
+   },
+   {
+    "q": "Why does a Terraform plan not show what a change will cost?",
+    "options": [
+     "Provider schemas describe shape, not price; cost tools read the JSON plan and look up a separate price catalog",
+     "Pricing is encrypted",
+     "Terraform forbids pricing",
+     "Costs are hidden in state"
+    ],
+    "answer": 0,
+    "explain": "Infracost-style tools walk resource_changes[].change.after."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Why count shifts and for_each doesn't",
+    "prompt": "Write the two address builders: addresses_count(names) maps each position to an address like aws_instance.web[0], and addresses_for_each(names) maps each name to aws_instance.web[\"web-1\"]. The provided plan() compares before and after to show create, update and destroy. Print the plan for removing \"web-2\" from the middle of the list.",
+    "starter": "def addresses_count(names):\n    # position -> aws_instance.web[0], aws_instance.web[1], ...\n    pass\n\ndef addresses_for_each(names):\n    # key -> aws_instance.web[\"web-1\"], ...\n    pass\n\ndef plan(before, after):\n    destroy = sorted(a for a in before if a not in after)\n    create = sorted(a for a in after if a not in before)\n    update = sorted(a for a in after if a in before and before[a] != after[a])\n    return {\"create\": create, \"update\": update, \"destroy\": destroy}\n\nold = [\"web-1\", \"web-2\", \"web-3\"]\nnew = [\"web-1\", \"web-3\"]\nprint(\"count:\", plan(addresses_count(old), addresses_count(new)))\nprint(\"for_each:\", plan(addresses_for_each(old), addresses_for_each(new)))\n",
+    "expected": "count: {'create': [], 'update': ['aws_instance.web[1]'], 'destroy': ['aws_instance.web[2]']}\nfor_each: {'create': [], 'update': [], 'destroy': ['aws_instance.web[\"web-2\"]']}",
+    "solution": "def addresses_count(names):\n    # count addresses instances by position: web[0], web[1], ...\n    return {f\"aws_instance.web[{i}]\": n for i, n in enumerate(names)}\n\ndef addresses_for_each(names):\n    # for_each addresses instances by key\n    return {f'aws_instance.web[\"{n}\"]': n for n in names}\n\ndef plan(before, after):\n    destroy = sorted(a for a in before if a not in after)\n    create = sorted(a for a in after if a not in before)\n    update = sorted(a for a in after if a in before and before[a] != after[a])\n    return {\"create\": create, \"update\": update, \"destroy\": destroy}\n\nold = [\"web-1\", \"web-2\", \"web-3\"]\nnew = [\"web-1\", \"web-3\"]\nprint(\"count:\", plan(addresses_count(old), addresses_count(new)))\nprint(\"for_each:\", plan(addresses_for_each(old), addresses_for_each(new)))\n",
+    "explain": "With count, identity is position, so removing the middle element shifts web-3 into index 1 (an update, or a replace for attributes that force one) and drops index 2. With for_each, identity is the key, so only web-2 is removed. Verified by running the solution."
+   },
+   {
+    "title": "A plan policy check",
+    "prompt": "Write violations(plan) that walks resource_changes and reports, for every aws_instance being created or updated (skip deletes where change.after is null), an instance_type outside the allowlist and any missing required tags. This is the same idea as a Sentinel or OPA policy over terraform show -json.",
+    "starter": "import json\n\nALLOWED = {\"t3.micro\", \"t3.small\", \"t3.medium\"}\nREQUIRED_TAGS = {\"Project\", \"Environment\"}\n\nPLAN = json.loads(\"\"\"\n{\"resource_changes\": [\n  {\"address\": \"aws_instance.web\",  \"type\": \"aws_instance\",\n   \"change\": {\"actions\": [\"create\"], \"after\": {\"instance_type\": \"t3.xlarge\", \"tags\": {\"Project\": \"shop\", \"Environment\": \"prod\"}}}},\n  {\"address\": \"aws_instance.api\",  \"type\": \"aws_instance\",\n   \"change\": {\"actions\": [\"create\"], \"after\": {\"instance_type\": \"t3.small\", \"tags\": {\"Project\": \"shop\"}}}},\n  {\"address\": \"aws_s3_bucket.logs\", \"type\": \"aws_s3_bucket\",\n   \"change\": {\"actions\": [\"create\"], \"after\": {\"bucket\": \"shop-logs\"}}},\n  {\"address\": \"aws_instance.old\", \"type\": \"aws_instance\",\n   \"change\": {\"actions\": [\"delete\"], \"after\": null}}\n]}\n\"\"\")\n\ndef violations(plan):\n    out = []\n    # your code: append strings like \"aws_instance.web: instance_type t3.xlarge not allowed\"\n    return out\n\nfor v in violations(PLAN):\n    print(\"FAIL\", v)\nprint(\"passed\" if not violations(PLAN) else f\"{len(violations(PLAN))} violations\")\n",
+    "expected": "FAIL aws_instance.web: instance_type t3.xlarge not allowed\nFAIL aws_instance.api: missing tags ['Environment']\n2 violations",
+    "solution": "import json\n\nALLOWED = {\"t3.micro\", \"t3.small\", \"t3.medium\"}\nREQUIRED_TAGS = {\"Project\", \"Environment\"}\n\nPLAN = json.loads(\"\"\"\n{\"resource_changes\": [\n  {\"address\": \"aws_instance.web\",  \"type\": \"aws_instance\",\n   \"change\": {\"actions\": [\"create\"], \"after\": {\"instance_type\": \"t3.xlarge\", \"tags\": {\"Project\": \"shop\", \"Environment\": \"prod\"}}}},\n  {\"address\": \"aws_instance.api\",  \"type\": \"aws_instance\",\n   \"change\": {\"actions\": [\"create\"], \"after\": {\"instance_type\": \"t3.small\", \"tags\": {\"Project\": \"shop\"}}}},\n  {\"address\": \"aws_s3_bucket.logs\", \"type\": \"aws_s3_bucket\",\n   \"change\": {\"actions\": [\"create\"], \"after\": {\"bucket\": \"shop-logs\"}}},\n  {\"address\": \"aws_instance.old\", \"type\": \"aws_instance\",\n   \"change\": {\"actions\": [\"delete\"], \"after\": null}}\n]}\n\"\"\")\n\ndef violations(plan):\n    out = []\n    for rc in plan[\"resource_changes\"]:\n        after = rc[\"change\"][\"after\"]\n        if rc[\"type\"] != \"aws_instance\" or after is None:\n            continue\n        if after[\"instance_type\"] not in ALLOWED:\n            out.append(f\"{rc['address']}: instance_type {after['instance_type']} not allowed\")\n        missing = REQUIRED_TAGS - set(after.get(\"tags\", {}))\n        if missing:\n            out.append(f\"{rc['address']}: missing tags {sorted(missing)}\")\n    return out\n\nfor v in violations(PLAN):\n    print(\"FAIL\", v)\nprint(\"passed\" if not violations(PLAN) else f\"{len(violations(PLAN))} violations\")\n",
+    "explain": "Policies are queries over the JSON plan's planned values (change.after), not over .tf text, which is why one policy can cover every environment. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
