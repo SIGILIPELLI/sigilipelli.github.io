@@ -1,0 +1,2159 @@
+{
+ "course": "angular-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-angular-is": {
+   "questions": [
+    {
+     "q": "What does 'framework' mean for Angular versus a library like React?",
+     "options": [
+      "It has no tooling",
+      "Angular ships routing, forms, HTTP, testing and tooling as one coordinated, versioned set",
+      "It's smaller",
+      "It ships only UI"
+     ],
+     "answer": 1,
+     "explain": "Fewer decisions and a consistent structure, at the cost of learning Angular's way."
+    },
+    {
+     "q": "How does Angular relate to AngularJS?",
+     "options": [
+      "Angular (2+) was a rewrite, not an upgrade; AngularJS 1.x reached end of support at the end of 2021",
+      "They share code",
+      "Same framework",
+      "AngularJS is newer"
+     ],
+     "answer": 0,
+     "explain": "$scope and ng-controller are AngularJS."
+    },
+    {
+     "q": "What does ng update do?",
+     "options": [
+      "Upgrades all @angular/* packages together and runs code migrations",
+      "Deletes code",
+      "Builds the app",
+      "Installs Node"
+     ],
+     "answer": 0,
+     "explain": "All @angular/* packages should be on the same version."
+    },
+    {
+     "q": "Which package provides the router?",
+     "options": [
+      "@angular/router",
+      "@angular/forms",
+      "@angular/ssr",
+      "@angular/cdk"
+     ],
+     "answer": 0,
+     "explain": "Forms are in @angular/forms and HttpClient in @angular/common/http."
+    }
+   ]
+  },
+  "level-1/02-cli-project-structure": {
+   "questions": [
+    {
+     "q": "Why does almost nobody build Angular apps without the CLI?",
+     "options": [
+      "It's faster to type",
+      "Angular can't build otherwise",
+      "It's required by law",
+      "The CLI owns build config so ng update can later migrate it"
+     ],
+     "answer": 3,
+     "explain": "It generates, builds, tests and upgrades."
+    },
+    {
+     "q": "How do you create a project without a global install?",
+     "options": [
+      "ng create",
+      "git clone",
+      "npm install reading-list",
+      "npx @angular/cli@22 new reading-list"
+     ],
+     "answer": 3,
+     "explain": "Add --defaults to skip prompts."
+    },
+    {
+     "q": "Which test runner and zone behaviour are defaults in v22 new apps?",
+     "options": [
+      "none",
+      "karma, with zone.js",
+      "jest, with zone.js",
+      "vitest, and zoneless (no zone.js)"
+     ],
+     "answer": 3,
+     "explain": "Per the flag table."
+    },
+    {
+     "q": "Inside a project, which CLI version runs?",
+     "options": [
+      "The global one",
+      "A random one",
+      "The newest",
+      "The project's local copy in node_modules"
+     ],
+     "answer": 3,
+     "explain": "Each project uses the version it was built with."
+    }
+   ]
+  },
+  "level-1/03-components-templates": {
+   "questions": [
+    {
+     "q": "What is an Angular component?",
+     "options": [
+      "Only CSS",
+      "Only a template",
+      "A class holding state and behaviour, a template describing the DOM, optional styles and a selector",
+      "A service"
+     ],
+     "answer": 2,
+     "explain": "It's the unit apps are built from."
+    },
+    {
+     "q": "What does the selector in @Component do?",
+     "options": [
+      "Selects data",
+      "Says where the component appears, e.g. <app-profile-card>",
+      "Selects CSS",
+      "Selects a route"
+     ],
+     "answer": 1,
+     "explain": "Used as an element in other templates."
+    },
+    {
+     "q": "Which template features does this lesson cover?",
+     "options": [
+      "Only forms",
+      "Only loops",
+      "Only routing",
+      "Interpolation and property, attribute, class, style and event bindings (but not control flow or inputs/outputs)"
+     ],
+     "answer": 3,
+     "explain": "Control flow is lesson 5 and inputs/outputs lesson 6."
+    },
+    {
+     "q": "What holds a component's reactive state in modern Angular?",
+     "options": [
+      "Digest loops",
+      "Signals",
+      "Globals",
+      "Scopes"
+     ],
+     "answer": 1,
+     "explain": "signal(), computed(), effect()."
+    }
+   ]
+  },
+  "level-1/04-signals-basics": {
+   "questions": [
+    {
+     "q": "What is a signal?",
+     "options": [
+      "A value wrapped in a function that tells Angular when it's read and when it changes",
+      "A DOM event",
+      "An observable",
+      "A service"
+     ],
+     "answer": 0,
+     "explain": "Angular then knows exactly who depends on it."
+    },
+    {
+     "q": "After `list().push('b')` on a signal of an array, what does a computed length show?",
+     "options": [
+      "Zero",
+      "The new length",
+      "An error",
+      "Stale: still the old value, since mutation notifies nothing"
+     ],
+     "answer": 3,
+     "explain": "Signals compare with Object.is. Replace instead: list.update(l => [...l, 'c'])."
+    },
+    {
+     "q": "How do you expose a read-only view of a writable signal?",
+     "options": [
+      "signal.asReadonly()",
+      "signal.freeze()",
+      "signal.get()",
+      "Object.freeze"
+     ],
+     "answer": 0,
+     "explain": "It has no set or update."
+    },
+    {
+     "q": "What do you pass computed() as dependencies?",
+     "options": [
+      "A list of names",
+      "An array",
+      "Nothing: it tracks the signals read while running",
+      "Observables"
+     ],
+     "answer": 2,
+     "explain": "price() * quantity() derives total."
+    }
+   ]
+  },
+  "level-1/05-control-flow": {
+   "questions": [
+    {
+     "q": "Which blocks does Angular's template control flow provide?",
+     "options": [
+      "{{#if}}",
+      "@if, @for, @switch and @let",
+      "v-if",
+      "*ngIf only"
+     ],
+     "answer": 1,
+     "explain": "They need no imports."
+    },
+    {
+     "q": "What happened to *ngIf and *ngFor?",
+     "options": [
+      "Removed everywhere",
+      "Deprecated in Angular 20 in favour of the blocks; a CLI schematic migrates them",
+      "Newer",
+      "Required"
+     ],
+     "answer": 1,
+     "explain": "ng generate @angular/core:control-flow."
+    },
+    {
+     "q": "What does `track order.id` in @for do?",
+     "options": [
+      "Sorts",
+      "Filters",
+      "Identifies items so Angular can reuse DOM across changes",
+      "Counts items"
+     ],
+     "answer": 2,
+     "explain": "It's required in @for."
+    },
+    {
+     "q": "What is @empty for?",
+     "options": [
+      "A loop break",
+      "An error",
+      "A null check",
+      "Content shown when the @for collection has no items"
+     ],
+     "answer": 3,
+     "explain": "Also $index and $last are available."
+    }
+   ]
+  },
+  "level-1/06-inputs-outputs-model": {
+   "questions": [
+    {
+     "q": "What do inputs, outputs and models do?",
+     "options": [
+      "Inputs carry data down, outputs carry events up, models are both (two-way binding)",
+      "Only models exist",
+      "All carry events up",
+      "All carry data down"
+     ],
+     "answer": 0,
+     "explain": "Declared with input(), output() and model()."
+    },
+    {
+     "q": "What does input() return?",
+     "options": [
+      "A writable signal",
+      "A read-only signal you read with this.max()",
+      "An observable",
+      "A plain value"
+     ],
+     "answer": 1,
+     "explain": "It can be used inside computed()."
+    },
+    {
+     "q": "What does input.required do?",
+     "options": [
+      "The parent must supply it, and there's no default",
+      "It's an output",
+      "It's read-write",
+      "It's optional"
+     ],
+     "answer": 0,
+     "explain": "Optional input(default) infers the type from the default."
+    },
+    {
+     "q": "How do you bind a model two-way from a parent?",
+     "options": [
+      "{{ value }}",
+      "[(value)]=\"qty\" with a writable signal",
+      "(value)=\"qty\"",
+      "[value]=\"qty()\" only"
+     ],
+     "answer": 1,
+     "explain": "Transforms like numberAttribute convert string attributes."
+    }
+   ]
+  },
+  "level-1/07-services-di": {
+   "questions": [
+    {
+     "q": "What belongs in services?",
+     "options": [
+      "Templates",
+      "Selectors",
+      "Fetching data, shared state, localStorage access, formatting, logging",
+      "Styles"
+     ],
+     "answer": 2,
+     "explain": "Components should be about presentation."
+    },
+    {
+     "q": "How do you get a service into a component?",
+     "options": [
+      "new Logger()",
+      "inject(Logger)",
+      "import Logger()",
+      "require"
+     ],
+     "answer": 1,
+     "explain": "Angular creates one instance and shares it."
+    },
+    {
+     "q": "What did Angular 22 introduce?",
+     "options": [
+      "@Component",
+      "The @Service() decorator, which ng generate service now produces",
+      "@Input",
+      "@Injectable"
+     ],
+     "answer": 1,
+     "explain": "@Injectable still works."
+    },
+    {
+     "q": "How many instances do consumers get by default?",
+     "options": [
+      "None",
+      "The same single instance for the app's lifetime",
+      "Two",
+      "A new one each time"
+     ],
+     "answer": 1,
+     "explain": "DI hands out one shared instance."
+    }
+   ]
+  },
+  "level-1/08-routing-basics": {
+   "questions": [
+    {
+     "q": "Why does `path: ''` with redirectTo need pathMatch: 'full'?",
+     "options": [
+      "It speeds up",
+      "Otherwise every URL starts with the empty string and matches",
+      "It's decoration",
+      "It's optional"
+     ],
+     "answer": 1,
+     "explain": "Redirect only the exact empty path."
+    },
+    {
+     "q": "What does loadComponent do?",
+     "options": [
+      "Loads CSS",
+      "Lazy-loads the component's code as its own chunk, downloaded on first visit",
+      "Loads eagerly",
+      "Loads data"
+     ],
+     "answer": 1,
+     "explain": "`component` is part of the main bundle."
+    },
+    {
+     "q": "Where must the '**' wildcard route go?",
+     "options": [
+      "Last: the router takes the first match in order",
+      "Anywhere",
+      "Not allowed",
+      "First"
+     ],
+     "answer": 0,
+     "explain": "It matches anything."
+    },
+    {
+     "q": "What does withComponentInputBinding() enable?",
+     "options": [
+      "Guards",
+      "Faster routing",
+      "Route params bound directly to component inputs",
+      "SSR"
+     ],
+     "answer": 2,
+     "explain": "Registered with provideRouter."
+    }
+   ]
+  },
+  "level-1/09-httpclient": {
+   "questions": [
+    {
+     "q": "How do you enable HttpClient?",
+     "options": [
+      "No setup",
+      "ng add http",
+      "provideHttpClient() in the application providers",
+      "Import HttpModule"
+     ],
+     "answer": 2,
+     "explain": "In Angular 22 it uses the fetch API by default."
+    },
+    {
+     "q": "What is true about withFetch() in Angular 22?",
+     "options": [
+      "Removed",
+      "Deprecated: fetch is already the default backend; withXhr() opts back into XHR for upload progress",
+      "New",
+      "Required"
+     ],
+     "answer": 1,
+     "explain": "fetch can't report upload progress."
+    },
+    {
+     "q": "Where should API URLs be built?",
+     "options": [
+      "In a service behind typed methods, not in components",
+      "In templates",
+      "In CSS",
+      "In routes"
+     ],
+     "answer": 0,
+     "explain": "The service returns data in the app's shape."
+    },
+    {
+     "q": "What do you use to add query params safely?",
+     "options": [
+      "Regex",
+      "Window.location",
+      "String concatenation",
+      "HttpParams"
+     ],
+     "answer": 3,
+     "explain": "It handles encoding."
+    }
+   ]
+  },
+  "level-1/10-project-reading-list": {
+   "questions": [
+    {
+     "q": "Where does the Reading List keep its data?",
+     "options": [
+      "localStorage, written by an effect in the BookStore",
+      "IndexedDB only",
+      "Cookies",
+      "A server database"
+     ],
+     "answer": 0,
+     "explain": "It survives a reload."
+    },
+    {
+     "q": "Why does rating use 0 for 'not rated' instead of undefined?",
+     "options": [
+      "It's faster",
+      "It keeps the localStorage JSON simple and avoids optional chaining everywhere",
+      "Angular requires it",
+      "JSON forbids undefined in numbers"
+     ],
+     "answer": 1,
+     "explain": "A model design choice."
+    },
+    {
+     "q": "What is the store's rule?",
+     "options": [
+      "No store",
+      "Anyone writes",
+      "Components read signals and call methods; only the store writes",
+      "Components write directly"
+     ],
+     "answer": 2,
+     "explain": "State sits in one service with an asReadonly view."
+    },
+    {
+     "q": "Which pieces does the project exercise?",
+     "options": [
+      "Only SSR",
+      "Only forms",
+      "Only testing",
+      "CLI, templates, signals, control flow, inputs/outputs/model, services, routing and HttpClient (Open Library search)"
+     ],
+     "answer": 3,
+     "explain": "Each lesson maps to a part."
+    }
+   ]
+  },
+  "level-2/01-reactive-forms": {
+   "questions": [
+    {
+     "q": "What are Angular's three form systems?",
+     "options": [
+      "Only reactive",
+      "Only template",
+      "Template-driven, reactive and signal forms",
+      "Redux and MobX"
+     ],
+     "answer": 2,
+     "explain": "Signal forms became stable in Angular 22."
+    },
+    {
+     "q": "Where does the model live in reactive forms?",
+     "options": [
+      "In a tree of FormControl/FormGroup objects in the class",
+      "In the template",
+      "In the URL",
+      "In CSS"
+     ],
+     "answer": 0,
+     "explain": "Template-driven keeps it in the template via ngModel."
+    },
+    {
+     "q": "What does a validator return when valid?",
+     "options": [
+      "true",
+      "{}",
+      "null",
+      "undefined error"
+     ],
+     "answer": 2,
+     "explain": "Otherwise an error object like { forbidden: { word } }."
+    },
+    {
+     "q": "What is a cross-field validator for?",
+     "options": [
+      "A group validator such as passwordsMatch comparing password and confirm",
+      "A single field rule",
+      "An interceptor",
+      "A route guard"
+     ],
+     "answer": 0,
+     "explain": "It sets { passwordsMismatch: true }."
+    }
+   ]
+  },
+  "level-2/02-signal-forms": {
+   "questions": [
+    {
+     "q": "What problem do signal forms address?",
+     "options": [
+      "Reactive forms keep a second copy of your data inside a control tree; signal forms use a signal model as the source of truth",
+      "Slow rendering",
+      "HTTP",
+      "Routing"
+     ],
+     "answer": 0,
+     "explain": "They're in @angular/forms/signals."
+    },
+    {
+     "q": "How do you create one?",
+     "options": [
+      "new FormGroup",
+      "form() over a model signal, with schema validators",
+      "ngModel",
+      "FormBuilder only"
+     ],
+     "answer": 1,
+     "explain": "Stable in v22."
+    },
+    {
+     "q": "Should new code use signal forms?",
+     "options": [
+      "Yes, they're the recommended approach for new Angular code, while reactive forms remain common in existing code",
+      "Only for tiny forms",
+      "Only in tests",
+      "No"
+     ],
+     "answer": 0,
+     "explain": "Both are worth knowing."
+    },
+    {
+     "q": "What do validators attach to in signal forms?",
+     "options": [
+      "The template",
+      "The router",
+      "The injector",
+      "A schema over the model's fields"
+     ],
+     "answer": 3,
+     "explain": "Validation errors are reactive signals."
+    }
+   ]
+  },
+  "level-2/03-di-in-depth": {
+   "questions": [
+    {
+     "q": "When do you need an InjectionToken?",
+     "options": [
+      "For classes",
+      "For routes",
+      "For anything that isn't a class: a config object, function or string",
+      "For components"
+     ],
+     "answer": 2,
+     "explain": "Identity is the object; the string is just a description."
+    },
+    {
+     "q": "What are the four provider recipes?",
+     "options": [
+      "get, set, put, post",
+      "useValue, useClass, useFactory, useExisting",
+      "a, b, c, d",
+      "new, create, make, build"
+     ],
+     "answer": 1,
+     "explain": "useExisting is an alias to the same instance."
+    },
+    {
+     "q": "What does a token with a `factory` default give you?",
+     "options": [
+      "A route",
+      "A required provider",
+      "A tree-shakable token that works without any provider",
+      "A pipe"
+     ],
+     "answer": 2,
+     "explain": "FEATURE_FLAGS applied without a provider."
+    },
+    {
+     "q": "Why are abstract classes good tokens?",
+     "options": [
+      "They're faster",
+      "They need no providers",
+      "They're shorter",
+      "They work as a TypeScript type and a runtime value for 'some implementation of this contract'"
+     ],
+     "answer": 3,
+     "explain": "Interfaces vanish at runtime."
+    }
+   ]
+  },
+  "level-2/04-rxjs-essentials": {
+   "questions": [
+    {
+     "q": "What does a cold observable do on each subscription?",
+     "options": [
+      "Runs its recipe again: two subscriptions mean two executions (e.g. two HTTP requests)",
+      "Does nothing",
+      "Errors",
+      "Shares one run"
+     ],
+     "answer": 0,
+     "explain": "HttpClient observables are cold."
+    },
+    {
+     "q": "What does a plain Subject do with values emitted before you subscribe?",
+     "options": [
+      "They're queued",
+      "They error",
+      "They're replayed",
+      "They're gone; only later values arrive"
+     ],
+     "answer": 3,
+     "explain": "A BehaviorSubject replays its current value."
+    },
+    {
+     "q": "What do debounceTime and distinctUntilChanged do?",
+     "options": [
+      "Merge; split",
+      "Emit only after the source is quiet; drop a value equal to the previous one",
+      "Cancel; retry",
+      "Add a delay; sort"
+     ],
+     "answer": 1,
+     "explain": "Typical for search boxes."
+    },
+    {
+     "q": "What do signals versus RxJS handle?",
+     "options": [
+      "The same",
+      "Neither",
+      "Signals: events; RxJS: state",
+      "Signals: state that exists now; RxJS: events over time with operators"
+     ],
+     "answer": 3,
+     "explain": "Prefer signals for state, Subjects for event streams."
+    }
+   ]
+  },
+  "level-2/05-signals-rxjs-interop": {
+   "questions": [
+    {
+     "q": "What does toSignal(obs$) do?",
+     "options": [
+      "Turns a signal into an observable",
+      "Cancels it",
+      "Subscribes forever",
+      "Turns an observable into a signal, e.g. to show an HTTP or router stream in a template"
+     ],
+     "answer": 3,
+     "explain": "Provide initialValue or requireSync."
+    },
+    {
+     "q": "What does toObservable(sig) do?",
+     "options": [
+      "Destroys it",
+      "Writes a signal",
+      "Feeds signal changes into operators like debounceTime or switchMap",
+      "Reads a signal"
+     ],
+     "answer": 2,
+     "explain": "Signal → Observable."
+    },
+    {
+     "q": "What does takeUntilDestroyed() do?",
+     "options": [
+      "Destroys the component",
+      "Retries it",
+      "Ends a manual subscription when the component is destroyed",
+      "Delays it"
+     ],
+     "answer": 2,
+     "explain": "It avoids leaks."
+    },
+    {
+     "q": "Why use both worlds?",
+     "options": [
+      "Only signals",
+      "Neither",
+      "Signals for state you read; observables for events and async workflows (debounce, cancel, retry)",
+      "Only observables"
+     ],
+     "answer": 2,
+     "explain": "The interop package bridges them."
+    }
+   ]
+  },
+  "level-2/06-resource-httpresource": {
+   "questions": [
+    {
+     "q": "What do the resource APIs package?",
+     "options": [
+      "A router",
+      "Loading/error/data signals plus cancelling stale requests when inputs change",
+      "A form",
+      "A pipe"
+     ],
+     "answer": 1,
+     "explain": "You describe what to load as a function of signals."
+    },
+    {
+     "q": "What does httpResource(() => `/api/users/${this.id()}`) do when id changes?",
+     "options": [
+      "Does nothing",
+      "Throws",
+      "Computes the new URL and fetches it, cancelling an in-flight request for the previous id",
+      "Reloads the page"
+     ],
+     "answer": 2,
+     "explain": "Status signals stay correct automatically."
+    },
+    {
+     "q": "What do resource(), rxResource() and httpResource() load from?",
+     "options": [
+      "All Promises",
+      "A Promise, an Observable, and an HttpClient GET respectively",
+      "All HTTP",
+      "All Observables"
+     ],
+     "answer": 1,
+     "explain": "All are stable in Angular 22."
+    },
+    {
+     "q": "How do you retry a failed resource?",
+     "options": [
+      "resource.reload()",
+      "Refresh",
+      "Recreate the component",
+      "Call http.get again"
+     ],
+     "answer": 0,
+     "explain": "The lesson's 'Try again' button."
+    }
+   ]
+  },
+  "level-2/07-router-in-depth": {
+   "questions": [
+    {
+     "q": "What can a canActivate guard return?",
+     "options": [
+      "Only false",
+      "A string",
+      "true, false, or a UrlTree to redirect (e.g. to /login with returnUrl)",
+      "Only true"
+     ],
+     "answer": 2,
+     "explain": "Guards are functional and use inject()."
+    },
+    {
+     "q": "What is the difference between canActivate and canMatch?",
+     "options": [
+      "Same",
+      "canMatch is for leaving",
+      "canActivate decides whether you may enter a matched route; canMatch decides which of two configurations for the same URL applies",
+      "canActivate is for data"
+     ],
+     "answer": 2,
+     "explain": "Two 'dashboard' routes differ by canMatch."
+    },
+    {
+     "q": "What does canDeactivate protect against?",
+     "options": [
+      "Lazy loading",
+      "Params",
+      "Leaving a route with unsaved changes",
+      "Entering"
+     ],
+     "answer": 2,
+     "explain": "e.g. unsavedChangesGuard."
+    },
+    {
+     "q": "What is a componentless parent route for?",
+     "options": [
+      "A layout",
+      "An error page",
+      "Grouping children for shared guards, resolvers or providers without a layout",
+      "A redirect"
+     ],
+     "answer": 2,
+     "explain": "loadChildren lazily loads a whole child route array."
+    }
+   ]
+  },
+  "level-2/08-interceptors-errors": {
+   "questions": [
+    {
+     "q": "What is an interceptor?",
+     "options": [
+      "A component",
+      "A function between HttpClient and the network that sees every request and response",
+      "A pipe",
+      "A guard"
+     ],
+     "answer": 1,
+     "explain": "HttpInterceptorFn(req, next)."
+    },
+    {
+     "q": "Why use req.clone()?",
+     "options": [
+      "It's shorter",
+      "It's faster",
+      "Requests are immutable; clone makes a modified copy (e.g. setHeaders)",
+      "It's required for GET only"
+     ],
+     "answer": 2,
+     "explain": "Used to add the Authorization header."
+    },
+    {
+     "q": "Why check the URL before adding a bearer token?",
+     "options": [
+      "Otherwise the token would also be sent to third-party URLs",
+      "Syntax",
+      "SSR",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Only attach tokens to your own API origin."
+    },
+    {
+     "q": "What is HttpContext for?",
+     "options": [
+      "Cookies",
+      "Per-request metadata interceptors read but never sent to the server (e.g. SKIP_AUTH)",
+      "Body",
+      "Headers"
+     ],
+     "answer": 1,
+     "explain": "It enables opt-outs."
+    }
+   ]
+  },
+  "level-2/09-pipes-directives": {
+   "questions": [
+    {
+     "q": "What do pipes and attribute directives do?",
+     "options": [
+      "Both route",
+      "Both create components",
+      "Pipes transform a value for display; attribute directives add behaviour or styling to an existing element",
+      "Both fetch data"
+     ],
+     "answer": 2,
+     "explain": "Both are standalone and imported into a component."
+    },
+    {
+     "q": "What does `{{ price | currency: 'EUR' }}` give for 1234.5 in en-US?",
+     "options": [
+      "€1,234.50",
+      "1234.5 EUR",
+      "$1,234.5",
+      "€1234"
+     ],
+     "answer": 0,
+     "explain": "Shown in the lesson's table."
+    },
+    {
+     "q": "What does `{{ 0.4567 | percent: '1.1-1' }}` give?",
+     "options": [
+      "4.6%",
+      "45.7%",
+      "0.5%",
+      "46%"
+     ],
+     "answer": 1,
+     "explain": "Digit info is minInt.minFrac-maxFrac."
+    },
+    {
+     "q": "What does `['a','b','c','d'] | slice: 1 : 3` give?",
+     "options": [
+      "a,b",
+      "b,c",
+      "c,d",
+      "b,c,d"
+     ],
+     "answer": 1,
+     "explain": "Start 1, end 3 exclusive."
+    }
+   ]
+  },
+  "level-2/10-project-issue-tracker": {
+   "questions": [
+    {
+     "q": "How does the project run without a backend?",
+     "options": [
+      "Local files",
+      "A mock server in Docker",
+      "A real server",
+      "An interceptor implements a small in-memory REST API with 300 ms latency, removable with one line in app.config.ts"
+     ],
+     "answer": 3,
+     "explain": "Latency makes loading states visible."
+    },
+    {
+     "q": "Where are the search and status filters kept?",
+     "options": [
+      "In the URL (query params bound as inputs)",
+      "In localStorage",
+      "In a service only",
+      "In a cookie"
+     ],
+     "answer": 0,
+     "explain": "URL state is shareable."
+    },
+    {
+     "q": "How is the Busy service used?",
+     "options": [
+      "By pipes",
+      "Shared by an interceptor that counts requests in flight and the header showing progress",
+      "Only by components",
+      "By guards"
+     ],
+     "answer": 1,
+     "explain": "finalize decrements the count."
+    },
+    {
+     "q": "What protects unsaved issue edits when navigating away?",
+     "options": [
+      "A pipe",
+      "A resolver",
+      "A canDeactivate guard",
+      "An interceptor"
+     ],
+     "answer": 2,
+     "explain": "From the router lesson."
+    }
+   ]
+  },
+  "level-3/01-change-detection-zoneless": {
+   "questions": [
+    {
+     "q": "What are the Angular 22 change-detection defaults?",
+     "options": [
+      "Zone.js and Default",
+      "Zoneless (no Zone.js) and OnPush by default; the old always-check mode is ChangeDetectionStrategy.Eager",
+      "Zoneless with Eager",
+      "Zone.js with OnPush"
+     ],
+     "answer": 1,
+     "explain": "`Default` remains a deprecated alias for Eager."
+    },
+    {
+     "q": "When does zoneless Angular schedule a pass?",
+     "options": [
+      "When told something changed: a signal read in a template updates, a bound listener fires, markForCheck, setInput, view attach/remove",
+      "Constantly",
+      "Never",
+      "After any setTimeout"
+     ],
+     "answer": 0,
+     "explain": "Plain field assignments aren't on the list."
+    },
+    {
+     "q": "When is an OnPush component refreshed?",
+     "options": [
+      "On timers",
+      "Never",
+      "When marked dirty: a signal it reads changes, an input gets a new value (Object.is), a listener fires, or markForCheck is called",
+      "Every pass"
+     ],
+     "answer": 2,
+     "explain": "markForCheck also marks ancestors."
+    },
+    {
+     "q": "Does mutating a field in place update a zoneless OnPush view?",
+     "options": [
+      "Only for strings",
+      "Only in dev",
+      "Yes",
+      "No: plain assignments don't notify; use a signal"
+     ],
+     "answer": 3,
+     "explain": "Observed in the lesson's lab."
+    }
+   ]
+  },
+  "level-3/02-content-projection-queries": {
+   "questions": [
+    {
+     "q": "What are the three composition tools?",
+     "options": [
+      "Forms, HTTP, router",
+      "Pipes, guards, routes",
+      "Services, tokens, providers",
+      "Content projection (<ng-content>), template outlets and queries"
+     ],
+     "answer": 3,
+     "explain": "Inputs pass data; these pass markup."
+    },
+    {
+     "q": "What do viewChild and contentChild differ by?",
+     "options": [
+      "Same",
+      "View queries look in the component's own template; content queries look in projected content",
+      "contentChild is faster",
+      "viewChild is for services"
+     ],
+     "answer": 1,
+     "explain": "Both return signals."
+    },
+    {
+     "q": "What does a template outlet let a caller do?",
+     "options": [
+      "Pass an <ng-template> the component stamps out with data as often as it likes",
+      "Pass a string",
+      "Pass a service",
+      "Pass a route"
+     ],
+     "answer": 0,
+     "explain": "For example custom row layouts."
+    },
+    {
+     "q": "What is a fallback in <ng-content>?",
+     "options": [
+      "A route",
+      "An error",
+      "A selector",
+      "Default content shown if no content is projected into the slot"
+     ],
+     "answer": 3,
+     "explain": "Slots can be named by selector."
+    }
+   ]
+  },
+  "level-3/03-state-management": {
+   "questions": [
+    {
+     "q": "What are the two rules that prevent most state bugs?",
+     "options": [
+      "Use globals, copy often",
+      "Use RxJS only",
+      "One owner per piece of state, and derive don't copy (use computed)",
+      "Use effects everywhere"
+     ],
+     "answer": 2,
+     "explain": "Copying into another signal via an effect creates stale-value bugs."
+    },
+    {
+     "q": "Where should derived state like a filtered list live?",
+     "options": [
+      "In a service field",
+      "In a signal updated by an effect",
+      "In a computed(), never stored separately",
+      "In localStorage"
+     ],
+     "answer": 2,
+     "explain": "Derived values stay in sync automatically."
+    },
+    {
+     "q": "What is the service store pattern?",
+     "options": [
+      "Global variables",
+      "Direct mutation",
+      "Public writable signals",
+      "Private writable signal, public read-only views and computeds, and methods as the only way to change state"
+     ],
+     "answer": 3,
+     "explain": "Every change goes through testable code."
+    },
+    {
+     "q": "What is linkedSignal for?",
+     "options": [
+      "A pipe",
+      "A router link",
+      "A value that starts derived but is writable, and resets when its source changes (like a selected option)",
+      "An HTTP call"
+     ],
+     "answer": 2,
+     "explain": "For example selected resets when options changes."
+    }
+   ]
+  },
+  "level-3/04-deferrable-views": {
+   "questions": [
+    {
+     "q": "What does @defer split by?",
+     "options": [
+      "Part of a template: the block's component code becomes a separate chunk downloaded when a trigger fires",
+      "Pages only",
+      "Styles",
+      "Services"
+     ],
+     "answer": 0,
+     "explain": "Route lazy loading splits by page."
+    },
+    {
+     "q": "In the lesson, what did `prefetch on hover(showBtn)` do?",
+     "options": [
+      "Cancelled loading",
+      "Blocked clicks",
+      "Rendered on hover",
+      "Fetched the chart's chunk on hover, before the click, so clicking rendered immediately"
+     ],
+     "answer": 3,
+     "explain": "The @loading block never had to appear."
+    },
+    {
+     "q": "When was the comments chunk requested for `@defer (on viewport)`?",
+     "options": [
+      "Never",
+      "At load",
+      "On click",
+      "When its placeholder scrolled into view"
+     ],
+     "answer": 3,
+     "explain": "Observed by recording JS requests."
+    },
+    {
+     "q": "What are the companion blocks of @defer?",
+     "options": [
+      "@if and @else",
+      "@case and @default",
+      "@for and @empty",
+      "@placeholder, @loading and @error"
+     ],
+     "answer": 3,
+     "explain": "@loading supports after and minimum timings."
+    }
+   ]
+  },
+  "level-3/05-performance": {
+   "questions": [
+    {
+     "q": "What are the two halves of performance work?",
+     "options": [
+      "Code and style",
+      "Dev and prod",
+      "CPU and RAM",
+      "Loading and runtime"
+     ],
+     "answer": 3,
+     "explain": "Measure your own app first."
+    },
+    {
+     "q": "How do you see what's inside a bundle chunk?",
+     "options": [
+      "ng lint",
+      "ng test",
+      "ng analyze",
+      "ng build --stats-json, then analyse the esbuild metafile"
+     ],
+     "answer": 3,
+     "explain": "It writes browser-stats.json."
+    },
+    {
+     "q": "What do budgets do?",
+     "options": [
+      "Enforce size limits so builds fail or warn when bundles grow",
+      "Set prices",
+      "Limit users",
+      "Limit routes"
+     ],
+     "answer": 0,
+     "explain": "Part of the checklist."
+    },
+    {
+     "q": "Where do the biggest wins come from?",
+     "options": [
+      "Measuring your own app and fixing what the measurements point at",
+      "Guessing",
+      "Copying others",
+      "Rewriting"
+     ],
+     "answer": 0,
+     "explain": "Angular's defaults are already good."
+    }
+   ]
+  },
+  "level-3/06-ssr-hydration": {
+   "questions": [
+    {
+     "q": "What does SSR solve for public pages?",
+     "options": [
+      "Faster CSS",
+      "A blank screen until JS runs, and crawlers/link previews seeing little",
+      "Smaller bundles only",
+      "Offline mode"
+     ],
+     "answer": 1,
+     "explain": "Hydration lets the browser adopt the server HTML instead of discarding it."
+    },
+    {
+     "q": "Which render mode fits a page identical for every visitor?",
+     "options": [
+      "Server",
+      "Prerender (SSG), built once at ng build",
+      "Client",
+      "Eager"
+     ],
+     "answer": 1,
+     "explain": "Server renders per request for query-dependent pages; Client for localStorage-dependent ones."
+    },
+    {
+     "q": "What does `fallback: PrerenderFallback.Server` do?",
+     "options": [
+      "Redirects",
+      "Errors out",
+      "Unknown slugs not prerendered are rendered on request",
+      "Caches forever"
+     ],
+     "answer": 2,
+     "explain": "getPrerenderParams lists the known slugs."
+    },
+    {
+     "q": "How do you add SSR to an existing project?",
+     "options": [
+      "npm i express",
+      "ng new --ssr only",
+      "ng add @angular/ssr",
+      "ng update"
+     ],
+     "answer": 2,
+     "explain": "It adds main.server.ts, server routes and provideClientHydration()."
+    }
+   ]
+  },
+  "level-3/07-testing": {
+   "questions": [
+    {
+     "q": "What runs unit tests in new Angular 22 projects?",
+     "options": [
+      "Mocha",
+      "Karma only",
+      "Vitest in jsdom through the CLI's unit-test builder (Karma still available)",
+      "Jest only"
+     ],
+     "answer": 2,
+     "explain": "Templates are type-checked in tests too."
+    },
+    {
+     "q": "Where should most tests be aimed?",
+     "options": [
+      "Services and components, with fewer end-to-end tests for critical flows",
+      "Only pure functions",
+      "Only E2E",
+      "Only snapshots"
+     ],
+     "answer": 0,
+     "explain": "E2E for flows that make money or would be embarrassing."
+    },
+    {
+     "q": "How do you drive a component test with inputs?",
+     "options": [
+      "fixture.componentRef.setInput('book', book) then await fixture.whenStable()",
+      "Assign fields",
+      "Use jQuery",
+      "Call ngOnInit"
+     ],
+     "answer": 0,
+     "explain": "Assert on the DOM."
+    },
+    {
+     "q": "Which tool tests guards and resolvers?",
+     "options": [
+      "Karma",
+      "RouterTestingHarness",
+      "HttpTestingController",
+      "Playwright"
+     ],
+     "answer": 1,
+     "explain": "HttpTestingController is for API clients."
+    }
+   ]
+  },
+  "level-3/08-accessibility-cdk": {
+   "questions": [
+    {
+     "q": "Where does most accessibility come from?",
+     "options": [
+      "CSS",
+      "JavaScript",
+      "Libraries alone",
+      "Plain semantic HTML and correct labels"
+     ],
+     "answer": 3,
+     "explain": "No library fixes a <div (click)> pretending to be a button."
+    },
+    {
+     "q": "What is @angular/aria?",
+     "options": [
+      "A router",
+      "A CSS framework",
+      "Headless directives implementing WAI-ARIA patterns (tabs, menu, listbox, tree…) without styles",
+      "A test tool"
+     ],
+     "answer": 2,
+     "explain": "Separate entry points like @angular/aria/tabs."
+    },
+    {
+     "q": "What does @angular/cdk/a11y offer?",
+     "options": [
+      "HTTP",
+      "Animations",
+      "Lower-level tools: focus trapping, live announcements, focus monitoring and keyboard list navigation",
+      "Forms"
+     ],
+     "answer": 2,
+     "explain": "Three layers: templates, aria, CDK."
+    },
+    {
+     "q": "Which element should you use for an action?",
+     "options": [
+      "<button>, and <a href>/routerLink for navigation",
+      "<span>",
+      "<li>",
+      "<div (click)>"
+     ],
+     "answer": 0,
+     "explain": "Both are keyboard-operable for free."
+    }
+   ]
+  },
+  "level-3/09-security": {
+   "questions": [
+    {
+     "q": "What is the core front-end security principle?",
+     "options": [
+      "Never let data become code",
+      "Hide the source",
+      "Use HTTPS only",
+      "Minify"
+     ],
+     "answer": 0,
+     "explain": "Most attacks are XSS: attacker text executed as JavaScript."
+    },
+    {
+     "q": "What does Angular do with a hostile comment in `{{ comment }}`?",
+     "options": [
+      "Shows it as text; interpolation never interprets HTML",
+      "Throws",
+      "Executes it",
+      "Strips it silently"
+     ],
+     "answer": 0,
+     "explain": "The lesson's <p> contained escaped &lt;b&gt;..."
+    },
+    {
+     "q": "What happens to `[href]` bound to `javascript:...`?",
+     "options": [
+      "It's removed",
+      "It runs",
+      "Angular sanitises it to unsafe:javascript:..., so it doesn't run",
+      "It opens a new tab"
+     ],
+     "answer": 2,
+     "explain": "pwned3 stayed undefined."
+    },
+    {
+     "q": "What does bypassSecurityTrustHtml with user input risk?",
+     "options": [
+      "Slower pages",
+      "Nothing",
+      "It disables sanitisation, so the onerror payload ran (pwned4 was true)",
+      "Larger bundles"
+     ],
+     "answer": 2,
+     "explain": "Never use it on user input."
+    }
+   ]
+  },
+  "level-3/10-project-catalog": {
+   "questions": [
+    {
+     "q": "Which rendering strategy fits each page in the 'Desk & Lamp' catalog?",
+     "options": [
+      "All prerender",
+      "All client",
+      "All server",
+      "Prerender for product pages, per-request server render for search, client-only for the cart"
+     ],
+     "answer": 3,
+     "explain": "The right strategy per page."
+    },
+    {
+     "q": "Why is the cart client-only?",
+     "options": [
+      "It's secret",
+      "It's slow",
+      "It's static",
+      "It depends on browser-only storage, so nothing useful renders on the server"
+     ],
+     "answer": 3,
+     "explain": "Browser-only storage must be guarded for SSR."
+    },
+    {
+     "q": "What does `hydrate on viewport` do for related products?",
+     "options": [
+      "Blocks it",
+      "Removes it",
+      "Defers hydrating that part until it scrolls into view",
+      "Prerenders it"
+     ],
+     "answer": 2,
+     "explain": "@defer with hydration triggers."
+    },
+    {
+     "q": "What does the Cart service store provide?",
+     "options": [
+      "Direct field edits",
+      "A DB",
+      "Computed totals over a private signal with methods as the only mutation path",
+      "A router"
+     ],
+     "answer": 2,
+     "explain": "From the state lesson."
+    }
+   ]
+  },
+  "level-4/01-build-system": {
+   "questions": [
+    {
+     "q": "Which builders compile and serve Angular apps?",
+     "options": [
+      "Rollup only",
+      "Webpack only",
+      "@angular/build:application (esbuild + Angular compiler) and @angular/build:dev-server (Vite-based)",
+      "Parcel"
+     ],
+     "answer": 2,
+     "explain": "Most production concerns are options on these."
+    },
+    {
+     "q": "Where do build options live?",
+     "options": [
+      "tsconfig",
+      "main.ts",
+      "angular.json under projects → architect targets, with options and per-configuration overrides",
+      "package.json"
+     ],
+     "answer": 2,
+     "explain": "production is the default configuration for ng build."
+    },
+    {
+     "q": "What do configurations like production do?",
+     "options": [
+      "Disable builds",
+      "Replace all options",
+      "Add routes",
+      "Override options for a specific build mode on top of shared options"
+     ],
+     "answer": 3,
+     "explain": "Environments, budgets, deployment paths and i18n are build options."
+    },
+    {
+     "q": "Why learn where options live?",
+     "options": [
+      "It saves hours when handling environments, deployment paths, i18n, SSR, CSP and budgets",
+      "It's trivia",
+      "It's optional",
+      "It's required"
+     ],
+     "answer": 0,
+     "explain": "They're ultimately builder options."
+    }
+   ]
+  },
+  "level-4/02-libraries-monorepos": {
+   "questions": [
+    {
+     "q": "What does a library solve?",
+     "options": [
+      "SSR",
+      "The same code written twice across apps: packaged with a deliberate public API that several apps consume",
+      "Slow builds",
+      "Routing"
+     ],
+     "answer": 1,
+     "explain": "The CLI supports multi-project workspaces and ng-packagr."
+    },
+    {
+     "q": "How do you create a workspace with a library and an app?",
+     "options": [
+      "ng new twice",
+      "npm init",
+      "ng add",
+      "ng new platform --no-create-application, then ng generate library ui-kit and ng generate application shop"
+     ],
+     "answer": 3,
+     "explain": "Both live under projects/ and share node_modules and angular.json."
+    },
+    {
+     "q": "What builder builds libraries?",
+     "options": [
+      "Rollup",
+      "@angular/build:ng-packagr",
+      "@angular/build:application",
+      "Webpack"
+     ],
+     "answer": 1,
+     "explain": "Built with ng build ui-kit."
+    },
+    {
+     "q": "What defines what a library exposes?",
+     "options": [
+      "Every file",
+      "package.json only",
+      "angular.json",
+      "Its public-api.ts"
+     ],
+     "answer": 3,
+     "explain": "Keep the public API deliberate."
+    }
+   ]
+  },
+  "level-4/03-i18n": {
+   "questions": [
+    {
+     "q": "How does @angular/localize translate?",
+     "options": [
+      "At runtime with lookups",
+      "With CSS",
+      "With a CDN",
+      "At build time: mark text, extract to translation files, and the build produces one translated app per locale"
+     ],
+     "answer": 3,
+     "explain": "No runtime lookup and no flash of untranslated text."
+    },
+    {
+     "q": "Why add a custom ID like @@readingListHeading?",
+     "options": [
+      "It speeds builds",
+      "It keeps the ID stable when English text changes; otherwise the hash changes and the message must be re-translated",
+      "It's required",
+      "It's shorter"
+     ],
+     "answer": 1,
+     "explain": "The description helps translators."
+    },
+    {
+     "q": "How do you handle plurals?",
+     "options": [
+      "CSS",
+      "ICU expressions such as {count(), plural, =0 {…} =1 {…} other {…}}",
+      "a pipe",
+      "if statements"
+     ],
+     "answer": 1,
+     "explain": "Also $localize for code strings."
+    },
+    {
+     "q": "What does `ng add @angular/localize` add?",
+     "options": [
+      "Types, a polyfill and the tiny runtime $localize function",
+      "A server",
+      "A database",
+      "A router"
+     ],
+     "answer": 0,
+     "explain": "It updates main.ts, tsconfigs and angular.json."
+    }
+   ]
+  },
+  "level-4/04-elements-microfrontends": {
+   "questions": [
+    {
+     "q": "What does Angular Elements do?",
+     "options": [
+      "Converts to React",
+      "Builds a server",
+      "Runs tests",
+      "Packages a component as a browser-native custom element usable from plain HTML and DOM APIs"
+     ],
+     "answer": 3,
+     "explain": "Useful in a CMS, static page or another team's React app."
+    },
+    {
+     "q": "How do you bootstrap for an element?",
+     "options": [
+      "A root component",
+      "A module",
+      "A router",
+      "An application without a root component, registering the element"
+     ],
+     "answer": 3,
+     "explain": "The lesson turns StarRating into <star-rating>."
+    },
+    {
+     "q": "Which package provides it?",
+     "options": [
+      "@angular/cdk",
+      "@angular/ssr",
+      "@angular/core",
+      "@angular/elements"
+     ],
+     "answer": 3,
+     "explain": "npm install @angular/elements."
+    },
+    {
+     "q": "What is the larger topic discussed afterwards?",
+     "options": [
+      "Micro-frontends",
+      "Monorepos",
+      "Microservices",
+      "Mobile apps"
+     ],
+     "answer": 0,
+     "explain": "Custom elements are one integration approach."
+    }
+   ]
+  },
+  "level-4/05-upgrading-migrations": {
+   "questions": [
+    {
+     "q": "What upgrade policy does the lesson recommend?",
+     "options": [
+      "Never upgrade",
+      "Upgrade yearly in one jump",
+      "Skip majors",
+      "Upgrade each major within its active support window, apply minors/patches as they come, and never skip majors (20 → 21 → 22)"
+     ],
+     "answer": 3,
+     "explain": "Majors ship about every six months."
+    },
+    {
+     "q": "What does `ng update @angular/core@22 @angular/cli@22` do?",
+     "options": [
+      "Updates packages, runs the update migrations they ship, and prints what changed",
+      "Builds",
+      "Deletes code",
+      "Only installs"
+     ],
+     "answer": 0,
+     "explain": "Commit first so the diff is reviewable."
+    },
+    {
+     "q": "What should you check before running it?",
+     "options": [
+      "Delete node_modules",
+      "Disable tests",
+      "Nothing",
+      "Commit everything and consult angular.dev/update-guide for manual steps"
+     ],
+     "answer": 3,
+     "explain": "Afterwards run ng build, ng test and click through."
+    },
+    {
+     "q": "How should third-party libraries be updated?",
+     "options": [
+      "Manually later",
+      "With ng update <package> in the same step so their migrations run too",
+      "Never",
+      "Remove them"
+     ],
+     "answer": 1,
+     "explain": "They usually publish a matching major shortly after."
+    }
+   ]
+  },
+  "level-4/06-large-app-architecture": {
+   "questions": [
+    {
+     "q": "How should a large app be organised?",
+     "options": [
+      "Flat",
+      "By developer",
+      "By feature, and inside a feature by role (feature, ui, data-access), not by file type",
+      "One folder per file type"
+     ],
+     "answer": 2,
+     "explain": "Type folders scatter each feature across the tree."
+    },
+    {
+     "q": "What are `ui/` components?",
+     "options": [
+      "Routes",
+      "Stores",
+      "Presentational: inputs in, outputs out, no injected data services",
+      "Containers"
+     ],
+     "answer": 2,
+     "explain": "feature/ components are containers; data-access/ holds data code."
+    },
+    {
+     "q": "Which dependency rule holds?",
+     "options": [
+      "Anything imports anything",
+      "Shared imports features",
+      "Features depend on shared/core; feature to feature only through the other's index.ts; shared/core never depend on features",
+      "ui imports data-access"
+     ],
+     "answer": 2,
+     "explain": "Dependencies flow one way."
+    },
+    {
+     "q": "How do you keep the rules honest?",
+     "options": [
+      "A README",
+      "Hope",
+      "Reviews only",
+      "Enforce them in CI (e.g. ESLint boundaries), not a README"
+     ],
+     "answer": 3,
+     "explain": "Rules in a README erode."
+    }
+   ]
+  },
+  "level-4/07-deployment": {
+   "questions": [
+    {
+     "q": "Where do client-rendered Angular builds go?",
+     "options": [
+      "Only Node",
+      "Only a database",
+      "Any static host or CDN (dist/<app>/browser)",
+      "Only a VM"
+     ],
+     "answer": 2,
+     "explain": "SSR routes need a Node runtime for server/server.mjs."
+    },
+    {
+     "q": "What are the key static-hosting items?",
+     "options": [
+      "Fonts",
+      "Tests",
+      "Colours",
+      "The base href, SPA fallbacks for deep links, and cache headers (hashed files immutable, HTML revalidated)"
+     ],
+     "answer": 3,
+     "explain": "Reloading an inner route must return the app."
+    },
+    {
+     "q": "How should hashed files be cached?",
+     "options": [
+      "Short only",
+      "Immutable, long-lived; HTML should be revalidated",
+      "Never",
+      "Same as HTML"
+     ],
+     "answer": 1,
+     "explain": "Filenames change with content."
+    },
+    {
+     "q": "What does a prerendered-only app produce?",
+     "options": [
+      "A Node server",
+      "A container",
+      "A VM image",
+      "Static files, one index.html per route"
+     ],
+     "answer": 3,
+     "explain": "Host it like static files."
+    }
+   ]
+  },
+  "level-4/08-errors-observability": {
+   "questions": [
+    {
+     "q": "What are the two goals of error handling?",
+     "options": [
+      "Find out about errors with enough context, and keep one failure from taking down the page",
+      "Crash early",
+      "Log everything locally",
+      "Hide errors"
+     ],
+     "answer": 0,
+     "explain": "Wire both up."
+    },
+    {
+     "q": "What does a custom ErrorHandler do?",
+     "options": [
+      "Blocks errors",
+      "Translates errors",
+      "Fixes errors",
+      "Receives errors Angular catches so you can send them to logging/monitoring"
+     ],
+     "answer": 3,
+     "explain": "onViewError gives the component name."
+    },
+    {
+     "q": "What does a missing-chunk navigation error usually mean?",
+     "options": [
+      "An SSR error",
+      "A typo",
+      "A network bug",
+      "A new version was deployed, so reload to get it"
+     ],
+     "answer": 3,
+     "explain": "Handled in withNavigationErrorHandler."
+    },
+    {
+     "q": "What does @boundary do?",
+     "options": [
+      "Defines routes",
+      "Loads data",
+      "Contains errors from a risky widget so the rest of the page keeps working",
+      "Sets budgets"
+     ],
+     "answer": 2,
+     "explain": "Containment limits blast radius."
+    }
+   ]
+  },
+  "level-4/09-production-readiness": {
+   "questions": [
+    {
+     "q": "What question does a production-readiness review ask?",
+     "options": [
+      "'Is it fast to write?'",
+      "'Is it cheap?'",
+      "'Is it pretty?'",
+      "'What will hurt us at 2 a.m.?' rather than 'does the feature work?'"
+     ],
+     "answer": 3,
+     "explain": "It happens before users depend on the app."
+    },
+    {
+     "q": "What does 'evidence' mean in the checklist?",
+     "options": [
+      "What you can show, not just claim: e.g. curl -I headers, build output, CI pipeline",
+      "A promise",
+      "A demo",
+      "A comment"
+     ],
+     "answer": 0,
+     "explain": "Automate what a script can check."
+    },
+    {
+     "q": "Which build checks appear?",
+     "options": [
+      "Production default, failing budgets, no secrets in environments, working deep links, correct cache headers, chunk-load recovery",
+      "Only tests",
+      "Only SEO",
+      "Only colours"
+     ],
+     "answer": 0,
+     "explain": "Each links to a lesson."
+    },
+    {
+     "q": "What should every data load have?",
+     "options": [
+      "Only loading",
+      "Only data",
+      "Nothing",
+      "Loading, error and empty states"
+     ],
+     "answer": 3,
+     "explain": "Resources should never read value() in an error state."
+    }
+   ]
+  },
+  "level-4/10-capstone": {
+   "questions": [
+    {
+     "q": "What is the capstone's goal?",
+     "options": [
+      "A redesign",
+      "A rewrite",
+      "An app you could run for real users and sleep at night, not more features",
+      "More features"
+     ],
+     "answer": 2,
+     "explain": "It takes the Level 3 SSR catalog to production."
+    },
+    {
+     "q": "How is a release version carried into error reports?",
+     "options": [
+      "BUILD_VERSION defined in angular.json (default 'dev') and overridden by CI with --define",
+      "A cookie",
+      "A comment",
+      "An env file committed"
+     ],
+     "answer": 0,
+     "explain": "A default avoids a ReferenceError when the constant is only on the command line."
+    },
+    {
+     "q": "What does the budget change do?",
+     "options": [
+      "Disables warnings",
+      "Tightens the generated 500 kB/1 MB to 340 kB/400 kB, just above the real initial size",
+      "Raises limits",
+      "Removes budgets"
+     ],
+     "answer": 1,
+     "explain": "Budgets catch regressions."
+    },
+    {
+     "q": "What about source maps?",
+     "options": [
+      "Public",
+      "Generated but hidden: not public",
+      "Absent",
+      "Inline"
+     ],
+     "answer": 1,
+     "explain": "sourceMap.scripts true with hidden true."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this component's `count` display after two clicks?\n```typescript\nreadonly count = signal(0);\nprotected inc() { this.count.update((n) => n + 1); }\n```\n",
+    "options": [
+     "1",
+     "NaN",
+     "2, since update computes the next value from the current one",
+     "0"
+    ],
+    "answer": 2,
+    "explain": "signal.update(fn) passes the current value."
+   },
+   {
+    "q": "A signal holds `['a']`, and `list().push('b')` mutates it in place. What does `computed(() => list().length)` return afterwards?",
+    "options": [
+     "0",
+     "2",
+     "Still 1: in-place mutation doesn't notify; replace with list.update(l => [...l, 'b'])",
+     "It throws"
+    ],
+    "answer": 2,
+    "explain": "Signals compare with Object.is. Verified with a minimal signal/computed implementation: 1, 1, then 3 after replacement."
+   },
+   {
+    "q": "price = signal(20), quantity = signal(3), total = computed(() => price() * quantity()). After quantity.set(4), what is total()?",
+    "options": [
+     "60",
+     "80",
+     "24",
+     "23"
+    ],
+    "answer": 1,
+    "explain": "computed tracks the signals it reads. Verified by running: 60 then 80."
+   },
+   {
+    "q": "A computed's function reads signal `s`. You call `s.set(1)` when s is already 1. Does the computed recompute?",
+    "options": [
+     "Yes, always",
+     "Only once",
+     "No: Object.is says nothing changed, so no notification",
+     "Only in dev"
+    ],
+    "answer": 2,
+    "explain": "Verified: the function ran once across redundant sets."
+   },
+   {
+    "q": "Which template renders the list correctly?",
+    "options": [
+     "@for (b of books(); track b.id) { <li>{{ b.title }}</li> } @empty { <li>None</li> }",
+     "<li *ngFor=\"let b of books\">",
+     "<li v-for>",
+     "@for (b of books()) { }"
+    ],
+    "answer": 0,
+    "explain": "@for needs track; @empty handles no items. *ngFor is deprecated since v20."
+   },
+   {
+    "q": "With routes [ {path:'', redirectTo:'books', pathMatch:'full'}, {path:'books'}, {path:'books/:id'}, {path:'**', redirectTo:'books'} ], where does /books/42 go, and what are its params?",
+    "options": [
+     "books, with no params",
+     "The books/:id route with { id: '42' }",
+     "The empty redirect",
+     "The wildcard"
+    ],
+    "answer": 1,
+    "explain": "The router takes the first match in order. Verified with a small matcher."
+   },
+   {
+    "q": "Where must the '**' route go, and why?",
+    "options": [
+     "Last: routes are checked in order and the first match wins, so it would otherwise swallow everything",
+     "Anywhere",
+     "First",
+     "It's not allowed"
+    ],
+    "answer": 0,
+    "explain": "The same reason `path: ''` redirects need pathMatch: 'full'."
+   },
+   {
+    "q": "A component with OnPush (default in v22) mutates a plain field inside a setTimeout. Does the view update?",
+    "options": [
+     "Yes, timers always trigger it",
+     "Only in production",
+     "No: zoneless Angular only updates after a notification such as a signal read in the template changing; use a signal",
+     "Only for numbers"
+    ],
+    "answer": 2,
+    "explain": "Plain assignments aren't on the notification list."
+   },
+   {
+    "q": "Where should a filtered list derived from `items` and `query` signals live?",
+    "options": [
+     "In the template only",
+     "In localStorage",
+     "In a computed(), never stored separately",
+     "In a signal updated by an effect"
+    ],
+    "answer": 2,
+    "explain": "Derive, don't copy."
+   },
+   {
+    "q": "A child needs a required numeric input. Which declaration is right?",
+    "options": [
+     "max = model()",
+     "readonly max = input.required({ transform: numberAttribute })",
+     "@Input() max",
+     "max = input()"
+    ],
+    "answer": 1,
+    "explain": "input.required has no default and the parent must supply it."
+   },
+   {
+    "q": "Which provider recipe gives the same instance a second name?",
+    "options": [
+     "useClass",
+     "useValue",
+     "useFactory",
+     "useExisting"
+    ],
+    "answer": 3,
+    "explain": "An alias to another token."
+   },
+   {
+    "q": "A service needs configuration that isn't a class. What do you inject?",
+    "options": [
+     "An InjectionToken<AppConfig> provided with useValue",
+     "A pipe",
+     "A component",
+     "A string literal class"
+    ],
+    "answer": 0,
+    "explain": "Tokens are the lookup keys for non-class values."
+   },
+   {
+    "q": "A search box should wait until typing pauses and cancel stale requests. Which operators?",
+    "options": [
+     "debounceTime then distinctUntilChanged and switchMap",
+     "tap",
+     "startWith",
+     "map"
+    ],
+    "answer": 0,
+    "explain": "switchMap cancels the previous inner observable."
+   },
+   {
+    "q": "Which API loads data for a component when an `id` input changes and cancels the in-flight request?",
+    "options": [
+     "An effect writing a field",
+     "A global variable",
+     "httpResource(() => `/api/users/${this.id()}`)",
+     "HttpClient in ngOnInit"
+    ],
+    "answer": 2,
+    "explain": "Resources keep value, error and isLoading signals correct."
+   },
+   {
+    "q": "Which guard stops a user leaving a form with unsaved changes?",
+    "options": [
+     "canMatch",
+     "resolve",
+     "canDeactivate",
+     "canActivate"
+    ],
+    "answer": 2,
+    "explain": "canActivate controls entry; canMatch chooses between configs."
+   },
+   {
+    "q": "User text includes <script>. How does Angular render it in `{{ comment }}`?",
+    "options": [
+     "As escaped text: interpolation never interprets HTML",
+     "Throws",
+     "Executes it",
+     "Strips tags silently"
+    ],
+    "answer": 0,
+    "explain": "bypassSecurityTrustHtml on user input would defeat this."
+   },
+   {
+    "q": "Which render mode fits a page that depends on localStorage?",
+    "options": [
+     "Prerender",
+     "Server",
+     "Client",
+     "Eager"
+    ],
+    "answer": 2,
+    "explain": "The server has no localStorage."
+   },
+   {
+    "q": "Which command upgrades Angular packages and runs their migrations?",
+    "options": [
+     "ng update @angular/core@22 @angular/cli@22 (one major at a time)",
+     "ng serve",
+     "npm install latest",
+     "ng upgrade"
+    ],
+    "answer": 0,
+    "explain": "Commit first, then build and test."
+   },
+   {
+    "q": "Which structure scales for large apps?",
+    "options": [
+     "One flat folder",
+     "Feature-first folders with feature/ui/data-access roles, dependency rules enforced in CI",
+     "Folders by file type",
+     "Folders per developer"
+    ],
+    "answer": 1,
+    "explain": "Features expose a public API via index.ts."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A tiny signal",
+    "prompt": "Implement signal(initial) with a read function plus set(v) and update(fn). It must only notify subscribers when the new value differs by Object.is. The provided computed() tracks reads. Run the checks to see why mutating an array in place leaves a computed stale.",
+    "starter": "let active = null;\nexport function signal(initial) {\n  // return a read function with .set(v) and .update(fn); notify only when !Object.is(new, old)\n}\nexport function computed(fn) {\n  let cache, dirty = true;\n  const mark = () => { dirty = true; };\n  const read = () => {\n    if (dirty) { const prev = active; active = mark; try { cache = fn(); } finally { active = prev; } dirty = false; }\n    return cache;\n  };\n  return read;\n}\nconst list = signal(['a']);\nconst n = computed(() => list().length);\nconsole.log(n());\nlist().push('b');\nconsole.log(n());\nlist.update((l) => [...l, 'c']);\nconsole.log(n());\nconst price = signal(20), qty = signal(3);\nconst total = computed(() => price() * qty());\nconsole.log(total()); qty.set(4); console.log(total());\nconst s = signal(1); let runs = 0; const d = computed(() => { runs++; return s() * 2; });\nd(); d(); s.set(1); d(); console.log(runs); s.set(2); console.log(d(), runs);\n",
+    "expected": "1\n1\n3\n60\n80\n1\n4 2",
+    "solution": "let active = null;\nexport function signal(initial) {\n  let value = initial; const subs = new Set();\n  const read = () => { if (active) subs.add(active); return value; };\n  read.set = (v) => { if (Object.is(v, value)) return; value = v; subs.forEach((s) => s()); };\n  read.update = (fn) => read.set(fn(value));\n  return read;\n}\nexport function computed(fn) {\n  let cache, dirty = true;\n  const mark = () => { dirty = true; };\n  const read = () => {\n    if (dirty) { const prev = active; active = mark; try { cache = fn(); } finally { active = prev; } dirty = false; }\n    return cache;\n  };\n  return read;\n}\nconst list = signal(['a']);\nconst n = computed(() => list().length);\nconsole.log(n());\nlist().push('b');\nconsole.log(n());\nlist.update((l) => [...l, 'c']);\nconsole.log(n());\nconst price = signal(20), qty = signal(3);\nconst total = computed(() => price() * qty());\nconsole.log(total()); qty.set(4); console.log(total());\nconst s = signal(1); let runs = 0; const d = computed(() => { runs++; return s() * 2; });\nd(); d(); s.set(1); d(); console.log(runs); s.set(2); console.log(d(), runs);\n",
+    "explain": "A signal notifies only through set/update and compares with Object.is, so list().push('b') is invisible while list.update(l => [...l, 'c']) is seen. computed tracks what it reads and recomputes only when notified. Verified by running the solution in Node."
+   },
+   {
+    "title": "First match wins",
+    "prompt": "Write match(routes, url) returning the first route that matches: '' matches only the empty URL when pathMatch is 'full', ':name' segments capture params, '**' matches anything. Print where each URL ends up.",
+    "starter": "function match(routes, url) {\n  // your code\n}\nconst routes = [\n  { path: '', redirectTo: 'books', pathMatch: 'full' },\n  { path: 'books' }, { path: 'books/:id' }, { path: '**', redirectTo: 'books' },\n];\nfor (const u of ['/', '/books', '/books/42', '/nope/x']) { const m = match(routes, u); console.log(u, '->', m.redirectTo ?? m.path, JSON.stringify(m.params ?? {})); }\n",
+    "expected": "/ -> books {}\n/books -> books {}\n/books/42 -> books/:id {\"id\":\"42\"}\n/nope/x -> books {}",
+    "solution": "function match(routes, url) {\n  const segs = url.split('/').filter(Boolean);\n  for (const r of routes) {\n    if (r.path === '**') return r;\n    const p = r.path.split('/').filter(Boolean);\n    if (r.path === '') { if (r.pathMatch === 'full' ? segs.length === 0 : true) return r; continue; }\n    if (p.length !== segs.length) continue;\n    if (p.every((x, i) => x.startsWith(':') || x === segs[i])) return { ...r, params: Object.fromEntries(p.map((x, i) => x.startsWith(':') ? [x.slice(1), segs[i]] : null).filter(Boolean)) };\n  }\n  return null;\n}\nconst routes = [\n  { path: '', redirectTo: 'books', pathMatch: 'full' },\n  { path: 'books' }, { path: 'books/:id' }, { path: '**', redirectTo: 'books' },\n];\nfor (const u of ['/', '/books', '/books/42', '/nope/x']) { const m = match(routes, u); console.log(u, '->', m.redirectTo ?? m.path, JSON.stringify(m.params ?? {})); }\n",
+    "explain": "The router checks routes in order and takes the first match, so the wildcard must be last and an empty-path redirect needs pathMatch: 'full'. Verified by running the solution in Node."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
