@@ -1,0 +1,2159 @@
+{
+ "course": "flutter-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-flutter-is": {
+   "questions": [
+    {
+     "q": "What is Flutter?",
+     "options": [
+      "A UI toolkit for building apps for mobile, web and desktop from one Dart codebase",
+      "A database",
+      "A backend",
+      "A language"
+     ],
+     "answer": 0,
+     "explain": "It draws its own pixels."
+    },
+    {
+     "q": "What distinguishes Flutter from many cross-platform tools?",
+     "options": [
+      "Uses WebViews",
+      "It renders its own UI with its own engine rather than wrapping native widgets",
+      "Uses HTML",
+      "Uses native widgets"
+     ],
+     "answer": 1,
+     "explain": "Consistent look and performance."
+    },
+    {
+     "q": "What language does Flutter use?",
+     "options": [
+      "Kotlin",
+      "Dart",
+      "Swift",
+      "JavaScript"
+     ],
+     "answer": 1,
+     "explain": "AOT for release, JIT for hot reload."
+    },
+    {
+     "q": "What does hot reload do?",
+     "options": [
+      "Cleans",
+      "Builds APK",
+      "Restarts",
+      "Injects updated code into the running app preserving state"
+     ],
+     "answer": 3,
+     "explain": "Fast iteration."
+    }
+   ]
+  },
+  "level-1/02-setup-first-app": {
+   "questions": [
+    {
+     "q": "Which command checks your Flutter installation?",
+     "options": [
+      "flutter check",
+      "flutter test",
+      "flutter doctor",
+      "flutter init"
+     ],
+     "answer": 2,
+     "explain": "Fix reported issues."
+    },
+    {
+     "q": "What does `flutter analyze` do?",
+     "options": [
+      "Formats",
+      "Statically analyzes code for errors and lint issues",
+      "Builds",
+      "Runs tests"
+     ],
+     "answer": 1,
+     "explain": "Part of CI."
+    },
+    {
+     "q": "What does `flutter test` run?",
+     "options": [
+      "Integration on device",
+      "Formatter",
+      "Dart unit and widget tests",
+      "Linter"
+     ],
+     "answer": 2,
+     "explain": "integration_test needs a device."
+    },
+    {
+     "q": "What is the entry point?",
+     "options": [
+      "main() calling runApp(widget)",
+      "init",
+      "App",
+      "build()"
+     ],
+     "answer": 0,
+     "explain": "Root widget."
+    }
+   ]
+  },
+  "level-1/03-widgets-composition": {
+   "questions": [
+    {
+     "q": "What does 'composition' mean in Flutter UI?",
+     "options": [
+      "Building UI by nesting small widgets rather than inheriting or drawing",
+      "XML",
+      "Canvas",
+      "Inheritance"
+     ],
+     "answer": 0,
+     "explain": "Card > Padding > Row."
+    },
+    {
+     "q": "What does build() return?",
+     "options": [
+      "A widget tree describing the UI for the current state",
+      "A view",
+      "A pixel",
+      "A string"
+     ],
+     "answer": 0,
+     "explain": "Should be cheap and pure."
+    },
+    {
+     "q": "Why prefer many small widgets?",
+     "options": [
+      "Speed only",
+      "Reuse, readability and efficient rebuilds",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "const where possible."
+    },
+    {
+     "q": "What does `const` on a widget enable?",
+     "options": [
+      "Reusing identical instances and skipping rebuilds",
+      "Cache",
+      "Async",
+      "Mutation"
+     ],
+     "answer": 0,
+     "explain": "Cheaper builds."
+    }
+   ]
+  },
+  "level-1/04-layout-constraints": {
+   "questions": [
+    {
+     "q": "Flutter's layout rule is...",
+     "options": [
+      "Children position",
+      "Constraints go down, sizes go up, parents set positions",
+      "Sizes go down",
+      "Random"
+     ],
+     "answer": 1,
+     "explain": "Debug by following it."
+    },
+    {
+     "q": "What does Expanded do in a Row?",
+     "options": [
+      "Centers",
+      "Makes a child take the remaining space",
+      "Scrolls",
+      "Shrinks"
+     ],
+     "answer": 1,
+     "explain": "Needs a Flex parent."
+    },
+    {
+     "q": "Why does 'RenderFlex overflowed' occur?",
+     "options": [
+      "Children need more space than the parent's constraints allow",
+      "Memory",
+      "Bug",
+      "Network"
+     ],
+     "answer": 0,
+     "explain": "Use Expanded/Flexible/scroll."
+    },
+    {
+     "q": "What does a ConstrainedBox do?",
+     "options": [
+      "Paints",
+      "Routes",
+      "Scrolls",
+      "Imposes additional size constraints on its child"
+     ],
+     "answer": 3,
+     "explain": "Understand constraints."
+    }
+   ]
+  },
+  "level-1/05-stateful-widgets": {
+   "questions": [
+    {
+     "q": "When do you need a StatefulWidget?",
+     "options": [
+      "For layouts",
+      "Always",
+      "Never",
+      "When the UI depends on mutable data that changes over time"
+     ],
+     "answer": 3,
+     "explain": "Counters, forms, animations."
+    },
+    {
+     "q": "What does setState do?",
+     "options": [
+      "Navigates",
+      "Marks the State dirty so build runs again",
+      "Saves",
+      "Compiles"
+     ],
+     "answer": 1,
+     "explain": "Only for local state."
+    },
+    {
+     "q": "What's the lifecycle method to release resources?",
+     "options": [
+      "dispose()",
+      "build()",
+      "reassemble()",
+      "initState()"
+     ],
+     "answer": 0,
+     "explain": "Dispose controllers."
+    },
+    {
+     "q": "Where do you start timers/subscriptions?",
+     "options": [
+      "initState() (and cancel in dispose())",
+      "build()",
+      "main()",
+      "constructor"
+     ],
+     "answer": 0,
+     "explain": "Avoid in build."
+    }
+   ]
+  },
+  "level-1/06-forms-input": {
+   "questions": [
+    {
+     "q": "What does a Form with GlobalKey enable?",
+     "options": [
+      "Saving",
+      "Painting",
+      "Routing",
+      "Validating all fields together via formKey.currentState!.validate()"
+     ],
+     "answer": 3,
+     "explain": "TextFormField validators."
+    },
+    {
+     "q": "What's a validator's return?",
+     "options": [
+      "int",
+      "An error string or null if valid",
+      "Widget",
+      "bool"
+     ],
+     "answer": 1,
+     "explain": "null = valid."
+    },
+    {
+     "q": "Why dispose TextEditingControllers?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Avoid memory leaks"
+     ],
+     "answer": 3,
+     "explain": "In dispose()."
+    },
+    {
+     "q": "When validate on interaction?",
+     "options": [
+      "On build",
+      "Never",
+      "AutovalidateMode.onUserInteraction avoids nagging before input",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "Good UX."
+    }
+   ]
+  },
+  "level-1/07-lists-keys": {
+   "questions": [
+    {
+     "q": "Why use ListView.builder?",
+     "options": [
+      "Static",
+      "Builds all",
+      "Sorted",
+      "It builds only visible items lazily, good for long lists"
+     ],
+     "answer": 3,
+     "explain": "Efficient."
+    },
+    {
+     "q": "What are Keys for?",
+     "options": [
+      "Caching",
+      "Routing",
+      "Auth",
+      "Preserving state when list items are reordered or removed"
+     ],
+     "answer": 3,
+     "explain": "ValueKey/ObjectKey."
+    },
+    {
+     "q": "What happens without keys when reordering stateful items?",
+     "options": [
+      "State can attach to the wrong item",
+      "Nothing",
+      "Crash",
+      "Faster"
+     ],
+     "answer": 0,
+     "explain": "Use stable keys."
+    },
+    {
+     "q": "Why give itemExtent?",
+     "options": [
+      "Law",
+      "Style",
+      "Faster layout when items have a fixed size",
+      "Cost"
+     ],
+     "answer": 2,
+     "explain": "Optional optimization."
+    }
+   ]
+  },
+  "level-1/08-theming": {
+   "questions": [
+    {
+     "q": "Where is app-wide styling defined?",
+     "options": [
+      "main()",
+      "ThemeData (colorScheme, textTheme) in MaterialApp",
+      "pubspec",
+      "Each widget"
+     ],
+     "answer": 1,
+     "explain": "Centralize."
+    },
+    {
+     "q": "How do you read the theme in a widget?",
+     "options": [
+      "Static",
+      "Global",
+      "Theme.of(context)",
+      "context.theme only"
+     ],
+     "answer": 2,
+     "explain": "Inherited lookup."
+    },
+    {
+     "q": "What enables dark mode?",
+     "options": [
+      "darkTheme plus themeMode in MaterialApp",
+      "Rebuild",
+      "Image",
+      "Restart"
+     ],
+     "answer": 0,
+     "explain": "System setting."
+    },
+    {
+     "q": "Why use ColorScheme.fromSeed?",
+     "options": [
+      "Style",
+      "Generate a coherent Material 3 palette from one color",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Consistent."
+    }
+   ]
+  },
+  "level-1/09-assets": {
+   "questions": [
+    {
+     "q": "Where are assets declared?",
+     "options": [
+      "gradle",
+      "main.dart",
+      "AndroidManifest",
+      "pubspec.yaml under flutter: assets:"
+     ],
+     "answer": 3,
+     "explain": "Then flutter pub get."
+    },
+    {
+     "q": "How do you display a bundled image?",
+     "options": [
+      "Image.asset('assets/logo.png')",
+      "File",
+      "Asset()",
+      "Image.network"
+     ],
+     "answer": 0,
+     "explain": "Path must match."
+    },
+    {
+     "q": "Why include resolution variants?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "Pick the right density for the device"
+     ],
+     "answer": 3,
+     "explain": "2.0x/3.0x folders."
+    },
+    {
+     "q": "What loads a bundled JSON?",
+     "options": [
+      "rootBundle.loadString('assets/data.json')",
+      "http",
+      "File",
+      "print"
+     ],
+     "answer": 0,
+     "explain": "Declared asset."
+    }
+   ]
+  },
+  "level-1/10-project-tip-splitter": {
+   "questions": [
+    {
+     "q": "What does this print (tip splitter logic)?\n```dart\ndouble split(double bill,int tipPct,int people){ var total=bill*(1+tipPct/100); return total/people; }\nvoid main(){ print(split(120,15,4).toStringAsFixed(2)); }\n```\n",
+     "options": [
+      "30.00",
+      "138.00",
+      "32.50",
+      "34.50"
+     ],
+     "answer": 3,
+     "explain": "Total with tip divided evenly. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does the project combine?",
+     "options": [
+      "Only state",
+      "Only layout",
+      "Only forms",
+      "Composition, layout, state, forms and theming in a tip splitter"
+     ],
+     "answer": 3,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How do you handle invalid input?",
+     "options": [
+      "Ignore",
+      "Crash",
+      "Guess",
+      "Validate and show clear errors, disabling calculation until valid"
+     ],
+     "answer": 3,
+     "explain": "UX."
+    },
+    {
+     "q": "How do you test it?",
+     "options": [
+      "None",
+      "Widget tests entering values and asserting displayed totals",
+      "Manual",
+      "Print"
+     ],
+     "answer": 1,
+     "explain": "Automated."
+    }
+   ]
+  },
+  "level-2/01-navigator": {
+   "questions": [
+    {
+     "q": "What is Navigator's model?",
+     "options": [
+      "A stack of routes: push adds, pop removes",
+      "A tree",
+      "A list",
+      "A queue"
+     ],
+     "answer": 0,
+     "explain": "Declarative alternatives exist."
+    },
+    {
+     "q": "How do you return data from a pushed route?",
+     "options": [
+      "Global",
+      "Navigator.pop(context, result) and await the push",
+      "print",
+      "Callback only"
+     ],
+     "answer": 1,
+     "explain": "Futures."
+    },
+    {
+     "q": "What does pushReplacement do?",
+     "options": [
+      "Clears all",
+      "Adds",
+      "Pops twice",
+      "Replaces the current route in the stack"
+     ],
+     "answer": 3,
+     "explain": "Login → home."
+    },
+    {
+     "q": "Why check `mounted` after an await before using context?",
+     "options": [
+      "The widget may be disposed meanwhile",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Avoid context use across async gaps."
+    }
+   ]
+  },
+  "level-2/02-go-router": {
+   "questions": [
+    {
+     "q": "What does go_router add?",
+     "options": [
+      "Theme",
+      "HTTP",
+      "URL-based declarative routing, deep links and redirects",
+      "State"
+     ],
+     "answer": 2,
+     "explain": "Web-friendly."
+    },
+    {
+     "q": "What does `redirect` do?",
+     "options": [
+      "Pushes",
+      "Sends users elsewhere based on state (e.g. auth)",
+      "Pops",
+      "Animates"
+     ],
+     "answer": 1,
+     "explain": "Guards."
+    },
+    {
+     "q": "How do you pass parameters?",
+     "options": [
+      "Path parameters like /book/:id and query params",
+      "Globals",
+      "Cookies",
+      "Constructor only"
+     ],
+     "answer": 0,
+     "explain": "state.pathParameters."
+    },
+    {
+     "q": "Why use named routes/paths constants?",
+     "options": [
+      "Avoid typos and ease refactoring",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Maintainability."
+    }
+   ]
+  },
+  "level-2/03-inherited-widget": {
+   "questions": [
+    {
+     "q": "What is an InheritedWidget for?",
+     "options": [
+      "Sharing data down the tree and rebuilding dependents when it changes",
+      "Painting",
+      "HTTP",
+      "Navigation"
+     ],
+     "answer": 0,
+     "explain": "of(context)."
+    },
+    {
+     "q": "What triggers dependents to rebuild?",
+     "options": [
+      "setState",
+      "Always",
+      "Never",
+      "updateShouldNotify returning true"
+     ],
+     "answer": 3,
+     "explain": "Compare old/new."
+    },
+    {
+     "q": "What does dependOnInheritedWidgetOfExactType do?",
+     "options": [
+      "Registers the dependency so the widget rebuilds on change",
+      "Disposes",
+      "Navigates",
+      "Reads once"
+     ],
+     "answer": 0,
+     "explain": "vs getElementForInheritedWidget."
+    },
+    {
+     "q": "Why is it the basis of Provider/Theme/MediaQuery?",
+     "options": [
+      "Law",
+      "Speed",
+      "They build on the same inherited lookup mechanism",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Core concept."
+    }
+   ]
+  },
+  "level-2/04-provider": {
+   "questions": [
+    {
+     "q": "What does Provider offer over raw InheritedWidget?",
+     "options": [
+      "Less boilerplate, lifecycle management and convenient read/watch APIs",
+      "Speed",
+      "Law",
+      "More code"
+     ],
+     "answer": 0,
+     "explain": "ChangeNotifierProvider."
+    },
+    {
+     "q": "Which call rebuilds on change?",
+     "options": [
+      "context.read<T>()",
+      "Provider.of(listen:false)",
+      "none",
+      "context.watch<T>()"
+     ],
+     "answer": 3,
+     "explain": "read is for callbacks."
+    },
+    {
+     "q": "Why use context.read in onPressed?",
+     "options": [
+      "Style",
+      "Law",
+      "It doesn't subscribe; you don't want rebuilds from a callback",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Avoid watch in handlers."
+    },
+    {
+     "q": "What does ChangeNotifier require after state changes?",
+     "options": [
+      "setState",
+      "build",
+      "dispose",
+      "notifyListeners()"
+     ],
+     "answer": 3,
+     "explain": "Triggers rebuilds."
+    }
+   ]
+  },
+  "level-2/05-riverpod": {
+   "questions": [
+    {
+     "q": "What problem does Riverpod fix?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "Providers not found due to tree position, global access without context and testability issues"
+     ],
+     "answer": 3,
+     "explain": "Compile-safe."
+    },
+    {
+     "q": "What does ref.watch do?",
+     "options": [
+      "Disposes",
+      "Navigates",
+      "Reads once",
+      "Reads a provider and rebuilds when it changes"
+     ],
+     "answer": 3,
+     "explain": "Reactive."
+    },
+    {
+     "q": "What's a FutureProvider for?",
+     "options": [
+      "Theme",
+      "Exposing async data with loading/error/data states",
+      "Sync",
+      "Navigation"
+     ],
+     "answer": 1,
+     "explain": "AsyncValue."
+    },
+    {
+     "q": "How do you override a provider in tests?",
+     "options": [
+      "ProviderScope(overrides: [...])",
+      "Mocks",
+      "Globals",
+      "Patch"
+     ],
+     "answer": 0,
+     "explain": "Isolation."
+    }
+   ]
+  },
+  "level-2/06-async-ui": {
+   "questions": [
+    {
+     "q": "What does FutureBuilder show?",
+     "options": [
+      "Navigation",
+      "Only error",
+      "Only data",
+      "Different UI for loading, error and data states of a Future"
+     ],
+     "answer": 3,
+     "explain": "Handle all states."
+    },
+    {
+     "q": "Why not create the Future inside build?",
+     "options": [
+      "Law",
+      "It would restart on every rebuild",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Create once (initState/provider)."
+    },
+    {
+     "q": "What's StreamBuilder for?",
+     "options": [
+      "Rebuilding UI as stream events arrive",
+      "Routing",
+      "Forms",
+      "Futures"
+     ],
+     "answer": 0,
+     "explain": "Live data."
+    },
+    {
+     "q": "What should async UI always handle?",
+     "options": [
+      "Loading, error and empty states",
+      "Loading only",
+      "Data only",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Good UX."
+    }
+   ]
+  },
+  "level-2/07-http-json": {
+   "questions": [
+    {
+     "q": "How do you parse JSON into typed objects?",
+     "options": [
+      "dynamic everywhere",
+      "print",
+      "regex",
+      "Factory constructors fromJson with validation"
+     ],
+     "answer": 3,
+     "explain": "Fail clearly on bad data."
+    },
+    {
+     "q": "What HTTP package is used?",
+     "options": [
+      "package:http (or dio)",
+      "dart:io only",
+      "html",
+      "dart:ui"
+     ],
+     "answer": 0,
+     "explain": "Client with timeouts."
+    },
+    {
+     "q": "How should errors be handled?",
+     "options": [
+      "print",
+      "Crash",
+      "Map failures to typed exceptions/results shown in the UI",
+      "Ignore"
+     ],
+     "answer": 2,
+     "explain": "One error model."
+    },
+    {
+     "q": "Why set timeouts?",
+     "options": [
+      "Law",
+      "Style",
+      "Avoid hanging UIs on slow networks",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "User feedback."
+    }
+   ]
+  },
+  "level-2/08-persistence": {
+   "questions": [
+    {
+     "q": "When use shared_preferences?",
+     "options": [
+      "Files",
+      "Small key/value settings",
+      "Large data",
+      "Relational"
+     ],
+     "answer": 1,
+     "explain": "Simple persistence."
+    },
+    {
+     "q": "When choose a database (sqflite/Drift/Isar)?",
+     "options": [
+      "Settings",
+      "Flags",
+      "Structured, queryable or larger datasets",
+      "Theme"
+     ],
+     "answer": 2,
+     "explain": "Shape of the data."
+    },
+    {
+     "q": "Where store secrets/tokens?",
+     "options": [
+      "Secure storage (Keychain/Keystore via flutter_secure_storage)",
+      "Prefs",
+      "Code",
+      "Files"
+     ],
+     "answer": 0,
+     "explain": "Encrypted."
+    },
+    {
+     "q": "Why persist state?",
+     "options": [
+      "Law",
+      "Style",
+      "The OS can kill your app at any time",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Restore."
+    }
+   ]
+  },
+  "level-2/09-testing": {
+   "questions": [
+    {
+     "q": "What are the test types?",
+     "options": [
+      "Only unit",
+      "Only UI",
+      "Only manual",
+      "Unit, widget and integration (plus golden tests)"
+     ],
+     "answer": 3,
+     "explain": "Pyramid."
+    },
+    {
+     "q": "What does `tester.pump()` do?",
+     "options": [
+      "Navigates",
+      "Sleeps",
+      "Clears",
+      "Advances a frame so the UI updates"
+     ],
+     "answer": 3,
+     "explain": "pumpAndSettle waits for animations."
+    },
+    {
+     "q": "What are golden tests?",
+     "options": [
+      "Network",
+      "Compare rendered widgets to stored reference images",
+      "Logic",
+      "Unit"
+     ],
+     "answer": 1,
+     "explain": "Catch visual regressions."
+    },
+    {
+     "q": "How control dependencies in widget tests?",
+     "options": [
+      "Real",
+      "Inject fakes via providers/constructors",
+      "Network",
+      "Global"
+     ],
+     "answer": 1,
+     "explain": "Deterministic."
+    }
+   ]
+  },
+  "level-2/10-project-reading-list": {
+   "questions": [
+    {
+     "q": "What does the reading list project combine?",
+     "options": [
+      "Only UI",
+      "Navigation, state management, HTTP/JSON, persistence and tests",
+      "Only HTTP",
+      "Only state"
+     ],
+     "answer": 1,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How do you keep layers separate?",
+     "options": [
+      "UI, state/controllers and repositories",
+      "Globals",
+      "Widgets",
+      "One file"
+     ],
+     "answer": 0,
+     "explain": "Maintainable."
+    },
+    {
+     "q": "How do you test the repository?",
+     "options": [
+      "With a fake HTTP client returning canned JSON",
+      "Skip",
+      "Manual",
+      "Real server"
+     ],
+     "answer": 0,
+     "explain": "Fast."
+    },
+    {
+     "q": "How handle offline?",
+     "options": [
+      "Cache locally and sync when online",
+      "Fail",
+      "Ignore",
+      "Block"
+     ],
+     "answer": 0,
+     "explain": "Resilience."
+    }
+   ]
+  },
+  "level-3/01-element-tree": {
+   "questions": [
+    {
+     "q": "What are the three trees?",
+     "options": [
+      "Four",
+      "One",
+      "Two",
+      "Widget, Element and RenderObject trees"
+     ],
+     "answer": 3,
+     "explain": "Widgets are immutable configs."
+    },
+    {
+     "q": "What does an Element do?",
+     "options": [
+      "Caches",
+      "Holds the instance of a widget in the tree and manages updates",
+      "Routes",
+      "Paints"
+     ],
+     "answer": 1,
+     "explain": "Reuses where types/keys match."
+    },
+    {
+     "q": "Why are widgets cheap to rebuild?",
+     "options": [
+      "Style",
+      "They're lightweight descriptions; Elements/RenderObjects persist",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Diffing."
+    },
+    {
+     "q": "What decides whether an Element updates or is replaced?",
+     "options": [
+      "Name",
+      "Position",
+      "Color",
+      "Matching runtimeType and key"
+     ],
+     "answer": 3,
+     "explain": "Widget.canUpdate."
+    }
+   ]
+  },
+  "level-3/02-animations": {
+   "questions": [
+    {
+     "q": "What's an implicit animation widget?",
+     "options": [
+      "AnimatedContainer/AnimatedOpacity that animate property changes automatically",
+      "Painter",
+      "Controller",
+      "Tween"
+     ],
+     "answer": 0,
+     "explain": "Simple."
+    },
+    {
+     "q": "What does an AnimationController need?",
+     "options": [
+      "HTTP",
+      "A TickerProvider (vsync) and disposal",
+      "Nothing",
+      "DB"
+     ],
+     "answer": 1,
+     "explain": "SingleTickerProviderStateMixin."
+    },
+    {
+     "q": "What does a Tween do?",
+     "options": [
+      "Sorts",
+      "Maps animation progress 0..1 to a value range",
+      "Caches",
+      "Paints"
+     ],
+     "answer": 1,
+     "explain": "Combine with curves."
+    },
+    {
+     "q": "Why dispose controllers?",
+     "options": [
+      "Law",
+      "Stop tickers and avoid leaks",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "dispose()."
+    }
+   ]
+  },
+  "level-3/03-custom-painter": {
+   "questions": [
+    {
+     "q": "When use CustomPainter?",
+     "options": [
+      "Layout",
+      "Routing",
+      "HTTP",
+      "For custom 2D drawing on a Canvas"
+     ],
+     "answer": 3,
+     "explain": "paint(Canvas, Size)."
+    },
+    {
+     "q": "What does shouldRepaint control?",
+     "options": [
+      "Theme",
+      "Whether the painter needs to repaint when updated",
+      "Routing",
+      "Layout"
+     ],
+     "answer": 1,
+     "explain": "Performance."
+    },
+    {
+     "q": "Why wrap in RepaintBoundary?",
+     "options": [
+      "Law",
+      "Isolate repaint to reduce work",
+      "Style",
+      "Cost"
+     ],
+     "answer": 1,
+     "explain": "Profiling."
+    },
+    {
+     "q": "What coordinate origin does Canvas use?",
+     "options": [
+      "Random",
+      "Top-left with y down",
+      "Center",
+      "Bottom-left"
+     ],
+     "answer": 1,
+     "explain": "Remember in math."
+    }
+   ]
+  },
+  "level-3/04-responsive": {
+   "questions": [
+    {
+     "q": "What builds adaptive layouts?",
+     "options": [
+      "print",
+      "Images",
+      "LayoutBuilder/MediaQuery with breakpoints",
+      "Fixed sizes"
+     ],
+     "answer": 2,
+     "explain": "Constraints-based."
+    },
+    {
+     "q": "What's better than MediaQuery for local sizing?",
+     "options": [
+      "LayoutBuilder (uses parent constraints)",
+      "Image",
+      "Static",
+      "Global"
+     ],
+     "answer": 0,
+     "explain": "Component-level."
+    },
+    {
+     "q": "How handle text scaling?",
+     "options": [
+      "Respect textScaleFactor and avoid fixed heights",
+      "Fix",
+      "Clip",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Accessibility."
+    },
+    {
+     "q": "What's a common breakpoint approach?",
+     "options": [
+      "Names",
+      "Compact/medium/expanded width classes",
+      "Random",
+      "Pixels"
+     ],
+     "answer": 1,
+     "explain": "Material guidance."
+    }
+   ]
+  },
+  "level-3/05-platform-channels": {
+   "questions": [
+    {
+     "q": "What are platform channels?",
+     "options": [
+      "HTTP",
+      "Streams",
+      "Isolates",
+      "Message passing between Dart and native (Kotlin/Swift) code"
+     ],
+     "answer": 3,
+     "explain": "MethodChannel."
+    },
+    {
+     "q": "When use them?",
+     "options": [
+      "To access platform APIs without a plugin",
+      "UI",
+      "Never",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Prefer existing plugins."
+    },
+    {
+     "q": "What types cross the channel?",
+     "options": [
+      "Standard message codec types (num, String, List, Map, bytes)",
+      "Futures",
+      "Objects",
+      "Widgets"
+     ],
+     "answer": 0,
+     "explain": "Serialize."
+    },
+    {
+     "q": "What must you handle?",
+     "options": [
+      "Style",
+      "Nothing",
+      "PlatformException and missing implementations",
+      "Colors"
+     ],
+     "answer": 2,
+     "explain": "Errors."
+    }
+   ]
+  },
+  "level-3/06-isolates": {
+   "questions": [
+    {
+     "q": "When use isolates in Flutter?",
+     "options": [
+      "Layout",
+      "I/O",
+      "UI",
+      "To run CPU-heavy work off the UI thread (compute/Isolate.run)"
+     ],
+     "answer": 3,
+     "explain": "Avoid jank."
+    },
+    {
+     "q": "What do isolates share?",
+     "options": [
+      "Nothing: they communicate by message passing",
+      "Heap",
+      "Memory",
+      "Globals"
+     ],
+     "answer": 0,
+     "explain": "Copy semantics."
+    },
+    {
+     "q": "Is async/await parallel?",
+     "options": [
+      "GPU",
+      "Threads",
+      "Yes",
+      "No, it's concurrency on one isolate"
+     ],
+     "answer": 3,
+     "explain": "Use isolates for CPU work."
+    },
+    {
+     "q": "What symptom indicates UI-thread overload?",
+     "options": [
+      "Slow net",
+      "Dropped frames/jank in the performance overlay",
+      "Memory",
+      "Crashes"
+     ],
+     "answer": 1,
+     "explain": "Profile."
+    }
+   ]
+  },
+  "level-3/07-bloc": {
+   "questions": [
+    {
+     "q": "What is BLoC?",
+     "options": [
+      "A router",
+      "A DB",
+      "A widget",
+      "A pattern separating business logic into event→state streams/classes"
+     ],
+     "answer": 3,
+     "explain": "flutter_bloc."
+    },
+    {
+     "q": "What does a Bloc consume and emit?",
+     "options": [
+      "States in",
+      "Events in, states out",
+      "Futures",
+      "Widgets"
+     ],
+     "answer": 1,
+     "explain": "Predictable flow."
+    },
+    {
+     "q": "Why is BLoC testable?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Logic is plain Dart tested with events and expected states"
+     ],
+     "answer": 3,
+     "explain": "bloc_test."
+    },
+    {
+     "q": "What does BlocBuilder do?",
+     "options": [
+      "Rebuilds the UI when the Bloc's state changes",
+      "Dispatches",
+      "Saves",
+      "Routes"
+     ],
+     "answer": 0,
+     "explain": "Select states."
+    }
+   ]
+  },
+  "level-3/08-a11y-i18n": {
+   "questions": [
+    {
+     "q": "What's required for accessibility?",
+     "options": [
+      "Semantics labels, sufficient contrast and tap target sizes",
+      "Animations",
+      "Images",
+      "Colors only"
+     ],
+     "answer": 0,
+     "explain": "Screen readers."
+    },
+    {
+     "q": "How do you localize strings?",
+     "options": [
+      "Images",
+      "Hard-code",
+      "Maps",
+      "ARB files and generated AppLocalizations (intl)"
+     ],
+     "answer": 3,
+     "explain": "flutter gen-l10n."
+    },
+    {
+     "q": "Why avoid hard-coded text?",
+     "options": [
+      "Style",
+      "It prevents translation and complicates changes",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "i18n."
+    },
+    {
+     "q": "What should you test?",
+     "options": [
+      "Size",
+      "Colors",
+      "With a screen reader and large text settings",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Real usage."
+    }
+   ]
+  },
+  "level-3/09-integration-tests": {
+   "questions": [
+    {
+     "q": "What do integration tests run?",
+     "options": [
+      "Static",
+      "The full app on a device/emulator end to end",
+      "Units",
+      "Widgets"
+     ],
+     "answer": 1,
+     "explain": "integration_test."
+    },
+    {
+     "q": "How find widgets?",
+     "options": [
+      "find.byKey/byType/text with the WidgetTester",
+      "grep",
+      "print",
+      "regex"
+     ],
+     "answer": 0,
+     "explain": "Stable keys."
+    },
+    {
+     "q": "Why keep integration tests few?",
+     "options": [
+      "They're slower and flakier than unit/widget tests",
+      "Stable",
+      "Cheap",
+      "Fast"
+     ],
+     "answer": 0,
+     "explain": "Pyramid."
+    },
+    {
+     "q": "What reduces flakiness?",
+     "options": [
+      "Retry",
+      "Sleep",
+      "Ignore",
+      "Waiting on conditions (pumpAndSettle) rather than fixed delays"
+     ],
+     "answer": 3,
+     "explain": "Deterministic."
+    }
+   ]
+  },
+  "level-3/10-project-habit-tracker": {
+   "questions": [
+    {
+     "q": "What does the habit tracker combine?",
+     "options": [
+      "Only state",
+      "Only UI",
+      "State management, persistence, animations, accessibility and tests",
+      "Only DB"
+     ],
+     "answer": 2,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How do you store habit history?",
+     "options": [
+      "Memory",
+      "Strings",
+      "Local database with date-keyed records",
+      "Cache"
+     ],
+     "answer": 2,
+     "explain": "Query streaks."
+    },
+    {
+     "q": "What does this compute (streak logic)?\n```dart\nint streak(List<bool> done){ var s=0; for(var i=done.length-1;i>=0&&done[i];i--){s++;} return s; }\nvoid main(){ print(streak([true,false,true,true,true])); print(streak([true,true,false])); }\n```\n",
+     "options": [
+      "2\n0",
+      "5\n2",
+      "3\n0",
+      "3\n2"
+     ],
+     "answer": 2,
+     "explain": "Count trailing completed days. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What should widgets show for an empty history?",
+     "options": [
+      "Blank",
+      "A friendly empty state",
+      "Crash",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "UX."
+    }
+   ]
+  },
+  "level-4/01-rendering-pipeline": {
+   "questions": [
+    {
+     "q": "What are the rendering pipeline phases?",
+     "options": [
+      "Build, layout, paint and composite",
+      "Load, draw",
+      "Compile, link",
+      "Parse, run"
+     ],
+     "answer": 0,
+     "explain": "Per frame."
+    },
+    {
+     "q": "What's the frame budget at 60 fps?",
+     "options": [
+      "1 s",
+      "About 16 ms",
+      "1 ms",
+      "100 ms"
+     ],
+     "answer": 1,
+     "explain": "UI and raster threads."
+    },
+    {
+     "q": "What causes jank?",
+     "options": [
+      "Expensive work in build/layout/paint exceeding the frame budget",
+      "Assets",
+      "Network",
+      "Fonts"
+     ],
+     "answer": 0,
+     "explain": "DevTools."
+    },
+    {
+     "q": "What does the raster thread do?",
+     "options": [
+      "Dart",
+      "IO",
+      "Executes GPU commands to draw the frame",
+      "Network"
+     ],
+     "answer": 2,
+     "explain": "Impeller/Skia."
+    }
+   ]
+  },
+  "level-4/02-performance": {
+   "questions": [
+    {
+     "q": "What's the first step to improve performance?",
+     "options": [
+      "Rewrite",
+      "Profile in profile mode with DevTools",
+      "Cache",
+      "Guess"
+     ],
+     "answer": 1,
+     "explain": "Never in debug."
+    },
+    {
+     "q": "Which reduces rebuilds?",
+     "options": [
+      "setState on root",
+      "const widgets, splitting widgets and scoping state",
+      "Globals",
+      "Bigger widgets"
+     ],
+     "answer": 1,
+     "explain": "Rebuild only what changes."
+    },
+    {
+     "q": "What causes expensive layouts?",
+     "options": [
+      "Keys",
+      "Themes",
+      "Deep intrinsic sizing and nested scrollables",
+      "const"
+     ],
+     "answer": 2,
+     "explain": "Avoid IntrinsicHeight in lists."
+    },
+    {
+     "q": "How to avoid image jank?",
+     "options": [
+      "Raw",
+      "Resize/cache images and use cacheWidth/cacheHeight",
+      "Large images",
+      "Sync"
+     ],
+     "answer": 1,
+     "explain": "Decode costs."
+    }
+   ]
+  },
+  "level-4/03-architecture": {
+   "questions": [
+    {
+     "q": "What does clean architecture separate?",
+     "options": [
+      "Tools",
+      "UI, domain logic and data layers with dependency rules",
+      "Files",
+      "Colors"
+     ],
+     "answer": 1,
+     "explain": "Testability."
+    },
+    {
+     "q": "What's the repository pattern?",
+     "options": [
+      "Widget",
+      "An abstraction over data sources for the domain layer",
+      "UI",
+      "Router"
+     ],
+     "answer": 1,
+     "explain": "Swap implementations."
+    },
+    {
+     "q": "Why use dependency injection?",
+     "options": [
+      "Replace implementations in tests and configure per environment",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "get_it/Riverpod."
+    },
+    {
+     "q": "What's a good rule for state management choice?",
+     "options": [
+      "Any",
+      "Be consistent and choose what the team can maintain",
+      "Newest",
+      "Mix"
+     ],
+     "answer": 1,
+     "explain": "Pragmatic."
+    }
+   ]
+  },
+  "level-4/04-flavors-config": {
+   "questions": [
+    {
+     "q": "What are flavors?",
+     "options": [
+      "Build variants (dev/staging/prod) with different config",
+      "Themes",
+      "Fonts",
+      "Languages"
+     ],
+     "answer": 0,
+     "explain": "--flavor."
+    },
+    {
+     "q": "How supply config?",
+     "options": [
+      "Hard-code",
+      "--dart-define values or env-specific entry points",
+      "Assets",
+      "Prompt"
+     ],
+     "answer": 1,
+     "explain": "No secrets in repo."
+    },
+    {
+     "q": "What differs per flavor?",
+     "options": [
+      "Widgets",
+      "Code",
+      "Layout",
+      "App ID, API base URL, icons and feature flags"
+     ],
+     "answer": 3,
+     "explain": "Environment."
+    },
+    {
+     "q": "Why not commit secrets?",
+     "options": [
+      "Law",
+      "They leak via source control and binaries are extractable",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Use backends."
+    }
+   ]
+  },
+  "level-4/05-ci": {
+   "questions": [
+    {
+     "q": "What should CI run for Flutter?",
+     "options": [
+      "Nothing",
+      "flutter analyze, flutter test and builds",
+      "Manual",
+      "Only build"
+     ],
+     "answer": 1,
+     "explain": "Gate merges."
+    },
+    {
+     "q": "Why cache pub and Flutter SDK in CI?",
+     "options": [
+      "Style",
+      "Law",
+      "Faster runs",
+      "Security"
+     ],
+     "answer": 2,
+     "explain": "Pin versions."
+    },
+    {
+     "q": "What does `dart format --set-exit-if-changed` enforce?",
+     "options": [
+      "Consistent formatting",
+      "Build",
+      "Tests",
+      "Deploy"
+     ],
+     "answer": 0,
+     "explain": "CI check."
+    },
+    {
+     "q": "How to ship builds from CI?",
+     "options": [
+      "Fastlane/Codemagic with signing secrets in the CI vault",
+      "Local",
+      "Email",
+      "Manual"
+     ],
+     "answer": 0,
+     "explain": "Automated releases."
+    }
+   ]
+  },
+  "level-4/06-publishing": {
+   "questions": [
+    {
+     "q": "What's needed to publish on Google Play?",
+     "options": [
+      "APK only",
+      "Zip",
+      "Nothing",
+      "A signed app bundle (.aab) and a Play developer account"
+     ],
+     "answer": 3,
+     "explain": "Upload key."
+    },
+    {
+     "q": "What's needed for the App Store?",
+     "options": [
+      "APK",
+      "Nothing",
+      "Xcode archive, provisioning/signing and an Apple developer account",
+      "Zip"
+     ],
+     "answer": 2,
+     "explain": "TestFlight."
+    },
+    {
+     "q": "Why use staged rollouts?",
+     "options": [
+      "Law",
+      "Style",
+      "Limit exposure of a bad release",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Monitor crashes."
+    },
+    {
+     "q": "What does obfuscation (--obfuscate) do?",
+     "options": [
+      "Compiles",
+      "Speeds",
+      "Makes Dart symbols harder to read (keep symbol files for crash reports)",
+      "Encrypts"
+     ],
+     "answer": 2,
+     "explain": "Debug info."
+    }
+   ]
+  },
+  "level-4/07-web-desktop": {
+   "questions": [
+    {
+     "q": "What differs on web/desktop?",
+     "options": [
+      "Dart",
+      "Nothing",
+      "Input modes, layouts, plugins and performance characteristics",
+      "Widgets"
+     ],
+     "answer": 2,
+     "explain": "Responsive and adaptive."
+    },
+    {
+     "q": "What's a web renderer concern?",
+     "options": [
+      "Bundle size and first load; consider deferred loading",
+      "Colors",
+      "Fonts",
+      "Names"
+     ],
+     "answer": 0,
+     "explain": "Performance."
+    },
+    {
+     "q": "How adapt to mouse/keyboard?",
+     "options": [
+      "Nothing",
+      "Ignore",
+      "Touch only",
+      "Hover, focus, shortcuts and scrollbars"
+     ],
+     "answer": 3,
+     "explain": "Desktop UX."
+    },
+    {
+     "q": "What plugin check matters?",
+     "options": [
+      "Platform support listed for each plugin",
+      "Stars",
+      "Name",
+      "Colors"
+     ],
+     "answer": 0,
+     "explain": "pub.dev platforms."
+    }
+   ]
+  },
+  "level-4/08-plugins-ffi": {
+   "questions": [
+    {
+     "q": "What does FFI allow?",
+     "options": [
+      "SQL",
+      "HTTP",
+      "Calling native C libraries from Dart",
+      "UI"
+     ],
+     "answer": 2,
+     "explain": "dart:ffi."
+    },
+    {
+     "q": "When write a plugin?",
+     "options": [
+      "Never",
+      "Always",
+      "UI",
+      "To expose platform functionality reusable across apps"
+     ],
+     "answer": 3,
+     "explain": "federated structure."
+    },
+    {
+     "q": "What do you ship in a plugin package?",
+     "options": [
+      "Docs only",
+      "Dart API, per-platform implementations, example app and tests",
+      "Binary",
+      "Dart only"
+     ],
+     "answer": 1,
+     "explain": "Quality."
+    },
+    {
+     "q": "How test platform code?",
+     "options": [
+      "Skip",
+      "Integration tests on devices plus unit tests of Dart wrappers",
+      "Manual",
+      "Print"
+     ],
+     "answer": 1,
+     "explain": "Cover both sides."
+    }
+   ]
+  },
+  "level-4/09-upgrades": {
+   "questions": [
+    {
+     "q": "What's a safe Flutter upgrade approach?",
+     "options": [
+      "Rewrite",
+      "Skip",
+      "Upgrade blindly",
+      "Read the breaking-changes notes, upgrade on a branch, fix analyzer issues and run tests"
+     ],
+     "answer": 3,
+     "explain": "flutter upgrade."
+    },
+    {
+     "q": "What does `dart fix --apply` do?",
+     "options": [
+      "Tests",
+      "Applies automated fixes for deprecations",
+      "Formats",
+      "Builds"
+     ],
+     "answer": 1,
+     "explain": "Helpful for migrations."
+    },
+    {
+     "q": "Why pin the Flutter version in CI?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "Reproducible builds"
+     ],
+     "answer": 3,
+     "explain": "fvm."
+    },
+    {
+     "q": "How detect dependency issues?",
+     "options": [
+      "Ignore",
+      "Guess",
+      "flutter pub outdated and resolving conflicts deliberately",
+      "Delete"
+     ],
+     "answer": 2,
+     "explain": "Maintenance."
+    }
+   ]
+  },
+  "level-4/10-capstone": {
+   "questions": [
+    {
+     "q": "What does the capstone integrate?",
+     "options": [
+      "Only CI",
+      "Architecture, state, persistence, tests, CI and release configuration",
+      "Only tests",
+      "Only UI"
+     ],
+     "answer": 1,
+     "explain": "Production app."
+    },
+    {
+     "q": "How do you prove readiness?",
+     "options": [
+      "Slides",
+      "Tests, profiling, accessibility checks and staged rollout",
+      "Hope",
+      "Demo"
+     ],
+     "answer": 1,
+     "explain": "Quality gates."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "None",
+      "Code",
+      "README, architecture decisions and release runbooks",
+      "Slides"
+     ],
+     "answer": 2,
+     "explain": "Onboarding."
+    },
+    {
+     "q": "What sustains the app?",
+     "options": [
+      "Luck",
+      "Nothing",
+      "Monitoring crashes and regular dependency/SDK updates",
+      "Marketing"
+     ],
+     "answer": 2,
+     "explain": "Maintenance."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What makes Flutter different from wrappers around native widgets?",
+    "options": [
+     "It renders its own UI with its own engine, so look and behavior are consistent across platforms",
+     "Uses native buttons",
+     "Uses HTML",
+     "Uses WebViews"
+    ],
+    "answer": 0,
+    "explain": "Everything is a widget drawn by Flutter."
+   },
+   {
+    "q": "What is the Flutter layout rule that explains most overflow bugs?",
+    "options": [
+     "Constraints go down, sizes go up, parents set positions",
+     "Children choose position",
+     "Sizes go down",
+     "Random"
+    ],
+    "answer": 0,
+    "explain": "Debug by following it."
+   },
+   {
+    "q": "A Row with three long Text widgets overflows. What do you do?",
+    "options": [
+     "Wrap children in Expanded/Flexible (or allow wrapping/scrolling)",
+     "Use setState",
+     "Add padding",
+     "Use Center"
+    ],
+    "answer": 0,
+    "explain": "Row gives unbounded main-axis constraints."
+   },
+   {
+    "q": "A counter must change when a button is pressed. What type of widget do you need?",
+    "options": [
+     "InheritedWidget only",
+     "StatelessWidget",
+     "Builder",
+     "A StatefulWidget (or state from a state-management solution) calling setState"
+    ],
+    "answer": 3,
+    "explain": "State changes trigger rebuilds."
+   },
+   {
+    "q": "You start a Timer in a State. Where do you cancel it?",
+    "options": [
+     "build()",
+     "In dispose()",
+     "Never",
+     "initState()"
+    ],
+    "answer": 1,
+    "explain": "Avoid leaks and setState after dispose."
+   },
+   {
+    "q": "A reorderable list of stateful tiles mixes up their text field contents. What's missing?",
+    "options": [
+     "Stable Keys (ValueKey/ObjectKey) on the items",
+     "setState",
+     "const",
+     "Theme"
+    ],
+    "answer": 0,
+    "explain": "State follows the element matched by type and key."
+   },
+   {
+    "q": "A ListView with 10,000 items builds slowly. What do you use?",
+    "options": [
+     "Column",
+     "ListView(children: ...)",
+     "SingleChildScrollView",
+     "ListView.builder so only visible items are built"
+    ],
+    "answer": 3,
+    "explain": "Lazy lists."
+   },
+   {
+    "q": "What does this print?\n```dart\nString route(String p,bool auth){ if(!auth && p!='/login') return 'redirect'; return 'show $p'; }\nvoid main(){ print(route('/home',false)); print(route('/home',true)); print(route('/login',false)); }\n```\n",
+    "options": [
+     "show /home\nshow /home\nredirect",
+     "redirect\nredirect\nshow /login",
+     "redirect\nshow /home\nshow /login",
+     "Error"
+    ],
+    "answer": 2,
+    "explain": "Route guards redirect unauthenticated users. Verified by running it with the Dart SDK."
+   },
+   {
+    "q": "When do you use context.read vs context.watch with Provider?",
+    "options": [
+     "watch in callbacks",
+     "watch in build to rebuild on change; read in callbacks (no subscription)",
+     "Same",
+     "Reverse"
+    ],
+    "answer": 1,
+    "explain": "Avoid watch in event handlers."
+   },
+   {
+    "q": "A screen shows a Future but flickers to loading on every rebuild. Why?",
+    "options": [
+     "Bad theme",
+     "Slow network",
+     "Key missing",
+     "The Future is created inside build; create it once (initState/provider)"
+    ],
+    "answer": 3,
+    "explain": "FutureBuilder restarts on a new Future."
+   },
+   {
+    "q": "Which states must async UI handle?",
+    "options": [
+     "None",
+     "Data only",
+     "Loading, error, empty and data",
+     "Loading only"
+    ],
+    "answer": 2,
+    "explain": "Complete UX."
+   },
+   {
+    "q": "Where should an auth token be stored?",
+    "options": [
+     "Secure storage (Keychain/Keystore), not shared_preferences",
+     "A file",
+     "Code",
+     "SharedPreferences"
+    ],
+    "answer": 0,
+    "explain": "Encrypted at rest."
+   },
+   {
+    "q": "What does `tester.pumpAndSettle()` do in a widget test?",
+    "options": [
+     "Compiles",
+     "Sleeps",
+     "Navigates",
+     "Pumps frames until animations finish and the UI is idle"
+    ],
+    "answer": 3,
+    "explain": "Deterministic waiting."
+   },
+   {
+    "q": "A CPU-heavy JSON parse janks the UI. What do you do?",
+    "options": [
+     "Add keys",
+     "Run it in an isolate (compute/Isolate.run)",
+     "Use setState",
+     "Use async"
+    ],
+    "answer": 1,
+    "explain": "async isn't parallelism."
+   },
+   {
+    "q": "Where does BLoC put business logic?",
+    "options": [
+     "In main",
+     "In widgets",
+     "In build",
+     "In Bloc/Cubit classes that map events/actions to states, tested without widgets"
+    ],
+    "answer": 3,
+    "explain": "Plain Dart tests."
+   },
+   {
+    "q": "Which tool tells you what's causing dropped frames?",
+    "options": [
+     "DevTools performance view in profile mode",
+     "flutter analyze",
+     "print",
+     "Debug mode"
+    ],
+    "answer": 0,
+    "explain": "Never profile in debug."
+   },
+   {
+    "q": "How do you build dev/staging/prod variants with different API URLs?",
+    "options": [
+     "Branches",
+     "Flavors with --dart-define (or separate entry points) and no committed secrets",
+     "Edit code",
+     "Comments"
+    ],
+    "answer": 1,
+    "explain": "Config per environment."
+   },
+   {
+    "q": "What should CI run on every pull request?",
+    "options": [
+     "flutter analyze, formatting check and flutter test (plus builds)",
+     "Nothing",
+     "Only build",
+     "Manual"
+    ],
+    "answer": 0,
+    "explain": "Gate merges."
+   },
+   {
+    "q": "A release crashes for 3% of users. How do you limit exposure next time?",
+    "options": [
+     "Staged rollouts with crash monitoring and a quick rollback path",
+     "All at once",
+     "Hotfix only",
+     "Hope"
+    ],
+    "answer": 0,
+    "explain": "Play Console/TestFlight phased releases."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Split a bill exactly",
+    "prompt": "Implement splitBill(billCents, tipPercent, people) working in whole cents: validate the input (ArgumentError), compute the total with tip rounded to a cent, and split it so shares differ by at most one cent and add up exactly to the total.",
+    "starter": "/// Split a bill (in cents) with a tip between people so the shares add up exactly.\nList<int> splitBill(int billCents, int tipPercent, int people) {\n  // throw ArgumentError('invalid input') for negative values or people < 1;\n  // total = bill + tip rounded to a whole cent; split so shares differ by at most 1 cent\n  // and add up EXACTLY to the total (the first `remainder` people pay one extra cent)\n  return [];\n}\n\nString money(int cents) => '\\$${(cents / 100).toStringAsFixed(2)}';\n\nvoid main() {\n  final shares = splitBill(10000, 18, 3);\n  print(shares.map(money).join(' '));\n  print(money(shares.reduce((a, b) => a + b)));\n  print(splitBill(2500, 0, 4).map(money).join(' '));\n  try {\n    splitBill(100, 10, 0);\n  } on ArgumentError catch (e) {\n    print('error: ${e.message}');\n  }\n}\n",
+    "expected": "$39.34 $39.33 $39.33\n$118.00\n$6.25 $6.25 $6.25 $6.25\nerror: invalid input",
+    "solution": "/// Split a bill (in cents) with a tip between people so the shares add up exactly.\nList<int> splitBill(int billCents, int tipPercent, int people) {\n  if (billCents < 0 || tipPercent < 0 || people < 1) {\n    throw ArgumentError('invalid input');\n  }\n  final total = (billCents * (100 + tipPercent) / 100).round();\n  final base = total ~/ people;\n  final remainder = total % people;\n  // the first `remainder` people pay one extra cent so nothing is lost to rounding\n  return List.generate(people, (i) => base + (i < remainder ? 1 : 0));\n}\n\nString money(int cents) => '\\$${(cents / 100).toStringAsFixed(2)}';\n\nvoid main() {\n  final shares = splitBill(10000, 18, 3);\n  print(shares.map(money).join(' '));\n  print(money(shares.reduce((a, b) => a + b)));\n  print(splitBill(2500, 0, 4).map(money).join(' '));\n  try {\n    splitBill(100, 10, 0);\n  } on ArgumentError catch (e) {\n    print('error: ${e.message}');\n  }\n}\n",
+    "explain": "Money should be handled as integers (cents); the first `remainder` people pay one extra cent so the shares sum exactly instead of losing or inventing a cent to rounding. Verified by running the solution with the Dart SDK."
+   },
+   {
+    "title": "A path matcher with route guards",
+    "prompt": "Implement match(pattern, path) returning the :param map when every segment matches (decoding percent-escapes), else null. The route() function then applies a login guard and renders the matching page, like a minimal go_router.",
+    "starter": "/// A tiny go_router-style matcher: patterns like /book/:id/reviews/:rid\nMap<String, String>? match(String pattern, String path) {\n  // return the :params map when path matches the pattern segment by segment, else null\n  return null;\n}\n\nString route(String path, bool loggedIn) {\n  if (!loggedIn && path != '/login') return 'redirect -> /login';\n  if (loggedIn && path == '/login') return 'redirect -> /';\n  for (final entry in {'/': 'HomePage', '/book/:id': 'BookPage', '/book/:id/reviews/:rid': 'ReviewPage', '/login': 'LoginPage'}.entries) {\n    final m = match(entry.key, path);\n    if (m != null) return '${entry.value} $m';\n  }\n  return 'NotFoundPage';\n}\n\nvoid main() {\n  for (final c in [\n    ['/book/42', true],\n    ['/book/42/reviews/7', true],\n    ['/book/a%20b', true],\n    ['/settings', true],\n    ['/book/42', false],\n    ['/login', true],\n  ]) {\n    print('${c[0]} (loggedIn=${c[1]}): ${route(c[0] as String, c[1] as bool)}');\n  }\n}\n",
+    "expected": "/book/42 (loggedIn=true): BookPage {id: 42}\n/book/42/reviews/7 (loggedIn=true): ReviewPage {id: 42, rid: 7}\n/book/a%20b (loggedIn=true): BookPage {id: a b}\n/settings (loggedIn=true): NotFoundPage\n/book/42 (loggedIn=false): redirect -> /login\n/login (loggedIn=true): redirect -> /",
+    "solution": "/// A tiny go_router-style matcher: patterns like /book/:id/reviews/:rid\nMap<String, String>? match(String pattern, String path) {\n  final p = pattern.split('/').where((s) => s.isNotEmpty).toList();\n  final q = path.split('/').where((s) => s.isNotEmpty).toList();\n  if (p.length != q.length) return null;\n  final params = <String, String>{};\n  for (var i = 0; i < p.length; i++) {\n    if (p[i].startsWith(':')) {\n      params[p[i].substring(1)] = Uri.decodeComponent(q[i]);\n    } else if (p[i] != q[i]) {\n      return null;\n    }\n  }\n  return params;\n}\n\nString route(String path, bool loggedIn) {\n  if (!loggedIn && path != '/login') return 'redirect -> /login';\n  if (loggedIn && path == '/login') return 'redirect -> /';\n  for (final entry in {'/': 'HomePage', '/book/:id': 'BookPage', '/book/:id/reviews/:rid': 'ReviewPage', '/login': 'LoginPage'}.entries) {\n    final m = match(entry.key, path);\n    if (m != null) return '${entry.value} $m';\n  }\n  return 'NotFoundPage';\n}\n\nvoid main() {\n  for (final c in [\n    ['/book/42', true],\n    ['/book/42/reviews/7', true],\n    ['/book/a%20b', true],\n    ['/settings', true],\n    ['/book/42', false],\n    ['/login', true],\n  ]) {\n    print('${c[0]} (loggedIn=${c[1]}): ${route(c[0] as String, c[1] as bool)}');\n  }\n}\n",
+    "explain": "Declarative routing is a function from the URL (and auth state) to what is on screen: guards redirect first, then path patterns with :params select the page. Verified by running the solution with the Dart SDK."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
