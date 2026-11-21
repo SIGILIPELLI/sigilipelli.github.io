@@ -1,0 +1,2159 @@
+{
+ "course": "typescript-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What does tsc do to your TypeScript code?",
+     "options": [
+      "Runs it directly",
+      "Bundles it for browsers only",
+      "Type-checks it and erases all types, emitting plain JavaScript",
+      "Adds types at runtime"
+     ],
+     "answer": 2,
+     "explain": "Types exist only at compile time and leave no trace in the output."
+    },
+    {
+     "q": "Why run the compiler with npx tsc for a project-local install?",
+     "options": [
+      "npx finds the project-local binary instead of assuming it's on the global PATH",
+      "It's faster",
+      "It disables checks",
+      "It installs Node"
+     ],
+     "answer": 0,
+     "explain": "A per-project install is the standard for real projects."
+    },
+    {
+     "q": "What is the point of the error TS2345 when you call greet(42) on a function taking a string?",
+     "options": [
+      "It only warns at runtime",
+      "It catches the bug before the program runs",
+      "It converts 42 to a string",
+      "It is ignored by tsc"
+     ],
+     "answer": 1,
+     "explain": "tsc refuses to compile until the error is fixed unless told otherwise."
+    },
+    {
+     "q": "What does npx tsc --init create?",
+     "options": [
+      "A package.json",
+      "A Node install",
+      "A tsconfig.json describing the project's files, target and strictness",
+      "A hello.ts"
+     ],
+     "answer": 2,
+     "explain": "Real projects use tsconfig.json rather than passing a filename."
+    }
+   ]
+  },
+  "level-1/02-basic-types": {
+   "questions": [
+    {
+     "q": "How many numeric types does TypeScript have for ordinary numbers?",
+     "options": [
+      "Four",
+      "int and float",
+      "int, float, double",
+      "One: number (plus bigint for arbitrarily large integers)"
+     ],
+     "answer": 3,
+     "explain": "There is no separate int/float/double."
+    },
+    {
+     "q": "What does `let city = \"Seattle\";` infer, and what happens on `city = 42`?",
+     "options": [
+      "Infers number; error",
+      "Infers any; allowed",
+      "Infers string; allowed",
+      "Infers string; assigning 42 is error TS2322"
+     ],
+     "answer": 3,
+     "explain": "Inference works from the initializer without an annotation."
+    },
+    {
+     "q": "What is a tuple?",
+     "options": [
+      "An array with a known length and a known type at each position",
+      "An array of any",
+      "An object",
+      "A Set"
+     ],
+     "answer": 0,
+     "explain": "Example: [string, number, boolean]. Labels like [status: number, body: string] are documentation only."
+    },
+    {
+     "q": "What does annotating a value as any do?",
+     "options": [
+      "Makes it nullable",
+      "Infers the type",
+      "Makes it readonly",
+      "Disables type checking for that value, so even calling a number compiles"
+     ],
+     "answer": 3,
+     "explain": "Mistakes on any values are not caught at compile time."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "Inside `if (typeof id === \"number\")` for id: string | number, what is id's type?",
+     "options": [
+      "any",
+      "number, because TypeScript narrows it",
+      "string | number",
+      "string"
+     ],
+     "answer": 1,
+     "explain": "In the else branch it narrows to string."
+    },
+    {
+     "q": "What is this ability to track types through branches called?",
+     "options": [
+      "Control flow analysis",
+      "Transpiling",
+      "Hoisting",
+      "Type erasure"
+     ],
+     "answer": 0,
+     "explain": "It's why type-safe code needs fewer manual casts."
+    },
+    {
+     "q": "What does formatId(42) return in the lesson?",
+     "options": [
+      "\"42.0\"",
+      "\"AB12\"",
+      "42",
+      "\"42\""
+     ],
+     "answer": 3,
+     "explain": "id.toFixed(0) on 42 gives the string \"42\"; formatId(\"ab12\") gives \"AB12\"."
+    },
+    {
+     "q": "What does a switch on a union of string literals such as Direction let the compiler do?",
+     "options": [
+      "Allow any string",
+      "Run faster",
+      "Skip type checks",
+      "Check which cases are handled, since each case narrows the value"
+     ],
+     "answer": 3,
+     "explain": "Control flow tracks the remaining possible values."
+    }
+   ]
+  },
+  "level-1/07-classes-basics": {
+   "questions": [
+    {
+     "q": "What does `constructor(public name: string, public age: number) {}` do?",
+     "options": [
+      "Makes them private",
+      "Does nothing without a body",
+      "Declares and assigns the properties in one step",
+      "Only declares types"
+     ],
+     "answer": 2,
+     "explain": "No separate this.name = name line is needed."
+    },
+    {
+     "q": "What happens with `account.balance` when balance is private?",
+     "options": [
+      "It compiles",
+      "Error TS2341: Property 'balance' is private",
+      "It returns undefined",
+      "It prints the value"
+     ],
+     "answer": 1,
+     "explain": "The class exposes getBalance() instead."
+    },
+    {
+     "q": "Which modifier makes a member visible in the class and its subclasses?",
+     "options": [
+      "public",
+      "private",
+      "readonly",
+      "protected"
+     ],
+     "answer": 3,
+     "explain": "public is the default; readonly blocks reassignment after construction."
+    },
+    {
+     "q": "What does the loop over [new Dog(\"Rex\"), new Cat(\"Whiskers\")] print?",
+     "options": [
+      "Rex: Woof! then Whiskers: Meow!",
+      "Only Rex: Woof!",
+      "An error",
+      "Rex: ... then Whiskers: ..."
+     ],
+     "answer": 0,
+     "explain": "Each subclass overrides makeSound()."
+    }
+   ]
+  },
+  "level-1/08-enums": {
+   "questions": [
+    {
+     "q": "With `enum Direction { North, South, East, West }`, what is Direction.South and Direction[1]?",
+     "options": [
+      "0 and \"South\"",
+      "1 and \"South\"",
+      "1 and 1",
+      "\"South\" and 1"
+     ],
+     "answer": 1,
+     "explain": "Numeric enums start at 0 and are reverse-mappable."
+    },
+    {
+     "q": "Why are string enums usually the better default?",
+     "options": [
+      "They serialise to readable values like \"ACTIVE\", which is easier to debug and safer to store or send",
+      "They are faster",
+      "They are numeric",
+      "They allow reverse lookup"
+     ],
+     "answer": 0,
+     "explain": "They have no numeric reverse mapping."
+    },
+    {
+     "q": "What does handle(HttpStatus.NotFound) print with NotFound = 404?",
+     "options": [
+      "Success",
+      "Error: NotFound",
+      "404",
+      "Error: 404"
+     ],
+     "answer": 3,
+     "explain": "The status isn't HttpStatus.OK, so the else branch runs."
+    },
+    {
+     "q": "What is the trade-off of a const enum?",
+     "options": [
+      "It is mutable",
+      "It can't have values",
+      "It's slower",
+      "It's inlined at compile time with no runtime object, so you can't iterate members or reverse lookup"
+     ],
+     "answer": 3,
+     "explain": "The output is smaller."
+    }
+   ]
+  },
+  "level-1/04-functions-type-annotations": {
+   "questions": [
+    {
+     "q": "What does power(5) return for `function power(base: number, exponent: number = 2)`?",
+     "options": [
+      "125",
+      "10",
+      "5",
+      "25"
+     ],
+     "answer": 3,
+     "explain": "The default exponent of 2 applies; power(5, 3) is 125."
+    },
+    {
+     "q": "Where must optional parameters appear?",
+     "options": [
+      "After all required parameters",
+      "Before required ones",
+      "Anywhere",
+      "Only last in arrow functions"
+     ],
+     "answer": 0,
+     "explain": "TypeScript enforces this at the declaration site."
+    },
+    {
+     "q": "In `function sum(...numbers: number[])`, what does the number[] annotation describe?",
+     "options": [
+      "Each argument must be an array",
+      "The return type",
+      "The collected array of trailing arguments",
+      "A single number"
+     ],
+     "answer": 2,
+     "explain": "sum(10, 20, 30, 40) returns 100."
+    },
+    {
+     "q": "Why annotate return types on functions other code depends on?",
+     "options": [
+      "It changes runtime behaviour",
+      "It speeds up code",
+      "It's required",
+      "It documents intent and catches drift between implementation and callers' expectations"
+     ],
+     "answer": 3,
+     "explain": "TypeScript usually infers it, but explicit annotation is good practice."
+    }
+   ]
+  },
+  "level-1/05-interfaces-type-aliases": {
+   "questions": [
+    {
+     "q": "What happens with `const bad: User = { id: 2, name: \"Bob\" }` when User requires email?",
+     "options": [
+      "email is auto-added",
+      "It compiles with email undefined",
+      "Runtime error",
+      "Error TS2741: Property 'email' is missing"
+     ],
+     "answer": 3,
+     "explain": "An object literal must have the declared properties."
+    },
+    {
+     "q": "What does a readonly property like sku prevent?",
+     "options": [
+      "Setting it at creation",
+      "Printing it",
+      "Reading it",
+      "Reassignment after creation (error TS2540)"
+     ],
+     "answer": 3,
+     "explain": "It can be set once."
+    },
+    {
+     "q": "What does item.discount evaluate to when an optional discount is omitted?",
+     "options": [
+      "0",
+      "An error",
+      "null",
+      "undefined"
+     ],
+     "answer": 3,
+     "explain": "Optional properties default to undefined when absent."
+    },
+    {
+     "q": "What is the common rule of thumb for interface versus type?",
+     "options": [
+      "type for classes only",
+      "Never use interface",
+      "Identical in every way",
+      "interface for extendable object shapes and public APIs; type for unions, tuples and non-object shapes"
+     ],
+     "answer": 3,
+     "explain": "Level 2 covers declaration merging and extends versus &."
+    }
+   ]
+  },
+  "level-1/06-arrays-objects-typed": {
+   "questions": [
+    {
+     "q": "How do number[] and Array<number> relate?",
+     "options": [
+      "Different types",
+      "number[] is a tuple",
+      "They mean exactly the same thing",
+      "Array<number> is readonly"
+     ],
+     "answer": 2,
+     "explain": "T[] is shorthand for Array<T>."
+    },
+    {
+     "q": "What does `const evens = numbers.filter((n) => n % 2 === 0)` produce for [1,2,3,4,5]?",
+     "options": [
+      "[1, 3, 5]",
+      "[2, 4]",
+      "[4]",
+      "[2, 4, 6]"
+     ],
+     "answer": 1,
+     "explain": "The callback keeps even numbers; and reduce sums to 15."
+    },
+    {
+     "q": "What does connect({ host: \"localhost\", port: 8080 }) print for a destructured debug = false default?",
+     "options": [
+      "Connecting to localhost:8080, debug=false",
+      "An error",
+      "Connecting to undefined",
+      "Connecting to localhost:8080, debug=undefined"
+     ],
+     "answer": 0,
+     "explain": "The default applies when debug is omitted."
+    },
+    {
+     "q": "Why prefer a named interface over repeating an inline object type?",
+     "options": [
+      "Inline types can't be checked",
+      "It runs faster",
+      "It's reusable and stays consistent when the shape changes",
+      "Inline is invalid"
+     ],
+     "answer": 2,
+     "explain": "Inline shapes work but get repeated."
+    }
+   ]
+  },
+  "level-1/09-modules-tsconfig": {
+   "questions": [
+    {
+     "q": "Why are named exports generally preferred over default exports?",
+     "options": [
+      "Default exports are removed",
+      "They're easier to refactor and better supported by auto-import tooling",
+      "Named exports need no import",
+      "They're faster"
+     ],
+     "answer": 1,
+     "explain": "A default import can be given any name without the compiler noticing a different meaning."
+    },
+    {
+     "q": "What does strict: true enable?",
+     "options": [
+      "All strict type-checking flags, including strictNullChecks and noImplicitAny",
+      "Only strictNullChecks",
+      "Minification",
+      "Runtime checks"
+     ],
+     "answer": 0,
+     "explain": "The lesson calls it the single most important setting."
+    },
+    {
+     "q": "What do outDir and rootDir configure?",
+     "options": [
+      "Test folders",
+      "Library paths",
+      "The Node version",
+      "Where compiled .js is written and where the compiler expects .ts source"
+     ],
+     "answer": 3,
+     "explain": "In the lesson, rootDir is ./src and outDir is ./dist."
+    },
+    {
+     "q": "What does skipLibCheck do?",
+     "options": [
+      "Removes libraries",
+      "Skips type-checking .d.ts files from dependencies, for faster builds",
+      "Skips your own files",
+      "Disables strict"
+     ],
+     "answer": 1,
+     "explain": "It's one of the key compilerOptions."
+    }
+   ]
+  },
+  "level-1/10-project-todo-cli": {
+   "questions": [
+    {
+     "q": "How does the app persist tasks between runs?",
+     "options": [
+      "localStorage",
+      "It reads and writes a JSON file (tasks.json) with fs",
+      "In memory only",
+      "A database server"
+     ],
+     "answer": 1,
+     "explain": "loadTasks returns [] if the file is missing or can't be parsed."
+    },
+    {
+     "q": "How does the app number tasks for the user?",
+     "options": [
+      "0-based",
+      "Displayed 1-based (i + 1) and converted with index - 1 internally",
+      "Random",
+      "By id"
+     ],
+     "answer": 1,
+     "explain": "completeTask reads tasks[index - 1]."
+    },
+    {
+     "q": "What does deleteTask do for an out-of-range number?",
+     "options": [
+      "Crashes",
+      "Prints \"No task with number N\" and returns",
+      "Deletes the first task",
+      "Deletes the last task"
+     ],
+     "answer": 1,
+     "explain": "It checks index < 1 || index > tasks.length."
+    },
+    {
+     "q": "What does `JSON.parse(contents) as Task[]` do for type safety?",
+     "options": [
+      "Converts types",
+      "Validates the JSON shape",
+      "Asserts the type at compile time only; it doesn't validate the data at runtime",
+      "Throws if wrong"
+     ],
+     "answer": 2,
+     "explain": "Types are erased, so a malformed file is not detected by the assertion."
+    }
+   ]
+  },
+  "level-2/01-union-intersection-types": {
+   "questions": [
+    {
+     "q": "On a value of type string | number, which members can you use without narrowing?",
+     "options": [
+      "Only those common to every type in the union",
+      "Any member",
+      "All of number's members",
+      "All of string's members"
+     ],
+     "answer": 0,
+     "explain": "value.length alone errors with TS2339 because number has no length."
+    },
+    {
+     "q": "What is a discriminated union?",
+     "options": [
+      "An intersection of interfaces",
+      "A union of object types sharing a literal property (like kind) that lets TypeScript narrow by checking it",
+      "A union with any",
+      "A union of primitives"
+     ],
+     "answer": 1,
+     "explain": "The shared kind literal is the discriminant."
+    },
+    {
+     "q": "What does area({ kind: \"square\", side: 3 }) return in the lesson?",
+     "options": [
+      "6",
+      "3",
+      "12",
+      "9"
+     ],
+     "answer": 3,
+     "explain": "The non-circle branch returns shape.side ** 2; the circle with radius 2 gives 12.57."
+    },
+    {
+     "q": "What does printLength(3.14159) print?",
+     "options": [
+      "6",
+      "An error",
+      "3",
+      "3.14159"
+     ],
+     "answer": 2,
+     "explain": "It narrows to number and prints value.toFixed(0) = \"3\"."
+    }
+   ]
+  },
+  "level-2/02-generics": {
+   "questions": [
+    {
+     "q": "Why is firstAny(arr: any[]): any risky?",
+     "options": [
+      "It doesn't compile",
+      "It is slower",
+      "It returns undefined",
+      "Calling oops.toUpperCase() on a number compiles but crashes at runtime"
+     ],
+     "answer": 3,
+     "explain": "any disables checks, so the bug hides until runtime."
+    },
+    {
+     "q": "What does `firstElement([1, 2, 3])` infer as the type of num?",
+     "options": [
+      "unknown",
+      "any",
+      "number[]",
+      "number"
+     ],
+     "answer": 3,
+     "explain": "T is inferred from the argument; you rarely need firstElement<number>(...)."
+    },
+    {
+     "q": "What does pair(\"age\", 30) have as its type?",
+     "options": [
+      "string",
+      "any[]",
+      "(string | number)[]",
+      "[string, number], a tuple"
+     ],
+     "answer": 3,
+     "explain": "Two type parameters A and B keep each position's type."
+    },
+    {
+     "q": "What does `T extends HasLength` achieve?",
+     "options": [
+      "It makes T any",
+      "It extends the class",
+      "It makes T optional",
+      "It constrains T to types that have a numeric length, so logLength(42) is an error"
+     ],
+     "answer": 3,
+     "explain": "Strings, arrays and { length: 10 } all pass."
+    }
+   ]
+  },
+  "level-2/03-interfaces-vs-types": {
+   "questions": [
+    {
+     "q": "What happens with two interfaces of the same name in the same scope?",
+     "options": [
+      "The first wins",
+      "They merge automatically",
+      "The last wins",
+      "Compile error"
+     ],
+     "answer": 1,
+     "explain": "Two type aliases of the same name give TS2300 Duplicate identifier."
+    },
+    {
+     "q": "What practical use does declaration merging have?",
+     "options": [
+      "Extending third-party types such as Express's Request without editing the library",
+      "Runtime checks",
+      "Removing properties",
+      "Faster builds"
+     ],
+     "answer": 0,
+     "explain": "It's also a trap if you accidentally name an interface like one from a library."
+    },
+    {
+     "q": "For a plain object shape, are UserI (interface) and UserT (type) assignable to each other?",
+     "options": [
+      "No",
+      "Only interface to type",
+      "Yes: structural typing doesn't care which form produced the shape",
+      "Only with a cast"
+     ],
+     "answer": 2,
+     "explain": "printUser(asType) works in the lesson."
+    },
+    {
+     "q": "How do interfaces and type aliases combine with others?",
+     "options": [
+      "Both use extends",
+      "Interfaces use extends; type aliases use &, and they behave differently on conflicting members",
+      "Both use &",
+      "Neither can combine"
+     ],
+     "answer": 1,
+     "explain": "A conflicting extends gives TS2430."
+    }
+   ]
+  },
+  "level-2/04-classes-advanced": {
+   "questions": [
+    {
+     "q": "What happens with `new Shape()` when Shape is abstract?",
+     "options": [
+      "Error TS2511: Cannot create an instance of an abstract class",
+      "It compiles with a warning",
+      "It creates an empty shape",
+      "It calls area()"
+     ],
+     "answer": 0,
+     "explain": "Subclasses must implement abstract methods like area()."
+    },
+    {
+     "q": "How does an abstract class differ from a plain interface?",
+     "options": [
+      "It can't have methods",
+      "It has no contracts",
+      "It is erased",
+      "It can mix shared working code with must-override contracts"
+     ],
+     "answer": 3,
+     "explain": "describe() is concrete while area() is abstract."
+    },
+    {
+     "q": "How many classes can a class extend, and how many interfaces can it implement?",
+     "options": [
+      "None of either",
+      "One of each",
+      "Any number of both",
+      "At most one class; any number of interfaces"
+     ],
+     "answer": 3,
+     "explain": "extends is for 'is a kind of'; implements for 'conforms to this contract'."
+    },
+    {
+     "q": "What does Counter.total print after three `new Counter()` calls?",
+     "options": [
+      "3",
+      "1",
+      "undefined",
+      "0"
+     ],
+     "answer": 0,
+     "explain": "The static count belongs to the class, not instances."
+    }
+   ]
+  },
+  "level-2/05-utility-types": {
+   "questions": [
+    {
+     "q": "What does Partial<Article> make each property?",
+     "options": [
+      "Readonly",
+      "Nullable",
+      "Required",
+      "Optional, so callers can send only the changed fields"
+     ],
+     "answer": 3,
+     "explain": "Useful for update functions."
+    },
+    {
+     "q": "What happens with run({ timeout: 1000 }) when run takes Required<Options>?",
+     "options": [
+      "It's a runtime error",
+      "It compiles",
+      "Error: Property 'retries' is missing",
+      "retries defaults to 0"
+     ],
+     "answer": 2,
+     "explain": "Required forces every optional property to be present."
+    },
+    {
+     "q": "Does Readonly<Article> stop draft.tags.push(...)?",
+     "options": [
+      "No: it's compile-time only and shallow, so tags is read-only as a reference but not deeply frozen",
+      "Yes, at runtime",
+      "It throws",
+      "Yes, deeply"
+     ],
+     "answer": 0,
+     "explain": "It doesn't deep-freeze the object at runtime."
+    },
+    {
+     "q": "What does Pick<Article, \"id\" | \"title\" | \"tags\"> produce?",
+     "options": [
+      "Article without them",
+      "A union",
+      "An array",
+      "A type with only those three properties"
+     ],
+     "answer": 3,
+     "explain": "Accessing preview.body is error TS2339."
+    }
+   ]
+  },
+  "level-2/06-async-await-types": {
+   "questions": [
+    {
+     "q": "What type do you write for `async function getGreeting()` that returns a plain string?",
+     "options": [
+      "string",
+      "void",
+      "Promise<Promise<string>>",
+      "Promise<string>"
+     ],
+     "answer": 3,
+     "explain": "TypeScript wraps a plain return in a Promise automatically."
+    },
+    {
+     "q": "What does `await` do to a Promise<T> inside an async function?",
+     "options": [
+      "Ignores it",
+      "Makes it any",
+      "Unwraps it to T",
+      "Wraps it again"
+     ],
+     "answer": 2,
+     "explain": "Outside async functions you use .then() on the Promise<T>."
+    },
+    {
+     "q": "How does Promise.all type the result of [Promise<string>, Promise<number>, Promise<boolean>]?",
+     "options": [
+      "As (string | number | boolean)[]",
+      "As unknown",
+      "As any[]",
+      "As a tuple [string, number, boolean]"
+     ],
+     "answer": 3,
+     "explain": "Each element keeps its own type."
+    },
+    {
+     "q": "What is the type of the caught value in a catch block since TypeScript 4.4 (by default)?",
+     "options": [
+      "any",
+      "never",
+      "unknown, forcing you to narrow",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "It was any previously; unknown is a deliberate safety improvement."
+    }
+   ]
+  },
+  "level-2/07-testing-jest": {
+   "questions": [
+    {
+     "q": "What does ts-jest add to Jest?",
+     "options": [
+      "It mocks types",
+      "It replaces Jest",
+      "It compiles to a bundle",
+      "It runs .ts files directly and type-checks tests with your real tsconfig.json"
+     ],
+     "answer": 3,
+     "explain": "A test with a type error fails like a production file would."
+    },
+    {
+     "q": "Why must you write expect(() => divide(1, 0)).toThrow(...) rather than expect(divide(1, 0)).toThrow(...)?",
+     "options": [
+      "The second throws while evaluating the argument, before expect runs",
+      "It's only style",
+      "The first is faster",
+      "toThrow needs an arrow"
+     ],
+     "answer": 0,
+     "explain": "Wrap the throwing call in a function."
+    },
+    {
+     "q": "Given activeUsers(sample) with Ada (active), Bob (inactive), Cy (active), what does result.map(u => u.name) equal?",
+     "options": [
+      "[\"Bob\"]",
+      "[\"Ada\", \"Cy\"]",
+      "[]",
+      "[\"Ada\", \"Bob\", \"Cy\"]"
+     ],
+     "answer": 1,
+     "explain": "The filter keeps active users, so the length is 2."
+    },
+    {
+     "q": "What does the compiler catch versus Jest tests?",
+     "options": [
+      "Both catch the same",
+      "Tests catch types only",
+      "The compiler catches logic errors",
+      "The compiler catches type mismatches; tests catch wrong business logic"
+     ],
+     "answer": 3,
+     "explain": "TypeScript doesn't make logic correct."
+    }
+   ]
+  },
+  "level-2/08-working-with-json-apis": {
+   "questions": [
+    {
+     "q": "What type does response.json() give, and what does TypeScript check?",
+     "options": [
+      "object; it's checked",
+      "any; nothing is verified against the real response",
+      "unknown; it must be narrowed",
+      "Todo; the shape is verified"
+     ],
+     "answer": 1,
+     "explain": "returning data as Todo trusts you completely."
+    },
+    {
+     "q": "What does `as Todo` do at runtime?",
+     "options": [
+      "Throws on mismatch",
+      "Converts the object",
+      "Nothing: it performs zero runtime checking",
+      "Validates the shape"
+     ],
+     "answer": 2,
+     "explain": "It's better than any but is not validation."
+    },
+    {
+     "q": "When does fetch reject its promise?",
+     "options": [
+      "On every error",
+      "Only on a network failure; 404 and 500 still resolve",
+      "On any non-200",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Check response.ok, which is false outside 200–299."
+    },
+    {
+     "q": "How do you really verify API data is a Todo?",
+     "options": [
+      "Validate the shape at runtime with a type guard",
+      "Add more annotations",
+      "Use a const",
+      "Use any"
+     ],
+     "answer": 0,
+     "explain": "The lesson's Step 3 uses a hand-written guard."
+    }
+   ]
+  },
+  "level-2/09-type-narrowing-guards": {
+   "questions": [
+    {
+     "q": "What does describeValue(3.14159) print?",
+     "options": [
+      "number: 3.14159",
+      "number: 3.14",
+      "boolean: true",
+      "string of length 7"
+     ],
+     "answer": 1,
+     "explain": "The typeof number branch uses toFixed(2)."
+    },
+    {
+     "q": "What is narrowing?",
+     "options": [
+      "Removing types",
+      "The compiler tracking that a variable's type became more specific, from the control flow you wrote",
+      "A type cast",
+      "A runtime check"
+     ],
+     "answer": 1,
+     "explain": "No extra annotations are needed."
+    },
+    {
+     "q": "What does formatValue(undefined) return for string | string[] | undefined?",
+     "options": [
+      "undefined",
+      "(none)",
+      "An error",
+      "\"\""
+     ],
+     "answer": 1,
+     "explain": "After excluding undefined and string, the last option is string[] and uses join."
+    },
+    {
+     "q": "Why can a top-level function named describe fail with @types/jest installed?",
+     "options": [
+      "It collides with Jest's global describe as a duplicate identifier",
+      "describe is reserved",
+      "It's a keyword",
+      "Jest deletes it"
+     ],
+     "answer": 0,
+     "explain": "Watch for names that overlap with globals your type setup provides."
+    }
+   ]
+  },
+  "level-2/10-project-weather-dashboard": {
+   "questions": [
+    {
+     "q": "Why does the project use Open-Meteo?",
+     "options": [
+      "It is faster",
+      "It's free and needs no API key or signup",
+      "It's the only weather API",
+      "It's official"
+     ],
+     "answer": 1,
+     "explain": "It has a geocoding endpoint (city to coordinates) and a forecast endpoint."
+    },
+    {
+     "q": "How are the Jest tests kept free of network calls?",
+     "options": [
+      "They skip tests",
+      "They cover only the pure data-shaping logic, such as summary and weatherCodes",
+      "They mock the whole internet",
+      "They run offline mode"
+     ],
+     "answer": 1,
+     "explain": "summary.ts is a pure function combining location and forecast."
+    },
+    {
+     "q": "What happens to API responses before they're trusted?",
+     "options": [
+      "They're cached unvalidated",
+      "They're asserted with as",
+      "They're used as any",
+      "Both are validated at runtime"
+     ],
+     "answer": 3,
+     "explain": "The project applies the Level 2 JSON-validation lesson."
+    },
+    {
+     "q": "Which pieces does the capstone combine?",
+     "options": [
+      "Decorators and mapped types",
+      "Generics, utility types, typed async/await, JSON validation and Jest tests",
+      "Only async",
+      "Classes and enums only"
+     ],
+     "answer": 1,
+     "explain": "It also caches repeated city lookups."
+    }
+   ]
+  },
+  "level-3/01-advanced-generics": {
+   "questions": [
+    {
+     "q": "What is IsString<number> in `type IsString<T> = T extends string ? \"yes\" : \"no\"`?",
+     "options": [
+      "never",
+      "string",
+      "\"yes\"",
+      "\"no\""
+     ],
+     "answer": 3,
+     "explain": "It's resolved entirely by the compiler; nothing remains at runtime."
+    },
+    {
+     "q": "What does ElementType<number[]> give with `T extends (infer U)[] ? U : T`?",
+     "options": [
+      "number",
+      "number[]",
+      "unknown",
+      "never"
+     ],
+     "answer": 0,
+     "explain": "infer pulls U out of the array type; ElementType<string> falls through to string."
+    },
+    {
+     "q": "What does Unwrap<Promise<number>> give?",
+     "options": [
+      "void",
+      "unknown",
+      "number",
+      "Promise<number>"
+     ],
+     "answer": 2,
+     "explain": "It's the same pattern as the built-in Awaited<T>."
+    },
+    {
+     "q": "What trap does a conditional type with a naked type parameter have when given a union?",
+     "options": [
+      "It rejects unions",
+      "It picks the first member",
+      "It distributes over each member separately and unions the results",
+      "It becomes any"
+     ],
+     "answer": 2,
+     "explain": "ToArray<string | number> becomes string[] | number[]."
+    }
+   ]
+  },
+  "level-3/02-decorators": {
+   "questions": [
+    {
+     "q": "Which decorators does the module use?",
+     "options": [
+      "Annotations at runtime",
+      "Only legacy experimentalDecorators",
+      "Standard decorators (TC39 Stage 3, default since TypeScript 5.0), with no experimentalDecorators flag",
+      "Macros"
+     ],
+     "answer": 2,
+     "explain": "Older NestJS/Angular code may use the legacy flag."
+    },
+    {
+     "q": "What does a method decorator receive and return?",
+     "options": [
+      "Nothing",
+      "A string",
+      "The original method and a context object; it returns a replacement function",
+      "The class; a class"
+     ],
+     "answer": 2,
+     "explain": "The generic This, Args and Return keep the method's signature."
+    },
+    {
+     "q": "What does calc.add(2, 3) print with @logged?",
+     "options": [
+      "Only 5",
+      "Nothing",
+      "add returned 5 only",
+      "Calling add with [ 2, 3 ] then add returned 5"
+     ],
+     "answer": 3,
+     "explain": "The wrapper logs before and after calling the target."
+    },
+    {
+     "q": "What is a decorator factory?",
+     "options": [
+      "A class",
+      "A function that returns a decorator, which lets decorators take arguments, like retry(times)",
+      "A compiler flag",
+      "A decorator for decorators"
+     ],
+     "answer": 1,
+     "explain": "It's the pattern behind almost every configurable decorator."
+    }
+   ]
+  },
+  "level-3/03-building-apis-express-ts": {
+   "questions": [
+    {
+     "q": "What happens to req and res without @types/express?",
+     "options": [
+      "They fall back to any, so TypeScript can't help",
+      "They're still typed",
+      "They become unknown",
+      "Compile error"
+     ],
+     "answer": 0,
+     "explain": "The package gives requests, responses and middleware a real shape."
+    },
+    {
+     "q": "What does Request<{}, {}, CreateUserBody> type?",
+     "options": [
+      "req.body, since the third type parameter is the body",
+      "The response",
+      "The query",
+      "req.params"
+     ],
+     "answer": 0,
+     "explain": "Request<{ id: string }> types req.params; the middle parameter is the response body."
+    },
+    {
+     "q": "What status does POST /users return on success, and on a missing name or email?",
+     "options": [
+      "201; 404",
+      "201 on success; 400 when name or email is missing",
+      "204; 400",
+      "200; 500"
+     ],
+     "answer": 1,
+     "explain": "A missing user on GET /users/:id returns 404, and the error handler returns 500."
+    },
+    {
+     "q": "What identifies Express's error-handling middleware?",
+     "options": [
+      "It returns a Promise",
+      "A name ending in Error",
+      "It's registered first",
+      "It takes four parameters: err, req, res, next"
+     ],
+     "answer": 3,
+     "explain": "It's registered last with app.use(errorHandler)."
+    }
+   ]
+  },
+  "level-3/04-type-safe-database-access": {
+   "questions": [
+    {
+     "q": "Why is `users.where(\"active\", \"yes\")` a compile error?",
+     "options": [
+      "The key doesn't exist",
+      "where takes one argument",
+      "where<K extends keyof T>(key: K, value: T[K]) requires the value to match that property's type (boolean)",
+      "Strings are banned"
+     ],
+     "answer": 2,
+     "explain": "This is the trick Prisma and Drizzle use to type-check where() calls."
+    },
+    {
+     "q": "What does users.findById(99) return in the lesson?",
+     "options": [
+      "An empty object",
+      "An error",
+      "null",
+      "undefined"
+     ],
+     "answer": 3,
+     "explain": "Its return type is T | undefined."
+    },
+    {
+     "q": "What does insert(data: Omit<T, \"id\">) mean?",
+     "options": [
+      "The caller supplies everything except id, which the table assigns",
+      "The caller supplies id",
+      "id is optional in T",
+      "The caller supplies nothing"
+     ],
+     "answer": 0,
+     "explain": "A nextId counter assigns it."
+    },
+    {
+     "q": "Why build a Table<T> by hand?",
+     "options": [
+      "So the types in ORMs like Prisma, Drizzle and Knex stop feeling like magic",
+      "It replaces them in production",
+      "It needs no types",
+      "It's faster than SQL"
+     ],
+     "answer": 0,
+     "explain": "It's an in-memory mirror of what those libraries generate."
+    }
+   ]
+  },
+  "level-3/05-design-patterns": {
+   "questions": [
+    {
+     "q": "What makes ConfigStore a singleton at the type level?",
+     "options": [
+      "A static method alone",
+      "A private constructor, so getInstance() is the only way in",
+      "A readonly field",
+      "An abstract class"
+     ],
+     "answer": 1,
+     "explain": "new ConfigStore() from outside is a compile error."
+    },
+    {
+     "q": "What does ConfigStore.getInstance() === ConfigStore.getInstance() print?",
+     "options": [
+      "undefined",
+      "An error",
+      "true",
+      "false"
+     ],
+     "answer": 2,
+     "explain": "Both calls return the same stored instance."
+    },
+    {
+     "q": "Which five patterns does the module cover?",
+     "options": [
+      "MVC, MVVM, MVP, Flux, Redux",
+      "Proxy, Adapter, Bridge, Facade, Mediator",
+      "Command, State, Visitor, Iterator, Memento",
+      "Singleton, Factory, Strategy, Observer, Builder"
+     ],
+     "answer": 3,
+     "explain": "They're the ones met in real codebases."
+    },
+    {
+     "q": "Why does the ceremony of the Gang of Four book often shrink in TypeScript?",
+     "options": [
+      "Types are erased",
+      "Interfaces are structural and functions are first-class",
+      "Patterns are built in",
+      "TypeScript has no classes"
+     ],
+     "answer": 1,
+     "explain": "Patterns read differently than in Java or C++."
+    }
+   ]
+  },
+  "level-3/06-testing-advanced": {
+   "questions": [
+    {
+     "q": "Why does SignupNotifier depend on an EmailClient interface rather than a concrete class?",
+     "options": [
+      "Classes can't be injected",
+      "Interfaces are faster",
+      "It's required by Vitest",
+      "Any object shaped like EmailClient satisfies it, so tests need no real mail server"
+     ],
+     "answer": 3,
+     "explain": "That's what makes it testable."
+    },
+    {
+     "q": "What does `vi.fn().mockResolvedValue(false)` make the fake send return?",
+     "options": [
+      "true",
+      "undefined",
+      "A rejected promise",
+      "A promise resolving to false, so welcome() throws \"failed to email …\""
+     ],
+     "answer": 3,
+     "explain": "The test asserts with await expect(...).rejects.toThrow(...)."
+    },
+    {
+     "q": "What does vi.spyOn(realClient, \"send\") do?",
+     "options": [
+      "Deletes send",
+      "Makes it sync",
+      "Records calls while keeping the real behaviour",
+      "Replaces send with nothing"
+     ],
+     "answer": 2,
+     "explain": "The test then expects the spy toHaveBeenCalledOnce()."
+    },
+    {
+     "q": "Why does the lesson use Vitest?",
+     "options": [
+      "Jest is deprecated",
+      "It's required for mocks",
+      "It has first-class TypeScript support and a Jest-compatible API, so it reads onto Jest too",
+      "It runs in browsers only"
+     ],
+     "answer": 2,
+     "explain": "Install with npm install -D vitest."
+    }
+   ]
+  },
+  "level-3/07-build-tooling": {
+   "questions": [
+    {
+     "q": "What does esbuild not do?",
+     "options": [
+      "Minify",
+      "Bundle",
+      "Type-check; it will bundle code with type errors",
+      "Transpile"
+     ],
+     "answer": 2,
+     "explain": "It strips types and transpiles without verifying them."
+    },
+    {
+     "q": "What does tsc not do?",
+     "options": [
+      "Read tsconfig",
+      "Bundle: each input file becomes its own output file",
+      "Type-check",
+      "Emit JavaScript"
+     ],
+     "answer": 1,
+     "explain": "That's fine for Node but not for shipping a single script to a browser."
+    },
+    {
+     "q": "What does the standard combination use each tool for?",
+     "options": [
+      "tsc for bundling; esbuild for types",
+      "tsc --noEmit as a type-check gate; esbuild for fast bundling",
+      "Only esbuild",
+      "Only tsc"
+     ],
+     "answer": 1,
+     "explain": "The build:safe script runs typecheck then build."
+    },
+    {
+     "q": "Why is esbuild so much faster than tsc in the lesson (8ms vs about 240ms)?",
+     "options": [
+      "It only handles small files",
+      "It ignores syntax",
+      "It's written in Go and skips type-checking",
+      "It uses a cache"
+     ],
+     "answer": 2,
+     "explain": "The gap grows on big projects."
+    }
+   ]
+  },
+  "level-3/08-third-party-types": {
+   "questions": [
+    {
+     "q": "What happens when you import a JS module that has no types?",
+     "options": [
+      "Types are inferred perfectly",
+      "TypeScript refuses",
+      "It becomes unknown",
+      "Every export gets type any, until you add a .d.ts"
+     ],
+     "answer": 3,
+     "explain": "legacy/index.d.ts matches legacy/index.js by file name."
+    },
+    {
+     "q": "What are @types/* packages?",
+     "options": [
+      "Community-maintained types from DefinitelyTyped, picked up automatically from node_modules/@types",
+      "Runtime libraries",
+      "Compilers",
+      "Linters"
+     ],
+     "answer": 0,
+     "explain": "For example @types/lodash alongside lodash."
+    },
+    {
+     "q": "Why is `declare global { … }` needed to add shout() to String inside a file with an import or export?",
+     "options": [
+      "It isn't needed",
+      "The file is a module, so a plain interface String would only shadow locally",
+      "Global is faster",
+      "String is read-only"
+     ],
+     "answer": 1,
+     "explain": "declare global is the escape hatch back to global scope."
+    },
+    {
+     "q": "What is declaration merging?",
+     "options": [
+      "Two same-named interfaces combine into one interface",
+      "Merging two classes",
+      "Merging types and values only",
+      "Merging two files"
+     ],
+     "answer": 0,
+     "explain": "It's the mechanism behind module augmentation."
+    }
+   ]
+  },
+  "level-3/09-performance-compilation": {
+   "questions": [
+    {
+     "q": "Why does tsc report 83 files and 58,456 lines for one small .ts file?",
+     "options": [
+      "It compiles node_modules",
+      "The file is large",
+      "lib.d.ts and other built-in definitions are pulled in and type-checked by default",
+      "It's a bug"
+     ],
+     "answer": 2,
+     "explain": "Check time, not your own line count, dominates."
+    },
+    {
+     "q": "What did skipLibCheck do to Check time in the lesson's measurement?",
+     "options": [
+      "Dropped it from 0.132s to 0.001s",
+      "Removed type checking of your code",
+      "Doubled it",
+      "No change"
+     ],
+     "answer": 0,
+     "explain": "Types fell from 35,374 to 395, and your own code is still fully checked."
+    },
+    {
+     "q": "What does incremental: true do?",
+     "options": [
+      "Disables strict",
+      "Deletes old output",
+      "Bundles files",
+      "Writes a .tsbuildinfo file so later runs re-check only changed files and their dependents"
+     ],
+     "answer": 3,
+     "explain": "Configured with tsBuildInfoFile."
+    },
+    {
+     "q": "Which flag measures where compile time goes?",
+     "options": [
+      "--strict",
+      "--extendedDiagnostics",
+      "--noEmit",
+      "--watch"
+     ],
+     "answer": 1,
+     "explain": "It prints files, lines, types, instantiations, memory and check time."
+    }
+   ]
+  },
+  "level-3/10-project-rest-api-express": {
+   "questions": [
+    {
+     "q": "How do NotFoundError and ValidationError help the API?",
+     "options": [
+      "They log to disk",
+      "They replace HTTP",
+      "They are decoration only",
+      "Custom Error subclasses are thrown by the store and mapped to status codes by a central error handler"
+     ],
+     "answer": 3,
+     "explain": "find() throws NotFoundError if a task is missing."
+    },
+    {
+     "q": "What does TaskStore.update(id, patch) do with an UpdateTaskBody?",
+     "options": [
+      "Creates a new task",
+      "Replaces the whole task",
+      "Changes only the fields provided (title and/or done)",
+      "Deletes the task"
+     ],
+     "answer": 2,
+     "explain": "Each field is checked against undefined."
+    },
+    {
+     "q": "How does the build and run flow work?",
+     "options": [
+      "ts-node only",
+      "It runs in the browser",
+      "tsc compiles src to dist; node dist/index.js starts the server",
+      "esbuild only"
+     ],
+     "answer": 2,
+     "explain": "dev uses tsc --watch."
+    },
+    {
+     "q": "What does list() return, and why?",
+     "options": [
+      "The same array",
+      "A Set",
+      "A Promise",
+      "A copy ([...this.tasks]) so callers can't mutate the store's array"
+     ],
+     "answer": 3,
+     "explain": "It protects the private state."
+    }
+   ]
+  },
+  "level-4/01-advanced-type-level-programming": {
+   "questions": [
+    {
+     "q": "What is EventName<\"click\"> for `on${Capitalize<T>}`?",
+     "options": [
+      "string",
+      "\"onClick\"",
+      "\"Click\"",
+      "\"onclick\""
+     ],
+     "answer": 1,
+     "explain": "Capitalize is one of four intrinsic string types, alongside Uppercase, Lowercase and Uncapitalize."
+    },
+    {
+     "q": "What does Split<\"a.b.c\", \".\"> give?",
+     "options": [
+      "\"a.b.c\"",
+      "string[]",
+      "[\"a.b.c\"]",
+      "[\"a\", \"b\", \"c\"]"
+     ],
+     "answer": 3,
+     "explain": "It recurses on Rest until the pattern no longer matches, then the base case [S] wraps what's left."
+    },
+    {
+     "q": "What does `infer` capture inside a template literal pattern?",
+     "options": [
+      "A class",
+      "A runtime value",
+      "A piece of the matched string as its own type variable",
+      "A module"
+     ],
+     "answer": 2,
+     "explain": "It's head-recursion at the type level."
+    },
+    {
+     "q": "What does the dot-path type enable?",
+     "options": [
+      "Runtime parsing",
+      "Faster builds",
+      "JSON schema generation",
+      "Autocompleting and type-checking keys like \"server.port\" against a real object shape"
+     ],
+     "answer": 3,
+     "explain": "It's built from template literal types, recursive conditional types and tuples."
+    }
+   ]
+  },
+  "level-4/02-framework-integration-patterns": {
+   "questions": [
+    {
+     "q": "What shape do Express, Koa and Fastify share?",
+     "options": [
+      "Event emitters only",
+      "A chain of middleware functions passed a context and a next callback",
+      "A single handler",
+      "A class hierarchy"
+     ],
+     "answer": 1,
+     "explain": "The module builds that pattern from scratch."
+    },
+    {
+     "q": "Why is App<State> generic?",
+     "options": [
+      "To speed it up",
+      "To allow any",
+      "Each project picks its own State, and every middleware's ctx.state is then typed with no casts",
+      "To use classes"
+     ],
+     "answer": 2,
+     "explain": "This is how ctx.state (Koa) or req.user (Express via augmentation) can be typed per project."
+    },
+    {
+     "q": "What do ctx.state.logs and ctx.state.userId hold after app.handle(ctx) runs on \"/dashboard\"?",
+     "options": [
+      "['handled for undefined'] and user-42",
+      "['request to /dashboard'] and undefined",
+      "[] and undefined",
+      "['request to /dashboard', 'handled for user-42'] and user-42"
+     ],
+     "answer": 3,
+     "explain": "The three middlewares run in order, each calling next()."
+    },
+    {
+     "q": "What does the run function's check `if (i <= index)` guard against?",
+     "options": [
+      "next() being called multiple times",
+      "An empty chain",
+      "Typos",
+      "Async errors"
+     ],
+     "answer": 0,
+     "explain": "It throws \"next() called multiple times\"."
+    }
+   ]
+  },
+  "level-4/03-monorepo-large-scale-structure": {
+   "questions": [
+    {
+     "q": "What does composite: true require and enable?",
+     "options": [
+      "Disables strict",
+      "It's required on every package a reference points at, forcing declaration: true and stricter incremental bookkeeping",
+      "Bundles code",
+      "Minifies"
+     ],
+     "answer": 1,
+     "explain": "It lets other packages depend on this one's compiled .d.ts output."
+    },
+    {
+     "q": "What does paths in tsconfig do?",
+     "options": [
+      "Bundles",
+      "Tells the type checker where to resolve @acme/core; it doesn't affect what Node does at runtime",
+      "Tells Node where to find modules",
+      "Links packages"
+     ],
+     "answer": 1,
+     "explain": "Runtime resolution is handled by the package manager's workspace linking."
+    },
+    {
+     "q": "What do references do?",
+     "options": [
+      "Describe the dependency graph for tsc --build: build core before api and rebuild api if core changes",
+      "Replace paths",
+      "Add types",
+      "Import modules at runtime"
+     ],
+     "answer": 0,
+     "explain": "They solve type-checking; workspace linking solves resolution."
+    },
+    {
+     "q": "What makes the root tsconfig a pure solution file?",
+     "options": [
+      "paths",
+      "files: [] plus references, so tsc --build builds every package in dependency order",
+      "include: all",
+      "A composite flag"
+     ],
+     "answer": 1,
+     "explain": "It has no code of its own."
+    }
+   ]
+  },
+  "level-4/04-testing-at-scale-ci": {
+   "questions": [
+    {
+     "q": "Which test covers the `if (!ok) throw` branch of notifier.ts?",
+     "options": [
+      "The success test",
+      "The spy test",
+      "The failure-path test (rejects.toThrow); without it Branches would read 50% (1/2)",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Every statement, branch, function and line was covered at 100%."
+    },
+    {
+     "q": "What does vitest run --coverage use in the lesson?",
+     "options": [
+      "Jest",
+      "Istanbul only",
+      "@vitest/coverage-v8",
+      "c8 CLI"
+     ],
+     "answer": 2,
+     "explain": "It's configured with provider: \"v8\" and reporters like text and lcov."
+    },
+    {
+     "q": "Why enforce a coverage floor in config?",
+     "options": [
+      "To skip tests",
+      "To hide files",
+      "So the run fails if coverage drops below the thresholds",
+      "To raise coverage automatically"
+     ],
+     "answer": 2,
+     "explain": "It's wired into the CI workflow."
+    },
+    {
+     "q": "What does the CI workflow do in this module?",
+     "options": [
+      "Runs the tests with coverage on every push on GitHub Actions, across multiple Node versions",
+      "Publishes to npm",
+      "Deploys",
+      "Lints only"
+     ],
+     "answer": 0,
+     "explain": "Hundreds of tests in CI are a different problem from a few local tests."
+    }
+   ]
+  },
+  "level-4/05-security-considerations": {
+   "questions": [
+    {
+     "q": "What does a branded type like SafeHtml do?",
+     "options": [
+      "Adds runtime cost",
+      "Makes a plain string not assignable, so unescaped input passed to renderToPage is a compile error",
+      "Escapes automatically at runtime",
+      "Encrypts the string"
+     ],
+     "answer": 1,
+     "explain": "The brand exists purely in the type system and costs nothing at runtime."
+    },
+    {
+     "q": "How can a SafeHtml value be produced?",
+     "options": [
+      "By any string",
+      "By typeof",
+      "Only by calling escapeHtml (which asserts the brand)",
+      "By parsing"
+     ],
+     "answer": 2,
+     "explain": "As long as escapeHtml is correct, every call site is forced through it."
+    },
+    {
+     "q": "What does renderToPage(escapeHtml(\"<script>alert('xss')</script>\")) output?",
+     "options": [
+      "An error",
+      "<div>&lt;script&gt;alert('xss')&lt;/script&gt;</div>",
+      "<div><script>alert('xss')</script></div>",
+      "An empty div"
+     ],
+     "answer": 1,
+     "explain": "The angle brackets are escaped."
+    },
+    {
+     "q": "What else does the branded-type pattern generalise to?",
+     "options": [
+      "Only numbers",
+      "Classes only",
+      "ValidatedEmail, HashedPassword, TrustedUrl and PositiveInt",
+      "Only HTML"
+     ],
+     "answer": 2,
+     "explain": "Anywhere raw and checked values of the same primitive could be mixed up."
+    }
+   ]
+  },
+  "level-4/06-deployment-docker": {
+   "questions": [
+    {
+     "q": "What is wrong with the naive Dockerfile (COPY . . then npm install)?",
+     "options": [
+      "It won't build",
+      "It needs root",
+      "The image ships dev dependencies, the compiler and full source, adding size and attack surface",
+      "It lacks CMD"
+     ],
+     "answer": 2,
+     "explain": "These provide zero runtime value."
+    },
+    {
+     "q": "What does the multi-stage build's production stage contain?",
+     "options": [
+      "Only production dependencies (npm ci --omit=dev) and the compiled dist copied with COPY --from=build",
+      "TypeScript",
+      "The full source",
+      "Everything from build"
+     ],
+     "answer": 0,
+     "explain": "No compiler, no .ts source, no dev tooling."
+    },
+    {
+     "q": "Why have a .dockerignore even though the Dockerfile copies specific paths?",
+     "options": [
+      "It sets env vars",
+      "Docker still uploads the whole directory to the daemon first, including stale node_modules or dist",
+      "It's required syntax",
+      "It speeds up runtime"
+     ],
+     "answer": 1,
+     "explain": "It also keeps .env and .git out of the context."
+    },
+    {
+     "q": "What do ENV NODE_ENV=production and USER node accomplish?",
+     "options": [
+      "Install dev deps",
+      "Cache layers",
+      "Open ports",
+      "Production mode and running as a non-root user"
+     ],
+     "answer": 3,
+     "explain": "EXPOSE 4500 documents the port."
+    }
+   ]
+  },
+  "level-4/07-performance-optimization": {
+   "questions": [
+    {
+     "q": "Why does memoize<Args extends unknown[], Result> keep the wrapped function's exact signature?",
+     "options": [
+      "It's inferred at runtime",
+      "It uses any",
+      "It's generic over both the parameter tuple and the return type",
+      "It copies the function"
+     ],
+     "answer": 2,
+     "explain": "fastSquare is still (n: number) => number."
+    },
+    {
+     "q": "What is the default cache key in the lesson's memoize?",
+     "options": [
+      "The first argument",
+      "A counter",
+      "A hash of the function",
+      "JSON.stringify(args)"
+     ],
+     "answer": 3,
+     "explain": "The keyFn parameter can override it."
+    },
+    {
+     "q": "What does take(lazyRange(0, 1_000_000), 5) print, and why is it cheap?",
+     "options": [
+      "An empty array",
+      "[ 0, 1, 2, 3, 4 ]; the generator produces values on demand without a million-element array",
+      "[ 1, 2, 3, 4, 5 ]; it allocates the full array",
+      "[ 0, 1, 2, 3, 4 ]; it allocates the full array"
+     ],
+     "answer": 1,
+     "explain": "take stops pulling after 5 values."
+    },
+    {
+     "q": "What is the key point of typing performance helpers well?",
+     "options": [
+      "Types add memoization",
+      "Types make code faster",
+      "Types are required to run",
+      "TypeScript compiles away, so the speed-ups are JavaScript techniques, but good generic types keep the wrapped signature"
+     ],
+     "answer": 3,
+     "explain": "Otherwise the helper becomes a liability."
+    }
+   ]
+  },
+  "level-4/08-writing-robust-public-apis": {
+   "questions": [
+    {
+     "q": "What is the Result<T, E> pattern?",
+     "options": [
+      "Errors as values: a union of { ok: true; value } and { ok: false; error }, which the caller must check before accessing .value or .error",
+      "A logging pattern",
+      "Exceptions with types",
+      "A Promise wrapper"
+     ],
+     "answer": 0,
+     "explain": "Unlike a thrown exception, a caller can't forget to check."
+    },
+    {
+     "q": "What does handle(\"-5\") print with parseCount?",
+     "options": [
+      "failed: \"-5\" is not a number",
+      "failed: empty input",
+      "parsed: -5",
+      "failed: count cannot be negative"
+     ],
+     "answer": 3,
+     "explain": "handle(\"42\") prints parsed: 42; handle(\"abc\") prints failed: \"abc\" is not a number."
+    },
+    {
+     "q": "What advantage does the signature Result<number, ParseError> give?",
+     "options": [
+      "It avoids types",
+      "It documents every way the function can fail without reading the implementation",
+      "It throws less",
+      "It's faster"
+     ],
+     "answer": 1,
+     "explain": "Callers needn't hunt for thrown exceptions."
+    },
+    {
+     "q": "When are overloaded signatures appropriate?",
+     "options": [
+      "For default values only",
+      "To avoid generics",
+      "For every function",
+      "For genuinely different call shapes, like createLogger(name) and createLogger(name, level), with one implementation"
+     ],
+     "answer": 3,
+     "explain": "The implementation signature isn't visible to callers."
+    }
+   ]
+  },
+  "level-4/09-strict-mode-best-practices": {
+   "questions": [
+    {
+     "q": "How many flags does strict: true bundle?",
+     "options": [
+      "Two",
+      "Eight, including noImplicitAny and strictNullChecks",
+      "Fifteen",
+      "One"
+     ],
+     "answer": 1,
+     "explain": "Others, like noUncheckedIndexedAccess, must be opted into."
+    },
+    {
+     "q": "What does strictNullChecks do to `user.name` when user may be undefined?",
+     "options": [
+      "Defaults to empty",
+      "Makes direct access without a guard a compile error",
+      "Adds the guard",
+      "Allows it"
+     ],
+     "answer": 1,
+     "explain": "Without it, undefined is silently assignable to everything."
+    },
+    {
+     "q": "What does strictPropertyInitialization catch?",
+     "options": [
+      "Missing returns",
+      "Unused variables",
+      "Wrong types",
+      "Class fields never assigned in the constructor"
+     ],
+     "answer": 3,
+     "explain": "The error is \"Property 'name' has no initializer…\"."
+    },
+    {
+     "q": "Why does scores[\"grace\"].toFixed(0) crash even under full --strict?",
+     "options": [
+      "toFixed is invalid",
+      "scores is readonly",
+      "Record<string, number> claims every key is a number; noUncheckedIndexedAccess isn't part of strict",
+      "strict is off"
+     ],
+     "answer": 2,
+     "explain": "At runtime the value is undefined, giving a TypeError."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "Which threads does the Bookmark API capstone combine?",
+     "options": [
+      "Typed Express, a generic in-memory store, Result-based validation, noUncheckedIndexedAccess with strict, and a Vitest suite",
+      "Decorators only",
+      "Docker only",
+      "A database ORM"
+     ],
+     "answer": 0,
+     "explain": "It's built, tested and run for real."
+    },
+    {
+     "q": "Why does the capstone's tsconfig add noUncheckedIndexedAccess?",
+     "options": [
+      "To close the gap strict leaves, so indexed lookups are T | undefined",
+      "To speed up builds",
+      "To bundle",
+      "To enable JSX"
+     ],
+     "answer": 0,
+     "explain": "It's on top of strict: true."
+    },
+    {
+     "q": "Which scripts does the package.json define for the checks?",
+     "options": [
+      "lint only",
+      "none",
+      "jest only",
+      "typecheck (tsc --noEmit) and test (vitest run)"
+     ],
+     "answer": 3,
+     "explain": "build runs tsc and start runs node dist/index.js."
+    },
+    {
+     "q": "How does the API handle bad input?",
+     "options": [
+      "process.exit",
+      "Silent ignore",
+      "Result-based validation instead of throwing",
+      "Exceptions everywhere"
+     ],
+     "answer": 2,
+     "explain": "It applies the Level 4 Result pattern."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```typescript\ntype Shape = { kind: \"circle\"; r: number } | { kind: \"square\"; s: number };\nfunction area(x: Shape): number {\n  return x.kind === \"circle\" ? Math.PI * x.r ** 2 : x.s ** 2;\n}\nconsole.log(area({ kind: \"circle\", r: 2 }).toFixed(2), area({ kind: \"square\", s: 3 }));\n```\n",
+    "options": [
+     "25.13 9",
+     "12 9",
+     "12.57 6",
+     "12.57 9"
+    ],
+    "answer": 3,
+    "explain": "π·2² = 12.566… → 12.57, and 3² = 9. The kind field is the discriminant that narrows each branch."
+   },
+   {
+    "q": "What does this print?\n```typescript\nfunction pair<A, B>(a: A, b: B): [A, B] { return [a, b]; }\nconsole.log(pair(\"age\", 30));\n```\n",
+    "options": [
+     "[ 'age' ]",
+     "[ 30, 'age' ]",
+     "[ 'age', 30 ]",
+     "{ a: 'age', b: 30 }"
+    ],
+    "answer": 2,
+    "explain": "Two type parameters keep each position's type: the result is the tuple [string, number]."
+   },
+   {
+    "q": "What does this print?\n```typescript\nfunction sum(...n: number[]): number { return n.reduce((t, x) => t + x, 0); }\nconsole.log(sum(1, 2, 3), sum());\n```\n",
+    "options": [
+     "6 undefined",
+     "An error: sum needs arguments",
+     "6 0",
+     "6 NaN"
+    ],
+    "answer": 2,
+    "explain": "The rest parameter collects arguments into an array; the empty call reduces with the initial value 0."
+   },
+   {
+    "q": "What does this print?\n```typescript\nfunction power(b: number, e: number = 2): number { return b ** e; }\nconsole.log(power(5), power(5, 3));\n```\n",
+    "options": [
+     "10 15",
+     "25 15",
+     "25 125",
+     "5 125"
+    ],
+    "answer": 2,
+    "explain": "The default exponent of 2 applies when it's omitted."
+   },
+   {
+    "q": "Given a function that returns Result<number, string> (ok → value, failure → error), this loop prints:\n```typescript\nfunction parse(s: string): Result<number, string> {\n  const n = Number(s.trim());\n  if (s.trim() === \"\") return { ok: false, error: \"empty\" };\n  if (Number.isNaN(n)) return { ok: false, error: \"nan\" };\n  return { ok: true, value: n };\n}\nfor (const s of [\"42\", \"\", \"x\", \" 7 \"]) {\n  const r = parse(s);\n  console.log(r.ok ? r.value : r.error);\n}\n```\n",
+    "options": [
+     "An error at r.value",
+     "42, 0, nan, 7",
+     "42, empty, nan, 7 (one per line)",
+     "42, empty, nan, 7 as strings with quotes"
+    ],
+    "answer": 2,
+    "explain": "Inside the conditional, r.ok narrows r so r.value is a number or r.error a string. The trimmed \" 7 \" becomes 7."
+   },
+   {
+    "q": "How many times does the wrapped function actually run?\n```typescript\nfunction memoize<A extends unknown[], R>(f: (...a: A) => R) {\n  const c = new Map<string, R>(); let calls = 0;\n  return {\n    run: (...a: A): R => {\n      const k = JSON.stringify(a);\n      if (c.has(k)) return c.get(k) as R;\n      calls++; const v = f(...a); c.set(k, v); return v;\n    },\n    calls: () => calls,\n  };\n}\nconst m = memoize((n: number) => n * n);\nm.run(4); m.run(4); m.run(5);\nconsole.log(m.calls());\n```\n",
+    "options": [
+     "3",
+     "0",
+     "1",
+     "2"
+    ],
+    "answer": 3,
+    "explain": "run(4) computes once and the second call hits the cache; run(5) is a new key. Two computations."
+   },
+   {
+    "q": "What does this print?\n```typescript\nfunction* range(a: number, b: number) { for (let i = a; i < b; i++) yield i; }\nfunction take<T>(it: Iterable<T>, n: number): T[] {\n  const r: T[] = [];\n  for (const x of it) { if (r.length >= n) break; r.push(x); }\n  return r;\n}\nconsole.log(take(range(10, 1_000_000), 3));\n```\n",
+    "options": [
+     "An error",
+     "[ 10, 11, 12 ] without building a million-element array",
+     "[ 0, 1, 2 ]",
+     "[ 10, 11, 12 ] after allocating a million numbers"
+    ],
+    "answer": 1,
+    "explain": "The generator produces values on demand and take stops after three."
+   },
+   {
+    "q": "This compiles under strict. What does it print at runtime?\n```typescript\nconst scores: Record<string, number> = { ada: 100 };\nconsole.log(scores[\"grace\"]);\n```\n",
+    "options": [
+     "A compile error",
+     "undefined",
+     "null",
+     "0"
+    ],
+    "answer": 1,
+    "explain": "The index signature claims every string key is a number, but the key is missing. noUncheckedIndexedAccess (not part of strict) would type it number | undefined."
+   },
+   {
+    "q": "What is logged?\n```typescript\nconst chain: Middleware[] = [\n  (c, n) => { c.log.push(\"a\"); n(); c.log.push(\"a2\"); },\n  (c, n) => { c.log.push(\"b\"); n(); },\n];\nconst ctx = { log: [] as string[] };\nconst run = (i: number): void => { const mw = chain[i]; if (mw) mw(ctx, () => run(i + 1)); };\nrun(0);\nconsole.log(ctx.log.join(\",\"));\n```\n",
+    "options": [
+     "b,a,a2",
+     "a,b,a2",
+     "a,b",
+     "a,a2,b"
+    ],
+    "answer": 1,
+    "explain": "The first middleware runs until next(), the second runs fully, then control returns to push \"a2\"."
+   },
+   {
+    "q": "What does this print?\n```typescript\nclass A { static count = 0; constructor() { A.count++; } }\nnew A(); new A();\nconsole.log(A.count);\n```\n",
+    "options": [
+     "1",
+     "2",
+     "0",
+     "undefined"
+    ],
+    "answer": 1,
+    "explain": "static members belong to the class, so all instances share one counter."
+   },
+   {
+    "q": "What does this print?\n```typescript\nfunction fmt(v: string | number | undefined): string {\n  if (v === undefined) return \"none\";\n  if (typeof v === \"string\") return v.toUpperCase();\n  return v.toFixed(1);\n}\nconsole.log(fmt(undefined), fmt(\"ab\"), fmt(2));\n```\n",
+    "options": [
+     "none AB 2.0",
+     "none AB 2",
+     "undefined AB 2",
+     "none ab 2.0"
+    ],
+    "answer": 0,
+    "explain": "Each if narrows the union; the last branch is a number, so toFixed(1) gives \"2.0\"."
+   },
+   {
+    "q": "What does `tsc` do to your types when it emits JavaScript?",
+    "options": [
+     "Turns them into classes",
+     "Keeps them as runtime checks",
+     "Converts them to comments",
+     "Checks them, then erases them: nothing remains at runtime"
+    ],
+    "answer": 3,
+    "explain": "Types exist only at compile time, so as Todo performs no runtime validation."
+   },
+   {
+    "q": "Why is `JSON.parse(text) as Task[]` not real validation?",
+    "options": [
+     "It is checked by strict",
+     "It throws on wrong shapes",
+     "A type assertion is compile-time only; a malformed file would still pass",
+     "It converts the objects"
+    ],
+    "answer": 2,
+    "explain": "Validate at runtime with a type guard or schema before trusting external data."
+   },
+   {
+    "q": "Which tsconfig setting is described as the most important, and what does it bundle?",
+    "options": [
+     "strict: true, which bundles eight flags such as noImplicitAny and strictNullChecks",
+     "target, which picks the JS version",
+     "skipLibCheck, which hides errors",
+     "outDir, which collects output"
+    ],
+    "answer": 0,
+    "explain": "noUncheckedIndexedAccess is not part of strict and must be added separately."
+   },
+   {
+    "q": "What does `T extends keyof U` or `K extends keyof T` give in `where<K extends keyof T>(key: K, value: T[K])`?",
+    "options": [
+     "Only string keys work",
+     "The key must exist on T and the value must match that property's type",
+     "The value can be any type",
+     "Any key is allowed"
+    ],
+    "answer": 1,
+    "explain": "That's why users.where(\"active\", \"yes\") is a compile error when active is boolean."
+   },
+   {
+    "q": "Which is the correct way to test that a function throws in Jest or Vitest?",
+    "options": [
+     "expect(divide).toBe(Error)",
+     "try the call outside expect",
+     "expect(() => divide(1, 0)).toThrow(...), wrapping the call in a function",
+     "expect(divide(1, 0)).toThrow(...)"
+    ],
+    "answer": 2,
+    "explain": "Otherwise the exception is thrown while evaluating the argument, before expect runs."
+   },
+   {
+    "q": "Why do tsc --noEmit and esbuild often appear together in build scripts?",
+    "options": [
+     "tsc is only for tests",
+     "esbuild type-checks and tsc bundles",
+     "tsc checks types but doesn't bundle; esbuild bundles fast but doesn't type-check",
+     "They do the same job"
+    ],
+    "answer": 2,
+    "explain": "A typical flow is typecheck first, then build."
+   },
+   {
+    "q": "In a multi-stage Dockerfile for a TypeScript service, what does the production stage contain?",
+    "options": [
+     "The whole repository",
+     "Only src",
+     "Production dependencies and the compiled dist, with no compiler or source",
+     "TypeScript and @types"
+    ],
+    "answer": 2,
+    "explain": "npm ci --omit=dev plus COPY --from=build /app/dist keeps the image small and reduces attack surface."
+   },
+   {
+    "q": "What does a branded type like SafeHtml = string & { readonly __brand: \"SafeHtml\" } achieve?",
+    "options": [
+     "Forces raw strings to pass through the sanitiser, at no runtime cost",
+     "Escapes HTML automatically",
+     "Checks the string at runtime",
+     "Encrypts the string"
+    ],
+    "answer": 0,
+    "explain": "The brand exists only in the type system."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Safe division with Result",
+    "prompt": "Implement safeDivide(a, b) returning a Result: { ok: true, value } normally, and { ok: false, error: \"divide by zero\" } when b is 0. Then print both results for (10, 4) and (1, 0) with JSON.stringify.",
+    "starter": "type Result<T, E> =\n  | { ok: true; value: T }\n  | { ok: false; error: E };\n\nfunction safeDivide(a: number, b: number): Result<number, string> {\n  // your code\n}\n\nconsole.log(JSON.stringify(safeDivide(10, 4)), JSON.stringify(safeDivide(1, 0)));\n",
+    "expected": "{\"ok\":true,\"value\":2.5} {\"ok\":false,\"error\":\"divide by zero\"}",
+    "solution": "type Result<T, E> =\n  | { ok: true; value: T }\n  | { ok: false; error: E };\n\nfunction safeDivide(a: number, b: number): Result<number, string> {\n  if (b === 0) return { ok: false, error: \"divide by zero\" };\n  return { ok: true, value: a / b };\n}\n\nconsole.log(JSON.stringify(safeDivide(10, 4)), JSON.stringify(safeDivide(1, 0)));\n",
+    "explain": "The return type documents both outcomes and callers must narrow with result.ok before using .value. Verified by running the solution (Node's type stripping): output matches."
+   },
+   {
+    "title": "Generic groupBy",
+    "prompt": "Write groupBy<T, K extends string>(items, key) that returns a Record<K, T[]> grouping items by the key function. Group [\"apple\", \"avocado\", \"banana\", \"blueberry\", \"cherry\"] by first letter.",
+    "starter": "function groupBy<T, K extends string>(items: T[], key: (t: T) => K): Record<K, T[]> {\n  // your code\n}\n\nconsole.log(JSON.stringify(groupBy([\"apple\", \"avocado\", \"banana\", \"blueberry\", \"cherry\"], (s) => s[0] as string)));\n",
+    "expected": "{\"a\":[\"apple\",\"avocado\"],\"b\":[\"banana\",\"blueberry\"],\"c\":[\"cherry\"]}",
+    "solution": "function groupBy<T, K extends string>(items: T[], key: (t: T) => K): Record<K, T[]> {\n  const out = {} as Record<K, T[]>;\n  for (const item of items) {\n    const k = key(item);\n    (out[k] ??= []).push(item);\n  }\n  return out;\n}\n\nconsole.log(JSON.stringify(groupBy([\"apple\", \"avocado\", \"banana\", \"blueberry\", \"cherry\"], (s) => s[0] as string)));\n",
+    "explain": "The ??= operator creates each group on first use. Two generic parameters keep both the item type and the key type. Verified by running the solution: output matches."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
