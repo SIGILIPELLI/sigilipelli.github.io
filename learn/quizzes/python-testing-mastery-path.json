@@ -1,0 +1,2170 @@
+{
+ "course": "python-testing-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-software-testing": {
+   "questions": [
+    {
+     "q": "What is the main goal of software testing?",
+     "options": [
+      "Write code",
+      "Find defects and give information about quality and risk",
+      "Prove no bugs",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Testing can't prove absence of bugs."
+    },
+    {
+     "q": "Which principle says exhaustive testing is impossible?",
+     "options": [
+      "Test everything",
+      "Test once",
+      "Test randomly",
+      "Test with risk-based selection because inputs and paths are practically infinite"
+     ],
+     "answer": 3,
+     "explain": "Prioritize."
+    },
+    {
+     "q": "What is the difference between verification and validation?",
+     "options": [
+      "Verification checks we built it right; validation checks we built the right thing",
+      "Same",
+      "Reverse",
+      "Code vs UI"
+     ],
+     "answer": 0,
+     "explain": "Spec vs need."
+    },
+    {
+     "q": "Why test early?",
+     "options": [
+      "Cost of tools",
+      "Defects are cheaper to find and fix the earlier they're caught",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Shift left."
+    }
+   ]
+  },
+  "level-1/02-test-case-design": {
+   "questions": [
+    {
+     "q": "What does equivalence partitioning do?",
+     "options": [
+      "Random",
+      "Tests all",
+      "Groups inputs that should behave the same and tests one per group",
+      "Adds"
+     ],
+     "answer": 2,
+     "explain": "Reduces cases."
+    },
+    {
+     "q": "An age field accepts 18–65. Which boundary values do you test?",
+     "options": [
+      "0",
+      "17, 18, 65, 66",
+      "1,100",
+      "20"
+     ],
+     "answer": 1,
+     "explain": "Boundary value analysis."
+    },
+    {
+     "q": "What is a decision table for?",
+     "options": [
+      "UI",
+      "Testing combinations of conditions and their outcomes",
+      "Tables",
+      "Data"
+     ],
+     "answer": 1,
+     "explain": "Business rules."
+    },
+    {
+     "q": "What makes a good test case?",
+     "options": [
+      "Random",
+      "Vague",
+      "Long",
+      "Clear steps, data, expected result and independence"
+     ],
+     "answer": 3,
+     "explain": "Reproducible."
+    }
+   ]
+  },
+  "level-1/03-test-types-levels": {
+   "questions": [
+    {
+     "q": "What is the test pyramid?",
+     "options": [
+      "Only UI",
+      "Many unit tests, fewer integration tests and fewest end-to-end tests",
+      "Equal",
+      "Reverse"
+     ],
+     "answer": 1,
+     "explain": "Speed and cost."
+    },
+    {
+     "q": "Which test type checks components work together?",
+     "options": [
+      "Smoke",
+      "Load",
+      "Integration test",
+      "Unit"
+     ],
+     "answer": 2,
+     "explain": "Interfaces."
+    },
+    {
+     "q": "What is a smoke test?",
+     "options": [
+      "Security",
+      "A quick check that the build's critical functions work",
+      "Load",
+      "Full"
+     ],
+     "answer": 1,
+     "explain": "Gatekeeper."
+    },
+    {
+     "q": "What does regression testing guard against?",
+     "options": [
+      "Previously working behavior breaking after changes",
+      "Speed",
+      "New bugs only",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "Automate."
+    }
+   ]
+  },
+  "level-1/04-defect-lifecycle": {
+   "questions": [
+    {
+     "q": "What is the usual defect lifecycle?",
+     "options": [
+      "Random",
+      "New → assigned → fixed → retested → closed (or reopened)",
+      "Open close",
+      "New only"
+     ],
+     "answer": 1,
+     "explain": "Tracking."
+    },
+    {
+     "q": "What should a bug report include?",
+     "options": [
+      "Blame",
+      "Title",
+      "Opinion",
+      "Steps to reproduce, expected vs actual, environment and evidence"
+     ],
+     "answer": 3,
+     "explain": "Reproducible."
+    },
+    {
+     "q": "Severity vs priority?",
+     "options": [
+      "Severity is impact; priority is how soon to fix",
+      "Reverse",
+      "Same",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Different axes."
+    },
+    {
+     "q": "What is a 'cannot reproduce' bug?",
+     "options": [
+      "Fixed",
+      "One the developer can't recreate; add details or logs",
+      "Closed",
+      "Invalid"
+     ],
+     "answer": 1,
+     "explain": "Collaborate."
+    }
+   ]
+  },
+  "level-1/05-manual-testing-practice": {
+   "questions": [
+    {
+     "q": "What is exploratory testing?",
+     "options": [
+      "Scripted",
+      "Automated",
+      "Simultaneous learning, test design and execution guided by charters",
+      "Random"
+     ],
+     "answer": 2,
+     "explain": "Finds unexpected bugs."
+    },
+    {
+     "q": "When is manual testing best?",
+     "options": [
+      "Regression",
+      "Load",
+      "Usability, exploration and one-off checks",
+      "Repeated"
+     ],
+     "answer": 2,
+     "explain": "Human judgement."
+    },
+    {
+     "q": "What is a test charter?",
+     "options": [
+      "Plan",
+      "A mission and time-box for an exploratory session",
+      "Bug",
+      "Script"
+     ],
+     "answer": 1,
+     "explain": "Focus."
+    },
+    {
+     "q": "What do you record in sessions?",
+     "options": [
+      "Nothing",
+      "Time",
+      "Names",
+      "Notes, bugs found and areas covered"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-1/06-python-setup": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nimport sys\nprint(sys.version_info >= (3, 9))\nimport pytest\nprint(pytest.__name__)\n```\n",
+     "options": [
+      "True\npytest",
+      "False\npytest",
+      "Error",
+      "True\nunittest"
+     ],
+     "answer": 0,
+     "explain": "Environment sanity check. Verified by running it."
+    },
+    {
+     "q": "Why use a virtual environment?",
+     "options": [
+      "Law",
+      "Style",
+      "Isolate dependencies per project",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Reproducible."
+    },
+    {
+     "q": "How pin test dependencies?",
+     "options": [
+      "Memory",
+      "Slack",
+      "README",
+      "requirements.txt/lock file with exact versions"
+     ],
+     "answer": 3,
+     "explain": "Reproducible CI."
+    },
+    {
+     "q": "What does pip install -e . do?",
+     "options": [
+      "Export",
+      "Installs the project in editable mode for development",
+      "Error",
+      "Edit"
+     ],
+     "answer": 1,
+     "explain": "Import your package."
+    }
+   ]
+  },
+  "level-1/07-pytest-fundamentals": {
+   "questions": [
+    {
+     "q": "What does pytest report?\n```python\n# test_a.py\ndef test_pass(): assert 2 + 2 == 4\ndef test_fail(): assert \"a\".upper() == \"b\"\ndef test_error_in_code(): int(\"x\")\n```\n",
+     "options": [
+      "...\n3 passed",
+      "1 failed, 2 passed",
+      ".FF\n2 failed, 1 passed",
+      ".FF\n2 failed"
+     ],
+     "answer": 2,
+     "explain": "Assertion introspection shows values. Verified by running pytest (shown output normalized)."
+    },
+    {
+     "q": "What does pytest report?\n```python\n# test_b.py\nimport pytest\ndef test_raises():\n    with pytest.raises(ZeroDivisionError):\n        1 / 0\ndef test_approx():\n    assert 0.1 + 0.2 == pytest.approx(0.3)\ndef test_skip():\n    pytest.skip(\"not today\")\n@pytest.mark.xfail\ndef test_known_bug():\n    assert False\n```\n",
+     "options": [
+      "....\n4 passed",
+      "..sx\n3 passed, 1 skipped",
+      "..sx\n2 passed, 1 skipped, 1 xfailed",
+      "..sF\n2 passed, 1 failed"
+     ],
+     "answer": 2,
+     "explain": "raises, approx, skip, xfail. Verified by running pytest (shown output normalized)."
+    },
+    {
+     "q": "How does pytest discover tests?",
+     "options": [
+      "Config only",
+      "Decorators",
+      "Any file",
+      "Files named test_*.py or *_test.py with functions named test_*"
+     ],
+     "answer": 3,
+     "explain": "Conventions."
+    },
+    {
+     "q": "What's the advantage of plain assert?",
+     "options": [
+      "Speed",
+      "None",
+      "pytest rewrites it to show helpful values on failure",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "No self.assertEqual."
+    }
+   ]
+  },
+  "level-1/08-fixtures-parametrize": {
+   "questions": [
+    {
+     "q": "What does pytest report?\n```python\n# test_f.py\nimport pytest\n@pytest.fixture\ndef items():\n    return []\ndef test_a(items):\n    items.append(1)\n    assert items == [1]\ndef test_b(items):\n    assert items == []\n@pytest.mark.parametrize(\"a,b,total\", [(1, 2, 3), (2, 2, 4), (5, 5, 11)])\ndef test_add(a, b, total):\n    assert a + b == total\n```\n",
+     "options": [
+      ".....",
+      "....F\n1 failed",
+      "F....\n1 failed",
+      "....F\n1 failed, 4 passed"
+     ],
+     "answer": 3,
+     "explain": "Function-scoped fixtures give each test a fresh object; parametrize creates one test per row. Verified by running pytest (shown output normalized)."
+    },
+    {
+     "q": "What does `yield` do in a pytest fixture?",
+     "options": [
+      "Returns",
+      "Skips",
+      "Splits setup (before) from teardown (after the test)",
+      "Loops"
+     ],
+     "answer": 2,
+     "explain": "Cleanup."
+    },
+    {
+     "q": "What does scope='session' do?",
+     "options": [
+      "Never",
+      "Creates the fixture once for the whole run",
+      "Per file",
+      "Per test"
+     ],
+     "answer": 1,
+     "explain": "Expensive resources."
+    },
+    {
+     "q": "Where do shared fixtures go?",
+     "options": [
+      "tests.ini",
+      "conftest.py",
+      "__init__",
+      "setup.py"
+     ],
+     "answer": 1,
+     "explain": "Auto-discovered."
+    }
+   ]
+  },
+  "level-1/09-selenium-basics": {
+   "questions": [
+    {
+     "q": "What does Selenium automate?",
+     "options": [
+      "APIs",
+      "A real browser through WebDriver",
+      "Servers",
+      "Unit tests"
+     ],
+     "answer": 1,
+     "explain": "UI tests."
+    },
+    {
+     "q": "What are explicit waits for?",
+     "options": [
+      "Sleep",
+      "Waiting for a condition (visible, clickable) instead of sleeping",
+      "None",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "WebDriverWait."
+    },
+    {
+     "q": "Which locator is usually most stable?",
+     "options": [
+      "Class chain",
+      "Tag",
+      "XPath index",
+      "IDs or dedicated test attributes (data-testid)"
+     ],
+     "answer": 3,
+     "explain": "Resilient."
+    },
+    {
+     "q": "Why avoid time.sleep?",
+     "options": [
+      "Law",
+      "Cost",
+      "It is slow and still flaky; wait for conditions",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Sync properly."
+    }
+   ]
+  },
+  "level-1/10-project-test-suite": {
+   "questions": [
+    {
+     "q": "What does the test suite project combine?",
+     "options": [
+      "Manual design, pytest tests, fixtures, parametrization and Selenium checks",
+      "Only manual",
+      "Only fixtures",
+      "Only Selenium"
+     ],
+     "answer": 0,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How organize tests?",
+     "options": [
+      "One file",
+      "By feature with clear names and shared fixtures",
+      "Random",
+      "By date"
+     ],
+     "answer": 1,
+     "explain": "Maintainable."
+    },
+    {
+     "q": "What should failures show?",
+     "options": [
+      "Clear assertion messages and screenshots for UI tests",
+      "Logs",
+      "Nothing",
+      "Names"
+     ],
+     "answer": 0,
+     "explain": "Diagnosable."
+    },
+    {
+     "q": "How run a subset?",
+     "options": [
+      "-k expression or markers (-m smoke)",
+      "Comment",
+      "Delete",
+      "Edit"
+     ],
+     "answer": 0,
+     "explain": "Selective runs."
+    }
+   ]
+  },
+  "level-2/01-page-object-model": {
+   "questions": [
+    {
+     "q": "What does pytest report for this page-object test?\n```python\n# test_pom.py\nclass Page:\n    def __init__(self, store): self.store = store\nclass LoginPage(Page):\n    def login(self, user, pw):\n        self.store[\"user\"] = user if pw == \"ok\" else None\n        return self\n    @property\n    def logged_in(self): return self.store.get(\"user\") is not None\ndef test_login():\n    assert LoginPage({}).login(\"ann\", \"ok\").logged_in\ndef test_bad():\n    assert not LoginPage({}).login(\"ann\", \"no\").logged_in\n```\n",
+     "options": [
+      "..\n1 passed",
+      "Error",
+      "..\n2 passed",
+      "F.\n1 failed"
+     ],
+     "answer": 2,
+     "explain": "Page objects hold actions and state; tests assert intent. Verified by running pytest (shown output normalized)."
+    },
+    {
+     "q": "What belongs in a page object?",
+     "options": [
+      "Data",
+      "Tests",
+      "Locators and user actions, not test assertions about goals",
+      "Config"
+     ],
+     "answer": 2,
+     "explain": "Encapsulation."
+    },
+    {
+     "q": "What's the main benefit of POM?",
+     "options": [
+      "One place to fix when the UI changes",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Maintainability."
+    },
+    {
+     "q": "Should page methods return something?",
+     "options": [
+      "None",
+      "Often another page object or self for fluent flows",
+      "Never",
+      "Strings"
+     ],
+     "answer": 1,
+     "explain": "Chaining."
+    }
+   ]
+  },
+  "level-2/02-selenium-advanced": {
+   "questions": [
+    {
+     "q": "When use ActionChains?",
+     "options": [
+      "Hover, drag-and-drop and complex mouse/keyboard sequences",
+      "Click",
+      "Type",
+      "Wait"
+     ],
+     "answer": 0,
+     "explain": "Advanced input."
+    },
+    {
+     "q": "How handle iframes?",
+     "options": [
+      "Ignore",
+      "JS",
+      "Switch to the frame first, then back to default content",
+      "Locator"
+     ],
+     "answer": 2,
+     "explain": "switch_to.frame."
+    },
+    {
+     "q": "How handle alerts?",
+     "options": [
+      "Click",
+      "Ignore",
+      "switch_to.alert to accept or dismiss",
+      "Wait"
+     ],
+     "answer": 2,
+     "explain": "Browser dialogs."
+    },
+    {
+     "q": "How run JavaScript?",
+     "options": [
+      "eval",
+      "exec",
+      "execute_script (sparingly)",
+      "run_js"
+     ],
+     "answer": 2,
+     "explain": "Escape hatch."
+    }
+   ]
+  },
+  "level-2/03-api-testing": {
+   "questions": [
+    {
+     "q": "What does pytest report?\n```python\n# test_api.py\nimport json\nfrom http.server import BaseHTTPRequestHandler, HTTPServer\nfrom threading import Thread\nfrom urllib.request import urlopen\nclass H(BaseHTTPRequestHandler):\n    def do_GET(self):\n        body = json.dumps({\"id\": 7, \"name\": \"ann\"}).encode()\n        self.send_response(200); self.send_header(\"Content-Type\", \"application/json\"); self.end_headers(); self.wfile.write(body)\n    def log_message(self, *a): pass\ndef test_get_user():\n    srv = HTTPServer((\"127.0.0.1\", 0), H); Thread(target=srv.serve_forever, daemon=True).start()\n    r = urlopen(f\"http://127.0.0.1:{srv.server_port}/users/7\")\n    assert r.status == 200 and r.headers[\"Content-Type\"] == \"application/json\"\n    assert json.load(r) == {\"id\": 7, \"name\": \"ann\"}\n    srv.shutdown()\n```\n",
+     "options": [
+      ".\n1 failed",
+      ".\n1 passed",
+      "Error",
+      "F\n1 failed"
+     ],
+     "answer": 1,
+     "explain": "A tiny local server makes API tests deterministic. Verified by running pytest (shown output normalized)."
+    },
+    {
+     "q": "What should API tests assert?",
+     "options": [
+      "Status code, headers and the response body schema",
+      "Nothing",
+      "HTML",
+      "Time only"
+     ],
+     "answer": 0,
+     "explain": "Contract."
+    },
+    {
+     "q": "Why test negative cases?",
+     "options": [
+      "Fun",
+      "Law",
+      "Speed",
+      "Invalid input and auth failures must be handled correctly"
+     ],
+     "answer": 3,
+     "explain": "Robustness."
+    },
+    {
+     "q": "Which library is common for HTTP tests?",
+     "options": [
+      "tkinter",
+      "selenium",
+      "requests (or httpx) with pytest",
+      "unittest"
+     ],
+     "answer": 2,
+     "explain": "Simple."
+    }
+   ]
+  },
+  "level-2/04-mocking": {
+   "questions": [
+    {
+     "q": "What does pytest report?\n```python\n# test_m.py\nfrom unittest.mock import Mock, patch\ndef fetch(client, uid): return client.get(f\"/u/{uid}\")[\"name\"].upper()\ndef test_fetch():\n    c = Mock(); c.get.return_value = {\"name\": \"ann\"}\n    assert fetch(c, 3) == \"ANN\"\n    c.get.assert_called_once_with(\"/u/3\")\ndef test_patch():\n    with patch(\"os.getenv\", return_value=\"x\") as g:\n        import os\n        assert os.getenv(\"A\") == \"x\"\n        g.assert_called_once_with(\"A\")\ndef test_side_effect():\n    m = Mock(side_effect=[1, ValueError(\"boom\")])\n    assert m() == 1\n    try: m()\n    except ValueError as e: assert str(e) == \"boom\"\n```\n",
+     "options": [
+      "..F\n1 failed",
+      "...\n2 passed",
+      "Error",
+      "...\n3 passed"
+     ],
+     "answer": 3,
+     "explain": "Mock return values, patch and side effects. Verified by running pytest (shown output normalized)."
+    },
+    {
+     "q": "What should you mock?",
+     "options": [
+      "Everything",
+      "Internals",
+      "Slow or external boundaries (network, clock, DB), not your own logic",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Boundary mocking."
+    },
+    {
+     "q": "What is the patch rule?",
+     "options": [
+      "Never",
+      "Anywhere",
+      "Where defined",
+      "Patch where the name is looked up, not where it's defined"
+     ],
+     "answer": 3,
+     "explain": "Common trap."
+    },
+    {
+     "q": "What does assert_called_once_with verify?",
+     "options": [
+      "Type",
+      "Return",
+      "Time",
+      "That the mock was called exactly once with those arguments"
+     ],
+     "answer": 3,
+     "explain": "Interaction check."
+    }
+   ]
+  },
+  "level-2/05-test-data-management": {
+   "questions": [
+    {
+     "q": "What's a good test data approach?",
+     "options": [
+      "Manual",
+      "Prod",
+      "Shared",
+      "Create data per test with factories and clean it up"
+     ],
+     "answer": 3,
+     "explain": "Isolation."
+    },
+    {
+     "q": "What is a factory?",
+     "options": [
+      "A helper creating valid objects with overridable defaults",
+      "DB",
+      "Mock",
+      "Class"
+     ],
+     "answer": 0,
+     "explain": "Readable tests."
+    },
+    {
+     "q": "Why avoid shared mutable data?",
+     "options": [
+      "Speed",
+      "Style",
+      "Tests become order-dependent and flaky",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Independence."
+    },
+    {
+     "q": "How handle secrets in tests?",
+     "options": [
+      "README",
+      "Environment variables or a secret store",
+      "Git",
+      "Code"
+     ],
+     "answer": 1,
+     "explain": "Security."
+    }
+   ]
+  },
+  "level-2/06-pytest-config": {
+   "questions": [
+    {
+     "q": "What does pytest report with this config?\n```python\n# pytest.ini\n[pytest]\naddopts = -q --tb=no -m \"not slow\"\nmarkers =\n    slow: slow tests\n\n# test_c.py\nimport pytest\ndef test_fast(): pass\n@pytest.mark.slow\ndef test_slow(): pass\n```\n",
+     "options": [
+      ".F\n1 failed",
+      "1 skipped",
+      "..\n2 passed",
+      ".\n1 passed, 1 deselected"
+     ],
+     "answer": 3,
+     "explain": "addopts and markers in pytest.ini. Verified by running pytest (shown output normalized)."
+    },
+    {
+     "q": "What do markers allow?",
+     "options": [
+      "Colors",
+      "Order",
+      "Selecting or skipping groups of tests (-m smoke)",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Register them."
+    },
+    {
+     "q": "Where else can config live?",
+     "options": [
+      "pyproject.toml or tox.ini",
+      "main.py",
+      "setup.cfg only",
+      "README"
+     ],
+     "answer": 0,
+     "explain": "Common files."
+    },
+    {
+     "q": "What does --strict-markers do?",
+     "options": [
+      "Log",
+      "Skip",
+      "Speed",
+      "Fails on unregistered markers (catching typos)"
+     ],
+     "answer": 3,
+     "explain": "Safety."
+    }
+   ]
+  },
+  "level-2/07-reporting": {
+   "questions": [
+    {
+     "q": "Which plugin makes HTML reports?",
+     "options": [
+      "pytest-xdist",
+      "pytest-bdd",
+      "pytest-html",
+      "pytest-cov"
+     ],
+     "answer": 2,
+     "explain": "Readable results."
+    },
+    {
+     "q": "What does Allure add?",
+     "options": [
+      "Tests",
+      "Mocks",
+      "Speed",
+      "Rich reports with steps, attachments and history"
+     ],
+     "answer": 3,
+     "explain": "Team reporting."
+    },
+    {
+     "q": "What does --junitxml do?",
+     "options": [
+      "Logs",
+      "Cov",
+      "Writes results CI tools understand",
+      "HTML"
+     ],
+     "answer": 2,
+     "explain": "Integration."
+    },
+    {
+     "q": "What belongs in a failure report?",
+     "options": [
+      "Names",
+      "Count",
+      "Time",
+      "Error, steps, screenshots/logs and environment"
+     ],
+     "answer": 3,
+     "explain": "Debuggable."
+    }
+   ]
+  },
+  "level-2/08-parallel-execution": {
+   "questions": [
+    {
+     "q": "What does pytest -n auto do?",
+     "options": [
+      "Runs tests in parallel across CPU cores (pytest-xdist)",
+      "Reorder",
+      "Repeat",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "Faster suites."
+    },
+    {
+     "q": "What must parallel tests avoid?",
+     "options": [
+      "Shared state like the same file, DB rows or ports",
+      "Names",
+      "Asserts",
+      "Fixtures"
+     ],
+     "answer": 0,
+     "explain": "Independence."
+    },
+    {
+     "q": "How share expensive setup safely?",
+     "options": [
+      "None",
+      "Global",
+      "Per-worker fixtures using worker_id",
+      "Session"
+     ],
+     "answer": 2,
+     "explain": "xdist."
+    },
+    {
+     "q": "What is sharding?",
+     "options": [
+      "Retry",
+      "Splitting tests across multiple machines/jobs",
+      "Cache",
+      "Mock"
+     ],
+     "answer": 1,
+     "explain": "CI matrix."
+    }
+   ]
+  },
+  "level-2/09-cross-browser-testing": {
+   "questions": [
+    {
+     "q": "What does cross-browser testing check?",
+     "options": [
+      "Speed",
+      "Code",
+      "Behavior on different browsers/versions",
+      "Colors"
+     ],
+     "answer": 2,
+     "explain": "Compatibility."
+    },
+    {
+     "q": "Which services run browsers in the cloud?",
+     "options": [
+      "npm",
+      "GitHub",
+      "Docker Hub",
+      "BrowserStack, Sauce Labs or Selenium Grid"
+     ],
+     "answer": 3,
+     "explain": "Grids."
+    },
+    {
+     "q": "How choose browsers?",
+     "options": [
+      "All",
+      "From user analytics and risk",
+      "One",
+      "Random"
+     ],
+     "answer": 1,
+     "explain": "Cost-benefit."
+    },
+    {
+     "q": "What often differs across browsers?",
+     "options": [
+      "Servers",
+      "Python",
+      "Rendering, timing and unsupported features",
+      "Names"
+     ],
+     "answer": 2,
+     "explain": "Test the risky parts."
+    }
+   ]
+  },
+  "level-2/10-project-pom-framework": {
+   "questions": [
+    {
+     "q": "What does the POM framework project combine?",
+     "options": [
+      "Only config",
+      "Only reports",
+      "Page objects, fixtures, config, reports and parallel runs",
+      "Only POM"
+     ],
+     "answer": 2,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How keep tests readable?",
+     "options": [
+      "Long",
+      "Raw",
+      "Intent-revealing methods and no locators in tests",
+      "Comments"
+     ],
+     "answer": 2,
+     "explain": "Abstraction."
+    },
+    {
+     "q": "How handle environments?",
+     "options": [
+      "Config files/env vars selecting base URLs and credentials",
+      "Copy",
+      "Edit",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Portability."
+    },
+    {
+     "q": "What makes it maintainable?",
+     "options": [
+      "Large",
+      "Copy",
+      "Small page objects, naming conventions and review",
+      "Magic"
+     ],
+     "answer": 2,
+     "explain": "Standards."
+    }
+   ]
+  },
+  "level-3/01-playwright": {
+   "questions": [
+    {
+     "q": "What's an advantage of Playwright?",
+     "options": [
+      "Slow",
+      "Manual waits",
+      "Auto-waiting, fast, built-in tracing and multiple browsers",
+      "One browser"
+     ],
+     "answer": 2,
+     "explain": "Modern tool."
+    },
+    {
+     "q": "What does the trace viewer show?",
+     "options": [
+      "Cost",
+      "Code",
+      "Actions, DOM snapshots, network and console for failed tests",
+      "Data"
+     ],
+     "answer": 2,
+     "explain": "Post-mortem."
+    },
+    {
+     "q": "How isolate tests in Playwright?",
+     "options": [
+      "Global",
+      "Same cookies",
+      "Same page",
+      "A fresh browser context per test"
+     ],
+     "answer": 3,
+     "explain": "Fast isolation."
+    },
+    {
+     "q": "What replaces explicit waits?",
+     "options": [
+      "Retry",
+      "sleep",
+      "Auto-wait plus web-first assertions",
+      "Polling"
+     ],
+     "answer": 2,
+     "explain": "expect(...)."
+    }
+   ]
+  },
+  "level-3/02-bdd": {
+   "questions": [
+    {
+     "q": "What is BDD?",
+     "options": [
+      "UI",
+      "DB",
+      "Describing behavior in a shared language (Given/When/Then) that all roles understand",
+      "Unit tests"
+     ],
+     "answer": 2,
+     "explain": "Collaboration."
+    },
+    {
+     "q": "Which Python library runs Gherkin?",
+     "options": [
+      "pytest-bdd (or behave)",
+      "requests",
+      "tox",
+      "mock"
+     ],
+     "answer": 0,
+     "explain": "Step definitions."
+    },
+    {
+     "q": "What is a bad BDD smell?",
+     "options": [
+      "Clear",
+      "Scenarios full of UI details instead of business behavior",
+      "Short",
+      "Few"
+     ],
+     "answer": 1,
+     "explain": "Declarative style."
+    },
+    {
+     "q": "Who writes scenarios?",
+     "options": [
+      "Managers",
+      "Business, QA and developers together (three amigos)",
+      "Dev only",
+      "QA only"
+     ],
+     "answer": 1,
+     "explain": "Shared understanding."
+    }
+   ]
+  },
+  "level-3/03-robot-framework": {
+   "questions": [
+    {
+     "q": "What is Robot Framework?",
+     "options": [
+      "DB",
+      "Python lib",
+      "Browser",
+      "A keyword-driven automation framework with readable tables"
+     ],
+     "answer": 3,
+     "explain": "Extensible."
+    },
+    {
+     "q": "What are keywords?",
+     "options": [
+      "Tags",
+      "Tests",
+      "Files",
+      "Reusable actions made of other keywords or libraries"
+     ],
+     "answer": 3,
+     "explain": "Abstraction."
+    },
+    {
+     "q": "When choose Robot?",
+     "options": [
+      "Perf",
+      "Unit",
+      "For teams wanting keyword/readable tests and acceptance testing",
+      "Mobile"
+     ],
+     "answer": 2,
+     "explain": "Fit."
+    },
+    {
+     "q": "How extend it?",
+     "options": [
+      "DLL",
+      "Custom libraries in Python",
+      "Plugins",
+      "Macros"
+     ],
+     "answer": 1,
+     "explain": "Flexible."
+    }
+   ]
+  },
+  "level-3/04-cicd-integration": {
+   "questions": [
+    {
+     "q": "What should CI run?",
+     "options": [
+      "Fast tests on every push and slower suites on a schedule or before release",
+      "None",
+      "All",
+      "Manual"
+     ],
+     "answer": 0,
+     "explain": "Feedback speed."
+    },
+    {
+     "q": "What artifacts to keep?",
+     "options": [
+      "Source",
+      "Cache",
+      "Secrets",
+      "Reports, logs, screenshots and traces"
+     ],
+     "answer": 3,
+     "explain": "Debuggability."
+    },
+    {
+     "q": "How speed CI?",
+     "options": [
+      "Cache dependencies and parallelize",
+      "Skip",
+      "More waits",
+      "Retry"
+     ],
+     "answer": 0,
+     "explain": "Efficiency."
+    },
+    {
+     "q": "What gates a merge?",
+     "options": [
+      "Time",
+      "Opinion",
+      "Green required checks",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Quality."
+    }
+   ]
+  },
+  "level-3/05-property-based-testing": {
+   "questions": [
+    {
+     "q": "What does pytest report?\n```python\n# test_h.py\nfrom hypothesis import given, strategies as st\ndef reverse(xs): return xs[::-1]\n@given(st.lists(st.integers()))\ndef test_reverse_twice(xs):\n    assert reverse(reverse(xs)) == xs\n@given(st.lists(st.integers()))\ndef test_length(xs):\n    assert len(reverse(xs)) == len(xs)\n@given(st.integers(), st.integers())\ndef test_add_commutes(a, b):\n    assert a + b == b + a\n```\n",
+     "options": [
+      "...\n1 passed",
+      "Error",
+      "..F\n1 failed",
+      "...\n3 passed"
+     ],
+     "answer": 3,
+     "explain": "Properties hold for generated inputs. Verified by running pytest (shown output normalized)."
+    },
+    {
+     "q": "What does Hypothesis do when a property fails?",
+     "options": [
+      "Ignores",
+      "Random",
+      "Shrinks the input to a minimal failing example and reports it",
+      "Retries"
+     ],
+     "answer": 2,
+     "explain": "Counterexamples."
+    },
+    {
+     "q": "What is a property?",
+     "options": [
+      "A statement that should hold for all valid inputs (e.g. reverse twice is identity)",
+      "Mock",
+      "Fixture",
+      "Example"
+     ],
+     "answer": 0,
+     "explain": "Beyond examples."
+    },
+    {
+     "q": "When use property-based tests?",
+     "options": [
+      "Layout",
+      "UI",
+      "For parsers, serializers and invariants",
+      "Colors"
+     ],
+     "answer": 2,
+     "explain": "Good fit."
+    }
+   ]
+  },
+  "level-3/06-performance-testing": {
+   "questions": [
+    {
+     "q": "What does a load test measure?",
+     "options": [
+      "Code",
+      "Bugs",
+      "Behavior under expected concurrent usage (throughput, latency, errors)",
+      "UI"
+     ],
+     "answer": 2,
+     "explain": "Performance."
+    },
+    {
+     "q": "Which tool is Python-based for load tests?",
+     "options": [
+      "tox",
+      "Selenium",
+      "Locust",
+      "pytest"
+     ],
+     "answer": 2,
+     "explain": "Python scripts."
+    },
+    {
+     "q": "Which metrics matter?",
+     "options": [
+      "Percentile latency (p95/p99), error rate and throughput",
+      "Hits",
+      "CPU",
+      "Average only"
+     ],
+     "answer": 0,
+     "explain": "Tail latency."
+    },
+    {
+     "q": "What is a common mistake?",
+     "options": [
+      "Names",
+      "Duration",
+      "Testing a different environment from production",
+      "Users"
+     ],
+     "answer": 2,
+     "explain": "Realism."
+    }
+   ]
+  },
+  "level-3/07-mobile-testing-appium": {
+   "questions": [
+    {
+     "q": "What does Appium automate?",
+     "options": [
+      "Web",
+      "API",
+      "Desktop",
+      "Native and hybrid mobile apps on iOS/Android via WebDriver"
+     ],
+     "answer": 3,
+     "explain": "Mobile."
+    },
+    {
+     "q": "What do capabilities define?",
+     "options": [
+      "Data",
+      "Reports",
+      "The device, platform and app under test",
+      "Tests"
+     ],
+     "answer": 2,
+     "explain": "Session setup."
+    },
+    {
+     "q": "What's a mobile-specific challenge?",
+     "options": [
+      "Locators",
+      "Python",
+      "CI",
+      "Device fragmentation and flaky gestures"
+     ],
+     "answer": 3,
+     "explain": "Use cloud devices."
+    },
+    {
+     "q": "Which locators are best?",
+     "options": [
+      "Index",
+      "Accessibility IDs",
+      "Class",
+      "XPath"
+     ],
+     "answer": 1,
+     "explain": "Stable and accessible."
+    }
+   ]
+  },
+  "level-3/08-database-testing": {
+   "questions": [
+    {
+     "q": "What does pytest report?\n```python\n# test_db.py\nimport sqlite3, pytest\n@pytest.fixture\ndef db():\n    c = sqlite3.connect(\":memory:\")\n    c.execute(\"CREATE TABLE u(id INTEGER PRIMARY KEY, email TEXT UNIQUE NOT NULL)\")\n    yield c\n    c.close()\ndef test_insert(db):\n    db.execute(\"INSERT INTO u(email) VALUES ('a@x.com')\")\n    assert db.execute(\"SELECT count(*) FROM u\").fetchone()[0] == 1\ndef test_unique(db):\n    db.execute(\"INSERT INTO u(email) VALUES ('a@x.com')\")\n    with pytest.raises(sqlite3.IntegrityError):\n        db.execute(\"INSERT INTO u(email) VALUES ('a@x.com')\")\ndef test_not_null(db):\n    with pytest.raises(sqlite3.IntegrityError):\n        db.execute(\"INSERT INTO u(email) VALUES (NULL)\")\n```\n",
+     "options": [
+      "Error",
+      "..F\n1 failed",
+      "...\n3 passed",
+      "...\n2 passed"
+     ],
+     "answer": 2,
+     "explain": "In-memory databases give isolated, fast tests. Verified by running pytest (shown output normalized)."
+    },
+    {
+     "q": "What do database tests verify?",
+     "options": [
+      "UI",
+      "Constraints, migrations and queries behave as designed",
+      "Speed",
+      "Colors"
+     ],
+     "answer": 1,
+     "explain": "Data layer."
+    },
+    {
+     "q": "How isolate DB tests?",
+     "options": [
+      "Manual",
+      "Prod",
+      "Shared",
+      "Use transactions rolled back after each test or a fresh DB"
+     ],
+     "answer": 3,
+     "explain": "Clean state."
+    },
+    {
+     "q": "What should migrations be tested for?",
+     "options": [
+      "Names",
+      "Docs",
+      "Applying forwards (and rollback) on realistic data",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Safety."
+    }
+   ]
+  },
+  "level-3/09-flaky-tests": {
+   "questions": [
+    {
+     "q": "What does pytest report for this order-dependent suite?\n```python\n# test_flaky.py\nstate = []\ndef test_a():\n    state.append(1)\n    assert state == [1]\ndef test_b():\n    assert state == []\n```\n",
+     "options": [
+      ".F\n1 failed, 1 passed",
+      "..\n2 passed",
+      ".F\n1 failed",
+      "FF"
+     ],
+     "answer": 0,
+     "explain": "Shared state makes test_b depend on test_a. Verified by running pytest (shown output normalized)."
+    },
+    {
+     "q": "What causes flaky tests?",
+     "options": [
+      "Timing, shared state, order dependence and unstable environments",
+      "Pytest",
+      "Asserts",
+      "Python"
+     ],
+     "answer": 0,
+     "explain": "Fix root causes."
+    },
+    {
+     "q": "What do retries do?",
+     "options": [
+      "Pass",
+      "Speed",
+      "Fix",
+      "Hide flakiness; use them only with tracking"
+     ],
+     "answer": 3,
+     "explain": "Short-term."
+    },
+    {
+     "q": "How find order dependence?",
+     "options": [
+      "Run with random order (pytest-randomly) and in isolation",
+      "Sleep",
+      "Hope",
+      "Retry"
+     ],
+     "answer": 0,
+     "explain": "Detect."
+    }
+   ]
+  },
+  "level-3/10-project-playwright-bdd": {
+   "questions": [
+    {
+     "q": "What does the Playwright BDD project combine?",
+     "options": [
+      "Gherkin scenarios, Playwright steps, fixtures, reports and CI",
+      "Only BDD",
+      "Only CI",
+      "Only Playwright"
+     ],
+     "answer": 0,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How structure steps?",
+     "options": [
+      "Random",
+      "Inline",
+      "Reusable step definitions calling page objects",
+      "Copy"
+     ],
+     "answer": 2,
+     "explain": "DRY."
+    },
+    {
+     "q": "What report helps stakeholders?",
+     "options": [
+      "Stack",
+      "Code",
+      "Logs",
+      "Scenario-level pass/fail in readable form"
+     ],
+     "answer": 3,
+     "explain": "Living documentation."
+    },
+    {
+     "q": "How keep scenarios maintainable?",
+     "options": [
+      "Many",
+      "Long",
+      "Business-language steps and few UI details",
+      "Deep"
+     ],
+     "answer": 2,
+     "explain": "Declarative."
+    }
+   ]
+  },
+  "level-4/01-test-architecture": {
+   "questions": [
+    {
+     "q": "What does a good test architecture have?",
+     "options": [
+      "Flat",
+      "Layers, clear responsibilities, reusable components and fast feedback",
+      "Big",
+      "One file"
+     ],
+     "answer": 1,
+     "explain": "Scalable."
+    },
+    {
+     "q": "How decide what to automate?",
+     "options": [
+      "UI",
+      "Risk, repetition and stability",
+      "Everything",
+      "Easy"
+     ],
+     "answer": 1,
+     "explain": "Value."
+    },
+    {
+     "q": "What is the cost of bad architecture?",
+     "options": [
+      "None",
+      "Speed",
+      "Brittle suites that nobody trusts",
+      "Fun"
+     ],
+     "answer": 2,
+     "explain": "Maintenance."
+    },
+    {
+     "q": "What is a test strategy?",
+     "options": [
+      "Script",
+      "Goals, scope, levels and approaches for testing the product",
+      "Tool",
+      "Plan"
+     ],
+     "answer": 1,
+     "explain": "Direction."
+    }
+   ]
+  },
+  "level-4/02-shift-left-continuous-testing": {
+   "questions": [
+    {
+     "q": "What is shift-left?",
+     "options": [
+      "Testing earlier (requirements, unit, CI) to find defects sooner",
+      "Manual",
+      "UI",
+      "Late"
+     ],
+     "answer": 0,
+     "explain": "Cheaper bugs."
+    },
+    {
+     "q": "What does continuous testing mean?",
+     "options": [
+      "Nightly",
+      "Manual",
+      "Never",
+      "Automated tests as part of every pipeline stage"
+     ],
+     "answer": 3,
+     "explain": "Fast feedback."
+    },
+    {
+     "q": "Who owns quality?",
+     "options": [
+      "Managers",
+      "Dev",
+      "The whole team",
+      "QA"
+     ],
+     "answer": 2,
+     "explain": "Shared."
+    },
+    {
+     "q": "What supports shift-left?",
+     "options": [
+      "Testable design, fast unit tests and early reviews",
+      "Docs",
+      "Tools",
+      "More UI"
+     ],
+     "answer": 0,
+     "explain": "Culture."
+    }
+   ]
+  },
+  "level-4/03-contract-testing": {
+   "questions": [
+    {
+     "q": "What is contract testing?",
+     "options": [
+      "Verifying that consumers and providers agree on an API contract independently",
+      "E2E",
+      "Load",
+      "UI"
+     ],
+     "answer": 0,
+     "explain": "Pact."
+    },
+    {
+     "q": "What problem does it solve?",
+     "options": [
+      "UI",
+      "Breaking integrations without slow end-to-end environments",
+      "Cost",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Microservices."
+    },
+    {
+     "q": "Who defines the contract in consumer-driven contracts?",
+     "options": [
+      "Consumers state what they need; providers verify they satisfy it",
+      "PM",
+      "Provider",
+      "QA"
+     ],
+     "answer": 0,
+     "explain": "Direction."
+    },
+    {
+     "q": "Where run contract verification?",
+     "options": [
+      "Prod",
+      "Browser",
+      "Local",
+      "In the provider's CI"
+     ],
+     "answer": 3,
+     "explain": "Gate."
+    }
+   ]
+  },
+  "level-4/04-security-testing": {
+   "questions": [
+    {
+     "q": "Which issues does basic security testing look for?",
+     "options": [
+      "Speed",
+      "Injection, broken auth, XSS and misconfiguration",
+      "Layout",
+      "Typos"
+     ],
+     "answer": 1,
+     "explain": "OWASP Top 10."
+    },
+    {
+     "q": "What is SAST vs DAST?",
+     "options": [
+      "Same",
+      "SAST analyzes source code; DAST tests the running app",
+      "None",
+      "Reverse"
+     ],
+     "answer": 1,
+     "explain": "Complementary."
+    },
+    {
+     "q": "What tool scans dependencies?",
+     "options": [
+      "pip-audit/Dependabot",
+      "black",
+      "pytest",
+      "tox"
+     ],
+     "answer": 0,
+     "explain": "Supply chain."
+    },
+    {
+     "q": "Who does security testing?",
+     "options": [
+      "Pentest only",
+      "QA",
+      "Everyone, with specialists for deep reviews",
+      "Nobody"
+     ],
+     "answer": 2,
+     "explain": "Shared."
+    }
+   ]
+  },
+  "level-4/05-test-metrics-quality-gates": {
+   "questions": [
+    {
+     "q": "What is a quality gate?",
+     "options": [
+      "Doc",
+      "Criteria that must pass before code proceeds (tests, coverage, security)",
+      "Meeting",
+      "Opinion"
+     ],
+     "answer": 1,
+     "explain": "Automated."
+    },
+    {
+     "q": "Why not chase 100% coverage?",
+     "options": [
+      "Cost",
+      "Speed",
+      "Coverage doesn't measure assertion quality; focus on risk",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Meaningful tests."
+    },
+    {
+     "q": "Which metrics help?",
+     "options": [
+      "Tests",
+      "Lines",
+      "Hours",
+      "Defect escape rate, flakiness and lead time"
+     ],
+     "answer": 3,
+     "explain": "Outcome-focused."
+    },
+    {
+     "q": "How avoid metric gaming?",
+     "options": [
+      "Punish",
+      "Bonuses",
+      "Rank",
+      "Use them for learning, not individual performance"
+     ],
+     "answer": 3,
+     "explain": "Healthy."
+    }
+   ]
+  },
+  "level-4/06-containerized-environments": {
+   "questions": [
+    {
+     "q": "Why use containers for test environments?",
+     "options": [
+      "Cost",
+      "Reproducible, isolated and disposable environments",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Parity."
+    },
+    {
+     "q": "What does docker compose give tests?",
+     "options": [
+      "Cache",
+      "Logs",
+      "A multi-service environment (app, DB) started on demand",
+      "Mocks"
+     ],
+     "answer": 2,
+     "explain": "Integration."
+    },
+    {
+     "q": "What are Testcontainers?",
+     "options": [
+      "Browsers",
+      "Grids",
+      "Libraries that start throwaway containers from test code",
+      "Mocks"
+     ],
+     "answer": 2,
+     "explain": "Real dependencies."
+    },
+    {
+     "q": "What should containers avoid?",
+     "options": [
+      "Ports",
+      "Network",
+      "Persisting state between tests",
+      "Env"
+     ],
+     "answer": 2,
+     "explain": "Clean."
+    }
+   ]
+  },
+  "level-4/07-ai-assisted-testing": {
+   "questions": [
+    {
+     "q": "A good use of AI in testing?",
+     "options": [
+      "Replace",
+      "Skip",
+      "Generating test ideas and boilerplate that humans review",
+      "Final"
+     ],
+     "answer": 2,
+     "explain": "Assist."
+    },
+    {
+     "q": "A risk?",
+     "options": [
+      "Plausible but wrong tests that assert nothing meaningful",
+      "Cost",
+      "Speed",
+      "Names"
+     ],
+     "answer": 0,
+     "explain": "Review."
+    },
+    {
+     "q": "What must stay human?",
+     "options": [
+      "Judgement about risk and what 'correct' means",
+      "Typing",
+      "Names",
+      "Reports"
+     ],
+     "answer": 0,
+     "explain": "Responsibility."
+    },
+    {
+     "q": "How evaluate AI-generated tests?",
+     "options": [
+      "Run mutation testing or seed bugs to see if they fail",
+      "Skim",
+      "Count",
+      "Trust"
+     ],
+     "answer": 0,
+     "explain": "Test the tests."
+    }
+   ]
+  },
+  "level-4/08-inhouse-framework": {
+   "questions": [
+    {
+     "q": "When build an in-house framework?",
+     "options": [
+      "Always",
+      "First",
+      "When off-the-shelf tools can't meet needs, built as thin layers over proven libraries",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Avoid reinventing."
+    },
+    {
+     "q": "What should the framework provide?",
+     "options": [
+      "Locators",
+      "Everything",
+      "Tests",
+      "Conventions, reusable helpers, reporting and docs"
+     ],
+     "answer": 3,
+     "explain": "Productivity."
+    },
+    {
+     "q": "What is a risk?",
+     "options": [
+      "Becoming a bottleneck nobody else understands",
+      "Names",
+      "Speed",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "Document and share."
+    },
+    {
+     "q": "How measure success?",
+     "options": [
+      "Hours",
+      "Adoption, stability and time to write tests",
+      "Lines",
+      "Features"
+     ],
+     "answer": 1,
+     "explain": "Outcome."
+    }
+   ]
+  },
+  "level-4/09-qa-leadership-strategy": {
+   "questions": [
+    {
+     "q": "What does QA leadership focus on?",
+     "options": [
+      "Testing all",
+      "Reports",
+      "Tools",
+      "Strategy, risk, coaching and enabling quality across teams"
+     ],
+     "answer": 3,
+     "explain": "Scale."
+    },
+    {
+     "q": "How build a quality culture?",
+     "options": [
+      "Blame",
+      "Shared ownership, fast feedback and learning from escapes",
+      "Audits",
+      "Rules"
+     ],
+     "answer": 1,
+     "explain": "Mindset."
+    },
+    {
+     "q": "What is a test strategy review for?",
+     "options": [
+      "Cost",
+      "Docs",
+      "Law",
+      "Aligning approach with product risk and goals"
+     ],
+     "answer": 3,
+     "explain": "Governance."
+    },
+    {
+     "q": "How grow testers?",
+     "options": [
+      "Courses",
+      "Hours",
+      "Titles",
+      "Coaching, varied challenges and technical depth"
+     ],
+     "answer": 3,
+     "explain": "Development."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only tests",
+      "Only CI",
+      "Only docs",
+      "Framework design, CI, reports, quality gates and documentation"
+     ],
+     "answer": 3,
+     "explain": "Level 4 project."
+    },
+    {
+     "q": "How prove it works?",
+     "options": [
+      "Hope",
+      "Demo",
+      "Slides",
+      "Stable CI runs, trend metrics and fewer escaped defects"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "Architecture, conventions and how to debug failures",
+      "None",
+      "Slides",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Onboarding."
+    },
+    {
+     "q": "What sustains it?",
+     "options": [
+      "Luck",
+      "Tools",
+      "Silence",
+      "Ownership, flake triage and regular updates"
+     ],
+     "answer": 3,
+     "explain": "Maintenance."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does pytest report?\n```python\n# test_a.py\nimport pytest\n@pytest.mark.parametrize(\"x,y\", [(1, 1), (2, 3), (3, 3)])\ndef test_eq(x, y):\n    assert x == y\n```\n",
+    "options": [
+     "...\n3 passed",
+     "1 passed",
+     ".F.\n1 failed, 2 passed",
+     "F..\n1 failed"
+    ],
+    "answer": 2,
+    "explain": "One test per parameter set. Verified by running pytest (shown output normalized)."
+   },
+   {
+    "q": "What does pytest report?\n```python\n# test_b.py\nimport pytest\n@pytest.fixture(scope=\"module\")\ndef shared(): return []\ndef test_one(shared): shared.append(1); assert shared == [1]\ndef test_two(shared): assert shared == [1]\n```\n",
+    "options": [
+     "FF",
+     "..\n1 passed",
+     "..\n2 passed",
+     ".F\n1 failed"
+    ],
+    "answer": 2,
+    "explain": "Module-scoped fixtures are shared within a file. Verified by running pytest (shown output normalized)."
+   },
+   {
+    "q": "What does pytest report?\n```python\n# test_c.py\nimport pytest\ndef test_raises_message():\n    with pytest.raises(ValueError, match=\"positive\"):\n        raise ValueError(\"qty must be positive\")\ndef test_wrong_exception():\n    with pytest.raises(ValueError):\n        raise KeyError(\"x\")\n```\n",
+    "options": [
+     ".F\n1 error",
+     ".F\n1 failed, 1 passed",
+     "..\n2 passed",
+     "FF\n2 failed"
+    ],
+    "answer": 1,
+    "explain": "A different exception type propagates and fails the test. Verified by running pytest (shown output normalized)."
+   },
+   {
+    "q": "What does pytest report?\n```python\n# test_d.py\nfrom unittest.mock import patch\nimport datetime\ndef greeting(now=None):\n    hour = (now or datetime.datetime.now()).hour\n    return \"morning\" if hour < 12 else \"evening\"\ndef test_fixed_time():\n    assert greeting(datetime.datetime(2026, 1, 1, 9)) == \"morning\"\n    assert greeting(datetime.datetime(2026, 1, 1, 18)) == \"evening\"\n```\n",
+    "options": [
+     ".\n1 passed",
+     ".\n1 error",
+     "Error",
+     "F\n1 failed"
+    ],
+    "answer": 0,
+    "explain": "Injecting the clock makes tests deterministic. Verified by running pytest (shown output normalized)."
+   },
+   {
+    "q": "What does pytest report?\n```python\n# test_e.py\nimport pytest\ndef test_a(): assert True\n@pytest.mark.skip(reason=\"later\")\ndef test_b(): assert False\n@pytest.mark.skipif(True, reason=\"never runs here\")\ndef test_c(): assert False\n```\n",
+    "options": [
+     ".FF\n2 failed",
+     ".ss\n1 passed, 2 skipped",
+     "ss.\n1 passed",
+     "...\n3 passed"
+    ],
+    "answer": 1,
+    "explain": "skip and skipif. Verified by running pytest (shown output normalized)."
+   },
+   {
+    "q": "A test passes alone but fails after another test. Cause?",
+    "options": [
+     "pytest bug",
+     "Shared state or order dependence",
+     "Python",
+     "Speed"
+    ],
+    "answer": 1,
+    "explain": "Make tests independent."
+   },
+   {
+    "q": "What does a fixture with yield guarantee?",
+    "options": [
+     "The code after yield runs as teardown even if the test fails",
+     "Mock",
+     "Retry",
+     "Skip"
+    ],
+    "answer": 0,
+    "explain": "Cleanup."
+   },
+   {
+    "q": "What should you mock?",
+    "options": [
+     "Nothing",
+     "Own code",
+     "Everything",
+     "External boundaries like network, clock and filesystem"
+    ],
+    "answer": 3,
+    "explain": "Not your logic."
+   },
+   {
+    "q": "What's wrong with asserting a mock was called without checking arguments?",
+    "options": [
+     "Nothing",
+     "Style",
+     "It can pass while the call used the wrong values",
+     "Speed"
+    ],
+    "answer": 2,
+    "explain": "assert_called_once_with."
+   },
+   {
+    "q": "What is the test pyramid?",
+    "options": [
+     "Many fast unit tests, fewer integration tests, few end-to-end tests",
+     "Reverse",
+     "UI only",
+     "Equal"
+    ],
+    "answer": 0,
+    "explain": "Speed and reliability."
+   },
+   {
+    "q": "Which Selenium wait is preferred?",
+    "options": [
+     "None",
+     "Implicit only",
+     "Explicit waits on conditions",
+     "time.sleep"
+    ],
+    "answer": 2,
+    "explain": "Reduce flakiness."
+   },
+   {
+    "q": "What does the Page Object Model improve?",
+    "options": [
+     "Coverage",
+     "Cost",
+     "Maintainability: UI changes are fixed in one place",
+     "Speed"
+    ],
+    "answer": 2,
+    "explain": "Encapsulation."
+   },
+   {
+    "q": "A UI test fails only in CI. What do you collect first?",
+    "options": [
+     "Screenshots, logs and traces from the failing run",
+     "Nothing",
+     "Retry",
+     "Disable"
+    ],
+    "answer": 0,
+    "explain": "Evidence."
+   },
+   {
+    "q": "When is a retry acceptable?",
+    "options": [
+     "Forever",
+     "Always",
+     "Never",
+     "Temporarily, while tracking and fixing the root cause of flakiness"
+    ],
+    "answer": 3,
+    "explain": "Don't hide it."
+   },
+   {
+    "q": "What does Hypothesis add?",
+    "options": [
+     "Generated inputs and shrinking to minimal failing examples",
+     "Mocks",
+     "Reports",
+     "Browsers"
+    ],
+    "answer": 0,
+    "explain": "Properties."
+   },
+   {
+    "q": "What does contract testing protect?",
+    "options": [
+     "DB",
+     "Load",
+     "Integrations between consumers and providers without full end-to-end environments",
+     "UI"
+    ],
+    "answer": 2,
+    "explain": "Pact."
+   },
+   {
+    "q": "Why not chase 100% coverage?",
+    "options": [
+     "Speed",
+     "Coverage doesn't prove assertions are meaningful",
+     "Law",
+     "Cost"
+    ],
+    "answer": 1,
+    "explain": "Focus on risk."
+   },
+   {
+    "q": "What belongs in a quality gate?",
+    "options": [
+     "Docs",
+     "Tests passing, coverage trend and security scan results",
+     "Meetings",
+     "Opinion"
+    ],
+    "answer": 1,
+    "explain": "Automated."
+   },
+   {
+    "q": "How run tests in parallel safely?",
+    "options": [
+     "Make them independent and isolate shared resources",
+     "Global DB",
+     "Share files",
+     "More sleep"
+    ],
+    "answer": 0,
+    "explain": "pytest-xdist."
+   },
+   {
+    "q": "What does shift-left mean?",
+    "options": [
+     "Finding defects earlier through reviews, unit tests and CI",
+     "Manual",
+     "Later",
+     "UI"
+    ],
+    "answer": 0,
+    "explain": "Cheaper."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A parametrized test suite for a shopping cart",
+    "prompt": "Write the pytest suite for the Cart class: a fixture, merging quantities, parametrized rejection of bad input, parametrized discount boundaries, KeyError on removing a missing SKU, a total and one strict xfail that documents an unspecified rounding case. The file runs itself with pytest.main so it can be executed with plain python.",
+    "starter": "import pytest\n\n# ---- code under test ----\nclass Cart:\n    def __init__(self): self.lines = {}\n    def add(self, sku, qty, price_cents):\n        if qty <= 0: raise ValueError(\"qty must be positive\")\n        if price_cents < 0: raise ValueError(\"price must not be negative\")\n        if sku in self.lines: self.lines[sku][0] += qty\n        else: self.lines[sku] = [qty, price_cents]\n    def remove(self, sku):\n        del self.lines[sku]\n    def subtotal(self): return sum(q * p for q, p in self.lines.values())\n    def discount(self): return self.subtotal() // 10 if self.subtotal() >= 10_000 else 0\n    def total(self): return self.subtotal() - self.discount()\n\n# ---- tests ----\n# TODO: write tests (pytest) so that the final run reports:  10 passed, 1 xfailed\n#  - a `cart` fixture with 2 pens at 250 cents\n#  - subtotal, merging quantities on a repeated add\n#  - parametrized rejection of bad input (qty 0, qty -1, negative price)  -> 3 tests\n#  - parametrized discount boundary (9_999 -> 0, 10_000 -> 1_000, 25_000 -> 2_500)  -> 3 tests\n#  - removing a missing SKU raises KeyError\n#  - total after discount (4 x 3_000 -> 10_800)\n#  - one strict xfail documenting that fractional-cent discounts are unspecified\n\nif __name__ == \"__main__\":\n    raise SystemExit(pytest.main([__file__, \"-q\", \"--tb=no\", \"-rN\", \"-p\", \"no:cacheprovider\", \"-W\", \"ignore\"]))\n",
+    "expected": "..........x                                                              [100%]\n10 passed, 1 xfailed",
+    "solution": "import pytest\n\n# ---- code under test ----\nclass Cart:\n    def __init__(self): self.lines = {}\n    def add(self, sku, qty, price_cents):\n        if qty <= 0: raise ValueError(\"qty must be positive\")\n        if price_cents < 0: raise ValueError(\"price must not be negative\")\n        if sku in self.lines: self.lines[sku][0] += qty\n        else: self.lines[sku] = [qty, price_cents]\n    def remove(self, sku):\n        del self.lines[sku]\n    def subtotal(self): return sum(q * p for q, p in self.lines.values())\n    def discount(self): return self.subtotal() // 10 if self.subtotal() >= 10_000 else 0\n    def total(self): return self.subtotal() - self.discount()\n\n# ---- tests ----\n@pytest.fixture\ndef cart():\n    c = Cart(); c.add(\"pen\", 2, 250); return c\n\ndef test_subtotal(cart):\n    assert cart.subtotal() == 500\n\ndef test_add_merges_quantities(cart):\n    cart.add(\"pen\", 3, 250)\n    assert cart.lines[\"pen\"][0] == 5 and cart.subtotal() == 1250\n\n@pytest.mark.parametrize(\"qty,price\", [(0, 100), (-1, 100), (1, -5)])\ndef test_add_rejects_bad_input(qty, price):\n    with pytest.raises(ValueError):\n        Cart().add(\"x\", qty, price)\n\n@pytest.mark.parametrize(\"subtotal_cents,expected_discount\", [(9_999, 0), (10_000, 1_000), (25_000, 2_500)])\ndef test_discount_boundary(subtotal_cents, expected_discount):\n    c = Cart(); c.add(\"big\", 1, subtotal_cents)\n    assert c.discount() == expected_discount\n\ndef test_remove_missing_sku_raises(cart):\n    with pytest.raises(KeyError):\n        cart.remove(\"nope\")\n\ndef test_total_after_discount():\n    c = Cart(); c.add(\"a\", 4, 3_000)\n    assert c.total() == 10_800\n\n@pytest.mark.xfail(reason=\"rounding of fractional cents is not specified yet\", strict=True)\ndef test_known_gap():\n    c = Cart(); c.add(\"a\", 1, 10_001)\n    assert c.discount() == 1_000.1\n\nif __name__ == \"__main__\":\n    raise SystemExit(pytest.main([__file__, \"-q\", \"--tb=no\", \"-rN\", \"-p\", \"no:cacheprovider\", \"-W\", \"ignore\"]))\n",
+    "explain": "Fixtures give every test fresh state, parametrization turns boundary tables into separate test cases, pytest.raises checks the error path and a strict xfail documents a known gap (it would fail the run if the behavior unexpectedly started working). Verified by running the file with pytest."
+   },
+   {
+    "title": "Testing a rate limiter with a fake clock, parametrization and Hypothesis",
+    "prompt": "Write tests for a token-bucket RateLimiter using an injected FakeClock (no real sleeping), a parametrized partial-refill table and two Hypothesis properties (tokens stay in bounds; allowed calls never exceed the budget). Include a test proving the limiter uses the injected clock and not wall time.",
+    "starter": "import time\nimport pytest\nfrom hypothesis import given, strategies as st\n\n# ---- code under test: a token-bucket rate limiter with an injectable clock ----\nclass RateLimiter:\n    def __init__(self, capacity, per_second, clock=time.monotonic):\n        self.capacity, self.rate, self.clock = capacity, per_second, clock\n        self.tokens, self.last = float(capacity), clock()\n    def allow(self, cost=1):\n        now = self.clock()\n        self.tokens = min(self.capacity, self.tokens + (now - self.last) * self.rate)\n        self.last = now\n        if self.tokens >= cost:\n            self.tokens -= cost\n            return True\n        return False\n\nclass FakeClock:\n    def __init__(self): self.t = 0.0\n    def __call__(self): return self.t\n    def advance(self, s): self.t += s\n\n# ---- tests ----\n# TODO: write the tests so the run reports:  9 passed\n#  - a FakeClock-based `clock` fixture (already defined above)\n#  - burst of 3 then blocked; refill after advancing the clock\n#  - parametrized partial refill: capacity 1, rate 2/s: waits 0.4 -> False, 0.5 -> True, 10 -> True   (3 tests)\n#  - never exceeds capacity after a very long wait\n#  - hypothesis: tokens always within [0, capacity] for random waits\n#  - hypothesis: number of allowed calls == min(capacity, calls) when the rate is 1/s and no time passes\n#  - the limiter uses the injected clock, not wall time (sleep 10 ms, still blocked)\n\nif __name__ == \"__main__\":\n    raise SystemExit(pytest.main([__file__, \"-q\", \"--tb=no\", \"-rN\", \"-p\", \"no:cacheprovider\", \"-W\", \"ignore\"]))\n",
+    "expected": ".........                                                                [100%]\n9 passed",
+    "solution": "import time\nimport pytest\nfrom hypothesis import given, strategies as st\n\n# ---- code under test: a token-bucket rate limiter with an injectable clock ----\nclass RateLimiter:\n    def __init__(self, capacity, per_second, clock=time.monotonic):\n        self.capacity, self.rate, self.clock = capacity, per_second, clock\n        self.tokens, self.last = float(capacity), clock()\n    def allow(self, cost=1):\n        now = self.clock()\n        self.tokens = min(self.capacity, self.tokens + (now - self.last) * self.rate)\n        self.last = now\n        if self.tokens >= cost:\n            self.tokens -= cost\n            return True\n        return False\n\nclass FakeClock:\n    def __init__(self): self.t = 0.0\n    def __call__(self): return self.t\n    def advance(self, s): self.t += s\n\n# ---- tests ----\n@pytest.fixture\ndef clock(): return FakeClock()\n\ndef test_burst_then_blocked(clock):\n    rl = RateLimiter(3, 1, clock)\n    assert [rl.allow() for _ in range(4)] == [True, True, True, False]\n\ndef test_refills_over_time(clock):\n    rl = RateLimiter(2, 1, clock)\n    rl.allow(); rl.allow()\n    assert not rl.allow()\n    clock.advance(1)\n    assert rl.allow() and not rl.allow()\n\n@pytest.mark.parametrize(\"wait,expected\", [(0.4, False), (0.5, True), (10, True)])\ndef test_partial_refill(clock, wait, expected):\n    rl = RateLimiter(1, 2, clock)\n    assert rl.allow()\n    clock.advance(wait)\n    assert rl.allow() == expected\n\ndef test_never_exceeds_capacity(clock):\n    rl = RateLimiter(2, 5, clock)\n    clock.advance(1000)\n    assert [rl.allow() for _ in range(3)] == [True, True, False]\n\n@given(st.lists(st.floats(min_value=0, max_value=5, allow_nan=False), max_size=50))\ndef test_tokens_stay_within_bounds(waits):\n    clock = FakeClock(); rl = RateLimiter(4, 2, clock)\n    for w in waits:\n        clock.advance(w)\n        rl.allow()\n        assert 0 <= rl.tokens <= rl.capacity\n\n@given(st.integers(min_value=1, max_value=20), st.integers(min_value=1, max_value=20))\ndef test_allowed_never_exceeds_budget(capacity, calls):\n    clock = FakeClock(); rl = RateLimiter(capacity, 1, clock)\n    assert sum(rl.allow() for _ in range(calls)) == min(capacity, calls)\n\ndef test_uses_injected_clock_not_wall_time(clock):\n    rl = RateLimiter(1, 1, clock)\n    assert rl.allow()\n    time.sleep(0.01)                      # real time passing must not refill the bucket\n    assert not rl.allow()\n\nif __name__ == \"__main__\":\n    raise SystemExit(pytest.main([__file__, \"-q\", \"--tb=no\", \"-rN\", \"-p\", \"no:cacheprovider\", \"-W\", \"ignore\"]))\n",
+    "explain": "Injecting the clock makes time-based code deterministic; properties check invariants for many generated inputs; example-based tests pin down boundaries. Verified by running the file with pytest and Hypothesis."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
