@@ -1,0 +1,2159 @@
+{
+ "course": "observability-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-observability-means": {
+   "questions": [
+    {
+     "q": "What is observability?",
+     "options": [
+      "Logging only",
+      "Alerts",
+      "Dashboards",
+      "The ability to understand a system's internal state from the telemetry it emits"
+     ],
+     "answer": 3,
+     "explain": "Ask new questions without new code."
+    },
+    {
+     "q": "How does observability differ from monitoring?",
+     "options": [
+      "Monitoring checks known failure modes; observability helps explore unknown ones",
+      "None",
+      "Same",
+      "Reverse"
+     ],
+     "answer": 0,
+     "explain": "Unknown unknowns."
+    },
+    {
+     "q": "What are the three pillars?",
+     "options": [
+      "CPU, RAM, disk",
+      "Alerts, pages, tickets",
+      "Metrics, logs and traces",
+      "Dev, test, prod"
+     ],
+     "answer": 2,
+     "explain": "Complementary signals."
+    },
+    {
+     "q": "Which pillar is best for 'is something wrong right now'?",
+     "options": [
+      "Profiles",
+      "Traces",
+      "Logs",
+      "Metrics (cheap, aggregated, alertable)"
+     ],
+     "answer": 3,
+     "explain": "Then drill down."
+    }
+   ]
+  },
+  "level-1/02-prometheus-data-model": {
+   "questions": [
+    {
+     "q": "What is a Prometheus time series identified by?",
+     "options": [
+      "Timestamp",
+      "A metric name plus a set of label key/value pairs",
+      "Host",
+      "Name only"
+     ],
+     "answer": 1,
+     "explain": "Dimensions."
+    },
+    {
+     "q": "What's a sample?",
+     "options": [
+      "A timestamped float value of a series",
+      "Rule",
+      "Query",
+      "Label"
+     ],
+     "answer": 0,
+     "explain": "Scraped periodically."
+    },
+    {
+     "q": "What does `http_requests_total{method=\"GET\"}` select?",
+     "options": [
+      "Rate",
+      "All",
+      "Sum",
+      "Series of that metric whose method label equals GET"
+     ],
+     "answer": 3,
+     "explain": "Label matchers."
+    },
+    {
+     "q": "Why avoid high-cardinality labels?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "Each unique combination is a new series, exploding memory and storage"
+     ],
+     "answer": 3,
+     "explain": "No user IDs."
+    }
+   ]
+  },
+  "level-1/03-instrumenting-metric-types": {
+   "questions": [
+    {
+     "q": "What are the four core metric types?",
+     "options": [
+      "Int, float",
+      "Sum, avg",
+      "Count, rate",
+      "Counter, gauge, histogram and summary"
+     ],
+     "answer": 3,
+     "explain": "Choose by semantics."
+    },
+    {
+     "q": "When use a counter?",
+     "options": [
+      "For monotonically increasing totals like requests or errors",
+      "Queue size",
+      "Memory",
+      "Temperature"
+     ],
+     "answer": 0,
+     "explain": "Use rate()."
+    },
+    {
+     "q": "When use a gauge?",
+     "options": [
+      "For values that go up and down (queue depth, temperature)",
+      "Totals",
+      "Latency buckets",
+      "Errors"
+     ],
+     "answer": 0,
+     "explain": "Current state."
+    },
+    {
+     "q": "What does a counter do on restart?",
+     "options": [
+      "Resets to zero, which rate() handles",
+      "Keeps",
+      "Errors",
+      "Doubles"
+     ],
+     "answer": 0,
+     "explain": "Reset-aware."
+    }
+   ]
+  },
+  "level-1/04-scraping-service-discovery": {
+   "questions": [
+    {
+     "q": "How does Prometheus collect metrics?",
+     "options": [
+      "Agents push",
+      "By pulling (scraping) HTTP /metrics endpoints",
+      "Push only",
+      "Logs"
+     ],
+     "answer": 1,
+     "explain": "Pull model."
+    },
+    {
+     "q": "What does service discovery do?",
+     "options": [
+      "Queries",
+      "Alerts",
+      "Stores",
+      "Finds scrape targets dynamically (Kubernetes, DNS, file)"
+     ],
+     "answer": 3,
+     "explain": "Cloud-native."
+    },
+    {
+     "q": "What does relabeling do?",
+     "options": [
+      "Rules",
+      "Rewrites labels or filters targets before/after scraping",
+      "Joins",
+      "Dashboards"
+     ],
+     "answer": 1,
+     "explain": "Control cardinality."
+    },
+    {
+     "q": "What's the Pushgateway for?",
+     "options": [
+      "Services",
+      "Alerts",
+      "Everything",
+      "Short-lived batch jobs that can't be scraped"
+     ],
+     "answer": 3,
+     "explain": "Not general push."
+    }
+   ]
+  },
+  "level-1/05-promql-basics": {
+   "questions": [
+    {
+     "q": "What does `rate(http_requests_total[5m])` return?",
+     "options": [
+      "Sum",
+      "Per-second average rate of increase over 5 minutes",
+      "Total",
+      "Gauge"
+     ],
+     "answer": 1,
+     "explain": "Counters need rate."
+    },
+    {
+     "q": "What does `{__name__=~\"http.*\"}` do?",
+     "options": [
+      "Joins",
+      "Alerts",
+      "Aggregates",
+      "Selects series by regex on the metric name"
+     ],
+     "answer": 3,
+     "explain": "Matchers."
+    },
+    {
+     "q": "What's an instant vector?",
+     "options": [
+      "Scalar",
+      "String",
+      "One sample per series at a single timestamp",
+      "Range"
+     ],
+     "answer": 2,
+     "explain": "Query result."
+    },
+    {
+     "q": "What's a range vector?",
+     "options": [
+      "Label",
+      "A set of samples per series over a time window ([5m])",
+      "Scalar",
+      "Instant"
+     ],
+     "answer": 1,
+     "explain": "Used by rate()."
+    }
+   ]
+  },
+  "level-1/06-promql-aggregation-rate": {
+   "questions": [
+    {
+     "q": "What does `sum by (service) (rate(x[5m]))` do?",
+     "options": [
+      "Overall",
+      "Total per-second rate grouped by service",
+      "Per instance",
+      "Max"
+     ],
+     "answer": 1,
+     "explain": "Aggregation."
+    },
+    {
+     "q": "Why `rate` before `sum`?",
+     "options": [
+      "Counters must be converted per series before aggregating (resets are per series)",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Order matters."
+    },
+    {
+     "q": "What does `increase()` return?",
+     "options": [
+      "Rate",
+      "Total increase over the window",
+      "Max",
+      "Gauge"
+     ],
+     "answer": 1,
+     "explain": "rate x time."
+    },
+    {
+     "q": "What does `without` do in aggregation?",
+     "options": [
+      "by",
+      "Groups by all labels except those listed",
+      "Drop series",
+      "Sum"
+     ],
+     "answer": 1,
+     "explain": "Opposite of by."
+    }
+   ]
+  },
+  "level-1/07-histogram-quantiles": {
+   "questions": [
+    {
+     "q": "What does a histogram store?",
+     "options": [
+      "Cumulative bucket counters, a sum and a count of observations",
+      "Raw values",
+      "Averages",
+      "Quantiles"
+     ],
+     "answer": 0,
+     "explain": "Aggregatable."
+    },
+    {
+     "q": "How compute p95 latency across instances?",
+     "options": [
+      "histogram_quantile(0.95, sum by (le) (rate(x_bucket[5m])))",
+      "max",
+      "avg",
+      "quantile()"
+     ],
+     "answer": 0,
+     "explain": "Sum buckets by le."
+    },
+    {
+     "q": "Why not average percentiles?",
+     "options": [
+      "Style",
+      "Percentiles can't be averaged across instances correctly",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Use histograms."
+    },
+    {
+     "q": "What limits histogram accuracy?",
+     "options": [
+      "Bucket boundaries (estimates inside a bucket)",
+      "Scrape",
+      "Labels",
+      "Retention"
+     ],
+     "answer": 0,
+     "explain": "Choose buckets near SLO."
+    }
+   ]
+  },
+  "level-1/08-recording-rules": {
+   "questions": [
+    {
+     "q": "What do recording rules do?",
+     "options": [
+      "Precompute expensive expressions and store them as new series",
+      "Delete",
+      "Alert",
+      "Scrape"
+     ],
+     "answer": 0,
+     "explain": "Faster dashboards."
+    },
+    {
+     "q": "Naming convention for recorded series?",
+     "options": [
+      "Any",
+      "level:metric:operations",
+      "camelCase",
+      "spaces"
+     ],
+     "answer": 1,
+     "explain": "job:http_requests:rate5m."
+    },
+    {
+     "q": "Why use them for alerts/dashboards?",
+     "options": [
+      "Law",
+      "Reduce query cost and keep results consistent",
+      "Cost only",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Performance."
+    },
+    {
+     "q": "Where are rules defined?",
+     "options": [
+      "Alertmanager",
+      "Grafana",
+      "Code",
+      "In rule files loaded by Prometheus"
+     ],
+     "answer": 3,
+     "explain": "YAML."
+    }
+   ]
+  },
+  "level-1/09-prometheus-storage-tsdb": {
+   "questions": [
+    {
+     "q": "What is the TSDB?",
+     "options": [
+      "Prometheus's local time-series database with blocks and a WAL",
+      "Remote DB",
+      "SQL",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "Efficient storage."
+    },
+    {
+     "q": "What does retention control?",
+     "options": [
+      "Scrape",
+      "How long local data is kept before deletion",
+      "Rules",
+      "Labels"
+     ],
+     "answer": 1,
+     "explain": "--storage.tsdb.retention.time."
+    },
+    {
+     "q": "What is the WAL for?",
+     "options": [
+      "Queries",
+      "Alerts",
+      "Auth",
+      "Durability of recent samples before they're compacted into blocks"
+     ],
+     "answer": 3,
+     "explain": "Crash recovery."
+    },
+    {
+     "q": "When use remote storage?",
+     "options": [
+      "Local",
+      "Short",
+      "Never",
+      "Long-term retention or global views (Thanos/Mimir)"
+     ],
+     "answer": 3,
+     "explain": "Scale."
+    }
+   ]
+  },
+  "level-1/10-project-instrument-scrape": {
+   "questions": [
+    {
+     "q": "What does the instrument-and-scrape project combine?",
+     "options": [
+      "Only Grafana",
+      "Only logs",
+      "Only traces",
+      "Client library metrics, a /metrics endpoint, scrape config and PromQL"
+     ],
+     "answer": 3,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "What should an instrumented service expose?",
+     "options": [
+      "Logs",
+      "Users",
+      "Request counts, errors and latency histograms by route/status",
+      "CPU only"
+     ],
+     "answer": 2,
+     "explain": "RED."
+    },
+    {
+     "q": "How verify scraping works?",
+     "options": [
+      "Logs",
+      "Assume",
+      "Grep",
+      "Check the target is UP in Prometheus and query the series"
+     ],
+     "answer": 3,
+     "explain": "up metric."
+    },
+    {
+     "q": "What label hygiene applies?",
+     "options": [
+      "Full URL",
+      "User id",
+      "Any",
+      "Use bounded labels like route templates, not raw paths or IDs"
+     ],
+     "answer": 3,
+     "explain": "Cardinality."
+    }
+   ]
+  },
+  "level-2/01-grafana-fundamentals": {
+   "questions": [
+    {
+     "q": "What does Grafana do?",
+     "options": [
+      "Visualizes and explores data from many data sources",
+      "Scrapes",
+      "Stores metrics",
+      "Routes alerts"
+     ],
+     "answer": 0,
+     "explain": "Dashboards."
+    },
+    {
+     "q": "What's a data source?",
+     "options": [
+      "A backend Grafana queries (Prometheus, Loki, Tempo)",
+      "Plugin",
+      "User",
+      "Panel"
+     ],
+     "answer": 0,
+     "explain": "Connections."
+    },
+    {
+     "q": "What are template variables?",
+     "options": [
+      "Alerts",
+      "Rules",
+      "Dropdowns parameterizing dashboards (env, service)",
+      "Users"
+     ],
+     "answer": 2,
+     "explain": "Reusable."
+    },
+    {
+     "q": "Why version dashboards as code?",
+     "options": [
+      "Speed",
+      "Review, reproducibility and consistency",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Provisioning/JSON."
+    }
+   ]
+  },
+  "level-2/02-red-dashboard": {
+   "questions": [
+    {
+     "q": "What does RED stand for?",
+     "options": [
+      "Read, Edit, Delete",
+      "Rate, Errors, Duration (for request-driven services)",
+      "Rows",
+      "Rate, Error, Delay"
+     ],
+     "answer": 1,
+     "explain": "Service view."
+    },
+    {
+     "q": "Which panels form a RED dashboard?",
+     "options": [
+      "Disk",
+      "Memory",
+      "Request rate, error ratio and latency percentiles",
+      "CPU"
+     ],
+     "answer": 2,
+     "explain": "Per service."
+    },
+    {
+     "q": "Why show error ratio not just count?",
+     "options": [
+      "A count rises with traffic; a ratio shows health",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Normalize."
+    },
+    {
+     "q": "What's a good latency view?",
+     "options": [
+      "Average only",
+      "Max",
+      "Min",
+      "p50/p95/p99 from histograms"
+     ],
+     "answer": 3,
+     "explain": "Tail matters."
+    }
+   ]
+  },
+  "level-2/03-golden-signals-use-method": {
+   "questions": [
+    {
+     "q": "What are the four golden signals?",
+     "options": [
+      "USE",
+      "Latency, traffic, errors and saturation",
+      "CPU, RAM",
+      "RED"
+     ],
+     "answer": 1,
+     "explain": "Google SRE."
+    },
+    {
+     "q": "What does USE stand for?",
+     "options": [
+      "Usage",
+      "Uptime",
+      "Use, Save, Edit",
+      "Utilization, Saturation, Errors (for resources)"
+     ],
+     "answer": 3,
+     "explain": "Resource view."
+    },
+    {
+     "q": "When use USE vs RED?",
+     "options": [
+      "Same",
+      "USE for resources (CPU, disks); RED for services/requests",
+      "None",
+      "Reverse"
+     ],
+     "answer": 1,
+     "explain": "Complementary."
+    },
+    {
+     "q": "What is saturation?",
+     "options": [
+      "Errors",
+      "Speed",
+      "Cost",
+      "How full a resource is or how much queued work exists"
+     ],
+     "answer": 3,
+     "explain": "Early warning."
+    }
+   ]
+  },
+  "level-2/04-alerting-rules-alertmanager": {
+   "questions": [
+    {
+     "q": "What does Alertmanager do?",
+     "options": [
+      "Deduplicates, groups, routes and silences alerts from Prometheus",
+      "Stores",
+      "Evaluates",
+      "Queries"
+     ],
+     "answer": 0,
+     "explain": "Notification layer."
+    },
+    {
+     "q": "What does `for: 10m` in an alert rule mean?",
+     "options": [
+      "The condition must hold for 10 minutes before firing",
+      "Expire",
+      "Delay",
+      "Repeat"
+     ],
+     "answer": 0,
+     "explain": "Avoid flapping."
+    },
+    {
+     "q": "What belongs in alert labels vs annotations?",
+     "options": [
+      "None",
+      "Reverse",
+      "Same",
+      "Labels for routing/identity; annotations for summary and runbook text"
+     ],
+     "answer": 3,
+     "explain": "Templating."
+    },
+    {
+     "q": "What makes an alert expression good?",
+     "options": [
+      "Any metric",
+      "Disk",
+      "CPU 80%",
+      "Based on symptoms users feel (errors, latency) not causes"
+     ],
+     "answer": 3,
+     "explain": "Actionable."
+    }
+   ]
+  },
+  "level-2/05-alert-routing-grouping-silencing": {
+   "questions": [
+    {
+     "q": "What is grouping in Alertmanager?",
+     "options": [
+      "Combining related alerts into one notification",
+      "Silencing",
+      "Routing",
+      "Deleting"
+     ],
+     "answer": 0,
+     "explain": "Reduce noise."
+    },
+    {
+     "q": "What is a silence?",
+     "options": [
+      "Route",
+      "Delete",
+      "A temporary mute for matching alerts (e.g. maintenance)",
+      "Group"
+     ],
+     "answer": 2,
+     "explain": "Expires."
+    },
+    {
+     "q": "What's an inhibition rule?",
+     "options": [
+      "Route",
+      "Silence",
+      "Group",
+      "Suppresses lower-severity alerts when a related higher one is firing"
+     ],
+     "answer": 3,
+     "explain": "Cluster down hides pod alerts."
+    },
+    {
+     "q": "How route to teams?",
+     "options": [
+      "Manual",
+      "Random",
+      "Routing tree matching labels like team and severity",
+      "Email list"
+     ],
+     "answer": 2,
+     "explain": "receiver."
+    }
+   ]
+  },
+  "level-2/06-avoiding-alert-fatigue": {
+   "questions": [
+    {
+     "q": "What causes alert fatigue?",
+     "options": [
+      "Silences",
+      "Too many low-value or non-actionable alerts",
+      "Dashboards",
+      "Few alerts"
+     ],
+     "answer": 1,
+     "explain": "Ignored pages."
+    },
+    {
+     "q": "What's a good paging criterion?",
+     "options": [
+      "Warnings",
+      "Any alert",
+      "Disk 70%",
+      "Urgent, user-impacting and requires human action now"
+     ],
+     "answer": 3,
+     "explain": "Else ticket."
+    },
+    {
+     "q": "How reduce noise?",
+     "options": [
+      "More alerts",
+      "Mute all",
+      "Alert on symptoms/SLOs, tune thresholds and add `for` durations",
+      "Lower thresholds"
+     ],
+     "answer": 2,
+     "explain": "Review alerts regularly."
+    },
+    {
+     "q": "What should every page have?",
+     "options": [
+      "A runbook link and clear impact",
+      "Nothing",
+      "Joke",
+      "Logo"
+     ],
+     "answer": 0,
+     "explain": "Actionable."
+    }
+   ]
+  },
+  "level-2/07-centralized-logging-fundamentals": {
+   "questions": [
+    {
+     "q": "Why centralize logs?",
+     "options": [
+      "Law",
+      "Search and correlate across many instances and services",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Ephemeral hosts."
+    },
+    {
+     "q": "What do log shippers do?",
+     "options": [
+      "Query",
+      "Collect and forward logs (Promtail, Fluent Bit, Filebeat)",
+      "Store",
+      "Alert"
+     ],
+     "answer": 1,
+     "explain": "Agents."
+    },
+    {
+     "q": "What's Loki's approach?",
+     "options": [
+      "Index only labels and store log content compressed (cheap)",
+      "SQL",
+      "Full-text",
+      "Graph"
+     ],
+     "answer": 0,
+     "explain": "Label-based."
+    },
+    {
+     "q": "What retention trade-off exists?",
+     "options": [
+      "Cost vs how far back you can search",
+      "None",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Tiering."
+    }
+   ]
+  },
+  "level-2/08-structured-logging-correlation": {
+   "questions": [
+    {
+     "q": "What is structured logging?",
+     "options": [
+      "Free text",
+      "XML",
+      "Binary",
+      "Emitting logs as key/value (JSON) records"
+     ],
+     "answer": 3,
+     "explain": "Machine-parsable."
+    },
+    {
+     "q": "What enables cross-service debugging?",
+     "options": [
+      "A correlation/trace ID in every log line",
+      "Timestamps",
+      "Level",
+      "Host"
+     ],
+     "answer": 0,
+     "explain": "Propagate headers."
+    },
+    {
+     "q": "What shouldn't be logged?",
+     "options": [
+      "Secrets, tokens and sensitive personal data",
+      "IDs",
+      "Errors",
+      "Levels"
+     ],
+     "answer": 0,
+     "explain": "Redact."
+    },
+    {
+     "q": "Why consistent field names?",
+     "options": [
+      "Speed",
+      "Law",
+      "Queries and dashboards work across services",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Schema."
+    }
+   ]
+  },
+  "level-2/09-log-based-vs-native-metrics": {
+   "questions": [
+    {
+     "q": "When prefer native metrics over log-derived ones?",
+     "options": [
+      "Audit",
+      "Rare events",
+      "Debug",
+      "For high-volume, reliable numeric signals (cheaper and more accurate)"
+     ],
+     "answer": 3,
+     "explain": "Instrument."
+    },
+    {
+     "q": "When derive metrics from logs?",
+     "options": [
+      "Never",
+      "Legacy apps you can't change or rare events",
+      "New apps",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "Pragmatic."
+    },
+    {
+     "q": "What's a risk of log-based metrics?",
+     "options": [
+      "Cost and fragility from parsing/format changes",
+      "Law",
+      "None",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Maintenance."
+    },
+    {
+     "q": "Which is cheaper per datapoint?",
+     "options": [
+      "Traces",
+      "Metrics (pre-aggregated) over logs",
+      "Logs",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Storage."
+    }
+   ]
+  },
+  "level-2/10-project-real-alert-pages": {
+   "questions": [
+    {
+     "q": "What does the alert pages project combine?",
+     "options": [
+      "Only dashboards",
+      "Only logs",
+      "Only traces",
+      "SLO-style rules, routing, grouping and runbooks that page on user impact"
+     ],
+     "answer": 3,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How test an alert?",
+     "options": [
+      "Skip",
+      "Inject a fault or replay data and confirm it fires and routes",
+      "Hope",
+      "Assume"
+     ],
+     "answer": 1,
+     "explain": "Verify."
+    },
+    {
+     "q": "What's included in a runbook?",
+     "options": [
+      "None",
+      "Logo",
+      "Meaning, impact, diagnosis steps and mitigation",
+      "Chat"
+     ],
+     "answer": 2,
+     "explain": "Actionable."
+    },
+    {
+     "q": "How prove it's not noisy?",
+     "options": [
+      "Mute",
+      "Review pages over time and fix false positives",
+      "Never",
+      "Count"
+     ],
+     "answer": 1,
+     "explain": "Iterate."
+    }
+   ]
+  },
+  "level-3/01-opentelemetry-fundamentals": {
+   "questions": [
+    {
+     "q": "What is OpenTelemetry?",
+     "options": [
+      "A DB",
+      "A vendor-neutral standard and SDKs for traces, metrics and logs",
+      "A backend",
+      "A UI"
+     ],
+     "answer": 1,
+     "explain": "CNCF project."
+    },
+    {
+     "q": "What does OTel provide beyond SDKs?",
+     "options": [
+      "A wire protocol (OTLP) and a Collector",
+      "Storage",
+      "Alerts",
+      "Dashboards"
+     ],
+     "answer": 0,
+     "explain": "Standard."
+    },
+    {
+     "q": "Why vendor-neutral instrumentation?",
+     "options": [
+      "Switch backends without re-instrumenting code",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Portability."
+    },
+    {
+     "q": "What are semantic conventions?",
+     "options": [
+      "Config",
+      "Standard names/attributes for common concepts (http.method)",
+      "Rules",
+      "Style guide"
+     ],
+     "answer": 1,
+     "explain": "Consistency."
+    }
+   ]
+  },
+  "level-3/02-instrumenting-spans-context": {
+   "questions": [
+    {
+     "q": "What is a span?",
+     "options": [
+      "A timed operation within a trace with attributes and parent link",
+      "Metric",
+      "Log",
+      "Alert"
+     ],
+     "answer": 0,
+     "explain": "Unit of work."
+    },
+    {
+     "q": "What is context propagation?",
+     "options": [
+      "Logging",
+      "Retry",
+      "Passing trace IDs across process boundaries via headers",
+      "Cache"
+     ],
+     "answer": 2,
+     "explain": "traceparent."
+    },
+    {
+     "q": "What standard header carries trace context?",
+     "options": [
+      "X-Trace",
+      "Auth",
+      "W3C traceparent",
+      "Cookie"
+     ],
+     "answer": 2,
+     "explain": "Interoperable."
+    },
+    {
+     "q": "Why add attributes to spans?",
+     "options": [
+      "Law",
+      "Filtering and analysis by business/technical dimensions",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Bounded values."
+    }
+   ]
+  },
+  "level-3/03-otel-metrics-convergence": {
+   "questions": [
+    {
+     "q": "What does OTel metrics aim for?",
+     "options": [
+      "Storage",
+      "A unified API/SDK with Prometheus-compatible export",
+      "Replace logs",
+      "Replace traces"
+     ],
+     "answer": 1,
+     "explain": "Convergence."
+    },
+    {
+     "q": "What are exemplars?",
+     "options": [
+      "Logs",
+      "Sample trace IDs attached to metric points linking to traces",
+      "Labels",
+      "Alerts"
+     ],
+     "answer": 1,
+     "explain": "Metric to trace."
+    },
+    {
+     "q": "What's delta vs cumulative temporality?",
+     "options": [
+      "Reverse",
+      "Same",
+      "None",
+      "Delta reports change per interval; cumulative reports totals since start"
+     ],
+     "answer": 3,
+     "explain": "Backend dependent."
+    },
+    {
+     "q": "What helps migration from Prometheus clients?",
+     "options": [
+      "Rewrite",
+      "Fork",
+      "None",
+      "The OTel Prometheus bridge/exporter"
+     ],
+     "answer": 3,
+     "explain": "Gradual."
+    }
+   ]
+  },
+  "level-3/04-exporters-collector": {
+   "questions": [
+    {
+     "q": "What does the OTel Collector do?",
+     "options": [
+      "Stores",
+      "Queries",
+      "Alerts",
+      "Receives, processes and exports telemetry vendor-neutrally"
+     ],
+     "answer": 3,
+     "explain": "Pipeline."
+    },
+    {
+     "q": "Why run a Collector?",
+     "options": [
+      "Style",
+      "Speed only",
+      "Batching, retries, filtering and central config away from apps",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Decouple."
+    },
+    {
+     "q": "What are processors for?",
+     "options": [
+      "Alert",
+      "Transforming/filtering telemetry (batch, attributes, sampling)",
+      "Route",
+      "Store"
+     ],
+     "answer": 1,
+     "explain": "Pipeline steps."
+    },
+    {
+     "q": "Agent vs gateway mode?",
+     "options": [
+      "None",
+      "Same",
+      "Reverse",
+      "Agent runs per host; gateway is a central service"
+     ],
+     "answer": 3,
+     "explain": "Topologies."
+    }
+   ]
+  },
+  "level-3/05-sampling-strategies": {
+   "questions": [
+    {
+     "q": "Why sample traces?",
+     "options": [
+      "Full tracing is expensive at scale",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Cost control."
+    },
+    {
+     "q": "Head vs tail sampling?",
+     "options": [
+      "Same",
+      "None",
+      "Head decides at trace start; tail decides after seeing the whole trace",
+      "Reverse"
+     ],
+     "answer": 2,
+     "explain": "Tail keeps errors."
+    },
+    {
+     "q": "What does tail sampling enable?",
+     "options": [
+      "Random",
+      "None",
+      "Keeping all error/slow traces while dropping routine ones",
+      "Uniform"
+     ],
+     "answer": 2,
+     "explain": "Smart retention."
+    },
+    {
+     "q": "What's the downside of tail sampling?",
+     "options": [
+      "Needs buffering and more compute/memory",
+      "Speed",
+      "None",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Trade-off."
+    }
+   ]
+  },
+  "level-3/06-correlating-three-pillars": {
+   "questions": [
+    {
+     "q": "How link metrics, logs and traces?",
+     "options": [
+      "Hosts",
+      "Shared IDs/labels (trace_id in logs, exemplars on metrics)",
+      "Names",
+      "Timestamps"
+     ],
+     "answer": 1,
+     "explain": "Pivot between signals."
+    },
+    {
+     "q": "What's a good debugging flow?",
+     "options": [
+      "Logs only",
+      "Guess",
+      "Alert from metrics, find the slow trace, read its logs",
+      "Traces only"
+     ],
+     "answer": 2,
+     "explain": "Drill down."
+    },
+    {
+     "q": "What do exemplars add?",
+     "options": [
+      "Logs",
+      "Jump from a latency bucket to an example trace",
+      "Alerts",
+      "Joins"
+     ],
+     "answer": 1,
+     "explain": "Practical."
+    },
+    {
+     "q": "What makes correlation reliable?",
+     "options": [
+      "Consistent propagation of IDs through every hop",
+      "Docs",
+      "Names",
+      "Luck"
+     ],
+     "answer": 0,
+     "explain": "Instrumentation."
+    }
+   ]
+  },
+  "level-3/07-cardinality-explosion": {
+   "questions": [
+    {
+     "q": "What causes a cardinality explosion?",
+     "options": [
+      "Unbounded label values like user IDs or raw URLs",
+      "More hosts",
+      "Scrape interval",
+      "Retention"
+     ],
+     "answer": 0,
+     "explain": "Series multiply."
+    },
+    {
+     "q": "What are its symptoms?",
+     "options": [
+      "High memory/CPU, slow queries and scrape rejections",
+      "None",
+      "Cheap",
+      "Fast"
+     ],
+     "answer": 0,
+     "explain": "Outages."
+    },
+    {
+     "q": "A metric with labels user (10,000 values) and endpoint (50 values) creates how many series at most?\n```python\nprint(10000*50)\n```\n",
+     "options": [
+      "10050",
+      "50000",
+      "10000",
+      "500000"
+     ],
+     "answer": 3,
+     "explain": "Product of cardinalities. Verified by running it."
+    },
+    {
+     "q": "How mitigate?",
+     "options": [
+      "Retention",
+      "More RAM",
+      "Drop/aggregate high-cardinality labels and limit per-scrape series",
+      "Ignore"
+     ],
+     "answer": 2,
+     "explain": "relabel/sample_limit."
+    }
+   ]
+  },
+  "level-3/08-instrumentation-overhead": {
+   "questions": [
+    {
+     "q": "What does instrumentation overhead depend on?",
+     "options": [
+      "Color",
+      "Language",
+      "Names",
+      "Frequency of calls, attribute counts and sampling"
+     ],
+     "answer": 3,
+     "explain": "Measure it."
+    },
+    {
+     "q": "How reduce overhead?",
+     "options": [
+      "Sampling, batching exports and avoiding expensive attributes in hot paths",
+      "Sync export",
+      "None",
+      "More spans"
+     ],
+     "answer": 0,
+     "explain": "Async."
+    },
+    {
+     "q": "Why benchmark instrumentation?",
+     "options": [
+      "Style",
+      "To ensure observability doesn't harm latency",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Budget."
+    },
+    {
+     "q": "What's a safe default?",
+     "options": [
+      "Instrument boundaries (requests, dependencies), not every function",
+      "None",
+      "Loops",
+      "Every line"
+     ],
+     "answer": 0,
+     "explain": "Signal over noise."
+    }
+   ]
+  },
+  "level-3/09-blackbox-vs-whitebox": {
+   "questions": [
+    {
+     "q": "What is blackbox monitoring?",
+     "options": [
+      "Logs",
+      "Traces",
+      "Internals",
+      "Probing from outside like a user (HTTP checks)"
+     ],
+     "answer": 3,
+     "explain": "Symptoms."
+    },
+    {
+     "q": "What is whitebox monitoring?",
+     "options": [
+      "Pings",
+      "Probes",
+      "Using internal metrics exposed by the system",
+      "Surveys"
+     ],
+     "answer": 2,
+     "explain": "Causes."
+    },
+    {
+     "q": "Why use both?",
+     "options": [
+      "Law",
+      "Blackbox shows user impact; whitebox explains why",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Complementary."
+    },
+    {
+     "q": "What tool does blackbox probes?",
+     "options": [
+      "Grafana",
+      "Loki",
+      "Prometheus blackbox_exporter or synthetic monitors",
+      "Tempo"
+     ],
+     "answer": 2,
+     "explain": "Uptime."
+    }
+   ]
+  },
+  "level-3/10-project-full-stack-observability": {
+   "questions": [
+    {
+     "q": "What does the full-stack observability project combine?",
+     "options": [
+      "Only metrics",
+      "Only traces",
+      "Metrics, logs and traces correlated across services",
+      "Only logs"
+     ],
+     "answer": 2,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How prove correlation works?",
+     "options": [
+      "Assume",
+      "Guess",
+      "Follow one request from alert to trace to logs",
+      "Screens"
+     ],
+     "answer": 2,
+     "explain": "End to end."
+    },
+    {
+     "q": "What should be in the Collector config?",
+     "options": [
+      "Queries",
+      "Dashboards",
+      "Rules",
+      "Receivers, processors, exporters and pipelines"
+     ],
+     "answer": 3,
+     "explain": "Wiring."
+    },
+    {
+     "q": "What demonstrates value?",
+     "options": [
+      "Alerts",
+      "Dashboards",
+      "Faster root-cause time in a staged incident",
+      "Count"
+     ],
+     "answer": 2,
+     "explain": "MTTR."
+    }
+   ]
+  },
+  "level-4/01-slis-slos-slas": {
+   "questions": [
+    {
+     "q": "What is an SLI?",
+     "options": [
+      "Alert",
+      "Contract",
+      "Target",
+      "A measured indicator of service quality (e.g. fraction of good requests)"
+     ],
+     "answer": 3,
+     "explain": "Measurement."
+    },
+    {
+     "q": "What is an SLO?",
+     "options": [
+      "Measure",
+      "Alert",
+      "Penalty",
+      "A target for an SLI over a window (e.g. 99.9% over 30 days)"
+     ],
+     "answer": 3,
+     "explain": "Goal."
+    },
+    {
+     "q": "What is an SLA?",
+     "options": [
+      "Dashboard",
+      "Metric",
+      "Internal goal",
+      "A contractual commitment with consequences"
+     ],
+     "answer": 3,
+     "explain": "Looser than SLO."
+    },
+    {
+     "q": "Why SLOs rather than 100%?",
+     "options": [
+      "Style",
+      "Cost",
+      "Law",
+      "100% is unattainable and blocks change; error budgets balance risk"
+     ],
+     "answer": 3,
+     "explain": "Reliability trade-offs."
+    }
+   ]
+  },
+  "level-4/02-error-budgets": {
+   "questions": [
+    {
+     "q": "What is the 30-day error budget in minutes for a 99.9% SLO?\n```python\nprint(round(30*24*60*0.001,1))\n```\n",
+     "options": [
+      "21.6",
+      "4.3",
+      "43.2",
+      "432"
+     ],
+     "answer": 2,
+     "explain": "1 - SLO of the window. Verified by running it."
+    },
+    {
+     "q": "What does the error budget guide?",
+     "options": [
+      "Release velocity: spend it on change, freeze when exhausted",
+      "Names",
+      "Hiring",
+      "Billing"
+     ],
+     "answer": 0,
+     "explain": "Policy."
+    },
+    {
+     "q": "What happens when the budget is spent?",
+     "options": [
+      "Nothing",
+      "Ship more",
+      "Ignore",
+      "Prioritize reliability work over features"
+     ],
+     "answer": 3,
+     "explain": "Agreed policy."
+    },
+    {
+     "q": "Who should agree the policy?",
+     "options": [
+      "Product, engineering and SRE together",
+      "Ops only",
+      "Dev only",
+      "SRE only"
+     ],
+     "answer": 0,
+     "explain": "Shared."
+    }
+   ]
+  },
+  "level-4/03-burn-rate-alerts": {
+   "questions": [
+    {
+     "q": "What is burn rate?",
+     "options": [
+      "Traffic",
+      "How fast the error budget is consumed relative to the allowed pace",
+      "Latency",
+      "Errors"
+     ],
+     "answer": 1,
+     "explain": "1 = on pace."
+    },
+    {
+     "q": "Why multi-window burn-rate alerts?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Fast detection of big burns with low false positives (long and short windows)"
+     ],
+     "answer": 3,
+     "explain": "Google SRE workbook."
+    },
+    {
+     "q": "At burn rate 14.4 how long to exhaust a 30-day budget?\n```python\nprint(round(30*24/14.4,1))\n```\n",
+     "options": [
+      "500",
+      "14.4",
+      "5.0",
+      "50.0"
+     ],
+     "answer": 3,
+     "explain": "hours = 720 / burn rate. Verified by running it."
+    },
+    {
+     "q": "Why better than threshold alerts?",
+     "options": [
+      "None",
+      "Cheaper",
+      "Tied to user impact and budget, so fewer false pages",
+      "Simpler"
+     ],
+     "answer": 2,
+     "explain": "SLO-based."
+    }
+   ]
+  },
+  "level-4/04-designing-an-slo": {
+   "questions": [
+    {
+     "q": "How choose an SLI for a service?",
+     "options": [
+      "Memory",
+      "CPU",
+      "Pick what users experience: availability, latency, correctness",
+      "Disk"
+     ],
+     "answer": 2,
+     "explain": "User-centric."
+    },
+    {
+     "q": "What makes a good SLO target?",
+     "options": [
+      "100%",
+      "Aspirational",
+      "Achievable and meaningful, informed by history and user needs",
+      "Random"
+     ],
+     "answer": 2,
+     "explain": "Iterate."
+    },
+    {
+     "q": "Why ratio-based SLIs (good/total)?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Normalize for traffic and are easy to aggregate"
+     ],
+     "answer": 3,
+     "explain": "Good events/valid events."
+    },
+    {
+     "q": "What should excluded traffic be?",
+     "options": [
+      "Hidden",
+      "Documented, e.g. health checks and synthetic traffic",
+      "None",
+      "All"
+     ],
+     "answer": 1,
+     "explain": "Honest SLI."
+    }
+   ]
+  },
+  "level-4/05-capacity-planning": {
+   "questions": [
+    {
+     "q": "What drives capacity planning?",
+     "options": [
+      "Demand growth, headroom targets and saturation signals",
+      "Cost only",
+      "Names",
+      "Hunches"
+     ],
+     "answer": 0,
+     "explain": "Forecast."
+    },
+    {
+     "q": "What metrics guide it?",
+     "options": [
+      "Alerts",
+      "Utilization and saturation trends of key resources",
+      "Logs",
+      "Users"
+     ],
+     "answer": 1,
+     "explain": "USE."
+    },
+    {
+     "q": "What is headroom?",
+     "options": [
+      "Cost",
+      "None",
+      "Waste",
+      "Spare capacity to absorb spikes and failures"
+     ],
+     "answer": 3,
+     "explain": "N+1."
+    },
+    {
+     "q": "Why load test?",
+     "options": [
+      "Law",
+      "To find limits and validate the model",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-4/06-scaling-prometheus": {
+   "questions": [
+    {
+     "q": "How scale Prometheus?",
+     "options": [
+      "Logs",
+      "Shard by function, federate and use remote storage (Thanos/Mimir)",
+      "Ignore",
+      "Bigger box only"
+     ],
+     "answer": 1,
+     "explain": "Horizontal."
+    },
+    {
+     "q": "What does federation do?",
+     "options": [
+      "Queries",
+      "Stores",
+      "Alerts",
+      "Pulls selected series from other Prometheus servers"
+     ],
+     "answer": 3,
+     "explain": "Hierarchy."
+    },
+    {
+     "q": "What's Thanos/Mimir for?",
+     "options": [
+      "Scrapes",
+      "Logs",
+      "Alerts",
+      "Global query view and long-term storage over many Prometheus instances"
+     ],
+     "answer": 3,
+     "explain": "Scale-out."
+    },
+    {
+     "q": "First scaling step?",
+     "options": [
+      "Ignore",
+      "Shard",
+      "Add RAM",
+      "Reduce cardinality and scrape only what's needed"
+     ],
+     "answer": 3,
+     "explain": "Hygiene."
+    }
+   ]
+  },
+  "level-4/07-observability-as-code": {
+   "questions": [
+    {
+     "q": "What is observability as code?",
+     "options": [
+      "Defining dashboards, alerts and SLOs in version-controlled files",
+      "Docs",
+      "Chat",
+      "Clicking"
+     ],
+     "answer": 0,
+     "explain": "GitOps."
+    },
+    {
+     "q": "Why?",
+     "options": [
+      "Style",
+      "Review, reproducibility and consistency across environments",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Maintainability."
+    },
+    {
+     "q": "Which tools help?",
+     "options": [
+      "Grafonnet/Terraform/Jsonnet and Sloth/OpenSLO",
+      "Word",
+      "Excel",
+      "Email"
+     ],
+     "answer": 0,
+     "explain": "Generate rules."
+    },
+    {
+     "q": "What should CI validate?",
+     "options": [
+      "Rule syntax (promtool) and tests for alert expressions",
+      "Names",
+      "Style",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "promtool test rules."
+    }
+   ]
+  },
+  "level-4/08-oncall-incident-response": {
+   "questions": [
+    {
+     "q": "What makes on-call sustainable?",
+     "options": [
+      "Actionable alerts, runbooks, rotation fairness and blameless reviews",
+      "Heroics",
+      "Secrets",
+      "Pagers"
+     ],
+     "answer": 0,
+     "explain": "Culture."
+    },
+    {
+     "q": "What's the first incident priority?",
+     "options": [
+      "Blame",
+      "Report",
+      "Mitigate user impact, then find root cause",
+      "Root cause"
+     ],
+     "answer": 2,
+     "explain": "Stop the bleeding."
+    },
+    {
+     "q": "What belongs in a postmortem?",
+     "options": [
+      "Timeline, impact, root cause and action items without blame",
+      "Short",
+      "Blame",
+      "Secret"
+     ],
+     "answer": 0,
+     "explain": "Learn."
+    },
+    {
+     "q": "What roles help big incidents?",
+     "options": [
+      "One",
+      "All",
+      "None",
+      "Incident commander, communications and operations leads"
+     ],
+     "answer": 3,
+     "explain": "Coordination."
+    }
+   ]
+  },
+  "level-4/09-observability-antipatterns": {
+   "questions": [
+    {
+     "q": "Which is an observability antipattern?",
+     "options": [
+      "SLOs",
+      "Runbooks",
+      "Dashboards nobody uses and alerts nobody acts on",
+      "Tracing"
+     ],
+     "answer": 2,
+     "explain": "Noise."
+    },
+    {
+     "q": "Another?",
+     "options": [
+      "Levels",
+      "Logging everything at debug level in production",
+      "Structure",
+      "Sampling"
+     ],
+     "answer": 1,
+     "explain": "Cost and noise."
+    },
+    {
+     "q": "Another?",
+     "options": [
+      "None",
+      "Alerting on causes (CPU) instead of symptoms",
+      "Burn rate",
+      "SLO alerts"
+     ],
+     "answer": 1,
+     "explain": "Symptoms matter."
+    },
+    {
+     "q": "Another?",
+     "options": [
+      "None",
+      "High-cardinality labels like user IDs",
+      "Route templates",
+      "Bounded labels"
+     ],
+     "answer": 1,
+     "explain": "Series explosion."
+    }
+   ]
+  },
+  "level-4/10-capstone-slo-driven-stack": {
+   "questions": [
+    {
+     "q": "What does the SLO-driven stack capstone combine?",
+     "options": [
+      "Only logs",
+      "SLIs/SLOs, burn-rate alerts, dashboards, tracing and incident process",
+      "Only metrics",
+      "Only alerts"
+     ],
+     "answer": 1,
+     "explain": "End to end."
+    },
+    {
+     "q": "How prove it works?",
+     "options": [
+      "Hope",
+      "Slides",
+      "Demo",
+      "Inject failures and confirm detection, paging and recovery against the SLO"
+     ],
+     "answer": 3,
+     "explain": "Game day."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "Slides",
+      "Code",
+      "SLO definitions, runbooks and ownership",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Operate."
+    },
+    {
+     "q": "What sustains it?",
+     "options": [
+      "Regular SLO reviews and alert hygiene",
+      "Silence",
+      "Luck",
+      "Tools"
+     ],
+     "answer": 0,
+     "explain": "Continuous improvement."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What is the difference between monitoring and observability?",
+    "options": [
+     "Monitoring watches known failure modes; observability lets you ask new questions of telemetry",
+     "Dashboards vs alerts",
+     "Same",
+     "Reverse"
+    ],
+    "answer": 0,
+    "explain": "Unknown unknowns."
+   },
+   {
+    "q": "Why use a counter with rate() instead of a gauge for requests served?",
+    "options": [
+     "Counters are bigger",
+     "Counters are monotonic and rate() handles restarts; the per-second rate is what you want",
+     "Gauges are slow",
+     "Law"
+    ],
+    "answer": 1,
+    "explain": "Metric types."
+   },
+   {
+    "q": "A request counter is summed across instances and then rate() is applied, giving odd results. What's the correct order?",
+    "options": [
+     "rate() per series first, then sum()",
+     "sum then rate",
+     "avg then rate",
+     "max then sum"
+    ],
+    "answer": 0,
+    "explain": "Resets are per series."
+   },
+   {
+    "q": "You want p99 latency across 20 instances. What's right?",
+    "options": [
+     "avg of p99s",
+     "max of p99s",
+     "quantile of averages",
+     "histogram_quantile(0.99, sum by (le) (rate(bucket[5m])))"
+    ],
+    "answer": 3,
+    "explain": "Percentiles can't be averaged."
+   },
+   {
+    "q": "A metric has labels user (5,000 values) and route (40 values). How many series at most?\n```python\nprint(5000*40)\n```\n",
+    "options": [
+     "5000",
+     "200000",
+     "5040",
+     "40000"
+    ],
+    "answer": 1,
+    "explain": "Cardinality multiplies. Verified by running it."
+   },
+   {
+    "q": "Prometheus memory grows rapidly after a deploy. What's the first suspect?",
+    "options": [
+     "Scrape interval",
+     "Grafana",
+     "Retention",
+     "A new high-cardinality label (IDs, raw URLs)"
+    ],
+    "answer": 3,
+    "explain": "Series explosion."
+   },
+   {
+    "q": "An alert fires on CPU > 80% and nobody can act on it. What's the better approach?",
+    "options": [
+     "Lower threshold",
+     "More alerts",
+     "Alert on user-facing symptoms (error rate, latency) tied to an SLO",
+     "Mute it"
+    ],
+    "answer": 2,
+    "explain": "Actionable alerts."
+   },
+   {
+    "q": "What does `for: 10m` do in an alerting rule?",
+    "options": [
+     "Requires the condition to hold for 10 minutes before firing, reducing flapping",
+     "Silences",
+     "Repeats",
+     "Delays"
+    ],
+    "answer": 0,
+    "explain": "Stability."
+   },
+   {
+    "q": "Alertmanager sends 200 notifications for one outage. What helps?",
+    "options": [
+     "More receivers",
+     "Grouping and inhibition rules (and routing by team)",
+     "Silence all",
+     "Disable alerts"
+    ],
+    "answer": 1,
+    "explain": "Noise control."
+   },
+   {
+    "q": "Logs from five services can't be tied to one request. What's missing?",
+    "options": [
+     "Timestamps",
+     "A correlation/trace ID propagated through every hop and logged",
+     "Hostnames",
+     "Levels"
+    ],
+    "answer": 1,
+    "explain": "Structured logging."
+   },
+   {
+    "q": "Why add exemplars to latency histograms?",
+    "options": [
+     "Storage",
+     "Law",
+     "To jump from a slow bucket to an example trace",
+     "Speed"
+    ],
+    "answer": 2,
+    "explain": "Metrics to traces."
+   },
+   {
+    "q": "100% of traces are exported and costs explode. What do you do?",
+    "options": [
+     "Sample: tail sampling keeps errors and slow traces, drops routine ones",
+     "Disable tracing",
+     "Log more",
+     "Shorten spans"
+    ],
+    "answer": 0,
+    "explain": "Cost control."
+   },
+   {
+    "q": "Which header propagates trace context between services?",
+    "options": [
+     "Authorization",
+     "X-Request",
+     "Cookie",
+     "W3C traceparent"
+    ],
+    "answer": 3,
+    "explain": "Standard."
+   },
+   {
+    "q": "What is the 30-day error budget in minutes for a 99.9% SLO?\n```python\nprint(round(30*24*60*0.001,1))\n```\n",
+    "options": [
+     "4.3",
+     "43.2",
+     "432",
+     "21.6"
+    ],
+    "answer": 1,
+    "explain": "1 - SLO of the window. Verified by running it."
+   },
+   {
+    "q": "At a burn rate of 14.4, how many hours until a 30-day budget is gone?\n```python\nprint(round(30*24/14.4,1))\n```\n",
+    "options": [
+     "14.4",
+     "50.0",
+     "5.0",
+     "500.0"
+    ],
+    "answer": 1,
+    "explain": "Window hours / burn rate. Verified by running it."
+   },
+   {
+    "q": "Why multi-window burn-rate alerts?",
+    "options": [
+     "Simpler",
+     "Cheaper",
+     "Fast detection of large burns without paging on blips or already-resolved incidents",
+     "Law"
+    ],
+    "answer": 2,
+    "explain": "Long and short windows."
+   },
+   {
+    "q": "The error budget is exhausted. What does a healthy policy do?",
+    "options": [
+     "Ship faster",
+     "Raise the SLO",
+     "Slow feature releases and prioritize reliability work until it recovers",
+     "Ignore"
+    ],
+    "answer": 2,
+    "explain": "Agreed with product."
+   },
+   {
+    "q": "Which is an observability antipattern?",
+    "options": [
+     "SLO alerts",
+     "Runbooks",
+     "Tracing",
+     "Dashboards and alerts nobody uses or acts on"
+    ],
+    "answer": 3,
+    "explain": "Noise hides signal."
+   },
+   {
+    "q": "Probing the public endpoint from outside every minute is what kind of monitoring?",
+    "options": [
+     "Whitebox",
+     "Blackbox (synthetic) monitoring: it sees what users see",
+     "Profiling",
+     "Tracing"
+    ],
+    "answer": 1,
+    "explain": "Use both."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "PromQL rate() and histogram_quantile()",
+    "prompt": "Implement rate (counter increase per second over a window, handling a counter reset), histogram_quantile (linear interpolation inside the bucket) and sum_by_le. Show why averaging per-instance percentiles gives a wrong answer.",
+    "starter": "def rate(samples, window_s, now):\n    # samples = [(timestamp, counter value)]. Use points within [now - window_s, now]; add each increase between\n    # neighbouring points (a smaller value means the counter reset, so the increase is the new value);\n    # return increase per second between the first and last point (0.0 when fewer than 2 points)\n    return 0.0\n\ndef histogram_quantile(q, buckets):\n    # buckets = [(upper_bound, cumulative_count)] ending with float(\"inf\"). Find the first bucket whose cumulative\n    # count >= q * total and linearly interpolate between its lower and upper bound (+Inf bucket: return the\n    # previous bound); NaN when there are no observations\n    return float(\"nan\")\n\ndef sum_by_le(*series):\n    # element-wise sum of the cumulative counts for the same bucket bounds\n    return series[0]\n\nsamples = [(0, 100), (15, 130), (30, 160), (45, 10), (60, 40)]      # counter resets at t=45\nprint(\"rate over 60s:\", rate(samples, 60, 60))\ninf = float(\"inf\")\na = [(0.1, 50), (0.25, 80), (0.5, 95), (1.0, 99), (inf, 100)]\nb = [(0.1, 10), (0.25, 30), (0.5, 60), (1.0, 90), (inf, 100)]\nprint(\"p95 instance a:\", round(histogram_quantile(0.95, a), 3))\nprint(\"p95 instance b:\", round(histogram_quantile(0.95, b), 3))\nprint(\"p95 combined:  \", round(histogram_quantile(0.95, sum_by_le(a, b)), 3))\nprint(\"mean of instance p95s:\", round((histogram_quantile(0.95, a) + histogram_quantile(0.95, b)) / 2, 3), \"(wrong)\")\n",
+    "expected": "rate over 60s: 1.6666666666666667\np95 instance a: 0.5\np95 instance b: 1.0\np95 combined:   1.0\nmean of instance p95s: 0.75 (wrong)",
+    "solution": "def rate(samples, window_s, now):\n    \"\"\"Per-second increase of a counter over the window, handling counter resets (like PromQL rate).\"\"\"\n    pts = [(t, v) for t, v in samples if now - window_s <= t <= now]\n    if len(pts) < 2:\n        return 0.0\n    increase = 0.0\n    for (t0, v0), (t1, v1) in zip(pts, pts[1:]):\n        increase += v1 - v0 if v1 >= v0 else v1          # a drop means the counter reset to zero\n    return increase / (pts[-1][0] - pts[0][0])\n\ndef histogram_quantile(q, buckets):\n    \"\"\"buckets: [(upper_bound, cumulative_count)] sorted by bound, last bound is +Inf (as float('inf')).\"\"\"\n    total = buckets[-1][1]\n    if total == 0:\n        return float(\"nan\")\n    rank = q * total\n    prev_bound, prev_count = 0.0, 0\n    for bound, count in buckets:\n        if count >= rank:\n            if bound == float(\"inf\"):\n                return prev_bound\n            frac = (rank - prev_count) / (count - prev_count) if count > prev_count else 0\n            return prev_bound + (bound - prev_bound) * frac      # linear interpolation inside the bucket\n        prev_bound, prev_count = bound, count\n\ndef sum_by_le(*series):\n    return [(b, sum(s[i][1] for s in series)) for i, (b, _) in enumerate(series[0])]\n\nsamples = [(0, 100), (15, 130), (30, 160), (45, 10), (60, 40)]      # counter resets at t=45\nprint(\"rate over 60s:\", rate(samples, 60, 60))\ninf = float(\"inf\")\na = [(0.1, 50), (0.25, 80), (0.5, 95), (1.0, 99), (inf, 100)]\nb = [(0.1, 10), (0.25, 30), (0.5, 60), (1.0, 90), (inf, 100)]\nprint(\"p95 instance a:\", round(histogram_quantile(0.95, a), 3))\nprint(\"p95 instance b:\", round(histogram_quantile(0.95, b), 3))\nprint(\"p95 combined:  \", round(histogram_quantile(0.95, sum_by_le(a, b)), 3))\nprint(\"mean of instance p95s:\", round((histogram_quantile(0.95, a) + histogram_quantile(0.95, b)) / 2, 3), \"(wrong)\")\n",
+    "explain": "A drop in a counter means it reset, so the increase is the new value; quantiles are estimated from cumulative buckets and must be computed after summing the buckets across instances. Verified by running the solution (a model of PromQL's behaviour)."
+   },
+   {
+    "title": "SLO error budgets and burn-rate paging",
+    "prompt": "Implement error_ratio, budget_minutes, burn_rate and a multi-window should_page rule, then evaluate healthy, on-pace, incident and outage scenarios and decide which should page or ticket.",
+    "starter": "def error_ratio(good, total):\n    # 1 - good/total (0.0 when there is no traffic)\n    return 0.0\n\ndef budget_minutes(slo, days=30):\n    # allowed \"bad\" minutes in the window\n    return 0.0\n\ndef burn_rate(err_ratio, slo):\n    # error ratio divided by the allowed error ratio (1 - slo)\n    return 0.0\n\ndef should_page(short_window, long_window, slo, threshold):\n    # page only when BOTH windows' burn rates reach the threshold\n    return False\n\nslo = 0.999\nprint(\"budget (30d):\", round(budget_minutes(slo), 1), \"min\")\nfor name, err in [(\"healthy\", 0.0004), (\"on pace\", 0.001), (\"incident\", 0.02), (\"outage\", 0.5)]:\n    b = burn_rate(err, slo)\n    hours = 30 * 24 / b if b > 0 else float(\"inf\")\n    print(f\"{name:8s} error={err:.4f} burn={b:6.1f} budget gone in {hours:7.1f} h\")\n\nprint(\"page (1h=2%, 5m=3%, burn>=14.4):\", should_page(0.03, 0.02, slo, 14.4))\nprint(\"page (1h=2%, 5m=0.05%):         \", should_page(0.0005, 0.02, slo, 14.4))      # incident already over\nprint(\"page (1h=0.5%, 5m=0.5%):        \", should_page(0.005, 0.005, slo, 14.4))      # slow burn, below fast threshold\nprint(\"ticket (6h=0.7%, 30m=0.8%, burn>=6):\", should_page(0.008, 0.007, slo, 6))\nprint(\"error ratio:\", round(error_ratio(99_700, 100_000), 4))\n",
+    "expected": "budget (30d): 43.2 min\nhealthy  error=0.0004 burn=   0.4 budget gone in  1800.0 h\non pace  error=0.0010 burn=   1.0 budget gone in   720.0 h\nincident error=0.0200 burn=  20.0 budget gone in    36.0 h\noutage   error=0.5000 burn= 500.0 budget gone in     1.4 h\npage (1h=2%, 5m=3%, burn>=14.4): True\npage (1h=2%, 5m=0.05%):          False\npage (1h=0.5%, 5m=0.5%):         False\nticket (6h=0.7%, 30m=0.8%, burn>=6): True\nerror ratio: 0.003",
+    "solution": "def error_ratio(good, total):\n    return 0.0 if total == 0 else 1 - good / total\n\ndef budget_minutes(slo, days=30):\n    return days * 24 * 60 * (1 - slo)\n\ndef burn_rate(err_ratio, slo):\n    \"\"\"How many times faster than 'exactly on budget' the budget is being consumed.\"\"\"\n    return err_ratio / (1 - slo)\n\ndef should_page(short_window, long_window, slo, threshold):\n    \"\"\"Multi-window multi-burn-rate rule: both the short and the long window must exceed the threshold.\"\"\"\n    return burn_rate(short_window, slo) >= threshold and burn_rate(long_window, slo) >= threshold\n\nslo = 0.999\nprint(\"budget (30d):\", round(budget_minutes(slo), 1), \"min\")\nfor name, err in [(\"healthy\", 0.0004), (\"on pace\", 0.001), (\"incident\", 0.02), (\"outage\", 0.5)]:\n    b = burn_rate(err, slo)\n    hours = 30 * 24 / b if b > 0 else float(\"inf\")\n    print(f\"{name:8s} error={err:.4f} burn={b:6.1f} budget gone in {hours:7.1f} h\")\n\nprint(\"page (1h=2%, 5m=3%, burn>=14.4):\", should_page(0.03, 0.02, slo, 14.4))\nprint(\"page (1h=2%, 5m=0.05%):         \", should_page(0.0005, 0.02, slo, 14.4))      # incident already over\nprint(\"page (1h=0.5%, 5m=0.5%):        \", should_page(0.005, 0.005, slo, 14.4))      # slow burn, below fast threshold\nprint(\"ticket (6h=0.7%, 30m=0.8%, burn>=6):\", should_page(0.008, 0.007, slo, 6))\nprint(\"error ratio:\", round(error_ratio(99_700, 100_000), 4))\n",
+    "explain": "Burn rate is the observed error ratio divided by the allowed one; requiring both a long and a short window to exceed the threshold pages quickly on real incidents but not on resolved blips. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
