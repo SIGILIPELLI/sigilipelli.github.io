@@ -1,0 +1,2148 @@
+{
+ "course": "dart-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What does the `dart` command bundle?",
+     "options": [
+      "Only a compiler",
+      "A browser",
+      "Only a formatter",
+      "A compiler, VM, package manager (pub) and tooling"
+     ],
+     "answer": 3,
+     "explain": "One SDK for everything."
+    },
+    {
+     "q": "What does `dart run bin/main.dart` do?",
+     "options": [
+      "Runs the program on the Dart VM (JIT)",
+      "Installs packages",
+      "Formats code",
+      "Compiles to JS only"
+     ],
+     "answer": 0,
+     "explain": "dart compile makes native executables."
+    },
+    {
+     "q": "What is the entry point of a Dart program?",
+     "options": [
+      "A class Main",
+      "An annotation",
+      "The top-level main() function",
+      "A file named app"
+     ],
+     "answer": 2,
+     "explain": "main can take List<String> args."
+    },
+    {
+     "q": "What does `dart create` do?",
+     "options": [
+      "Scaffolds a new project with pubspec.yaml and sample code",
+      "Runs tests",
+      "Publishes",
+      "Compiles"
+     ],
+     "answer": 0,
+     "explain": "Templates: console, package, server-shelf."
+    }
+   ]
+  },
+  "level-1/02-variables-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nvoid main(){ var x = 5; var y = 2.5; print(x * y); print((x * y).runtimeType); print(7 ~/ 2); }\n```\n",
+     "options": [
+      "12.5\nint\n3.5",
+      "12.5\ndouble\n3",
+      "12.5\ndouble\n3.5",
+      "12\nint\n3"
+     ],
+     "answer": 1,
+     "explain": "~/ is integer division. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does this print?\n```dart\nvoid main(){ final a = [1,2]; a.add(3); const b = [1,2]; print(a); print(b.length); }\n```\n",
+     "options": [
+      "[1, 2]\n2",
+      "Error",
+      "[1, 2, 3]\n2",
+      "[1, 2, 3]\n3"
+     ],
+     "answer": 2,
+     "explain": "final prevents reassigning the variable, not mutating the list. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What's the difference between final and const?",
+     "options": [
+      "const is runtime",
+      "final is set once at runtime; const is a compile-time constant",
+      "Same",
+      "final is compile-time"
+     ],
+     "answer": 1,
+     "explain": "Prefer const for constant values."
+    },
+    {
+     "q": "What does `var name = 'Ada';` infer?",
+     "options": [
+      "String, fixed at compile time",
+      "num",
+      "dynamic",
+      "Object"
+     ],
+     "answer": 0,
+     "explain": "var isn't dynamic."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nvoid main(){ var s=0; for (var i=1;i<=10;i++){ if(i.isEven) continue; if(i>7) break; s+=i; } print(s); }\n```\n",
+     "options": [
+      "25",
+      "10",
+      "28",
+      "16"
+     ],
+     "answer": 3,
+     "explain": "1+3+5+7. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does this print?\n```dart\nvoid main(){ var n=3; var r = switch(n){ 1 => 'one', 2 || 3 => 'few', _ => 'many' }; print(r); }\n```\n",
+     "options": [
+      "one",
+      "3",
+      "many",
+      "few"
+     ],
+     "answer": 3,
+     "explain": "Switch expressions (Dart 3). Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does this print?\n```dart\nvoid main(){ for (final c in 'abc'.split('')) { print(c.toUpperCase()); } }\n```\n",
+     "options": [
+      "Error",
+      "abc",
+      "A\nB\nC",
+      "a b c"
+     ],
+     "answer": 2,
+     "explain": "for-in iterates items. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "Is there implicit truthiness in Dart conditions?",
+     "options": [
+      "No: conditions must be bool",
+      "Yes like JS",
+      "Only ints",
+      "Yes like C"
+     ],
+     "answer": 0,
+     "explain": "Write explicit comparisons."
+    }
+   ]
+  },
+  "level-1/04-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nString greet(String name, {String greeting='Hello'}) => '$greeting, $name!';\nvoid main(){ print(greet('Ada')); print(greet('Bo', greeting:'Hi')); }\n```\n",
+     "options": [
+      "Hello, Ada!\nHello, Bo!",
+      "Hi, Ada!\nHi, Bo!",
+      "Error",
+      "Hello, Ada!\nHi, Bo!"
+     ],
+     "answer": 3,
+     "explain": "Named optional parameters. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does this print?\n```dart\nint Function(int) adder(int n) => (x) => x + n;\nvoid main(){ var add5 = adder(5); print(add5(10)); }\n```\n",
+     "options": [
+      "15",
+      "10",
+      "5",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Closures capture n. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does `=>` mean in a function?",
+     "options": [
+      "Arrow comparison",
+      "Async",
+      "Lambda only",
+      "Shorthand for a single expression body with an implicit return"
+     ],
+     "answer": 3,
+     "explain": "Equivalent to { return expr; }."
+    },
+    {
+     "q": "What are positional optional parameters?",
+     "options": [
+      "Named ones",
+      "Generic",
+      "Required",
+      "Parameters in [brackets] that may be omitted"
+     ],
+     "answer": 3,
+     "explain": "e.g. void f(int a, [int b = 0])."
+    }
+   ]
+  },
+  "level-1/05-collections": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nvoid main(){ var m = {'a':1}; m['b']=2; m.update('a',(v)=>v+5); print(m); print(m.containsKey('c')); }\n```\n",
+     "options": [
+      "{a: 1, b: 2}\nfalse",
+      "{a: 6}\ntrue",
+      "Error",
+      "{a: 6, b: 2}\nfalse"
+     ],
+     "answer": 3,
+     "explain": "Map literal printing. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does this print?\n```dart\nvoid main(){ var s = {1,2,3}; s.add(2); s.add(4); print(s.length); print(s.contains(4)); }\n```\n",
+     "options": [
+      "3\ntrue",
+      "4\ntrue",
+      "4\nfalse",
+      "5\ntrue"
+     ],
+     "answer": 1,
+     "explain": "Sets ignore duplicates. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does this print?\n```dart\nvoid main(){ var l=[3,1,2]; l.sort(); l.add(9); print(l); print(l.reversed.toList()); }\n```\n",
+     "options": [
+      "Error",
+      "[1, 2, 3]\n[3, 2, 1]",
+      "[1, 2, 3, 9]\n[9, 3, 2, 1]",
+      "[3, 1, 2, 9]\n[9, 2, 1, 3]"
+     ],
+     "answer": 2,
+     "explain": "sort is in place. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "Which collection stores unique values?",
+     "options": [
+      "Set",
+      "Map",
+      "Iterable",
+      "List"
+     ],
+     "answer": 0,
+     "explain": "Use for membership tests."
+    }
+   ]
+  },
+  "level-1/06-classes-objects": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nclass P{ final String name; int age; P(this.name, this.age); String toString()=>'$name($age)'; }\nvoid main(){ var p=P('Ada',36); p.age++; print(p); }\n```\n",
+     "options": [
+      "Ada(36)",
+      "Ada(37)",
+      "Error",
+      "Ada"
+     ],
+     "answer": 1,
+     "explain": "Initializing formals set fields. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does this print?\n```dart\nclass A{ A(){ print('A'); } }\nclass B extends A{ B(){ print('B'); } }\nvoid main(){ B(); }\n```\n",
+     "options": [
+      "A",
+      "A\nB",
+      "B\nA",
+      "B"
+     ],
+     "answer": 1,
+     "explain": "The super constructor runs first. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does `this.name` in a constructor parameter list do?",
+     "options": [
+      "Creates a getter",
+      "Assigns the argument directly to the field",
+      "Declares static",
+      "Calls super"
+     ],
+     "answer": 1,
+     "explain": "Concise initialization."
+    },
+    {
+     "q": "What does a leading underscore on a name mean?",
+     "options": [
+      "Library-private: not visible outside the library",
+      "Static",
+      "Deprecated",
+      "Constant"
+     ],
+     "answer": 0,
+     "explain": "No `private` keyword."
+    }
+   ]
+  },
+  "level-1/07-null-safety-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nvoid main(){ String? s; print(s?.length); print(s ?? 'none'); s ??= 'x'; print(s); }\n```\n",
+     "options": [
+      "null\nnone\nx",
+      "null\nnull\nx",
+      "0\nnone\nx",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "?. ?? and ??= operators. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does `String name` mean under sound null safety?",
+     "options": [
+      "It's optional",
+      "It can be null",
+      "It's dynamic",
+      "It can never be null"
+     ],
+     "answer": 3,
+     "explain": "String? allows null."
+    },
+    {
+     "q": "What does the `!` operator do?",
+     "options": [
+      "Ignores",
+      "Casts",
+      "Negates",
+      "Asserts a nullable value isn't null and throws if it is"
+     ],
+     "answer": 3,
+     "explain": "Use sparingly."
+    },
+    {
+     "q": "What does `late` mean?",
+     "options": [
+      "The variable is initialized later but non-null; accessing early throws",
+      "Nullable",
+      "Final",
+      "Lazy const"
+     ],
+     "answer": 0,
+     "explain": "Use carefully."
+    }
+   ]
+  },
+  "level-1/08-async-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nFuture<int> f() async { await Future.delayed(Duration(milliseconds:10)); return 42; }\nvoid main() async { print('start'); print(await f()); print('end'); }\n```\n",
+     "options": [
+      "start\nend\n42",
+      "Error",
+      "42\nstart\nend",
+      "start\n42\nend"
+     ],
+     "answer": 3,
+     "explain": "await pauses the async function. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What type does an async function return?",
+     "options": [
+      "A Future",
+      "A Stream",
+      "void always",
+      "The raw value"
+     ],
+     "answer": 0,
+     "explain": "Mark it async and await results."
+    },
+    {
+     "q": "Is Dart single-threaded?",
+     "options": [
+      "Each isolate runs on one thread with an event loop",
+      "GPU only",
+      "Multi-threaded shared memory",
+      "No threads"
+     ],
+     "answer": 0,
+     "explain": "Isolates have separate memory."
+    },
+    {
+     "q": "What does `Future.wait` do?",
+     "options": [
+      "Cancels",
+      "Delays",
+      "Waits for several futures to complete",
+      "Sorts"
+     ],
+     "answer": 2,
+     "explain": "Returns a list of results."
+    }
+   ]
+  },
+  "level-1/09-packages": {
+   "questions": [
+    {
+     "q": "What file lists a project's dependencies?",
+     "options": [
+      "pom.xml",
+      "Cargo.toml",
+      "package.json",
+      "pubspec.yaml"
+     ],
+     "answer": 3,
+     "explain": "pub get resolves them."
+    },
+    {
+     "q": "What does `dart pub add http` do?",
+     "options": [
+      "Compiles",
+      "Uninstalls",
+      "Publishes",
+      "Adds the package to pubspec.yaml and fetches it"
+     ],
+     "answer": 3,
+     "explain": "From pub.dev."
+    },
+    {
+     "q": "What is pubspec.lock for?",
+     "options": [
+      "Pinning the exact resolved versions",
+      "Locking the repo",
+      "Encryption",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "Commit it for apps, not libraries."
+    },
+    {
+     "q": "What does `^1.2.3` mean?",
+     "options": [
+      "Any",
+      "Exactly 1.2.3",
+      "<1.2.3",
+      "Compatible versions >=1.2.3 <2.0.0"
+     ],
+     "answer": 3,
+     "explain": "Caret constraint."
+    }
+   ]
+  },
+  "level-1/10-project-todo-cli": {
+   "questions": [
+    {
+     "q": "How can the CLI persist tasks between runs?",
+     "options": [
+      "Print",
+      "Write them to a JSON file and load on start",
+      "Keep in memory",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "dart:io File."
+    },
+    {
+     "q": "Which collection holds the task list?",
+     "options": [
+      "Tuple",
+      "List<Task>",
+      "Set",
+      "Map only"
+     ],
+     "answer": 1,
+     "explain": "Ordered and growable."
+    },
+    {
+     "q": "How do you read command-line arguments?",
+     "options": [
+      "getArgs()",
+      "stdin only",
+      "main(List<String> args)",
+      "env"
+     ],
+     "answer": 2,
+     "explain": "Parse the command."
+    },
+    {
+     "q": "Why validate user input?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "To avoid crashes on bad values like non-numeric ids"
+     ],
+     "answer": 3,
+     "explain": "int.tryParse."
+    }
+   ]
+  },
+  "level-2/01-oop-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nabstract class Shape{ double area(); }\nclass Sq extends Shape{ double s; Sq(this.s); double area()=>s*s; }\nvoid main(){ Shape x = Sq(3); print(x.area()); }\n```\n",
+     "options": [
+      "9.0",
+      "9",
+      "Error",
+      "3.0"
+     ],
+     "answer": 0,
+     "explain": "Abstract classes define a contract. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does this print?\n```dart\nmixin Walker{ String move()=>'walk'; }\nclass Dog with Walker{}\nvoid main(){ print(Dog().move()); }\n```\n",
+     "options": [
+      "move",
+      "Error",
+      "Dog",
+      "walk"
+     ],
+     "answer": 3,
+     "explain": "Mixins add reusable behavior. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does `implements` do?",
+     "options": [
+      "Mixes in",
+      "Inherits code",
+      "Requires the class to provide the whole interface of another",
+      "Instantiates"
+     ],
+     "answer": 2,
+     "explain": "Every class is an implicit interface."
+    },
+    {
+     "q": "What's a factory constructor?",
+     "options": [
+      "A constructor that may return an existing or subtype instance",
+      "A static method only",
+      "A generative constructor",
+      "A getter"
+     ],
+     "answer": 0,
+     "explain": "Useful for caching/singletons."
+    }
+   ]
+  },
+  "level-2/02-null-safety-advanced": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nvoid main(){ int? x = 5; if (x != null) { print(x + 1); } String? s; print(s?.toUpperCase() ?? 'empty'); }\n```\n",
+     "options": [
+      "Error",
+      "6\nnull",
+      "6\nempty",
+      "5\nempty"
+     ],
+     "answer": 2,
+     "explain": "Flow analysis promotes x to int. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does type promotion mean?",
+     "options": [
+      "Casting",
+      "Runtime check",
+      "After a null check, the compiler treats the variable as non-null",
+      "Boxing"
+     ],
+     "answer": 2,
+     "explain": "Works for local variables."
+    },
+    {
+     "q": "Why can't a nullable field be promoted?",
+     "options": [
+      "It may change between check and use, so copy it to a local first",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Use a local variable."
+    },
+    {
+     "q": "What does `required` do for a named parameter?",
+     "options": [
+      "Makes it optional",
+      "Forces callers to pass it",
+      "Makes it late",
+      "Makes it null"
+     ],
+     "answer": 1,
+     "explain": "Avoids nulls for important params."
+    }
+   ]
+  },
+  "level-2/03-streams": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nStream<int> count() async* { for (var i=1;i<=3;i++) { yield i; } }\nvoid main() async { await for (final v in count()) { print(v*10); } }\n```\n",
+     "options": [
+      "30",
+      "1\n2\n3",
+      "Error",
+      "10\n20\n30"
+     ],
+     "answer": 3,
+     "explain": "async* yields a Stream. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does this print?\n```dart\nvoid main() async { var total = await Stream.fromIterable([1,2,3,4]).where((x)=>x.isEven).fold<int>(0,(a,b)=>a+b); print(total); }\n```\n",
+     "options": [
+      "6",
+      "4",
+      "10",
+      "2"
+     ],
+     "answer": 0,
+     "explain": "where then fold. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What's the difference between a single-subscription and broadcast stream?",
+     "options": [
+      "Single is async",
+      "Single allows one listener; broadcast allows many",
+      "Broadcast is faster",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "asBroadcastStream."
+    },
+    {
+     "q": "What does `yield` do in async*?",
+     "options": [
+      "Returns",
+      "Emits a value to the stream",
+      "Awaits",
+      "Throws"
+     ],
+     "answer": 1,
+     "explain": "Generators."
+    }
+   ]
+  },
+  "level-2/04-testing": {
+   "questions": [
+    {
+     "q": "Which function defines a test case in package:test?",
+     "options": [
+      "check()",
+      "test('description', () { ... })",
+      "it()",
+      "spec()"
+     ],
+     "answer": 1,
+     "explain": "group() organizes tests."
+    },
+    {
+     "q": "What does `expect(actual, matcher)` do?",
+     "options": [
+      "Prints",
+      "Waits",
+      "Asserts the value satisfies the matcher",
+      "Returns"
+     ],
+     "answer": 2,
+     "explain": "e.g. equals, throwsA."
+    },
+    {
+     "q": "How do you run all tests?",
+     "options": [
+      "dart test",
+      "dart pub",
+      "dart check",
+      "dart run"
+     ],
+     "answer": 0,
+     "explain": "Files end with _test.dart."
+    },
+    {
+     "q": "How do you test code that throws?",
+     "options": [
+      "try only",
+      "assert",
+      "expect(() => f(), throwsA(isA<FormatException>()))",
+      "skip"
+     ],
+     "answer": 2,
+     "explain": "Wrap in a closure."
+    }
+   ]
+  },
+  "level-2/05-json": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nimport 'dart:convert';\nvoid main(){ var m = jsonDecode('{\"a\":1,\"b\":[2,3]}'); print(m['b'][1]); print(jsonEncode({'x':true,'y':null})); }\n```\n",
+     "options": [
+      "2\n{x: true}",
+      "Error",
+      "3\n{x:true}",
+      "3\n{\"x\":true,\"y\":null}"
+     ],
+     "answer": 3,
+     "explain": "jsonDecode yields Maps and Lists. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What do fromJson factories do?",
+     "options": [
+      "Encode",
+      "Compile",
+      "Build a typed object from a decoded Map",
+      "Parse files"
+     ],
+     "answer": 2,
+     "explain": "Pair with toJson."
+    },
+    {
+     "q": "Why type-check decoded JSON?",
+     "options": [
+      "Style",
+      "jsonDecode returns dynamic, and malformed data causes runtime errors",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Validate fields."
+    },
+    {
+     "q": "What does `jsonEncode` accept?",
+     "options": [
+      "Any object",
+      "Only strings",
+      "Maps, Lists, numbers, strings, bools, null (or objects with toJson)",
+      "Only maps"
+     ],
+     "answer": 2,
+     "explain": "Custom classes need toJson."
+    }
+   ]
+  },
+  "level-2/06-generics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nclass Box<T>{ T v; Box(this.v); T get(){ return v; } }\nT first<T>(List<T> l)=>l.first;\nvoid main(){ print(Box<int>(7).get()); print(first(['a','b'])); }\n```\n",
+     "options": [
+      "7\nb",
+      "a\n7",
+      "Error",
+      "7\na"
+     ],
+     "answer": 3,
+     "explain": "Generics keep type safety. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does `<T extends num>` do?",
+     "options": [
+      "Restricts T to num or its subtypes",
+      "Extends a class",
+      "Makes T nullable",
+      "Creates T"
+     ],
+     "answer": 0,
+     "explain": "Bounded generics."
+    },
+    {
+     "q": "What's reified generics in Dart?",
+     "options": [
+      "Compile only",
+      "Unsupported",
+      "Erased",
+      "Generic types are available at runtime"
+     ],
+     "answer": 3,
+     "explain": "Unlike Java erasure."
+    },
+    {
+     "q": "Why use List<int> instead of List<dynamic>?",
+     "options": [
+      "Law",
+      "Compile-time type checking",
+      "Style",
+      "Speed only"
+     ],
+     "answer": 1,
+     "explain": "Avoid dynamic."
+    }
+   ]
+  },
+  "level-2/07-extension-methods": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nextension StringX on String { String get shout => toUpperCase()+'!'; }\nvoid main(){ print('hi'.shout); }\n```\n",
+     "options": [
+      "Error",
+      "HI!",
+      "hi!",
+      "hi"
+     ],
+     "answer": 1,
+     "explain": "Extensions add members to existing types. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "When are extension methods resolved?",
+     "options": [
+      "Dynamically",
+      "At runtime",
+      "Statically, based on the declared type",
+      "By reflection"
+     ],
+     "answer": 2,
+     "explain": "Not virtual."
+    },
+    {
+     "q": "Can extensions access private members of the type?",
+     "options": [
+      "Only in same file",
+      "No, only the public API",
+      "Always",
+      "Yes"
+     ],
+     "answer": 1,
+     "explain": "They don't change the class."
+    },
+    {
+     "q": "What do extensions help avoid?",
+     "options": [
+      "Imports",
+      "Types",
+      "Static helper functions and wrapper classes",
+      "Tests"
+     ],
+     "answer": 2,
+     "explain": "Readable API."
+    }
+   ]
+  },
+  "level-2/08-error-handling": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nclass AppError implements Exception{ final String m; AppError(this.m); String toString()=>'AppError: $m'; }\nvoid main(){ try { throw AppError('bad'); } on AppError catch(e) { print(e); } finally { print('done'); } }\n```\n",
+     "options": [
+      "AppError: bad",
+      "done",
+      "Error",
+      "AppError: bad\ndone"
+     ],
+     "answer": 3,
+     "explain": "finally always runs. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What's the difference between Exception and Error?",
+     "options": [
+      "Exceptions are fatal",
+      "Exceptions are recoverable conditions; Errors indicate programmer bugs",
+      "Same",
+      "Errors are recoverable"
+     ],
+     "answer": 1,
+     "explain": "Don't catch Errors generally."
+    },
+    {
+     "q": "What does `rethrow` do?",
+     "options": [
+      "Rethrows the caught exception preserving the stack trace",
+      "Wraps",
+      "Ignores",
+      "Logs"
+     ],
+     "answer": 0,
+     "explain": "Better than throw e."
+    },
+    {
+     "q": "How do you handle errors from a Future?",
+     "options": [
+      "Reload",
+      "try/catch around await, or .catchError",
+      "Retry only",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Unhandled async errors crash."
+    }
+   ]
+  },
+  "level-2/09-collections-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nvoid main(){ var n=[1,2,3,4]; print(n.where((x)=>x>1).map((x)=>x*x).toList()); print(n.fold<int>(0,(a,b)=>a+b)); print(n.reduce((a,b)=>a>b?a:b)); }\n```\n",
+     "options": [
+      "[4, 9, 16]\n10\n4",
+      "[4, 9, 16]\n9\n4",
+      "Error",
+      "[1, 4, 9]\n10\n4"
+     ],
+     "answer": 0,
+     "explain": "where, map, fold and reduce. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does this print?\n```dart\nvoid main(){ var l=[[1,2],[3],[4,5]]; print(l.expand((x)=>x).toList()); }\n```\n",
+     "options": [
+      "[15]",
+      "Error",
+      "[[1, 2],[3],[4, 5]]",
+      "[1, 2, 3, 4, 5]"
+     ],
+     "answer": 3,
+     "explain": "expand flattens. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "Are map/where lazy?",
+     "options": [
+      "No",
+      "Yes: they return lazy Iterables until toList()",
+      "Only map",
+      "Only where"
+     ],
+     "answer": 1,
+     "explain": "Beware repeated evaluation."
+    },
+    {
+     "q": "What does `sort((a,b)=>b.compareTo(a))` do?",
+     "options": [
+      "Random",
+      "Ascending",
+      "Sorts descending",
+      "Reverses"
+     ],
+     "answer": 2,
+     "explain": "Comparator."
+    }
+   ]
+  },
+  "level-2/10-project-weather-cli": {
+   "questions": [
+    {
+     "q": "Which package makes HTTP requests?",
+     "options": [
+      "package:http",
+      "dart:cli",
+      "dart:html only",
+      "dart:json"
+     ],
+     "answer": 0,
+     "explain": "Also dart:io HttpClient."
+    },
+    {
+     "q": "How should you handle a non-200 response?",
+     "options": [
+      "Check statusCode and throw/handle a meaningful error",
+      "Ignore",
+      "Parse anyway",
+      "Retry forever"
+     ],
+     "answer": 0,
+     "explain": "Don't assume success."
+    },
+    {
+     "q": "Where should an API key come from?",
+     "options": [
+      "README",
+      "Committed file",
+      "Hard-coded",
+      "Environment variables, not source code"
+     ],
+     "answer": 3,
+     "explain": "Never commit secrets."
+    },
+    {
+     "q": "Why fetch several cities concurrently?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed of CPU",
+      "Future.wait overlaps network waits"
+     ],
+     "answer": 3,
+     "explain": "I/O bound."
+    }
+   ]
+  },
+  "level-3/01-flutter-fundamentals": {
+   "questions": [
+    {
+     "q": "In Flutter, what is a widget?",
+     "options": [
+      "A database",
+      "An immutable description of part of the UI; Flutter builds elements and render objects from it",
+      "A mutable view object",
+      "A network client"
+     ],
+     "answer": 1,
+     "explain": "UI is a tree of widgets."
+    },
+    {
+     "q": "What's the difference between StatelessWidget and StatefulWidget?",
+     "options": [
+      "No difference",
+      "Stateful widgets hold mutable State that triggers rebuilds via setState",
+      "Stateless is mutable",
+      "Stateful has no build"
+     ],
+     "answer": 1,
+     "explain": "Use stateless when possible."
+    },
+    {
+     "q": "What does setState() do?",
+     "options": [
+      "Navigates",
+      "Saves to disk",
+      "Marks the widget dirty so build() runs again with new state",
+      "Compiles"
+     ],
+     "answer": 2,
+     "explain": "Only for local state."
+    },
+    {
+     "q": "Why is build() expected to be cheap and side-effect free?",
+     "options": [
+      "Memory",
+      "Style",
+      "It can be called many times per second",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Move work out."
+    }
+   ]
+  },
+  "level-3/02-building-apis-shelf": {
+   "questions": [
+    {
+     "q": "How does shelf model a server?",
+     "options": [
+      "Sockets",
+      "Threads",
+      "A function from Request to Response, composed with middleware",
+      "Classes with controllers"
+     ],
+     "answer": 2,
+     "explain": "Handler = FutureOr<Response> Function(Request)."
+    },
+    {
+     "q": "What is middleware in shelf?",
+     "options": [
+      "A database",
+      "A router",
+      "A route",
+      "A function wrapping a handler to add behavior like logging or auth"
+     ],
+     "answer": 3,
+     "explain": "Pipeline().addMiddleware()."
+    },
+    {
+     "q": "How do you route requests in shelf?",
+     "options": [
+      "Isolates",
+      "Not possible",
+      "dart:ui",
+      "Use shelf_router or inspect request.url"
+     ],
+     "answer": 3,
+     "explain": "Router().get('/x', handler)."
+    },
+    {
+     "q": "Which status code for a missing resource?",
+     "options": [
+      "301",
+      "200",
+      "404",
+      "500"
+     ],
+     "answer": 2,
+     "explain": "Response.notFound."
+    }
+   ]
+  },
+  "level-3/03-databases": {
+   "questions": [
+    {
+     "q": "Why use parameterized queries with sqlite3?",
+     "options": [
+      "To prevent SQL injection",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Use ? placeholders."
+    },
+    {
+     "q": "What does sqlite3 give a Dart service?",
+     "options": [
+      "A cloud DB",
+      "An ORM",
+      "A cache server",
+      "An embedded SQL database without a server process"
+     ],
+     "answer": 3,
+     "explain": "File-based."
+    },
+    {
+     "q": "What does a transaction ensure?",
+     "options": [
+      "All-or-nothing changes",
+      "Speed",
+      "Indexing",
+      "Backups"
+     ],
+     "answer": 0,
+     "explain": "BEGIN/COMMIT/ROLLBACK."
+    },
+    {
+     "q": "Why close database handles?",
+     "options": [
+      "To release resources and flush data",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "dispose()."
+    }
+   ]
+  },
+  "level-3/04-design-patterns": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nclass Cfg{ static final Cfg _i = Cfg._(); Cfg._(); factory Cfg()=>_i; }\nvoid main(){ print(identical(Cfg(), Cfg())); }\n```\n",
+     "options": [
+      "Error",
+      "null",
+      "false",
+      "true"
+     ],
+     "answer": 3,
+     "explain": "A factory constructor returning one instance implements Singleton. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What does the Observer pattern provide?",
+     "options": [
+      "Cloning",
+      "Single instance",
+      "Subjects notify subscribers of changes (Streams in Dart)",
+      "Wrapping"
+     ],
+     "answer": 2,
+     "explain": "StreamController."
+    },
+    {
+     "q": "What's the Factory pattern for?",
+     "options": [
+      "Printing",
+      "Centralizing object creation behind an interface",
+      "Locking",
+      "Destruction"
+     ],
+     "answer": 1,
+     "explain": "Choose subtype by input."
+    },
+    {
+     "q": "What's the Repository pattern?",
+     "options": [
+      "UI",
+      "Log",
+      "Router",
+      "An abstraction over data access"
+     ],
+     "answer": 3,
+     "explain": "Swap implementations in tests."
+    }
+   ]
+  },
+  "level-3/05-isolates": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nimport 'dart:isolate';\nint heavy(int n){ var s=0; for (var i=1;i<=n;i++){ s+=i; } return s; }\nvoid main() async { print(await Isolate.run(()=>heavy(1000))); }\n```\n",
+     "options": [
+      "Error",
+      "500500",
+      "1000",
+      "0"
+     ],
+     "answer": 1,
+     "explain": "Isolate.run executes in a separate isolate. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "Why use isolates?",
+     "options": [
+      "I/O waits",
+      "Law",
+      "Speed of IO",
+      "To run CPU-heavy work in parallel without blocking the event loop"
+     ],
+     "answer": 3,
+     "explain": "Each has separate memory."
+    },
+    {
+     "q": "How do isolates communicate?",
+     "options": [
+      "Globals",
+      "Files only",
+      "Shared memory",
+      "By message passing (ports), not shared memory"
+     ],
+     "answer": 3,
+     "explain": "Messages are copied."
+    },
+    {
+     "q": "Is async/await parallel execution?",
+     "options": [
+      "Yes",
+      "Threads",
+      "Always",
+      "No: it's concurrency on one thread; use isolates for parallelism"
+     ],
+     "answer": 3,
+     "explain": "Event loop."
+    }
+   ]
+  },
+  "level-3/06-testing-advanced": {
+   "questions": [
+    {
+     "q": "What's a mock/fake used for?",
+     "options": [
+      "Speed",
+      "Replacing dependencies like HTTP clients in unit tests",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "mockito or hand-written fakes."
+    },
+    {
+     "q": "What does setUp() do?",
+     "options": [
+      "Never",
+      "Once",
+      "Runs before each test in a group",
+      "After"
+     ],
+     "answer": 2,
+     "explain": "tearDown is after."
+    },
+    {
+     "q": "What does test coverage show?",
+     "options": [
+      "Which lines executed, not assertion quality",
+      "Speed",
+      "Correctness",
+      "Bugs"
+     ],
+     "answer": 0,
+     "explain": "dart test --coverage."
+    },
+    {
+     "q": "How do you test async code?",
+     "options": [
+      "Ignore",
+      "Make the test async and await, using expectLater for streams",
+      "Callbacks only",
+      "Sleep"
+     ],
+     "answer": 1,
+     "explain": "Await futures."
+    }
+   ]
+  },
+  "level-3/07-state-management-concepts": {
+   "questions": [
+    {
+     "q": "What's the core idea of state management?",
+     "options": [
+      "More setState",
+      "Global variables",
+      "Reload",
+      "Keep state in one place and let UI react to changes"
+     ],
+     "answer": 3,
+     "explain": "Lift state up."
+    },
+    {
+     "q": "What's wrong with putting everything in setState?",
+     "options": [
+      "Nothing",
+      "Law",
+      "Speed",
+      "State shared across widgets becomes hard to manage and test"
+     ],
+     "answer": 3,
+     "explain": "Use a dedicated approach."
+    },
+    {
+     "q": "What does ChangeNotifier do?",
+     "options": [
+      "Stores",
+      "Compiles",
+      "Navigates",
+      "Notifies listeners when state changes"
+     ],
+     "answer": 3,
+     "explain": "Used by Provider."
+    },
+    {
+     "q": "What does unidirectional data flow mean?",
+     "options": [
+      "No flow",
+      "Random",
+      "Both directions",
+      "State flows down, events flow up"
+     ],
+     "answer": 3,
+     "explain": "Predictable updates."
+    }
+   ]
+  },
+  "level-3/08-performance-profiling": {
+   "questions": [
+    {
+     "q": "What does the Dart DevTools profiler show?",
+     "options": [
+      "Typos",
+      "Docs",
+      "CPU, memory and frame timing to find bottlenecks",
+      "Network"
+     ],
+     "answer": 2,
+     "explain": "Profile in profile mode."
+    },
+    {
+     "q": "Why profile in release/profile mode, not debug?",
+     "options": [
+      "Style",
+      "Law",
+      "Debug mode has extra checks and no AOT optimizations",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Timing differs."
+    },
+    {
+     "q": "What's a common Flutter jank cause?",
+     "options": [
+      "Expensive work in build() or the UI thread",
+      "Keys",
+      "Small widgets",
+      "Const"
+     ],
+     "answer": 0,
+     "explain": "Use const and isolates."
+    },
+    {
+     "q": "What does `const` widget constructors enable?",
+     "options": [
+      "Logging",
+      "Async",
+      "Mutation",
+      "Reuse of identical instances to skip rebuilds"
+     ],
+     "answer": 3,
+     "explain": "Cheaper builds."
+    }
+   ]
+  },
+  "level-3/09-code-generation": {
+   "questions": [
+    {
+     "q": "What does build_runner do?",
+     "options": [
+      "Runs code generators like json_serializable",
+      "Builds APK",
+      "Tests",
+      "Formats"
+     ],
+     "answer": 0,
+     "explain": "dart run build_runner build."
+    },
+    {
+     "q": "Why generate JSON serialization code?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Avoids error-prone hand-written boilerplate"
+     ],
+     "answer": 3,
+     "explain": "Annotations drive it."
+    },
+    {
+     "q": "Are generated files committed?",
+     "options": [
+      "Random",
+      "Never",
+      "Always never",
+      "Depends on policy; keep them consistent and re-generate when sources change"
+     ],
+     "answer": 3,
+     "explain": "Some projects ignore them."
+    },
+    {
+     "q": "What do annotations like @JsonSerializable do?",
+     "options": [
+      "Format",
+      "Mark classes for the generator",
+      "Compile",
+      "Run code"
+     ],
+     "answer": 1,
+     "explain": "Metadata."
+    }
+   ]
+  },
+  "level-3/10-project-rest-api-db": {
+   "questions": [
+    {
+     "q": "What layers does the API project separate?",
+     "options": [
+      "DB only",
+      "Routes/handlers, service logic and data access",
+      "UI only",
+      "One file"
+     ],
+     "answer": 1,
+     "explain": "Separation of concerns."
+    },
+    {
+     "q": "Which verb creates a resource?",
+     "options": [
+      "GET",
+      "POST",
+      "DELETE",
+      "HEAD"
+     ],
+     "answer": 1,
+     "explain": "Return 201 with Location."
+    },
+    {
+     "q": "How should validation errors respond?",
+     "options": [
+      "500",
+      "200",
+      "400 with a clear message",
+      "302"
+     ],
+     "answer": 2,
+     "explain": "Client errors."
+    },
+    {
+     "q": "How do you test the API?",
+     "options": [
+      "Browser only",
+      "Manually only",
+      "Call handlers with Request objects or use an integration test against a running server",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Automate."
+    }
+   ]
+  },
+  "level-4/01-advanced-async-patterns": {
+   "questions": [
+    {
+     "q": "What does this print?\n```dart\nvoid main() async { var r = await Future.wait([Future.value(1), Future.delayed(Duration(milliseconds:5),()=>2)]); print(r); }\n```\n",
+     "options": [
+      "[2, 1]",
+      "1",
+      "Error",
+      "[1, 2]"
+     ],
+     "answer": 3,
+     "explain": "Future.wait preserves order. Verified by running it with the Dart SDK."
+    },
+    {
+     "q": "What's a StreamTransformer for?",
+     "options": [
+      "Compiling",
+      "Sorting",
+      "Routing",
+      "Transforming a stream's events (map, debounce, etc.)"
+     ],
+     "answer": 3,
+     "explain": "Composable pipelines."
+    },
+    {
+     "q": "Why handle backpressure in streams?",
+     "options": [
+      "Law",
+      "Speed",
+      "Producers may outpace consumers and exhaust memory",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Pause subscriptions."
+    },
+    {
+     "q": "What does a Completer do?",
+     "options": [
+      "Awaits",
+      "Retries",
+      "Lets you complete a Future manually",
+      "Cancels"
+     ],
+     "answer": 2,
+     "explain": "Bridge callback APIs."
+    }
+   ]
+  },
+  "level-4/02-production-dart-services": {
+   "questions": [
+    {
+     "q": "What should a production service expose?",
+     "options": [
+      "Source",
+      "Only code",
+      "Nothing",
+      "Health checks, structured logs and metrics"
+     ],
+     "answer": 3,
+     "explain": "Operability."
+    },
+    {
+     "q": "How should configuration be supplied?",
+     "options": [
+      "Environment variables or config files, not hard-coded",
+      "Comments",
+      "Hard-coded",
+      "Git secrets"
+     ],
+     "answer": 0,
+     "explain": "12-factor."
+    },
+    {
+     "q": "Why handle shutdown signals gracefully?",
+     "options": [
+      "Style",
+      "Law",
+      "To finish in-flight requests and close resources",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "SIGTERM."
+    },
+    {
+     "q": "What does AOT compilation provide?",
+     "options": [
+      "Hot reload",
+      "Fast startup and a standalone executable",
+      "Interpretation",
+      "Debug"
+     ],
+     "answer": 1,
+     "explain": "dart compile exe."
+    }
+   ]
+  },
+  "level-4/03-flutter-state-management-scale": {
+   "questions": [
+    {
+     "q": "What's a benefit of Bloc/Riverpod-style architecture at scale?",
+     "options": [
+      "Fewer files",
+      "Less code",
+      "Testable, predictable state separate from UI",
+      "No tests"
+     ],
+     "answer": 2,
+     "explain": "Choose consistently."
+    },
+    {
+     "q": "What should repositories handle?",
+     "options": [
+      "UI",
+      "Data sources behind an abstraction for the state layer",
+      "Routing",
+      "Animations"
+     ],
+     "answer": 1,
+     "explain": "Layering."
+    },
+    {
+     "q": "Why avoid putting business logic in widgets?",
+     "options": [
+      "Speed",
+      "It's hard to test and reuse",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Keep widgets dumb."
+    },
+    {
+     "q": "What does dependency injection enable here?",
+     "options": [
+      "Swapping implementations for tests",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Providers."
+    }
+   ]
+  },
+  "level-4/04-security-best-practices": {
+   "questions": [
+    {
+     "q": "Where should API secrets live in a Flutter app?",
+     "options": [
+      "In assets",
+      "Not embedded in the client; use a backend or secure storage",
+      "In source",
+      "In strings"
+     ],
+     "answer": 1,
+     "explain": "Clients can be reverse-engineered."
+    },
+    {
+     "q": "What does certificate pinning defend against?",
+     "options": [
+      "DoS",
+      "SQLi",
+      "XSS",
+      "Man-in-the-middle with fraudulent certificates"
+     ],
+     "answer": 3,
+     "explain": "Use carefully."
+    },
+    {
+     "q": "Why validate all input on the server?",
+     "options": [
+      "Clients can be modified or bypassed",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Never trust clients."
+    },
+    {
+     "q": "How should passwords be stored?",
+     "options": [
+      "MD5",
+      "Salted slow hashes (bcrypt/argon2)",
+      "Plain",
+      "Base64"
+     ],
+     "answer": 1,
+     "explain": "Never reversible."
+    }
+   ]
+  },
+  "level-4/05-testing-at-scale-ci": {
+   "questions": [
+    {
+     "q": "What should CI run for a Dart project?",
+     "options": [
+      "Nothing",
+      "dart analyze, dart format check and dart test",
+      "Only build",
+      "Manual"
+     ],
+     "answer": 1,
+     "explain": "Gate merges."
+    },
+    {
+     "q": "Why cache the pub cache in CI?",
+     "options": [
+      "Security",
+      "Style",
+      "Law",
+      "Faster dependency installs"
+     ],
+     "answer": 3,
+     "explain": "Restore by pubspec.lock hash."
+    },
+    {
+     "q": "What's a flaky test?",
+     "options": [
+      "Slow",
+      "New",
+      "One that passes and fails without code changes",
+      "Failing"
+     ],
+     "answer": 2,
+     "explain": "Fix or quarantine."
+    },
+    {
+     "q": "What does a test pyramid recommend?",
+     "options": [
+      "Only e2e",
+      "Mostly unit tests, fewer integration, fewest end-to-end",
+      "Mostly UI",
+      "Equal"
+     ],
+     "answer": 1,
+     "explain": "Speed and confidence."
+    }
+   ]
+  },
+  "level-4/06-deployment-docker": {
+   "questions": [
+    {
+     "q": "Why multi-stage Docker builds for Dart?",
+     "options": [
+      "Compile to a native binary in a build stage and ship it in a tiny runtime image",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Small images."
+    },
+    {
+     "q": "What does `dart compile exe` produce?",
+     "options": [
+      "JS",
+      "Source",
+      "A self-contained native executable",
+      "Bytecode"
+     ],
+     "answer": 2,
+     "explain": "AOT."
+    },
+    {
+     "q": "Why run as non-root in a container?",
+     "options": [
+      "Style",
+      "Law",
+      "Limits damage if compromised",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "How should containers receive config?",
+     "options": [
+      "Baked secrets",
+      "Environment variables",
+      "Images",
+      "Hard-coded"
+     ],
+     "answer": 1,
+     "explain": "Inject at runtime."
+    }
+   ]
+  },
+  "level-4/07-performance-at-scale": {
+   "questions": [
+    {
+     "q": "What should you do before optimizing?",
+     "options": [
+      "Guess",
+      "Add isolates",
+      "Rewrite",
+      "Measure with a profiler to find the real bottleneck"
+     ],
+     "answer": 3,
+     "explain": "Evidence first."
+    },
+    {
+     "q": "What helps throughput of a Dart server?",
+     "options": [
+      "Bigger logs",
+      "More globals",
+      "Running multiple isolates/instances behind a load balancer",
+      "Sleeps"
+     ],
+     "answer": 2,
+     "explain": "Isolates don't share memory."
+    },
+    {
+     "q": "Why avoid blocking the event loop?",
+     "options": [
+      "Law",
+      "Cost",
+      "Style",
+      "Everything else on that isolate stalls"
+     ],
+     "answer": 3,
+     "explain": "Offload CPU work."
+    },
+    {
+     "q": "What reduces allocations in hot paths?",
+     "options": [
+      "Strings",
+      "More lists",
+      "Reusing objects and using const/typed data",
+      "dynamic"
+     ],
+     "answer": 2,
+     "explain": "Typed lists."
+    }
+   ]
+  },
+  "level-4/08-package-publishing": {
+   "questions": [
+    {
+     "q": "What command checks a package before publishing?",
+     "options": [
+      "dart pub get",
+      "dart test",
+      "dart run",
+      "dart pub publish --dry-run"
+     ],
+     "answer": 3,
+     "explain": "Validates layout and metadata."
+    },
+    {
+     "q": "What versioning does pub use?",
+     "options": [
+      "Random",
+      "Calendar",
+      "Semantic versioning",
+      "Hash"
+     ],
+     "answer": 2,
+     "explain": "Breaking changes bump major."
+    },
+    {
+     "q": "What should a published package include?",
+     "options": [
+      "Binaries",
+      "Nothing",
+      "Only code",
+      "README, CHANGELOG, LICENSE, tests and docs"
+     ],
+     "answer": 3,
+     "explain": "Quality signals on pub.dev."
+    },
+    {
+     "q": "Can a published version be changed?",
+     "options": [
+      "No: versions are immutable; publish a new one (or retract)",
+      "Anytime",
+      "Yes",
+      "Edit"
+     ],
+     "answer": 0,
+     "explain": "Immutability."
+    }
+   ]
+  },
+  "level-4/09-code-quality": {
+   "questions": [
+    {
+     "q": "What does `dart analyze` do?",
+     "options": [
+      "Statically checks code for errors and lint violations",
+      "Compiles",
+      "Formats",
+      "Runs tests"
+     ],
+     "answer": 0,
+     "explain": "Configure analysis_options.yaml."
+    },
+    {
+     "q": "What does `dart format` do?",
+     "options": [
+      "Applies the standard code style",
+      "Lints",
+      "Compiles",
+      "Tests"
+     ],
+     "answer": 0,
+     "explain": "Consistent diffs."
+    },
+    {
+     "q": "Why enable strict lints?",
+     "options": [
+      "Speed",
+      "Catch issues early and keep consistency",
+      "Law",
+      "Fun"
+     ],
+     "answer": 1,
+     "explain": "package:lints or flutter_lints."
+    },
+    {
+     "q": "What is dead code detection good for?",
+     "options": [
+      "Style",
+      "Law",
+      "Removing unused code to reduce maintenance",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Analyzer hints."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone integrate?",
+     "options": [
+      "Only tests",
+      "Only UI",
+      "Only CI",
+      "API, persistence, testing, CI, containers and quality tooling"
+     ],
+     "answer": 3,
+     "explain": "End-to-end."
+    },
+    {
+     "q": "How do you validate the finished project?",
+     "options": [
+      "Nothing",
+      "It compiles",
+      "Tests, analysis, CI and a containerized run",
+      "Manual"
+     ],
+     "answer": 2,
+     "explain": "Layered checks."
+    },
+    {
+     "q": "What makes it maintainable?",
+     "options": [
+      "Comments only",
+      "Globals",
+      "Layering, tests, documentation and consistent style",
+      "Large files"
+     ],
+     "answer": 2,
+     "explain": "Sustainable."
+    },
+    {
+     "q": "What should the README cover?",
+     "options": [
+      "Nothing",
+      "Source",
+      "How to run, test and deploy",
+      "Slides"
+     ],
+     "answer": 2,
+     "explain": "Onboarding."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "In Dart, what does `String name` mean under sound null safety?",
+    "options": [
+     "name can never be null; use String? to allow null",
+     "name may be null",
+     "name is optional",
+     "name is dynamic"
+    ],
+    "answer": 0,
+    "explain": "Non-nullable by default."
+   },
+   {
+    "q": "What does this print?\n```dart\nvoid main(){ String? s; print(s?.length); print(s ?? 'none'); s ??= 'x'; print(s); }\n```\n",
+    "options": [
+     "null\nnull\nx",
+     "Error",
+     "0\nnone\nx",
+     "null\nnone\nx"
+    ],
+    "answer": 3,
+    "explain": "?. short-circuits, ?? gives a default, ??= assigns if null. Verified by running it with the Dart SDK."
+   },
+   {
+    "q": "What does this print?\n```dart\nvoid main(){ final a=[1,2]; a.add(3); print(a); const b=[1,2]; print(b.length); }\n```\n",
+    "options": [
+     "[1, 2]\n2",
+     "Error",
+     "[1, 2, 3]\n2",
+     "[1, 2, 3]\n3"
+    ],
+    "answer": 2,
+    "explain": "final stops reassignment, not mutation; const makes an immutable compile-time value. Verified by running it with the Dart SDK."
+   },
+   {
+    "q": "What does this print?\n```dart\nvoid main(){ var n=[1,2,3,4]; print(n.where((x)=>x.isOdd).map((x)=>x*10).toList()); }\n```\n",
+    "options": [
+     "[1, 3]",
+     "[10, 20, 30, 40]",
+     "[10, 30]",
+     "Error"
+    ],
+    "answer": 2,
+    "explain": "where filters, map transforms. Verified by running it with the Dart SDK."
+   },
+   {
+    "q": "What does this print?\n```dart\nclass A{ A(){ print('A'); } }\nclass B extends A{ B(){ print('B'); } }\nvoid main(){ B(); }\n```\n",
+    "options": [
+     "A",
+     "B",
+     "B\nA",
+     "A\nB"
+    ],
+    "answer": 3,
+    "explain": "The superclass constructor runs first. Verified by running it with the Dart SDK."
+   },
+   {
+    "q": "What does this print?\n```dart\nmixin Walker{ String move()=>'walk'; }\nclass Dog with Walker{}\nvoid main(){ print(Dog().move()); }\n```\n",
+    "options": [
+     "Error",
+     "Dog",
+     "walk",
+     "move"
+    ],
+    "answer": 2,
+    "explain": "Mixins add reusable behavior. Verified by running it with the Dart SDK."
+   },
+   {
+    "q": "What does this print?\n```dart\nvoid main() async { print('a'); await Future.delayed(Duration(milliseconds:5)); print('b'); }\n```\n",
+    "options": [
+     "a",
+     "b\na",
+     "Error",
+     "a\nb"
+    ],
+    "answer": 3,
+    "explain": "await pauses this function only. Verified by running it with the Dart SDK."
+   },
+   {
+    "q": "What does this print?\n```dart\nStream<int> s() async* { for (var i=1;i<=3;i++) yield i*i; }\nvoid main() async { await for (final v in s()) print(v); }\n```\n",
+    "options": [
+     "Error",
+     "1\n4\n9",
+     "9",
+     "1\n2\n3"
+    ],
+    "answer": 1,
+    "explain": "async* generators emit with yield. Verified by running it with the Dart SDK."
+   },
+   {
+    "q": "What does this print?\n```dart\nimport 'dart:isolate';\nvoid main() async { print(await Isolate.run(()=>List.generate(5,(i)=>i*i).reduce((a,b)=>a+b))); }\n```\n",
+    "options": [
+     "Error",
+     "5",
+     "30",
+     "10"
+    ],
+    "answer": 2,
+    "explain": "CPU-heavy work can run in a separate isolate. Verified by running it with the Dart SDK."
+   },
+   {
+    "q": "Why isn't async/await the same as parallelism in Dart?",
+    "options": [
+     "async uses threads",
+     "They're identical",
+     "isolates share memory",
+     "It interleaves work on one thread via the event loop; isolates give real parallelism with separate memory"
+    ],
+    "answer": 3,
+    "explain": "Use isolates for CPU-bound work."
+   },
+   {
+    "q": "A Flutter list janks because build() sorts 10,000 items. What's the fix?",
+    "options": [
+     "Call setState more",
+     "Move the work out of build() (compute once or in an isolate) and use const widgets where possible",
+     "Use sleep",
+     "Ignore"
+    ],
+    "answer": 1,
+    "explain": "build() must be cheap."
+   },
+   {
+    "q": "State is passed through six widgets only to be used at the bottom. What do you use?",
+    "options": [
+     "Globals",
+     "A state management approach (e.g. Provider/Riverpod/Bloc) to lift and share state",
+     "More constructors",
+     "setState everywhere"
+    ],
+    "answer": 1,
+    "explain": "Reduces prop drilling."
+   },
+   {
+    "q": "A shelf handler needs logging and auth for every route. How?",
+    "options": [
+     "Copy code",
+     "A mixin",
+     "Wrap handlers with middleware in a Pipeline",
+     "Use globals"
+    ],
+    "answer": 2,
+    "explain": "Middleware composes behavior."
+   },
+   {
+    "q": "A query builds SQL by concatenating a request parameter. What's wrong?",
+    "options": [
+     "Style",
+     "Slow",
+     "SQL injection risk: use parameterized queries with placeholders",
+     "Nothing"
+    ],
+    "answer": 2,
+    "explain": "Bind values."
+   },
+   {
+    "q": "Where must an API secret not be stored in a Flutter app?",
+    "options": [
+     "In vault",
+     "In the client bundle, since it can be extracted; keep it on a backend",
+     "On server",
+     "In env on server"
+    ],
+    "answer": 1,
+    "explain": "Clients are untrusted."
+   },
+   {
+    "q": "What's the smallest reasonable Docker setup for a Dart server?",
+    "options": [
+     "Copy source",
+     "Ship the SDK",
+     "Compile with `dart compile exe` in a build stage and copy the binary into a minimal runtime image",
+     "Run dart run"
+    ],
+    "answer": 2,
+    "explain": "Small and fast to start."
+   },
+   {
+    "q": "A package change breaks callers' code. What version bump?",
+    "options": [
+     "Major, per semantic versioning",
+     "Patch",
+     "None",
+     "Minor"
+    ],
+    "answer": 0,
+    "explain": "Breaking changes require a major."
+   },
+   {
+    "q": "CI for a Dart repo should at minimum run...",
+    "options": [
+     "Only build",
+     "dart analyze, dart format --set-exit-if-changed and dart test",
+     "Nothing",
+     "Manual"
+    ],
+    "answer": 1,
+    "explain": "Gate merges automatically."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Totals and counts with collections",
+    "prompt": "Implement total(items) with fold (sum of qty x price) and countByInitial(items) returning the total quantity per upper-cased first letter of the item name. Print the total to two decimals and the map.",
+    "starter": "class Item {\n  final String name;\n  final int qty;\n  final double price;\n  Item(this.name, this.qty, this.price);\n}\n\ndouble total(List<Item> items) {\n  // sum qty * price with fold\n  return 0;\n}\n\nMap<String, int> countByInitial(List<Item> items) {\n  // total quantity per upper-cased first letter of the name\n  return {};\n}\n\nvoid main() {\n  final items = [\n    Item('apple', 3, 0.5),\n    Item('avocado', 2, 1.25),\n    Item('bread', 1, 2.0),\n  ];\n  print(total(items).toStringAsFixed(2));\n  print(countByInitial(items));\n}\n",
+    "expected": "6.00\n{A: 5, B: 1}",
+    "solution": "class Item {\n  final String name;\n  final int qty;\n  final double price;\n  Item(this.name, this.qty, this.price);\n}\n\ndouble total(List<Item> items) =>\n    items.fold(0.0, (sum, i) => sum + i.qty * i.price);\n\nMap<String, int> countByInitial(List<Item> items) {\n  final counts = <String, int>{};\n  for (final i in items) {\n    final key = i.name[0].toUpperCase();\n    counts[key] = (counts[key] ?? 0) + i.qty;\n  }\n  return counts;\n}\n\nvoid main() {\n  final items = [\n    Item('apple', 3, 0.5),\n    Item('avocado', 2, 1.25),\n    Item('bread', 1, 2.0),\n  ];\n  print(total(items).toStringAsFixed(2));\n  print(countByInitial(items));\n}\n",
+    "explain": "fold accumulates a running sum, and a map with `?? 0` accumulates per-key totals. Dart prints maps as {A: 5, B: 1}. Verified by running the solution with the Dart SDK."
+   },
+   {
+    "title": "Typed exceptions and streams",
+    "prompt": "Complete Account.withdraw (ArgumentError for non-positive amounts, a custom InsufficientFunds exception when over balance), and an async* generator ticks(n) that yields 1..n. The provided main handles each failure type and uses finally.",
+    "starter": "import 'dart:async';\n\nclass Account {\n  int _balance;\n  Account(this._balance);\n  int get balance => _balance;\n  void withdraw(int amount) {\n    // throw ArgumentError for amount <= 0, InsufficientFunds(shortBy) when amount > balance,\n    // otherwise subtract it from the balance\n  }\n}\n\nclass InsufficientFunds implements Exception {\n  final int shortBy;\n  InsufficientFunds(this.shortBy);\n  @override\n  String toString() => 'InsufficientFunds(short by $shortBy)';\n}\n\nStream<int> ticks(int n) async* {\n  // yield 1..n\n}\n\nFuture<void> main() async {\n  final acct = Account(100);\n  for (final amt in [30, 100, -5]) {\n    try {\n      acct.withdraw(amt);\n      print('withdrew $amt, balance ${acct.balance}');\n    } on InsufficientFunds catch (e) {\n      print('error: $e');\n    } on ArgumentError catch (e) {\n      print('invalid: ${e.message}');\n    } finally {\n      print('checked $amt');\n    }\n  }\n  final total = await ticks(4).fold<int>(0, (a, b) => a + b);\n  print('sum of ticks: $total');\n}\n",
+    "expected": "withdrew 30, balance 70\nchecked 30\nerror: InsufficientFunds(short by 30)\nchecked 100\ninvalid: amount must be positive\nchecked -5\nsum of ticks: 10",
+    "solution": "import 'dart:async';\n\nclass Account {\n  int _balance;\n  Account(this._balance);\n  int get balance => _balance;\n  void withdraw(int amount) {\n    if (amount <= 0) throw ArgumentError('amount must be positive');\n    if (amount > _balance) throw InsufficientFunds(amount - _balance);\n    _balance -= amount;\n  }\n}\n\nclass InsufficientFunds implements Exception {\n  final int shortBy;\n  InsufficientFunds(this.shortBy);\n  @override\n  String toString() => 'InsufficientFunds(short by $shortBy)';\n}\n\nStream<int> ticks(int n) async* {\n  for (var i = 1; i <= n; i++) {\n    yield i;\n  }\n}\n\nFuture<void> main() async {\n  final acct = Account(100);\n  for (final amt in [30, 100, -5]) {\n    try {\n      acct.withdraw(amt);\n      print('withdrew $amt, balance ${acct.balance}');\n    } on InsufficientFunds catch (e) {\n      print('error: $e');\n    } on ArgumentError catch (e) {\n      print('invalid: ${e.message}');\n    } finally {\n      print('checked $amt');\n    }\n  }\n  final total = await ticks(4).fold<int>(0, (a, b) => a + b);\n  print('sum of ticks: $total');\n}\n",
+    "explain": "Catch the most specific exception types first, use finally for always-run code, and async* with yield to produce a Stream. Verified by running the solution with the Dart SDK."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
