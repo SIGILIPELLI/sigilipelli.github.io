@@ -1,0 +1,2159 @@
+{
+ "course": "cypress-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-cypress-actually-is": {
+   "questions": [
+    {
+     "q": "What is Cypress's defining architectural choice?",
+     "options": [
+      "Tests run on a cloud grid only",
+      "Tests run in a separate Node process driving the browser remotely",
+      "Tests run in an emulator",
+      "Test code runs inside the same browser as the application under test"
+     ],
+     "answer": 3,
+     "explain": "That gives direct access to the app's window and network layer."
+    },
+    {
+     "q": "Which kinds of tests is Cypress built for?",
+     "options": [
+      "End-to-end tests of web apps (and component tests) written in JavaScript/TypeScript",
+      "Database migrations",
+      "Desktop apps",
+      "Native mobile apps"
+     ],
+     "answer": 0,
+     "explain": "It targets the browser."
+    },
+    {
+     "q": "Why do Cypress tests have direct access to the page's window object?",
+     "options": [
+      "Because the test code executes in the same browser context as the app",
+      "It uses WebDriver",
+      "Through screenshots",
+      "By polling the DOM remotely"
+     ],
+     "answer": 0,
+     "explain": "Observable consequence of the architecture."
+    },
+    {
+     "q": "What's a downside of running inside the browser?",
+     "options": [
+      "No retries",
+      "Constraints like same-origin rules and limited multi-tab support",
+      "No assertions",
+      "No network control"
+     ],
+     "answer": 1,
+     "explain": "Later lessons cover these limits."
+    }
+   ]
+  },
+  "level-1/02-installing-configuring": {
+   "questions": [
+    {
+     "q": "What does `npm install cypress --save-dev` do?",
+     "options": [
+      "Installs Cypress as a dev dependency of the project",
+      "Runs tests",
+      "Creates a server",
+      "Installs globally"
+     ],
+     "answer": 0,
+     "explain": "The binary is downloaded on install."
+    },
+    {
+     "q": "Where do you set baseUrl and spec patterns?",
+     "options": [
+      "index.html",
+      "package.json scripts only",
+      "cypress.config.js (or .ts)",
+      "cypress.env only"
+     ],
+     "answer": 2,
+     "explain": "Configuration lives there."
+    },
+    {
+     "q": "What does `baseUrl` let you do?",
+     "options": [
+      "Run in parallel",
+      "Skip assertions",
+      "Use relative paths like cy.visit('/login')",
+      "Disable retries"
+     ],
+     "answer": 2,
+     "explain": "Cleaner tests."
+    },
+    {
+     "q": "Why verify configuration by running tests rather than trusting defaults?",
+     "options": [
+      "It's faster",
+      "Defaults and docs can differ from actual behavior on your setup",
+      "Docs are never right",
+      "It's required"
+     ],
+     "answer": 1,
+     "explain": "The lesson tests what config actually controls."
+    }
+   ]
+  },
+  "level-1/03-querying-the-dom": {
+   "questions": [
+    {
+     "q": "What does cy.get('.item') do?",
+     "options": [
+      "Returns immediately",
+      "Queries the DOM for elements matching the selector, retrying until found or timeout",
+      "Clicks",
+      "Visits"
+     ],
+     "answer": 1,
+     "explain": "Queries retry."
+    },
+    {
+     "q": "How does cy.contains('Login') differ from cy.get?",
+     "options": [
+      "Same",
+      "Only buttons",
+      "It finds an element by its text content",
+      "Only visits"
+     ],
+     "answer": 2,
+     "explain": "Useful for visible text."
+    },
+    {
+     "q": "What does `.find()` do?",
+     "options": [
+      "Searches for descendants within the previously yielded subject",
+      "Visits",
+      "Searches the whole page",
+      "Types"
+     ],
+     "answer": 0,
+     "explain": "Chain from a parent."
+    },
+    {
+     "q": "What does Cypress show when a selector isn't found?",
+     "options": [
+      "Null",
+      "Silent pass",
+      "A specific timed-out error saying it failed to find the element after retrying",
+      "A warning"
+     ],
+     "answer": 2,
+     "explain": "The lesson captures the real message."
+    }
+   ]
+  },
+  "level-1/04-interacting-with-elements": {
+   "questions": [
+    {
+     "q": "What does .type('hello') do?",
+     "options": [
+      "Types text into the focused or yielded input",
+      "Asserts",
+      "Reads",
+      "Clicks"
+     ],
+     "answer": 0,
+     "explain": "Supports special keys like {enter}."
+    },
+    {
+     "q": "What happens when you .click() a disabled button?",
+     "options": [
+      "Enables it",
+      "Clicks it",
+      "Ignores",
+      "Cypress fails by default, because it checks actionability"
+     ],
+     "answer": 3,
+     "explain": "Use {force:true} only knowingly."
+    },
+    {
+     "q": "What does .check() act on?",
+     "options": [
+      "Text",
+      "Links",
+      "Selects",
+      "Checkboxes and radio buttons"
+     ],
+     "answer": 3,
+     "explain": ".uncheck() clears."
+    },
+    {
+     "q": "Why does Cypress check actionability before clicking?",
+     "options": [
+      "Law",
+      "Speed",
+      "To act like a real user: element must be visible, enabled and not covered",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Avoids false passes."
+    }
+   ]
+  },
+  "level-1/05-assertions": {
+   "questions": [
+    {
+     "q": "What does `cy.get('h1').should('have.text','Todos')` do?",
+     "options": [
+      "Returns text",
+      "Retries until the heading's text matches or timeout",
+      "Checks once",
+      "Clicks"
+     ],
+     "answer": 1,
+     "explain": "should is retryable."
+    },
+    {
+     "q": "When is `expect()` appropriate?",
+     "options": [
+      "Always",
+      "On values already extracted, e.g. inside .then()",
+      "Never",
+      "For DOM retries"
+     ],
+     "answer": 1,
+     "explain": "expect doesn't retry."
+    },
+    {
+     "q": "What does `.and()` do?",
+     "options": [
+      "Waits",
+      "Joins selectors",
+      "Intercepts",
+      "Chains another assertion on the same subject (alias of should)"
+     ],
+     "answer": 3,
+     "explain": "Readable."
+    },
+    {
+     "q": "Why can a should with a callback retry?",
+     "options": [
+      "It sleeps",
+      "Cypress re-runs the callback until it passes or times out",
+      "It reloads",
+      "It doesn't"
+     ],
+     "answer": 1,
+     "explain": "Callbacks must be idempotent."
+    }
+   ]
+  },
+  "level-1/06-auto-waiting-retry-ability": {
+   "questions": [
+    {
+     "q": "What does automatic retry-ability do for a 1.5s-delayed element?",
+     "options": [
+      "Cypress keeps retrying the query/assertion until it appears (default timeout 4s)",
+      "Fails immediately",
+      "Needs cy.wait",
+      "Needs sleep"
+     ],
+     "answer": 0,
+     "explain": "No manual waits needed."
+    },
+    {
+     "q": "Why run the test 10 times in the lesson?",
+     "options": [
+      "Speed",
+      "Style",
+      "To measure real reliability rather than trust one lucky pass",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Flakiness is statistical."
+    },
+    {
+     "q": "What's wrong with `cy.wait(2000)` for an element?",
+     "options": [
+      "Retry",
+      "Speed",
+      "Arbitrary sleeps are slow and brittle; assert on the condition instead",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Use assertions."
+    },
+    {
+     "q": "What's the default command timeout?",
+     "options": [
+      "30 seconds",
+      "4 seconds",
+      "None",
+      "1 second"
+     ],
+     "answer": 1,
+     "explain": "Configurable via defaultCommandTimeout."
+    }
+   ]
+  },
+  "level-1/07-forms-dropdowns": {
+   "questions": [
+    {
+     "q": "Which command picks a dropdown option?",
+     "options": [
+      "type",
+      "check",
+      "click only",
+      "cy.get('select').select('value or text')"
+     ],
+     "answer": 3,
+     "explain": "Works with value or visible text."
+    },
+    {
+     "q": "How do you choose a radio option?",
+     "options": [
+      "cy.get('input[type=radio]').check('value')",
+      "uncheck",
+      "select",
+      "type"
+     ],
+     "answer": 0,
+     "explain": "check handles radios."
+    },
+    {
+     "q": "What should a login-form test assert after submit?",
+     "options": [
+      "Status only",
+      "Input only",
+      "The resulting UI or URL change, such as a welcome message",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Verify outcomes."
+    },
+    {
+     "q": "Why prefer data-* attributes for selectors?",
+     "options": [
+      "Required",
+      "Fast",
+      "They're stable and independent of styling and structure",
+      "Short"
+     ],
+     "answer": 2,
+     "explain": "data-cy / data-testid."
+    }
+   ]
+  },
+  "level-1/08-navigation": {
+   "questions": [
+    {
+     "q": "What does cy.visit('/page') do?",
+     "options": [
+      "Clicks",
+      "Reloads",
+      "Loads the page and waits for the load event",
+      "Intercepts"
+     ],
+     "answer": 2,
+     "explain": "Fails on non-2xx by default."
+    },
+    {
+     "q": "Does text typed into an input survive cy.go('back') then forward?",
+     "options": [
+      "It depends on browser form restoration, so test it rather than assume",
+      "Cypress restores it",
+      "Never",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "The lesson checks real state."
+    },
+    {
+     "q": "What does cy.reload() do?",
+     "options": [
+      "Navigates back",
+      "Clears cookies",
+      "Reloads the current page",
+      "Opens a tab"
+     ],
+     "answer": 2,
+     "explain": "State resets except persisted storage."
+    },
+    {
+     "q": "What does cy.location('pathname') yield?",
+     "options": [
+      "The current URL path for assertion",
+      "Cookies",
+      "Title",
+      "HTML"
+     ],
+     "answer": 0,
+     "explain": "Use should to assert."
+    }
+   ]
+  },
+  "level-1/09-cypress-app-headless-mode": {
+   "questions": [
+    {
+     "q": "What is `cypress run`?",
+     "options": [
+      "Headless execution, typically for CI",
+      "Records only",
+      "Installs",
+      "Interactive GUI"
+     ],
+     "answer": 0,
+     "explain": "cypress open is the interactive runner."
+    },
+    {
+     "q": "Which browser does Cypress use by default in run mode?",
+     "options": [
+      "Safari",
+      "Its bundled Electron",
+      "Firefox only",
+      "Edge only"
+     ],
+     "answer": 1,
+     "explain": "Use --browser chrome for others."
+    },
+    {
+     "q": "What does `cypress info` show?",
+     "options": [
+      "Test results",
+      "Detected browsers and environment details",
+      "Network",
+      "Coverage"
+     ],
+     "answer": 1,
+     "explain": "Helps debug setup."
+    },
+    {
+     "q": "Why run in headless mode on CI?",
+     "options": [
+      "Prettier",
+      "No display is needed and it's scriptable and faster",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Videos and screenshots can still be saved."
+    }
+   ]
+  },
+  "level-1/10-project-login-flow-test": {
+   "questions": [
+    {
+     "q": "What makes the login-flow project good practice?",
+     "options": [
+      "No asserts",
+      "Many sleeps",
+      "Zero manual waits and assertions that retry",
+      "Random"
+     ],
+     "answer": 2,
+     "explain": "Combines the level's techniques."
+    },
+    {
+     "q": "How should invalid login be tested?",
+     "options": [
+      "Assert the specific error message appears",
+      "Assert nothing",
+      "Reload",
+      "Sleep"
+     ],
+     "answer": 0,
+     "explain": "Verify behavior."
+    },
+    {
+     "q": "Where should test data live?",
+     "options": [
+      "In HTML",
+      "In fixtures or config, not hard-coded across tests",
+      "In specs",
+      "In comments"
+     ],
+     "answer": 1,
+     "explain": "Reusable."
+    },
+    {
+     "q": "What makes each test independent?",
+     "options": [
+      "Shared globals",
+      "It sets up its own state and doesn't rely on previous tests",
+      "Sleeps",
+      "Order"
+     ],
+     "answer": 1,
+     "explain": "Independent tests."
+    }
+   ]
+  },
+  "level-2/01-custom-commands": {
+   "questions": [
+    {
+     "q": "What does Cypress.Commands.add('login', ...) create?",
+     "options": [
+      "A plugin",
+      "A reusable custom command callable as cy.login()",
+      "A spec",
+      "A fixture"
+     ],
+     "answer": 1,
+     "explain": "Centralizes repeated flows."
+    },
+    {
+     "q": "What did renaming the login button's id show?",
+     "options": [
+      "With a custom command only one place needs fixing instead of every test",
+      "Nothing",
+      "Speed",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "The cost of duplication."
+    },
+    {
+     "q": "Where are custom commands usually defined?",
+     "options": [
+      "config",
+      "fixtures",
+      "cypress/support/commands.js",
+      "package"
+     ],
+     "answer": 2,
+     "explain": "Loaded before specs."
+    },
+    {
+     "q": "When is a custom command a bad idea?",
+     "options": [
+      "When it hides assertions or becomes a grab-bag; keep them focused",
+      "For login",
+      "Always good",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Prefer clarity."
+    }
+   ]
+  },
+  "level-2/02-fixtures-test-data": {
+   "questions": [
+    {
+     "q": "What does cy.fixture('users') do?",
+     "options": [
+      "Intercepts",
+      "Loads data from cypress/fixtures/users.json",
+      "Clicks",
+      "Runs server"
+     ],
+     "answer": 1,
+     "explain": "Great for data-driven tests."
+    },
+    {
+     "q": "How do you drive the same flow with several data rows?",
+     "options": [
+      "Loop over fixture rows and generate tests/iterations",
+      "Copy-paste",
+      "Skip",
+      "Use sleeps"
+     ],
+     "answer": 0,
+     "explain": "Data-driven testing."
+    },
+    {
+     "q": "What's a benefit of JSON fixtures?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "Separates data from test logic"
+     ],
+     "answer": 3,
+     "explain": "Easier maintenance."
+    },
+    {
+     "q": "Can fixtures also stub network responses?",
+     "options": [
+      "Only GET",
+      "Yes, via cy.intercept(..., { fixture: 'file.json' })",
+      "No",
+      "Only POST"
+     ],
+     "answer": 1,
+     "explain": "Combines two features."
+    }
+   ]
+  },
+  "level-2/03-network-stubbing-intercept": {
+   "questions": [
+    {
+     "q": "What does cy.intercept() do?",
+     "options": [
+      "Types",
+      "Spies on or stubs network requests",
+      "Visits",
+      "Clicks"
+     ],
+     "answer": 1,
+     "explain": "Matches by method and URL."
+    },
+    {
+     "q": "What's the difference between spying and stubbing?",
+     "options": [
+      "Stubbing observes",
+      "No difference",
+      "Spying observes real requests; stubbing returns a fake response",
+      "Spying fakes"
+     ],
+     "answer": 2,
+     "explain": "Choose by need."
+    },
+    {
+     "q": "Why stub a server error response?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "To test the UI's error handling deterministically"
+     ],
+     "answer": 3,
+     "explain": "Hard to trigger otherwise."
+    },
+    {
+     "q": "How do you wait for an intercepted request to complete?",
+     "options": [
+      "reload",
+      "Alias it and cy.wait('@alias')",
+      "cy.wait(1000)",
+      "sleep"
+     ],
+     "answer": 1,
+     "explain": "Wait on the route, not time."
+    }
+   ]
+  },
+  "level-2/04-cy-request": {
+   "questions": [
+    {
+     "q": "What does cy.request() do?",
+     "options": [
+      "Types",
+      "Spies",
+      "Makes an HTTP request directly from Cypress, bypassing the browser UI",
+      "Visits"
+     ],
+     "answer": 2,
+     "explain": "Useful for setup."
+    },
+    {
+     "q": "What happens on a 401 from cy.request by default?",
+     "options": [
+      "Retries",
+      "Passes",
+      "Ignored",
+      "The command fails unless failOnStatusCode is false"
+     ],
+     "answer": 3,
+     "explain": "Unlike fetch."
+    },
+    {
+     "q": "Why log in via cy.request?",
+     "options": [
+      "Law",
+      "Faster and more reliable than UI login for setup",
+      "Style",
+      "Fun"
+     ],
+     "answer": 1,
+     "explain": "Test the login UI separately."
+    },
+    {
+     "q": "Why seed data via API?",
+     "options": [
+      "Style",
+      "Speed only",
+      "Law",
+      "Quick known state without clicking through the UI"
+     ],
+     "answer": 3,
+     "explain": "Isolation."
+    }
+   ]
+  },
+  "level-2/05-iframes-real-limitation": {
+   "questions": [
+    {
+     "q": "Why can't cy.get see inside an iframe by default?",
+     "options": [
+      "Law",
+      "Bug",
+      "The iframe has a separate document; cy.get queries the top document",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "A real limitation."
+    },
+    {
+     "q": "What's the usual workaround?",
+     "options": [
+      "Access iframe.contentDocument body and wrap it, or use a plugin",
+      "Sleep",
+      "Impossible",
+      "Reload"
+     ],
+     "answer": 0,
+     "explain": "Custom command."
+    },
+    {
+     "q": "What does the course say about the iframe limitation?",
+     "options": [
+      "Denied",
+      "It's reported honestly as a real limitation",
+      "Fixed",
+      "Hidden"
+     ],
+     "answer": 1,
+     "explain": "Accuracy."
+    },
+    {
+     "q": "Cross-origin iframes add what difficulty?",
+     "options": [
+      "Speed",
+      "Same-origin policy blocks access to their DOM",
+      "None",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Browser-enforced."
+    }
+   ]
+  },
+  "level-2/06-file-upload": {
+   "questions": [
+    {
+     "q": "How do you upload a file in Cypress?",
+     "options": [
+      "fixture only",
+      "cy.get('input[type=file]').selectFile('path')",
+      "type",
+      "click"
+     ],
+     "answer": 1,
+     "explain": "selectFile is built in."
+    },
+    {
+     "q": "Where do upload fixtures live?",
+     "options": [
+      "dist",
+      "cypress/fixtures",
+      "public",
+      "src"
+     ],
+     "answer": 1,
+     "explain": "Reference by path."
+    },
+    {
+     "q": "What should you assert after upload?",
+     "options": [
+      "Sleep",
+      "Nothing",
+      "Reload",
+      "The UI shows the file name or success message"
+     ],
+     "answer": 3,
+     "explain": "Verify outcome."
+    },
+    {
+     "q": "What does selectFile's drag-drop action do?",
+     "options": [
+      "Types",
+      "Simulates dropping the file onto a drop zone",
+      "Clicks",
+      "Hovers"
+     ],
+     "answer": 1,
+     "explain": "{ action: 'drag-drop' }."
+    }
+   ]
+  },
+  "level-2/07-env-variables-config": {
+   "questions": [
+    {
+     "q": "How do you read an environment variable in a test?",
+     "options": [
+      "process.env only",
+      "cy.env",
+      "window.env",
+      "Cypress.env('NAME')"
+     ],
+     "answer": 3,
+     "explain": "Set via config, env file or CLI."
+    },
+    {
+     "q": "How do you pass env vars on the command line?",
+     "options": [
+      "--var",
+      "--env KEY=value",
+      "-e only",
+      "--set"
+     ],
+     "answer": 1,
+     "explain": "CI friendly."
+    },
+    {
+     "q": "Why keep secrets out of cypress.config.js committed files?",
+     "options": [
+      "Style",
+      "They'd leak in source control; use CI secrets",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Never commit secrets."
+    },
+    {
+     "q": "What's baseUrl per environment used for?",
+     "options": [
+      "Style",
+      "Law",
+      "Pointing the same tests at staging or local",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Override in CLI."
+    }
+   ]
+  },
+  "level-2/08-hooks": {
+   "questions": [
+    {
+     "q": "Which hook runs before each test?",
+     "options": [
+      "afterAll",
+      "before",
+      "after",
+      "beforeEach"
+     ],
+     "answer": 3,
+     "explain": "before runs once per describe."
+    },
+    {
+     "q": "What belongs in beforeEach?",
+     "options": [
+      "Setup that gives each test a fresh known state",
+      "Teardown",
+      "Assertions only",
+      "Sleeps"
+     ],
+     "answer": 0,
+     "explain": "Isolation."
+    },
+    {
+     "q": "Why avoid relying on test order?",
+     "options": [
+      "Style",
+      "Tests should be independent and runnable alone",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Order dependence causes flakes."
+    },
+    {
+     "q": "What does `afterEach` risk?",
+     "options": [
+      "Law",
+      "Nothing",
+      "Cleanup may not run if the browser crashes; prefer cleaning in setup",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Cypress guidance."
+    }
+   ]
+  },
+  "level-2/09-debugging-failing-tests": {
+   "questions": [
+    {
+     "q": "What does cy.pause() or .debug() help with?",
+     "options": [
+      "Stopping the run to inspect state",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Debugging."
+    },
+    {
+     "q": "What does the Command Log show?",
+     "options": [
+      "Files",
+      "Each command and its snapshot you can time-travel through",
+      "Network only",
+      "Console"
+     ],
+     "answer": 1,
+     "explain": "Hover to see DOM."
+    },
+    {
+     "q": "How do you see a failing test's page state in CI?",
+     "options": [
+      "Sleeps",
+      "Email",
+      "Nothing",
+      "Screenshots and videos saved on failure"
+     ],
+     "answer": 3,
+     "explain": "Configured by default for run."
+    },
+    {
+     "q": "What's a good first step for a failing selector?",
+     "options": [
+      "Reload",
+      "Retry",
+      "Add sleep",
+      "Check the DOM snapshot at that step to see what exists"
+     ],
+     "answer": 3,
+     "explain": "Time-travel debugging."
+    }
+   ]
+  },
+  "level-2/10-project-network-stubbed-suite": {
+   "questions": [
+    {
+     "q": "What does the network-stubbed suite achieve?",
+     "options": [
+      "Real e2e",
+      "Random",
+      "Slow",
+      "Fast deterministic tests independent of the backend"
+     ],
+     "answer": 3,
+     "explain": "Stubs control responses."
+    },
+    {
+     "q": "What should still be tested without stubs?",
+     "options": [
+      "All stubs",
+      "A few real end-to-end flows to catch integration issues",
+      "Nothing",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Balance."
+    },
+    {
+     "q": "What does asserting on the request body check?",
+     "options": [
+      "CSS",
+      "Response",
+      "That the UI sends the right payload",
+      "DOM"
+     ],
+     "answer": 2,
+     "explain": "Use the intercept alias."
+    },
+    {
+     "q": "What risk comes from heavily stubbed tests?",
+     "options": [
+      "Law",
+      "Stubs can drift from the real API, hiding breakage",
+      "None",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Contract tests help."
+    }
+   ]
+  },
+  "level-3/01-the-command-queue": {
+   "questions": [
+    {
+     "q": "How does Cypress execute commands?",
+     "options": [
+      "Synchronously",
+      "Parallel",
+      "Randomly",
+      "Queues them and runs asynchronously in order; commands don't return values directly"
+     ],
+     "answer": 3,
+     "explain": "The command queue."
+    },
+    {
+     "q": "Why does `const el = cy.get('x')` not give an element?",
+     "options": [
+      "cy commands return chainables, not elements; use .then() or aliases",
+      "Bug",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Async queue."
+    },
+    {
+     "q": "When does the queued command actually run?",
+     "options": [
+      "Parallel",
+      "Never",
+      "Immediately",
+      "After the test function finishes enqueueing, in order"
+     ],
+     "answer": 3,
+     "explain": "Enqueue first."
+    },
+    {
+     "q": "Why does mixing plain JS async/await with cy commands cause trouble?",
+     "options": [
+      "Fun",
+      "Law",
+      "Speed",
+      "Cypress commands aren't promises and don't work with await"
+     ],
+     "answer": 3,
+     "explain": "Use .then."
+    }
+   ]
+  },
+  "level-3/02-aliases": {
+   "questions": [
+    {
+     "q": "What does .as('todos') do?",
+     "options": [
+      "Visits",
+      "Creates an alias for later reference",
+      "Clicks",
+      "Types"
+     ],
+     "answer": 1,
+     "explain": "Use @todos."
+    },
+    {
+     "q": "How do you reference an element alias?",
+     "options": [
+      "cy.get('@todos')",
+      "cy.todos",
+      "alias()",
+      "$todos"
+     ],
+     "answer": 0,
+     "explain": "For intercepts too."
+    },
+    {
+     "q": "Why use aliases for intercepts?",
+     "options": [
+      "Law",
+      "Speed",
+      "To wait on and assert about specific requests",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "cy.wait('@alias')."
+    },
+    {
+     "q": "What does `this.alias` require?",
+     "options": [
+      "Nothing",
+      "Arrow functions",
+      "Using function() rather than an arrow function and a context",
+      "Async"
+     ],
+     "answer": 2,
+     "explain": "this binding."
+    }
+   ]
+  },
+  "level-3/03-retry-ability-pitfalls": {
+   "questions": [
+    {
+     "q": "What does retry-ability retry?",
+     "options": [
+      "Everything",
+      "Nothing",
+      "Queries and assertions, not actions like click",
+      "Only clicks"
+     ],
+     "answer": 2,
+     "explain": "Only the last query + assertions."
+    },
+    {
+     "q": "Why is `cy.get('x').click().should('...')` risky?",
+     "options": [
+      "Click isn't retried, so a re-render between can break the chain",
+      "Slow",
+      "Fine",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Re-query after actions."
+    },
+    {
+     "q": "What causes detached DOM errors?",
+     "options": [
+      "Law",
+      "Slow network",
+      "Element re-rendered between query and action",
+      "Syntax"
+     ],
+     "answer": 2,
+     "explain": "Re-query."
+    },
+    {
+     "q": "How do you make assertions robust?",
+     "options": [
+      "Skip",
+      "Sleep",
+      "Assert on the stable end state, not intermediate steps",
+      "Reload"
+     ],
+     "answer": 2,
+     "explain": "Simplify."
+    }
+   ]
+  },
+  "level-3/04-cookies-session": {
+   "questions": [
+    {
+     "q": "What does cy.session() do?",
+     "options": [
+      "Spies",
+      "Types",
+      "Visits",
+      "Caches and restores login state (cookies/localStorage) across tests"
+     ],
+     "answer": 3,
+     "explain": "Speeds up auth."
+    },
+    {
+     "q": "What does cy.clearCookies() do?",
+     "options": [
+      "Adds",
+      "Visits",
+      "Reads",
+      "Removes cookies for isolation"
+     ],
+     "answer": 3,
+     "explain": "Cypress clears automatically between tests."
+    },
+    {
+     "q": "Why log in once per spec via session?",
+     "options": [
+      "Speed only",
+      "Saves time versus UI login before every test",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Validate with a function."
+    },
+    {
+     "q": "How do you set a cookie?",
+     "options": [
+      "document.cookie only",
+      "cy.setCookie(name, value)",
+      "cy.type",
+      "cy.cookie"
+     ],
+     "answer": 1,
+     "explain": "Quick auth."
+    }
+   ]
+  },
+  "level-3/05-intercept-deep-dive": {
+   "questions": [
+    {
+     "q": "What can cy.intercept's routeHandler do?",
+     "options": [
+      "Nothing",
+      "Only spy",
+      "Only visit",
+      "Modify request or response, delay or fail it"
+     ],
+     "answer": 3,
+     "explain": "Full control."
+    },
+    {
+     "q": "How do you simulate a slow network?",
+     "options": [
+      "Sleep",
+      "Use delay in a stub or throttle the response",
+      "Timeouts",
+      "Reload"
+     ],
+     "answer": 1,
+     "explain": "Deterministic."
+    },
+    {
+     "q": "How do you assert a request body?",
+     "options": [
+      "should",
+      "Not possible",
+      "Intercept with alias then cy.wait('@alias').its('request.body')",
+      "Network tab"
+     ],
+     "answer": 2,
+     "explain": "Inspect the interception."
+    },
+    {
+     "q": "What happens with overlapping intercept routes?",
+     "options": [
+      "Handlers run in reverse definition order until one responds",
+      "All",
+      "None",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Most recent first."
+    }
+   ]
+  },
+  "level-3/06-screenshots-videos": {
+   "questions": [
+    {
+     "q": "When are screenshots taken automatically?",
+     "options": [
+      "On pass",
+      "Never",
+      "Always",
+      "On failure in cypress run"
+     ],
+     "answer": 3,
+     "explain": "Configurable."
+    },
+    {
+     "q": "Where are videos useful?",
+     "options": [
+      "Speed",
+      "Diagnosing CI failures you can't watch live",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Run mode records them."
+    },
+    {
+     "q": "What does cy.screenshot() do?",
+     "options": [
+      "Intercept",
+      "Video",
+      "Log",
+      "Captures the page or an element on demand"
+     ],
+     "answer": 3,
+     "explain": "Visual evidence."
+    },
+    {
+     "q": "Why keep artifacts as CI outputs?",
+     "options": [
+      "Law",
+      "Developers can inspect failures after the run",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Upload them."
+    }
+   ]
+  },
+  "level-3/07-flaky-test-diagnosis": {
+   "questions": [
+    {
+     "q": "What's a first step in diagnosing a flaky test?",
+     "options": [
+      "Run it many times and look at the failure pattern",
+      "Add sleeps",
+      "Delete it",
+      "Retry blindly"
+     ],
+     "answer": 0,
+     "explain": "Evidence first."
+    },
+    {
+     "q": "Common causes of flakiness include...",
+     "options": [
+      "Fixtures",
+      "Aliases",
+      "Assertions",
+      "Race conditions, shared state and unstable selectors"
+     ],
+     "answer": 3,
+     "explain": "Fix root cause."
+    },
+    {
+     "q": "What does Cypress's test retries feature do?",
+     "options": [
+      "Parallel",
+      "Fixes flakes",
+      "Reruns failing tests up to N times",
+      "Hides them forever"
+     ],
+     "answer": 2,
+     "explain": "Use sparingly; track flaky tests."
+    },
+    {
+     "q": "Why not just add cy.wait(ms)?",
+     "options": [
+      "It's fine",
+      "Faster",
+      "Law",
+      "It slows tests and masks the real race"
+     ],
+     "answer": 3,
+     "explain": "Wait on conditions."
+    }
+   ]
+  },
+  "level-3/08-ci-integration": {
+   "questions": [
+    {
+     "q": "What does `cypress run --browser chrome` do?",
+     "options": [
+      "Runs the suite headlessly in Chrome",
+      "Installs",
+      "Records",
+      "Opens GUI"
+     ],
+     "answer": 0,
+     "explain": "CI mode."
+    },
+    {
+     "q": "Why cache node_modules and the Cypress binary in CI?",
+     "options": [
+      "Style",
+      "Law",
+      "To speed up installs",
+      "Security"
+     ],
+     "answer": 2,
+     "explain": "Binary cache folder."
+    },
+    {
+     "q": "What should CI start before tests?",
+     "options": [
+      "A browser",
+      "Nothing",
+      "The app under test, and wait until it's ready",
+      "A debugger"
+     ],
+     "answer": 2,
+     "explain": "Use start-server-and-test."
+    },
+    {
+     "q": "What should fail the CI job?",
+     "options": [
+      "Nothing",
+      "Slow",
+      "Any failing spec (non-zero exit code)",
+      "Warnings"
+     ],
+     "answer": 2,
+     "explain": "Gate merges."
+    }
+   ]
+  },
+  "level-3/09-parallelization-cloud": {
+   "questions": [
+    {
+     "q": "What does parallelization do?",
+     "options": [
+      "Skips tests",
+      "Runs one at a time",
+      "Splits specs across machines to shorten total time",
+      "Records"
+     ],
+     "answer": 2,
+     "explain": "Needs recording/grouping."
+    },
+    {
+     "q": "What balances parallel runs?",
+     "options": [
+      "Alphabet",
+      "None",
+      "Random",
+      "Spec duration history when using the cloud service"
+     ],
+     "answer": 3,
+     "explain": "Load balancing."
+    },
+    {
+     "q": "What's a requirement for parallelizing specs?",
+     "options": [
+      "Order",
+      "Sleep",
+      "Specs must be independent",
+      "Shared state"
+     ],
+     "answer": 2,
+     "explain": "No cross-spec dependencies."
+    },
+    {
+     "q": "What's an alternative to the cloud for splitting?",
+     "options": [
+      "Impossible",
+      "Manually shard spec lists across CI jobs",
+      "Random",
+      "One job"
+     ],
+     "answer": 1,
+     "explain": "Plain CI matrices."
+    }
+   ]
+  },
+  "level-3/10-project-pom-framework": {
+   "questions": [
+    {
+     "q": "What is the Page Object Model?",
+     "options": [
+      "A selector",
+      "A plugin",
+      "Encapsulating page selectors and actions in classes/modules",
+      "A fixture"
+     ],
+     "answer": 2,
+     "explain": "Reduces duplication."
+    },
+    {
+     "q": "What does POM improve?",
+     "options": [
+      "Law",
+      "Speed",
+      "Maintenance: UI changes touch one place",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Like custom commands."
+    },
+    {
+     "q": "What should page objects avoid?",
+     "options": [
+      "Selectors",
+      "Methods",
+      "Reuse",
+      "Embedding assertions that hide test intent"
+     ],
+     "answer": 3,
+     "explain": "Keep assertions in tests."
+    },
+    {
+     "q": "Cypress's own guidance on page objects?",
+     "options": [
+      "Law",
+      "Required",
+      "They're optional; custom commands and app actions may be simpler",
+      "Banned"
+     ],
+     "answer": 2,
+     "explain": "Choose pragmatically."
+    }
+   ]
+  },
+  "level-4/01-why-architecture-is-different": {
+   "questions": [
+    {
+     "q": "Why is Cypress's architecture different from Selenium's?",
+     "options": [
+      "It's slower",
+      "Tests run in the browser rather than controlling it over a remote protocol",
+      "It uses WebDriver",
+      "It's older"
+     ],
+     "answer": 1,
+     "explain": "Direct access."
+    },
+    {
+     "q": "What advantage follows from running in the browser?",
+     "options": [
+      "Native apps",
+      "Fast, reliable access to DOM, network and app state",
+      "Any language",
+      "Multi-tab"
+     ],
+     "answer": 1,
+     "explain": "Automatic waiting."
+    },
+    {
+     "q": "What trade-off follows?",
+     "options": [
+      "None",
+      "Mobile native",
+      "More languages",
+      "Language support is JS/TS and some browser limitations apply"
+     ],
+     "answer": 3,
+     "explain": "Honest trade-offs."
+    },
+    {
+     "q": "What is the architecture's effect on flakiness?",
+     "options": [
+      "Same",
+      "Fewer timing issues because Cypress knows the app's state and retries",
+      "None",
+      "More"
+     ],
+     "answer": 1,
+     "explain": "Auto-wait."
+    }
+   ]
+  },
+  "level-4/02-component-testing": {
+   "questions": [
+    {
+     "q": "What is Cypress component testing?",
+     "options": [
+      "Unit mocks",
+      "E2E only",
+      "API tests",
+      "Mounting individual components in a real browser and testing them in isolation"
+     ],
+     "answer": 3,
+     "explain": "cy.mount."
+    },
+    {
+     "q": "When choose component tests over e2e?",
+     "options": [
+      "Always",
+      "For fast, isolated checks of UI logic",
+      "Never",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Complementary."
+    },
+    {
+     "q": "What does cy.mount() require?",
+     "options": [
+      "A server",
+      "Nothing",
+      "A database",
+      "A framework adapter (React, Vue, Angular, etc.)"
+     ],
+     "answer": 3,
+     "explain": "Bundler config."
+    },
+    {
+     "q": "What do component tests not cover?",
+     "options": [
+      "Rendering",
+      "Full-stack integration between services",
+      "Events",
+      "Props"
+     ],
+     "answer": 1,
+     "explain": "Use e2e for that."
+    }
+   ]
+  },
+  "level-4/03-multiple-origins": {
+   "questions": [
+    {
+     "q": "What does cy.origin() enable?",
+     "options": [
+      "Running commands against a second origin in one test",
+      "Screenshots",
+      "Intercept",
+      "Reload"
+     ],
+     "answer": 0,
+     "explain": "Needed for cross-domain flows."
+    },
+    {
+     "q": "When do you need it?",
+     "options": [
+      "Never",
+      "Always",
+      "When the test navigates to a different superdomain (e.g. SSO)",
+      "Same origin"
+     ],
+     "answer": 2,
+     "explain": "Browser security."
+    },
+    {
+     "q": "What's a constraint of cy.origin callbacks?",
+     "options": [
+      "Variables must be passed explicitly, they don't capture outer scope",
+      "Globals",
+      "None",
+      "Closures work"
+     ],
+     "answer": 0,
+     "explain": "Serializable args."
+    },
+    {
+     "q": "Why was multi-origin once impossible?",
+     "options": [
+      "Speed",
+      "Cost",
+      "Law",
+      "Cypress enforced a single superdomain per test"
+     ],
+     "answer": 3,
+     "explain": "Historic limitation."
+    }
+   ]
+  },
+  "level-4/04-same-origin-constraint": {
+   "questions": [
+    {
+     "q": "What is the same-origin constraint?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "Within a test Cypress couldn't visit different superdomains without cy.origin"
+     ],
+     "answer": 3,
+     "explain": "Browser security."
+    },
+    {
+     "q": "Why does it exist?",
+     "options": [
+      "Cost",
+      "Cypress runs inside the browser and must obey its security model",
+      "Fun",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Same-origin policy."
+    },
+    {
+     "q": "How do you avoid it for login?",
+     "options": [
+      "Impossible",
+      "Skip",
+      "Sleep",
+      "Log in via cy.request or session instead of UI at the third party"
+     ],
+     "answer": 3,
+     "explain": "Workarounds."
+    },
+    {
+     "q": "What does the lesson say about honesty?",
+     "options": [
+      "Hidden",
+      "Denied",
+      "Ignore",
+      "These constraints are real and should be understood"
+     ],
+     "answer": 3,
+     "explain": "Accuracy."
+    }
+   ]
+  },
+  "level-4/05-plugins-cy-task": {
+   "questions": [
+    {
+     "q": "What does cy.task() do?",
+     "options": [
+      "Runs Node.js code in the Cypress process (e.g. DB seeding)",
+      "Types",
+      "Clicks",
+      "Browser code"
+     ],
+     "answer": 0,
+     "explain": "Defined in setupNodeEvents."
+    },
+    {
+     "q": "Why can't tests access the filesystem directly?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "They run in the browser; use cy.readFile or cy.task"
+     ],
+     "answer": 3,
+     "explain": "Node vs browser."
+    },
+    {
+     "q": "Where are plugins/tasks configured?",
+     "options": [
+      "setupNodeEvents in cypress.config.js",
+      "package",
+      "support file",
+      "fixtures"
+     ],
+     "answer": 0,
+     "explain": "Runs in Node."
+    },
+    {
+     "q": "What must a cy.task handler return?",
+     "options": [
+      "A value or promise (not undefined)",
+      "Nothing",
+      "undefined",
+      "a DOM node"
+     ],
+     "answer": 0,
+     "explain": "null is allowed."
+    }
+   ]
+  },
+  "level-4/06-performance-measuring": {
+   "questions": [
+    {
+     "q": "How should you measure test run time fairly?",
+     "options": [
+      "Ignore",
+      "Guess",
+      "Repeat runs and compare distributions, noting caching and machine differences",
+      "One run"
+     ],
+     "answer": 2,
+     "explain": "Honest measurement."
+    },
+    {
+     "q": "What typically dominates Cypress test time?",
+     "options": [
+      "Assertions",
+      "Fixtures",
+      "Aliases",
+      "Page loads and UI interactions, not command overhead"
+     ],
+     "answer": 3,
+     "explain": "Reduce UI steps via API setup."
+    },
+    {
+     "q": "How can you speed suites up?",
+     "options": [
+      "Sleeps",
+      "Fewer asserts",
+      "API-based setup, session caching and parallelization",
+      "More e2e"
+     ],
+     "answer": 2,
+     "explain": "Measure first."
+    },
+    {
+     "q": "Why not optimize without measuring?",
+     "options": [
+      "You may speed up the wrong thing",
+      "Style",
+      "Cost",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-4/07-cypress-vs-selenium": {
+   "questions": [
+    {
+     "q": "A big difference of Cypress vs Selenium?",
+     "options": [
+      "Cypress is older",
+      "Same",
+      "Cypress runs in-browser with auto-waiting; Selenium drives browsers via WebDriver and supports more languages and browsers",
+      "Selenium is JS only"
+     ],
+     "answer": 2,
+     "explain": "Choose by needs."
+    },
+    {
+     "q": "When might Selenium be the better choice?",
+     "options": [
+      "Speed",
+      "Broad browser/language support or testing non-web contexts",
+      "Always",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Trade-offs."
+    },
+    {
+     "q": "What's easier in Cypress?",
+     "options": [
+      "Mobile",
+      "Debugging with time-travel snapshots and auto-retry",
+      "Desktop",
+      "Multi-tab"
+     ],
+     "answer": 1,
+     "explain": "Developer experience."
+    },
+    {
+     "q": "What is a Selenium Grid analogue?",
+     "options": [
+      "Docker",
+      "Local",
+      "Cypress Cloud parallelization or CI sharding",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Scaling."
+    }
+   ]
+  },
+  "level-4/08-cypress-vs-playwright": {
+   "questions": [
+    {
+     "q": "A difference between Cypress and Playwright?",
+     "options": [
+      "Cypress multi-language",
+      "Playwright old",
+      "Same",
+      "Playwright controls browsers out of process with multi-tab/browser support; Cypress runs inside the browser"
+     ],
+     "answer": 3,
+     "explain": "Architectural contrast."
+    },
+    {
+     "q": "Which supports multiple browser engines natively?",
+     "options": [
+      "Playwright (Chromium, Firefox, WebKit)",
+      "Neither",
+      "Only Cypress",
+      "Selenium only"
+     ],
+     "answer": 0,
+     "explain": "Cypress WebKit is experimental."
+    },
+    {
+     "q": "Which has built-in parallelism without a paid service?",
+     "options": [
+      "Only Selenium",
+      "Neither",
+      "Playwright runs workers in parallel by default",
+      "Cypress"
+     ],
+     "answer": 2,
+     "explain": "Cypress parallelization via Cloud or manual sharding."
+    },
+    {
+     "q": "Why compare tools honestly?",
+     "options": [
+      "Choose by requirements, not hype",
+      "Fun",
+      "Law",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "Context matters."
+    }
+   ]
+  },
+  "level-4/09-cypress-antipatterns": {
+   "questions": [
+    {
+     "q": "Which is a Cypress antipattern?",
+     "options": [
+      "cy.wait(5000) instead of asserting on a condition",
+      "Using fixtures",
+      "Using intercepts",
+      "Using aliases"
+     ],
+     "answer": 0,
+     "explain": "Brittle and slow."
+    },
+    {
+     "q": "Why avoid tests depending on each other?",
+     "options": [
+      "Law",
+      "Speed",
+      "They fail unpredictably when run alone or reordered",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Independent tests."
+    },
+    {
+     "q": "Why avoid conditional testing (if element exists)?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "The DOM can change after the check so it's flaky; make state deterministic"
+     ],
+     "answer": 3,
+     "explain": "Control the app state."
+    },
+    {
+     "q": "Why not use brittle selectors like nth-child chains?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "They break on layout changes; use data-* attributes"
+     ],
+     "answer": 3,
+     "explain": "Stable selectors."
+    }
+   ]
+  },
+  "level-4/10-capstone-complete-test-framework": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only asserts",
+      "Only selectors",
+      "Custom commands, fixtures, intercepts, sessions, CI and reports",
+      "Only visits"
+     ],
+     "answer": 2,
+     "explain": "A complete framework."
+    },
+    {
+     "q": "What makes a framework maintainable?",
+     "options": [
+      "Clear structure, stable selectors, reusable commands and independent tests",
+      "Globals",
+      "Sleeps",
+      "Complexity"
+     ],
+     "answer": 0,
+     "explain": "Simplicity."
+    },
+    {
+     "q": "How do you prove the framework is reliable?",
+     "options": [
+      "Hope",
+      "Never",
+      "Once",
+      "Run repeatedly in CI and track flake rates"
+     ],
+     "answer": 3,
+     "explain": "Measure."
+    },
+    {
+     "q": "What should be documented?",
+     "options": [
+      "Code only",
+      "How to run, add tests and interpret failures",
+      "Nothing",
+      "Selectors"
+     ],
+     "answer": 1,
+     "explain": "Onboarding."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A Cypress test types into an input after the page loads and the field renders 1.5 s late. What's the right approach?",
+    "options": [
+     "A setTimeout",
+     "A try/catch loop",
+     "Rely on automatic retry: cy.get(...).type(...) with no manual wait",
+     "cy.wait(3000)"
+    ],
+    "answer": 2,
+    "explain": "Queries retry until the element exists or the timeout hits."
+   },
+   {
+    "q": "Why does `const btn = cy.get('button'); btn.click()` not behave like normal JavaScript?",
+    "options": [
+     "It's a bug",
+     "get returns null",
+     "Cypress is slow",
+     "cy commands enqueue and return chainables, not elements; the DOM query hasn't run yet"
+    ],
+    "answer": 3,
+    "explain": "Use chaining, .then() or aliases."
+   },
+   {
+    "q": "Which part of `cy.get('.row').should('have.length', 3)` is retried?",
+    "options": [
+     "Only click",
+     "The query and the assertion together until they pass or time out",
+     "Nothing",
+     "Only visit"
+    ],
+    "answer": 1,
+    "explain": "Retry-ability covers queries and assertions."
+   },
+   {
+    "q": "A test does `cy.get('.btn').click().should('be.visible')` and fails with a detached element after a re-render. What's the fix?",
+    "options": [
+     "Use force:true",
+     "Re-query after the action and assert on a stable end state",
+     "Add cy.wait(1000)",
+     "Retry the click"
+    ],
+    "answer": 1,
+    "explain": "Actions aren't retried."
+   },
+   {
+    "q": "Which is the best selector for a Save button?",
+    "options": [
+     "div > div > button",
+     ".btn:nth-child(3)",
+     "#root button",
+     "[data-cy=save]"
+    ],
+    "answer": 3,
+    "explain": "Stable, intent-revealing hooks survive refactors."
+   },
+   {
+    "q": "A test depends on a todo created by the previous test. What's wrong?",
+    "options": [
+     "Nothing",
+     "Law",
+     "Speed",
+     "Tests must be independent; create state in beforeEach or via API"
+    ],
+    "answer": 3,
+    "explain": "Order dependence is a flakiness source."
+   },
+   {
+    "q": "Login via the UI before each of 50 tests is slow. What do you do?",
+    "options": [
+     "Add sleeps",
+     "Skip login",
+     "Cache cookies by hand",
+     "Use cy.session() or cy.request to authenticate quickly, and test the login UI once"
+    ],
+    "answer": 3,
+    "explain": "Separate setup from what you test."
+   },
+   {
+    "q": "You want to test the UI's error state when the API returns 500. What do you use?",
+    "options": [
+     "Break the server",
+     "cy.wait",
+     "cy.intercept to stub a 500 response",
+     "A fixture only"
+    ],
+    "answer": 2,
+    "explain": "Deterministic failure injection."
+   },
+   {
+    "q": "How do you wait for an API call before asserting on the UI it updates?",
+    "options": [
+     "setTimeout",
+     "Alias the intercept and cy.wait('@alias')",
+     "cy.wait(2000)",
+     "Reload"
+    ],
+    "answer": 1,
+    "explain": "Wait on the request."
+   },
+   {
+    "q": "Why does `cy.request()` returning 401 fail the test by default?",
+    "options": [
+     "It's a bug",
+     "Law",
+     "Cypress hates APIs",
+     "failOnStatusCode is true; set it false to assert on error responses"
+    ],
+    "answer": 3,
+    "explain": "Different from fetch."
+   },
+   {
+    "q": "A test needs to read a file and seed a database. Which Cypress feature runs Node code?",
+    "options": [
+     "cy.task()",
+     "cy.request",
+     "cy.fixture",
+     "cy.exec only"
+    ],
+    "answer": 0,
+    "explain": "Tasks run in Node via setupNodeEvents."
+   },
+   {
+    "q": "The test visits your app, clicks 'Login with SSO' and lands on another domain. What do you need?",
+    "options": [
+     "A longer timeout",
+     "cy.origin() for commands against the other origin",
+     "cy.wait",
+     "cy.intercept"
+    ],
+    "answer": 1,
+    "explain": "Same-origin constraint."
+   },
+   {
+    "q": "Content inside an iframe isn't found by cy.get. Why?",
+    "options": [
+     "Cypress is broken",
+     "Wrong selector",
+     "The iframe has a separate document; get the iframe's body and wrap it",
+     "Timeout"
+    ],
+    "answer": 2,
+    "explain": "A real limitation, solved with a helper command."
+   },
+   {
+    "q": "A test fails only in CI. What's the most useful evidence?",
+    "options": [
+     "Re-run until green",
+     "Delete it",
+     "Screenshots, video and the command log from the failed run",
+     "Add retries only"
+    ],
+    "answer": 2,
+    "explain": "Collect artifacts."
+   },
+   {
+    "q": "Your suite has 30 specs taking 40 minutes. How do you speed it up safely?",
+    "options": [
+     "Run fewer asserts",
+     "Shard or parallelize independent specs and move setup to API calls",
+     "Skip failing",
+     "Add cy.wait"
+    ],
+    "answer": 1,
+    "explain": "Independence is required."
+   },
+   {
+    "q": "A flaky test passes after Cypress test retries. What should you still do?",
+    "options": [
+     "Ignore it",
+     "Delete assertions",
+     "Track it as flaky and fix the root cause",
+     "Raise retries to 10"
+    ],
+    "answer": 2,
+    "explain": "Retries mask problems."
+   },
+   {
+    "q": "When would you choose Playwright or Selenium over Cypress?",
+    "options": [
+     "For speed only",
+     "Never",
+     "For assertions",
+     "Multi-tab or multi-browser needs (e.g. WebKit) or non-JS languages"
+    ],
+    "answer": 3,
+    "explain": "Cypress runs in-browser with trade-offs."
+   },
+   {
+    "q": "Which is an antipattern?",
+    "options": [
+     "Using aliases",
+     "Using fixtures",
+     "Using data-cy",
+     "Using `cy.wait(5000)` to wait for an element"
+    ],
+    "answer": 3,
+    "explain": "Assert on the condition."
+   },
+   {
+    "q": "Component tests vs e2e: which fits checking a form component's validation messages quickly?",
+    "options": [
+     "A component test mounting the component in isolation",
+     "Manual",
+     "Full e2e",
+     "Load test"
+    ],
+    "answer": 0,
+    "explain": "Fast and isolated; keep a few e2e flows too."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Model retry-ability",
+    "prompt": "Implement retry(check, {timeout, interval}) using a fake clock: call check(elapsed) repeatedly, advancing elapsed by `interval`, until check returns {ok:true} (return {passed:true, elapsed}) or the next step would exceed `timeout` (return {passed:false, elapsed, error}). Use it to compare an element that appears after 1.5 s and one after 6 s.",
+    "starter": "// A fake clock makes the simulation deterministic.\nfunction retry(check, { timeout = 4000, interval = 50 } = {}) {\n  // call check(elapsedMs) repeatedly, advancing a fake clock by `interval`,\n  // until it returns {ok:true} (return {passed:true, elapsed}) or the next step\n  // would exceed `timeout` (return {passed:false, elapsed, error}).\n}\n\n// The element appears after 1500 ms (like the 1.5 s delayed element).\nconst appears = (ms) => (t) =>\n  t >= ms ? { ok: true } : { ok: false, error: \"Expected to find element, but never found it\" };\n\nconsole.log(retry(appears(1500)));\nconsole.log(retry(appears(6000)));\nconsole.log(retry(appears(1500), { timeout: 1000 }));\n",
+    "expected": "{ passed: true, elapsed: 1500 }\n{\n  passed: false,\n  elapsed: 4000,\n  error: 'Expected to find element, but never found it'\n}\n{\n  passed: false,\n  elapsed: 1000,\n  error: 'Expected to find element, but never found it'\n}",
+    "solution": "// A fake clock makes the simulation deterministic.\nfunction retry(check, { timeout = 4000, interval = 50 } = {}) {\n  let elapsed = 0;\n  while (true) {\n    const result = check(elapsed);\n    if (result.ok) return { passed: true, elapsed };\n    if (elapsed + interval > timeout) return { passed: false, elapsed, error: result.error };\n    elapsed += interval;\n  }\n}\n\n// The element appears after 1500 ms (like the 1.5 s delayed element).\nconst appears = (ms) => (t) =>\n  t >= ms ? { ok: true } : { ok: false, error: \"Expected to find element, but never found it\" };\n\nconsole.log(retry(appears(1500)));\nconsole.log(retry(appears(6000)));\nconsole.log(retry(appears(1500), { timeout: 1000 }));\n",
+    "explain": "Cypress doesn't sleep for a fixed time: it re-runs the query and assertions until they pass or the 4 s default timeout expires, so the delayed element passes at 1500 ms and the 6 s one fails with the last error. This is a model of that behavior, not Cypress code. Verified by running the solution in Node."
+   },
+   {
+    "title": "Model the command queue",
+    "prompt": "Complete the tiny command queue: each command should enqueue a function and return `cy` so calls chain, and nothing runs until runQueue(). Observe that the test body's own log line runs before any enqueued command, just like in Cypress.",
+    "starter": "// Complete the tiny command queue: every command should ENQUEUE a function and return `cy`\n// so calls chain; nothing runs until runQueue() is called (like Cypress after the test body).\nconst queue = [];\nconst log = [];\nconst cy = {\n  visit(url) { /* enqueue: log.push(\"visit \" + url) */ return cy; },\n  get(sel) { /* enqueue: log.push(\"get \" + sel) */ return cy; },\n  click() { /* enqueue: log.push(\"click\") */ return cy; },\n  then(fn) { /* enqueue: call fn */ return cy; },\n};\n\nfunction runQueue() { while (queue.length) queue.shift()(); }\n\ncy.visit(\"/login\").get(\"#user\").click();\nlog.push(\"test body finished\");\ncy.then(() => log.push(\"then callback\"));\n\nconsole.log(\"queued:\", queue.length);\nrunQueue();\nconsole.log(log.join(\" | \"));\n",
+    "expected": "queued: 4\ntest body finished | visit /login | get #user | click | then callback",
+    "solution": "// A tiny model of Cypress's command queue: commands are enqueued while the test\n// function runs, then executed later, in order.\nconst queue = [];\nconst log = [];\nconst cy = {\n  visit(url) { queue.push(() => log.push(\"visit \" + url)); return cy; },\n  get(sel) { queue.push(() => log.push(\"get \" + sel)); return cy; },\n  click() { queue.push(() => log.push(\"click\")); return cy; },\n  then(fn) { queue.push(() => fn()); return cy; },\n};\n\nfunction runQueue() { while (queue.length) queue.shift()(); }\n\n// \"Test body\": runs synchronously and only ENQUEUES.\ncy.visit(\"/login\").get(\"#user\").click();\nlog.push(\"test body finished\");        // runs BEFORE any command above\ncy.then(() => log.push(\"then callback\"));\n\nconsole.log(\"queued:\", queue.length);\nrunQueue();\nconsole.log(log.join(\" | \"));\n",
+    "explain": "Cypress commands are enqueued while your test function runs and executed afterwards in order, which is why plain JS around them runs first and why you can't assign a command's result to a variable. This is a teaching model of the idea, not Cypress internals. Verified by running the solution in Node."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
