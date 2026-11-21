@@ -1,0 +1,2148 @@
+{
+ "course": "graphql-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-graphql-is": {
+   "questions": [
+    {
+     "q": "What is GraphQL?",
+     "options": [
+      "A query language and runtime where clients ask for exactly the fields they need from a typed schema",
+      "A transport",
+      "A framework only",
+      "A database"
+     ],
+     "answer": 0,
+     "explain": "Single endpoint, typed."
+    },
+    {
+     "q": "What problem does it address versus fixed REST endpoints?",
+     "options": [
+      "Caching",
+      "Security",
+      "Speed of DB",
+      "Over-fetching and under-fetching: one request shapes the response"
+     ],
+     "answer": 3,
+     "explain": "Client-driven."
+    },
+    {
+     "q": "How many endpoints does a typical GraphQL API expose?",
+     "options": [
+      "One (e.g. /graphql)",
+      "None",
+      "Per type",
+      "Many"
+     ],
+     "answer": 0,
+     "explain": "POST queries."
+    },
+    {
+     "q": "Is GraphQL tied to a database?",
+     "options": [
+      "No: resolvers fetch data from anywhere",
+      "Mongo",
+      "Yes",
+      "SQL only"
+     ],
+     "answer": 0,
+     "explain": "Backend agnostic."
+    }
+   ]
+  },
+  "level-1/02-first-schema": {
+   "questions": [
+    {
+     "q": "What does this print?\n```javascript\nconst schema = buildSchema(`\n  type Author { id: ID! name: String! books: [Book!]! }\n  type Book { id: ID! title: String! year: Int author: Author! }\n  type Query { book(id: ID!): Book books: [Book!]! }\n`);\nconst A = { id: '1', name: 'Ada', books: () => B.filter(b => b.author.id === '1') };\nconst B = [ { id: '1', title: 'Engines', year: 1843, author: A }, { id: '2', title: 'Notes', year: null, author: A } ];\nconst root = { book: ({ id }) => B.find(b => b.id === id), books: () => B };\nshow(graphqlSync({ schema, source: '{ books { title } }', rootValue: root }));\n```\n",
+     "options": [
+      "{\"books\":[\"Engines\",\"Notes\"]}",
+      "Error",
+      "{\"books\":[{\"title\":\"Engines\"},{\"title\":\"Notes\"}]}",
+      "{\"books\":[{\"id\":\"1\"}]}"
+     ],
+     "answer": 2,
+     "explain": "The response mirrors the query shape. Verified by running it with graphql-js."
+    },
+    {
+     "q": "What does `!` mean in a schema?",
+     "options": [
+      "Required arg",
+      "List",
+      "The field is non-null",
+      "Deprecated"
+     ],
+     "answer": 2,
+     "explain": "Type safety."
+    },
+    {
+     "q": "What does `[Book!]!` mean?",
+     "options": [
+      "List of nullable",
+      "Nullable list",
+      "Optional",
+      "A non-null list of non-null Books"
+     ],
+     "answer": 3,
+     "explain": "Both list and items non-null."
+    },
+    {
+     "q": "What is the SDL?",
+     "options": [
+      "Database",
+      "Query language",
+      "Protocol",
+      "Schema Definition Language used to describe types"
+     ],
+     "answer": 3,
+     "explain": "type, input, enum."
+    }
+   ]
+  },
+  "level-1/03-type-system": {
+   "questions": [
+    {
+     "q": "Which kinds of types exist?",
+     "options": [
+      "Scalars, objects, interfaces, unions, enums and input objects",
+      "Classes",
+      "Only objects",
+      "Tables"
+     ],
+     "answer": 0,
+     "explain": "Type system."
+    },
+    {
+     "q": "What are built-in scalars?",
+     "options": [
+      "Int, Float, String, Boolean and ID",
+      "JSON",
+      "Date",
+      "Long"
+     ],
+     "answer": 0,
+     "explain": "Custom scalars can be added."
+    },
+    {
+     "q": "When use an enum?",
+     "options": [
+      "Dates",
+      "Free text",
+      "For a fixed set of allowed values",
+      "Numbers"
+     ],
+     "answer": 2,
+     "explain": "Validated values."
+    },
+    {
+     "q": "What's an input type for?",
+     "options": [
+      "Union",
+      "Structured arguments to mutations/fields",
+      "Interface",
+      "Output"
+     ],
+     "answer": 1,
+     "explain": "Cannot have resolvers."
+    }
+   ]
+  },
+  "level-1/04-query-language": {
+   "questions": [
+    {
+     "q": "What does this print?\n```javascript\nconst schema = buildSchema(`\n  type Author { id: ID! name: String! books: [Book!]! }\n  type Book { id: ID! title: String! year: Int author: Author! }\n  type Query { book(id: ID!): Book books: [Book!]! }\n`);\nconst A = { id: '1', name: 'Ada', books: () => B.filter(b => b.author.id === '1') };\nconst B = [ { id: '1', title: 'Engines', year: 1843, author: A }, { id: '2', title: 'Notes', year: null, author: A } ];\nconst root = { book: ({ id }) => B.find(b => b.id === id), books: () => B };\nshow(graphqlSync({ schema, source: '{ a: book(id: \"1\") { title } b: book(id: \"2\") { title year } }', rootValue: root }));\n```\n",
+     "options": [
+      "Error",
+      "{\"book\":{\"title\":\"Engines\"}}",
+      "{\"a\":\"Engines\",\"b\":\"Notes\"}",
+      "{\"a\":{\"title\":\"Engines\"},\"b\":{\"title\":\"Notes\",\"year\":null}}"
+     ],
+     "answer": 3,
+     "explain": "Aliases rename result keys; nullable year is null. Verified by running it with graphql-js."
+    },
+    {
+     "q": "What does this print?\n```javascript\nconst schema = buildSchema(`\n  type Author { id: ID! name: String! books: [Book!]! }\n  type Book { id: ID! title: String! year: Int author: Author! }\n  type Query { book(id: ID!): Book books: [Book!]! }\n`);\nconst A = { id: '1', name: 'Ada', books: () => B.filter(b => b.author.id === '1') };\nconst B = [ { id: '1', title: 'Engines', year: 1843, author: A }, { id: '2', title: 'Notes', year: null, author: A } ];\nconst root = { book: ({ id }) => B.find(b => b.id === id), books: () => B };\nshow(graphqlSync({ schema, source: 'query Q($id: ID!) { book(id: $id) { title } }', rootValue: root, variableValues: { id: '2' } }));\n```\n",
+     "options": [
+      "Error",
+      "{\"book\":{\"title\":\"Notes\"}}",
+      "{\"title\":\"Notes\"}",
+      "{\"book\":null}"
+     ],
+     "answer": 1,
+     "explain": "Variables keep queries static and safe. Verified by running it with graphql-js."
+    },
+    {
+     "q": "What are fragments for?",
+     "options": [
+      "Reusing field selections",
+      "Auth",
+      "Caching",
+      "Types"
+     ],
+     "answer": 0,
+     "explain": "fragment on Type."
+    },
+    {
+     "q": "What does @include(if: $x) do?",
+     "options": [
+      "Conditionally includes a field",
+      "Cache",
+      "Imports",
+      "Auth"
+     ],
+     "answer": 0,
+     "explain": "Built-in directive."
+    }
+   ]
+  },
+  "level-1/05-resolvers": {
+   "questions": [
+    {
+     "q": "What does this print?\n```javascript\nconst schema = buildSchema(`\n  type Author { id: ID! name: String! books: [Book!]! }\n  type Book { id: ID! title: String! year: Int author: Author! }\n  type Query { book(id: ID!): Book books: [Book!]! }\n`);\nconst A = { id: '1', name: 'Ada', books: () => B.filter(b => b.author.id === '1') };\nconst B = [ { id: '1', title: 'Engines', year: 1843, author: A }, { id: '2', title: 'Notes', year: null, author: A } ];\nconst root = { book: ({ id }) => B.find(b => b.id === id), books: () => B };\nconst withR = buildSchema(`type Query { greet(name: String = \"world\"): String }`);\nshow(graphqlSync({ schema: withR, source: '{ a: greet b: greet(name: \"Ada\") }', rootValue: { greet: ({ name }) => `hi ${name}` } }));\n```\n",
+     "options": [
+      "{\"a\":null}",
+      "{\"a\":\"hi\",\"b\":\"hi Ada\"}",
+      "{\"a\":\"hi world\",\"b\":\"hi Ada\"}",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Default argument values apply when omitted. Verified by running it with graphql-js."
+    },
+    {
+     "q": "What arguments does a resolver receive?",
+     "options": [
+      "(parent, args, context, info)",
+      "(args)",
+      "(query)",
+      "(req,res)"
+     ],
+     "answer": 0,
+     "explain": "Parent is the object resolved above."
+    },
+    {
+     "q": "What does a default resolver do?",
+     "options": [
+      "Calls DB",
+      "Throws",
+      "Nothing",
+      "Reads the property with the field's name from the parent"
+     ],
+     "answer": 3,
+     "explain": "Only write resolvers when needed."
+    },
+    {
+     "q": "Why are resolvers independent?",
+     "options": [
+      "Law",
+      "Each field resolves separately, enabling per-field logic (and N+1 risk)",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Execution model."
+    }
+   ]
+  },
+  "level-1/06-mutations-inputs": {
+   "questions": [
+    {
+     "q": "What does this print?\n```javascript\nconst schema = buildSchema(`\n  type Author { id: ID! name: String! books: [Book!]! }\n  type Book { id: ID! title: String! year: Int author: Author! }\n  type Query { book(id: ID!): Book books: [Book!]! }\n`);\nconst m = buildSchema(`input NewBook { title: String! year: Int } type Book { id: ID! title: String! year: Int } type Query { x: Int } type Mutation { addBook(input: NewBook!): Book! }`);\nconst db = [];\nshow(graphqlSync({ schema: m, source: 'mutation { addBook(input: { title: \"T\", year: 2024 }) { id title year } }', rootValue: { addBook: ({ input }) => { const b = { id: String(db.length + 1), ...input }; db.push(b); return b; } } }));\n```\n",
+     "options": [
+      "{\"id\":\"1\"}",
+      "{\"addBook\":null}",
+      "Error",
+      "{\"addBook\":{\"id\":\"1\",\"title\":\"T\",\"year\":2024}}"
+     ],
+     "answer": 3,
+     "explain": "Mutations take input objects and return the changed object. Verified by running it with graphql-js."
+    },
+    {
+     "q": "What distinguishes a mutation from a query?",
+     "options": [
+      "Cached",
+      "Faster",
+      "Different endpoint",
+      "Mutations are executed serially and are intended for writes"
+     ],
+     "answer": 3,
+     "explain": "Top-level fields run in order."
+    },
+    {
+     "q": "Why use a single input argument?",
+     "options": [
+      "Evolvable and easier to validate",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Add fields without breaking."
+    },
+    {
+     "q": "What should a mutation return?",
+     "options": [
+      "The affected object (or a payload with it and errors)",
+      "Boolean",
+      "ID",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Let clients update caches."
+    }
+   ]
+  },
+  "level-1/07-apollo-server-http": {
+   "questions": [
+    {
+     "q": "What does Apollo Server do?",
+     "options": [
+      "Serves a GraphQL schema over HTTP with resolvers, plugins and tooling",
+      "CDN",
+      "Client",
+      "DB"
+     ],
+     "answer": 0,
+     "explain": "Node implementation."
+    },
+    {
+     "q": "Which HTTP method carries queries by default?",
+     "options": [
+      "GET only",
+      "PUT",
+      "DELETE",
+      "POST with a JSON body {query, variables}"
+     ],
+     "answer": 3,
+     "explain": "GET possible for queries."
+    },
+    {
+     "q": "What status code do GraphQL errors usually return?",
+     "options": [
+      "500",
+      "404",
+      "200 with an errors array (partial data possible)",
+      "400"
+     ],
+     "answer": 2,
+     "explain": "Transport vs execution errors."
+    },
+    {
+     "q": "What does context carry?",
+     "options": [
+      "Docs",
+      "Per-request values like the user and data loaders",
+      "Schema",
+      "Types"
+     ],
+     "answer": 1,
+     "explain": "Created each request."
+    }
+   ]
+  },
+  "level-1/08-errors": {
+   "questions": [
+    {
+     "q": "What does this print?\n```javascript\nconst schema = buildSchema(`\n  type Author { id: ID! name: String! books: [Book!]! }\n  type Book { id: ID! title: String! year: Int author: Author! }\n  type Query { book(id: ID!): Book books: [Book!]! }\n`);\nconst A = { id: '1', name: 'Ada', books: () => B.filter(b => b.author.id === '1') };\nconst B = [ { id: '1', title: 'Engines', year: 1843, author: A }, { id: '2', title: 'Notes', year: null, author: A } ];\nconst root = { book: ({ id }) => B.find(b => b.id === id), books: () => B };\nconst bad = buildSchema(`type Query { a: String! b: String }`);\nshow(graphqlSync({ schema: bad, source: '{ a b }', rootValue: { a: () => { throw new Error('boom'); }, b: () => 'ok' } }));\n```\n",
+     "options": [
+      "{\"errors\":[\"boom\"],\"data\":{\"b\":\"ok\"}}",
+      "{\"data\":{\"a\":null,\"b\":\"ok\"}}",
+      "{\"errors\":[\"boom\"],\"data\":null}",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "A null in a non-null field propagates up and nulls the parent. Verified by running it with graphql-js."
+    },
+    {
+     "q": "What does this print?\n```javascript\nconst schema = buildSchema(`\n  type Author { id: ID! name: String! books: [Book!]! }\n  type Book { id: ID! title: String! year: Int author: Author! }\n  type Query { book(id: ID!): Book books: [Book!]! }\n`);\nconst A = { id: '1', name: 'Ada', books: () => B.filter(b => b.author.id === '1') };\nconst B = [ { id: '1', title: 'Engines', year: 1843, author: A }, { id: '2', title: 'Notes', year: null, author: A } ];\nconst root = { book: ({ id }) => B.find(b => b.id === id), books: () => B };\nconst s2 = buildSchema(`type Query { a: String b: String }`);\nshow(graphqlSync({ schema: s2, source: '{ a b }', rootValue: { a: () => { throw new Error('boom'); }, b: () => 'ok' } }));\n```\n",
+     "options": [
+      "{\"errors\":[\"boom\"],\"data\":{\"a\":null,\"b\":\"ok\"}}",
+      "{\"data\":{\"b\":\"ok\"}}",
+      "{\"errors\":[\"boom\"],\"data\":null}",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Nullable fields isolate failures (partial data). Verified by running it with graphql-js."
+    },
+    {
+     "q": "What's a validation error?",
+     "options": [
+      "Network",
+      "Runtime",
+      "The query doesn't match the schema; it's rejected before execution",
+      "DB"
+     ],
+     "answer": 2,
+     "explain": "Unknown field etc."
+    },
+    {
+     "q": "How should clients treat errors?",
+     "options": [
+      "Only data",
+      "HTTP code",
+      "Check both data and errors since both can be present",
+      "Only errors"
+     ],
+     "answer": 2,
+     "explain": "Partial results."
+    }
+   ]
+  },
+  "level-1/09-introspection-tooling": {
+   "questions": [
+    {
+     "q": "What does introspection return?\n```javascript\nconst schema = buildSchema(`\n  type Author { id: ID! name: String! books: [Book!]! }\n  type Book { id: ID! title: String! year: Int author: Author! }\n  type Query { book(id: ID!): Book books: [Book!]! }\n`);\nconst A = { id: '1', name: 'Ada', books: () => B.filter(b => b.author.id === '1') };\nconst B = [ { id: '1', title: 'Engines', year: 1843, author: A }, { id: '2', title: 'Notes', year: null, author: A } ];\nconst root = { book: ({ id }) => B.find(b => b.id === id), books: () => B };\nconst r = graphqlSync({ schema, source: '{ __type(name: \"Book\") { kind fields { name } } }' });\nconsole.log(r.data.__type.kind, r.data.__type.fields.map(f => f.name).join(','));\n```\n",
+     "options": [
+      "Error",
+      "OBJECT title",
+      "INTERFACE id",
+      "OBJECT id,title,year,author"
+     ],
+     "answer": 3,
+     "explain": "Schemas describe themselves. Verified by running it with graphql-js."
+    },
+    {
+     "q": "Why disable introspection in production sometimes?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "To reduce schema exposure for private APIs (security through obscurity isn't enough)"
+     ],
+     "answer": 3,
+     "explain": "Combine with auth."
+    },
+    {
+     "q": "What tool explores schemas interactively?",
+     "options": [
+      "curl",
+      "grep",
+      "ssh",
+      "GraphiQL/Apollo Sandbox"
+     ],
+     "answer": 3,
+     "explain": "Docs from introspection."
+    },
+    {
+     "q": "What does `__typename` return?",
+     "options": [
+      "Field",
+      "ID",
+      "Query",
+      "The object type's name at runtime"
+     ],
+     "answer": 3,
+     "explain": "Used by clients for caching."
+    }
+   ]
+  },
+  "level-1/10-project-library-api": {
+   "questions": [
+    {
+     "q": "What does the library API project combine?",
+     "options": [
+      "Only client",
+      "Schema design, resolvers, mutations, errors and tests",
+      "Only DB",
+      "Only schema"
+     ],
+     "answer": 1,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How do you test the schema?",
+     "options": [
+      "Manual",
+      "Browser",
+      "Execute queries in-process and assert on the result",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "graphql() function."
+    },
+    {
+     "q": "What proves a mutation works?",
+     "options": [
+      "Hope",
+      "A follow-up query showing the change",
+      "Log",
+      "Status 200"
+     ],
+     "answer": 1,
+     "explain": "Observable behavior."
+    },
+    {
+     "q": "What should errors teach clients?",
+     "options": [
+      "HTTP",
+      "What went wrong and what to do (codes and messages)",
+      "Stack traces",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Design errors."
+    }
+   ]
+  },
+  "level-2/01-schema-design": {
+   "questions": [
+    {
+     "q": "What's a good schema design principle?",
+     "options": [
+      "Mirror tables",
+      "Model the domain and client needs, not your database tables",
+      "REST routes",
+      "Classes"
+     ],
+     "answer": 1,
+     "explain": "Demand-driven."
+    },
+    {
+     "q": "Why prefer nouns for types and verbs for mutations?",
+     "options": [
+      "Clarity and consistency",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "createUser."
+    },
+    {
+     "q": "How should nullability be chosen?",
+     "options": [
+      "Always non-null",
+      "Non-null only when you can always guarantee it",
+      "Random",
+      "Always null"
+     ],
+     "answer": 1,
+     "explain": "Errors propagate."
+    },
+    {
+     "q": "What does deprecating a field look like?",
+     "options": [
+      "Rename",
+      "Hide",
+      "@deprecated(reason: \"...\") while keeping it working",
+      "Delete"
+     ],
+     "answer": 2,
+     "explain": "Evolve without breaking."
+    }
+   ]
+  },
+  "level-2/02-interfaces-unions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```javascript\nconst s = buildSchema(`interface Animal { name: String! } type Dog implements Animal { name: String! bark: String } type Cat implements Animal { name: String! } type Query { pets: [Animal!]! }`);\nconst root = { pets: () => [{ __typename: 'Dog', name: 'Rex', bark: 'woof' }, { __typename: 'Cat', name: 'Tom' }] };\nshow(graphqlSync({ schema: s, source: '{ pets { name __typename ... on Dog { bark } } }', rootValue: root }));\n```\n",
+     "options": [
+      "Error",
+      "{\"pets\":[{\"name\":\"Rex\"}]}",
+      "{\"pets\":[]}",
+      "{\"pets\":[{\"name\":\"Rex\",\"__typename\":\"Dog\",\"bark\":\"woof\"},{\"name\":\"Tom\",\"__typename\":\"Cat\"}]}"
+     ],
+     "answer": 3,
+     "explain": "Inline fragments select type-specific fields. Verified by running it with graphql-js."
+    },
+    {
+     "q": "When use a union instead of an interface?",
+     "options": [
+      "Shared fields",
+      "Always",
+      "Never",
+      "When types share no common fields"
+     ],
+     "answer": 3,
+     "explain": "SearchResult = A | B."
+    },
+    {
+     "q": "What must resolve abstract types?",
+     "options": [
+      "Scalar",
+      "__resolveType (or __typename) to pick the concrete type",
+      "Input",
+      "Query"
+     ],
+     "answer": 1,
+     "explain": "Runtime type."
+    },
+    {
+     "q": "What can interfaces enforce?",
+     "options": [
+      "Resolvers",
+      "Cache",
+      "Shared fields across implementing types",
+      "Auth"
+     ],
+     "answer": 2,
+     "explain": "Contracts."
+    }
+   ]
+  },
+  "level-2/03-custom-scalars": {
+   "questions": [
+    {
+     "q": "What does a custom scalar do?",
+     "options": [
+      "Query",
+      "Defines serialization/validation for a value type like DateTime",
+      "Adds field",
+      "Mutation"
+     ],
+     "answer": 1,
+     "explain": "serialize/parseValue."
+    },
+    {
+     "q": "Why validate custom scalars on input?",
+     "options": [
+      "Reject malformed values early with clear errors",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "parseLiteral/parseValue."
+    },
+    {
+     "q": "Which format is good for DateTime?",
+     "options": [
+      "Epoch strings",
+      "Locale",
+      "Text",
+      "ISO 8601 strings"
+     ],
+     "answer": 3,
+     "explain": "Unambiguous."
+    },
+    {
+     "q": "What's a risk of a generic JSON scalar?",
+     "options": [
+      "Law",
+      "None",
+      "It bypasses the type system",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Use sparingly."
+    }
+   ]
+  },
+  "level-2/04-database-context": {
+   "questions": [
+    {
+     "q": "What belongs in context?",
+     "options": [
+      "The DB client, current user and loaders",
+      "Schema",
+      "Types",
+      "Query"
+     ],
+     "answer": 0,
+     "explain": "Per request."
+    },
+    {
+     "q": "Why create DataLoaders per request?",
+     "options": [
+      "Speed",
+      "Batching/caching must not leak data between users",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Isolation."
+    },
+    {
+     "q": "What's the resolver layering best practice?",
+     "options": [
+      "Inline",
+      "SQL",
+      "Fat",
+      "Resolvers thin, calling service/data layers"
+     ],
+     "answer": 3,
+     "explain": "Testable."
+    },
+    {
+     "q": "Should resolvers open DB connections each call?",
+     "options": [
+      "Always",
+      "Yes",
+      "Per field",
+      "No: use a pool from context"
+     ],
+     "answer": 3,
+     "explain": "Efficiency."
+    }
+   ]
+  },
+  "level-2/05-n-plus-one": {
+   "questions": [
+    {
+     "q": "How many resolver calls happen (N+1)?\n```javascript\nconst schema = buildSchema(`\n  type Author { id: ID! name: String! books: [Book!]! }\n  type Book { id: ID! title: String! year: Int author: Author! }\n  type Query { book(id: ID!): Book books: [Book!]! }\n`);\nlet calls = 0;\nconst s = buildSchema(`type Author { name: String! } type Book { title: String! author: Author! } type Query { books: [Book!]! }`);\nconst authors = { 1: 'Ada', 2: 'Bo' };\nconst root = { books: () => [1,2,1,2,1].map((a, i) => ({ title: 'b' + i, author: () => { calls++; return { name: authors[a] }; } })) };\ngraphqlSync({ schema: s, source: '{ books { title author { name } } }', rootValue: root });\nconsole.log('author lookups:', calls);\n```\n",
+     "options": [
+      "author lookups: 1",
+      "author lookups: 5",
+      "author lookups: 2",
+      "author lookups: 0"
+     ],
+     "answer": 1,
+     "explain": "One lookup per book: the N+1 pattern. Verified by running it with graphql-js."
+    },
+    {
+     "q": "What is the N+1 problem?",
+     "options": [
+      "Big payload",
+      "Slow net",
+      "Locks",
+      "One query for a list plus one per item for related data"
+     ],
+     "answer": 3,
+     "explain": "Batch them."
+    },
+    {
+     "q": "How detect it?",
+     "options": [
+      "Guess",
+      "Query logging/tracing counting DB calls per request",
+      "Docs",
+      "Postman"
+     ],
+     "answer": 1,
+     "explain": "Observability."
+    },
+    {
+     "q": "Is it unique to GraphQL?",
+     "options": [
+      "No, but per-field resolvers make it easy to hit",
+      "Yes",
+      "DB only",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Fix with batching."
+    }
+   ]
+  },
+  "level-2/06-dataloader": {
+   "questions": [
+    {
+     "q": "How many batch calls does the loader make?\n```javascript\nfunction makeLoader(batchFn) { const cache = new Map(); let queue = []; let scheduled = false; return { load(key) { if (cache.has(key)) return cache.get(key); const p = new Promise(resolve => { queue.push({ key, resolve }); if (!scheduled) { scheduled = true; Promise.resolve().then(() => { const keys = [...new Set(queue.map(q => q.key))]; const items = queue; queue = []; scheduled = false; const res = batchFn(keys); items.forEach(i => i.resolve(res[keys.indexOf(i.key)])); }); } }); cache.set(key, p); return p; } }; }\nlet batches = 0;\nconst loader = makeLoader(keys => { batches++; return keys.map(k => 'author' + k); });\n(async () => { const r = await Promise.all([1,2,1,2,1].map(k => loader.load(k))); console.log(batches, r.join(','), 'unique keys: 2'); })();\n```\n",
+     "options": [
+      "0 c",
+      "5 a",
+      "2 b",
+      "1 author1,author2,author1,author2,author1 unique keys: 2"
+     ],
+     "answer": 3,
+     "explain": "A DataLoader batches keys within a tick and caches per key. Verified by running it with graphql-js."
+    },
+    {
+     "q": "What does DataLoader do?",
+     "options": [
+      "Batches and caches loads within a request",
+      "Types",
+      "Auth",
+      "Cache across users"
+     ],
+     "answer": 0,
+     "explain": "One per request."
+    },
+    {
+     "q": "What must a batch function return?",
+     "options": [
+      "Results in the same order and length as the keys",
+      "Sorted",
+      "Unique",
+      "Any order"
+     ],
+     "answer": 0,
+     "explain": "Key alignment."
+    },
+    {
+     "q": "Why not share a loader across requests?",
+     "options": [
+      "Speed",
+      "Stale or leaked data between users",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Per request."
+    }
+   ]
+  },
+  "level-2/07-pagination": {
+   "questions": [
+    {
+     "q": "What's cursor pagination (Relay connections)?",
+     "options": [
+      "Page number",
+      "Offset",
+      "Edges with cursors and pageInfo for stable forward/backward paging",
+      "Limit"
+     ],
+     "answer": 2,
+     "explain": "first/after."
+    },
+    {
+     "q": "Why prefer cursors over offsets?",
+     "options": [
+      "Stable under inserts/deletes and efficient on large data",
+      "Law",
+      "Style",
+      "Simpler"
+     ],
+     "answer": 0,
+     "explain": "Keyset."
+    },
+    {
+     "q": "What does pageInfo contain?",
+     "options": [
+      "hasNextPage, hasPreviousPage, startCursor, endCursor",
+      "Total",
+      "Ids",
+      "Items"
+     ],
+     "answer": 0,
+     "explain": "Connection spec."
+    },
+    {
+     "q": "How limit page size?",
+     "options": [
+      "Trust",
+      "Ignore",
+      "Validate and cap the first/last arguments",
+      "Remove"
+     ],
+     "answer": 2,
+     "explain": "Prevent abuse."
+    }
+   ]
+  },
+  "level-2/08-mutation-design": {
+   "questions": [
+    {
+     "q": "What makes a good mutation payload?",
+     "options": [
+      "The changed object plus user-facing errors",
+      "String",
+      "Boolean",
+      "Void"
+     ],
+     "answer": 0,
+     "explain": "Predictable."
+    },
+    {
+     "q": "How model validation failures?",
+     "options": [
+      "None",
+      "Typed userErrors in the payload (vs. top-level errors for system faults)",
+      "Throw",
+      "HTTP"
+     ],
+     "answer": 1,
+     "explain": "Expected errors."
+    },
+    {
+     "q": "Why make mutations idempotent where possible?",
+     "options": [
+      "Style",
+      "Speed",
+      "Clients retry; repeating shouldn't double-apply",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Idempotency keys."
+    },
+    {
+     "q": "Should mutations be fine-grained or CRUD-generic?",
+     "options": [
+      "One",
+      "Generic",
+      "Task-based (e.g. publishPost) is clearer",
+      "Random"
+     ],
+     "answer": 2,
+     "explain": "Intent."
+    }
+   ]
+  },
+  "level-2/09-testing": {
+   "questions": [
+    {
+     "q": "How test a GraphQL API?",
+     "options": [
+      "Manual",
+      "Skip",
+      "Execute operations against the schema with a test context and assert results",
+      "Browser"
+     ],
+     "answer": 2,
+     "explain": "Unit + integration."
+    },
+    {
+     "q": "What's a snapshot test risk?",
+     "options": [
+      "Fast",
+      "Brittle and hides intent; prefer explicit assertions",
+      "Law",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Be selective."
+    },
+    {
+     "q": "How mock data layers?",
+     "options": [
+      "Patch",
+      "Inject fake services via context",
+      "Real DB",
+      "Globals"
+     ],
+     "answer": 1,
+     "explain": "Isolation."
+    },
+    {
+     "q": "What should tests cover?",
+     "options": [
+      "Happy paths, errors, authorization and N+1 behavior",
+      "Only happy",
+      "None",
+      "Only errors"
+     ],
+     "answer": 0,
+     "explain": "Quality."
+    }
+   ]
+  },
+  "level-2/10-project-bookstore": {
+   "questions": [
+    {
+     "q": "What does the bookstore project combine?",
+     "options": [
+      "Interfaces, DataLoader, pagination, mutations and tests",
+      "Only DB",
+      "Only client",
+      "Only types"
+     ],
+     "answer": 0,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How do you verify no N+1?",
+     "options": [
+      "Assert DB call counts in tests",
+      "Log",
+      "Guess",
+      "Hope"
+     ],
+     "answer": 0,
+     "explain": "Measure."
+    },
+    {
+     "q": "What do you document?",
+     "options": [
+      "Slides",
+      "Schema descriptions and deprecations",
+      "Code",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Self-documenting API."
+    },
+    {
+     "q": "How handle search?",
+     "options": [
+      "Single",
+      "Array",
+      "Union/interface results with filters and pagination",
+      "String"
+     ],
+     "answer": 2,
+     "explain": "Flexible."
+    }
+   ]
+  },
+  "level-3/01-authentication": {
+   "questions": [
+    {
+     "q": "Where should authentication happen?",
+     "options": [
+      "Each field",
+      "Schema",
+      "Outside resolvers (middleware) creating context.user",
+      "Client"
+     ],
+     "answer": 2,
+     "explain": "Identify first."
+    },
+    {
+     "q": "What does a JWT in the Authorization header provide?",
+     "options": [
+      "Cookie only",
+      "A signed identity validated on each request",
+      "Password",
+      "Session"
+     ],
+     "answer": 1,
+     "explain": "Bearer token."
+    },
+    {
+     "q": "What should unauthenticated requests get?",
+     "options": [
+      "Clear authentication errors, not partial secrets",
+      "200",
+      "Empty",
+      "Data"
+     ],
+     "answer": 0,
+     "explain": "Fail safe."
+    },
+    {
+     "q": "Where should secrets and tokens not appear?",
+     "options": [
+      "Env",
+      "Headers",
+      "Context",
+      "In logs, errors or schema responses"
+     ],
+     "answer": 3,
+     "explain": "Hygiene."
+    }
+   ]
+  },
+  "level-3/02-authorization": {
+   "questions": [
+    {
+     "q": "Where enforce authorization?",
+     "options": [
+      "Schema only",
+      "In a shared service/data layer or directive, not only at the edge",
+      "Client",
+      "UI"
+     ],
+     "answer": 1,
+     "explain": "Every path."
+    },
+    {
+     "q": "What is field-level authorization?",
+     "options": [
+      "Queries",
+      "Restricting individual fields by role/ownership",
+      "Cache",
+      "Types"
+     ],
+     "answer": 1,
+     "explain": "Sensitive fields."
+    },
+    {
+     "q": "Why not rely on hiding fields in the UI?",
+     "options": [
+      "Clients can request any field in the schema",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Enforce server-side."
+    },
+    {
+     "q": "What's an IDOR in GraphQL?",
+     "options": [
+      "DoS",
+      "Fetching another user's object by id without ownership checks",
+      "XSS",
+      "SQLi"
+     ],
+     "answer": 1,
+     "explain": "Check access."
+    }
+   ]
+  },
+  "level-3/03-directives": {
+   "questions": [
+    {
+     "q": "What are schema directives?",
+     "options": [
+      "Types",
+      "Scalars",
+      "Annotations like @auth/@deprecated that change behavior or metadata",
+      "Queries"
+     ],
+     "answer": 2,
+     "explain": "Custom ones are possible."
+    },
+    {
+     "q": "What does @skip(if: true) do?",
+     "options": [
+      "Skips the field",
+      "Includes",
+      "Cache",
+      "Auth"
+     ],
+     "answer": 0,
+     "explain": "Built-in."
+    },
+    {
+     "q": "When use a custom directive?",
+     "options": [
+      "To apply cross-cutting logic (auth, formatting) declaratively",
+      "Never",
+      "Always",
+      "Types"
+     ],
+     "answer": 0,
+     "explain": "Keep readable."
+    },
+    {
+     "q": "What does @specifiedBy do?",
+     "options": [
+      "Skip",
+      "Points to a custom scalar's specification URL",
+      "Cache",
+      "Auth"
+     ],
+     "answer": 1,
+     "explain": "Documentation."
+    }
+   ]
+  },
+  "level-3/04-subscriptions": {
+   "questions": [
+    {
+     "q": "What do subscriptions provide?",
+     "options": [
+      "Polling",
+      "Server-pushed real-time updates over WebSockets/SSE",
+      "Cache",
+      "Mutations"
+     ],
+     "answer": 1,
+     "explain": "Live data."
+    },
+    {
+     "q": "What resolves a subscription field?",
+     "options": [
+      "Callback",
+      "Promise",
+      "An async iterator that yields events",
+      "Array"
+     ],
+     "answer": 2,
+     "explain": "subscribe function."
+    },
+    {
+     "q": "What's a scaling concern?",
+     "options": [
+      "Law",
+      "Speed",
+      "Pub/sub backends (Redis/Kafka) are needed across server instances",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Fan-out."
+    },
+    {
+     "q": "How secure subscriptions?",
+     "options": [
+      "Trust",
+      "Skip",
+      "Authenticate on connection and authorize each subscription",
+      "Open"
+     ],
+     "answer": 2,
+     "explain": "Same as queries."
+    }
+   ]
+  },
+  "level-3/05-security-limits": {
+   "questions": [
+    {
+     "q": "What attack do depth/complexity limits prevent?",
+     "options": [
+      "XSS",
+      "SQLi",
+      "Resource exhaustion via expensive nested queries",
+      "CSRF"
+     ],
+     "answer": 2,
+     "explain": "DoS."
+    },
+    {
+     "q": "What's query cost analysis?",
+     "options": [
+      "Cache",
+      "Logging",
+      "Assigning costs to fields and rejecting queries over budget",
+      "Billing"
+     ],
+     "answer": 2,
+     "explain": "Protects backend."
+    },
+    {
+     "q": "What are persisted queries/allowlists for?",
+     "options": [
+      "Only running pre-approved operations in production",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Security and caching."
+    },
+    {
+     "q": "Should you rate-limit GraphQL?",
+     "options": [
+      "No",
+      "Count",
+      "Never",
+      "Yes, by cost/complexity as well as request count"
+     ],
+     "answer": 3,
+     "explain": "One endpoint, varied cost."
+    }
+   ]
+  },
+  "level-3/06-caching-persisted-queries": {
+   "questions": [
+    {
+     "q": "What are APQ (automatic persisted queries)?",
+     "options": [
+      "Types",
+      "Auth",
+      "Errors",
+      "Clients send a query hash to save bandwidth and enable GET caching"
+     ],
+     "answer": 3,
+     "explain": "Optimization."
+    },
+    {
+     "q": "Why is HTTP caching harder in GraphQL?",
+     "options": [
+      "Speed",
+      "Law",
+      "POST requests to one URL with varying bodies",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Use GET persisted queries/CDN."
+    },
+    {
+     "q": "What does @cacheControl express?",
+     "options": [
+      "Log",
+      "Types",
+      "Auth",
+      "Max-age and scope hints per type/field"
+     ],
+     "answer": 3,
+     "explain": "Response caching."
+    },
+    {
+     "q": "What's a safe cache key?",
+     "options": [
+      "Time",
+      "Body",
+      "Operation + variables + relevant auth context",
+      "URL"
+     ],
+     "answer": 2,
+     "explain": "Avoid leaks."
+    }
+   ]
+  },
+  "level-3/07-apollo-client-cache": {
+   "questions": [
+    {
+     "q": "What does Apollo Client's normalized cache store?",
+     "options": [
+      "Queries",
+      "HTML",
+      "Entities by __typename and id, so updates propagate everywhere",
+      "Responses"
+     ],
+     "answer": 2,
+     "explain": "Needs ids."
+    },
+    {
+     "q": "What does fetchPolicy cache-and-network do?",
+     "options": [
+      "None",
+      "Cache only",
+      "Returns cache immediately then refreshes from the network",
+      "Network only"
+     ],
+     "answer": 2,
+     "explain": "Fast UI."
+    },
+    {
+     "q": "How update the cache after a mutation?",
+     "options": [
+      "Clear all",
+      "Return updated fields with ids or use update/refetch",
+      "Reload page",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Consistency."
+    },
+    {
+     "q": "What's optimistic UI?",
+     "options": [
+      "Waiting",
+      "Retrying",
+      "Caching",
+      "Updating the UI immediately assuming success, then reconciling"
+     ],
+     "answer": 3,
+     "explain": "Responsive."
+    }
+   ]
+  },
+  "level-3/08-codegen": {
+   "questions": [
+    {
+     "q": "What does GraphQL Code Generator produce?",
+     "options": [
+      "Data",
+      "Server",
+      "Typed operations, hooks and resolver types from the schema",
+      "Schema"
+     ],
+     "answer": 2,
+     "explain": "Type safety."
+    },
+    {
+     "q": "Why generate types?",
+     "options": [
+      "Law",
+      "Catch schema/query mismatches at build time",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Shift left."
+    },
+    {
+     "q": "When should codegen run?",
+     "options": [
+      "Prod",
+      "Never",
+      "In CI and on schema/query changes",
+      "Manual"
+     ],
+     "answer": 2,
+     "explain": "Keep in sync."
+    },
+    {
+     "q": "What's resolver typing good for?",
+     "options": [
+      "Law",
+      "Ensuring resolvers return what the schema promises",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Contract."
+    }
+   ]
+  },
+  "level-3/09-graphql-over-http": {
+   "questions": [
+    {
+     "q": "What does the GraphQL-over-HTTP spec define?",
+     "options": [
+      "Types",
+      "Cache",
+      "Schema",
+      "Request/response formats, status codes and content types (application/graphql-response+json)"
+     ],
+     "answer": 3,
+     "explain": "Interop."
+    },
+    {
+     "q": "When return non-200?",
+     "options": [
+      "Never",
+      "Always",
+      "Field errors",
+      "Request-level failures like invalid JSON or validation errors"
+     ],
+     "answer": 3,
+     "explain": "Spec-dependent."
+    },
+    {
+     "q": "What does GET support enable?",
+     "options": [
+      "Mutations",
+      "CDN/browser caching for queries",
+      "Subscriptions",
+      "Auth"
+     ],
+     "answer": 1,
+     "explain": "Queries only."
+    },
+    {
+     "q": "Why accept content negotiation?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Clients may request the newer response media type"
+     ],
+     "answer": 3,
+     "explain": "Compatibility."
+    }
+   ]
+  },
+  "level-3/10-project-task-board": {
+   "questions": [
+    {
+     "q": "What does the task board project combine?",
+     "options": [
+      "Only types",
+      "Only subscriptions",
+      "Auth, authorization, subscriptions, limits and caching",
+      "Only auth"
+     ],
+     "answer": 2,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How test authorization?",
+     "options": [
+      "Skip",
+      "Execute operations as different users and assert allowed/denied",
+      "Manual",
+      "One user"
+     ],
+     "answer": 1,
+     "explain": "Negative tests."
+    },
+    {
+     "q": "What makes real-time safe?",
+     "options": [
+      "Open",
+      "Authenticated connections and scoped events",
+      "All events",
+      "Public"
+     ],
+     "answer": 1,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "How prevent abuse?",
+     "options": [
+      "Hope",
+      "Cache",
+      "Depth/cost limits, rate limits and timeouts",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Defense."
+    }
+   ]
+  },
+  "level-4/01-execution-internals": {
+   "questions": [
+    {
+     "q": "What are the execution phases?",
+     "options": [
+      "Parse, validate, execute (and serialize)",
+      "Build, test",
+      "Compile, run",
+      "Plan, apply"
+     ],
+     "answer": 0,
+     "explain": "Spec."
+    },
+    {
+     "q": "What happens at validation?",
+     "options": [
+      "DB",
+      "Auth",
+      "The operation is checked against the schema before running",
+      "Cache"
+     ],
+     "answer": 2,
+     "explain": "Rules."
+    },
+    {
+     "q": "How does execution resolve fields?",
+     "options": [
+      "Depth-first, parallel for queries, serial for top-level mutations",
+      "Parallel",
+      "Serial",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Spec behavior."
+    },
+    {
+     "q": "What does `info` contain?",
+     "options": [
+      "Args",
+      "Parent",
+      "Context",
+      "Field name, return type, path and the operation AST"
+     ],
+     "answer": 3,
+     "explain": "Advanced use."
+    }
+   ]
+  },
+  "level-4/02-plugins-performance": {
+   "questions": [
+    {
+     "q": "What do server plugins/hooks enable?",
+     "options": [
+      "Tracing, caching, auth and error handling around execution",
+      "Types",
+      "DB",
+      "Schema"
+     ],
+     "answer": 0,
+     "explain": "Apollo/Yoga plugins."
+    },
+    {
+     "q": "What's tracing for?",
+     "options": [
+      "Types",
+      "Cache",
+      "Auth",
+      "Per-resolver timing to find slow fields"
+     ],
+     "answer": 3,
+     "explain": "Performance."
+    },
+    {
+     "q": "What's the first performance step?",
+     "options": [
+      "Cache",
+      "Guess",
+      "Measure resolver timings and DB calls",
+      "Rewrite"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What reduces latency often?",
+     "options": [
+      "Bigger",
+      "Batching, caching and avoiding over-fetching in resolvers",
+      "More fields",
+      "Retry"
+     ],
+     "answer": 1,
+     "explain": "Efficiency."
+    }
+   ]
+  },
+  "level-4/03-federation-concepts": {
+   "questions": [
+    {
+     "q": "What problem does federation solve?",
+     "options": [
+      "Composing multiple services' schemas into one supergraph",
+      "Caching",
+      "Auth",
+      "UI"
+     ],
+     "answer": 0,
+     "explain": "Distributed ownership."
+    },
+    {
+     "q": "What's an entity?",
+     "options": [
+      "Scalar",
+      "Input",
+      "Enum",
+      "A type shared across subgraphs identified by @key"
+     ],
+     "answer": 3,
+     "explain": "Reference resolution."
+    },
+    {
+     "q": "What does the router/gateway do?",
+     "options": [
+      "Authenticates only",
+      "Builds",
+      "Plans queries across subgraphs and merges results",
+      "Stores"
+     ],
+     "answer": 2,
+     "explain": "Query planner."
+    },
+    {
+     "q": "What's a downside of federation?",
+     "options": [
+      "Law",
+      "None",
+      "Operational complexity and cross-service latency",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Adopt when needed."
+    }
+   ]
+  },
+  "level-4/04-federation-gateway": {
+   "questions": [
+    {
+     "q": "What does @key do?",
+     "options": [
+      "Auth",
+      "Cache",
+      "Declares how an entity is identified across subgraphs",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Fields."
+    },
+    {
+     "q": "What does __resolveReference do?",
+     "options": [
+      "Cache",
+      "Auth",
+      "Loads an entity from its key representation",
+      "Query"
+     ],
+     "answer": 2,
+     "explain": "Subgraph resolver."
+    },
+    {
+     "q": "How do subgraphs extend a type?",
+     "options": [
+      "Rename",
+      "By adding fields to the entity with the same key",
+      "Delete",
+      "Copy"
+     ],
+     "answer": 1,
+     "explain": "Ownership."
+    },
+    {
+     "q": "What validates composition?",
+     "options": [
+      "Schema composition checks in CI (rover)",
+      "Hope",
+      "None",
+      "Runtime"
+     ],
+     "answer": 0,
+     "explain": "Fail before deploy."
+    }
+   ]
+  },
+  "level-4/05-schema-evolution": {
+   "questions": [
+    {
+     "q": "What's a breaking schema change?",
+     "options": [
+      "Removing/renaming fields, changing types or making args required",
+      "Deprecation",
+      "Adding field",
+      "Description"
+     ],
+     "answer": 0,
+     "explain": "Avoid."
+    },
+    {
+     "q": "How evolve safely?",
+     "options": [
+      "Break",
+      "Add, deprecate, monitor usage, then remove",
+      "Rename",
+      "Remove"
+     ],
+     "answer": 1,
+     "explain": "Usage-based."
+    },
+    {
+     "q": "What does schema checks in CI do?",
+     "options": [
+      "Lint",
+      "Test",
+      "Compare against production usage to flag breaking changes",
+      "Build"
+     ],
+     "answer": 2,
+     "explain": "Apollo Studio/Hive."
+    },
+    {
+     "q": "What's versioning in GraphQL?",
+     "options": [
+      "Impossible",
+      "v1/v2 URLs",
+      "Required",
+      "Usually avoided via additive evolution"
+     ],
+     "answer": 3,
+     "explain": "Evolve continuously."
+    }
+   ]
+  },
+  "level-4/06-production-errors": {
+   "questions": [
+    {
+     "q": "How should production errors be exposed?",
+     "options": [
+      "None",
+      "Sanitized messages with codes; details go to logs",
+      "Stack traces",
+      "Raw DB"
+     ],
+     "answer": 1,
+     "explain": "Security."
+    },
+    {
+     "q": "What's an error code convention?",
+     "options": [
+      "Message",
+      "Random",
+      "HTTP only",
+      "extensions.code like UNAUTHENTICATED"
+     ],
+     "answer": 3,
+     "explain": "Machine-readable."
+    },
+    {
+     "q": "What should be logged?",
+     "options": [
+      "Tokens",
+      "Passwords",
+      "Operation name, variables (redacted), errors and trace ids",
+      "All"
+     ],
+     "answer": 2,
+     "explain": "Debuggable."
+    },
+    {
+     "q": "How classify errors?",
+     "options": [
+      "Random",
+      "Same",
+      "None",
+      "Expected (user errors) vs unexpected (alert)"
+     ],
+     "answer": 3,
+     "explain": "Signal vs noise."
+    }
+   ]
+  },
+  "level-4/07-code-first": {
+   "questions": [
+    {
+     "q": "What's code-first?",
+     "options": [
+      "SDL first",
+      "Defining the schema in code (Nexus/Pothos/TypeGraphQL) and generating SDL",
+      "DB",
+      "Query"
+     ],
+     "answer": 1,
+     "explain": "Type-safe."
+    },
+    {
+     "q": "What's the benefit?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Schema and resolver types stay in sync"
+     ],
+     "answer": 3,
+     "explain": "Refactoring."
+    },
+    {
+     "q": "What's SDL-first's benefit?",
+     "options": [
+      "Types",
+      "DB",
+      "Code",
+      "Language-agnostic, readable schema as the contract"
+     ],
+     "answer": 3,
+     "explain": "Collaboration."
+    },
+    {
+     "q": "How choose?",
+     "options": [
+      "Trend",
+      "Team skills and tooling; both can work well",
+      "Brand",
+      "Hype"
+     ],
+     "answer": 1,
+     "explain": "Pragmatic."
+    }
+   ]
+  },
+  "level-4/08-yoga-graphql17": {
+   "questions": [
+    {
+     "q": "What is GraphQL Yoga?",
+     "options": [
+      "DB",
+      "A fully featured, spec-compliant GraphQL server built on web standards (Fetch API)",
+      "Client",
+      "CDN"
+     ],
+     "answer": 1,
+     "explain": "Runs everywhere."
+    },
+    {
+     "q": "What does GraphQL v17 (graphql-js) bring?",
+     "options": [
+      "Auth",
+      "Types",
+      "SQL",
+      "Incremental delivery (@defer/@stream) and modernized APIs"
+     ],
+     "answer": 3,
+     "explain": "Progressive."
+    },
+    {
+     "q": "What does @defer do?",
+     "options": [
+      "Sends part of the response later so critical fields arrive first",
+      "Auth",
+      "Skips",
+      "Caches"
+     ],
+     "answer": 0,
+     "explain": "Incremental delivery."
+    },
+    {
+     "q": "What do web-standard servers give?",
+     "options": [
+      "Law",
+      "Speed only",
+      "Portability across Node, Deno, Cloudflare Workers etc.",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Fetch API."
+    }
+   ]
+  },
+  "level-4/09-architecture-review": {
+   "questions": [
+    {
+     "q": "What's in an architecture review of a GraphQL API?",
+     "options": [
+      "Only perf",
+      "Schema design, performance, security, observability and ownership",
+      "Only schema",
+      "Only auth"
+     ],
+     "answer": 1,
+     "explain": "Holistic."
+    },
+    {
+     "q": "What risks to check?",
+     "options": [
+      "Names",
+      "Fonts",
+      "Colors",
+      "Unbounded queries, N+1, over-exposed fields and weak auth"
+     ],
+     "answer": 3,
+     "explain": "Checklist."
+    },
+    {
+     "q": "What metrics matter?",
+     "options": [
+      "Lines",
+      "Latency per operation, error rates and resolver timings",
+      "Types",
+      "Commits"
+     ],
+     "answer": 1,
+     "explain": "SLOs."
+    },
+    {
+     "q": "When is REST better?",
+     "options": [
+      "Graphs",
+      "Simple resource APIs, caching-heavy public APIs or file transfer",
+      "Never",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "Right tool."
+    }
+   ]
+  },
+  "level-4/10-capstone": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only schema",
+      "Only auth",
+      "Schema design, performance, security, federation and operations",
+      "Only client"
+     ],
+     "answer": 2,
+     "explain": "Production API."
+    },
+    {
+     "q": "How prove readiness?",
+     "options": [
+      "Hope",
+      "Slides",
+      "Demo",
+      "Tests, load tests, schema checks and monitoring"
+     ],
+     "answer": 3,
+     "explain": "Operate."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "None",
+      "Code",
+      "Schema descriptions, runbooks and a deprecation policy",
+      "Slides"
+     ],
+     "answer": 2,
+     "explain": "Maintainable."
+    },
+    {
+     "q": "What sustains the API?",
+     "options": [
+      "Silence",
+      "Luck",
+      "Tools",
+      "Governance, ownership and continuous evolution"
+     ],
+     "answer": 3,
+     "explain": "Lifecycle."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A client needs only a book's title and its author's name. Why is GraphQL a good fit?",
+    "options": [
+     "It needs no schema",
+     "It's faster always",
+     "It caches automatically",
+     "The query selects exactly those fields in one request (no over- or under-fetching)"
+    ],
+    "answer": 3,
+    "explain": "Client-driven shape."
+   },
+   {
+    "q": "What does this print?\n```javascript\nconst schema = buildSchema(`\n  type Author { id: ID! name: String! books: [Book!]! }\n  type Book { id: ID! title: String! year: Int author: Author! }\n  type Query { book(id: ID!): Book books: [Book!]! }\n`);\nconst A = { id: '1', name: 'Ada', books: () => B.filter(b => b.author.id === '1') };\nconst B = [ { id: '1', title: 'Engines', year: 1843, author: A }, { id: '2', title: 'Notes', year: null, author: A } ];\nconst root = { book: ({ id }) => B.find(b => b.id === id), books: () => B };\nshow(graphqlSync({ schema, source: '{ book(id: \"2\") { title year author { name } } }', rootValue: root }));\n```\n",
+    "options": [
+     "{\"book\":{\"title\":\"Notes\",\"year\":null,\"author\":{\"name\":\"Ada\"}}}",
+     "{\"book\":{\"title\":\"Notes\"}}",
+     "{\"book\":null}",
+     "Error"
+    ],
+    "answer": 0,
+    "explain": "The response mirrors the query; nullable year is null. Verified by running it with graphql-js."
+   },
+   {
+    "q": "What does this print?\n```javascript\nconst schema = buildSchema(`\n  type Author { id: ID! name: String! books: [Book!]! }\n  type Book { id: ID! title: String! year: Int author: Author! }\n  type Query { book(id: ID!): Book books: [Book!]! }\n`);\nconst A = { id: '1', name: 'Ada', books: () => B.filter(b => b.author.id === '1') };\nconst B = [ { id: '1', title: 'Engines', year: 1843, author: A }, { id: '2', title: 'Notes', year: null, author: A } ];\nconst root = { book: ({ id }) => B.find(b => b.id === id), books: () => B };\nshow(graphqlSync({ schema, source: '{ books { id } }', rootValue: { books: () => [{ id: '1' }, { id: null }] } }));\n```\n",
+    "options": [
+     "{\"books\":[{\"id\":\"1\"},{\"id\":null}]}",
+     "Error",
+     "{\"errors\":[\"Cannot return null for non-nullable field Book.id.\"],\"data\":null}",
+     "{\"books\":[{\"id\":\"1\"}]}"
+    ],
+    "answer": 2,
+    "explain": "A null in a non-null field propagates to the nearest nullable parent (here the whole data because books is non-null). Verified by running it with graphql-js."
+   },
+   {
+    "q": "What does this print?\n```javascript\nconst s = buildSchema(`type Query { a: String b: String }`);\nshow(graphqlSync({ schema: s, source: '{ a b }', rootValue: { a: () => { throw new Error('boom'); }, b: () => 'ok' } }));\n```\n",
+    "options": [
+     "{\"data\":{\"b\":\"ok\"}}",
+     "{\"errors\":[\"boom\"],\"data\":null}",
+     "Error",
+     "{\"errors\":[\"boom\"],\"data\":{\"a\":null,\"b\":\"ok\"}}"
+    ],
+    "answer": 3,
+    "explain": "Nullable fields isolate failures: partial data plus errors. Verified by running it with graphql-js."
+   },
+   {
+    "q": "What does validation say about an unknown field?\n```javascript\nconst schema = buildSchema(`\n  type Author { id: ID! name: String! books: [Book!]! }\n  type Book { id: ID! title: String! year: Int author: Author! }\n  type Query { book(id: ID!): Book books: [Book!]! }\n`);\nconst A = { id: '1', name: 'Ada', books: () => B.filter(b => b.author.id === '1') };\nconst B = [ { id: '1', title: 'Engines', year: 1843, author: A }, { id: '2', title: 'Notes', year: null, author: A } ];\nconst root = { book: ({ id }) => B.find(b => b.id === id), books: () => B };\nconst r = graphqlSync({ schema, source: '{ books { titel } }', rootValue: root });\nconsole.log(r.errors[0].message);\n```\n",
+    "options": [
+     "Field titel is null",
+     "Cannot query field \"titel\" on type \"Book\". Did you mean \"title\"?",
+     "Syntax error",
+     "No errors"
+    ],
+    "answer": 1,
+    "explain": "Validation rejects the operation before execution. Verified by running it with graphql-js."
+   },
+   {
+    "q": "What does this print?\n```javascript\nconst s = buildSchema(`input NewBook { title: String! } type Query { x: Int } type Mutation { addBook(input: NewBook!): String! }`);\nshow(graphqlSync({ schema: s, source: 'mutation { addBook(input: { title: 5 }) }', rootValue: {} }));\n```\n",
+    "options": [
+     "Error",
+     "{\"errors\":[\"String cannot represent a non string value: 5\"]}",
+     "{\"addBook\":\"5\"}",
+     "{\"addBook\":null}"
+    ],
+    "answer": 1,
+    "explain": "Input values are validated against the schema. Verified by running it with graphql-js."
+   },
+   {
+    "q": "What does this print?\n```javascript\nconst s = buildSchema(`type Query { greet(name: String = \"world\"): String }`);\nshow(graphqlSync({ schema: s, source: '{ a: greet b: greet(name: \"Ada\") }', rootValue: { greet: ({ name }) => `hi ${name}` } }));\n```\n",
+    "options": [
+     "Error",
+     "{\"a\":null,\"b\":\"hi Ada\"}",
+     "{\"a\":\"hi world\",\"b\":\"hi Ada\"}",
+     "{\"a\":\"hi\",\"b\":\"hi Ada\"}"
+    ],
+    "answer": 2,
+    "explain": "Aliases allow the same field twice; defaults apply. Verified by running it with graphql-js."
+   },
+   {
+    "q": "What does __typename help clients do?",
+    "options": [
+     "Auth",
+     "Paginate",
+     "Batch",
+     "Identify the concrete type at runtime, e.g. for fragments and cache normalization"
+    ],
+    "answer": 3,
+    "explain": "Included automatically by many clients."
+   },
+   {
+    "q": "A list of 50 books each resolves its author with one DB query. What is this and the fix?",
+    "options": [
+     "The N+1 problem; batch with a per-request DataLoader",
+     "Over-fetching; add fields",
+     "Caching; add TTL",
+     "Pagination"
+    ],
+    "answer": 0,
+    "explain": "Batching collapses 50 lookups into one."
+   },
+   {
+    "q": "Why create DataLoaders per request?",
+    "options": [
+     "Cached/batched data must not leak between users or go stale across requests",
+     "Style",
+     "Law",
+     "Speed"
+    ],
+    "answer": 0,
+    "explain": "Put them in context."
+   },
+   {
+    "q": "Mutations return a Boolean and clients can't update their cache. What's the better design?",
+    "options": [
+     "Return String",
+     "Return Int",
+     "Return the changed object (with id) or a payload containing it and user errors",
+     "Return void"
+    ],
+    "answer": 2,
+    "explain": "Normalized caches update from returned entities."
+   },
+   {
+    "q": "Authorization is checked only in the UI and a user queries another user's profile. What's the problem?",
+    "options": [
+     "N+1",
+     "CORS",
+     "Validation",
+     "Missing server-side object-level authorization (IDOR); enforce it in resolvers/services"
+    ],
+    "answer": 3,
+    "explain": "Never rely on the client."
+   },
+   {
+    "q": "A client sends a 20-level-deep nested query. What protects the server?",
+    "options": [
+     "Query depth/complexity limits (and timeouts and rate limiting)",
+     "Introspection",
+     "Caching",
+     "More RAM"
+    ],
+    "answer": 0,
+    "explain": "Cost control."
+   },
+   {
+    "q": "Which pagination approach is stable when items are inserted during paging?",
+    "options": [
+     "Offset",
+     "Cursor-based (Relay connections)",
+     "Page numbers",
+     "Limit only"
+    ],
+    "answer": 1,
+    "explain": "Keyset cursors."
+   },
+   {
+    "q": "A field must be removed. What's the safe process?",
+    "options": [
+     "Hide",
+     "Delete now",
+     "Rename",
+     "Deprecate it, watch usage, notify clients, then remove once unused"
+    ],
+    "answer": 3,
+    "explain": "Additive evolution."
+   },
+   {
+    "q": "Federation needs one shared `User` across two subgraphs. How is the entity identified?",
+    "options": [
+     "A gateway cache",
+     "Copy types",
+     "Same table",
+     "With @key and a reference resolver in each subgraph"
+    ],
+    "answer": 3,
+    "explain": "Entity references."
+   },
+   {
+    "q": "Why return errors with codes in extensions?",
+    "options": [
+     "Pretty",
+     "Law",
+     "Clients can branch on machine-readable codes instead of parsing messages",
+     "Speed"
+    ],
+    "answer": 2,
+    "explain": "extensions.code."
+   },
+   {
+    "q": "Subscriptions work on one server but not behind a load balancer. What's likely missing?",
+    "options": [
+     "A shared pub/sub backend (Redis/Kafka) and sticky WebSocket handling",
+     "Introspection",
+     "Caching",
+     "More CPU"
+    ],
+    "answer": 0,
+    "explain": "Fan-out across instances."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Batch lookups with a DataLoader",
+    "prompt": "Implement createLoader(batchFn): keys requested in the same tick are sent to batchFn once (deduplicated, results aligned with the keys) and each key is cached. Compare the number of database calls for a list of five books with and without the loader.",
+    "starter": "// npm i graphql   (run with: node batch.js)\nconst { graphql, buildSchema } = require('graphql');\n\nconst AUTHORS = { 1: 'Ada', 2: 'Bo', 3: 'Cy' };\nlet dbCalls = 0;\nconst fetchAuthors = async (ids) => { dbCalls++; return ids.map((id) => ({ id, name: AUTHORS[id] })); };\n\n// A minimal DataLoader: collect keys requested in the same tick, call the batch function once,\n// cache per key, and return results aligned with the keys.\nfunction createLoader(batchFn) {\n  // load(key) returns a promise. Keys requested in the same tick must be sent to batchFn ONCE\n  // (deduplicated, results aligned with the key array), and repeated keys must be cached per loader.\n  return { load(key) { return Promise.resolve(undefined); } };\n}\n\nconst schema = buildSchema(`\n  type Author { name: String! }\n  type Book { title: String! author: Author! }\n  type Query { books: [Book!]! }\n`);\nconst BOOKS = [{ title: 'a', authorId: 1 }, { title: 'b', authorId: 2 }, { title: 'c', authorId: 1 }, { title: 'd', authorId: 3 }, { title: 'e', authorId: 2 }];\n\nasync function run(useLoader) {\n  dbCalls = 0;\n  const loader = createLoader(fetchAuthors);                       // one loader per request\n  const rootValue = {\n    books: () => BOOKS.map((b) => ({\n      title: b.title,\n      author: () => (useLoader ? loader.load(b.authorId) : fetchAuthors([b.authorId]).then((r) => r[0])),\n    })),\n  };\n  const res = await graphql({ schema, source: '{ books { title author { name } } }', rootValue });\n  console.log(useLoader ? 'with loader:   ' : 'without loader:', 'db calls =', dbCalls, '|', res.data.books.map((b) => b.author.name).join(','));\n}\n\n(async () => { await run(false); await run(true); })();\n",
+    "expected": "without loader: db calls = 5 | Ada,Bo,Ada,Cy,Bo\nwith loader:    db calls = 1 | Ada,Bo,Ada,Cy,Bo",
+    "solution": "// npm i graphql   (run with: node batch.js)\nconst { graphql, buildSchema } = require('graphql');\n\nconst AUTHORS = { 1: 'Ada', 2: 'Bo', 3: 'Cy' };\nlet dbCalls = 0;\nconst fetchAuthors = async (ids) => { dbCalls++; return ids.map((id) => ({ id, name: AUTHORS[id] })); };\n\n// A minimal DataLoader: collect keys requested in the same tick, call the batch function once,\n// cache per key, and return results aligned with the keys.\nfunction createLoader(batchFn) {\n  const cache = new Map();\n  let queue = [];\n  return {\n    load(key) {\n      if (cache.has(key)) return cache.get(key);\n      const p = new Promise((resolve, reject) => {\n        queue.push({ key, resolve, reject });\n        if (queue.length === 1) {\n          Promise.resolve().then(async () => {\n            const batch = queue; queue = [];\n            const keys = batch.map((b) => b.key);\n            try {\n              const results = await batchFn([...new Set(keys)]);\n              const byKey = new Map(results.map((r, i) => [[...new Set(keys)][i], r]));\n              batch.forEach((b) => b.resolve(byKey.get(b.key)));\n            } catch (e) { batch.forEach((b) => b.reject(e)); }\n          });\n        }\n      });\n      cache.set(key, p);\n      return p;\n    },\n  };\n}\n\nconst schema = buildSchema(`\n  type Author { name: String! }\n  type Book { title: String! author: Author! }\n  type Query { books: [Book!]! }\n`);\nconst BOOKS = [{ title: 'a', authorId: 1 }, { title: 'b', authorId: 2 }, { title: 'c', authorId: 1 }, { title: 'd', authorId: 3 }, { title: 'e', authorId: 2 }];\n\nasync function run(useLoader) {\n  dbCalls = 0;\n  const loader = createLoader(fetchAuthors);                       // one loader per request\n  const rootValue = {\n    books: () => BOOKS.map((b) => ({\n      title: b.title,\n      author: () => (useLoader ? loader.load(b.authorId) : fetchAuthors([b.authorId]).then((r) => r[0])),\n    })),\n  };\n  const res = await graphql({ schema, source: '{ books { title author { name } } }', rootValue });\n  console.log(useLoader ? 'with loader:   ' : 'without loader:', 'db calls =', dbCalls, '|', res.data.books.map((b) => b.author.name).join(','));\n}\n\n(async () => { await run(false); await run(true); })();\n",
+    "explain": "Without batching, five books trigger five author lookups (N+1); with a loader they collapse into one batch call. A real DataLoader also handles per-key errors and max batch sizes. Verified by running the solution with graphql-js."
+   },
+   {
+    "title": "A query depth limit",
+    "prompt": "Write depthLimit(max) as a GraphQL validation rule that reports an error when an operation's field nesting exceeds max (ignoring introspection fields and following fragments). Check five operations.",
+    "starter": "// npm i graphql   (run with: node limit.js)\nconst { buildSchema, parse, validate, specifiedRules, GraphQLError, Kind } = require('graphql');\n\nconst schema = buildSchema(`\n  type User { name: String! friends: [User!]! }\n  type Query { me: User! }\n`);\n\n// A validation rule that rejects operations nested deeper than `max` selection levels.\nfunction depthLimit(max) {\n  // return a validation rule: for each OperationDefinition compute the field nesting depth\n  // (ignore __ introspection fields; follow fragments) and context.reportError(new GraphQLError(\n  // `query depth ${depth} exceeds limit ${max}`, { nodes: [node] })) when it is greater than max\n  return () => ({});\n}\n\nfunction measure(selectionSet, context, seenFragments) {\n  let best = 0;\n  for (const sel of selectionSet.selections) {\n    if (sel.kind === Kind.FIELD) {\n      if (sel.name.value.startsWith('__')) continue;\n      best = Math.max(best, 1 + (sel.selectionSet ? measure(sel.selectionSet, context, seenFragments) : 0));\n    } else if (sel.kind === Kind.INLINE_FRAGMENT) {\n      best = Math.max(best, measure(sel.selectionSet, context, seenFragments));\n    } else if (sel.kind === Kind.FRAGMENT_SPREAD && !seenFragments.has(sel.name.value)) {\n      seenFragments.add(sel.name.value);\n      const frag = context.getDocument().definitions.find((d) => d.kind === Kind.FRAGMENT_DEFINITION && d.name.value === sel.name.value);\n      if (frag) best = Math.max(best, measure(frag.selectionSet, context, seenFragments));\n    }\n  }\n  return best;\n}\n\nfunction check(source, max) {\n  const errors = validate(schema, parse(source), [...specifiedRules, depthLimit(max)]);\n  return errors.length ? errors.map((e) => e.message).join('; ') : 'ok';\n}\n\nconsole.log(check('{ me { name } }', 3));\nconsole.log(check('{ me { friends { friends { name } } } }', 3));\nconsole.log(check('{ me { friends { friends { friends { name } } } } }', 3));\nconsole.log(check('query Q { me { ...F } } fragment F on User { friends { friends { friends { name } } } }', 3));\nconsole.log(check('{ me { nope } }', 3));\n",
+    "expected": "ok\nquery depth 4 exceeds limit 3\nquery depth 5 exceeds limit 3\nquery depth 5 exceeds limit 3\nCannot query field \"nope\" on type \"User\". Did you mean \"name\"?",
+    "solution": "// npm i graphql   (run with: node limit.js)\nconst { buildSchema, parse, validate, specifiedRules, GraphQLError, Kind } = require('graphql');\n\nconst schema = buildSchema(`\n  type User { name: String! friends: [User!]! }\n  type Query { me: User! }\n`);\n\n// A validation rule that rejects operations nested deeper than `max` selection levels.\nfunction depthLimit(max) {\n  return (context) => ({\n    OperationDefinition(node) {\n      const depth = measure(node.selectionSet, context, new Set());\n      if (depth > max) {\n        context.reportError(new GraphQLError(`query depth ${depth} exceeds limit ${max}`, { nodes: [node] }));\n      }\n    },\n  });\n}\n\nfunction measure(selectionSet, context, seenFragments) {\n  let best = 0;\n  for (const sel of selectionSet.selections) {\n    if (sel.kind === Kind.FIELD) {\n      if (sel.name.value.startsWith('__')) continue;\n      best = Math.max(best, 1 + (sel.selectionSet ? measure(sel.selectionSet, context, seenFragments) : 0));\n    } else if (sel.kind === Kind.INLINE_FRAGMENT) {\n      best = Math.max(best, measure(sel.selectionSet, context, seenFragments));\n    } else if (sel.kind === Kind.FRAGMENT_SPREAD && !seenFragments.has(sel.name.value)) {\n      seenFragments.add(sel.name.value);\n      const frag = context.getDocument().definitions.find((d) => d.kind === Kind.FRAGMENT_DEFINITION && d.name.value === sel.name.value);\n      if (frag) best = Math.max(best, measure(frag.selectionSet, context, seenFragments));\n    }\n  }\n  return best;\n}\n\nfunction check(source, max) {\n  const errors = validate(schema, parse(source), [...specifiedRules, depthLimit(max)]);\n  return errors.length ? errors.map((e) => e.message).join('; ') : 'ok';\n}\n\nconsole.log(check('{ me { name } }', 3));\nconsole.log(check('{ me { friends { friends { name } } } }', 3));\nconsole.log(check('{ me { friends { friends { friends { name } } } } }', 3));\nconsole.log(check('query Q { me { ...F } } fragment F on User { friends { friends { friends { name } } } }', 3));\nconsole.log(check('{ me { nope } }', 3));\n",
+    "explain": "Depth limits stop pathological nested queries before execution. Combine them with cost analysis, timeouts and rate limiting. Verified by running the solution with graphql-js."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
