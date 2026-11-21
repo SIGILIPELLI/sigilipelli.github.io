@@ -2151,7 +2151,7 @@
     "starter": "def rrf(rankings, k=60):\n    # your code here\n    pass\n\nprint(rrf([[\"a\", \"b\", \"c\"], [\"c\", \"b\", \"d\"]]))\n",
     "expected": "['c', 'b', 'a', 'd']",
     "solution": "def rrf(rankings, k=60):\n    scores = {}\n    for ranking in rankings:\n        for rank, doc in enumerate(ranking, start=1):\n            scores[doc] = scores.get(doc, 0) + 1 / (k + rank)\n    return sorted(scores, key=lambda d: -scores[d])\n\nprint(rrf([[\"a\", \"b\", \"c\"], [\"c\", \"b\", \"d\"]]))",
-    "explain": "b appears high in both lists so it wins; a and c tie, and the order among ties follows first-seen order because sorting is stable."
+    "explain": "c scores 1/63 + 1/61 (rank 3 in one list, rank 1 in the other), slightly more than b's 1/62 + 1/62, so c comes first, then b, then a (1/61) and d (1/63). RRF rewards documents that rank well in several lists."
    }
   ]
  },
