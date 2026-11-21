@@ -1,0 +1,2159 @@
+{
+ "course": "playwright-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-playwright": {
+   "questions": [
+    {
+     "q": "What is Playwright?",
+     "options": [
+      "A unit-test runner only",
+      "A database",
+      "A CSS framework",
+      "A library for automating and testing web browsers (Chromium, Firefox, WebKit) from code"
+     ],
+     "answer": 3,
+     "explain": "One API, three engines."
+    },
+    {
+     "q": "Where does an end-to-end test sit in the test pyramid?",
+     "options": [
+      "Middle",
+      "At the top: few, slow tests that exercise the whole system like a user",
+      "Not part",
+      "Bottom"
+     ],
+     "answer": 1,
+     "explain": "Balance with unit tests."
+    },
+    {
+     "q": "Which languages does Playwright officially support?",
+     "options": [
+      "JavaScript/TypeScript, Python, Java and .NET",
+      "Only Python",
+      "C only",
+      "Only JS"
+     ],
+     "answer": 0,
+     "explain": "Same concepts across them."
+    },
+    {
+     "q": "Why do Playwright tests get less flaky than older tools?",
+     "options": [
+      "Built-in auto-waiting and retrying web-first assertions",
+      "Faster CPU",
+      "No browsers",
+      "Random delays"
+     ],
+     "answer": 0,
+     "explain": "Core design."
+    }
+   ]
+  },
+  "level-1/02-installation-setup": {
+   "questions": [
+    {
+     "q": "What does `playwright install` do?",
+     "options": [
+      "Installs Python",
+      "Updates pip",
+      "Runs tests",
+      "Downloads the browser binaries Playwright drives"
+     ],
+     "answer": 3,
+     "explain": "Run it after pip install."
+    },
+    {
+     "q": "Which package gives you the `page` fixture in pytest?",
+     "options": [
+      "requests",
+      "pytest-cov",
+      "pytest-playwright",
+      "selenium"
+     ],
+     "answer": 2,
+     "explain": "Plugin."
+    },
+    {
+     "q": "How run your tests headed for debugging?",
+     "options": [
+      "pytest --ui",
+      "pytest -v",
+      "pytest --visible",
+      "pytest --headed"
+     ],
+     "answer": 3,
+     "explain": "Also --browser firefox."
+    },
+    {
+     "q": "Why use a virtual environment?",
+     "options": [
+      "Law",
+      "Style",
+      "Isolate project dependencies and versions",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Reproducible."
+    }
+   ]
+  },
+  "level-1/03-first-script": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <h1>Shop</h1><ul><li class=\"p\">Pen</li><li class=\"p\">Book</li><li class=\"p\">Bag</li></ul><button>Buy</button>\npage.goto(\"about:blank\")\npage.set_content(\"<p id='x'>hi</p>\")\nprint(page.title() == \"\", page.locator(\"#x\").text_content())\n```\n",
+     "options": [
+      "True None",
+      "False hi",
+      "True hi",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "about:blank has an empty title. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "What does `browser.new_page()` give you?",
+     "options": [
+      "A new page in a fresh default context",
+      "A tab in existing",
+      "A server",
+      "A window"
+     ],
+     "answer": 0,
+     "explain": "Isolated state."
+    },
+    {
+     "q": "What must a script always do at the end?",
+     "options": [
+      "Save",
+      "Nothing",
+      "Print",
+      "Close the browser to free resources"
+     ],
+     "answer": 3,
+     "explain": "Use with-blocks."
+    },
+    {
+     "q": "What does sync_playwright() manage?",
+     "options": [
+      "Servers",
+      "Reports",
+      "Starting and stopping the Playwright driver in the sync API",
+      "Tests"
+     ],
+     "answer": 2,
+     "explain": "Context manager."
+    }
+   ]
+  },
+  "level-1/04-locators": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <h1>Shop</h1><ul><li class=\"p\">Pen</li><li class=\"p\">Book</li><li class=\"p\">Bag</li></ul><button>Buy</button>\nprint(page.locator(\"li.p\").count(), page.get_by_role(\"button\", name=\"Buy\").text_content(), page.locator(\"li.p\").nth(1).text_content(), page.locator(\"li.p\").last.text_content())\n```\n",
+     "options": [
+      "3 Buy Pen Bag",
+      "Error",
+      "4 Buy Book Bag",
+      "3 Buy Book Bag"
+     ],
+     "answer": 3,
+     "explain": "Locators are lazy descriptions; nth is zero-based. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <label for=\"e\">Email</label><input id=\"e\"><label for=\"c\">Remember me</label><input id=\"c\" type=\"checkbox\"><select id=\"s\"><option value=\"a\">Alpha</option><option value=\"b\">Beta</option></select><button disabled>Send</button>\npage.get_by_label(\"Email\").fill(\"a@b.c\")\nprint(page.locator(\"#e\").input_value(), page.get_by_text(\"Remember me\").count())\n```\n",
+     "options": [
+      "a@b.c 1",
+      "None 1",
+      "a@b.c 0",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "get_by_label finds the input by its label. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "Which locator style is most recommended?",
+     "options": [
+      "nth-child chains",
+      "Long XPath",
+      "User-facing: get_by_role, get_by_label, get_by_text",
+      "CSS classes only"
+     ],
+     "answer": 2,
+     "explain": "Resilient."
+    },
+    {
+     "q": "What happens when a locator matches several elements and you call click()?",
+     "options": [
+      "Clicks all",
+      "Clicks first",
+      "Ignores",
+      "Strict mode raises an error"
+     ],
+     "answer": 3,
+     "explain": "Narrow it or use .first."
+    }
+   ]
+  },
+  "level-1/05-actions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <label for=\"e\">Email</label><input id=\"e\"><label for=\"c\">Remember me</label><input id=\"c\" type=\"checkbox\"><select id=\"s\"><option value=\"a\">Alpha</option><option value=\"b\">Beta</option></select><button disabled>Send</button>\npage.get_by_label(\"Email\").fill(\"x\")\npage.get_by_label(\"Remember me\").check()\npage.select_option(\"#s\", \"b\")\nprint(page.get_by_label(\"Remember me\").is_checked(), page.locator(\"#s\").input_value(), page.locator(\"#e\").input_value())\n```\n",
+     "options": [
+      "True b x",
+      "True a x",
+      "Error",
+      "False b x"
+     ],
+     "answer": 0,
+     "explain": "fill, check and select_option. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <button id=\"b\" onclick=\"this.textContent='Clicked'\">Go</button>\npage.click(\"#b\")\nprint(page.text_content(\"#b\"))\n```\n",
+     "options": [
+      "Go",
+      "None",
+      "Clicked",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "click runs the handler. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "What does fill() do differently from type()/press_sequentially()?",
+     "options": [
+      "Reverse",
+      "fill sets the value at once; typing sends key events one by one",
+      "fill is slower",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Use typing only to test key handlers."
+    },
+    {
+     "q": "How press Enter?",
+     "options": [
+      "page.keyboard.press('Enter') or locator.press('Enter')",
+      "type('Enter')",
+      "page.enter()",
+      "send_enter()"
+     ],
+     "answer": 0,
+     "explain": "Key names."
+    }
+   ]
+  },
+  "level-1/06-assertions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <label for=\"e\">Email</label><input id=\"e\"><label for=\"c\">Remember me</label><input id=\"c\" type=\"checkbox\"><select id=\"s\"><option value=\"a\">Alpha</option><option value=\"b\">Beta</option></select><button disabled>Send</button>\ntry:\n    expect(page.get_by_role(\"button\", name=\"Send\")).to_be_enabled()\nexcept AssertionError:\n    print(\"not enabled\")\nexpect(page.get_by_role(\"button\", name=\"Send\")).to_be_disabled()\nexpect(page.locator(\"h1\")).to_have_count(0)\nprint(\"ok\")\n```\n",
+     "options": [
+      "not enabled\nok",
+      "not enabled",
+      "Error",
+      "ok"
+     ],
+     "answer": 0,
+     "explain": "Web-first assertions retry then raise AssertionError. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <h1>Shop</h1><ul><li class=\"p\">Pen</li><li class=\"p\">Book</li><li class=\"p\">Bag</li></ul><button>Buy</button>\nexpect(page.locator(\"li.p\")).to_have_count(3)\nexpect(page.locator(\"h1\")).to_have_text(\"Shop\")\nexpect(page.locator(\"li.p\").first).to_contain_text(\"Pe\")\nprint(\"passed\")\n```\n",
+     "options": [
+      "None",
+      "Error",
+      "failed",
+      "passed"
+     ],
+     "answer": 3,
+     "explain": "Auto-retrying assertions. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "Why prefer expect(locator).to_be_visible() to assert locator.is_visible()?",
+     "options": [
+      "Same",
+      "Older",
+      "expect retries until the condition holds or times out; is_visible is a one-shot check",
+      "Slower"
+     ],
+     "answer": 2,
+     "explain": "Avoid flakiness."
+    },
+    {
+     "q": "What does expect(page).to_have_url() check?",
+     "options": [
+      "The current URL (string or regex), with retries",
+      "Status",
+      "Cookies",
+      "Title"
+     ],
+     "answer": 0,
+     "explain": "Navigation result."
+    }
+   ]
+  },
+  "level-1/07-waiting-auto-wait": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <div id=\"r\"></div><script>setTimeout(()=>{document.getElementById(\"r\").textContent=\"loaded\"},300)</script>\npage.set_default_timeout(3000)\nexpect(page.locator(\"#r\")).to_have_text(\"loaded\")\nprint(page.locator(\"#r\").text_content())\n```\n",
+     "options": [
+      "None",
+      "",
+      "loaded",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "expect waits for the asynchronous update. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "What is auto-wait?",
+     "options": [
+      "Playwright waits for elements to be visible, stable, enabled and receiving events before acting",
+      "Random",
+      "Sleep",
+      "Polling DB"
+     ],
+     "answer": 0,
+     "explain": "Actionability checks."
+    },
+    {
+     "q": "Why avoid page.wait_for_timeout(5000)?",
+     "options": [
+      "Style",
+      "Fixed sleeps are slow when fast and flaky when slow; wait for a condition instead",
+      "Deprecated",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Use expect or wait_for."
+    },
+    {
+     "q": "What does the default action timeout typically do?",
+     "options": [
+      "Skips",
+      "Hangs",
+      "Fails the action with TimeoutError when the element is not actionable in time",
+      "Passes"
+     ],
+     "answer": 2,
+     "explain": "Configurable."
+    }
+   ]
+  },
+  "level-1/08-forms-dropdowns": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <label for=\"e\">Email</label><input id=\"e\"><label for=\"c\">Remember me</label><input id=\"c\" type=\"checkbox\"><select id=\"s\"><option value=\"a\">Alpha</option><option value=\"b\">Beta</option></select><button disabled>Send</button>\npage.select_option(\"#s\", label=\"Beta\")\nprint(page.locator(\"#s\").input_value())\npage.get_by_label(\"Remember me\").set_checked(True)\npage.get_by_label(\"Remember me\").set_checked(False)\nprint(page.get_by_label(\"Remember me\").is_checked())\n```\n",
+     "options": [
+      "b\nTrue",
+      "b\nFalse",
+      "a\nTrue",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "select by label; set_checked is idempotent. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "How do you pick an option by its value?",
+     "options": [
+      "select_option('b') or select_option(value='b')",
+      "type",
+      "click option",
+      "fill"
+     ],
+     "answer": 0,
+     "explain": "Also by label/index."
+    },
+    {
+     "q": "Which locator targets an input via its visible label?",
+     "options": [
+      "get_by_alt_text",
+      "get_by_test_id",
+      "get_by_label('Email')",
+      "get_by_title"
+     ],
+     "answer": 2,
+     "explain": "Accessible."
+    },
+    {
+     "q": "Why is disabled-button clicking a problem?",
+     "options": [
+      "Clicks anyway",
+      "Skips",
+      "Actionability waits until it is enabled, then times out if it never is",
+      "Throws at once"
+     ],
+     "answer": 2,
+     "explain": "Assert state first."
+    }
+   ]
+  },
+  "level-1/09-headed-vs-headless": {
+   "questions": [
+    {
+     "q": "What is headless mode?",
+     "options": [
+      "Running the browser without a visible window",
+      "No cookies",
+      "No JS",
+      "No network"
+     ],
+     "answer": 0,
+     "explain": "Default in CI."
+    },
+    {
+     "q": "Why run headed locally?",
+     "options": [
+      "CI",
+      "Law",
+      "To watch and debug what the test does",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "--headed, slow_mo."
+    },
+    {
+     "q": "What does slow_mo do?",
+     "options": [
+      "Slows each operation by N ms so you can follow along",
+      "Retries",
+      "Skips",
+      "Speeds"
+     ],
+     "answer": 0,
+     "explain": "Debugging aid."
+    },
+    {
+     "q": "What does headless differ in for tests?",
+     "options": [
+      "Mostly nothing; same engine, but rendering/viewport defaults can differ",
+      "JS off",
+      "Everything",
+      "Nothing ever"
+     ],
+     "answer": 0,
+     "explain": "Set viewport explicitly."
+    }
+   ]
+  },
+  "level-1/10-project-login-flow": {
+   "questions": [
+    {
+     "q": "What does the login flow project combine?",
+     "options": [
+      "Only pytest",
+      "Locators, fills, clicks, assertions and a pytest test",
+      "Only locators",
+      "Only assertions"
+     ],
+     "answer": 1,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "What proves a login worked?",
+     "options": [
+      "No error",
+      "Assert URL or a logged-in element (e.g. dashboard heading) is visible",
+      "Print",
+      "Sleep"
+     ],
+     "answer": 1,
+     "explain": "User-visible outcome."
+    },
+    {
+     "q": "How test a failed login?",
+     "options": [
+      "Assume",
+      "Mock none",
+      "Skip",
+      "Submit wrong credentials and assert the error message"
+     ],
+     "answer": 3,
+     "explain": "Negative paths."
+    },
+    {
+     "q": "Why use a public demo site for practice?",
+     "options": [
+      "Free hosting",
+      "Faster",
+      "It is safe, stable and built for automation practice",
+      "Required"
+     ],
+     "answer": 2,
+     "explain": "Don't hit production."
+    }
+   ]
+  },
+  "level-2/01-page-object-model": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <label for=\"e\">Email</label><input id=\"e\"><label for=\"c\">Remember me</label><input id=\"c\" type=\"checkbox\"><select id=\"s\"><option value=\"a\">Alpha</option><option value=\"b\">Beta</option></select><button disabled>Send</button>\nclass FormPage:\n    def __init__(self, page):\n        self.page = page\n        self.email = page.get_by_label(\"Email\")\n        self.remember = page.get_by_label(\"Remember me\")\n    def fill(self, e):\n        self.email.fill(e)\n        self.remember.check()\n        return self\nfp = FormPage(page).fill(\"a@b.c\")\nprint(fp.email.input_value(), fp.remember.is_checked())\n```\n",
+     "options": [
+      "a@b.c False",
+      "a@b.c True",
+      "Error",
+      "None False"
+     ],
+     "answer": 1,
+     "explain": "Page objects own locators and actions; locators are lazy. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "What belongs in a page object?",
+     "options": [
+      "Fixtures",
+      "Test data",
+      "Locators and user actions for a page, not assertions about test goals",
+      "Reports"
+     ],
+     "answer": 2,
+     "explain": "Keep tests readable."
+    },
+    {
+     "q": "Why build locators in __init__?",
+     "options": [
+      "Faster",
+      "Live element",
+      "Locators are lazy descriptions so it's safe before navigation",
+      "Required"
+     ],
+     "answer": 2,
+     "explain": "Resolve on use."
+    },
+    {
+     "q": "What does a base page share?",
+     "options": [
+      "Config",
+      "Common chrome like navigation, toasts and helpers",
+      "Tests",
+      "Data"
+     ],
+     "answer": 1,
+     "explain": "Inheritance."
+    }
+   ]
+  },
+  "level-2/02-fixtures-hooks": {
+   "questions": [
+    {
+     "q": "What does a pytest fixture do?",
+     "options": [
+      "Provides setup (and teardown after yield) to tests via parameters",
+      "Mocks DB",
+      "Runs tests",
+      "Lints"
+     ],
+     "answer": 0,
+     "explain": "Dependency injection."
+    },
+    {
+     "q": "What is fixture scope function vs session?",
+     "options": [
+      "Function runs per test; session runs once per run",
+      "Module only",
+      "Same",
+      "Reverse"
+     ],
+     "answer": 0,
+     "explain": "Expensive setup."
+    },
+    {
+     "q": "What does `yield` do in a fixture?",
+     "options": [
+      "Loops",
+      "Returns",
+      "Splits setup from teardown, which runs even if the test fails",
+      "Skips"
+     ],
+     "answer": 2,
+     "explain": "try/finally."
+    },
+    {
+     "q": "Where do shared fixtures live?",
+     "options": [
+      "conftest.py",
+      "tests.ini",
+      "__init__.py",
+      "setup.py"
+     ],
+     "answer": 0,
+     "explain": "Auto-discovered."
+    }
+   ]
+  },
+  "level-2/03-tabs-frames-popups": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <a id=\"l\" href=\"#x\" target=\"_blank\">go</a>\nwith page.context.expect_page() as info:\n    page.click(\"#l\")\nnew = info.value\nprint(len(page.context.pages), new.url)\n```\n",
+     "options": [
+      "1 about:blank",
+      "2 about:blank#x",
+      "Error",
+      "2 about:blank"
+     ],
+     "answer": 1,
+     "explain": "expect_page captures the new tab (target=_blank opens a popup). Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <iframe srcdoc=\"<button>Inner</button>\"></iframe><button>Outer</button>\nprint(page.get_by_role(\"button\").count(), page.frame_locator(\"iframe\").get_by_role(\"button\").text_content())\n```\n",
+     "options": [
+      "2 Inner",
+      "Error",
+      "1 Inner",
+      "1 Outer"
+     ],
+     "answer": 2,
+     "explain": "Locators don't pierce iframes; use frame_locator. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "How handle a JavaScript alert?",
+     "options": [
+      "Register page.on('dialog', handler) to accept or dismiss it",
+      "Click",
+      "Wait",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Unhandled dialogs auto-dismiss."
+    },
+    {
+     "q": "What does context isolation give?",
+     "options": [
+      "Speed",
+      "Nothing",
+      "Separate cookies/storage per context, like incognito profiles",
+      "Shared"
+     ],
+     "answer": 2,
+     "explain": "Multi-user tests."
+    }
+   ]
+  },
+  "level-2/04-network-interception": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <div id=\"o\"></div>\npage.route(\"http://test.local/api\", lambda r: r.fulfill(json={\"name\": \"mocked\"}))\npage.evaluate(\"fetch('http://test.local/api').then(r => r.json()).then(j => { document.getElementById('o').textContent = j.name })\")\nexpect(page.locator(\"#o\")).to_have_text(\"mocked\")\nprint(page.text_content(\"#o\"))\n```\n",
+     "options": [
+      "Error",
+      "mocked",
+      "?",
+      "err"
+     ],
+     "answer": 1,
+     "explain": "route + fulfill mocks the network response. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "What does page.route do?",
+     "options": [
+      "Intercepts matching requests to fulfill, modify, abort or continue them",
+      "Navigates",
+      "Logs",
+      "Records"
+     ],
+     "answer": 0,
+     "explain": "Network control."
+    },
+    {
+     "q": "Why mock a flaky third-party API in tests?",
+     "options": [
+      "Law",
+      "Deterministic, fast tests independent of external services",
+      "Cost only",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "But keep some real contract tests."
+    },
+    {
+     "q": "What does route.abort() simulate?",
+     "options": [
+      "Success",
+      "A failed request (e.g. offline) to test error handling",
+      "Redirect",
+      "Delay"
+     ],
+     "answer": 1,
+     "explain": "Resilience."
+    }
+   ]
+  },
+  "level-2/05-file-upload-download": {
+   "questions": [
+    {
+     "q": "How upload a file?",
+     "options": [
+      "fill",
+      "type path",
+      "locator.set_input_files('path') on the file input",
+      "click only"
+     ],
+     "answer": 2,
+     "explain": "Also lists and buffers."
+    },
+    {
+     "q": "How capture a download?",
+     "options": [
+      "with page.expect_download() as d: click; then d.value.save_as(path)",
+      "fetch",
+      "wait",
+      "read file"
+     ],
+     "answer": 0,
+     "explain": "Event-based."
+    },
+    {
+     "q": "Why use tmp_path for test files?",
+     "options": [
+      "Speed",
+      "Isolated temporary directory cleaned by pytest",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "No leftovers."
+    },
+    {
+     "q": "What should you assert after a download?",
+     "options": [
+      "Nothing",
+      "Size only",
+      "Suggested filename and file contents",
+      "Time"
+     ],
+     "answer": 2,
+     "explain": "Verify behavior."
+    }
+   ]
+  },
+  "level-2/06-parallel-sharding": {
+   "questions": [
+    {
+     "q": "How run tests in parallel with pytest?",
+     "options": [
+      "-p all",
+      "pytest -n auto with pytest-xdist",
+      "--parallel",
+      "async"
+     ],
+     "answer": 1,
+     "explain": "Workers."
+    },
+    {
+     "q": "Why must tests be independent for parallelism?",
+     "options": [
+      "Style",
+      "Order and shared state would otherwise cause flaky failures",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Isolation."
+    },
+    {
+     "q": "What is sharding?",
+     "options": [
+      "Mock",
+      "Cache",
+      "Retry",
+      "Splitting the suite across multiple machines/jobs"
+     ],
+     "answer": 3,
+     "explain": "CI matrix."
+    },
+    {
+     "q": "What gives each test isolated state?",
+     "options": [
+      "A fresh browser context per test",
+      "Same cookies",
+      "Same page",
+      "Global login"
+     ],
+     "answer": 0,
+     "explain": "pytest-playwright default."
+    }
+   ]
+  },
+  "level-2/07-test-configuration": {
+   "questions": [
+    {
+     "q": "Where configure browser, viewport and base URL for pytest-playwright?",
+     "options": [
+      "README",
+      "pytest.ini options or conftest fixtures (browser_context_args)",
+      "main.py",
+      "HTML"
+     ],
+     "answer": 1,
+     "explain": "Central config."
+    },
+    {
+     "q": "What does --base-url do?",
+     "options": [
+      "Lets page.goto('/path') resolve relative paths",
+      "Records",
+      "Mocks",
+      "Opens site"
+     ],
+     "answer": 0,
+     "explain": "Environment switch."
+    },
+    {
+     "q": "What does browser_context_args customize?",
+     "options": [
+      "Viewport, locale, timezone, storage state and more for each context",
+      "Python",
+      "Tests",
+      "Browser version"
+     ],
+     "answer": 0,
+     "explain": "Fixture override."
+    },
+    {
+     "q": "Why keep config out of tests?",
+     "options": [
+      "Law",
+      "Speed",
+      "Same tests run across environments without edits",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Separation."
+    }
+   ]
+  },
+  "level-2/08-env-test-data": {
+   "questions": [
+    {
+     "q": "Where keep secrets for test environments?",
+     "options": [
+      "Code",
+      "Environment variables/CI secrets, not committed files",
+      "README",
+      "Git"
+     ],
+     "answer": 1,
+     "explain": "Security."
+    },
+    {
+     "q": "What does python-dotenv do?",
+     "options": [
+      "Installs",
+      "Encrypts",
+      "Runs tests",
+      "Loads variables from a .env file for local runs"
+     ],
+     "answer": 3,
+     "explain": "Gitignore it."
+    },
+    {
+     "q": "What's a good test data approach?",
+     "options": [
+      "Shared accounts",
+      "Prod data",
+      "Manual",
+      "Create the data a test needs via API/fixtures and clean it up"
+     ],
+     "answer": 3,
+     "explain": "Independence."
+    },
+    {
+     "q": "Why not hard-code URLs?",
+     "options": [
+      "Style",
+      "Speed",
+      "They differ between dev, staging and production",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Config."
+    }
+   ]
+  },
+  "level-2/09-debugging-failing-tests": {
+   "questions": [
+    {
+     "q": "What do you open to debug interactively?",
+     "options": [
+      "none",
+      "print only",
+      "PWDEBUG=1 (Playwright Inspector) or page.pause()",
+      "logs"
+     ],
+     "answer": 2,
+     "explain": "Step through."
+    },
+    {
+     "q": "What does the trace capture?",
+     "options": [
+      "Actions, DOM snapshots, network and console for each step",
+      "Only HTML",
+      "Only video",
+      "Only logs"
+     ],
+     "answer": 0,
+     "explain": "Post-mortem."
+    },
+    {
+     "q": "What do screenshots on failure help with?",
+     "options": [
+      "Mocking",
+      "Law",
+      "Seeing the page state when the test failed",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "--screenshot only-on-failure."
+    },
+    {
+     "q": "What's the first step with a failing test?",
+     "options": [
+      "Delete",
+      "Rerun",
+      "Add sleep",
+      "Reproduce it and read the actual error and trace"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-2/10-project-pom-suite": {
+   "questions": [
+    {
+     "q": "What does the POM suite project combine?",
+     "options": [
+      "Only fixtures",
+      "Page objects, fixtures, config, test data and parallel runs",
+      "Only config",
+      "Only POM"
+     ],
+     "answer": 1,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How keep the suite maintainable?",
+     "options": [
+      "Long tests",
+      "Copy",
+      "Comments",
+      "Small page objects, clear names and no logic in tests"
+     ],
+     "answer": 3,
+     "explain": "Readability."
+    },
+    {
+     "q": "Where do assertions live?",
+     "options": [
+      "In the tests, using page-object state",
+      "Fixtures only",
+      "Page objects only",
+      "Config"
+     ],
+     "answer": 0,
+     "explain": "Intent visible."
+    },
+    {
+     "q": "How verify the suite is stable?",
+     "options": [
+      "Once",
+      "Slow",
+      "Hope",
+      "Run repeatedly and in parallel"
+     ],
+     "answer": 3,
+     "explain": "Flakiness check."
+    }
+   ]
+  },
+  "level-3/01-visual-regression": {
+   "questions": [
+    {
+     "q": "What does visual regression compare?",
+     "options": [
+      "HTTP",
+      "Logs",
+      "DOM",
+      "Screenshots against approved baselines"
+     ],
+     "answer": 3,
+     "explain": "expect(page).to_have_screenshot()."
+    },
+    {
+     "q": "Why are screenshots flaky across machines?",
+     "options": [
+      "Style",
+      "Fonts, rendering and OS differences; use the same container/CI environment",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Consistency."
+    },
+    {
+     "q": "When update baselines?",
+     "options": [
+      "Always",
+      "After a deliberate, reviewed UI change",
+      "Never",
+      "Randomly"
+     ],
+     "answer": 1,
+     "explain": "Review diffs."
+    },
+    {
+     "q": "What reduces noise?",
+     "options": [
+      "Masking dynamic regions and disabling animations",
+      "Bigger",
+      "Retry",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "mask=[...]."
+    }
+   ]
+  },
+  "level-3/02-auth-state-reuse": {
+   "questions": [
+    {
+     "q": "What does storage_state do?",
+     "options": [
+      "Saves cookies/localStorage after login to reuse in other contexts",
+      "Caches HTML",
+      "Mocks",
+      "Records"
+     ],
+     "answer": 0,
+     "explain": "Skip repeated UI logins."
+    },
+    {
+     "q": "Why reuse auth state?",
+     "options": [
+      "Faster, more stable tests that don't repeat the login UI",
+      "Cost",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Test login once."
+    },
+    {
+     "q": "Where store the state file?",
+     "options": [
+      "public",
+      "Gitignored location, treated as a secret",
+      "Slack",
+      "Git"
+     ],
+     "answer": 1,
+     "explain": "Contains session tokens."
+    },
+    {
+     "q": "When state expires?",
+     "options": [
+      "Hard-code",
+      "Ignore",
+      "Disable",
+      "Regenerate it in a setup step before the run"
+     ],
+     "answer": 3,
+     "explain": "Fresh."
+    }
+   ]
+  },
+  "level-3/03-api-testing": {
+   "questions": [
+    {
+     "q": "Does page.route() intercept calls made with page.request / APIRequestContext?",
+     "options": [
+      "Only GET",
+      "Only POST",
+      "Yes always",
+      "No: routing applies to browser traffic; API requests go straight to the server"
+     ],
+     "answer": 3,
+     "explain": "Use a real test API or mock the server instead."
+    },
+    {
+     "q": "What is request.new_context for?",
+     "options": [
+      "Pages",
+      "Calling APIs directly (no browser UI) with shared headers/auth",
+      "Mocks",
+      "Reports"
+     ],
+     "answer": 1,
+     "explain": "API tests."
+    },
+    {
+     "q": "Why combine API setup with UI checks?",
+     "options": [
+      "Cost",
+      "Fast arrange via API, then verify the user-visible result",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Efficient."
+    },
+    {
+     "q": "What do you assert for API responses?",
+     "options": [
+      "Status code, headers and body shape",
+      "HTML",
+      "Nothing",
+      "Time only"
+     ],
+     "answer": 0,
+     "explain": "Contract."
+    }
+   ]
+  },
+  "level-3/04-ci-integration": {
+   "questions": [
+    {
+     "q": "What should CI do on each push?",
+     "options": [
+      "Deploy",
+      "Install dependencies and browsers, run tests and upload artifacts",
+      "Nothing",
+      "Only lint"
+     ],
+     "answer": 1,
+     "explain": "Quality gate."
+    },
+    {
+     "q": "Which artifacts help debugging?",
+     "options": [
+      "Source",
+      "Cache",
+      "Only logs",
+      "Traces, screenshots and HTML reports"
+     ],
+     "answer": 3,
+     "explain": "Post-mortem."
+    },
+    {
+     "q": "Why use the official Playwright Docker image?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Browsers and OS dependencies are preinstalled and consistent"
+     ],
+     "answer": 3,
+     "explain": "Reproducibility."
+    },
+    {
+     "q": "How speed up CI?",
+     "options": [
+      "Retry",
+      "More waits",
+      "Skip",
+      "Cache dependencies and shard tests across jobs"
+     ],
+     "answer": 3,
+     "explain": "Parallel."
+    }
+   ]
+  },
+  "level-3/05-retries-flaky-tests": {
+   "questions": [
+    {
+     "q": "What are flaky tests?",
+     "options": [
+      "Tests that pass and fail without code changes",
+      "Skipped",
+      "Slow tests",
+      "Broken"
+     ],
+     "answer": 0,
+     "explain": "Erode trust."
+    },
+    {
+     "q": "What do retries do?",
+     "options": [
+      "Hide forever",
+      "Rerun failures to detect flakiness, which should still be investigated",
+      "Skip",
+      "Fix bugs"
+     ],
+     "answer": 1,
+     "explain": "Mitigation, not a cure."
+    },
+    {
+     "q": "Most common flake cause?",
+     "options": [
+      "Browsers",
+      "Timing assumptions and shared state",
+      "Python",
+      "CI"
+     ],
+     "answer": 1,
+     "explain": "Use auto-wait."
+    },
+    {
+     "q": "What should you do with a flaky test?",
+     "options": [
+      "Ignore",
+      "Delete",
+      "Retry 10",
+      "Fix the root cause or quarantine it with a ticket"
+     ],
+     "answer": 3,
+     "explain": "Track."
+    }
+   ]
+  },
+  "level-3/06-advanced-locators": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <ul><li><button>Edit</button> Pen</li><li><button>Edit</button> Book</li></ul>\nrow = page.get_by_role(\"listitem\").filter(has_text=\"Book\")\nprint(row.get_by_role(\"button\", name=\"Edit\").count(), page.get_by_role(\"listitem\").count(), page.get_by_role(\"listitem\").nth(0).text_content().strip())\n```\n",
+     "options": [
+      "Error",
+      "1 2 Pen",
+      "2 2 Edit Pen",
+      "1 2 Edit Pen"
+     ],
+     "answer": 3,
+     "explain": "filter() scopes locators. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "What does this print?\n```python\n# page content:\n# <div data-testid=\"card\"><h2>A</h2></div><div data-testid=\"card\"><h2>B</h2></div>\ncards = page.get_by_test_id(\"card\")\nprint(cards.count(), cards.filter(has=page.get_by_role(\"heading\", name=\"B\")).count(), cards.nth(1).locator(\"h2\").text_content())\n```\n",
+     "options": [
+      "2 1 B",
+      "1 1 B",
+      "Error",
+      "2 2 B"
+     ],
+     "answer": 0,
+     "explain": "has= filters by inner locator. Verified by running it with Playwright for Python."
+    },
+    {
+     "q": "When use data-testid?",
+     "options": [
+      "CSS",
+      "Never",
+      "Always",
+      "When no accessible role or text is stable"
+     ],
+     "answer": 3,
+     "explain": "Fallback."
+    },
+    {
+     "q": "What does locator.and_/or_ do?",
+     "options": [
+      "Click",
+      "Chain pages",
+      "Combine locators to match either/both conditions",
+      "Wait"
+     ],
+     "answer": 2,
+     "explain": "Advanced."
+    }
+   ]
+  },
+  "level-3/07-accessibility-testing": {
+   "questions": [
+    {
+     "q": "What does axe-core check?",
+     "options": [
+      "SEO",
+      "Common accessibility violations (contrast, labels, roles)",
+      "Perf",
+      "Security"
+     ],
+     "answer": 1,
+     "explain": "Automated subset."
+    },
+    {
+     "q": "What can automation not prove?",
+     "options": [
+      "Full accessibility; manual testing with assistive tech is still needed",
+      "Contrast",
+      "Anything",
+      "Labels"
+     ],
+     "answer": 0,
+     "explain": "Limits."
+    },
+    {
+     "q": "Why prefer get_by_role?",
+     "options": [
+      "Law",
+      "Speed",
+      "It mirrors how assistive technology sees the page and encourages accessible markup",
+      "Cost"
+     ],
+     "answer": 2,
+     "explain": "Dual benefit."
+    },
+    {
+     "q": "When fail the build on a11y?",
+     "options": [
+      "On new violations, gradually ratcheting standards",
+      "Never",
+      "None",
+      "All"
+     ],
+     "answer": 0,
+     "explain": "Baseline."
+    }
+   ]
+  },
+  "level-3/08-performance-tracing": {
+   "questions": [
+    {
+     "q": "What can a trace record?",
+     "options": [
+      "Nothing",
+      "Only logs",
+      "Screenshots, snapshots, network and console per action",
+      "Only video"
+     ],
+     "answer": 2,
+     "explain": "context.tracing.start()."
+    },
+    {
+     "q": "What does page.evaluate with performance.timing/getEntries give?",
+     "options": [
+      "Coverage",
+      "Browser-reported timing metrics",
+      "DB data",
+      "Logs"
+     ],
+     "answer": 1,
+     "explain": "Basic perf."
+    },
+    {
+     "q": "What's a limit of E2E perf checks?",
+     "options": [
+      "Fast",
+      "Exact",
+      "Noisy; use dedicated tools for load and budgets",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Lighthouse/load tests."
+    },
+    {
+     "q": "How use tracing in CI?",
+     "options": [
+      "Record on first retry and upload as an artifact",
+      "Never",
+      "Always video",
+      "Screenshots"
+     ],
+     "answer": 0,
+     "explain": "trace on-first-retry."
+    }
+   ]
+  },
+  "level-3/09-test-data-seeding": {
+   "questions": [
+    {
+     "q": "Why seed test data via API/DB?",
+     "options": [
+      "Fast, deterministic setup instead of clicking through UIs",
+      "Style",
+      "Law",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "Arrange."
+    },
+    {
+     "q": "How avoid collisions in parallel tests?",
+     "options": [
+      "Order",
+      "Locks",
+      "Unique data per test (uuid suffixes) and cleanup",
+      "Shared"
+     ],
+     "answer": 2,
+     "explain": "Isolation."
+    },
+    {
+     "q": "What should cleanup do?",
+     "options": [
+      "Remove created data even if the test fails (fixture teardown)",
+      "Manual",
+      "Nothing",
+      "Only pass"
+     ],
+     "answer": 0,
+     "explain": "yield."
+    },
+    {
+     "q": "Why not rely on pre-existing data?",
+     "options": [
+      "Speed",
+      "Law",
+      "It drifts and breaks tests unpredictably",
+      "Cost"
+     ],
+     "answer": 2,
+     "explain": "Own your data."
+    }
+   ]
+  },
+  "level-3/10-project-ci-pipeline": {
+   "questions": [
+    {
+     "q": "What does the CI pipeline project combine?",
+     "options": [
+      "Only CI",
+      "Only config",
+      "Config, auth reuse, API setup, parallelism, artifacts and reports",
+      "Only tests"
+     ],
+     "answer": 2,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "What gates a merge?",
+     "options": [
+      "Green tests plus reviewed artifacts for failures",
+      "Opinion",
+      "Time",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Quality."
+    },
+    {
+     "q": "What do you publish after a run?",
+     "options": [
+      "Secrets",
+      "Logs only",
+      "HTML report and traces for failures",
+      "Source"
+     ],
+     "answer": 2,
+     "explain": "Debuggability."
+    },
+    {
+     "q": "How keep pipelines fast?",
+     "options": [
+      "Sleeps",
+      "Shard, cache and run only affected tests where possible",
+      "Retries",
+      "Serial"
+     ],
+     "answer": 1,
+     "explain": "Feedback time."
+    }
+   ]
+  },
+  "level-4/01-cross-browser-strategy": {
+   "questions": [
+    {
+     "q": "What does cross-browser strategy decide?",
+     "options": [
+      "Which browsers/devices to cover and how often, based on usage and risk",
+      "All always",
+      "One",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Balance cost."
+    },
+    {
+     "q": "How run one test on several engines?",
+     "options": [
+      "pytest --browser chromium --browser firefox --browser webkit",
+      "Loop",
+      "Edit tests",
+      "Plugins"
+     ],
+     "answer": 0,
+     "explain": "Matrix."
+    },
+    {
+     "q": "What does WebKit give you?",
+     "options": [
+      "Chrome",
+      "Edge",
+      "Mobile apps",
+      "A proxy for Safari's engine on any OS"
+     ],
+     "answer": 3,
+     "explain": "Not exact."
+    },
+    {
+     "q": "How emulate a phone?",
+     "options": [
+      "Zoom",
+      "playwright.devices['iPhone 13'] context options",
+      "Real device",
+      "Resize only"
+     ],
+     "answer": 1,
+     "explain": "Viewport, UA, touch."
+    }
+   ]
+  },
+  "level-4/02-component-testing": {
+   "questions": [
+    {
+     "q": "What does component testing mount?",
+     "options": [
+      "A single UI component in a real browser instead of the full app",
+      "API",
+      "DB",
+      "Server"
+     ],
+     "answer": 0,
+     "explain": "Fast feedback."
+    },
+    {
+     "q": "When choose component over E2E?",
+     "options": [
+      "Auth",
+      "Everything",
+      "Deploys",
+      "For rendering and interaction logic of isolated UI parts"
+     ],
+     "answer": 3,
+     "explain": "Pyramid."
+    },
+    {
+     "q": "What stays E2E?",
+     "options": [
+      "Utils",
+      "Styles",
+      "Props",
+      "Critical user journeys across the full stack"
+     ],
+     "answer": 3,
+     "explain": "Few and valuable."
+    },
+    {
+     "q": "What's a limitation?",
+     "options": [
+      "Slow",
+      "Flaky",
+      "None",
+      "Doesn't cover integration with real backends"
+     ],
+     "answer": 3,
+     "explain": "Complement."
+    }
+   ]
+  },
+  "level-4/03-custom-reporters": {
+   "questions": [
+    {
+     "q": "What is a custom reporter for?",
+     "options": [
+      "Mocking",
+      "Running tests",
+      "Sending results to your own format or system (Slack, dashboards)",
+      "Fixing"
+     ],
+     "answer": 2,
+     "explain": "Hooks into results."
+    },
+    {
+     "q": "Which pytest hook adds report data?",
+     "options": [
+      "pytest_runtest_makereport",
+      "pytest_load",
+      "setup",
+      "pytest_main"
+     ],
+     "answer": 0,
+     "explain": "Per test outcome."
+    },
+    {
+     "q": "What belongs in a failure report?",
+     "options": [
+      "Nothing",
+      "Test name, error, trace link and environment",
+      "Secrets",
+      "Source"
+     ],
+     "answer": 1,
+     "explain": "Actionable."
+    },
+    {
+     "q": "Why track trends?",
+     "options": [
+      "Style",
+      "Cost",
+      "Spot flaky tests and slow tests over time",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Metrics."
+    }
+   ]
+  },
+  "level-4/04-scaling-test-suite": {
+   "questions": [
+    {
+     "q": "What helps scale a big suite?",
+     "options": [
+      "Parallel workers, sharding, stable tests and fast setup via API",
+      "Bigger machine only",
+      "More sleeps",
+      "Fewer tests"
+     ],
+     "answer": 0,
+     "explain": "Combination."
+    },
+    {
+     "q": "What's a test impact strategy?",
+     "options": [
+      "Run only tests relevant to changed code, with full runs nightly",
+      "Always all",
+      "Never",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Speed."
+    },
+    {
+     "q": "What kills scale?",
+     "options": [
+      "Types",
+      "Folders",
+      "Names",
+      "Flaky tests and shared state"
+     ],
+     "answer": 3,
+     "explain": "Fix first."
+    },
+    {
+     "q": "How organize tests?",
+     "options": [
+      "One file",
+      "By date",
+      "Random",
+      "By feature with tags/markers for suites (smoke, regression)"
+     ],
+     "answer": 3,
+     "explain": "pytest markers."
+    }
+   ]
+  },
+  "level-4/05-trace-viewer": {
+   "questions": [
+    {
+     "q": "How open a trace?",
+     "options": [
+      "cat",
+      "browser",
+      "unzip",
+      "playwright show-trace trace.zip or trace.playwright.dev"
+     ],
+     "answer": 3,
+     "explain": "Viewer."
+    },
+    {
+     "q": "What does the timeline show?",
+     "options": [
+      "Only logs",
+      "Only video",
+      "Each action, snapshot before/after, network and console",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Time travel."
+    },
+    {
+     "q": "When use trace over screenshot?",
+     "options": [
+      "Always",
+      "Never",
+      "Speed",
+      "To see what happened between steps, especially in CI failures"
+     ],
+     "answer": 3,
+     "explain": "Rich."
+    },
+    {
+     "q": "What can you inspect per step?",
+     "options": [
+      "Source",
+      "DOM snapshot, locators used, errors and network calls",
+      "Memory",
+      "DB"
+     ],
+     "answer": 1,
+     "explain": "Deep dive."
+    }
+   ]
+  },
+  "level-4/06-architecture-internals": {
+   "questions": [
+    {
+     "q": "How does Playwright talk to browsers?",
+     "options": [
+      "A driver process over a protocol (CDP or equivalents), one API for all engines",
+      "HTTP",
+      "WebDriver",
+      "SSH"
+     ],
+     "answer": 0,
+     "explain": "Direct control."
+    },
+    {
+     "q": "Why is it faster than WebDriver-based tools?",
+     "options": [
+      "Cache",
+      "Magic",
+      "GPU",
+      "Persistent connection and event-driven control instead of request/response commands"
+     ],
+     "answer": 3,
+     "explain": "Architecture."
+    },
+    {
+     "q": "What is a browser context?",
+     "options": [
+      "A window",
+      "An isolated profile (cookies, storage) inside one browser",
+      "A process",
+      "A tab"
+     ],
+     "answer": 1,
+     "explain": "Cheap to create."
+    },
+    {
+     "q": "What does auto-wait rely on?",
+     "options": [
+      "Polling DB",
+      "Actionability checks the driver performs before each action",
+      "Sleeps",
+      "Retries only"
+     ],
+     "answer": 1,
+     "explain": "Built in."
+    }
+   ]
+  },
+  "level-4/07-test-ownership-practices": {
+   "questions": [
+    {
+     "q": "Who should own tests?",
+     "options": [
+      "The team that owns the feature, with shared standards",
+      "Nobody",
+      "One person",
+      "QA only"
+     ],
+     "answer": 0,
+     "explain": "Shift left."
+    },
+    {
+     "q": "What makes a good test?",
+     "options": [
+      "Clever",
+      "Shared state",
+      "Independent, deterministic, readable and focused on user behavior",
+      "Long"
+     ],
+     "answer": 2,
+     "explain": "Quality."
+    },
+    {
+     "q": "What do you do with obsolete tests?",
+     "options": [
+      "Delete them; tests are code with maintenance cost",
+      "Comment",
+      "Keep",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "Prune."
+    },
+    {
+     "q": "How review tests?",
+     "options": [
+      "Skip",
+      "Like production code, checking clarity and stability",
+      "Rubber-stamp",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Standards."
+    }
+   ]
+  },
+  "level-4/08-migrating-from-selenium": {
+   "questions": [
+    {
+     "q": "What maps Selenium to Playwright concepts?",
+     "options": [
+      "Nothing",
+      "Same API",
+      "None",
+      "WebDriver ↔ browser/context/page; explicit waits → auto-wait"
+     ],
+     "answer": 3,
+     "explain": "Migration."
+    },
+    {
+     "q": "What do you usually remove when migrating?",
+     "options": [
+      "Locators",
+      "Explicit waits and sleeps",
+      "Tests",
+      "Fixtures"
+     ],
+     "answer": 1,
+     "explain": "Auto-wait."
+    },
+    {
+     "q": "How migrate a big suite?",
+     "options": [
+      "Never",
+      "Freeze",
+      "Big bang",
+      "Incrementally: new tests in Playwright, port high-value ones, retire old gradually"
+     ],
+     "answer": 3,
+     "explain": "Risk."
+    },
+    {
+     "q": "What improves after migration?",
+     "options": [
+      "Nothing",
+      "Speed and reliability from parallel contexts and web-first assertions",
+      "Coverage",
+      "Lines"
+     ],
+     "answer": 1,
+     "explain": "Benefits."
+    }
+   ]
+  },
+  "level-4/09-extending-playwright": {
+   "questions": [
+    {
+     "q": "How extend Playwright?",
+     "options": [
+      "None",
+      "Custom fixtures, helper functions and plugins for your domain",
+      "Rewrite",
+      "Fork"
+     ],
+     "answer": 1,
+     "explain": "Composition."
+    },
+    {
+     "q": "What do custom expect helpers do?",
+     "options": [
+      "Speed",
+      "Law",
+      "Encapsulate repeated assertions with clear failure messages",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Readable."
+    },
+    {
+     "q": "Why wrap Playwright in your own layer?",
+     "options": [
+      "Always",
+      "Speed",
+      "Hide repetitive details, but avoid over-abstracting",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Balance."
+    },
+    {
+     "q": "What is a pytest plugin?",
+     "options": [
+      "Report",
+      "A package that adds fixtures, hooks and options via entry points",
+      "Browser",
+      "Test"
+     ],
+     "answer": 1,
+     "explain": "Distribution."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only tests",
+      "Only CI",
+      "Only POM",
+      "Architecture, POM, fixtures, API setup, CI, reports and cross-browser runs"
+     ],
+     "answer": 3,
+     "explain": "Production suite."
+    },
+    {
+     "q": "How prove it works?",
+     "options": [
+      "Hope",
+      "Demo",
+      "Once",
+      "Stable repeated CI runs with traces on failure"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "README, conventions and how to debug failures",
+      "None",
+      "Slides",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Onboarding."
+    },
+    {
+     "q": "What sustains it?",
+     "options": [
+      "Luck",
+      "Tools",
+      "Silence",
+      "Ownership, flake triage and regular dependency updates"
+     ],
+     "answer": 3,
+     "explain": "Maintenance."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```python\n# page content:\n# <ul><li>Pen</li><li>Book</li></ul>\nloc = page.locator(\"li\")\npage.evaluate(\"document.querySelector('ul').insertAdjacentHTML('beforeend', '<li>Bag</li>')\")\nprint(loc.count(), loc.last.text_content())\n```\n",
+    "options": [
+     "2 Book",
+     "3 Bag",
+     "3 Book",
+     "Error"
+    ],
+    "answer": 1,
+    "explain": "A Locator is lazy: it queries the DOM each time you use it. Verified by running it with Playwright for Python."
+   },
+   {
+    "q": "Why are locators lazy descriptions and not element handles?",
+    "options": [
+     "They re-resolve on every use so they keep working when the DOM re-renders",
+     "Law",
+     "Memory",
+     "Speed"
+    ],
+    "answer": 0,
+    "explain": "Resilience to change."
+   },
+   {
+    "q": "What does this print?\n```python\n# page content:\n# <button>Save</button><button>Save as</button>\ntry:\n    page.get_by_role(\"button\", name=\"Save\").click()\nexcept Exception as e:\n    print(type(e).__name__)\nprint(page.get_by_role(\"button\", name=\"Save\", exact=True).count())\n```\n",
+    "options": [
+     "None\n1",
+     "Error\n1",
+     "Error\n2",
+     "TimeoutError\n1"
+    ],
+    "answer": 1,
+    "explain": "Strict mode violation: name matches substrings unless exact=True. Verified by running it with Playwright for Python."
+   },
+   {
+    "q": "Which assertion style waits for async updates?",
+    "options": [
+     "expect(locator).to_have_text(...) (web-first, auto-retrying)",
+     "time.sleep then assert",
+     "print",
+     "assert locator.text_content() == ..."
+    ],
+    "answer": 0,
+    "explain": "Retries until timeout."
+   },
+   {
+    "q": "What does this print?\n```python\n# page content:\n# <div id=\"r\">0</div><script>let n=0;const t=setInterval(()=>{document.getElementById(\"r\").textContent=++n;if(n==3)clearInterval(t)},50)</script>\nexpect(page.locator(\"#r\")).to_have_text(\"3\")\nprint(page.text_content(\"#r\"))\n```\n",
+    "options": [
+     "3",
+     "1",
+     "Error",
+     "0"
+    ],
+    "answer": 0,
+    "explain": "Assertions retry until the text matches. Verified by running it with Playwright for Python."
+   },
+   {
+    "q": "Why is time.sleep(5) in a test a smell?",
+    "options": [
+     "Not allowed",
+     "It's slow when the app is fast and still flaky when it is slow; wait for a condition",
+     "Style",
+     "Law"
+    ],
+    "answer": 1,
+    "explain": "Auto-wait and expect."
+   },
+   {
+    "q": "A test passes alone but fails in parallel. Likely cause?",
+    "options": [
+     "Python",
+     "Network",
+     "Browser",
+     "Shared state (accounts, data, files) between tests"
+    ],
+    "answer": 3,
+    "explain": "Make tests independent."
+   },
+   {
+    "q": "What is the best use of storage_state?",
+    "options": [
+     "Speed pages",
+     "Record video",
+     "Mock API",
+     "Log in once in setup and reuse cookies/localStorage for other tests"
+    ],
+    "answer": 3,
+    "explain": "Faster, fewer login flakes."
+   },
+   {
+    "q": "How do you capture a popup opened by a click?",
+    "options": [
+     "wait",
+     "sleep",
+     "with page.context.expect_page() (or page.expect_popup()) around the click",
+     "pages[0]"
+    ],
+    "answer": 2,
+    "explain": "Event-based."
+   },
+   {
+    "q": "How should network mocks be used?",
+    "options": [
+     "Only prod",
+     "Never",
+     "To make third-party/error scenarios deterministic, keeping some real end-to-end coverage",
+     "Everywhere"
+    ],
+    "answer": 2,
+    "explain": "Balance."
+   },
+   {
+    "q": "What does a trace help with in CI?",
+    "options": [
+     "Cost",
+     "Speed",
+     "Mocks",
+     "Replaying a failed run step by step with DOM, network and console"
+    ],
+    "answer": 3,
+    "explain": "Upload as an artifact."
+   },
+   {
+    "q": "Screenshot comparisons differ between laptop and CI. What helps?",
+    "options": [
+     "Bigger threshold",
+     "Skip",
+     "Ignore",
+     "Generate and compare baselines in the same containerized environment"
+    ],
+    "answer": 3,
+    "explain": "Fonts and rendering."
+   },
+   {
+    "q": "A flaky test is retried and passes. What should you do?",
+    "options": [
+     "Delete",
+     "Investigate the root cause; retries only reveal and tolerate flakiness",
+     "Add retries",
+     "Nothing"
+    ],
+    "answer": 1,
+    "explain": "Track flaky tests."
+   },
+   {
+    "q": "Which locator is usually most resilient?",
+    "options": [
+     "get_by_role('button', name='Pay')",
+     "nth-child chain",
+     "//div[3]/div/button",
+     ".btn-primary.x"
+    ],
+    "answer": 0,
+    "explain": "User-facing."
+   },
+   {
+    "q": "What does the Page Object Model buy you?",
+    "options": [
+     "Fewer browsers",
+     "No fixtures",
+     "One place to change when the UI changes and tests that read like user stories",
+     "Speed"
+    ],
+    "answer": 2,
+    "explain": "Maintainability."
+   },
+   {
+    "q": "What does a fresh browser context per test provide?",
+    "options": [
+     "Faster page",
+     "Shared login",
+     "Isolated cookies and storage at low cost",
+     "New browser"
+    ],
+    "answer": 2,
+    "explain": "Test independence."
+   },
+   {
+    "q": "How can one suite run on Chromium, Firefox and WebKit?",
+    "options": [
+     "Edit tests",
+     "pytest --browser chromium --browser firefox --browser webkit",
+     "Three codebases",
+     "Selenium grid"
+    ],
+    "answer": 1,
+    "explain": "One API."
+   },
+   {
+    "q": "What should fail a pull request pipeline?",
+    "options": [
+     "Warnings",
+     "Slow tests",
+     "Nothing",
+     "Failing tests, with traces/screenshots uploaded for diagnosis"
+    ],
+    "answer": 3,
+    "explain": "Quality gate."
+   },
+   {
+    "q": "Automated accessibility checks (axe) are best described as?",
+    "options": [
+     "Optional law",
+     "Useless",
+     "Complete",
+     "A useful baseline that catches common issues but doesn't replace manual testing"
+    ],
+    "answer": 3,
+    "explain": "Limits."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A page object and isolated login tests",
+    "prompt": "Implement LoginPage (locators for the Email and Password fields, the Sign in button and the alert; a login() method that returns self), then run the three login cases in fresh browser contexts. A deliberately wrong expectation shows how a failure is reported.",
+    "starter": "from playwright.sync_api import sync_playwright, expect\n\nLOGIN_HTML = '<form id=\"f\"><label>Email <input id=\"email\"></label><label>Password <input id=\"pw\" type=\"password\"></label>\\n<button type=\"submit\">Sign in</button><p id=\"msg\" role=\"alert\"></p></form>\\n<script>document.getElementById(\"f\").addEventListener(\"submit\",e=>{e.preventDefault();\\nconst ok=document.getElementById(\"email\").value===\"ada@example.com\"&&document.getElementById(\"pw\").value===\"s3cret\";\\ndocument.getElementById(\"msg\").textContent=ok?\"Welcome, Ada\":\"Invalid credentials\";});</script>'\n\nclass LoginPage:\n    def __init__(self, page):\n        self.page = page\n        # create locators for: Email field, Password field, the \"Sign in\" button and the alert message\n        # (use get_by_label, get_by_role) -- locators are lazy, so it is fine to build them here\n\n    def login(self, email, password):\n        # fill both fields, click the button and return self so calls can be chained\n        return self\n\ndef check(name, fn):\n    try:\n        fn()\n        print(\"PASS\", name)\n    except AssertionError:\n        print(\"FAIL\", name)\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch()\n    for email, pw, expected in [(\"ada@example.com\", \"s3cret\", \"Welcome, Ada\"),\n                                (\"ada@example.com\", \"wrong\", \"Invalid credentials\"),\n                                (\"\", \"\", \"Invalid credentials\")]:\n        context = browser.new_context()            # fresh, isolated state per test\n        page = context.new_page()\n        page.set_content(LOGIN_HTML)\n        page.set_default_timeout(1000)\n        expect.set_options(timeout=1000)\n        lp = LoginPage(page).login(email, pw)\n        check(f\"login({email or 'empty'!r}, {pw or 'empty'!r})\", lambda: expect(lp.message).to_have_text(expected))\n        context.close()\n    # a deliberately wrong expectation shows how a failing check is reported\n    context = browser.new_context(); page = context.new_page(); page.set_content(LOGIN_HTML)\n    expect.set_options(timeout=500)\n    check(\"expects wrong text\", lambda: expect(LoginPage(page).login(\"ada@example.com\", \"s3cret\").message).to_have_text(\"Goodbye\"))\n    browser.close()\n",
+    "expected": "PASS login('ada@example.com', 's3cret')\nPASS login('ada@example.com', 'wrong')\nPASS login('empty', 'empty')\nFAIL expects wrong text",
+    "solution": "from playwright.sync_api import sync_playwright, expect\n\nLOGIN_HTML = '<form id=\"f\"><label>Email <input id=\"email\"></label><label>Password <input id=\"pw\" type=\"password\"></label>\\n<button type=\"submit\">Sign in</button><p id=\"msg\" role=\"alert\"></p></form>\\n<script>document.getElementById(\"f\").addEventListener(\"submit\",e=>{e.preventDefault();\\nconst ok=document.getElementById(\"email\").value===\"ada@example.com\"&&document.getElementById(\"pw\").value===\"s3cret\";\\ndocument.getElementById(\"msg\").textContent=ok?\"Welcome, Ada\":\"Invalid credentials\";});</script>'\n\nclass LoginPage:\n    def __init__(self, page):\n        self.page = page\n        self.email = page.get_by_label(\"Email\")\n        self.password = page.get_by_label(\"Password\")\n        self.submit = page.get_by_role(\"button\", name=\"Sign in\")\n        self.message = page.get_by_role(\"alert\")\n\n    def login(self, email, password):\n        self.email.fill(email)\n        self.password.fill(password)\n        self.submit.click()\n        return self\n\ndef check(name, fn):\n    try:\n        fn()\n        print(\"PASS\", name)\n    except AssertionError:\n        print(\"FAIL\", name)\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch()\n    for email, pw, expected in [(\"ada@example.com\", \"s3cret\", \"Welcome, Ada\"),\n                                (\"ada@example.com\", \"wrong\", \"Invalid credentials\"),\n                                (\"\", \"\", \"Invalid credentials\")]:\n        context = browser.new_context()            # fresh, isolated state per test\n        page = context.new_page()\n        page.set_content(LOGIN_HTML)\n        page.set_default_timeout(1000)\n        expect.set_options(timeout=1000)\n        lp = LoginPage(page).login(email, pw)\n        check(f\"login({email or 'empty'!r}, {pw or 'empty'!r})\", lambda: expect(lp.message).to_have_text(expected))\n        context.close()\n    # a deliberately wrong expectation shows how a failing check is reported\n    context = browser.new_context(); page = context.new_page(); page.set_content(LOGIN_HTML)\n    expect.set_options(timeout=500)\n    check(\"expects wrong text\", lambda: expect(LoginPage(page).login(\"ada@example.com\", \"s3cret\").message).to_have_text(\"Goodbye\"))\n    browser.close()\n",
+    "explain": "The page object owns the locators and actions; tests only describe intent. Each case gets a new context for isolation, and expect() retries until the message appears. Verified by running the solution with Playwright for Python and Chromium."
+   },
+   {
+    "title": "Mock an API and read a table without sleeping",
+    "prompt": "Implement run_case(browser, items): route the items endpoint to a canned JSON response, load the page, wait for #status to read \"ready\" with expect (no sleep), and read the table into dicts with read_table. Then report rows, the cheapest item, the total and the names.",
+    "starter": "from playwright.sync_api import sync_playwright, expect\n\nPAGE = \"\"\"<table id=\"t\"><thead><tr><th>Item</th><th>Price</th></tr></thead><tbody id=\"b\"></tbody></table><p id=\"status\">loading</p>\n<script>\nsetTimeout(() => fetch(\"http://shop.test/api/items\").then(r => r.json()).then(items => {\n  document.getElementById(\"b\").innerHTML = items.map(i => `<tr><td>${i.name}</td><td>${i.price}</td></tr>`).join(\"\");\n  document.getElementById(\"status\").textContent = \"ready\";\n}), 200);\n</script>\"\"\"\n\ndef read_table(page):\n    # return a list of {\"name\": str, \"price\": float} dicts, one per row of #b tr\n    return []\n\ndef run_case(browser, items):\n    # new page; route http://shop.test/api/items to fulfill(json=items); set_content(PAGE);\n    # wait with expect(...).to_have_text(\"ready\") on #status (never sleep); read the table; close the page; return the data\n    return []\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch()\n    data = run_case(browser, [{\"name\": \"Pen\", \"price\": 2.5}, {\"name\": \"Book\", \"price\": 12}, {\"name\": \"Bag\", \"price\": 30.25}])\n    print(\"rows:\", len(data))\n    print(\"cheapest:\", min(data, key=lambda r: r[\"price\"])[\"name\"])\n    print(\"total:\", f\"{sum(r['price'] for r in data):.2f}\")\n    print(\"names:\", \", \".join(sorted(r[\"name\"] for r in data)))\n    empty = run_case(browser, [])\n    print(\"empty rows:\", len(empty))\n    browser.close()\n",
+    "expected": "rows: 3\ncheapest: Pen\ntotal: 44.75\nnames: Bag, Book, Pen\nempty rows: 0",
+    "solution": "from playwright.sync_api import sync_playwright, expect\n\nPAGE = \"\"\"<table id=\"t\"><thead><tr><th>Item</th><th>Price</th></tr></thead><tbody id=\"b\"></tbody></table><p id=\"status\">loading</p>\n<script>\nsetTimeout(() => fetch(\"http://shop.test/api/items\").then(r => r.json()).then(items => {\n  document.getElementById(\"b\").innerHTML = items.map(i => `<tr><td>${i.name}</td><td>${i.price}</td></tr>`).join(\"\");\n  document.getElementById(\"status\").textContent = \"ready\";\n}), 200);\n</script>\"\"\"\n\ndef read_table(page):\n    rows = page.locator(\"#b tr\")\n    return [{\"name\": rows.nth(i).locator(\"td\").nth(0).text_content(),\n             \"price\": float(rows.nth(i).locator(\"td\").nth(1).text_content())}\n            for i in range(rows.count())]\n\ndef run_case(browser, items):\n    page = browser.new_page()\n    page.set_default_timeout(3000)\n    page.route(\"http://shop.test/api/items\", lambda route: route.fulfill(json=items))\n    page.set_content(PAGE)\n    expect(page.locator(\"#status\")).to_have_text(\"ready\")     # waits for the async render, no sleep\n    data = read_table(page)\n    page.close()\n    return data\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch()\n    data = run_case(browser, [{\"name\": \"Pen\", \"price\": 2.5}, {\"name\": \"Book\", \"price\": 12}, {\"name\": \"Bag\", \"price\": 30.25}])\n    print(\"rows:\", len(data))\n    print(\"cheapest:\", min(data, key=lambda r: r[\"price\"])[\"name\"])\n    print(\"total:\", f\"{sum(r['price'] for r in data):.2f}\")\n    print(\"names:\", \", \".join(sorted(r[\"name\"] for r in data)))\n    empty = run_case(browser, [])\n    print(\"empty rows:\", len(empty))\n    browser.close()\n",
+    "explain": "route.fulfill makes the data deterministic, expect waits for the asynchronous render, and locator.nth(i) reads the rows. Verified by running the solution with Playwright for Python and Chromium."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
