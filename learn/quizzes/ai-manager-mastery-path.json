@@ -1106,6 +1106,1047 @@
      "explain": "Dependency is often high."
     }
    ]
+  },
+  "level-3/04-ai-talent-strategy": {
+   "questions": [
+    {
+     "q": "What is the most common strategic mistake in AI hiring?",
+     "options": [
+      "Paying too much",
+      "Hiring too slowly",
+      "Hiring juniors",
+      "Treating it as one undifferentiated pipeline"
+     ],
+     "answer": 3,
+     "explain": "Research skills differ from production-shipping skills."
+    },
+    {
+     "q": "If a team struggles to ship and says 'we lack research talent', what's likely wrong?",
+     "options": [
+      "Wrong cloud",
+      "Too few managers",
+      "The ratio: most orgs need far more applied, MLOps and data engineering capacity than research",
+      "Too much data"
+     ],
+     "answer": 2,
+     "explain": "Titles may be right but the ratio wrong."
+    },
+    {
+     "q": "What drives senior ML talent attrition most?",
+     "options": [
+      "Salary only",
+      "Tools",
+      "Remote work",
+      "A ladder where the only way up is management; build a real dual-track ladder"
+     ],
+     "answer": 3,
+     "explain": "IC and manager tracks should both progress."
+    },
+    {
+     "q": "How should you anchor hiring?",
+     "options": [
+      "On titles",
+      "On salary",
+      "On what the role actually does, not the candidate's title",
+      "On school"
+     ],
+     "answer": 2,
+     "explain": "Titles are inconsistent across companies."
+    }
+   ]
+  },
+  "level-3/05-cross-team-ai-platform-strategy": {
+   "questions": [
+    {
+     "q": "When should you build a shared AI platform?",
+     "options": [
+      "When there's measured evidence of duplication cost (e.g. 2+ teams building the same capability); not yet otherwise",
+      "Always early",
+      "Never",
+      "When a vendor suggests"
+     ],
+     "answer": 0,
+     "explain": "Too early solves problems nobody has; too late means invisible reinvention."
+    },
+    {
+     "q": "What is often the better first move than a platform?",
+     "options": [
+      "A reorg",
+      "A vendor",
+      "A shared standard, such as one eval report format",
+      "A new team"
+     ],
+     "answer": 2,
+     "explain": "It captures much of the benefit at almost no cost."
+    },
+    {
+     "q": "What should be centralised first?",
+     "options": [
+      "The model/experiment registry, then a shared eval framework, then deployment/serving",
+      "Hiring",
+      "Dashboards",
+      "Serving first"
+     ],
+     "answer": 0,
+     "explain": "Sequence by leverage, not technical interest."
+    },
+    {
+     "q": "Why verify duplication with contracts and onboarding data?",
+     "options": [
+      "For audits",
+      "To show it's real, not anecdotal",
+      "For fun",
+      "To save time"
+     ],
+     "answer": 1,
+     "explain": "Evidence justifies the investment."
+    }
+   ]
+  },
+  "level-3/06-managing-ai-incidents": {
+   "questions": [
+    {
+     "q": "How do AI incidents differ from traditional outages?",
+     "options": [
+      "Often quality degradation: the system runs and answers but quietly gets worse, tripping no uptime alert",
+      "Always crashes",
+      "Always loud",
+      "Always binary"
+     ],
+     "answer": 0,
+     "explain": "Monitoring must catch quality, not just availability."
+    },
+    {
+     "q": "Which are AI-specific failure modes?",
+     "options": [
+      "Drift, silent input schema change, feedback-loop degradation, hallucination, bias regression, prompt injection, vendor-side model change",
+      "Memory leak",
+      "Disk full",
+      "Network timeout"
+     ],
+     "answer": 0,
+     "explain": "Most produce no error or crash."
+    },
+    {
+     "q": "What defines SEV1 for AI?",
+     "options": [
+      "A typo",
+      "Slow response",
+      "A cosmetic bug",
+      "Active harm to users/customers or ongoing regulatory/legal exposure"
+     ],
+     "answer": 3,
+     "explain": "Severity reflects quality-based harm, not only downtime."
+    },
+    {
+     "q": "Why does conventional monitoring miss them?",
+     "options": [
+      "It's costly",
+      "Latency, error rate and uptime don't change when output quality degrades",
+      "It's broken",
+      "It's too slow"
+     ],
+     "answer": 1,
+     "explain": "You need quality monitoring."
+    }
+   ]
+  },
+  "level-3/07-ai-roi-measurement": {
+   "questions": [
+    {
+     "q": "What are the four ROI buckets?",
+     "options": [
+      "Hard cost savings, revenue impact, risk/cost avoidance, soft/strategic value",
+      "Cost, time, scope, quality",
+      "Gain, loss, tax, fee",
+      "Build, run, scale, retire"
+     ],
+     "answer": 0,
+     "explain": "Keep them separate."
+    },
+    {
+     "q": "How should a credible ROI report treat them?",
+     "options": [
+      "Merge into one number",
+      "Only soft benefits",
+      "Only costs",
+      "Lead with the first two, include the third with stated assumptions, mention the fourth without pretending it's quantified"
+     ],
+     "answer": 3,
+     "explain": "Collapsing into 'value created' loses credibility."
+    },
+    {
+     "q": "Net benefit in year 1?",
+     "options": [
+      "Run cost − benefit",
+      "Gross benefit − run cost − build cost",
+      "Gross benefit only",
+      "Build cost only"
+     ],
+     "answer": 1,
+     "explain": "Year 2+ drops the one-time build cost."
+    },
+    {
+     "q": "What is the payback period?",
+     "options": [
+      "Build time",
+      "Time from launch until cumulative net benefit turns positive",
+      "Training time",
+      "Contract length"
+     ],
+     "answer": 1,
+     "explain": "Beware inflating soft benefits."
+    }
+   ]
+  },
+  "level-3/08-vendor-partner-management": {
+   "questions": [
+    {
+     "q": "What AI-specific vendor risks exist?",
+     "options": [
+      "None",
+      "Model behaviour can change without a version bump you control, usage-based pricing is hard to forecast, and switching costs are higher than they look",
+      "Only price",
+      "Only support"
+     ],
+     "answer": 1,
+     "explain": "Prompts, evals and integrations become entangled with one vendor's model."
+    },
+    {
+     "q": "At what granularity should build/buy/partner be decided?",
+     "options": [
+      "Per team",
+      "Per quarter",
+      "Once overall",
+      "Per capability, not once for 'AI'"
+     ],
+     "answer": 3,
+     "explain": "Build the core recommender, buy LLM API access, partner on niche vision."
+    },
+    {
+     "q": "Which vendor questions matter specifically?",
+     "options": [
+      "Can we pin a model version, and what's the minimum notice before deprecating a model we depend on?",
+      "Office location",
+      "CEO name",
+      "Logo colour"
+     ],
+     "answer": 0,
+     "explain": "Model versioning transparency and deprecation policy."
+    },
+    {
+     "q": "What favours building?",
+     "options": [
+      "The capability is core to competitive advantage or data can't leave your environment",
+      "Need it in weeks",
+      "Low data sensitivity",
+      "Commodity capability"
+     ],
+     "answer": 0,
+     "explain": "Buying fits commodity or fast time-to-value."
+    }
+   ]
+  },
+  "level-3/09-building-ai-centers-of-excellence": {
+   "questions": [
+    {
+     "q": "What is a well-built AI CoE?",
+     "options": [
+      "A reporting team",
+      "A second engineering org",
+      "A small, high-leverage standards-and-enablement function with a narrow explicit mandate",
+      "A bureaucracy"
+     ],
+     "answer": 2,
+     "explain": "It's measured by pod adoption and outcomes, not headcount."
+    },
+    {
+     "q": "What's the early warning sign of a CoE going wrong?",
+     "options": [
+      "Good reviews",
+      "Pod leads call it 'the team we have to go through' instead of 'the team that helps us'",
+      "Many tools",
+      "Low headcount"
+     ],
+     "answer": 1,
+     "explain": "It becomes a bottleneck."
+    },
+    {
+     "q": "What's the biggest cause of CoE dysfunction?",
+     "options": [
+      "Good staff",
+      "Too much budget",
+      "A small team",
+      "An ambiguous mandate that was never written down"
+     ],
+     "answer": 3,
+     "explain": "Get written VP-level sign-off and publish it."
+    },
+    {
+     "q": "What belongs in the mandate?",
+     "options": [
+      "Only a name",
+      "Only a budget",
+      "Only a title",
+      "Decisions it makes unilaterally, advises on, builds directly, what's out of scope, and an escalation path"
+     ],
+     "answer": 3,
+     "explain": "For example final sign-off on high-risk launches."
+    }
+   ]
+  },
+  "level-3/10-project-ai-governance-framework": {
+   "questions": [
+    {
+     "q": "What triggered Ridgeline Analytics' governance project?",
+     "options": [
+      "An audit failure",
+      "A merger",
+      "Starting to sell into the EU",
+      "A lawsuit"
+     ],
+     "answer": 2,
+     "explain": "It has four AI systems in production and no dedicated compliance role."
+    },
+    {
+     "q": "Which Ridgeline system is the highest risk tier?",
+     "options": [
+      "Anomaly alerts",
+      "Demand forecasting",
+      "Sales-lead scoring",
+      "The LLM support assistant (Medium-High: customer-facing, EU exposure, account data)"
+     ],
+     "answer": 3,
+     "explain": "Sales-lead scoring is Low: internal only."
+    },
+    {
+     "q": "Why is the system-of-record inventory central?",
+     "options": [
+      "It replaces tests",
+      "Every later section depends on it; it's re-tiered quarterly and new systems are added at intake",
+      "It's pretty",
+      "It's required by law"
+     ],
+     "answer": 1,
+     "explain": "Add new systems before development starts."
+    },
+    {
+     "q": "What does the framework deliver?",
+     "options": [
+      "A model",
+      "A policy poster",
+      "A tool",
+      "A complete deliverable a CEO or board can understand: how the org decides what's safe to build, launch and keep running"
+     ],
+     "answer": 3,
+     "explain": "It combines modules 1–9."
+    }
+   ]
+  },
+  "level-4/01-executive-ai-strategy": {
+   "questions": [
+    {
+     "q": "At the executive level, what does AI strategy become?",
+     "options": [
+      "A capital-allocation and competitive-positioning question",
+      "A tooling decision",
+      "A set of projects",
+      "A hiring plan"
+     ],
+     "answer": 0,
+     "explain": "Over-investing chases hype; under-investing cedes advantage."
+    },
+    {
+     "q": "What's the executive mistake in the positioning matrix?",
+     "options": [
+      "Buying vendors",
+      "Hiring too many",
+      "Using the matrix",
+      "Misplacing a capability: treating a strategic bet as a peripheral efficiency play, or a commodity as strategic"
+     ],
+     "answer": 3,
+     "explain": "Peripheral and low differentiation means buy, don't build."
+    },
+    {
+     "q": "Describe the three-horizon model.",
+     "options": [
+      "Three quarters",
+      "Three teams",
+      "H1 0–12 months efficiency of existing systems; H2 1–3 years new products on proven techniques; H3 3+ years exploratory bets",
+      "Three vendors"
+     ],
+     "answer": 2,
+     "explain": "Each has a different investment character and risk."
+    },
+    {
+     "q": "A core-to-business, high-differentiation capability should be...",
+     "options": [
+      "A strategic bet worth deliberate investment",
+      "Ignored",
+      "Bought off the shelf",
+      "Outsourced"
+     ],
+     "answer": 0,
+     "explain": "Core and low differentiation is an efficiency play."
+    }
+   ]
+  },
+  "level-4/02-org-design-ai-first-companies": {
+   "questions": [
+    {
+     "q": "What are the three org archetypes?",
+     "options": [
+      "Startup, scale-up, enterprise",
+      "Flat, tall, matrix",
+      "Centralised AI org, embedded model, hybrid hub-and-spoke",
+      "Research, product, ops"
+     ],
+     "answer": 2,
+     "explain": "The right one depends on whether AI is your product, process or a feature."
+    },
+    {
+     "q": "How do many companies evolve?",
+     "options": [
+      "Embed everything",
+      "Stay centralised",
+      "Start centralised and drift toward hybrid past roughly 3–4 business units with distinct AI needs",
+      "Start hybrid"
+     ],
+     "answer": 2,
+     "explain": "Plan for the transition."
+    },
+    {
+     "q": "What does a CAIO reporting to the CEO signal?",
+     "options": [
+      "AI is infrastructure",
+      "AI is research",
+      "AI is a feature",
+      "AI is core strategy, not a support function"
+     ],
+     "answer": 3,
+     "explain": "Under the CTO signals a technical capability; under CPO a product capability."
+    },
+    {
+     "q": "Which design tensions must be resolved?",
+     "options": [
+      "Centralised versus embedded talent, product-led versus research-led priorities, and business-unit autonomy",
+      "Colour and logo",
+      "Cost and speed",
+      "Office and remote"
+     ],
+     "answer": 0,
+     "explain": "They're consistent across AI-first orgs."
+    }
+   ]
+  },
+  "level-4/03-ai-portfolio-management": {
+   "questions": [
+    {
+     "q": "What is risk-adjusted value?",
+     "options": [
+      "Value − cost",
+      "Projected value × probability of success",
+      "Value ÷ cost",
+      "Cost × risk"
+     ],
+     "answer": 1,
+     "explain": "Probability must be honest and calibrated."
+    },
+    {
+     "q": "A $4.2M project at 50% success versus a $1.7M project at 90%. Which has higher risk-adjusted value?",
+     "options": [
+      "Equal",
+      "Neither",
+      "The $4.2M one: $2.10M versus $1.53M",
+      "The $1.7M one"
+     ],
+     "answer": 2,
+     "explain": "Verified by calculation."
+    },
+    {
+     "q": "Ranked by risk-adjusted value, how do projects B, C, A and D order?",
+     "options": [
+      "D first",
+      "A first",
+      "Same as raw",
+      "B ($2.10M) > C ($1.68M) > A ($1.53M) > D ($0.90M), different from raw value order B > D > C > A"
+     ],
+     "answer": 3,
+     "explain": "The risk-adjusted order should drive funding."
+    },
+    {
+     "q": "Should project D (30% success, novel) get funding?",
+     "options": [
+      "Full funding",
+      "Highest priority",
+      "A small Horizon-3 exploratory investment, not Horizon-2-scale funding on raw upside alone",
+      "None ever"
+     ],
+     "answer": 2,
+     "explain": "It's unproven."
+    }
+   ]
+  },
+  "level-4/04-leading-through-ai-disruption": {
+   "questions": [
+    {
+     "q": "What are the two failure modes in disruption communication?",
+     "options": [
+      "Silence and noise",
+      "Formal and casual",
+      "False reassurance and premature alarm",
+      "Speed and delay"
+     ],
+     "answer": 2,
+     "explain": "Neither builds trust."
+    },
+    {
+     "q": "What is the credible middle?",
+     "options": [
+      "Be honest about what you know, what you don't yet, and when you'll know more, with a dated commitment",
+      "Announce restructuring early",
+      "Say nothing",
+      "Promise no job losses"
+     ],
+     "answer": 0,
+     "explain": "Specific, dated communication."
+    },
+    {
+     "q": "Why does premature alarm backfire?",
+     "options": [
+      "It builds trust",
+      "It's legally required",
+      "Announcing broad restructuring before specific plans exist triggers fear and attrition",
+      "It saves money"
+     ],
+     "answer": 2,
+     "explain": "Best people leave first."
+    },
+    {
+     "q": "Why is AI disruption an ongoing condition?",
+     "options": [
+      "It's hypothetical",
+      "Once AI materially changes work, roles keep changing and people watch executives' signals",
+      "It's one event",
+      "It's rare"
+     ],
+     "answer": 1,
+     "explain": "Handle it honestly and continuously."
+    }
+   ]
+  },
+  "level-4/05-ai-regulation-policy-at-scale": {
+   "questions": [
+    {
+     "q": "What should an exposure map be?",
+     "options": [
+      "A poster",
+      "A one-time memo",
+      "A live map of jurisdictions you operate in, cross-referenced with your high-risk systems, not a one-time legal memo",
+      "A vendor report"
+     ],
+     "answer": 2,
+     "explain": "The intersection of high-risk system and regulated jurisdiction deserves executive attention first."
+    },
+    {
+     "q": "How should major decisions be made while regulation is still being written?",
+     "options": [
+      "By copying competitors",
+      "With explicit scenario planning rather than betting on one predicted outcome",
+      "By waiting",
+      "By ignoring it"
+     ],
+     "answer": 1,
+     "explain": "Regulatory exposure may change before the system ships."
+    },
+    {
+     "q": "How does the US federal posture differ from the EU's?",
+     "options": [
+      "EU has no law",
+      "US is comprehensive",
+      "Identical",
+      "Sectoral with agency guidance and no single comprehensive law, versus the EU's comprehensive risk-tiered AI Act"
+     ],
+     "answer": 3,
+     "explain": "US states are increasingly active, e.g. Colorado."
+    },
+    {
+     "q": "What regime does China apply to generative AI?",
+     "options": [
+      "Voluntary guidance",
+      "The EU Act",
+      "None",
+      "Algorithm registration and content requirements"
+     ],
+     "answer": 3,
+     "explain": "Other markets range from principles to binding rules."
+    }
+   ]
+  },
+  "level-4/06-board-level-ai-reporting": {
+   "questions": [
+    {
+     "q": "What is the one job of AI board reporting?",
+     "options": [
+      "Give enough accurate signal to ask the right questions and make real decisions",
+      "Impress the board",
+      "Teach ML",
+      "Hide risks"
+     ],
+     "answer": 0,
+     "explain": "Neither overwhelm with detail nor oversimplify."
+    },
+    {
+     "q": "What are the four standing sections?",
+     "options": [
+      "Plans, builds, tests, ships",
+      "Budget, hiring, tools, vendors",
+      "Cost, time, scope, quality",
+      "Strategic positioning, performance, risk and governance, forward look"
+     ],
+     "answer": 3,
+     "explain": "Quarterly, 4–6 pages plus appendix."
+    },
+    {
+     "q": "A report needing 45 minutes to present has usually...",
+     "options": [
+      "Been excellent",
+      "Failed to prioritise what's board-worthy",
+      "Been required",
+      "Been thorough"
+     ],
+     "answer": 1,
+     "explain": "Choosing board-level versus management-level items is the skill."
+    },
+    {
+     "q": "Which belongs at board level?",
+     "options": [
+      "Code reviews",
+      "Sprint tickets",
+      "Portfolio risk-adjusted value, SEV1 incidents, regulatory exposure and talent risk summaries",
+      "Hyperparameters"
+     ],
+     "answer": 2,
+     "explain": "The test is whether a board member with fiduciary duty would need it."
+    }
+   ]
+  },
+  "level-4/07-building-ai-culture": {
+   "questions": [
+    {
+     "q": "What is culture, per the lesson?",
+     "options": [
+      "Posters",
+      "Values statements",
+      "Perks",
+      "What happens when nobody's checking, such as flagging a bad eval or skipping governance under deadline"
+     ],
+     "answer": 3,
+     "explain": "Frameworks only work if behaviour matches them."
+    },
+    {
+     "q": "How should the culture-practice gap be diagnosed?",
+     "options": [
+      "Leadership opinion",
+      "A vendor audit",
+      "Guessing",
+      "Honest surveys or structured interviews with ICs, not leadership self-assessment"
+     ],
+     "answer": 3,
+     "explain": "Leadership and IC views often differ, and the gap itself is diagnostic."
+    },
+    {
+     "q": "What's the most underused lever?",
+     "options": [
+      "Incentive alignment: reviews, promotions and bonuses",
+      "Training",
+      "Tools",
+      "Posters"
+     ],
+     "answer": 0,
+     "explain": "Culture statements change nothing if only shipped features are rewarded."
+    },
+    {
+     "q": "Which question reveals psychological safety?",
+     "options": [
+      "Would a junior engineer feel comfortable escalating a senior's skipped eval step?",
+      "What budget?",
+      "What tools?",
+      "How big is the team?"
+     ],
+     "answer": 0,
+     "explain": "Also whether bad results are reported as readily as good."
+    }
+   ]
+  },
+  "level-4/08-ma-ai-capability-integration": {
+   "questions": [
+    {
+     "q": "What is the most common AI M&A diligence failure?",
+     "options": [
+      "Ignoring brand",
+      "Hiring too fast",
+      "Valuing on a demo and pitch deck without verifying reproducibility and data rights",
+      "Paying too little"
+     ],
+     "answer": 2,
+     "explain": "Those two make the capability worth far less once ownership transfers."
+    },
+    {
+     "q": "What does model reproducibility diligence ask?",
+     "options": [
+      "How big is the office?",
+      "Is the logo nice?",
+      "Who's the CEO?",
+      "Can the team retrain their key model from scratch with documented steps?"
+     ],
+     "answer": 3,
+     "explain": "Otherwise the model is a black box you can't maintain."
+    },
+    {
+     "q": "Why check data rights and provenance?",
+     "options": [
+      "Governance liabilities transfer onto the acquirer's books",
+      "It's tradition",
+      "Speed",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "The target may lack rights to the training data."
+    },
+    {
+     "q": "Which team risk appears after acquisition?",
+     "options": [
+      "A flight risk once retention packages expire",
+      "Overstaffing",
+      "Too many managers",
+      "No risk"
+     ],
+     "answer": 0,
+     "explain": "Integration decisions determine whether value is captured."
+    }
+   ]
+  },
+  "level-4/09-career-growth-ai-manager-to-caio": {
+   "questions": [
+    {
+     "q": "What does the executive level require beyond technical judgment and team leadership?",
+     "options": [
+      "More coding",
+      "Capital allocation, board communication and organisational politics at a scale where you can't personally verify most of what you're accountable for",
+      "More meetings",
+      "Certifications"
+     ],
+     "answer": 1,
+     "explain": "The skills that made you a strong manager are necessary but insufficient."
+    },
+    {
+     "q": "Is the path a simple seniority ladder?",
+     "options": [
+      "No: each step shifts what you optimise for, with specific gaps that stall people",
+      "Only by years",
+      "Yes",
+      "Only by title"
+     ],
+     "answer": 0,
+     "explain": "The module maps the progression concretely."
+    },
+    {
+     "q": "Why do people stall at transitions?",
+     "options": [
+      "Age",
+      "Location",
+      "Specific skill gaps, not lack of effort",
+      "Bad luck"
+     ],
+     "answer": 2,
+     "explain": "Identify and build them deliberately."
+    },
+    {
+     "q": "What's the executive job's central shift?",
+     "options": [
+      "From verifying work yourself to allocating capital and trusting systems and people",
+      "Running standups",
+      "Estimating",
+      "Writing code"
+     ],
+     "answer": 0,
+     "explain": "You can no longer verify most of it personally."
+    }
+   ]
+  },
+  "level-4/10-capstone-ai-strategy-governance-org-design": {
+   "questions": [
+    {
+     "q": "What is Halloway Group's AI budget split across horizons?",
+     "options": [
+      "33/33/33",
+      "50/50/0",
+      "80/10/10",
+      "H1 62% ($17.36M), H2 28% ($7.84M), H3 10% ($2.8M) of $28M"
+     ],
+     "answer": 3,
+     "explain": "Verified: 28 × 0.62 = 17.36, × 0.28 = 7.84, × 0.10 = 2.8."
+    },
+    {
+     "q": "Which quadrant is fraud detection?",
+     "options": [
+      "Peripheral",
+      "Not applicable",
+      "Core, low-differentiation: table stakes every competitor has",
+      "Core, high-differentiation"
+     ],
+     "answer": 2,
+     "explain": "Credit-risk underwriting is core and high-differentiation."
+    },
+    {
+     "q": "Underwriting refinement: $4.5M at 85% success. Risk-adjusted value?",
+     "options": [
+      "$4.5M",
+      "$5.3M",
+      "$0.85M",
+      "About $3.83M"
+     ],
+     "answer": 3,
+     "explain": "4.5 × 0.85 = 3.825."
+    },
+    {
+     "q": "What did the board ask for?",
+     "options": [
+      "A hire",
+      "A vendor",
+      "A complete AI strategy and governance review within one quarter, after a competitor's AI-driven product launch",
+      "A new model"
+     ],
+     "answer": 2,
+     "explain": "The capstone integrates strategy, portfolio, governance, org design, culture and board communication."
+    }
+   ]
   }
- }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "Your CEO asks for a firm delivery date for a new ML feature at kickoff. What should you give?",
+    "options": [
+     "The vendor's date",
+     "No answer",
+     "One firm date",
+     "A range tied to explicit checkpoints (e.g. feasibility in 3 weeks) that narrows as evidence arrives"
+    ],
+    "answer": 3,
+    "explain": "AI duration depends on questions only answered by doing the work."
+   },
+   {
+    "q": "A proof of concept shows the approach can't reach the quality bar. How should you treat it?",
+    "options": [
+     "As a failure to hide",
+     "As a reason to add staff",
+     "Ignore it",
+     "As the project doing its job: it prevented a far more expensive production failure; apply the kill criteria"
+    ],
+    "answer": 3,
+    "explain": "Budget kill criteria at the end of stages 1–3."
+   },
+   {
+    "q": "The vendor's demo is impressive. What do you do before buying?",
+    "options": [
+     "Run a pilot on a sample of your own data and check cost at your scale, data handling, p95/p99 latency, SLA and lock-in",
+     "Sign based on the demo",
+     "Ask for a bigger demo",
+     "Trust the benchmark"
+    ],
+    "answer": 0,
+    "explain": "Demos run on best-case examples."
+   },
+   {
+    "q": "A dashboard shows accuracy, latency and uptime all green, yet users have stopped using the tool. What's missing?",
+    "options": [
+     "An adoption metric: weekly active use of the intended population and whether the business metric moved",
+     "More accuracy",
+     "More servers",
+     "Fewer features"
+    ],
+    "answer": 0,
+    "explain": "The costliest failure is a model that works and is ignored."
+   },
+   {
+    "q": "Offline model accuracy improved but engagement dropped. Where's the gap?",
+    "options": [
+     "In the cloud",
+     "Between the model and product metric layers: the team optimised a number that doesn't move the outcome",
+     "Nowhere",
+     "In the data warehouse"
+    ],
+    "answer": 1,
+    "explain": "Every project needs a metric per layer and how movement propagates."
+   },
+   {
+    "q": "Project A: $1.7M at 90%. B: $4.2M at 50%. C: $2.1M at 80%. D: $3.0M at 30%. Which has the highest risk-adjusted value?",
+    "options": [
+     "C at $2.1M",
+     "A at $1.7M",
+     "B at $2.10M (A $1.53M, C $1.68M, D $0.90M)",
+     "D at $3.0M"
+    ],
+    "answer": 2,
+    "explain": "Value × probability of success. Verified by calculation."
+   },
+   {
+    "q": "Which cost line do AI budgets most often under-plan?",
+    "options": [
+     "Model research",
+     "Usage-driven and non-modelling costs, since modelling is usually the smallest line; use staged funding",
+     "Office space",
+     "Travel"
+    ],
+    "answer": 1,
+    "explain": "Commit money in tranches tied to decision points."
+   },
+   {
+    "q": "A model is retrained on customer data collected only to deliver a service. What governance question is breached?",
+    "options": [
+     "Purpose: data collected for one purpose isn't automatically usable for training and may need a different legal basis",
+     "Latency",
+     "Cost",
+     "Retention only"
+    ],
+    "answer": 0,
+    "explain": "It's the most common reason a finished model can't ship."
+   },
+   {
+    "q": "A hiring manager says 'we need more research scientists to ship faster'. What's your diagnosis?",
+    "options": [
+     "Likely the wrong ratio: most orgs need far more applied, MLOps and data engineering capacity than research",
+     "Hire managers",
+     "Correct, hire researchers",
+     "Buy GPUs"
+    ],
+    "answer": 0,
+    "explain": "Anchor hiring to what the role does."
+   },
+   {
+    "q": "Two pods built separate eval harnesses. What's the first move?",
+    "options": [
+     "Ignore it",
+     "Merge pods",
+     "Build a platform immediately",
+     "Introduce a shared standard (e.g. one eval report format) before a full platform, and check the duplication is measured"
+    ],
+    "answer": 3,
+    "explain": "A platform comes when measured duplication justifies it."
+   },
+   {
+    "q": "A deployed model quietly degrades: no errors, uptime 100%. Which monitoring catches it?",
+    "options": [
+     "Uptime alerts",
+     "Disk alerts",
+     "CPU alerts",
+     "Quality monitoring for drift, input schema changes and outcome metrics, not just latency and errors"
+    ],
+    "answer": 3,
+    "explain": "Most AI failures trip no conventional alert."
+   },
+   {
+    "q": "A foundation-model vendor updates the model and your outputs change. What contract/term would have helped?",
+    "options": [
+     "A longer demo",
+     "Version pinning and a minimum deprecation notice period",
+     "A discount",
+     "A logo"
+    ],
+    "answer": 1,
+    "explain": "Model behaviour can change without a version bump you control."
+   },
+   {
+    "q": "A customer-facing LLM assistant sells into the EU and handles account data. What tier is sensible?",
+    "options": [
+     "Same as internal tools",
+     "Higher risk (e.g. medium-high): customer-facing, EU exposure, account data; run governance intake before production",
+     "Not applicable",
+     "Low"
+    ],
+    "answer": 1,
+    "explain": "Treat decisions touching protected categories or EU/state AI laws as high-risk."
+   },
+   {
+    "q": "The board asks for an AI update. What should the report contain?",
+    "options": [
+     "Only accuracy numbers",
+     "A short standing report: strategic positioning, performance vs projection, risk and governance, and forward look",
+     "Only good news",
+     "A 45-minute technical deep dive"
+    ],
+    "answer": 1,
+    "explain": "Choose what's board-worthy versus management-level."
+   },
+   {
+    "q": "Leaders announce 'AI will never cost jobs' before plans exist. What's the failure mode?",
+    "options": [
+     "Good practice",
+     "Neutral",
+     "False reassurance (the opposite is premature alarm); be honest about what's known and give a dated commitment",
+     "Premature alarm"
+    ],
+    "answer": 2,
+    "explain": "Neither builds trust."
+   },
+   {
+    "q": "Reviews and promotions reward only shipped features. What happens to responsible-AI practices?",
+    "options": [
+     "They erode, because incentives beat statements; add explicit quality, safety and governance criteria",
+     "They improve",
+     "They're mandatory",
+     "Nothing"
+    ],
+    "answer": 0,
+    "explain": "Incentive alignment is the most underused lever."
+   },
+   {
+    "q": "You're acquiring an AI startup based on its demo. What two things must you verify?",
+    "options": [
+     "Logo and website",
+     "Sales slides",
+     "Office lease",
+     "Model reproducibility and data rights/provenance"
+    ],
+    "answer": 3,
+    "explain": "They're the items most likely to make the capability worth less than represented."
+   },
+   {
+    "q": "A CoE is described by pod leads as 'the team we have to go through'. What's wrong?",
+    "options": [
+     "It has drifted into an approval gate; refocus on a written narrow mandate, advisory tooling and pod outcomes",
+     "Nothing",
+     "It needs more staff",
+     "It needs more authority"
+    ],
+    "answer": 0,
+    "explain": "Ambiguity of mandate is the biggest cause of CoE dysfunction."
+   },
+   {
+    "q": "Which is the right first sequence when a platform is justified?",
+    "options": [
+     "Dashboard first",
+     "Model/experiment registry, then shared eval framework, then deployment/serving",
+     "Serving first",
+     "Hiring first"
+    ],
+    "answer": 1,
+    "explain": "Sequence by leverage, not technical interest."
+   },
+   {
+    "q": "A company runs 11 AI systems across three business units and drifts from one central AI team. What structure often fits at scale?",
+    "options": [
+     "One team per model",
+     "Fully centralised forever",
+     "No structure",
+     "Hybrid hub-and-spoke: a central hub for platform, standards and governance with embedded spokes"
+    ],
+    "answer": 3,
+    "explain": "Past ~3–4 business units with distinct needs, most drift to hybrid."
+   }
+  ]
+ },
+ "final_pass_pct": 70
 }
