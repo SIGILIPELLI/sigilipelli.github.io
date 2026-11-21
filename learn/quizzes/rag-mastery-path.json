@@ -1,0 +1,2159 @@
+{
+ "course": "rag-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-rag": {
+   "questions": [
+    {
+     "q": "What is the core idea of RAG?",
+     "options": [
+      "Remove the retriever",
+      "Memorize the whole knowledge base",
+      "Train a bigger model",
+      "Look up relevant text first and hand it to the model with the question, shrinking its job from 'know everything' to 'read this and answer'"
+     ],
+     "answer": 3,
+     "explain": "LLMs are extremely good at reading provided text and answering."
+    },
+    {
+     "q": "Which two problems does RAG solve?",
+     "options": [
+      "Tokenizer bugs and typos",
+      "Knowledge cutoffs/private data, and hallucination",
+      "Streaming and caching",
+      "Slow GPUs and high prices"
+     ],
+     "answer": 1,
+     "explain": "A plain model can only refuse or guess about private or recent data."
+    },
+    {
+     "q": "Why not paste the entire knowledge base into every prompt?",
+     "options": [
+      "Models refuse long prompts",
+      "It doesn't fit, it costs too much on every request, and accuracy degrades with facts buried in the middle",
+      "It is slower only",
+      "It is illegal"
+     ],
+     "answer": 1,
+     "explain": "A 1M-token window is roughly 3–4 MB; real collections are gigabytes."
+    },
+    {
+     "q": "How does grounding change the hallucination failure profile?",
+     "options": [
+      "The model stops generating",
+      "Answers become shorter only",
+      "The model can quote and cite real passages and be told to say 'I don't know' when the text lacks the answer",
+      "Hallucination becomes impossible"
+     ],
+     "answer": 2,
+     "explain": "It doesn't make hallucination impossible."
+    }
+   ]
+  },
+  "level-1/02-embeddings": {
+   "questions": [
+    {
+     "q": "What property makes embeddings useful for retrieval?",
+     "options": [
+      "Identical words get identical vectors",
+      "Longer text gets longer vectors",
+      "Texts that mean similar things get close vectors, even with no words in common",
+      "Vectors encode spelling"
+     ],
+     "answer": 2,
+     "explain": "'How do I get my money back?' lands near 'refund policy'."
+    },
+    {
+     "q": "What does a cosine similarity near 0 mean?",
+     "options": [
+      "The texts are unrelated",
+      "Opposite meaning",
+      "Identical text",
+      "Same meaning"
+     ],
+     "answer": 0,
+     "explain": "1.0 is the same direction; −1.0 is opposite (rare)."
+    },
+    {
+     "q": "What is the vector shape of all-MiniLM-L6-v2 embeddings?",
+     "options": [
+      "768 dimensions",
+      "10 dimensions",
+      "1536 dimensions",
+      "384 dimensions"
+     ],
+     "answer": 3,
+     "explain": "Each text becomes a point in a 384-dimensional space."
+    },
+    {
+     "q": "Why does semantic search beat keyword search for 'money back' vs 'refund'?",
+     "options": [
+      "Keyword search can't match words with no overlap, while embeddings capture meaning",
+      "Keyword search needs a GPU",
+      "Embeddings use regex",
+      "Keyword search is slower"
+     ],
+     "answer": 0,
+     "explain": "The individual numbers are meaningless; relative position matters."
+    }
+   ]
+  },
+  "level-1/03-chunking": {
+   "questions": [
+    {
+     "q": "Why does chunking matter so much?",
+     "options": [
+      "It sets the temperature",
+      "It reduces model size",
+      "Retrieval returns chunks, the LLM reads chunks and evaluation scores chunks, so wrong chunks can't be fixed downstream",
+      "It speeds up the GPU"
+     ],
+     "answer": 2,
+     "explain": "It's the least glamorous and most consequential decision."
+    },
+    {
+     "q": "What two forces pull chunk size in opposite directions?",
+     "options": [
+      "Cost and color",
+      "Speed and language",
+      "Embedding models truncate long input, while the LLM needs enough context in each chunk",
+      "Storage and OS"
+     ],
+     "answer": 2,
+     "explain": "Chunks must be small enough for one coherent topic and large enough to be useful evidence."
+    },
+    {
+     "q": "Why use overlap in fixed-size chunking?",
+     "options": [
+      "To remove duplicates",
+      "A fixed slicer will cut ideas in half; overlap ensures at least one chunk holds the whole thought",
+      "To reduce storage",
+      "To increase chunk count only"
+     ],
+     "answer": 1,
+     "explain": "Typical overlap is 10–20%, at the cost of near-duplicate chunks."
+    },
+    {
+     "q": "For 2000 'A' characters with chunk_size 800 and overlap 150, what are the chunk lengths?",
+     "options": [
+      "800, 800, 400",
+      "800, 800, 800, 50",
+      "650, 650, 650, 50",
+      "800, 800, 700, 50"
+     ],
+     "answer": 3,
+     "explain": "The start advances by chunk_size − overlap = 650: chunks begin at 0, 650, 1300 and 1950, so the lengths are 800, 800, 700 and 50. (The lesson's printed output shows 800 for the third chunk, which is a typo.)"
+    }
+   ]
+  },
+  "level-1/04-vector-stores": {
+   "questions": [
+    {
+     "q": "What are a vector database's four jobs?",
+     "options": [
+      "Store, index, query and filter",
+      "Parse, chunk, embed and rank",
+      "Encrypt, compress, archive and delete",
+      "Train, test, deploy and monitor"
+     ],
+     "answer": 0,
+     "explain": "Records are (id, vector, text, metadata)."
+    },
+    {
+     "q": "Why index vectors with ANN structures such as HNSW?",
+     "options": [
+      "To store text",
+      "To find nearest neighbors without comparing against every vector, with near-perfect results in a fraction of the time",
+      "To encrypt vectors",
+      "To remove duplicates"
+     ],
+     "answer": 1,
+     "explain": "It's approximate nearest-neighbor search."
+    },
+    {
+     "q": "What does metadata filtering add?",
+     "options": [
+      "Faster embeddings",
+      "Lower cost",
+      "Restricting search to records whose metadata matches, such as source == 'policy.md', which pure vector math can't do",
+      "Better chunks"
+     ],
+     "answer": 2,
+     "explain": "Filtering complements similarity."
+    },
+    {
+     "q": "What is the same-model rule for a collection?",
+     "options": [
+      "Switch models per query",
+      "Use two models at once",
+      "Use any model for queries",
+      "One collection per corpus per embedding model; queries must use the same model that embedded the documents"
+     ],
+     "answer": 3,
+     "explain": "Mixing models breaks similarity."
+    }
+   ]
+  },
+  "level-1/05-retrieval": {
+   "questions": [
+    {
+     "q": "What does the shared retrieve(question, k, where) function return?",
+     "options": [
+      "The top-k nearest chunks, optionally restricted by metadata",
+      "The prompt",
+      "The final answer",
+      "Embeddings only"
+     ],
+     "answer": 0,
+     "explain": "This exact shape appears in every RAG system."
+    },
+    {
+     "q": "What does a similarity threshold (MAX_DISTANCE) do?",
+     "options": [
+      "Re-embeds queries",
+      "Increases k",
+      "Drops weak matches so the system can say it doesn't know instead of using irrelevant chunks",
+      "Removes metadata"
+     ],
+     "answer": 2,
+     "explain": "It's a retrieval confidence threshold."
+    },
+    {
+     "q": "Why does retrieval matter more than anything after it?",
+     "options": [
+      "It's the cheapest step",
+      "It's the slowest step",
+      "Generation can only be as good as the chunks it receives",
+      "It uses the LLM"
+     ],
+     "answer": 2,
+     "explain": "Everything after retrieval depends on what it returns."
+    },
+    {
+     "q": "What does metadata filtering let you do in a knowledge base?",
+     "options": [
+      "Change the embedding model",
+      "Skip embeddings",
+      "Search only a source or topic, e.g. topic == 'refunds'",
+      "Chunk differently"
+     ],
+     "answer": 2,
+     "explain": "The corpus tags each chunk with source and topic."
+    }
+   ]
+  },
+  "level-1/06-prompt-assembly-generation": {
+   "questions": [
+    {
+     "q": "Why tag each context chunk with a number and source?",
+     "options": [
+      "The tags make citations like [1] possible",
+      "They hide sources",
+      "They are required by the API",
+      "They reduce tokens"
+     ],
+     "answer": 0,
+     "explain": "build_context formats '[i] (source: ...)'."
+    },
+    {
+     "q": "Why does the prompt say to use ONLY the provided context?",
+     "options": [
+      "It's a legal notice",
+      "It's the grounding instruction separating RAG from the model freestyling; otherwise it blends retrieved facts with guesses",
+      "It shortens answers",
+      "It speeds up generation"
+     ],
+     "answer": 1,
+     "explain": "Without it you can't tell facts from guesses."
+    },
+    {
+     "q": "What should the model do if the context lacks the answer?",
+     "options": [
+      "Guess",
+      "Make up a citation",
+      "Refuse silently",
+      "Say exactly 'I don't know based on the available documents.' and not guess"
+     ],
+     "answer": 3,
+     "explain": "An honest don't-know path is part of the design."
+    },
+    {
+     "q": "Which piece is the only paid/networked part of the pipeline?",
+     "options": [
+      "ChromaDB",
+      "Embedding",
+      "The generation call to the Anthropic API",
+      "Chunking"
+     ],
+     "answer": 2,
+     "explain": "The pattern is the same for any chat-completions API."
+    }
+   ]
+  },
+  "level-1/07-minimal-pipeline": {
+   "questions": [
+    {
+     "q": "What stages does the minimal rag.py pipeline contain?",
+     "options": [
+      "Ingest → chunk → embed → store → retrieve → generate",
+      "Crawl → index → ship",
+      "Fine-tune → serve",
+      "Train → test → deploy"
+     ],
+     "answer": 0,
+     "explain": "It's about 100 lines with no framework."
+    },
+    {
+     "q": "What does the persistent ChromaDB path give you?",
+     "options": [
+      "Faster embeddings",
+      "The index survives between runs, so you ingest once and ask many times",
+      "Better chunks",
+      "Cheaper API calls"
+     ],
+     "answer": 1,
+     "explain": "The script has 'ingest' and 'ask' commands."
+    },
+    {
+     "q": "How does chunk_text pack content?",
+     "options": [
+      "Fixed slices only",
+      "Single words",
+      "Paragraphs (falling back to sentences) into chunks of at most max_chars",
+      "Random splits"
+     ],
+     "answer": 2,
+     "explain": "It avoids cutting mid-idea."
+    },
+    {
+     "q": "What is the pipeline the skeleton for?",
+     "options": [
+      "A chat UI",
+      "A fine-tuning job",
+      "The capstone project in lesson 10",
+      "An evaluation-only tool"
+     ],
+     "answer": 2,
+     "explain": "The capstone grows from it."
+    }
+   ]
+  },
+  "level-1/08-evaluating-rag": {
+   "questions": [
+    {
+     "q": "Why is RAG evaluation hard?",
+     "options": [
+      "Two coupled stages (retrieval and generation), no single right answer, and small samples mislead",
+      "It's too cheap",
+      "It's illegal",
+      "It needs GPUs"
+     ],
+     "answer": 0,
+     "explain": "Measure the stages separately."
+    },
+    {
+     "q": "What is in a golden question set?",
+     "options": [
+      "Questions with expected answers and known relevant chunk ids, including deliberate unanswerable questions",
+      "Random queries",
+      "Only answers",
+      "Only chunks"
+     ],
+     "answer": 0,
+     "explain": "A pipeline that never says 'I don't know' fails the unanswerable ones."
+    },
+    {
+     "q": "Why include unanswerable questions on purpose?",
+     "options": [
+      "To test embeddings",
+      "To catch pipelines that never admit they don't know",
+      "To lower scores",
+      "To speed up evals"
+     ],
+     "answer": 1,
+     "explain": "Those expected answers are 'I don't know based on the available documents.'"
+    },
+    {
+     "q": "How many questions should you start with?",
+     "options": [
+      "1–2",
+      "None",
+      "20+, growing over time as users hit failures",
+      "5 is enough"
+     ],
+     "answer": 2,
+     "explain": "With 5 questions one flake swings your score by 20 points."
+    }
+   ]
+  },
+  "level-1/09-failure-modes": {
+   "questions": [
+    {
+     "q": "How do you confirm a bad-chunking failure?",
+     "options": [
+      "Check GPU load",
+      "Print the retrieved chunks; if boundaries sever sentences, tables or Q→A pairs, that's it",
+      "Increase k",
+      "Re-embed everything"
+     ],
+     "answer": 1,
+     "explain": "Fix with structure-aware chunking, more overlap and one topic per chunk."
+    },
+    {
+     "q": "Why do embeddings miss exact identifiers like ERR_4012 or part numbers?",
+     "options": [
+      "They are case-sensitive",
+      "Embeddings treat exact tokens as noise; add keyword/BM25 search alongside dense retrieval (hybrid)",
+      "They cannot read numbers",
+      "They are too short"
+     ],
+     "answer": 1,
+     "explain": "Hybrid search exists because embeddings whiff on exact tokens."
+    },
+    {
+     "q": "A user says 'can't log in' but docs say 'authentication failure'. What kind of retrieval miss is this?",
+     "options": [
+      "A vocabulary mismatch the embedding model can't bridge",
+      "A chunk-size error",
+      "A context overflow",
+      "A prompt injection"
+     ],
+     "answer": 0,
+     "explain": "Check whether the right chunk is at rank 7 (ranking) or rank 400 (vocabulary)."
+    },
+    {
+     "q": "What does context overflow look like?",
+     "options": [
+      "API errors about maximum context length, or costs and latency creeping up as k is raised",
+      "Slow embeddings",
+      "Empty indexes",
+      "Missing citations"
+     ],
+     "answer": 0,
+     "explain": "Top-k chunks, scaffolding and history exceed the window or waste money."
+    }
+   ]
+  },
+  "level-1/10-capstone-docs-qa-bot": {
+   "questions": [
+    {
+     "q": "What does the capstone Docs Q&A bot do?",
+     "options": [
+      "Hosts a website",
+      "Crawls the web",
+      "Trains a model",
+      "Ingests docs, answers in a CLI loop with cited sources, refuses ungrounded questions, and ships a golden-set eval"
+     ],
+     "answer": 3,
+     "explain": "It's a tiny multi-file project."
+    },
+    {
+     "q": "Why put every tunable in config.py?",
+     "options": [
+      "It hides secrets",
+      "It's required by Python",
+      "Evaluation tells you how to set them, and they live in one place",
+      "It speeds up the bot"
+     ],
+     "answer": 2,
+     "explain": "For example CHUNK_MAX_CHARS, TOP_K and MAX_DISTANCE."
+    },
+    {
+     "q": "What does MAX_DISTANCE = 0.8 do in the bot?",
+     "options": [
+      "Sets the model",
+      "Sets chunk size",
+      "Sets k",
+      "Drops hits above that cosine distance so weak matches aren't used"
+     ],
+     "answer": 3,
+     "explain": "It supports the honest don't-know path."
+    },
+    {
+     "q": "What does evaluate.py measure?",
+     "options": [
+      "Hit rate, MRR and an LLM-judge score on the golden set",
+      "Chunk counts",
+      "Cost only",
+      "Latency only"
+     ],
+     "answer": 0,
+     "explain": "It lets you keep proving it works as you change things."
+    }
+   ]
+  },
+  "level-2/01-bm25-keyword-search": {
+   "questions": [
+    {
+     "q": "What blind spot do embeddings have that BM25 covers?",
+     "options": [
+      "Exact tokens such as error codes, order ids and rare product names",
+      "Long documents",
+      "Typos",
+      "Paraphrases"
+     ],
+     "answer": 0,
+     "explain": "A vector store returns something semantically adjacent but wrong."
+    },
+    {
+     "q": "Which three ideas does BM25 formalize?",
+     "options": [
+      "Recall, precision and F1",
+      "Cosine, dot and L2",
+      "Term frequency (diminishing returns), inverse document frequency (rare terms matter more) and length normalization",
+      "Chunking, overlap and k"
+     ],
+     "answer": 2,
+     "explain": "A term in a 10-word doc is stronger evidence than in a 1000-word doc."
+    },
+    {
+     "q": "Why does matching 'E4022' tell you more than matching 'the'?",
+     "options": [
+      "Capitals count",
+      "Longer words score higher",
+      "Numbers are special",
+      "Rare words carry the signal (high IDF)"
+     ],
+     "answer": 3,
+     "explain": "Common words appear everywhere."
+    },
+    {
+     "q": "Why is sparse retrieval cheap?",
+     "options": [
+      "It's approximate",
+      "It uses fewer documents",
+      "It needs no embedding model, API key or GPU",
+      "It skips tokenizing"
+     ],
+     "answer": 2,
+     "explain": "The lesson ran everything with rank-bm25 and the standard library."
+    }
+   ]
+  },
+  "level-2/02-hybrid-search": {
+   "questions": [
+    {
+     "q": "Why run both dense and sparse retrieval?",
+     "options": [
+      "Sparse is always better",
+      "They have opposite blind spots: BM25 misses 'undo a bad release' while embeddings find the rollback doc, and embeddings miss exact tokens",
+      "They are faster together",
+      "Dense is deprecated"
+     ],
+     "answer": 1,
+     "explain": "Hybrid search merges their results."
+    },
+    {
+     "q": "Why can't you just add BM25 and dense scores?",
+     "options": [
+      "They are strings",
+      "They live on incompatible scales (BM25 up to ~7.5, cosine up to ~0.63)",
+      "They are identical",
+      "They are negative"
+     ],
+     "answer": 1,
+     "explain": "Fusion needs a scale-free method such as rank-based merging."
+    },
+    {
+     "q": "Why does the key design point make fusion a ten-line function?",
+     "options": [
+      "Both retrievers expose the same interface: a query in, an ordered list of document indices out",
+      "They use the same scores",
+      "They use the same model",
+      "They share an index"
+     ],
+     "answer": 0,
+     "explain": "No refactor needed."
+    },
+    {
+     "q": "What was the 'dense' channel in that lesson's examples, honestly?",
+     "options": [
+      "A character n-gram TF-IDF stand-in, still lexical, so it doesn't solve vocabulary mismatch",
+      "A reranker",
+      "A neural embedding model",
+      "GPT"
+     ],
+     "answer": 0,
+     "explain": "The lesson states what ran and what didn't."
+    }
+   ]
+  },
+  "level-2/03-reranking": {
+   "questions": [
+    {
+     "q": "What is the two-stage pipeline in reranking?",
+     "options": [
+      "Chunk twice",
+      "Cache then retrieve",
+      "Embed twice",
+      "Cast a wide, cheap net (e.g. 50 candidates), then re-score only the survivors with a cross-encoder"
+     ],
+     "answer": 3,
+     "explain": "It routinely moves the right document from rank 7 to rank 1 without touching the index."
+    },
+    {
+     "q": "How does a cross-encoder differ from a bi-encoder?",
+     "options": [
+      "It embeds independently",
+      "It feeds the query and document through the model together so every query token attends to every document token",
+      "It has no model",
+      "It uses BM25"
+     ],
+     "answer": 1,
+     "explain": "A bi-encoder embeds the query and documents separately."
+    },
+    {
+     "q": "Why can't you cross-encode a 100,000-document corpus at query time?",
+     "options": [
+      "It needs a full forward pass per (query, document) pair, which is impossible at that scale",
+      "It is too accurate",
+      "It needs a GPU only",
+      "It has no API"
+     ],
+     "answer": 0,
+     "explain": "So retrieve about 50 first, then rerank those."
+    },
+    {
+     "q": "What did the lesson say honestly about its reranker?",
+     "options": [
+      "It used GPT",
+      "It used no scoring",
+      "It used a pair-scoring stand-in; pipeline shape and rank movement are real but quality and cost numbers aren't representative",
+      "It used a real cross-encoder"
+     ],
+     "answer": 2,
+     "explain": "Real cross-encoders need torch and sentence-transformers."
+    }
+   ]
+  },
+  "level-2/04-query-rewriting": {
+   "questions": [
+    {
+     "q": "Why is the query often the weakest link?",
+     "options": [
+      "Documents are short",
+      "Queries are too long",
+      "Users type short, typo'd or context-dependent queries while documents are careful formal prose, a translation problem",
+      "Embeddings are broken"
+     ],
+     "answer": 2,
+     "explain": "Rewriting turns a bad query into one or more good ones."
+    },
+    {
+     "q": "What is multi-query retrieval?",
+     "options": [
+      "Cache queries",
+      "Send queries in parallel to different users",
+      "Run one query many times",
+      "Generate several phrasings and fuse their rankings (e.g. with RRF)"
+     ],
+     "answer": 3,
+     "explain": "The variants were hard-coded in the lesson; production uses an LLM."
+    },
+    {
+     "q": "Why does the rank function filter s[i] > 0?",
+     "options": [
+      "To remove negatives",
+      "To lower k",
+      "A 0.0 score is not a hit; otherwise it returns corpus-order documents that fusion can't distinguish from real hits",
+      "To speed up sorting"
+     ],
+     "answer": 2,
+     "explain": "All-zero rankings poison the fusion."
+    },
+    {
+     "q": "What does an empty BM25 result for 'undo a bad release' show?",
+     "options": [
+      "The corpus lacks the answer",
+      "BM25 is broken",
+      "The index is empty",
+      "The query shares no vocabulary with the rollback runbook"
+     ],
+     "answer": 3,
+     "explain": "The answer exists; the words don't overlap."
+    }
+   ]
+  },
+  "level-2/05-metadata-filtering": {
+   "questions": [
+    {
+     "q": "Why does semantic similarity not replace metadata filters?",
+     "options": [
+      "It uses text",
+      "It needs more data",
+      "It can't express hard constraints like 'only documents this user may see' or 'only the current policy version'",
+      "It is too slow"
+     ],
+     "answer": 2,
+     "explain": "These are correctness and security boundaries."
+    },
+    {
+     "q": "Why capture metadata at ingestion time?",
+     "options": [
+      "Indexes require it",
+      "Metadata you didn't capture doesn't exist; re-indexing to add a field is expensive and sometimes impossible",
+      "It's cheaper later",
+      "Models need it"
+     ],
+     "answer": 1,
+     "explain": "Ask what someone will want to filter on in six months."
+    },
+    {
+     "q": "Why store dates as numbers rather than strings?",
+     "options": [
+      "Numbers are smaller",
+      "It avoids tokens",
+      "Numbers support $gte and ordering; strings only support equality and mislead about ordering",
+      "Strings are illegal"
+     ],
+     "answer": 2,
+     "explain": "year: 2025 supports range filters."
+    },
+    {
+     "q": "Why capture security fields like tenant_id on day one?",
+     "options": [
+      "They speed up search",
+      "They improve embeddings",
+      "Retrofitting after launch is a migration and an incident report",
+      "They shorten chunks"
+     ],
+     "answer": 2,
+     "explain": "In multi-tenant systems metadata is a security boundary."
+    }
+   ]
+  },
+  "level-2/06-structured-table-rag": {
+   "questions": [
+    {
+     "q": "Why do tables break prose-style RAG?",
+     "options": [
+      "Tables embed badly only",
+      "A cell like 99 is meaningless without its column header and row label, and chunking scatters that context",
+      "Tables are too small",
+      "Tables have no text"
+     ],
+     "answer": 1,
+     "explain": "Chunks that each look fine say nothing."
+    },
+    {
+     "q": "Why can't retrieval answer 'how many seats total?'",
+     "options": [
+      "The table is private",
+      "Embeddings are numeric",
+      "Those are aggregations; retrieval cannot sum, so no top-k tuning computes SUM(seats)",
+      "k is too small"
+     ],
+     "answer": 2,
+     "explain": "Use text-to-SQL or code for aggregation."
+    },
+    {
+     "q": "What is row-level verbalization?",
+     "options": [
+      "Turn each row into a self-contained sentence that carries its own headers",
+      "Merge all rows",
+      "Delete the header",
+      "Embed the header only"
+     ],
+     "answer": 0,
+     "explain": "Strategy B in the lesson."
+    },
+    {
+     "q": "What is the problem with the whole table as one chunk?",
+     "options": [
+      "It is too small to embed",
+      "It can't be stored",
+      "It has no header",
+      "Every row retrieves together, the LLM may read the wrong row, and it doesn't scale to large tables"
+     ],
+     "answer": 3,
+     "explain": "For example Enterprise's SLA pulled onto the Team plan."
+    }
+   ]
+  },
+  "level-2/07-multi-format-ingestion": {
+   "questions": [
+    {
+     "q": "Why is ingestion where most RAG quality is won or lost?",
+     "options": [
+      "Ingestion sets k",
+      "A retriever can't outperform its input; repeated boilerplate pollutes BM25 statistics and drags embeddings together",
+      "Ingestion uses the LLM",
+      "Ingestion is the slowest step"
+     ],
+     "answer": 1,
+     "explain": "Every chunk inheriting a header becomes a high-frequency term."
+    },
+    {
+     "q": "What does a PDF actually contain?",
+     "options": [
+      "Markdown",
+      "Instructions for drawing glyphs at coordinates, so reading order and headings are reconstructed heuristically",
+      "HTML",
+      "Paragraphs"
+     ],
+     "answer": 1,
+     "explain": "The parser may get it wrong."
+    },
+    {
+     "q": "How does the lesson detect boilerplate without hard-coding it?",
+     "options": [
+      "Delete the last line",
+      "Use an LLM",
+      "Text that repeats across pages (plus patterns like 'Page N of M') is boilerplate",
+      "Delete the first line"
+     ],
+     "answer": 2,
+     "explain": "You don't need to know what it says."
+    },
+    {
+     "q": "What was not executed in this lesson?",
+     "options": [
+      "The .docx section (described in prose) and OCR",
+      "The PDF extraction",
+      "The HTML parsing",
+      "Boilerplate detection"
+     ],
+     "answer": 0,
+     "explain": "python-docx wasn't installed for the run."
+    }
+   ]
+  },
+  "level-2/08-rag-langchain": {
+   "questions": [
+    {
+     "q": "What is LangChain's genuine value for RAG?",
+     "options": [
+      "It does something impossible otherwise",
+      "It replaces embeddings",
+      "It trains models",
+      "Composition: many loaders, splitters, store adapters and retrievers sharing an interface, so swapping a store or adding a reranker is a one-line change"
+     ],
+     "answer": 3,
+     "explain": "It wraps what you already built by hand."
+    },
+    {
+     "q": "Which LangChain abstraction corresponds to your own rrf() fusion?",
+     "options": [
+      "Embeddings",
+      "TextSplitter",
+      "DocumentLoader",
+      "EnsembleRetriever (weighted RRF over N retrievers)"
+     ],
+     "answer": 3,
+     "explain": "ContextualCompressionRetriever wraps a cross-encoder reranker."
+    },
+    {
+     "q": "Why does the lesson warn that none of its code was executed?",
+     "options": [
+      "It is deprecated",
+      "It uses secrets",
+      "The packages weren't installed, so there are no verified outputs; treat it as a map of the API surface",
+      "The code is wrong"
+     ],
+     "answer": 2,
+     "explain": "Check the version's docs before copying."
+    },
+    {
+     "q": "Why learn the pieces by hand before using a framework?",
+     "options": [
+      "Frameworks are easier to evaluate, and harder to be fooled by, when you know what they wrap",
+      "Frameworks are banned",
+      "Hand-built code is faster",
+      "Frameworks lack features"
+     ],
+     "answer": 0,
+     "explain": "The mapping table is the curriculum."
+    }
+   ]
+  },
+  "level-2/09-rag-llamaindex": {
+   "questions": [
+    {
+     "q": "How does LlamaIndex differ from LangChain?",
+     "options": [
+      "It is a general agent framework",
+      "It is a vector database",
+      "It is a model",
+      "It is built specifically for connecting LLMs to data, with Index and QueryEngine abstractions and opinions about retrieval"
+     ],
+     "answer": 3,
+     "explain": "LangChain gives you a Retriever to compose."
+    },
+    {
+     "q": "Why is the three-line LlamaIndex version dangerous?",
+     "options": [
+      "It needs a GPU",
+      "It's insecure by definition",
+      "It silently chooses chunk size, embedding model, top_k, prompt and LLM, every knob you should tune",
+      "It's slow"
+     ],
+     "answer": 2,
+     "explain": "Use it to check data loads, not to decide whether RAG works for your problem."
+    },
+    {
+     "q": "What is a LlamaIndex Node?",
+     "options": [
+      "A chunk plus relationships to its neighbours",
+      "A source file",
+      "A prompt",
+      "A retriever"
+     ],
+     "answer": 0,
+     "explain": "A Document is the source file with metadata."
+    },
+    {
+     "q": "What does a QueryEngine represent?",
+     "options": [
+      "A splitter",
+      "A loader",
+      "An embedding",
+      "The whole pipeline, callable"
+     ],
+     "answer": 3,
+     "explain": "It maps to your own answer function."
+    }
+   ]
+  },
+  "level-2/10-project-hybrid-assistant": {
+   "questions": [
+    {
+     "q": "What is the skill this project builds?",
+     "options": [
+      "Building a UI",
+      "Writing prompts",
+      "Proving which techniques earn their keep on your corpus, and deleting those that don't",
+      "Implementing BM25"
+     ],
+     "answer": 2,
+     "explain": "In the reference run, two of four configurations bought nothing."
+    },
+    {
+     "q": "Why does config.py give every technique a feature flag?",
+     "options": [
+      "You cannot ablate what you cannot switch off",
+      "It hides keys",
+      "It speeds up the bot",
+      "It's required by Chroma"
+     ],
+     "answer": 0,
+     "explain": "Each flag is a row in the ablation table."
+    },
+    {
+     "q": "Which five techniques does the project test?",
+     "options": [
+      "Fine-tuning, RLHF and distillation",
+      "Tokenizing, chunking and embedding",
+      "BM25, hybrid fusion, reranking, query expansion and metadata filtering",
+      "Caching, streaming and batching"
+     ],
+     "answer": 2,
+     "explain": "Each costs latency, complexity or money."
+    },
+    {
+     "q": "How should you read the reference numbers?",
+     "options": [
+      "As universal truths",
+      "As meaningless",
+      "As benchmarks to copy",
+      "They're real numbers from real code but not a claim about production corpora with real embeddings; produce your own table"
+     ],
+     "answer": 3,
+     "explain": "The dense channel was a TF-IDF stand-in."
+    }
+   ]
+  },
+  "level-3/01-agentic-rag": {
+   "questions": [
+    {
+     "q": "What makes RAG 'agentic'?",
+     "options": [
+      "A bigger model is used",
+      "Retrieval becomes a tool the model can call zero or more times in a loop it steers, deciding whether evidence is enough or to rephrase",
+      "The index is bigger",
+      "The model never retrieves"
+     ],
+     "answer": 1,
+     "explain": "The LLM controls retrieval decisions instead of your pipeline code."
+    },
+    {
+     "q": "Why does the loop have a Budget capping tool calls?",
+     "options": [
+      "To shorten answers",
+      "To speed up embeddings",
+      "To log calls",
+      "To stop runaway loops and cost; exceeding it raises an error"
+     ],
+     "answer": 3,
+     "explain": "It's the trap the lesson warns about."
+    },
+    {
+     "q": "What question shapes break single-shot RAG?",
+     "options": [
+      "Short questions",
+      "Ones needing judgment about retrieval itself: is the evidence enough, should I rephrase, do I need a second different search",
+      "Questions in capitals",
+      "Questions with numbers"
+     ],
+     "answer": 1,
+     "explain": "One search can't cover the other half of the question."
+    },
+    {
+     "q": "Why does the lesson hardcode the model's subqueries?",
+     "options": [
+      "The model can't generate queries",
+      "It's required by BM25",
+      "So the control flow is inspectable; a real agent generates them",
+      "To save tokens"
+     ],
+     "answer": 2,
+     "explain": "A real system hands the LLM a search tool schema."
+    }
+   ]
+  },
+  "level-3/02-multi-hop-retrieval": {
+   "questions": [
+    {
+     "q": "Why does single-shot retrieval fail on 'Who acquired the company where Acme's founder used to work?'",
+     "options": [
+      "Embeddings are broken",
+      "The corpus is empty",
+      "No chunk holds the whole answer; the facts are in separate chunks that don't share the query's words",
+      "k is too large"
+     ],
+     "answer": 2,
+     "explain": "Only the founder chunk overlaps with the query."
+    },
+    {
+     "q": "What is the decompose-then-chain approach?",
+     "options": [
+      "Rerank twice",
+      "Cache the answer",
+      "Break the question into ordered sub-questions and feed each hop's evidence into the next query",
+      "Retrieve everything"
+     ],
+     "answer": 2,
+     "explain": "It lets hop 2 find 'Globex' even though the sub-question doesn't name it."
+    },
+    {
+     "q": "How many hops does the example need?",
+     "options": [
+      "Five",
+      "One",
+      "Two",
+      "Three: founder, previous employer, acquirer"
+     ],
+     "answer": 3,
+     "explain": "Jane Rivera → Globex → Initech."
+    },
+    {
+     "q": "Who acquired Globex in the corpus?",
+     "options": [
+      "Jane Rivera",
+      "Marcus Lee",
+      "Initech, in 2015 for $400M",
+      "Acme Corp"
+     ],
+     "answer": 2,
+     "explain": "The chain ends at chunk 3."
+    }
+   ]
+  },
+  "level-3/03-graphrag": {
+   "questions": [
+    {
+     "q": "What does GraphRAG retrieve by?",
+     "options": [
+      "BM25",
+      "Random sampling",
+      "Traversal of an explicit entity-relation graph instead of text similarity",
+      "Cosine similarity"
+     ],
+     "answer": 2,
+     "explain": "It answers 'how are these entities connected?'"
+    },
+    {
+     "q": "Why does a vector retriever fail to surface Initech for the query 'Jane Rivera'?",
+     "options": [
+      "Initech is too long",
+      "The index is old",
+      "Embeddings ignore names",
+      "Nothing about Initech is semantically close to her name; the connection is structural"
+     ],
+     "answer": 3,
+     "explain": "Two hops in the graph reach Initech."
+    },
+    {
+     "q": "What do community summaries add in Microsoft-style GraphRAG?",
+     "options": [
+      "Cheaper LLM calls only",
+      "More triples",
+      "Faster embeddings",
+      "The graph is clustered into communities and pre-summarized, so a query can retrieve one dense summary instead of walking edges"
+     ],
+     "answer": 3,
+     "explain": "It avoids edge walks at query time."
+    },
+    {
+     "q": "What is networkx standing in for?",
+     "options": [
+      "A graph store such as Neo4j in production",
+      "An LLM",
+      "A reranker",
+      "A vector DB"
+     ],
+     "answer": 0,
+     "explain": "The traversal logic is the same."
+    }
+   ]
+  },
+  "level-3/04-production-vector-dbs": {
+   "questions": [
+    {
+     "q": "What are the two index families underneath production vector databases?",
+     "options": [
+      "LSTM and CNN",
+      "HNSW (multi-layer neighbor graph) and IVF (clustered buckets)",
+      "BM25 and TF-IDF",
+      "B-tree and hash"
+     ],
+     "answer": 1,
+     "explain": "HNSW has logarithmic query time; IVF is cheaper to build/update at some recall cost."
+    },
+    {
+     "q": "How much memory do 10M float32 vectors of 768 dimensions need as a flat index?",
+     "options": [
+      "About 30.7 GB",
+      "About 3 GB",
+      "About 300 MB",
+      "About 300 GB"
+     ],
+     "answer": 0,
+     "explain": "10,000,000 × 768 × 4 bytes."
+    },
+    {
+     "q": "Which databases does the lesson compare?",
+     "options": [
+      "pgvector, Qdrant, Weaviate and Pinecone",
+      "Chroma only",
+      "MongoDB and Cassandra",
+      "MySQL and Redis"
+     ],
+     "answer": 0,
+     "explain": "Chroma is local, single-process and embedded."
+    },
+    {
+     "q": "Why was this lesson manual review rather than runnable code?",
+     "options": [
+      "They need no setup",
+      "They're slow",
+      "No local service for these databases was available in the sandbox; the memory math is real arithmetic",
+      "They're free"
+     ],
+     "answer": 2,
+     "explain": "The lesson says so plainly."
+    }
+   ]
+  },
+  "level-3/05-embedding-selection": {
+   "questions": [
+    {
+     "q": "Why does MTEB leaderboard rank matter least for your corpus?",
+     "options": [
+      "MTEB ranks only chunk size",
+      "MTEB is outdated",
+      "MTEB is private",
+      "It's an average over 56 datasets in domains none of which is yours, so a top model can underperform on your tickets, contracts or code"
+     ],
+     "answer": 3,
+     "explain": "Benchmark on your own data."
+    },
+    {
+     "q": "How do you benchmark an embedding model on your data?",
+     "options": [
+      "Count dimensions",
+      "Make an eval set of (query, answering doc) pairs and measure top-1 (or recall@k) accuracy",
+      "Read the model card",
+      "Check the file size"
+     ],
+     "answer": 1,
+     "explain": "The lesson's TF-IDF baseline scored 1/3."
+    },
+    {
+     "q": "Why did TF-IDF score only 0.33 on the eval set?",
+     "options": [
+      "It had no data",
+      "It used the wrong metric",
+      "It was too slow",
+      "It's lexical: 'refund' and 'money-back' don't overlap, and shared words like 'api' mislead"
+     ],
+     "answer": 3,
+     "explain": "It's bad in a very informative way for this lesson."
+    },
+    {
+     "q": "What does the lesson weigh besides accuracy?",
+     "options": [
+      "Only speed",
+      "The dimension/cost trade-off and when fine-tuning beats picking another off-the-shelf model",
+      "Only price",
+      "Only license"
+     ],
+     "answer": 1,
+     "explain": "Higher dimensions cost more storage and compute."
+    }
+   ]
+  },
+  "level-3/06-eval-at-scale": {
+   "questions": [
+    {
+     "q": "What does context precision measure?",
+     "options": [
+      "Of what was relevant, how much you retrieved",
+      "Latency",
+      "Of what you retrieved, how much was relevant",
+      "Answer length"
+     ],
+     "answer": 2,
+     "explain": "Recall is the reverse."
+    },
+    {
+     "q": "retrieved = [0, 3, 4] and relevant = {0, 3}. What are precision and recall?",
+     "options": [
+      "1.0 and 0.667",
+      "0.5 and 0.5",
+      "About 0.667 and 1.0",
+      "1.0 and 1.0"
+     ],
+     "answer": 2,
+     "explain": "Two of three retrieved are relevant; both relevant docs were found."
+    },
+    {
+     "q": "Why track precision alongside recall?",
+     "options": [
+      "Recall is meaningless",
+      "A pipeline can hit 100% recall by over-retrieving",
+      "Precision is cheaper",
+      "They are the same"
+     ],
+     "answer": 1,
+     "explain": "Full recall with 67% precision is a normal pair of scores."
+    },
+    {
+     "q": "What does faithfulness measure?",
+     "options": [
+      "Latency",
+      "Answer fluency",
+      "Embedding quality",
+      "Of the answer's claims, how many are supported by the context"
+     ],
+     "answer": 3,
+     "explain": "It catches hallucination."
+    }
+   ]
+  },
+  "level-3/07-streaming-caching-latency": {
+   "questions": [
+    {
+     "q": "Which step dominates a synchronous RAG request's latency?",
+     "options": [
+      "LLM generation (1–5+ seconds)",
+      "Embedding the query",
+      "Vector search",
+      "Building the prompt"
+     ],
+     "answer": 0,
+     "explain": "Steps 1–3 are usually 50–300ms combined."
+    },
+    {
+     "q": "Which lever targets which step?",
+     "options": [
+      "Caching targets generation only",
+      "Streaming targets generation; caching targets embedding/search/rerank; parallelism targets sharded vector search",
+      "Streaming targets caching",
+      "Parallelism targets prompts"
+     ],
+     "answer": 1,
+     "explain": "Each attacks a different part of the budget."
+    },
+    {
+     "q": "Why does a production cache key on normalized or similarity matches?",
+     "options": [
+      "Near-duplicate queries like 'what's your refund policy' vs 'what is the refund policy' would miss an exact-hash cache",
+      "Similarity is cheaper",
+      "Caches require embeddings",
+      "Exact hashes are insecure"
+     ],
+     "answer": 0,
+     "explain": "The lesson's exact-hash cache missed them."
+    },
+    {
+     "q": "What did caching achieve in the measured example?",
+     "options": [
+      "5 calls dropped from 57.7 ms to 10.2 ms, more than 5x faster",
+      "10x slower",
+      "2x slower",
+      "No change"
+     ],
+     "answer": 0,
+     "explain": "One miss and four hits."
+    }
+   ]
+  },
+  "level-3/08-incremental-indexing": {
+   "questions": [
+    {
+     "q": "What does content hashing tell you?",
+     "options": [
+      "Which documents actually changed, so unchanged ones skip re-embedding, without trusting source timestamps",
+      "Embedding quality",
+      "The best chunk size",
+      "Latency"
+     ],
+     "answer": 0,
+     "explain": "Timestamps are frequently wrong or absent."
+    },
+    {
+     "q": "What does upsert return for identical content re-synced?",
+     "options": [
+      "'inserted'",
+      "'unchanged', skipping the embedding call",
+      "'reindexed'",
+      "An error"
+     ],
+     "answer": 1,
+     "explain": "Different content returns 'reindexed' with version + 1."
+    },
+    {
+     "q": "What is 'the part teams forget' in incremental indexing?",
+     "options": [
+      "Deletes: otherwise a deleted refund policy keeps being retrieved forever",
+      "Versions",
+      "Inserts",
+      "Hashing"
+     ],
+     "answer": 0,
+     "explain": "Reconcile against the authoritative source set."
+    },
+    {
+     "q": "Why isn't re-embedding the whole corpus on every change acceptable?",
+     "options": [
+      "A one-line edit shouldn't cost a million embedding calls",
+      "Indexes forbid it",
+      "Embeddings expire",
+      "It's illegal"
+     ],
+     "answer": 0,
+     "explain": "It doesn't scale."
+    }
+   ]
+  },
+  "level-3/09-observability": {
+   "questions": [
+    {
+     "q": "Why record spans per stage rather than one log line per request?",
+     "options": [
+      "Spans are shorter",
+      "Structured per-stage records answer 'what happened' without guessing which of five stages failed",
+      "Logs are illegal",
+      "Spans replace the LLM"
+     ],
+     "answer": 1,
+     "explain": "You can query fields like retrieve.top_k scores."
+    },
+    {
+     "q": "What does a Span hold?",
+     "options": [
+      "Only a message",
+      "The prompt",
+      "A name, start and end time and arbitrary attributes",
+      "Only tokens"
+     ],
+     "answer": 2,
+     "explain": "It's the unit used by OpenTelemetry, LangSmith and Phoenix."
+    },
+    {
+     "q": "In the example, which stage dominated latency?",
+     "options": [
+      "embed_query",
+      "cache",
+      "generate (about 34.5 of 69.9 ms)",
+      "retrieve"
+     ],
+     "answer": 2,
+     "explain": "Tracing shows which stage dominates and what the retrieval scores were."
+    },
+    {
+     "q": "What does the module add besides tracing?",
+     "options": [
+      "A chunker",
+      "A new embedding model",
+      "A drift-detection check",
+      "A reranker"
+     ],
+     "answer": 2,
+     "explain": "It also helps debug reports that 'the answer was wrong'."
+    }
+   ]
+  },
+  "level-3/10-project-agentic-assistant": {
+   "questions": [
+    {
+     "q": "Which four modules does the agentic research assistant combine?",
+     "options": [
+      "Agentic tool-calling with a budget, multi-hop decomposition, a query cache and a trace log per stage",
+      "Fine-tuning, serving and eval",
+      "Chunking, embeddings and BM25",
+      "Graph, vectors and SQL"
+     ],
+     "answer": 0,
+     "explain": "It answers multi-fact questions within a call budget."
+    },
+    {
+     "q": "Why does extract_entity take the last capitalized token?",
+     "options": [
+      "A chunk mentions the already-known entity first, then the new one the next hop needs",
+      "It reduces cost",
+      "The first is always wrong",
+      "Capitalization is random"
+     ],
+     "answer": 0,
+     "explain": "Jane Rivera comes before Globex in the chunk."
+    },
+    {
+     "q": "What does the cache avoid?",
+     "options": [
+      "Chaining",
+      "Needing a budget",
+      "Tracing",
+      "Redundant work on repeat queries"
+     ],
+     "answer": 3,
+     "explain": "cached_search returns a hit flag."
+    },
+    {
+     "q": "What does the trace leave behind?",
+     "options": [
+      "Nothing",
+      "A summary",
+      "Only the answer",
+      "An inspectable record of every decision"
+     ],
+     "answer": 3,
+     "explain": "It supports debugging."
+    }
+   ]
+  },
+  "level-4/01-enterprise-architecture": {
+   "questions": [
+    {
+     "q": "What is the risk of a single shared index with per-tenant metadata filters?",
+     "options": [
+      "Slower queries",
+      "No metadata",
+      "Higher cost",
+      "A missing or wrong filter leaks data across tenants"
+     ],
+     "answer": 3,
+     "explain": "It is the cheapest to operate and the riskiest."
+    },
+    {
+     "q": "What does index-per-tenant guarantee?",
+     "options": [
+      "One index",
+      "Structural isolation: no code path touches two tenants' data, at the cost of N indexes to run",
+      "Lower cost",
+      "Faster embeddings"
+     ],
+     "answer": 1,
+     "explain": "Small tenants pay disproportionate fixed overhead."
+    },
+    {
+     "q": "Why do enterprises grow into hub-and-spoke?",
+     "options": [
+      "It needs no gateway",
+      "It's the cheapest",
+      "It has no isolation",
+      "A central retrieval service handles auth, routing, observability and policies once, scaling the platform team's effort sub-linearly"
+     ],
+     "answer": 3,
+     "explain": "Teams own their data and ingestion."
+    },
+    {
+     "q": "Why is much of this module deliberately manual review?",
+     "options": [
+      "'Which architecture fits your org' can't be validated by a toy script",
+      "The topics are easy",
+      "Time",
+      "Code is banned"
+     ],
+     "answer": 0,
+     "explain": "Runnable code appears only for genuinely code-level decisions."
+    }
+   ]
+  },
+  "level-4/02-multi-tenant-access-control": {
+   "questions": [
+    {
+     "q": "What is the vulnerable pattern?",
+     "options": [
+      "Hash filtering",
+      "No filter",
+      "Filter after ranking: rank across all tenants, then discard non-matches",
+      "Filter before ranking"
+     ],
+     "answer": 2,
+     "explain": "The order of two operations is the whole security model."
+    },
+    {
+     "q": "What happens in the lesson when tenant acme queries Globex's wording with a post-filter?",
+     "options": [
+      "It returns [] (denies acme their own data) because the top global hit belonged to Globex",
+      "It errors",
+      "It returns acme's revenue",
+      "It returns Globex's data"
+     ],
+     "answer": 0,
+     "explain": "A post-filter can deny a tenant their own data or leak another's."
+    },
+    {
+     "q": "What does the safe pre-filter do?",
+     "options": [
+      "Rank all, then filter",
+      "Restrict candidates to the tenant's documents first, then rank only within them",
+      "Use two indexes",
+      "Skip ranking"
+     ],
+     "answer": 1,
+     "explain": "It returned acme's Q3 revenue."
+    },
+    {
+     "q": "Why is this bug a data breach rather than a performance detail?",
+     "options": [
+      "It breaks embeddings",
+      "Under the right query the system can hand a tenant someone else's data",
+      "It slows queries",
+      "It uses more RAM"
+     ],
+     "answer": 1,
+     "explain": "Isolation must be enforced before ranking."
+    }
+   ]
+  },
+  "level-4/03-cost-optimization": {
+   "questions": [
+    {
+     "q": "In the cost model, where does almost all the money go?",
+     "options": [
+      "The LLM call: prompt input and generated output tokens (embedding cost was $0.40 of $8,310)",
+      "Embeddings",
+      "Storage",
+      "Vector search"
+     ],
+     "answer": 0,
+     "explain": "Teams instinctively optimize embeddings and retrieval speed, but the money is in generation."
+    },
+    {
+     "q": "For 1M queries, ~1,520 input tokens and 250 output tokens each, what is the approximate total?",
+     "options": [
+      "About $8,310",
+      "About $83",
+      "About $830",
+      "About $83,100"
+     ],
+     "answer": 0,
+     "explain": "LLM input $4,560 plus output $3,750 plus tiny embedding cost."
+    },
+    {
+     "q": "What does a 30% cache hit rate save in the example?",
+     "options": [
+      "About $8,000",
+      "Nothing",
+      "About $100",
+      "About $2,493 (total drops to $5,817)"
+     ],
+     "answer": 3,
+     "explain": "Cached queries skip a fresh LLM call."
+    },
+    {
+     "q": "If the goal is specifically cost, where should you look first?",
+     "options": [
+      "Embedding model choice",
+      "The LLM call: context tokens and output length",
+      "Shard count",
+      "Chunk overlap"
+     ],
+     "answer": 1,
+     "explain": "Retrieval optimization still matters for latency and quality."
+    }
+   ]
+  },
+  "level-4/04-latency-optimization": {
+   "questions": [
+    {
+     "q": "Why did parallelizing three retrieval shards save only 78 ms?",
+     "options": [
+      "Shards are slow",
+      "Retrieval is cached",
+      "Parallelism doesn't work",
+      "Generation (1800 ms) dwarfs everything else; optimize the stage that dominates, not the easiest to parallelize"
+     ],
+     "answer": 3,
+     "explain": "Sequential 1963 ms vs parallel 1885 ms."
+    },
+    {
+     "q": "What does a 1% straggler on one of three shards do to p99?",
+     "options": [
+      "Nothing",
+      "Doubles p50",
+      "It turns p99 into about 7x p50 (46.8 ms vs 331.3 ms)",
+      "Halves p99"
+     ],
+     "answer": 2,
+     "explain": "Parallel retrieval waits for the slowest shard."
+    },
+    {
+     "q": "Why is p99, not the average, the number that matters?",
+     "options": [
+      "p99 is cheaper",
+      "Averages hide the slow requests that generate a steady stream of complaints",
+      "Averages are slower to compute",
+      "Users only see averages"
+     ],
+     "answer": 1,
+     "explain": "Fast on average still has slow-request complaints."
+    },
+    {
+     "q": "How can you reduce perceived latency even if total time doesn't change?",
+     "options": [
+      "Add a reranker",
+      "Increase k",
+      "Add more shards",
+      "Stream tokens"
+     ],
+     "answer": 3,
+     "explain": "Streaming makes the first words appear quickly."
+    }
+   ]
+  },
+  "level-4/05-rag-security": {
+   "questions": [
+    {
+     "q": "What is indirect prompt injection in RAG?",
+     "options": [
+      "A user typing a bad prompt",
+      "A malicious instruction planted in a document that later gets retrieved into the LLM's context, where the model may follow it",
+      "A network attack",
+      "A SQL attack"
+     ],
+     "answer": 1,
+     "explain": "The attack doesn't need to come from the user's message."
+    },
+    {
+     "q": "Why do RAG systems have a larger attack surface than a plain chatbot?",
+     "options": [
+      "Any ingestion source (tickets, scraped pages, uploads, emails) is a potential injection vector",
+      "They use JSON",
+      "They have more logs",
+      "They use more GPUs"
+     ],
+     "answer": 0,
+     "explain": "Ingestion pipelines are built for correctness and freshness, not adversarial content."
+    },
+    {
+     "q": "What is the security model for retrieved context?",
+     "options": [
+      "Encrypted data",
+      "Trusted data",
+      "Untrusted input, not just data",
+      "Cached data"
+     ],
+     "answer": 2,
+     "explain": "Treat it that way throughout."
+    },
+    {
+     "q": "What is a first line of defense shown in the lesson?",
+     "options": [
+      "Smaller models",
+      "Longer prompts",
+      "Pattern-based flagging of phrases like 'ignore previous instructions' or 'api key'",
+      "Larger k"
+     ],
+     "answer": 2,
+     "explain": "It is only a first line, not a complete defense."
+    }
+   ]
+  },
+  "level-4/06-governance-compliance": {
+   "questions": [
+    {
+     "q": "What must enterprise RAG answer in an audit?",
+     "options": [
+      "Who asked what, what data informed the answer, who could have seen it, and how long the record is kept",
+      "Only accuracy",
+      "Only latency",
+      "Only cost"
+     ],
+     "answer": 0,
+     "explain": "'It worked in testing' isn't a defense."
+    },
+    {
+     "q": "Why log query, retrieval and generation as separate entries?",
+     "options": [
+      "It speeds up queries",
+      "It uses less space",
+      "It's required by Python",
+      "Each is independently attributable, so an auditor can see which document informed which answer"
+     ],
+     "answer": 3,
+     "explain": "A single combined line loses that detail."
+    },
+    {
+     "q": "What does the entry hash provide?",
+     "options": [
+      "A cheap way to detect that an entry was altered after the fact (not a secure chain by itself)",
+      "Encryption",
+      "Access control",
+      "Compression"
+     ],
+     "answer": 0,
+     "explain": "The lesson is explicit about its limits."
+    },
+    {
+     "q": "What is data lineage?",
+     "options": [
+      "A chunk size",
+      "A cache",
+      "A graph database",
+      "Mapping an answer back to the source documents and their metadata that informed it"
+     ],
+     "answer": 3,
+     "explain": "For example source, classification and ingestion date."
+    }
+   ]
+  },
+  "level-4/07-continuous-evaluation": {
+   "questions": [
+    {
+     "q": "What does continuous evaluation catch that a CI regression suite doesn't?",
+     "options": [
+      "Syntax errors",
+      "Broken builds",
+      "Quality drift from a shifting corpus or user population, or a provider silently updating a model, none of which show up as a code diff",
+      "Typos"
+     ],
+     "answer": 2,
+     "explain": "It uses production-traffic evaluation and feedback loops."
+    },
+    {
+     "q": "In the example, thumbs-up rates were 0.86, 0.845 and 0.65 across three weeks. Which drop is real?",
+     "options": [
+      "Both",
+      "Week 2's",
+      "Week 3's drop to 0.65, an injected regression; the week 1 vs 2 gap is sampling noise",
+      "Neither"
+     ],
+     "answer": 2,
+     "explain": "A 10-point threshold stays quiet on noise and fires on the real drop."
+    },
+    {
+     "q": "What happens if the regression threshold is too tight or too loose?",
+     "options": [
+      "Both speed up detection",
+      "Nothing",
+      "Both always work",
+      "Too tight false-alarms on normal variance; too loose lets real regressions slip through for weeks"
+     ],
+     "answer": 3,
+     "explain": "The right threshold depends on feedback volume."
+    },
+    {
+     "q": "How does higher traffic volume help?",
+     "options": [
+      "It changes prompts",
+      "It lowers cost",
+      "It lets you tighten the threshold and catch smaller regressions faster",
+      "It removes noise entirely"
+     ],
+     "answer": 2,
+     "explain": "This is a statistics problem as much as an engineering one."
+    }
+   ]
+  },
+  "level-4/08-finetuning-vs-rag": {
+   "questions": [
+    {
+     "q": "What does RAG change versus fine-tuning?",
+     "options": [
+      "RAG changes weights",
+      "Fine-tuning adds facts live",
+      "RAG changes what the model knows right now by handing it facts at query time; fine-tuning changes what it does by default (tone, format, behavior)",
+      "They are identical"
+     ],
+     "answer": 2,
+     "explain": "RAG never changes weights."
+    },
+    {
+     "q": "What happens if you fine-tune a model to know current pricing?",
+     "options": [
+      "It stays correct",
+      "It forgets tone",
+      "It updates itself",
+      "It's wrong the moment pricing changes, since facts are baked into weights needing a whole new training run"
+     ],
+     "answer": 3,
+     "explain": "Use RAG for facts that change."
+    },
+    {
+     "q": "What happens if you use RAG to make a model sound like your brand voice?",
+     "options": [
+      "It memorizes the brand",
+      "It becomes faster",
+      "It works perfectly",
+      "It doesn't, since retrieved documents give facts, not a persistent behavioral pattern"
+     ],
+     "answer": 3,
+     "explain": "That's a job for fine-tuning."
+    },
+    {
+     "q": "In the illustration, how much more does updating one fact cost via fine-tuning than via RAG?",
+     "options": [
+      "About 100 times",
+      "The same",
+      "About 12.5 million times, and hours instead of seconds",
+      "About 2 times"
+     ],
+     "answer": 2,
+     "explain": "RAG: one embedding call for one chunk; fine-tune: a $50, 3-hour run."
+    }
+   ]
+  },
+  "level-4/09-scaling-ingestion": {
+   "questions": [
+    {
+     "q": "Which two levers dominate scaling ingestion?",
+     "options": [
+      "Chunking and overlap",
+      "Reranking and routing",
+      "Caching and streaming",
+      "Parallelism and batching"
+     ],
+     "answer": 3,
+     "explain": "They interact in ways worth measuring."
+    },
+    {
+     "q": "Why was 10-way parallelism only 3.9x faster?",
+     "options": [
+      "Python is slow",
+      "Thread-scheduling overhead, and past a point you're bound by the embedding provider's rate limit, risking 429s",
+      "Threads don't work",
+      "Embeddings are serial"
+     ],
+     "answer": 1,
+     "explain": "I/O-bound calls overlap, but not perfectly."
+    },
+    {
+     "q": "Why does batching help?",
+     "options": [
+      "It encrypts requests",
+      "It reduces tokens",
+      "It amortizes the fixed per-request overhead that single-doc calls pay every time",
+      "It removes rate limits"
+     ],
+     "answer": 2,
+     "explain": "Total time falls steeply as batch size grows."
+    },
+    {
+     "q": "What is the risk of an ingestion pipeline that's too slow?",
+     "options": [
+      "Chunks are too big",
+      "Embeddings are wrong",
+      "The index stays stale for hours",
+      "Prompts fail"
+     ],
+     "answer": 2,
+     "explain": "At millions of documents it can become the bottleneck."
+    }
+   ]
+  },
+  "level-4/10-capstone-enterprise-platform": {
+   "questions": [
+    {
+     "q": "Which four pieces does the capstone combine?",
+     "options": [
+      "Fine-tuning, serving, caching, tracing",
+      "Chunking, embeddings, BM25, rerank",
+      "Tenant-scoped retrieval, a tenant-scoped cache, injection detection on retrieved content and an audit log",
+      "Graph, SQL, vector, text"
+     ],
+     "answer": 2,
+     "explain": "It enforces isolation with a real assertion."
+    },
+    {
+     "q": "How does tenant_scoped_search stay safe?",
+     "options": [
+      "It skips filtering",
+      "It filters to the tenant's documents before ranking",
+      "It uses two indexes",
+      "It filters after ranking"
+     ],
+     "answer": 1,
+     "explain": "That's module 2's safe pattern."
+    },
+    {
+     "q": "Why is the cache tenant-scoped?",
+     "options": [
+      "It reduces size",
+      "Caches require tenants",
+      "It speeds up hashing",
+      "A shared cache could return one tenant's cached answer to another"
+     ],
+     "answer": 3,
+     "explain": "The cache key includes the tenant."
+    },
+    {
+     "q": "What does the audit log capture?",
+     "options": [
+      "Only latency",
+      "Only errors",
+      "Every query, retrieval and security event",
+      "Only costs"
+     ],
+     "answer": 2,
+     "explain": "It supports compliance review."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```\ndef chunk_fixed(text, size=800, overlap=150):\n    out=[]; start=0\n    while start < len(text):\n        out.append(text[start:start+size]); start += size-overlap\n    return out\nprint([len(c) for c in chunk_fixed('A'*2000)])\n```",
+    "options": [
+     "[800, 800, 700, 50]",
+     "[650, 650, 650, 50]",
+     "[800, 800, 800, 50]",
+     "[800, 800, 400]"
+    ],
+    "answer": 0,
+    "explain": "Starts advance by 650: chunks begin at 0, 650, 1300 and 1950, with lengths 800, 800, 700 and 50."
+   },
+   {
+    "q": "What does this print?\n```\ndef precision(r, rel): return sum(x in rel for x in r)/len(r)\ndef recall(r, rel): return sum(x in r for x in rel)/len(rel)\nr=[0,3,4]; rel={0,3}\nprint(round(precision(r,rel),3), recall(r,rel))\n```",
+    "options": [
+     "1.0 1.0",
+     "0.5 0.5",
+     "1.0 0.667",
+     "0.667 1.0"
+    ],
+    "answer": 3,
+    "explain": "Two of three retrieved are relevant; both relevant docs were retrieved."
+   },
+   {
+    "q": "What does this print?\n```\ndef rrf(rankings,k=60):\n    s={}\n    for r in rankings:\n        for i,d in enumerate(r):\n            s[d]=s.get(d,0)+1/(k+i+1)\n    return sorted(s,key=lambda d:-s[d])\nprint(rrf([['a','b','c'],['b','a','d']]))\n```",
+    "options": [
+     "['b', 'a', 'c', 'd']",
+     "['c', 'd', 'a', 'b']",
+     "['a', 'b', 'c', 'd']",
+     "['a', 'b', 'd', 'c']"
+    ],
+    "answer": 2,
+    "explain": "a and b tie on the fused score; sorted() is stable so a stays first, then c beats d."
+   },
+   {
+    "q": "What does this print?\n```\nimport hashlib\nh=lambda t: hashlib.sha256(t.encode()).hexdigest()\nprint(h('Refunds within 30 days.')==h('Refunds within 30 days.'), h('30 days')==h('45 days'))\n```",
+    "options": [
+     "False True",
+     "True True",
+     "True False",
+     "False False"
+    ],
+    "answer": 2,
+    "explain": "Content hashing detects whether a document changed, so unchanged ones skip re-embedding."
+   },
+   {
+    "q": "What does this print?\n```\ndocs=[('acme','a rev $2M'),('globex','g rev $5M')]\nq={'g','rev'}\npost=[d for d in sorted(docs,key=lambda d:-len(q&set(d[1].split())))[:1] if d[0]=='acme']\npre=sorted([d for d in docs if d[0]=='acme'],key=lambda d:-len(q&set(d[1].split())))[:1]\nprint(post, pre)\n```",
+    "options": [
+     "[('globex', 'g rev $5M')] []",
+     "[('acme', 'a rev $2M')] [('acme', 'a rev $2M')]",
+     "[] [('acme', 'a rev $2M')]",
+     "[] []"
+    ],
+    "answer": 2,
+    "explain": "Filtering after ranking loses the tenant's own data when another tenant ranks first; filter before ranking."
+   },
+   {
+    "q": "Users type 'card got rejected' but docs say 'payment declined'. What helps most?",
+    "options": [
+     "Reduce k to 1",
+     "Add overlap",
+     "Query rewriting/expansion plus dense (embedding) retrieval",
+     "Delete the docs"
+    ],
+    "answer": 2,
+    "explain": "It's a vocabulary mismatch."
+   },
+   {
+    "q": "Queries contain error codes like E4022 that embeddings mangle. What do you add?",
+    "options": [
+     "More chunks",
+     "BM25 keyword search fused with dense retrieval (hybrid)",
+     "A larger LLM",
+     "A cache"
+    ],
+    "answer": 1,
+    "explain": "Embeddings are poor at exact tokens."
+   },
+   {
+    "q": "The right chunk is at rank 7 but the LLM sees only the top 3. What is the highest-leverage fix?",
+    "options": [
+     "Increase chunk size",
+     "Retrieve ~50 then rerank with a cross-encoder",
+     "Add a cache",
+     "Lower the temperature"
+    ],
+    "answer": 1,
+    "explain": "Reranking can move the right document from rank 7 to rank 1."
+   },
+   {
+    "q": "A question needs facts chained across three documents. What pattern helps?",
+    "options": [
+     "Lower overlap",
+     "Query decomposition with multi-hop retrieval",
+     "Raising k to 100",
+     "Fine-tuning"
+    ],
+    "answer": 1,
+    "explain": "Each hop's evidence feeds the next query."
+   },
+   {
+    "q": "You must answer 'how many seats total across plans?' from a table. What approach fits?",
+    "options": [
+     "Use a reranker",
+     "Raise top_k",
+     "Text-to-SQL or code over structured data; retrieval can't aggregate",
+     "Embed the whole table once"
+    ],
+    "answer": 2,
+    "explain": "Aggregations need computation, not retrieval."
+   },
+   {
+    "q": "You want to know if a technique earns its keep. What do you do?",
+    "options": [
+     "Try it once",
+     "Run an ablation on a golden set with a flag per technique",
+     "Ask the LLM",
+     "Trust the leaderboard"
+    ],
+    "answer": 1,
+    "explain": "Delete techniques that don't help your corpus."
+   },
+   {
+    "q": "Your RAG answers are fluent but cite nothing relevant. Which metric flags that?",
+    "options": [
+     "Faithfulness (are claims supported by the context) plus context precision",
+     "Chunk count",
+     "Cost",
+     "Latency"
+    ],
+    "answer": 0,
+    "explain": "Faithfulness catches unsupported claims."
+   },
+   {
+    "q": "A recall of 100% with low precision tells you what?",
+    "options": [
+     "You over-retrieve; noise is entering the context",
+     "Embeddings are bad",
+     "The index is empty",
+     "The system is perfect"
+    ],
+    "answer": 0,
+    "explain": "Track precision alongside recall."
+   },
+   {
+    "q": "A policy doc is updated nightly. How do you keep the index fresh cheaply?",
+    "options": [
+     "Never update",
+     "Rebuild everything nightly",
+     "Use timestamps only",
+     "Content hashing with upserts and deletes, re-embedding only changed documents"
+    ],
+    "answer": 3,
+    "explain": "Don't forget deletes, or removed policies keep being retrieved."
+   },
+   {
+    "q": "A customer-uploaded PDF contains 'IGNORE ALL PREVIOUS INSTRUCTIONS'. What is this?",
+    "options": [
+     "A formatting error",
+     "A chunking bug",
+     "A cache hit",
+     "Indirect prompt injection; treat retrieved context as untrusted input"
+    ],
+    "answer": 3,
+    "explain": "Any ingestion source is an injection vector."
+   },
+   {
+    "q": "A multi-tenant system filters results after ranking. What can go wrong?",
+    "options": [
+     "Nothing",
+     "It can deny a tenant their own data or leak another's; filter before ranking",
+     "Slower embeddings",
+     "Larger indexes"
+    ],
+    "answer": 1,
+    "explain": "The order of operations is the security model."
+   },
+   {
+    "q": "Your facts change weekly but you want the model to answer in a fixed brand voice. What do you combine?",
+    "options": [
+     "Fine-tune for facts",
+     "RAG for facts plus fine-tuning (or prompting) for voice",
+     "RAG for voice only",
+     "Neither"
+    ],
+    "answer": 1,
+    "explain": "They're complementary, not competitors."
+   },
+   {
+    "q": "At a million queries a month, where does most of the cost go?",
+    "options": [
+     "LLM input/output tokens, not embeddings",
+     "Storage",
+     "Vector search",
+     "Embeddings"
+    ],
+    "answer": 0,
+    "explain": "Reduce context size, output length or use caching."
+   },
+   {
+    "q": "Your mean latency is fine but users complain. What should you check?",
+    "options": [
+     "Embedding dimensions",
+     "Chunk size",
+     "The mean",
+     "p99 latency, since stragglers dominate the tail"
+    ],
+    "answer": 3,
+    "explain": "A 1% straggler can make p99 7x p50."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Chunk with overlap",
+    "prompt": "Write `chunk_fixed(text, size, overlap)` that slices text into `size`-character chunks, advancing by `size - overlap`, and print the chunk lengths for 'A' * 25 with size 10 and overlap 3.",
+    "starter": "def chunk_fixed(text, size, overlap):\n    # your code here\n    pass\n\nprint([len(c) for c in chunk_fixed(\"A\" * 25, 10, 3)])\n",
+    "expected": "[10, 10, 10, 4]",
+    "solution": "def chunk_fixed(text, size, overlap):\n    out, start = [], 0\n    while start < len(text):\n        out.append(text[start:start + size])\n        start += size - overlap\n    return out\n\nprint([len(c) for c in chunk_fixed(\"A\" * 25, 10, 3)])",
+    "explain": "The start advances by 7 each time: chunks start at 0, 7, 14 and 21."
+   },
+   {
+    "title": "Reciprocal rank fusion",
+    "prompt": "Write `rrf(rankings, k=60)` that fuses ranked lists using score 1/(k + rank) (rank starting at 1) and returns document ids best-first. Print the fusion of [['a','b','c'], ['c','b','d']].",
+    "starter": "def rrf(rankings, k=60):\n    # your code here\n    pass\n\nprint(rrf([[\"a\", \"b\", \"c\"], [\"c\", \"b\", \"d\"]]))\n",
+    "expected": "['c', 'b', 'a', 'd']",
+    "solution": "def rrf(rankings, k=60):\n    scores = {}\n    for ranking in rankings:\n        for rank, doc in enumerate(ranking, start=1):\n            scores[doc] = scores.get(doc, 0) + 1 / (k + rank)\n    return sorted(scores, key=lambda d: -scores[d])\n\nprint(rrf([[\"a\", \"b\", \"c\"], [\"c\", \"b\", \"d\"]]))",
+    "explain": "b appears high in both lists so it wins; a and c tie, and the order among ties follows first-seen order because sorting is stable."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
