@@ -1,0 +1,2159 @@
+{
+ "course": "data-science-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-data-science": {
+   "questions": [
+    {
+     "q": "What does data science combine?",
+     "options": [
+      "Only charts",
+      "Statistics, programming and domain knowledge to turn data into decisions",
+      "Only coding",
+      "Only databases"
+     ],
+     "answer": 1,
+     "explain": "Each leg is needed."
+    },
+    {
+     "q": "Which question best starts a data science project?",
+     "options": [
+      "What tools exist",
+      "A specific business question the analysis should answer",
+      "How big is the data",
+      "Which model is newest"
+     ],
+     "answer": 1,
+     "explain": "Start from the decision."
+    },
+    {
+     "q": "What's the typical workflow order?",
+     "options": [
+      "Report first",
+      "Model first",
+      "Tools first",
+      "Question, data collection, cleaning, exploration, modeling/analysis, communication"
+     ],
+     "answer": 3,
+     "explain": "Iterate as you learn."
+    },
+    {
+     "q": "Why is domain knowledge important?",
+     "options": [
+      "Law",
+      "It tells you what the numbers mean and which results are plausible",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Context prevents silly conclusions."
+    }
+   ]
+  },
+  "level-1/02-python-for-data-science": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nimport statistics as s\nd=[2,4,4,4,5,5,7,9]\nprint(s.mean(d), s.median(d), s.mode(d), round(s.pstdev(d),2))\n```\n",
+     "options": [
+      "5 5 4 2.0",
+      "5 4.5 5 2.0",
+      "5 4.5 4 2.0",
+      "4.5 5 4 2.0"
+     ],
+     "answer": 2,
+     "explain": "Mean 5, median 4.5, mode 4, population SD 2. Verified by running it."
+    },
+    {
+     "q": "Why use NumPy arrays over Python lists for numeric work?",
+     "options": [
+      "Dynamic types",
+      "They're smaller text",
+      "Fixed-type contiguous arrays enable fast vectorized operations",
+      "Easier syntax only"
+     ],
+     "answer": 2,
+     "explain": "Avoid Python loops."
+    },
+    {
+     "q": "What is a pandas DataFrame?",
+     "options": [
+      "A labeled, spreadsheet-like table built on NumPy",
+      "A file",
+      "A database",
+      "A plot"
+     ],
+     "answer": 0,
+     "explain": "Rows and named columns."
+    },
+    {
+     "q": "What's vectorization?",
+     "options": [
+      "Applying operations to whole arrays at once instead of looping in Python",
+      "GPU only",
+      "Parallel threads",
+      "Compilation"
+     ],
+     "answer": 0,
+     "explain": "Faster and cleaner."
+    }
+   ]
+  },
+  "level-1/03-data-cleaning-wrangling": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nrows=[('A',1),('a ',1),('B',2),('A',1)]\nclean={(n.strip().upper(),v) for n,v in rows}\nprint(sorted(clean))\n```\n",
+     "options": [
+      "Error",
+      "[('A', 1)]",
+      "[('A', 1), ('a ', 1), ('B', 2)]",
+      "[('A', 1), ('B', 2)]"
+     ],
+     "answer": 3,
+     "explain": "Normalize text, then deduplicate. Verified by running it."
+    },
+    {
+     "q": "What are common ways to handle missing values?",
+     "options": [
+      "Drop, impute (mean/median/model) or flag, depending on why they're missing",
+      "Ignore",
+      "Always drop",
+      "Always zero"
+     ],
+     "answer": 0,
+     "explain": "Understand the mechanism."
+    },
+    {
+     "q": "Why standardize text case and whitespace?",
+     "options": [
+      "Law",
+      "Otherwise 'USA' and 'usa ' count as different categories",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Normalize first."
+    },
+    {
+     "q": "Why keep the raw data untouched?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "So cleaning is reproducible and reversible"
+     ],
+     "answer": 3,
+     "explain": "Script every step."
+    }
+   ]
+  },
+  "level-1/04-exploratory-data-analysis": {
+   "questions": [
+    {
+     "q": "What's the point of EDA?",
+     "options": [
+      "Make charts",
+      "Build models",
+      "Understand shape, distributions, outliers and relationships before answering a question",
+      "Clean only"
+     ],
+     "answer": 2,
+     "explain": "Skipping it invites errors."
+    },
+    {
+     "q": "A column's mean is much higher than its median. What does that suggest?",
+     "options": [
+      "Right skew or outliers pulling the mean",
+      "Bad type",
+      "Normal data",
+      "Missing data"
+     ],
+     "answer": 0,
+     "explain": "Look at the distribution."
+    },
+    {
+     "q": "What does `df.describe()` summarize?",
+     "options": [
+      "Count, mean, spread and quartiles of numeric columns",
+      "Nulls only",
+      "Joins",
+      "Types"
+     ],
+     "answer": 0,
+     "explain": "First look."
+    },
+    {
+     "q": "Why check for duplicates and impossible values early?",
+     "options": [
+      "They distort every later statistic",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Sanity checks."
+    }
+   ]
+  },
+  "level-1/05-data-visualization-basics": {
+   "questions": [
+    {
+     "q": "Which chart shows a distribution of one numeric variable?",
+     "options": [
+      "Line",
+      "Histogram",
+      "Pie",
+      "Scatter"
+     ],
+     "answer": 1,
+     "explain": "Bin choice matters."
+    },
+    {
+     "q": "Which chart shows the relationship between two numeric variables?",
+     "options": [
+      "Histogram",
+      "Scatter plot",
+      "Bar",
+      "Pie"
+     ],
+     "answer": 1,
+     "explain": "Look for trend and outliers."
+    },
+    {
+     "q": "Why should bar charts start at zero?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "Truncated axes exaggerate differences"
+     ],
+     "answer": 3,
+     "explain": "Bar length encodes value."
+    },
+    {
+     "q": "What makes a chart honest and clear?",
+     "options": [
+      "Labeled axes, units, a title that states the takeaway and minimal clutter",
+      "No labels",
+      "Many colors",
+      "3D effects"
+     ],
+     "answer": 0,
+     "explain": "Design for the reader."
+    }
+   ]
+  },
+  "level-1/06-statistics-fundamentals": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nimport math\nd=[10,12,9,11,13]\nm=sum(d)/len(d); sd=(sum((x-m)**2 for x in d)/(len(d)-1))**.5\nprint(m, round(sd,3), round(sd/math.sqrt(len(d)),3))\n```\n",
+     "options": [
+      "11.0 1.581 0.707",
+      "10.0 1.581 0.707",
+      "11.0 1.414 0.632",
+      "11.0 2.5 1.118"
+     ],
+     "answer": 0,
+     "explain": "Sample SD uses n-1; standard error is sd/sqrt(n). Verified by running it."
+    },
+    {
+     "q": "What does a p-value of 0.03 mean?",
+     "options": [
+      "If the null hypothesis were true, data this extreme would occur about 3% of the time",
+      "3% chance the null is true",
+      "97% chance the effect is real",
+      "The effect is large"
+     ],
+     "answer": 0,
+     "explain": "It isn't the probability the hypothesis is true."
+    },
+    {
+     "q": "What does a 95% confidence interval mean?",
+     "options": [
+      "p<0.05",
+      "95% of data lies inside",
+      "The procedure captures the true value in about 95% of repeated samples",
+      "95% chance the true value is in this one interval"
+     ],
+     "answer": 2,
+     "explain": "Common misinterpretation."
+    },
+    {
+     "q": "Why does a larger sample narrow the CI?",
+     "options": [
+      "Style",
+      "Magic",
+      "Law",
+      "Standard error shrinks as 1/sqrt(n)"
+     ],
+     "answer": 3,
+     "explain": "More data, more precision."
+    }
+   ]
+  },
+  "level-1/07-correlation-basic-regression": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nx=[1,2,3,4,5]; y=[2,4,5,4,5]\nn=5; mx=sum(x)/n; my=sum(y)/n\nb=sum((a-mx)*(c-my) for a,c in zip(x,y))/sum((a-mx)**2 for a in x)\nprint(round(b,2), round(my-b*mx,2))\n```\n",
+     "options": [
+      "0.6 2.0",
+      "0.5 2.5",
+      "0.6 2.2",
+      "1.0 0.0"
+     ],
+     "answer": 2,
+     "explain": "Least squares slope and intercept. Verified by running it."
+    },
+    {
+     "q": "Does correlation imply causation?",
+     "options": [
+      "No: confounders, reverse causality and chance can create correlation",
+      "Only strong",
+      "Sometimes always",
+      "Yes"
+     ],
+     "answer": 0,
+     "explain": "Think about the mechanism."
+    },
+    {
+     "q": "What does R^2 measure?",
+     "options": [
+      "Slope",
+      "P-value",
+      "Error",
+      "The share of variance in y explained by the model"
+     ],
+     "answer": 3,
+     "explain": "Not proof of correctness."
+    },
+    {
+     "q": "What does an outlier do to a regression line?",
+     "options": [
+      "Removes",
+      "Nothing",
+      "Straightens",
+      "It can pull the line substantially (high leverage)"
+     ],
+     "answer": 3,
+     "explain": "Inspect residuals."
+    }
+   ]
+  },
+  "level-1/08-messy-datasets": {
+   "questions": [
+    {
+     "q": "An order table has 'USA', 'U.S.A.' and 'United States'. What's the fix?",
+     "options": [
+      "Map variants to one canonical value",
+      "Keep",
+      "Ignore",
+      "Drop them"
+     ],
+     "answer": 0,
+     "explain": "Normalization."
+    },
+    {
+     "q": "What should you do about missing customer ids?",
+     "options": [
+      "Drop silently",
+      "Understand why, then decide to impute, flag or exclude, and document it",
+      "Ignore",
+      "Fill zero"
+     ],
+     "answer": 1,
+     "explain": "Be transparent."
+    },
+    {
+     "q": "Why log every cleaning decision?",
+     "options": [
+      "Style",
+      "So the analysis can be reviewed and reproduced",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Reproducibility."
+    },
+    {
+     "q": "What's a sanity check after cleaning?",
+     "options": [
+      "Skip",
+      "Row counts and totals reconcile with the source",
+      "Eyeball",
+      "Assume"
+     ],
+     "answer": 1,
+     "explain": "Verify."
+    }
+   ]
+  },
+  "level-1/09-communicating-findings": {
+   "questions": [
+    {
+     "q": "What should lead a report to executives?",
+     "options": [
+      "The finding and recommendation, then the supporting evidence",
+      "Methods first",
+      "Code first",
+      "Raw data"
+     ],
+     "answer": 0,
+     "explain": "Answer first."
+    },
+    {
+     "q": "What makes a chart title effective?",
+     "options": [
+      "It states the takeaway ('Churn doubled after the price change')",
+      "Chart type",
+      "The variable names",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Tell the story."
+    },
+    {
+     "q": "Why state uncertainty and limitations?",
+     "options": [
+      "Honest framing builds trust and prevents misuse",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Don't overclaim."
+    },
+    {
+     "q": "What's a good call to action?",
+     "options": [
+      "A specific recommended next step with owner and expected impact",
+      "More analysis",
+      "Nothing",
+      "A summary"
+     ],
+     "answer": 0,
+     "explain": "Enable decisions."
+    }
+   ]
+  },
+  "level-1/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What's the goal of the churn analysis?",
+     "options": [
+      "Clean data",
+      "Make charts",
+      "Predict stock",
+      "Understand why customers leave and recommend actions"
+     ],
+     "answer": 3,
+     "explain": "Business question first."
+    },
+    {
+     "q": "Which comparison helps explain churn?",
+     "options": [
+      "Average age",
+      "Names",
+      "Row count",
+      "Churn rate by segment, tenure and engagement"
+     ],
+     "answer": 3,
+     "explain": "Compare groups."
+    },
+    {
+     "q": "Why report effect sizes with significance?",
+     "options": [
+      "Speed",
+      "A significant result can still be tiny and unimportant",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Practical significance."
+    },
+    {
+     "q": "What ends the capstone?",
+     "options": [
+      "A notebook",
+      "A clear recommendation backed by evidence and caveats",
+      "A model",
+      "A CSV"
+     ],
+     "answer": 1,
+     "explain": "Decision-ready."
+    }
+   ]
+  },
+  "level-2/01-advanced-pandas": {
+   "questions": [
+    {
+     "q": "What does this groupby return?\n```sql\ncreate table s(r text, v int); insert into s values('n',10),('n',20),('s',5);\n\nselect r, avg(v), count(*) from s group by r order by r;\n```\n",
+     "options": [
+      "n,10; s,5",
+      "n,15.0; s,5.0",
+      "n,15.0,2; s,5.0,1",
+      "n,30,2; s,5,1"
+     ],
+     "answer": 2,
+     "explain": "Aggregate within groups (same idea as pandas groupby). Verified by running it in SQLite (rows shown as comma-separated, separated by semicolons)."
+    },
+    {
+     "q": "What's the risk of a many-to-many merge?",
+     "options": [
+      "Row explosion duplicating records and inflating totals",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Check key uniqueness."
+    },
+    {
+     "q": "Why prefer vectorized pandas ops to .apply with a Python function?",
+     "options": [
+      "They're much faster",
+      "Safer",
+      "Easier",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "Avoid row loops."
+    },
+    {
+     "q": "What does `pd.merge(how='left')` keep?",
+     "options": [
+      "All rows from the left table with matches where present",
+      "Nothing",
+      "Only matches",
+      "All right rows"
+     ],
+     "answer": 0,
+     "explain": "Else NaN."
+    }
+   ]
+  },
+  "level-2/02-statistical-testing": {
+   "questions": [
+    {
+     "q": "Which test compares the means of two independent groups?",
+     "options": [
+      "Correlation",
+      "Chi-square",
+      "ANOVA only",
+      "Two-sample t-test (or Mann-Whitney if non-normal)"
+     ],
+     "answer": 3,
+     "explain": "Check assumptions."
+    },
+    {
+     "q": "Which test is for two categorical variables?",
+     "options": [
+      "ANOVA",
+      "t-test",
+      "Chi-square test of independence",
+      "Regression"
+     ],
+     "answer": 2,
+     "explain": "Contingency table."
+    },
+    {
+     "q": "Which handles more than two group means?",
+     "options": [
+      "ANOVA (with post-hoc tests)",
+      "t-test repeatedly",
+      "Chi-square",
+      "Correlation"
+     ],
+     "answer": 0,
+     "explain": "Multiple comparisons inflate false positives."
+    },
+    {
+     "q": "What is the multiple comparisons problem?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Running many tests raises the chance of false positives; correct for it"
+     ],
+     "answer": 3,
+     "explain": "Bonferroni, FDR."
+    }
+   ]
+  },
+  "level-2/03-advanced-visualization": {
+   "questions": [
+    {
+     "q": "What does interactive Plotly add over static charts?",
+     "options": [
+      "Hover, zoom and toggling series for exploration",
+      "Joins",
+      "Statistics",
+      "Cleaning"
+     ],
+     "answer": 0,
+     "explain": "Good for exploring."
+    },
+    {
+     "q": "When use small multiples (facets)?",
+     "options": [
+      "To compare the same chart across categories",
+      "Pie charts",
+      "Animations",
+      "3D"
+     ],
+     "answer": 0,
+     "explain": "Easy comparison."
+    },
+    {
+     "q": "What's a heatmap good for?",
+     "options": [
+      "Maps only",
+      "Time",
+      "Showing magnitudes across two categorical dimensions (e.g. correlation matrix)",
+      "Text"
+     ],
+     "answer": 2,
+     "explain": "Use sensible color scales."
+    },
+    {
+     "q": "Why avoid rainbow color scales?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "They mislead perception of magnitude and hurt accessibility"
+     ],
+     "answer": 3,
+     "explain": "Use perceptually uniform maps."
+    }
+   ]
+  },
+  "level-2/04-feature-engineering": {
+   "questions": [
+    {
+     "q": "What does one-hot encoding do?",
+     "options": [
+      "Scales",
+      "Imputes",
+      "Turns a categorical variable into binary columns per category",
+      "Drops"
+     ],
+     "answer": 2,
+     "explain": "Avoids false ordering."
+    },
+    {
+     "q": "Why scale features for some models?",
+     "options": [
+      "Law",
+      "Style",
+      "Distance/gradient-based models are sensitive to feature magnitude",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Standardize."
+    },
+    {
+     "q": "What is data leakage in feature engineering?",
+     "options": [
+      "Using information unavailable at prediction time (e.g. future data)",
+      "Missing data",
+      "Bugs",
+      "Size"
+     ],
+     "answer": 0,
+     "explain": "Split before fitting transforms."
+    },
+    {
+     "q": "Why create interaction or date-part features?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Models can't infer them automatically from raw columns"
+     ],
+     "answer": 3,
+     "explain": "Domain knowledge."
+    }
+   ]
+  },
+  "level-2/05-intro-machine-learning": {
+   "questions": [
+    {
+     "q": "What's a baseline model for?",
+     "options": [
+      "Production",
+      "A simple benchmark that any real model must beat",
+      "Compliance",
+      "Fun"
+     ],
+     "answer": 1,
+     "explain": "Majority class or mean."
+    },
+    {
+     "q": "Why split train and test data?",
+     "options": [
+      "To estimate performance on unseen data",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Avoid overfitting."
+    },
+    {
+     "q": "What is overfitting?",
+     "options": [
+      "Model memorizes training noise and performs worse on new data",
+      "Large",
+      "Slow",
+      "Underfitting"
+     ],
+     "answer": 0,
+     "explain": "Regularize, simplify."
+    },
+    {
+     "q": "Why is accuracy misleading on imbalanced data?",
+     "options": [
+      "Law",
+      "Predicting the majority class gets high accuracy but misses the minority",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Use precision/recall/AUC."
+    }
+   ]
+  },
+  "level-2/06-time-series-basics": {
+   "questions": [
+    {
+     "q": "Why can't you randomly shuffle time series for validation?",
+     "options": [
+      "Speed",
+      "It leaks the future into training; use time-based splits",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Respect order."
+    },
+    {
+     "q": "What are trend, seasonality and noise?",
+     "options": [
+      "Three tests",
+      "Three models",
+      "Long-term direction, repeating patterns and random variation",
+      "Three charts"
+     ],
+     "answer": 2,
+     "explain": "Decomposition."
+    },
+    {
+     "q": "What does a rolling mean do?",
+     "options": [
+      "Sorts",
+      "Imputes",
+      "Smooths noise by averaging a moving window",
+      "Joins"
+     ],
+     "answer": 2,
+     "explain": "Window size matters."
+    },
+    {
+     "q": "What does this print?\n```python\nx=[1,2,3,4,5,6]\nprint([round(sum(x[i:i+3])/3,1) for i in range(len(x)-2)])\n```\n",
+     "options": [
+      "[1.0, 2.0, 3.0]",
+      "[2.0, 3.0, 4.0, 5.0]",
+      "[2, 3, 4, 5, 6]",
+      "[3.5]"
+     ],
+     "answer": 1,
+     "explain": "3-point rolling mean. Verified by running it."
+    }
+   ]
+  },
+  "level-2/07-ab-testing-fundamentals": {
+   "questions": [
+    {
+     "q": "What's the purpose of randomization in A/B tests?",
+     "options": [
+      "Speed",
+      "To balance known and unknown confounders across groups",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Enables causal claims."
+    },
+    {
+     "q": "Why decide the sample size and metric before the test?",
+     "options": [
+      "Law",
+      "To avoid peeking and p-hacking",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Pre-registration."
+    },
+    {
+     "q": "What's wrong with stopping the test as soon as p<0.05?",
+     "options": [
+      "Nothing",
+      "Law",
+      "Repeated peeking inflates false positives",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Fix the horizon or use sequential methods."
+    },
+    {
+     "q": "What does statistical power mean?",
+     "options": [
+      "The probability of detecting a real effect of a given size",
+      "Alpha",
+      "P-value",
+      "Effect"
+     ],
+     "answer": 0,
+     "explain": "Plan sample size."
+    }
+   ]
+  },
+  "level-2/08-sql-for-data-scientists": {
+   "questions": [
+    {
+     "q": "What does this return?\n```sql\ncreate table u(id int, plan text); insert into u values(1,'a'),(2,'b'),(3,'a'); create table e(uid int, n int); insert into e values(1,5),(1,3),(3,2);\n\nselect u.plan, sum(coalesce(e.n,0)) from u left join e on e.uid=u.id group by u.plan order by u.plan;\n```\n",
+     "options": [
+      "a,10",
+      "b,0",
+      "a,10; b,0",
+      "a,10; b,None"
+     ],
+     "answer": 2,
+     "explain": "LEFT JOIN keeps users without events. Verified by running it in SQLite (rows shown as comma-separated, separated by semicolons)."
+    },
+    {
+     "q": "Why pull and aggregate data in SQL instead of pandas?",
+     "options": [
+      "Law",
+      "Databases aggregate large data efficiently near the source",
+      "Habit",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Push computation down."
+    },
+    {
+     "q": "What does `GROUP BY` plus `HAVING` do?",
+     "options": [
+      "Sort",
+      "Rows",
+      "Joins",
+      "Filters groups after aggregation"
+     ],
+     "answer": 3,
+     "explain": "HAVING count(*)>5."
+    },
+    {
+     "q": "Why use parameterized queries?",
+     "options": [
+      "To prevent SQL injection and quoting bugs",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Bind values."
+    }
+   ]
+  },
+  "level-2/09-jupyter-best-practices": {
+   "questions": [
+    {
+     "q": "What's the main risk of notebooks?",
+     "options": [
+      "Style",
+      "Speed",
+      "Hidden state from out-of-order cell execution",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Restart and run all."
+    },
+    {
+     "q": "How do you keep a notebook reproducible?",
+     "options": [
+      "Cache",
+      "Run randomly",
+      "Run top to bottom, pin dependencies and set seeds",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Rerun from scratch."
+    },
+    {
+     "q": "Where should reusable code go?",
+     "options": [
+      "Cells",
+      "In modules imported by notebooks",
+      "Comments",
+      "Markdown"
+     ],
+     "answer": 1,
+     "explain": "Test it."
+    },
+    {
+     "q": "Why strip outputs before committing?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Cleaner diffs and no accidental data leakage"
+     ],
+     "answer": 3,
+     "explain": "nbstripout."
+    }
+   ]
+  },
+  "level-2/10-project-ab-test-analysis": {
+   "questions": [
+    {
+     "q": "What do you check first in an experiment analysis?",
+     "options": [
+      "Sample ratio mismatch and data quality",
+      "Charts",
+      "Model",
+      "The p-value"
+     ],
+     "answer": 0,
+     "explain": "Invalid assignment invalidates results."
+    },
+    {
+     "q": "What metrics should be reported?",
+     "options": [
+      "P only",
+      "Effect size with confidence interval, not only p-value",
+      "Names",
+      "Counts"
+     ],
+     "answer": 1,
+     "explain": "Practical significance."
+    },
+    {
+     "q": "What does a guardrail metric protect?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Against harming something important like latency or revenue"
+     ],
+     "answer": 3,
+     "explain": "Check side effects."
+    },
+    {
+     "q": "What's the final deliverable?",
+     "options": [
+      "A p-value",
+      "A recommendation (ship, iterate, stop) with evidence and caveats",
+      "A chart",
+      "A notebook"
+     ],
+     "answer": 1,
+     "explain": "Decision-ready."
+    }
+   ]
+  },
+  "level-3/01-advanced-statistical-modeling": {
+   "questions": [
+    {
+     "q": "What does logistic regression model?",
+     "options": [
+      "The probability of a binary outcome via log-odds",
+      "Time",
+      "Counts",
+      "Continuous"
+     ],
+     "answer": 0,
+     "explain": "Coefficients are log-odds."
+    },
+    {
+     "q": "What does regularization (L1/L2) do?",
+     "options": [
+      "Scales",
+      "Adds data",
+      "Penalizes large coefficients to reduce overfitting",
+      "Imputes"
+     ],
+     "answer": 2,
+     "explain": "L1 can zero out features."
+    },
+    {
+     "q": "What's multicollinearity?",
+     "options": [
+      "Outliers",
+      "Skew",
+      "Highly correlated predictors that make coefficients unstable",
+      "Missing data"
+     ],
+     "answer": 2,
+     "explain": "Check VIF."
+    },
+    {
+     "q": "Why check residuals?",
+     "options": [
+      "Speed",
+      "Law",
+      "To verify model assumptions like linearity and constant variance",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Diagnostics."
+    }
+   ]
+  },
+  "level-3/02-causal-inference-basics": {
+   "questions": [
+    {
+     "q": "Why is observational correlation not enough for causal claims?",
+     "options": [
+      "Confounders can drive both variables",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Randomization or adjustment needed."
+    },
+    {
+     "q": "What's a confounder?",
+     "options": [
+      "An outcome",
+      "A mediator",
+      "A variable influencing both treatment and outcome",
+      "A noise"
+     ],
+     "answer": 2,
+     "explain": "Adjust for it."
+    },
+    {
+     "q": "What does difference-in-differences estimate?",
+     "options": [
+      "Clustering",
+      "The effect of a treatment by comparing changes over time between treated and control groups",
+      "Prediction",
+      "Correlation"
+     ],
+     "answer": 1,
+     "explain": "Assumes parallel trends."
+    },
+    {
+     "q": "What's the gold standard for causal effects?",
+     "options": [
+      "Survey",
+      "Regression",
+      "A randomized controlled experiment",
+      "Dashboard"
+     ],
+     "answer": 2,
+     "explain": "If feasible and ethical."
+    }
+   ]
+  },
+  "level-3/03-advanced-time-series-forecasting": {
+   "questions": [
+    {
+     "q": "What does ARIMA model?",
+     "options": [
+      "A series via autoregression, differencing and moving average terms",
+      "Text",
+      "Images",
+      "Graphs"
+     ],
+     "answer": 0,
+     "explain": "Stationarity required."
+    },
+    {
+     "q": "What is stationarity?",
+     "options": [
+      "Constant values",
+      "Trend",
+      "Seasonality",
+      "Statistical properties like mean and variance don't change over time"
+     ],
+     "answer": 3,
+     "explain": "Differencing helps."
+    },
+    {
+     "q": "How do you evaluate forecasts?",
+     "options": [
+      "Random split",
+      "On a held-out future window using metrics like MAE/MAPE",
+      "Training error",
+      "Eyeballing"
+     ],
+     "answer": 1,
+     "explain": "Walk-forward validation."
+    },
+    {
+     "q": "Why compare to a naive forecast?",
+     "options": [
+      "Complex models must beat 'same as last period' to be useful",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Baselines."
+    }
+   ]
+  },
+  "level-3/04-working-with-big-data": {
+   "questions": [
+    {
+     "q": "What's the first approach when data doesn't fit in memory?",
+     "options": [
+      "Give up",
+      "Print",
+      "Sample, use chunked/streaming processing or a columnar engine like DuckDB/Parquet",
+      "Buy RAM"
+     ],
+     "answer": 2,
+     "explain": "Avoid unnecessary scale."
+    },
+    {
+     "q": "Why prefer Parquet over CSV for large data?",
+     "options": [
+      "Columnar compression and column pruning cut I/O",
+      "Readable",
+      "Untyped",
+      "Row-based"
+     ],
+     "answer": 0,
+     "explain": "Typed and fast."
+    },
+    {
+     "q": "When do you need Spark or Dask?",
+     "options": [
+      "Never",
+      "Always",
+      "For CSV",
+      "When single-machine tools can't handle volume or compute time"
+     ],
+     "answer": 3,
+     "explain": "Distributed."
+    },
+    {
+     "q": "Why push filters and aggregations early?",
+     "options": [
+      "Reduce data volume before expensive steps",
+      "Speed only",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Predicate pushdown."
+    }
+   ]
+  },
+  "level-3/05-model-interpretability": {
+   "questions": [
+    {
+     "q": "What do SHAP values explain?",
+     "options": [
+      "Accuracy",
+      "Speed",
+      "Data size",
+      "How much each feature contributed to a specific prediction"
+     ],
+     "answer": 3,
+     "explain": "Local and global views."
+    },
+    {
+     "q": "Why interpretability matters?",
+     "options": [
+      "Law only",
+      "Style",
+      "Trust, debugging, fairness and regulatory needs",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Understand failures."
+    },
+    {
+     "q": "What does permutation importance do?",
+     "options": [
+      "Measures how much shuffling a feature hurts performance",
+      "Drops rows",
+      "Adds features",
+      "Scales"
+     ],
+     "answer": 0,
+     "explain": "Model-agnostic."
+    },
+    {
+     "q": "Caution when reading feature importance?",
+     "options": [
+      "Correlated features share importance and importance isn't causation",
+      "Always causal",
+      "Never",
+      "Always accurate"
+     ],
+     "answer": 0,
+     "explain": "Interpret carefully."
+    }
+   ]
+  },
+  "level-3/06-data-storytelling-executives": {
+   "questions": [
+    {
+     "q": "What do executives need first?",
+     "options": [
+      "The answer and the decision it implies",
+      "Code",
+      "Raw data",
+      "Methods"
+     ],
+     "answer": 0,
+     "explain": "Lead with the point."
+    },
+    {
+     "q": "Why limit slides to one message each?",
+     "options": [
+      "Clarity and retention",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "One chart, one takeaway."
+    },
+    {
+     "q": "How do you handle uncertainty with executives?",
+     "options": [
+      "Hide",
+      "State it plainly with ranges and implications",
+      "Hedge",
+      "Jargon"
+     ],
+     "answer": 1,
+     "explain": "Honesty builds trust."
+    },
+    {
+     "q": "What's a good closing?",
+     "options": [
+      "Appendix",
+      "Questions",
+      "A recommendation with next steps and owners",
+      "Thanks"
+     ],
+     "answer": 2,
+     "explain": "Drive action."
+    }
+   ]
+  },
+  "level-3/07-building-dashboards-streamlit": {
+   "questions": [
+    {
+     "q": "What does Streamlit do?",
+     "options": [
+      "Turns Python scripts into interactive web apps with widgets",
+      "Cleans",
+      "Trains models",
+      "Stores data"
+     ],
+     "answer": 0,
+     "explain": "Reruns the script on interaction."
+    },
+    {
+     "q": "What does @st.cache_data help with?",
+     "options": [
+      "Avoiding recomputation of expensive data loading",
+      "Law",
+      "Style",
+      "Security"
+     ],
+     "answer": 0,
+     "explain": "Faster apps."
+    },
+    {
+     "q": "Why keep business logic out of UI code?",
+     "options": [
+      "Speed",
+      "Testability and reuse",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Separate concerns."
+    },
+    {
+     "q": "What should a dashboard answer?",
+     "options": [
+      "Everything",
+      "Nothing",
+      "Random",
+      "A defined set of questions for a specific audience"
+     ],
+     "answer": 3,
+     "explain": "Avoid clutter."
+    }
+   ]
+  },
+  "level-3/08-reproducible-research": {
+   "questions": [
+    {
+     "q": "What makes an analysis reproducible?",
+     "options": [
+      "A notebook",
+      "A PDF",
+      "Versioned code and data, pinned environment and fixed seeds",
+      "A screenshot"
+     ],
+     "answer": 2,
+     "explain": "Others can rerun it."
+    },
+    {
+     "q": "Why pin dependency versions?",
+     "options": [
+      "Law",
+      "Speed",
+      "Library updates can change results",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "requirements.lock."
+    },
+    {
+     "q": "Why use Git for analysis?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "History, review and collaboration"
+     ],
+     "answer": 3,
+     "explain": "Track changes."
+    },
+    {
+     "q": "What should be documented?",
+     "options": [
+      "Code only",
+      "Results only",
+      "Nothing",
+      "Data sources, assumptions and how to run"
+     ],
+     "answer": 3,
+     "explain": "README."
+    }
+   ]
+  },
+  "level-3/09-data-ethics-bias": {
+   "questions": [
+    {
+     "q": "Where can bias enter a model?",
+     "options": [
+      "Only code",
+      "Only data",
+      "Nowhere",
+      "Data collection, labels, features, evaluation and deployment"
+     ],
+     "answer": 3,
+     "explain": "Whole lifecycle."
+    },
+    {
+     "q": "Why evaluate performance by subgroup?",
+     "options": [
+      "Speed",
+      "Law",
+      "Averages can hide large gaps for some groups",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Disaggregate."
+    },
+    {
+     "q": "What is proxy discrimination?",
+     "options": [
+      "Leakage",
+      "Noise",
+      "Missing",
+      "Using a feature correlated with a protected attribute to the same effect"
+     ],
+     "answer": 3,
+     "explain": "Zip code as race proxy."
+    },
+    {
+     "q": "What should you do upon finding bias?",
+     "options": [
+      "Hide",
+      "Ship",
+      "Document, mitigate, monitor and decide if the use is appropriate",
+      "Ignore"
+     ],
+     "answer": 2,
+     "explain": "Responsible practice."
+    }
+   ]
+  },
+  "level-3/10-project-interactive-dashboard": {
+   "questions": [
+    {
+     "q": "What's the first step of the dashboard project?",
+     "options": [
+      "Pick charts",
+      "Code",
+      "Define the users and the questions it must answer",
+      "Pick colors"
+     ],
+     "answer": 2,
+     "explain": "Audience first."
+    },
+    {
+     "q": "Why add filters carefully?",
+     "options": [
+      "Style",
+      "Speed",
+      "Too many options confuse; offer those that matter",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Design for tasks."
+    },
+    {
+     "q": "How do you verify numbers in the dashboard?",
+     "options": [
+      "Reconcile against source queries",
+      "Skip",
+      "Eyeball",
+      "Assume"
+     ],
+     "answer": 0,
+     "explain": "Trust matters."
+    },
+    {
+     "q": "What should you do about slow queries?",
+     "options": [
+      "Ignore",
+      "Remove",
+      "More filters",
+      "Cache or pre-aggregate"
+     ],
+     "answer": 3,
+     "explain": "Performance."
+    }
+   ]
+  },
+  "level-4/01-leading-data-science-teams": {
+   "questions": [
+    {
+     "q": "What does a data science lead do beyond analysis?",
+     "options": [
+      "Reviews nothing",
+      "Avoids",
+      "Writes all code",
+      "Prioritizes problems, grows people and connects work to business outcomes"
+     ],
+     "answer": 3,
+     "explain": "Leadership."
+    },
+    {
+     "q": "How should work be prioritized?",
+     "options": [
+      "By expected business value and feasibility",
+      "Seniority",
+      "Interest",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Impact vs effort."
+    },
+    {
+     "q": "How do you grow team members?",
+     "options": [
+      "Tools",
+      "Titles",
+      "Silence",
+      "Stretch assignments, feedback and review culture"
+     ],
+     "answer": 3,
+     "explain": "Mentoring."
+    },
+    {
+     "q": "What's a healthy review practice?",
+     "options": [
+      "Only code",
+      "Code and analysis review for correctness and clarity",
+      "None",
+      "Only charts"
+     ],
+     "answer": 1,
+     "explain": "Quality."
+    }
+   ]
+  },
+  "level-4/02-advanced-causal-inference": {
+   "questions": [
+    {
+     "q": "What does an instrumental variable need?",
+     "options": [
+      "Affects treatment, affects outcome only through treatment, and is independent of confounders",
+      "Random",
+      "Any variable",
+      "Correlated with outcome"
+     ],
+     "answer": 0,
+     "explain": "Hard to find valid ones."
+    },
+    {
+     "q": "What does propensity score matching do?",
+     "options": [
+      "Balances observed covariates between treated and untreated units",
+      "Predicts",
+      "Randomizes",
+      "Imputes"
+     ],
+     "answer": 0,
+     "explain": "Unobserved confounding remains."
+    },
+    {
+     "q": "What's regression discontinuity?",
+     "options": [
+      "Comparing units just above and below a threshold that determines treatment",
+      "Survey",
+      "Clustering",
+      "Time series"
+     ],
+     "answer": 0,
+     "explain": "Local effect."
+    },
+    {
+     "q": "What's the limitation of all observational methods?",
+     "options": [
+      "Cost",
+      "Speed",
+      "Law",
+      "They depend on untestable assumptions"
+     ],
+     "answer": 3,
+     "explain": "Be transparent."
+    }
+   ]
+  },
+  "level-4/03-data-science-platform": {
+   "questions": [
+    {
+     "q": "What does a data science platform provide?",
+     "options": [
+      "One model",
+      "One dataset",
+      "One notebook",
+      "Shared compute, data access, experiment tracking and deployment tooling"
+     ],
+     "answer": 3,
+     "explain": "Productivity."
+    },
+    {
+     "q": "What does experiment tracking record?",
+     "options": [
+      "Logs",
+      "Names",
+      "Colors",
+      "Parameters, code version, data version and metrics"
+     ],
+     "answer": 3,
+     "explain": "Reproducibility."
+    },
+    {
+     "q": "Why standardize environments?",
+     "options": [
+      "Speed",
+      "Reproducibility across people and machines",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Containers."
+    },
+    {
+     "q": "What does self-service enable?",
+     "options": [
+      "Chaos",
+      "Cost",
+      "Nothing",
+      "Scientists work without waiting on infrastructure teams"
+     ],
+     "answer": 3,
+     "explain": "Guardrails."
+    }
+   ]
+  },
+  "level-4/04-mlops-for-data-scientists": {
+   "questions": [
+    {
+     "q": "What does MLOps add to modeling?",
+     "options": [
+      "Only code",
+      "Only data",
+      "Only training",
+      "Versioning, deployment, monitoring and retraining processes"
+     ],
+     "answer": 3,
+     "explain": "Operate models."
+    },
+    {
+     "q": "What's model drift?",
+     "options": [
+      "Bug",
+      "Cost",
+      "Performance degrades as data distribution or relationships change",
+      "Overfit"
+     ],
+     "answer": 2,
+     "explain": "Monitor and retrain."
+    },
+    {
+     "q": "Why version data and models?",
+     "options": [
+      "Speed",
+      "To reproduce and roll back",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Registry."
+    },
+    {
+     "q": "What should a deployment include?",
+     "options": [
+      "Slides",
+      "Tests, monitoring and a rollback plan",
+      "Nothing",
+      "Docs"
+     ],
+     "answer": 1,
+     "explain": "Safe release."
+    }
+   ]
+  },
+  "level-4/05-advanced-experimentation-scale": {
+   "questions": [
+    {
+     "q": "What's CUPED?",
+     "options": [
+      "Variance reduction using pre-experiment covariates to detect smaller effects",
+      "A test",
+      "A metric",
+      "A bug"
+     ],
+     "answer": 0,
+     "explain": "Increases power."
+    },
+    {
+     "q": "What's a network effect problem in A/B tests?",
+     "options": [
+      "Speed",
+      "Law",
+      "Treated users influence control users, violating independence",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Cluster randomization."
+    },
+    {
+     "q": "Why run many experiments with a shared platform?",
+     "options": [
+      "Consistency, guardrails and learning at scale",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Experimentation culture."
+    },
+    {
+     "q": "What risk does running many metrics create?",
+     "options": [
+      "Speed",
+      "Law",
+      "Cost",
+      "False positives; predefine primary metrics and correct"
+     ],
+     "answer": 3,
+     "explain": "Discipline."
+    }
+   ]
+  },
+  "level-4/06-strategy-roadmapping": {
+   "questions": [
+    {
+     "q": "What does a data strategy align?",
+     "options": [
+      "Data and analytics investments with business goals",
+      "Reports",
+      "Tools",
+      "Hiring"
+     ],
+     "answer": 0,
+     "explain": "Value-driven."
+    },
+    {
+     "q": "How do you prioritize roadmap items?",
+     "options": [
+      "Random",
+      "Impact, effort, risk and dependencies",
+      "Hype",
+      "Seniority"
+     ],
+     "answer": 1,
+     "explain": "Transparent criteria."
+    },
+    {
+     "q": "Why include quick wins and long bets?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Build credibility while investing in capability"
+     ],
+     "answer": 3,
+     "explain": "Balanced portfolio."
+    },
+    {
+     "q": "How do you track progress?",
+     "options": [
+      "Task counts",
+      "Meetings",
+      "Outcome metrics tied to business results",
+      "Hours"
+     ],
+     "answer": 2,
+     "explain": "Measure value."
+    }
+   ]
+  },
+  "level-4/07-stakeholder-management": {
+   "questions": [
+    {
+     "q": "How do you handle a stakeholder demanding a result you can't support?",
+     "options": [
+      "Explain evidence and limits, and offer alternatives",
+      "Comply",
+      "Hide",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Integrity."
+    },
+    {
+     "q": "What clarifies expectations early?",
+     "options": [
+      "Agreeing the question, success criteria and timeline",
+      "Tools",
+      "Nothing",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Scope."
+    },
+    {
+     "q": "Why communicate regularly?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Prevents surprises and builds trust"
+     ],
+     "answer": 3,
+     "explain": "Cadence."
+    },
+    {
+     "q": "What's a good way to deliver bad news?",
+     "options": [
+      "Early, with facts, impact and a proposed path",
+      "Blame",
+      "Late",
+      "Vague"
+     ],
+     "answer": 0,
+     "explain": "Be direct."
+    }
+   ]
+  },
+  "level-4/08-ethics-governance-scale": {
+   "questions": [
+    {
+     "q": "What does AI governance include?",
+     "options": [
+      "Only tools",
+      "Only audits",
+      "Nothing",
+      "Policies, risk review, documentation and accountability"
+     ],
+     "answer": 3,
+     "explain": "Scale with risk."
+    },
+    {
+     "q": "What is a model card?",
+     "options": [
+      "A chart",
+      "Documentation of a model's purpose, data, performance and limits",
+      "A license",
+      "A key"
+     ],
+     "answer": 1,
+     "explain": "Transparency."
+    },
+    {
+     "q": "Why do impact assessments matter?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Identify harms before deployment"
+     ],
+     "answer": 3,
+     "explain": "Proactive."
+    },
+    {
+     "q": "Who is accountable for a model's outcomes?",
+     "options": [
+      "Nobody",
+      "Vendor",
+      "The model",
+      "A named owner"
+     ],
+     "answer": 3,
+     "explain": "Assign ownership."
+    }
+   ]
+  },
+  "level-4/09-career-growth": {
+   "questions": [
+    {
+     "q": "What distinguishes senior data scientists?",
+     "options": [
+      "More tools",
+      "Speed",
+      "Problem framing, judgment and influence beyond technical skill",
+      "Typing"
+     ],
+     "answer": 2,
+     "explain": "Scope grows."
+    },
+    {
+     "q": "How do you build credibility?",
+     "options": [
+      "Silence",
+      "Deliver reliable, communicated results and own mistakes",
+      "Claim",
+      "Hype"
+     ],
+     "answer": 1,
+     "explain": "Track record."
+    },
+    {
+     "q": "What skills compound?",
+     "options": [
+      "Trends",
+      "Memorization",
+      "Tool names",
+      "Statistics, communication and domain expertise"
+     ],
+     "answer": 3,
+     "explain": "Durable."
+    },
+    {
+     "q": "How do you choose a specialization?",
+     "options": [
+      "Align interests, strengths and market needs",
+      "Random",
+      "Salary only",
+      "Trend"
+     ],
+     "answer": 0,
+     "explain": "Balance."
+    }
+   ]
+  },
+  "level-4/10-capstone-full-project": {
+   "questions": [
+    {
+     "q": "What does the capstone show?",
+     "options": [
+      "Only code",
+      "Only slides",
+      "Only model",
+      "An end-to-end project from question to communicated, deployed recommendation"
+     ],
+     "answer": 3,
+     "explain": "Full lifecycle."
+    },
+    {
+     "q": "How do you demonstrate rigor?",
+     "options": [
+      "Charts",
+      "Claims",
+      "Validation, sensitivity checks and clear limitations",
+      "Code"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What would make it production-ready?",
+     "options": [
+      "Slides",
+      "Reproducibility, monitoring and documentation",
+      "Demo",
+      "Hope"
+     ],
+     "answer": 1,
+     "explain": "Operate it."
+    },
+    {
+     "q": "What's the final measure of success?",
+     "options": [
+      "Code",
+      "Business impact from decisions informed by the work",
+      "Charts",
+      "Accuracy"
+     ],
+     "answer": 1,
+     "explain": "Outcome."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A manager asks for 'the data science'. What should you do first?",
+    "options": [
+     "Start cleaning",
+     "Clarify the business question and the decision the analysis will inform",
+     "Pick a model",
+     "Build a dashboard"
+    ],
+    "answer": 1,
+    "explain": "Start from the decision."
+   },
+   {
+    "q": "Customer names appear as 'USA', 'U.S.A.' and 'United States'. What's the correct cleaning step?",
+    "options": [
+     "Map variants to one canonical value and log the rule",
+     "Leave them",
+     "Drop them",
+     "Pick one row"
+    ],
+    "answer": 0,
+    "explain": "Normalize and document."
+   },
+   {
+    "q": "What does this print?\n```python\nimport statistics as s\nd=[1,2,2,3,100]\nprint(s.mean(d), s.median(d))\n```\n",
+    "options": [
+     "21.6 21.6",
+     "2 21.6",
+     "2 2",
+     "21.6 2"
+    ],
+    "answer": 3,
+    "explain": "The outlier drags the mean but not the median. Verified by running it."
+   },
+   {
+    "q": "What does this print for a sample SD?\n```python\nimport statistics as s\nprint(round(s.stdev([10,12,9,11,13]),3), round(s.pstdev([10,12,9,11,13]),3))\n```\n",
+    "options": [
+     "1.414 1.581",
+     "1.581 1.581",
+     "1.414 1.414",
+     "1.581 1.414"
+    ],
+    "answer": 3,
+    "explain": "Sample SD divides by n-1. Verified by running it."
+   },
+   {
+    "q": "A study finds p=0.03. Which statement is correct?",
+    "options": [
+     "The effect is large",
+     "There's a 3% chance the null is true",
+     "There's a 97% chance the effect is real",
+     "If there were no effect, data this extreme would occur about 3% of the time"
+    ],
+    "answer": 3,
+    "explain": "p-values aren't the probability a hypothesis is true."
+   },
+   {
+    "q": "Ice cream sales and drownings are correlated. What's the best explanation?",
+    "options": [
+     "Coincidence only",
+     "A confounder (hot weather) drives both",
+     "Drowning causes sales",
+     "Ice cream causes drowning"
+    ],
+    "answer": 1,
+    "explain": "Correlation isn't causation."
+   },
+   {
+    "q": "A model gets 95% accuracy predicting churn when 5% churn. What do you check?",
+    "options": [
+     "Whether it just predicts 'no churn'; look at precision, recall and a baseline",
+     "Accuracy only",
+     "Ship it",
+     "More epochs"
+    ],
+    "answer": 0,
+    "explain": "Imbalanced classes."
+   },
+   {
+    "q": "Features were standardized using the whole dataset before the train/test split. What went wrong?",
+    "options": [
+     "Nothing",
+     "Underfitting",
+     "Overfitting only",
+     "Data leakage: test information influenced the training transform"
+    ],
+    "answer": 3,
+    "explain": "Fit transforms on training data only."
+   },
+   {
+    "q": "You shuffle a daily sales series randomly before splitting. What's the problem?",
+    "options": [
+     "Bias only",
+     "The model trains on the future to predict the past; use a time-based split",
+     "Speed",
+     "Nothing"
+    ],
+    "answer": 1,
+    "explain": "Respect time order."
+   },
+   {
+    "q": "An A/B test is stopped as soon as p dips below 0.05. Why is that risky?",
+    "options": [
+     "It's fine",
+     "Repeated peeking inflates false positives; fix the horizon or use sequential methods",
+     "Speeds up",
+     "Lowers power"
+    ],
+    "answer": 1,
+    "explain": "Pre-register stopping rules."
+   },
+   {
+    "q": "The control and treatment groups are 55%/45% when 50/50 was intended. What do you suspect?",
+    "options": [
+     "Noise",
+     "Nothing",
+     "Bad luck",
+     "A sample ratio mismatch: assignment or logging is broken"
+    ],
+    "answer": 3,
+    "explain": "Fix before analysis."
+   },
+   {
+    "q": "An A/B test shows +0.2% lift, p=0.001 on 10 million users. How do you report it?",
+    "options": [
+     "Huge win",
+     "Statistically significant but tiny; judge practical significance and cost",
+     "Insignificant",
+     "Ignore"
+    ],
+    "answer": 1,
+    "explain": "Effect size matters."
+   },
+   {
+    "q": "You ran 20 metric tests and one is p=0.04. What's the concern?",
+    "options": [
+     "Multiple comparisons: expect about one false positive; correct or predefine primary metrics",
+     "Nothing",
+     "Increase alpha",
+     "It's real"
+    ],
+    "answer": 0,
+    "explain": "False discovery."
+   },
+   {
+    "q": "Observational data show treated users do better, but they self-selected. What do you use?",
+    "options": [
+     "Ignore",
+     "Causal methods (matching, diff-in-diff) with stated assumptions, ideally a randomized test",
+     "Averages",
+     "Regression only"
+    ],
+    "answer": 1,
+    "explain": "Selection bias."
+   },
+   {
+    "q": "A model explains predictions with SHAP. What can you say?",
+    "options": [
+     "Causes",
+     "Accuracy",
+     "Which features contributed to a prediction, not that they cause the outcome",
+     "Fairness"
+    ],
+    "answer": 2,
+    "explain": "Interpretability isn't causality."
+   },
+   {
+    "q": "A dashboard loads slowly on 50 million rows. What helps?",
+    "options": [
+     "Add filters",
+     "Pre-aggregate or cache and query only what's needed",
+     "Ignore",
+     "Remove charts"
+    ],
+    "answer": 1,
+    "explain": "Performance."
+   },
+   {
+    "q": "Your notebook gives different results when run top to bottom. Likely cause?",
+    "options": [
+     "Randomness only",
+     "Hidden state from out-of-order cells; restart and run all with fixed seeds",
+     "Bug in pandas",
+     "Hardware"
+    ],
+    "answer": 1,
+    "explain": "Reproducibility."
+   },
+   {
+    "q": "A hiring model's accuracy is 90% overall but 70% for one group. What next?",
+    "options": [
+     "Ship",
+     "Average",
+     "Investigate and mitigate the disparity before deployment",
+     "Ignore"
+    ],
+    "answer": 2,
+    "explain": "Evaluate by subgroup."
+   },
+   {
+    "q": "An executive asks for a one-slide summary. What leads it?",
+    "options": [
+     "Code",
+     "The recommendation and the key evidence",
+     "Methods",
+     "Raw tables"
+    ],
+    "answer": 1,
+    "explain": "Answer first."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A/B test z-test",
+    "prompt": "Implement two_proportion_z(conv_a, n_a, conv_b, n_b) using the pooled-proportion z-test and a two-sided p-value from the normal CDF (math.erf). Analyze 200/2000 vs 250/2000 and then a small 200/2000 vs 210/2000 difference.",
+    "starter": "import math\n\ndef two_proportion_z(conv_a, n_a, conv_b, n_b):\n    # return (p_a, p_b, z, two_sided_p) using the pooled-proportion z-test;\n    # p-value from the normal CDF: 0.5*(1+erf(z/sqrt(2)))\n    return 0, 0, 0, 1\n\np_a, p_b, z, p = two_proportion_z(200, 2000, 250, 2000)\nprint(\"A=%.3f B=%.3f lift=%.1f%%\" % (p_a, p_b, (p_b - p_a) / p_a * 100))\nprint(\"z=%.2f p=%.4f\" % (z, p))\nprint(\"significant at 5%:\", p < 0.05)\n_, _, z2, p2 = two_proportion_z(200, 2000, 210, 2000)\nprint(\"small difference p=%.2f significant: %s\" % (p2, p2 < 0.05))\n",
+    "expected": "A=0.100 B=0.125 lift=25.0%\nz=2.50 p=0.0124\nsignificant at 5%: True\nsmall difference p=0.60 significant: False",
+    "solution": "import math\n\ndef two_proportion_z(conv_a, n_a, conv_b, n_b):\n    p_a, p_b = conv_a / n_a, conv_b / n_b\n    pooled = (conv_a + conv_b) / (n_a + n_b)\n    se = math.sqrt(pooled * (1 - pooled) * (1 / n_a + 1 / n_b))\n    z = (p_b - p_a) / se\n    p_value = 2 * (1 - 0.5 * (1 + math.erf(abs(z) / math.sqrt(2))))\n    return p_a, p_b, z, p_value\n\np_a, p_b, z, p = two_proportion_z(200, 2000, 250, 2000)\nprint(\"A=%.3f B=%.3f lift=%.1f%%\" % (p_a, p_b, (p_b - p_a) / p_a * 100))\nprint(\"z=%.2f p=%.4f\" % (z, p))\nprint(\"significant at 5%:\", p < 0.05)\n_, _, z2, p2 = two_proportion_z(200, 2000, 210, 2000)\nprint(\"small difference p=%.2f significant: %s\" % (p2, p2 < 0.05))\n",
+    "explain": "A 2.5-point lift on 2,000 users per arm is unlikely under no difference, while a 0.5-point lift isn't distinguishable from noise. Report effect size and interval too. Verified by running the solution."
+   },
+   {
+    "title": "Least squares and a warning",
+    "prompt": "Implement fit_line(x, y) returning slope, intercept and R-squared by ordinary least squares. Fit a clean linear dataset, predict x=7, and then fit data with one outlier to see how it distorts the line.",
+    "starter": "def fit_line(x, y):\n    # ordinary least squares: return (slope, intercept, r_squared)\n    return 0, 0, 0\n\nx = [1, 2, 3, 4, 5, 6]\ny = [2.1, 4.3, 5.9, 8.2, 9.9, 12.1]\nm, c, r2 = fit_line(x, y)\nprint(\"slope=%.3f intercept=%.3f r2=%.4f\" % (m, c, r2))\nprint(\"prediction for x=7: %.2f\" % (c + m * 7))\n\n# Anscombe-style warning: same fit, different shape\nx2 = [1, 2, 3, 4, 5, 6]\ny2 = [2, 4, 6, 8, 10, 30]\nm2, c2, r22 = fit_line(x2, y2)\nprint(\"outlier fit slope=%.2f r2=%.2f\" % (m2, r22))\n",
+    "expected": "slope=1.974 intercept=0.173 r2=0.9983\nprediction for x=7: 13.99\noutlier fit slope=4.57 r2=0.70",
+    "solution": "def fit_line(x, y):\n    n = len(x)\n    mx, my = sum(x) / n, sum(y) / n\n    sxx = sum((a - mx) ** 2 for a in x)\n    sxy = sum((a - mx) * (b - my) for a, b in zip(x, y))\n    slope = sxy / sxx\n    intercept = my - slope * mx\n    ss_res = sum((b - (intercept + slope * a)) ** 2 for a, b in zip(x, y))\n    ss_tot = sum((b - my) ** 2 for b in y)\n    return slope, intercept, 1 - ss_res / ss_tot\n\nx = [1, 2, 3, 4, 5, 6]\ny = [2.1, 4.3, 5.9, 8.2, 9.9, 12.1]\nm, c, r2 = fit_line(x, y)\nprint(\"slope=%.3f intercept=%.3f r2=%.4f\" % (m, c, r2))\nprint(\"prediction for x=7: %.2f\" % (c + m * 7))\n\n# Anscombe-style warning: same fit, different shape\nx2 = [1, 2, 3, 4, 5, 6]\ny2 = [2, 4, 6, 8, 10, 30]\nm2, c2, r22 = fit_line(x2, y2)\nprint(\"outlier fit slope=%.2f r2=%.2f\" % (m2, r22))\n",
+    "explain": "The first fit is nearly perfect, while one outlier at x=6 changes the slope sharply and drops R-squared. Always plot your data and inspect residuals. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
