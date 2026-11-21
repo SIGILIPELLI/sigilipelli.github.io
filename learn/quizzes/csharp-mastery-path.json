@@ -1,0 +1,2159 @@
+{
+ "course": "csharp-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-csharp-dotnet": {
+   "questions": [
+    {
+     "q": "What is the relationship between C# and .NET?",
+     "options": [
+      "C# is the language; .NET is the runtime and class libraries that run it",
+      "C# is a runtime",
+      "NET is a language",
+      "They are the same"
+     ],
+     "answer": 0,
+     "explain": "The SDK provides the compiler and tools."
+    },
+    {
+     "q": "What does `dotnet run` do?",
+     "options": [
+      "Builds and runs the project",
+      "Only restores packages",
+      "Installs .NET",
+      "Publishes to cloud"
+     ],
+     "answer": 0,
+     "explain": "dotnet build compiles; dotnet run builds then runs."
+    },
+    {
+     "q": "What does C# compile to before running?",
+     "options": [
+      "Machine code only",
+      "Intermediate Language (IL), JIT-compiled to machine code by the runtime",
+      "Bytecode for the JVM",
+      "Source text"
+     ],
+     "answer": 1,
+     "explain": "The CLR executes IL."
+    },
+    {
+     "q": "What is a top-level statements program?",
+     "options": [
+      "A Program.cs where code can start without an explicit Main method",
+      "A library",
+      "Invalid C#",
+      "A Java feature"
+     ],
+     "answer": 0,
+     "explain": "Modern templates use it."
+    }
+   ]
+  },
+  "level-1/02-variables-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\nint a = 7, b = 2;\nConsole.WriteLine($\"{a / b} {a % b} {(double)a / b}\");\n```\n",
+     "options": [
+      "4 1 3.5",
+      "3 1 3.5",
+      "3.5 1 3.5",
+      "3 1 3"
+     ],
+     "answer": 1,
+     "explain": "Integer division truncates. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does this print?\n```csharp\nvar x = 5;\nvar y = 2.5;\nvar z = x * y;\nConsole.WriteLine(z.GetType().Name + \" \" + z);\n```\n",
+     "options": [
+      "Double 12",
+      "Int32 12",
+      "Double 12.5",
+      "Single 12.5"
+     ],
+     "answer": 2,
+     "explain": "var infers the type at compile time. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does this print?\n```csharp\nstring? s = null;\nConsole.WriteLine(s?.Length ?? -1);\n```\n",
+     "options": [
+      "0",
+      "-1",
+      "null",
+      "Crash"
+     ],
+     "answer": 1,
+     "explain": "?. short-circuits and ?? supplies a default. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What's the difference between a value type and a reference type?",
+     "options": [
+      "No difference",
+      "Value types hold their data directly; reference types hold a reference to data on the heap",
+      "Reference types are copied",
+      "Value types are objects only"
+     ],
+     "answer": 1,
+     "explain": "int and struct are values; class is a reference type."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\nint s=0; for (int i=1;i<=10;i++){ if(i%2==0) continue; if(i>7) break; s+=i; } Console.WriteLine(s);\n```\n",
+     "options": [
+      "28",
+      "10",
+      "16",
+      "25"
+     ],
+     "answer": 2,
+     "explain": "1+3+5+7 = 16. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does this print?\n```csharp\nint n = 3;\nstring r = n switch { 1 => \"one\", 2 or 3 => \"few\", _ => \"many\" };\nConsole.WriteLine(r);\n```\n",
+     "options": [
+      "one",
+      "many",
+      "few",
+      "3"
+     ],
+     "answer": 2,
+     "explain": "Switch expressions support patterns like or. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "Does a C# switch case fall through to the next case?",
+     "options": [
+      "No: each case section must end with break/return/etc.",
+      "Only for ints",
+      "Yes always",
+      "Only with default"
+     ],
+     "answer": 0,
+     "explain": "Unlike C."
+    },
+    {
+     "q": "What does this print?\n```csharp\nforeach (var c in \"abc\") Console.Write((char)(c+1));\n```\n",
+     "options": [
+      "Error",
+      "abc",
+      "bcd",
+      "98 99 100"
+     ],
+     "answer": 2,
+     "explain": "char arithmetic yields int; cast back to char. Verified by compiling and running with the .NET SDK."
+    }
+   ]
+  },
+  "level-1/04-methods-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\nint Inc(ref int x){ x++; return x; }\nint a=1; Inc(ref a); Inc(ref a); Console.WriteLine(a);\n```\n",
+     "options": [
+      "1",
+      "3",
+      "2",
+      "0"
+     ],
+     "answer": 1,
+     "explain": "ref passes the variable itself. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does this print?\n```csharp\nbool TryDiv(int a,int b,out int r){ if(b==0){r=0;return false;} r=a/b; return true; }\nif(TryDiv(7,2,out var q)) Console.WriteLine(q);\n```\n",
+     "options": [
+      "false",
+      "3",
+      "0",
+      "3.5"
+     ],
+     "answer": 1,
+     "explain": "The Try pattern returns success and an out value. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does this print?\n```csharp\nstring Greet(string name, string greeting = \"Hello\") => $\"{greeting}, {name}!\";\nConsole.WriteLine(Greet(\"Ada\") + \" \" + Greet(greeting: \"Hi\", name: \"Bo\"));\n```\n",
+     "options": [
+      "Hello, Ada! Hi, Bo!",
+      "Error",
+      "Hi, Ada! Hi, Bo!",
+      "Hello, Ada! Hello, Bo!"
+     ],
+     "answer": 0,
+     "explain": "Optional and named arguments. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does the expression-bodied syntax `int Sq(int x) => x * x;` mean?",
+     "options": [
+      "A property",
+      "A lambda variable",
+      "An interface",
+      "A method whose body is a single expression"
+     ],
+     "answer": 3,
+     "explain": "Shorter syntax."
+    }
+   ]
+  },
+  "level-1/05-classes-objects": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\nvar p=new P(\"Ada\"); Console.WriteLine(p);\nclass P{ public string Name{get;} public P(string n)=>Name=n; public override string ToString()=>$\"P({Name})\"; }\n```\n",
+     "options": [
+      "Ada",
+      "P",
+      "P(Ada)",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "ToString controls string conversion. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does a get-only auto property `public string Name { get; }` allow?",
+     "options": [
+      "Setting anywhere",
+      "Setting only in the constructor (or initializer)",
+      "Reading never",
+      "No setting"
+     ],
+     "answer": 1,
+     "explain": "Immutability."
+    },
+    {
+     "q": "What does `private` do?",
+     "options": [
+      "Makes static",
+      "Hides from compiler",
+      "Makes const",
+      "Restricts access to the declaring class"
+     ],
+     "answer": 3,
+     "explain": "Encapsulation."
+    },
+    {
+     "q": "What does `static` on a member mean?",
+     "options": [
+      "It belongs to the type, not an instance",
+      "It's constant",
+      "It's private",
+      "It's virtual"
+     ],
+     "answer": 0,
+     "explain": "Call it via the type name."
+    }
+   ]
+  },
+  "level-1/06-collections": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\nvar m = new Dictionary<string,int>{[\"a\"]=1};\nm[\"b\"]=2; m[\"a\"]+=5;\nConsole.WriteLine(string.Join(\",\", m.Select(kv=>$\"{kv.Key}{kv.Value}\")));\n```\n",
+     "options": [
+      "a6,b2",
+      "a1,b2",
+      "b2,a6",
+      "a6"
+     ],
+     "answer": 0,
+     "explain": "Dictionary stores key/value pairs. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does this print?\n```csharp\nvar l = new List<int>{3,1,2};\nl.Sort(); l.Add(9); l.RemoveAt(0);\nConsole.WriteLine(string.Join(\" \", l)+\" \"+l.Count);\n```\n",
+     "options": [
+      "1 2 3 9 4",
+      "2 3 9 3",
+      "2 3 9 4",
+      "3 1 2 3"
+     ],
+     "answer": 1,
+     "explain": "Sort then add then remove the first. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "When is HashSet<T> the right choice?",
+     "options": [
+      "When you need fast membership tests and uniqueness",
+      "Ordered access",
+      "Duplicates",
+      "Indexing"
+     ],
+     "answer": 0,
+     "explain": "Average O(1) Contains."
+    },
+    {
+     "q": "What happens reading a missing Dictionary key with the indexer?",
+     "options": [
+      "Returns 0",
+      "Adds it",
+      "KeyNotFoundException; use TryGetValue to avoid it",
+      "Returns null"
+     ],
+     "answer": 2,
+     "explain": "Check first."
+    }
+   ]
+  },
+  "level-1/07-exception-handling": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\ntry { int[] a = new int[2]; a[5] = 1; } catch (IndexOutOfRangeException) { Console.Write(\"idx \"); } finally { Console.Write(\"fin\"); }\n```\n",
+     "options": [
+      "fin",
+      "idx",
+      "Crash",
+      "idx fin"
+     ],
+     "answer": 3,
+     "explain": "finally always runs. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does this print?\n```csharp\ntry { throw new InvalidOperationException(\"bad\"); } catch (Exception e) when (e.Message == \"bad\") { Console.WriteLine(\"filtered\"); }\n```\n",
+     "options": [
+      "filtered",
+      "bad",
+      "Crash",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Exception filters use when. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does `using var f = File.OpenRead(p);` guarantee?",
+     "options": [
+      "The stream is disposed when it goes out of scope, even on exceptions",
+      "It's never closed",
+      "It's async",
+      "It's cached"
+     ],
+     "answer": 0,
+     "explain": "IDisposable pattern."
+    },
+    {
+     "q": "What's the right way to rethrow preserving the stack trace?",
+     "options": [
+      "throw new Exception()",
+      "return",
+      "`throw;` inside the catch block",
+      "throw ex;"
+     ],
+     "answer": 2,
+     "explain": "throw ex resets the trace."
+    }
+   ]
+  },
+  "level-1/08-linq-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\nvar n = new[]{1,2,3,4,5,6};\nConsole.WriteLine(string.Join(\",\", n.Where(x=>x%2==0).Select(x=>x*x)));\n```\n",
+     "options": [
+      "4,16,36",
+      "1,9,25",
+      "2,4,6",
+      "4,16"
+     ],
+     "answer": 0,
+     "explain": "Where filters then Select projects. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does this print?\n```csharp\nvar w = new[]{\"apple\",\"bob\",\"cat\",\"avocado\"};\nforeach (var g in w.GroupBy(s=>s[0]).OrderBy(g=>g.Key)) Console.Write($\"{g.Key}{g.Count()} \");\n```\n",
+     "options": [
+      "a1 b1 c1",
+      "a4",
+      "a2 b1 c1",
+      "a2 b1"
+     ],
+     "answer": 2,
+     "explain": "GroupBy by first character. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "When does a LINQ query like `Where` actually run?",
+     "options": [
+      "Immediately",
+      "At compile time",
+      "Lazily: when enumerated (e.g. ToList, foreach)",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Deferred execution."
+    },
+    {
+     "q": "What's the difference between First() and FirstOrDefault()?",
+     "options": [
+      "Default throws",
+      "No difference",
+      "First throws if empty; FirstOrDefault returns the default",
+      "First returns null"
+     ],
+     "answer": 2,
+     "explain": "Choose by expectation."
+    }
+   ]
+  },
+  "level-1/09-file-io": {
+   "questions": [
+    {
+     "q": "Which reads all text from a file in one call?",
+     "options": [
+      "File.Open",
+      "File.ReadAllText(path)",
+      "Path.Read",
+      "Stream.New"
+     ],
+     "answer": 1,
+     "explain": "For large files, stream lines."
+    },
+    {
+     "q": "Why use `using` with StreamReader?",
+     "options": [
+      "Speed",
+      "Required for strings",
+      "Style",
+      "To dispose the file handle deterministically"
+     ],
+     "answer": 3,
+     "explain": "Prevents handle leaks."
+    },
+    {
+     "q": "How do you build a portable path?",
+     "options": [
+      "dir + \"/\" + name",
+      "dir + name",
+      "Path.Combine(dir, name)",
+      "dir.Concat(name)"
+     ],
+     "answer": 2,
+     "explain": "It uses the correct separator."
+    },
+    {
+     "q": "What should you do before reading a file that may not exist?",
+     "options": [
+      "Nothing",
+      "Assume",
+      "Loop",
+      "Check File.Exists or handle FileNotFoundException"
+     ],
+     "answer": 3,
+     "explain": "Be defensive."
+    }
+   ]
+  },
+  "level-1/10-project-task-manager": {
+   "questions": [
+    {
+     "q": "Why separate the TaskItem model from the console UI?",
+     "options": [
+      "So logic can be reused and tested without I/O",
+      "Required",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Separation of concerns."
+    },
+    {
+     "q": "How can tasks persist between runs?",
+     "options": [
+      "Print",
+      "Ignore",
+      "Serialize them to a file (e.g. JSON) and load on startup",
+      "Keep in RAM"
+     ],
+     "answer": 2,
+     "explain": "JSON is simple."
+    },
+    {
+     "q": "What does validating user input prevent?",
+     "options": [
+      "Style",
+      "Crashes and bad data from malformed entries",
+      "Nothing",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Use TryParse."
+    },
+    {
+     "q": "Which collection suits an ordered list of tasks?",
+     "options": [
+      "Tuple",
+      "Stack only",
+      "HashSet",
+      "List<TaskItem>"
+     ],
+     "answer": 3,
+     "explain": "Indexing and ordering."
+    }
+   ]
+  },
+  "level-2/01-interfaces-polymorphism": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\nIShape[] a={new Sq(),new Ci()};\nConsole.WriteLine(a.Sum(s=>s.Area()));\ninterface IShape{ double Area(); }\nclass Sq:IShape{ public double Area()=>4; }\nclass Ci:IShape{ public double Area()=>3; }\n```\n",
+     "options": [
+      "7",
+      "3",
+      "4",
+      "0"
+     ],
+     "answer": 0,
+     "explain": "Polymorphism: each object's own Area runs. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does this print?\n```csharp\nB x=new D(); Console.WriteLine(x.F());\nclass B{ public virtual string F()=>\"B\"; }\nclass D:B{ public override string F()=>\"D\"; }\n```\n",
+     "options": [
+      "Error",
+      "D",
+      "BD",
+      "B"
+     ],
+     "answer": 1,
+     "explain": "virtual/override dispatches on the runtime type. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "Why program to an interface?",
+     "options": [
+      "Speed",
+      "Style",
+      "Callers depend on behavior, so implementations can be swapped and tested",
+      "Required"
+     ],
+     "answer": 2,
+     "explain": "Loose coupling."
+    },
+    {
+     "q": "Can a C# class implement several interfaces?",
+     "options": [
+      "Yes",
+      "Only two",
+      "No",
+      "Only abstract"
+     ],
+     "answer": 0,
+     "explain": "But inherits from one base class."
+    }
+   ]
+  },
+  "level-2/02-generics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\nT Max<T>(T a,T b) where T:IComparable<T> => a.CompareTo(b)>=0?a:b;\nConsole.WriteLine(Max(3,7)+\" \"+Max(\"b\",\"a\"));\n```\n",
+     "options": [
+      "7 a",
+      "7 b",
+      "Error",
+      "3 a"
+     ],
+     "answer": 1,
+     "explain": "The constraint enables comparison. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does `where T : class` constrain?",
+     "options": [
+      "T must be a reference type",
+      "T is struct",
+      "T is static",
+      "T is int"
+     ],
+     "answer": 0,
+     "explain": "Constraints enable operations."
+    },
+    {
+     "q": "Why use List<int> rather than ArrayList?",
+     "options": [
+      "Style",
+      "Speed only",
+      "Older",
+      "Type safety and no boxing"
+     ],
+     "answer": 3,
+     "explain": "Generics avoid casts."
+    },
+    {
+     "q": "What is boxing?",
+     "options": [
+      "Disposal",
+      "A pattern",
+      "Compression",
+      "Wrapping a value type in an object on the heap"
+     ],
+     "answer": 3,
+     "explain": "A performance cost."
+    }
+   ]
+  },
+  "level-2/03-delegates-events": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\nFunc<int,int> sq = x=>x*x;\nAction<string> say = s=>Console.Write(s);\nsay(\"v=\"+sq(6));\n```\n",
+     "options": [
+      "Error",
+      "v=6",
+      "v=36",
+      "36"
+     ],
+     "answer": 2,
+     "explain": "Func returns a value; Action doesn't. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does this print?\n```csharp\nvar b=new B(); b.Said+=m=>Console.Write(m+\"1 \"); b.Said+=m=>Console.Write(m+\"2\"); b.Say(\"x\");\nclass B{ public event Action<string>? Said; public void Say(string s)=>Said?.Invoke(s); }\n```\n",
+     "options": [
+      "x",
+      "x1 x2",
+      "x1",
+      "x2"
+     ],
+     "answer": 1,
+     "explain": "Subscribers are invoked in order. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "Why use `?.Invoke` for events?",
+     "options": [
+      "Style",
+      "Required by compiler",
+      "Speed",
+      "To avoid NullReferenceException when there are no subscribers"
+     ],
+     "answer": 3,
+     "explain": "Events are null with no handlers."
+    },
+    {
+     "q": "What's the difference between a delegate and an event?",
+     "options": [
+      "Delegates are static",
+      "No difference",
+      "An event restricts outsiders to subscribe/unsubscribe; only the owner raises it",
+      "Events are faster"
+     ],
+     "answer": 2,
+     "explain": "Encapsulation."
+    }
+   ]
+  },
+  "level-2/04-async-await-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\nasync Task<int> F(){ await Task.Delay(10); return 42; }\nConsole.WriteLine(await F());\n```\n",
+     "options": [
+      "42",
+      "Error",
+      "Task",
+      "0"
+     ],
+     "answer": 0,
+     "explain": "await unwraps the Task result. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does `await` do while waiting?",
+     "options": [
+      "Blocks the thread",
+      "Spawns a thread always",
+      "Frees the thread to do other work and resumes afterward",
+      "Cancels"
+     ],
+     "answer": 2,
+     "explain": "Async is about not blocking."
+    },
+    {
+     "q": "Why avoid `.Result` or `.Wait()` on tasks?",
+     "options": [
+      "They block and can deadlock in some contexts",
+      "Safer",
+      "Required",
+      "Faster"
+     ],
+     "answer": 0,
+     "explain": "Use await."
+    },
+    {
+     "q": "What should async methods return?",
+     "options": [
+      "int",
+      "void",
+      "string",
+      "Task or Task<T> (not async void except event handlers)"
+     ],
+     "answer": 3,
+     "explain": "async void can't be awaited."
+    }
+   ]
+  },
+  "level-2/05-nullable-reference-types": {
+   "questions": [
+    {
+     "q": "What does `<Nullable>enable</Nullable>` do?",
+     "options": [
+      "The compiler warns about possible null dereferences",
+      "Disables null",
+      "Changes runtime",
+      "Adds exceptions"
+     ],
+     "answer": 0,
+     "explain": "It's a compile-time analysis."
+    },
+    {
+     "q": "What does `string?` mean?",
+     "options": [
+      "Number",
+      "Empty",
+      "Optional",
+      "The reference may be null"
+     ],
+     "answer": 3,
+     "explain": "`string` means non-null intent."
+    },
+    {
+     "q": "What does this print?\n```csharp\nstring? n = null;\nConsole.WriteLine(n ?? \"default\");\n```\n",
+     "options": [
+      "default",
+      "Empty",
+      "Error",
+      "null"
+     ],
+     "answer": 0,
+     "explain": "?? supplies a fallback. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does the `!` (null-forgiving) operator do?",
+     "options": [
+      "Throws if null",
+      "Removes null",
+      "Tells the compiler not to warn; it doesn't check at runtime",
+      "Checks null"
+     ],
+     "answer": 2,
+     "explain": "Use sparingly."
+    }
+   ]
+  },
+  "level-2/06-testing-xunit": {
+   "questions": [
+    {
+     "q": "Which attribute marks a simple xUnit test?",
+     "options": [
+      "[Test]",
+      "[Case]",
+      "[Run]",
+      "[Fact]"
+     ],
+     "answer": 3,
+     "explain": "[Theory] with [InlineData] is data-driven."
+    },
+    {
+     "q": "What is [Theory] with [InlineData] for?",
+     "options": [
+      "Timing",
+      "Running one test with several input sets",
+      "Skipping",
+      "Mocking"
+     ],
+     "answer": 1,
+     "explain": "Parameterized tests."
+    },
+    {
+     "q": "How do xUnit tests share setup?",
+     "options": [
+      "Constructor and IDisposable per test, or fixtures for sharing",
+      "Globals",
+      "Attributes only",
+      "Static fields only"
+     ],
+     "answer": 0,
+     "explain": "A new instance per test."
+    },
+    {
+     "q": "What's a good test name?",
+     "options": [
+      "Foo",
+      "Describes behavior and expectation",
+      "Test1",
+      "X"
+     ],
+     "answer": 1,
+     "explain": "Method_Scenario_Expected."
+    }
+   ]
+  },
+  "level-2/07-json-system-text-json": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\nvar j = System.Text.Json.JsonSerializer.Serialize(new P(\"Ada\",36));\nConsole.WriteLine(j);\nrecord P(string Name,int Age);\n```\n",
+     "options": [
+      "{Name:Ada}",
+      "{\"Name\":\"Ada\",\"Age\":36}",
+      "Ada 36",
+      "[\"Ada\",36]"
+     ],
+     "answer": 1,
+     "explain": "Serialize uses property names. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does this print?\n```csharp\nvar p = System.Text.Json.JsonSerializer.Deserialize<P>(\"{\\\"Name\\\":\\\"Bo\\\",\\\"Age\\\":5}\");\nConsole.WriteLine(p!.Name + p.Age);\nrecord P(string Name,int Age);\n```\n",
+     "options": [
+      "5",
+      "Bo",
+      "Bo5",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Deserialize<T> builds the object. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What's JsonSerializerOptions PropertyNameCaseInsensitive for?",
+     "options": [
+      "Speed",
+      "Matching JSON names regardless of case",
+      "Encryption",
+      "Pretty print"
+     ],
+     "answer": 1,
+     "explain": "Common for web JSON."
+    },
+    {
+     "q": "What does System.Text.Json do with unknown properties by default?",
+     "options": [
+      "Logs",
+      "Stores",
+      "Throws",
+      "Ignores them"
+     ],
+     "answer": 3,
+     "explain": "Strict handling is opt-in."
+    }
+   ]
+  },
+  "level-2/08-records-pattern-matching": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\nvar a=new P(1,2); var b=a with{Y=5};\nConsole.WriteLine($\"{a==new P(1,2)} {b}\");\nrecord P(int X,int Y);\n```\n",
+     "options": [
+      "Error",
+      "True P { X = 1, Y = 5 }",
+      "True P(1,5)",
+      "False P(1,5)"
+     ],
+     "answer": 1,
+     "explain": "Records have value equality and `with`. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does this print?\n```csharp\nobject o=42;\nstring r=o switch{ int n when n>40=>\"big\", int=>\"int\", string=>\"str\", _=>\"?\" };\nConsole.WriteLine(r);\n```\n",
+     "options": [
+      "int",
+      "str",
+      "?",
+      "big"
+     ],
+     "answer": 3,
+     "explain": "Patterns with guards. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "How does a record differ from a class?",
+     "options": [
+      "It's static",
+      "It gives value-based equality, ToString and with-expressions",
+      "It's a struct only",
+      "It's mutable always"
+     ],
+     "answer": 1,
+     "explain": "Great for DTOs."
+    },
+    {
+     "q": "What does `is not null` check?",
+     "options": [
+      "Name",
+      "Type",
+      "The reference isn't null, via pattern matching",
+      "Value"
+     ],
+     "answer": 2,
+     "explain": "Readable null check."
+    }
+   ]
+  },
+  "level-2/09-nuget-project-structure": {
+   "questions": [
+    {
+     "q": "What does `dotnet add package X` do?",
+     "options": [
+      "Publishes",
+      "Adds a NuGet package reference to the project",
+      "Installs globally",
+      "Runs tests"
+     ],
+     "answer": 1,
+     "explain": "Restored on build."
+    },
+    {
+     "q": "What file defines a project's dependencies and target framework?",
+     "options": [
+      "appsettings",
+      "Program.cs",
+      "The .csproj file",
+      "global.json"
+     ],
+     "answer": 2,
+     "explain": "MSBuild project."
+    },
+    {
+     "q": "What's a solution (.sln)?",
+     "options": [
+      "A package",
+      "A test",
+      "A binary",
+      "A container grouping several projects"
+     ],
+     "answer": 3,
+     "explain": "Open it in the IDE."
+    },
+    {
+     "q": "Why separate library and app projects?",
+     "options": [
+      "Speed",
+      "Style",
+      "Reuse and testability",
+      "Required"
+     ],
+     "answer": 2,
+     "explain": "Reference with ProjectReference."
+    }
+   ]
+  },
+  "level-2/10-project-weather-cli": {
+   "questions": [
+    {
+     "q": "Which class is used to call an HTTP API?",
+     "options": [
+      "File",
+      "WebClient only",
+      "HttpClient (reuse a single instance)",
+      "Socket only"
+     ],
+     "answer": 2,
+     "explain": "Avoid creating one per request."
+    },
+    {
+     "q": "How should API failures be handled?",
+     "options": [
+      "Crash",
+      "Check status codes, catch HttpRequestException and show a friendly message",
+      "Retry forever",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Network calls fail."
+    },
+    {
+     "q": "Where should an API key live?",
+     "options": [
+      "In the README",
+      "In code",
+      "In the repo",
+      "Outside source control, in configuration or environment variables"
+     ],
+     "answer": 3,
+     "explain": "Never commit secrets."
+    },
+    {
+     "q": "Why model the response with a record/class?",
+     "options": [
+      "Speed",
+      "Style",
+      "Required by HTTP",
+      "To deserialize JSON into typed objects"
+     ],
+     "answer": 3,
+     "explain": "System.Text.Json."
+    }
+   ]
+  },
+  "level-3/01-aspnet-core-basics": {
+   "questions": [
+    {
+     "q": "What does `app.MapGet(\"/hello\", () => \"hi\")` define?",
+     "options": [
+      "A minimal API endpoint answering GET /hello",
+      "A controller class",
+      "A database",
+      "A middleware"
+     ],
+     "answer": 0,
+     "explain": "Minimal APIs map routes to handlers."
+    },
+    {
+     "q": "What does `builder.Build()` return?",
+     "options": [
+      "A service",
+      "An IHost only",
+      "A request",
+      "The WebApplication used to configure the pipeline and run"
+     ],
+     "answer": 3,
+     "explain": "Services are registered before Build."
+    },
+    {
+     "q": "Which status code means 'created'?",
+     "options": [
+      "200",
+      "404",
+      "204",
+      "201"
+     ],
+     "answer": 3,
+     "explain": "Return Results.Created for POST."
+    },
+    {
+     "q": "What does model binding do?",
+     "options": [
+      "Routes only",
+      "Maps request data (route, query, body) to handler parameters",
+      "Logs",
+      "Compiles"
+     ],
+     "answer": 1,
+     "explain": "Validation follows."
+    }
+   ]
+  },
+  "level-3/02-ef-core-basics": {
+   "questions": [
+    {
+     "q": "What is a DbContext?",
+     "options": [
+      "A session with the database that tracks entities and queries (unit of work)",
+      "A migration",
+      "A table",
+      "A connection string"
+     ],
+     "answer": 0,
+     "explain": "DbSet<T> exposes tables."
+    },
+    {
+     "q": "When are changes saved?",
+     "options": [
+      "On dispose only",
+      "On SaveChanges()",
+      "Immediately on set",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Tracking records changes."
+    },
+    {
+     "q": "What causes the N+1 query problem?",
+     "options": [
+      "Migrations",
+      "Too many tables",
+      "Indexes",
+      "Loading related data in a loop instead of Include or a joined query"
+     ],
+     "answer": 3,
+     "explain": "Use Include or projection."
+    },
+    {
+     "q": "What does AsNoTracking do?",
+     "options": [
+      "Caches",
+      "Disables DB",
+      "Skips change tracking for faster read-only queries",
+      "Deletes"
+     ],
+     "answer": 2,
+     "explain": "Use for reads."
+    }
+   ]
+  },
+  "level-3/03-dependency-injection": {
+   "questions": [
+    {
+     "q": "Which lifetime creates one instance per HTTP request?",
+     "options": [
+      "Transient",
+      "Static",
+      "Scoped",
+      "Singleton"
+     ],
+     "answer": 2,
+     "explain": "DbContext is scoped."
+    },
+    {
+     "q": "Which lifetime creates a new instance every time it's resolved?",
+     "options": [
+      "Transient",
+      "Request",
+      "Singleton",
+      "Scoped"
+     ],
+     "answer": 0,
+     "explain": "Use for lightweight stateless services."
+    },
+    {
+     "q": "What's the 'captive dependency' bug?",
+     "options": [
+      "A singleton holding a scoped service, keeping it alive too long",
+      "A static",
+      "A null",
+      "A cycle"
+     ],
+     "answer": 0,
+     "explain": "Lifetimes must nest correctly."
+    },
+    {
+     "q": "Why inject interfaces rather than new up classes?",
+     "options": [
+      "Testability and loose coupling",
+      "Required",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Swap implementations."
+    }
+   ]
+  },
+  "level-3/04-advanced-async-tpl": {
+   "questions": [
+    {
+     "q": "What does this print?\n```csharp\nvar t = await Task.WhenAll(Task.Run(()=>1), Task.Run(()=>2), Task.Run(()=>3));\nConsole.WriteLine(t.Sum());\n```\n",
+     "options": [
+      "6",
+      "0",
+      "1",
+      "3"
+     ],
+     "answer": 0,
+     "explain": "WhenAll awaits all tasks and returns their results. Verified by compiling and running with the .NET SDK."
+    },
+    {
+     "q": "What does CancellationToken enable?",
+     "options": [
+      "Faster code",
+      "Logging",
+      "Forced thread kill",
+      "Cooperative cancellation of long-running work"
+     ],
+     "answer": 3,
+     "explain": "Check it and pass it along."
+    },
+    {
+     "q": "When is Parallel.ForEach appropriate?",
+     "options": [
+      "I/O waits",
+      "CPU-bound loops over independent items",
+      "Single item",
+      "UI"
+     ],
+     "answer": 1,
+     "explain": "Use async for I/O."
+    },
+    {
+     "q": "What does ConfigureAwait(false) do in library code?",
+     "options": [
+      "Blocks",
+      "Avoids capturing the synchronization context",
+      "Parallels",
+      "Cancels"
+     ],
+     "answer": 1,
+     "explain": "Reduces deadlock risk."
+    }
+   ]
+  },
+  "level-3/05-design-patterns": {
+   "questions": [
+    {
+     "q": "What does the Repository pattern abstract?",
+     "options": [
+      "UI",
+      "Data access behind an interface",
+      "Logging",
+      "Threads"
+     ],
+     "answer": 1,
+     "explain": "Lets code depend on an abstraction."
+    },
+    {
+     "q": "What's the Strategy pattern?",
+     "options": [
+      "One instance",
+      "Interchangeable algorithms behind an interface",
+      "Cloning",
+      "Wrapping"
+     ],
+     "answer": 1,
+     "explain": "Inject the strategy."
+    },
+    {
+     "q": "What does the Decorator pattern do?",
+     "options": [
+      "Destroys",
+      "Wraps an object to add behavior while keeping the interface",
+      "Copies",
+      "Creates"
+     ],
+     "answer": 1,
+     "explain": "Logging and caching wrappers."
+    },
+    {
+     "q": "Why is a Singleton often discouraged?",
+     "options": [
+      "Speed",
+      "Global state hampers testing; use DI singleton lifetime instead",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Let the container manage it."
+    }
+   ]
+  },
+  "level-3/06-testing-advanced": {
+   "questions": [
+    {
+     "q": "What does Moq let you do?",
+     "options": [
+      "Generate IL",
+      "Run migrations",
+      "Create fake dependencies and set up/verify interactions",
+      "Build UIs"
+     ],
+     "answer": 2,
+     "explain": "Mock interfaces."
+    },
+    {
+     "q": "What does WebApplicationFactory provide?",
+     "options": [
+      "An in-memory host for integration tests of the real pipeline",
+      "A database",
+      "A browser",
+      "A profiler"
+     ],
+     "answer": 0,
+     "explain": "Test endpoints end to end."
+    },
+    {
+     "q": "What should integration tests use for the database?",
+     "options": [
+      "Shared state",
+      "None",
+      "Production",
+      "A test database or in-memory provider isolated per test"
+     ],
+     "answer": 3,
+     "explain": "Keep them repeatable."
+    },
+    {
+     "q": "What's wrong with over-mocking?",
+     "options": [
+      "Nothing",
+      "Coverage",
+      "Tests verify implementation details and become brittle",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Prefer testing behavior."
+    }
+   ]
+  },
+  "level-3/07-ef-core-migrations": {
+   "questions": [
+    {
+     "q": "What does `dotnet ef migrations add Name` do?",
+     "options": [
+      "Applies changes",
+      "Seeds",
+      "Drops the DB",
+      "Generates code describing the schema change since the last model snapshot"
+     ],
+     "answer": 3,
+     "explain": "Apply with `database update`."
+    },
+    {
+     "q": "Why review generated migrations?",
+     "options": [
+      "Slow",
+      "Optional",
+      "They can drop columns or data; check before applying",
+      "They're perfect"
+     ],
+     "answer": 2,
+     "explain": "Destructive changes need care."
+    },
+    {
+     "q": "Where should production migrations run from?",
+     "options": [
+      "Manually in prod DB",
+      "Never",
+      "A controlled deployment step, often a generated SQL script or migration bundle",
+      "On every startup blindly"
+     ],
+     "answer": 2,
+     "explain": "Avoid surprise schema changes."
+    },
+    {
+     "q": "What is a migration snapshot?",
+     "options": [
+      "A backup",
+      "A log",
+      "The record of the current model state used to diff the next migration",
+      "A cache"
+     ],
+     "answer": 2,
+     "explain": "ModelSnapshot.cs."
+    }
+   ]
+  },
+  "level-3/08-middleware-filters": {
+   "questions": [
+    {
+     "q": "In what order does request middleware run?",
+     "options": [
+      "Random",
+      "In registration order; responses unwind in reverse",
+      "Parallel",
+      "Reverse"
+     ],
+     "answer": 1,
+     "explain": "UseX order matters."
+    },
+    {
+     "q": "What does `app.UseAuthentication()` need relative to authorization?",
+     "options": [
+      "After",
+      "It must come before UseAuthorization",
+      "Anywhere",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Identify, then authorize."
+    },
+    {
+     "q": "What is an action filter?",
+     "options": [
+      "A view",
+      "Code that runs before/after an MVC action",
+      "A database",
+      "A route"
+     ],
+     "answer": 1,
+     "explain": "Cross-cutting concerns."
+    },
+    {
+     "q": "What does short-circuiting middleware do?",
+     "options": [
+      "Calls next",
+      "Logs",
+      "Errors",
+      "Writes a response without calling the next delegate"
+     ],
+     "answer": 3,
+     "explain": "E.g. returning 401."
+    }
+   ]
+  },
+  "level-3/09-performance-memory": {
+   "questions": [
+    {
+     "q": "What is Span<T> good for?",
+     "options": [
+      "Slicing contiguous memory without allocating or copying",
+      "Threads",
+      "Async",
+      "Reflection"
+     ],
+     "answer": 0,
+     "explain": "A ref struct living on the stack."
+    },
+    {
+     "q": "What's the downside of boxing in hot loops?",
+     "options": [
+      "Heap allocations and GC pressure",
+      "Nothing",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Use generics."
+    },
+    {
+     "q": "When are structs a good choice?",
+     "options": [
+      "Large mutable",
+      "Small immutable value-like types",
+      "Always",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Large structs copy expensively."
+    },
+    {
+     "q": "What should you do before optimizing?",
+     "options": [
+      "Measure with a profiler or BenchmarkDotNet",
+      "Pool everything",
+      "Rewrite",
+      "Guess"
+     ],
+     "answer": 0,
+     "explain": "Evidence first."
+    }
+   ]
+  },
+  "level-3/10-project-rest-api": {
+   "questions": [
+    {
+     "q": "Which HTTP verb creates a resource?",
+     "options": [
+      "POST",
+      "DELETE",
+      "GET",
+      "HEAD"
+     ],
+     "answer": 0,
+     "explain": "PUT replaces, PATCH modifies."
+    },
+    {
+     "q": "What should a validation failure return?",
+     "options": [
+      "500",
+      "204",
+      "200",
+      "400 Bad Request with details"
+     ],
+     "answer": 3,
+     "explain": "Client errors are 4xx."
+    },
+    {
+     "q": "What does a DTO do?",
+     "options": [
+      "Routes",
+      "Logs",
+      "Shapes data crossing the API boundary, separate from the entity",
+      "Persists"
+     ],
+     "answer": 2,
+     "explain": "Don't expose entities directly."
+    },
+    {
+     "q": "How should the API version be handled?",
+     "options": [
+      "Silently",
+      "Randomly",
+      "Explicitly (URL or header) so changes don't break clients",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Compatibility."
+    }
+   ]
+  },
+  "level-4/01-microservices-patterns": {
+   "questions": [
+    {
+     "q": "What does the API gateway pattern provide?",
+     "options": [
+      "UI",
+      "Database",
+      "Compiler",
+      "A single entry point that routes, authenticates and aggregates"
+     ],
+     "answer": 3,
+     "explain": "Clients talk to one endpoint."
+    },
+    {
+     "q": "Why give each microservice its own database?",
+     "options": [
+      "Cost",
+      "Law",
+      "Speed",
+      "Independent deployment and schema evolution without coupling"
+     ],
+     "answer": 3,
+     "explain": "Avoid shared-DB coupling."
+    },
+    {
+     "q": "What does the circuit breaker pattern do?",
+     "options": [
+      "Caches",
+      "Retries forever",
+      "Stops calling a failing dependency for a while to let it recover",
+      "Routes"
+     ],
+     "answer": 2,
+     "explain": "Polly implements it."
+    },
+    {
+     "q": "What is eventual consistency?",
+     "options": [
+      "Never consistent",
+      "Random",
+      "Data across services becomes consistent after propagation, not instantly",
+      "Instant"
+     ],
+     "answer": 2,
+     "explain": "Plan for it."
+    }
+   ]
+  },
+  "level-4/02-advanced-aspnet-core": {
+   "questions": [
+    {
+     "q": "What is a JWT bearer token?",
+     "options": [
+      "A signed token the client sends to prove identity and claims",
+      "A password",
+      "A database row",
+      "A cookie only"
+     ],
+     "answer": 0,
+     "explain": "Validate signature, issuer and expiry."
+    },
+    {
+     "q": "What is gRPC best suited for?",
+     "options": [
+      "Efficient service-to-service calls with Protobuf contracts",
+      "Browsers only",
+      "HTML",
+      "Email"
+     ],
+     "answer": 0,
+     "explain": "HTTP/2 streaming."
+    },
+    {
+     "q": "What does policy-based authorization do?",
+     "options": [
+      "Evaluates named requirements over claims for access decisions",
+      "Logs",
+      "Routes",
+      "Hashes"
+     ],
+     "answer": 0,
+     "explain": "[Authorize(Policy=...)]."
+    },
+    {
+     "q": "Why should tokens have short lifetimes?",
+     "options": [
+      "Speed",
+      "Limits damage if stolen; use refresh tokens",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Rotate."
+    }
+   ]
+  },
+  "level-4/03-distributed-systems-basics": {
+   "questions": [
+    {
+     "q": "What does idempotency mean for an API?",
+     "options": [
+      "Cached",
+      "Fast",
+      "Repeating the same request has the same effect as doing it once",
+      "Secure"
+     ],
+     "answer": 2,
+     "explain": "Safe retries."
+    },
+    {
+     "q": "Why do message consumers need to be idempotent?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Delivery is typically at-least-once, so duplicates occur"
+     ],
+     "answer": 3,
+     "explain": "Deduplicate."
+    },
+    {
+     "q": "What does the CAP theorem say?",
+     "options": [
+      "During a partition you must choose between consistency and availability",
+      "Pick none",
+      "Pick all three",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Partitions happen."
+    },
+    {
+     "q": "What do retries with exponential backoff and jitter avoid?",
+     "options": [
+      "Auth",
+      "Latency",
+      "Typos",
+      "Thundering herds hammering a recovering service"
+     ],
+     "answer": 3,
+     "explain": "Spread out retries."
+    }
+   ]
+  },
+  "level-4/04-testing-at-scale-ci": {
+   "questions": [
+    {
+     "q": "What belongs in a CI pipeline for .NET?",
+     "options": [
+      "Restore, build, test, analysis and publish",
+      "Manual steps",
+      "Only test",
+      "Only build"
+     ],
+     "answer": 0,
+     "explain": "dotnet test in CI."
+    },
+    {
+     "q": "Why cache NuGet packages in CI?",
+     "options": [
+      "To cut restore time",
+      "Law",
+      "Security",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Faster feedback."
+    },
+    {
+     "q": "What does a test pyramid recommend?",
+     "options": [
+      "Mostly UI",
+      "Equal",
+      "Many fast unit tests, fewer integration tests, very few end-to-end tests",
+      "Only unit"
+     ],
+     "answer": 2,
+     "explain": "Balance speed and confidence."
+    },
+    {
+     "q": "What do you do with a flaky test?",
+     "options": [
+      "Fix or quarantine it; don't ignore red builds",
+      "Delete tests",
+      "Disable CI",
+      "Rerun"
+     ],
+     "answer": 0,
+     "explain": "Trust matters."
+    }
+   ]
+  },
+  "level-4/05-performance-profiling": {
+   "questions": [
+    {
+     "q": "What does BenchmarkDotNet provide?",
+     "options": [
+      "Reliable micro-benchmarks with warmup and statistics",
+      "Logging",
+      "Profiling UI",
+      "Tests"
+     ],
+     "answer": 0,
+     "explain": "Run in Release."
+    },
+    {
+     "q": "Why measure in Release mode?",
+     "options": [
+      "Speed",
+      "Style",
+      "Debug builds disable optimizations",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Different performance."
+    },
+    {
+     "q": "What does dotnet-counters/trace help with?",
+     "options": [
+      "Compiling",
+      "Observing runtime metrics and traces of a running app",
+      "Routing",
+      "Packaging"
+     ],
+     "answer": 1,
+     "explain": "Find hot paths and GC issues."
+    },
+    {
+     "q": "What's a common cause of high GC pauses?",
+     "options": [
+      "Network",
+      "Too many allocations and large object heap churn",
+      "CPU",
+      "Disk"
+     ],
+     "answer": 1,
+     "explain": "Reduce allocations."
+    }
+   ]
+  },
+  "level-4/06-security-best-practices": {
+   "questions": [
+    {
+     "q": "How do you prevent SQL injection?",
+     "options": [
+      "Use GET",
+      "Parameterized queries or EF Core LINQ, never string concatenation",
+      "Escape manually",
+      "Hide errors"
+     ],
+     "answer": 1,
+     "explain": "Parameters separate code from data."
+    },
+    {
+     "q": "Where should secrets live?",
+     "options": [
+      "appsettings in git",
+      "Secret stores or environment variables, not source control",
+      "Code",
+      "Comments"
+     ],
+     "answer": 1,
+     "explain": "User secrets for development."
+    },
+    {
+     "q": "How are passwords stored?",
+     "options": [
+      "Base64",
+      "Hashed with a slow salted algorithm (e.g. PBKDF2/bcrypt/argon2)",
+      "MD5",
+      "Plain text"
+     ],
+     "answer": 1,
+     "explain": "Never reversible."
+    },
+    {
+     "q": "What does HTTPS plus HSTS provide?",
+     "options": [
+      "Auth",
+      "Caching",
+      "Compression",
+      "Encrypted transport and enforced secure connections"
+     ],
+     "answer": 3,
+     "explain": "Always on."
+    }
+   ]
+  },
+  "level-4/07-deployment-docker": {
+   "questions": [
+    {
+     "q": "Why use multi-stage Docker builds for .NET?",
+     "options": [
+      "Law",
+      "Build with the SDK image, ship only the runtime and published output (smaller)",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Smaller attack surface."
+    },
+    {
+     "q": "What does `dotnet publish -c Release` produce?",
+     "options": [
+      "Tests",
+      "Deployable output for the app",
+      "Source",
+      "Docs"
+     ],
+     "answer": 1,
+     "explain": "Copy it into the runtime image."
+    },
+    {
+     "q": "Why run as a non-root user in a container?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "Limits damage if the app is compromised"
+     ],
+     "answer": 3,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "How should configuration be supplied to containers?",
+     "options": [
+      "In image layers",
+      "Environment variables or mounted config, not baked-in secrets",
+      "Hard-coded",
+      "Baked in"
+     ],
+     "answer": 1,
+     "explain": "Twelve-factor."
+    }
+   ]
+  },
+  "level-4/08-observability": {
+   "questions": [
+    {
+     "q": "What are the three pillars of observability?",
+     "options": [
+      "Build, test, deploy",
+      "Logs, metrics and traces",
+      "CPU, RAM, disk",
+      "Dev, test, prod"
+     ],
+     "answer": 1,
+     "explain": "Together they explain behavior."
+    },
+    {
+     "q": "What does structured logging provide?",
+     "options": [
+      "Searchable key/value fields instead of free text",
+      "Size",
+      "Colors",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Serilog and ILogger templates."
+    },
+    {
+     "q": "What does a trace id enable?",
+     "options": [
+      "Caching",
+      "Auth",
+      "Routing",
+      "Following one request across services"
+     ],
+     "answer": 3,
+     "explain": "OpenTelemetry."
+    },
+    {
+     "q": "What's a good alert?",
+     "options": [
+      "Noisy",
+      "Every log",
+      "Every error",
+      "Actionable and tied to user impact (SLO)"
+     ],
+     "answer": 3,
+     "explain": "Avoid alert fatigue."
+    }
+   ]
+  },
+  "level-4/09-inhouse-dotnet-framework": {
+   "questions": [
+    {
+     "q": "When does an in-house framework make sense?",
+     "options": [
+      "Never",
+      "One team",
+      "When many teams repeat the same cross-cutting setup and standards",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "Weigh maintenance."
+    },
+    {
+     "q": "What should the framework hide?",
+     "options": [
+      "Boilerplate like logging, auth, health checks and config defaults",
+      "Everything",
+      "Business logic",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Opinionated defaults."
+    },
+    {
+     "q": "How should it be versioned?",
+     "options": [
+      "Silently",
+      "With semantic versioning and a changelog via NuGet",
+      "Randomly",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Consumers need stability."
+    },
+    {
+     "q": "What's a risk?",
+     "options": [
+      "Nothing",
+      "Speed",
+      "Cost only",
+      "Becoming a bottleneck or leaky abstraction"
+     ],
+     "answer": 3,
+     "explain": "Keep it thin and documented."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone integrate?",
+     "options": [
+      "Only tests",
+      "Only UI",
+      "Only CI",
+      "API, data, DI, tests, security, containers and observability"
+     ],
+     "answer": 3,
+     "explain": "End to end."
+    },
+    {
+     "q": "How do you verify the service before release?",
+     "options": [
+      "Ask",
+      "Hope",
+      "Automated tests, CI build and a staged deployment with health checks",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Layered checks."
+    },
+    {
+     "q": "What belongs in a readiness check?",
+     "options": [
+      "Dependencies the app needs to serve traffic (DB, cache)",
+      "Nothing",
+      "Logs",
+      "CPU"
+     ],
+     "answer": 0,
+     "explain": "Distinguish from liveness."
+    },
+    {
+     "q": "What makes the design maintainable?",
+     "options": [
+      "Globals",
+      "Large classes",
+      "Clear layering, interfaces, tests and documentation",
+      "Comments only"
+     ],
+     "answer": 2,
+     "explain": "Sustainable."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What is the relationship between the C# compiler and the runtime?",
+    "options": [
+     "The compiler produces IL; the runtime JIT-compiles it to machine code",
+     "IL is interpreted only",
+     "C# compiles straight to machine code",
+     "C# runs on the JVM"
+    ],
+    "answer": 0,
+    "explain": "That's how .NET achieves portability."
+   },
+   {
+    "q": "What does this print?\n```csharp\nint a=7,b=2; Console.WriteLine($\"{a/b} {(double)a/b}\");\n```\n",
+    "options": [
+     "3.5 3.5",
+     "3 3.5",
+     "4 3.5",
+     "3 3"
+    ],
+    "answer": 1,
+    "explain": "Integer division truncates. Verified by compiling and running with the .NET SDK."
+   },
+   {
+    "q": "What does this print?\n```csharp\nstring? s=null; Console.WriteLine(s?.Length ?? -1);\n```\n",
+    "options": [
+     "null",
+     "-1",
+     "Crash",
+     "0"
+    ],
+    "answer": 1,
+    "explain": "Null-conditional plus coalescing. Verified by compiling and running with the .NET SDK."
+   },
+   {
+    "q": "What does this print?\n```csharp\ntry { int[] a=new int[2]; a[2]=1; } catch (IndexOutOfRangeException) { Console.Write(\"c\"); } finally { Console.Write(\"f\"); }\n```\n",
+    "options": [
+     "f",
+     "cf!",
+     "cf",
+     "c"
+    ],
+    "answer": 2,
+    "explain": "finally always runs. Verified by compiling and running with the .NET SDK."
+   },
+   {
+    "q": "What does this print?\n```csharp\nvar n=new[]{5,2,8,1};\nConsole.WriteLine(string.Join(\",\", n.Where(x=>x>1).OrderBy(x=>x).Select(x=>x*10)));\n```\n",
+    "options": [
+     "50,20,80",
+     "20,50",
+     "10,20,50,80",
+     "20,50,80"
+    ],
+    "answer": 3,
+    "explain": "Where, then OrderBy, then Select. Verified by compiling and running with the .NET SDK."
+   },
+   {
+    "q": "What does this print?\n```csharp\nvar l=new List<int>{1,2,3};\nvar q=l.Where(x=>x>1);\nl.Add(10);\nConsole.WriteLine(q.Count());\n```\n",
+    "options": [
+     "1",
+     "3",
+     "2",
+     "Error"
+    ],
+    "answer": 1,
+    "explain": "LINQ is deferred: the query ran after the add. Verified by compiling and running with the .NET SDK."
+   },
+   {
+    "q": "What does this print?\n```csharp\nvar a=new P(1,2); var b=new P(1,2);\nConsole.WriteLine($\"{a==b} {ReferenceEquals(a,b)}\");\nrecord P(int X,int Y);\n```\n",
+    "options": [
+     "True True",
+     "True False",
+     "False False",
+     "False True"
+    ],
+    "answer": 1,
+    "explain": "Records compare by value. Verified by compiling and running with the .NET SDK."
+   },
+   {
+    "q": "What does this print?\n```csharp\nB x=new D(); Console.WriteLine(x.F());\nclass B{ public virtual string F()=>\"B\"; }\nclass D:B{ public override string F()=>\"D\"; }\n```\n",
+    "options": [
+     "Error",
+     "BD",
+     "D",
+     "B"
+    ],
+    "answer": 2,
+    "explain": "Virtual dispatch uses the runtime type. Verified by compiling and running with the .NET SDK."
+   },
+   {
+    "q": "What does this print?\n```csharp\nasync Task<int> F(){ await Task.Delay(5); return 21; }\nvar r = await Task.WhenAll(F(), F());\nConsole.WriteLine(r.Sum());\n```\n",
+    "options": [
+     "42",
+     "Error",
+     "0",
+     "21"
+    ],
+    "answer": 0,
+    "explain": "WhenAll awaits both tasks. Verified by compiling and running with the .NET SDK."
+   },
+   {
+    "q": "Why is `.Result` on a Task risky in an ASP.NET app?",
+    "options": [
+     "It's faster",
+     "It blocks the thread and can deadlock or exhaust the thread pool; use await",
+     "It's compile error",
+     "It cancels"
+    ],
+    "answer": 1,
+    "explain": "Async all the way."
+   },
+   {
+    "q": "A scoped DbContext is injected into a singleton service. What's the problem?",
+    "options": [
+     "Speed",
+     "Nothing",
+     "Compile error",
+     "A captive dependency: the scoped instance lives forever and isn't thread-safe"
+    ],
+    "answer": 3,
+    "explain": "Match lifetimes or use IServiceScopeFactory."
+   },
+   {
+    "q": "An EF query loads orders then touches order.Customer in a loop. What's the issue?",
+    "options": [
+     "It's optimal",
+     "Migrations",
+     "Nullable",
+     "N+1 queries; use Include or project to a DTO"
+    ],
+    "answer": 3,
+    "explain": "Reduce round trips."
+   },
+   {
+    "q": "`dotnet ef migrations add` generated a migration that drops a column. What now?",
+    "options": [
+     "Apply blindly",
+     "Ignore",
+     "Delete DB",
+     "Review it: dropping loses data, so adjust or plan a backup and staged change"
+    ],
+    "answer": 3,
+    "explain": "Generated code needs review."
+   },
+   {
+    "q": "A POST that creates an order is retried by the client after a timeout. How do you avoid duplicates?",
+    "options": [
+     "Disable retries",
+     "Hope",
+     "Make it idempotent with an idempotency key",
+     "Return 500"
+    ],
+    "answer": 2,
+    "explain": "Safe retries."
+   },
+   {
+    "q": "A dependency fails repeatedly and your service slows down waiting on it. Which pattern helps?",
+    "options": [
+     "More retries",
+     "Circuit breaker with timeouts and fallback",
+     "Cache the error",
+     "Bigger threads"
+    ],
+    "answer": 1,
+    "explain": "Fail fast and recover."
+   },
+   {
+    "q": "How should passwords be stored?",
+    "options": [
+     "SHA-1",
+     "Base64",
+     "Salted slow hash such as PBKDF2, bcrypt or Argon2",
+     "Plain text"
+    ],
+    "answer": 2,
+    "explain": "Never reversible."
+   },
+   {
+    "q": "Where should an API key for a third-party service live in production?",
+    "options": [
+     "Hard-coded",
+     "In a secret store or environment variable, not in source control",
+     "In a comment",
+     "appsettings.json in git"
+    ],
+    "answer": 1,
+    "explain": "Rotate if leaked."
+   },
+   {
+    "q": "Why use multi-stage Docker builds for a .NET API?",
+    "options": [
+     "Speed at runtime",
+     "Smaller code",
+     "It's required",
+     "Build with the SDK image and ship only the runtime plus published output"
+    ],
+    "answer": 3,
+    "explain": "Smaller, safer images."
+   },
+   {
+    "q": "What does a trace id help you do across microservices?",
+    "options": [
+     "Cache",
+     "Follow one request through every service",
+     "Authenticate",
+     "Compress"
+    ],
+    "answer": 1,
+    "explain": "Distributed tracing."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Top words with LINQ",
+    "prompt": "Implement WordStats.TopWords(text, n): split on spaces, group identical words, count them, order by count descending then word ascending, and take the first n. Print `word: count` for the top three.",
+    "starter": "var text = \"the quick brown fox jumps over the lazy dog the fox\";\n\nvar top = WordStats.TopWords(text, 3);\nforeach (var (word, count) in top)\n    Console.WriteLine($\"{word}: {count}\");\n\nstatic class WordStats\n{\n    public static IEnumerable<(string Word, int Count)> TopWords(string text, int n) =>\n        // split into words, group, count, order by count desc then word asc, take n\n        throw new NotImplementedException();\n}\n",
+    "expected": "the: 3\nfox: 2\nbrown: 1",
+    "solution": "var text = \"the quick brown fox jumps over the lazy dog the fox\";\n\nvar top = WordStats.TopWords(text, 3);\nforeach (var (word, count) in top)\n    Console.WriteLine($\"{word}: {count}\");\n\nstatic class WordStats\n{\n    public static IEnumerable<(string Word, int Count)> TopWords(string text, int n) =>\n        text.Split(' ', StringSplitOptions.RemoveEmptyEntries)\n            .GroupBy(w => w)\n            .Select(g => (Word: g.Key, Count: g.Count()))\n            .OrderByDescending(t => t.Count)\n            .ThenBy(t => t.Word)\n            .Take(n);\n}\n",
+    "explain": "GroupBy builds the buckets, Select counts, and the two-key ordering makes ties deterministic. Verified by running the solution with the .NET SDK."
+   },
+   {
+    "title": "Shapes with records and patterns",
+    "prompt": "Complete Describe(): use a switch expression with property patterns so a circle needs Radius > 0, a square is a square, a rectangle needs Width and Height > 0, and anything else is `invalid`. Area is already implemented.",
+    "starter": "Shape[] shapes = { new Circle(1), new Rect(2, 3), new Square(2), new Rect(0, 5) };\nforeach (var s in shapes)\n    Console.WriteLine($\"{Describe(s)} area={Area(s):F2}\");\n\nstatic string Describe(Shape s) =>\n    // use a switch expression with property patterns:\n    // circle (Radius > 0), square, rectangle (Width and Height > 0), otherwise \"invalid\"\n    throw new NotImplementedException();\n\nstatic double Area(Shape s) => s switch\n{\n    Circle c => Math.PI * c.Radius * c.Radius,\n    Square q => q.Side * q.Side,\n    Rect r => r.Width * r.Height,\n    _ => 0\n};\n\nabstract record Shape;\nrecord Circle(double Radius) : Shape;\nrecord Rect(double Width, double Height) : Shape;\nrecord Square(double Side) : Shape;\n",
+    "expected": "circle area=3.14\nrectangle area=6.00\nsquare area=4.00\ninvalid area=0.00",
+    "solution": "Shape[] shapes = { new Circle(1), new Rect(2, 3), new Square(2), new Rect(0, 5) };\nforeach (var s in shapes)\n    Console.WriteLine($\"{Describe(s)} area={Area(s):F2}\");\n\nstatic string Describe(Shape s) => s switch\n{\n    Circle { Radius: > 0 } => \"circle\",\n    Square => \"square\",\n    Rect { Width: > 0, Height: > 0 } => \"rectangle\",\n    _ => \"invalid\"\n};\n\nstatic double Area(Shape s) => s switch\n{\n    Circle c => Math.PI * c.Radius * c.Radius,\n    Square q => q.Side * q.Side,\n    Rect r => r.Width * r.Height,\n    _ => 0\n};\n\nabstract record Shape;\nrecord Circle(double Radius) : Shape;\nrecord Rect(double Width, double Height) : Shape;\nrecord Square(double Side) : Shape;\n",
+    "explain": "Records give concise immutable shapes and patterns let you encode validity in the match. The Rect with Width 0 falls through to invalid. Verified by running the solution with the .NET SDK."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
