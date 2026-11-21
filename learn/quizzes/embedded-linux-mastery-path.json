@@ -1,0 +1,2159 @@
+{
+ "course": "embedded-linux-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-embedded-linux": {
+   "questions": [
+    {
+     "q": "Why is Linux used in so many embedded products?",
+     "options": [
+      "Free, portable, scalable and with a huge driver and software ecosystem",
+      "It's real-time always",
+      "It needs no config",
+      "It's tiny"
+     ],
+     "answer": 0,
+     "explain": "Routers, TVs, cars, controllers."
+    },
+    {
+     "q": "What does 'embedded Linux' mean?",
+     "options": [
+      "Desktop Linux",
+      "Cloud Linux",
+      "Linux on VMs",
+      "Linux customized for a dedicated device, typically headless and built from source"
+     ],
+     "answer": 3,
+     "explain": "You own the whole stack."
+    },
+    {
+     "q": "Why is there no package manager like apt on most products?",
+     "options": [
+      "It's impossible",
+      "Images are minimal and fixed for size, security and reproducibility",
+      "Cost",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "You rebuild the image."
+    },
+    {
+     "q": "Which is a typical embedded constraint?",
+     "options": [
+      "Always-on UPS",
+      "Unlimited storage",
+      "Limited RAM/flash, no display and power-loss risks",
+      "Desktop RAM"
+     ],
+     "answer": 2,
+     "explain": "Design for it."
+    }
+   ]
+  },
+  "level-1/02-cpu-architectures-101": {
+   "questions": [
+    {
+     "q": "What is an ISA?",
+     "options": [
+      "A language",
+      "A bus",
+      "A chip",
+      "The instruction set architecture defining the instructions a CPU executes"
+     ],
+     "answer": 3,
+     "explain": "ARM, x86, RISC-V."
+    },
+    {
+     "q": "Why can't you run an ARM binary on x86 directly?",
+     "options": [
+      "Different instruction sets require emulation or cross-compilation",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "QEMU emulates."
+    },
+    {
+     "q": "What are the Arm Cortex families A, R and M for?",
+     "options": [
+      "A: micro",
+      "A: application (Linux), R: real-time, M: microcontroller",
+      "M: Linux",
+      "All same"
+     ],
+     "answer": 1,
+     "explain": "Different roles."
+    },
+    {
+     "q": "What does the 'endianness' of a CPU describe?",
+     "options": [
+      "The byte order of multi-byte values in memory",
+      "Cache",
+      "Speed",
+      "Power"
+     ],
+     "answer": 0,
+     "explain": "Mostly little-endian today."
+    }
+   ]
+  },
+  "level-1/03-boot-flow": {
+   "questions": [
+    {
+     "q": "What's the typical boot order?",
+     "options": [
+      "Init, kernel",
+      "Boot ROM, SPL, U-Boot, kernel, init",
+      "U-Boot, ROM",
+      "Kernel, U-Boot, ROM"
+     ],
+     "answer": 1,
+     "explain": "A relay race."
+    },
+    {
+     "q": "What does the boot ROM do?",
+     "options": [
+      "Runs from on-chip memory to load the first-stage bootloader from boot media",
+      "Starts apps",
+      "Loads Linux",
+      "Mounts rootfs"
+     ],
+     "answer": 0,
+     "explain": "Fixed in silicon."
+    },
+    {
+     "q": "What does U-Boot do?",
+     "options": [
+      "Partitions only",
+      "Initializes hardware, loads the kernel, device tree and initramfs, then jumps to the kernel",
+      "Compiles",
+      "Runs apps"
+     ],
+     "answer": 1,
+     "explain": "Interactive for debugging."
+    },
+    {
+     "q": "What does the kernel hand control to at the end of boot?",
+     "options": [
+      "U-Boot",
+      "SPL",
+      "The init process (PID 1)",
+      "ROM"
+     ],
+     "answer": 2,
+     "explain": "Starts userspace."
+    }
+   ]
+  },
+  "level-1/04-qemu-lab": {
+   "questions": [
+    {
+     "q": "What is QEMU used for in the course?",
+     "options": [
+      "Compilation",
+      "Emulating a full ARM board on a laptop for safe practice",
+      "Flashing",
+      "Packaging"
+     ],
+     "answer": 1,
+     "explain": "No hardware needed."
+    },
+    {
+     "q": "How do you stop a QEMU session started with -nographic?",
+     "options": [
+      "Ctrl-A then X",
+      "exit",
+      "Ctrl-Z",
+      "Ctrl-C"
+     ],
+     "answer": 0,
+     "explain": "QEMU's escape sequence."
+    },
+    {
+     "q": "What does `-M virt` select?",
+     "options": [
+      "A disk",
+      "A UART",
+      "A generic virtual ARM machine type",
+      "A CPU"
+     ],
+     "answer": 2,
+     "explain": "Board model."
+    },
+    {
+     "q": "Why is emulation slower than native?",
+     "options": [
+      "Style",
+      "Memory",
+      "Instructions are translated at run time",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Fine for labs."
+    }
+   ]
+  },
+  "level-1/05-busybox-minimal-userland": {
+   "questions": [
+    {
+     "q": "What is BusyBox?",
+     "options": [
+      "A compiler",
+      "A single binary providing many Unix utilities via applet names (symlinks)",
+      "A kernel",
+      "A shell only"
+     ],
+     "answer": 1,
+     "explain": "Small userland."
+    },
+    {
+     "q": "Why is `ls` in BusyBox a symlink?",
+     "options": [
+      "Style",
+      "BusyBox decides what to run from argv[0], the name it was invoked with",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Multi-call binary."
+    },
+    {
+     "q": "What's missing in a minimal userland?",
+     "options": [
+      "mount",
+      "cat",
+      "ls",
+      "apt, bash and a compiler"
+     ],
+     "answer": 3,
+     "explain": "By design."
+    },
+    {
+     "q": "Why minimize userland?",
+     "options": [
+      "Smaller attack surface and flash footprint",
+      "Speed only",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Ship what you need."
+    }
+   ]
+  },
+  "level-1/06-cross-compilation": {
+   "questions": [
+    {
+     "q": "Why can't the target compile its own software?",
+     "options": [
+      "Speed only",
+      "Style",
+      "Law",
+      "Production images ship no compiler and have limited resources"
+     ],
+     "answer": 3,
+     "explain": "Cross-compile on the host."
+    },
+    {
+     "q": "What does a cross-compiler's prefix like arm-linux-gnueabihf- indicate?",
+     "options": [
+      "Version",
+      "Language",
+      "Vendor",
+      "Target architecture, OS and ABI"
+     ],
+     "answer": 3,
+     "explain": "CROSS_COMPILE."
+    },
+    {
+     "q": "What is a sysroot?",
+     "options": [
+      "The target's headers and libraries used while cross-compiling",
+      "Bootloader",
+      "Rootfs image",
+      "Kernel"
+     ],
+     "answer": 0,
+     "explain": "--sysroot."
+    },
+    {
+     "q": "Why match the ABI and libc?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Binaries must be compatible with the target's libraries"
+     ],
+     "answer": 3,
+     "explain": "glibc vs musl."
+    }
+   ]
+  },
+  "level-1/07-device-trees": {
+   "questions": [
+    {
+     "q": "Why do ARM boards need a device tree?",
+     "options": [
+      "Style",
+      "Law",
+      "The hardware isn't discoverable, so the tree describes it to the kernel",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "PCs enumerate via ACPI/PCI."
+    },
+    {
+     "q": "What format is the compiled device tree?",
+     "options": [
+      "A .dtb binary produced by dtc from .dts source",
+      "JSON",
+      "XML",
+      "ELF"
+     ],
+     "answer": 0,
+     "explain": "U-Boot passes it to the kernel."
+    },
+    {
+     "q": "What does a node's `compatible` property do?",
+     "options": [
+      "Names the node",
+      "Enables clock",
+      "Matches the node to a driver",
+      "Sets speed"
+     ],
+     "answer": 2,
+     "explain": "Driver binding."
+    },
+    {
+     "q": "What does `status = \"disabled\"` do?",
+     "options": [
+      "Ignores",
+      "Deletes",
+      "Powers on",
+      "Tells the kernel not to use that device"
+     ],
+     "answer": 3,
+     "explain": "Overlays can enable."
+    }
+   ]
+  },
+  "level-1/08-init-systems-services": {
+   "questions": [
+    {
+     "q": "What does an init system do?",
+     "options": [
+      "Compiles",
+      "Starts services at boot and supervises them",
+      "Installs",
+      "Boots"
+     ],
+     "answer": 1,
+     "explain": "PID 1."
+    },
+    {
+     "q": "What's the difference between BusyBox init and systemd?",
+     "options": [
+      "BusyBox init is tiny and script-based; systemd adds dependencies, supervision and features",
+      "None",
+      "Same",
+      "Reverse"
+     ],
+     "answer": 0,
+     "explain": "Choose by need."
+    },
+    {
+     "q": "Why restart a crashed service automatically?",
+     "options": [
+      "A headless device has no user to restart it",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Restart=always."
+    },
+    {
+     "q": "What does a service need to start reliably?",
+     "options": [
+      "Sleep",
+      "Luck",
+      "Correct dependencies and ordering",
+      "More RAM"
+     ],
+     "answer": 2,
+     "explain": "After= and Requires=."
+    }
+   ]
+  },
+  "level-1/09-buildroot-rootfs": {
+   "questions": [
+    {
+     "q": "What is Buildroot?",
+     "options": [
+      "A bootloader",
+      "A package manager",
+      "A build system generating a complete embedded Linux image from source",
+      "A debugger"
+     ],
+     "answer": 2,
+     "explain": "Simple and fixed-image oriented."
+    },
+    {
+     "q": "What does `make menuconfig` do in Buildroot?",
+     "options": [
+      "Builds",
+      "Configures the target, toolchain, kernel and packages",
+      "Flashes",
+      "Tests"
+     ],
+     "answer": 1,
+     "explain": "Writes .config."
+    },
+    {
+     "q": "When is Buildroot a better fit than Yocto?",
+     "options": [
+      "One fixed image with a simple workflow",
+      "Vendor BSPs",
+      "Product lines",
+      "Layers"
+     ],
+     "answer": 0,
+     "explain": "Yocto scales for BSPs."
+    },
+    {
+     "q": "What does Buildroot output include?",
+     "options": [
+      "Docs",
+      "Kernel image, rootfs and bootloader images ready to boot",
+      "Compiler",
+      "Source"
+     ],
+     "answer": 1,
+     "explain": "output/images."
+    }
+   ]
+  },
+  "level-1/10-capstone-appliance": {
+   "questions": [
+    {
+     "q": "What does the appliance capstone assemble?",
+     "options": [
+      "Only kernel",
+      "Only boot",
+      "A Buildroot QEMU image running a cross-compiled C application as a service",
+      "Only app"
+     ],
+     "answer": 2,
+     "explain": "All Level 1 pieces."
+    },
+    {
+     "q": "How do you verify it boots?",
+     "options": [
+      "Boot in QEMU and check the service output and logs",
+      "Skip",
+      "Reboot",
+      "Assume"
+     ],
+     "answer": 0,
+     "explain": "Test."
+    },
+    {
+     "q": "What makes it an 'appliance'?",
+     "options": [
+      "Package manager",
+      "GUI",
+      "It does one job automatically at boot",
+      "Shell"
+     ],
+     "answer": 2,
+     "explain": "No user needed."
+    },
+    {
+     "q": "What should the service do on crash?",
+     "options": [
+      "Hang",
+      "Restart automatically",
+      "Nothing",
+      "Reboot"
+     ],
+     "answer": 1,
+     "explain": "Supervised."
+    }
+   ]
+  },
+  "level-2/01-yocto-fundamentals": {
+   "questions": [
+    {
+     "q": "What is Yocto?",
+     "options": [
+      "A framework for building custom Linux distributions with layers and recipes",
+      "A compiler",
+      "A kernel",
+      "A distro"
+     ],
+     "answer": 0,
+     "explain": "BitBake builds."
+    },
+    {
+     "q": "What is a layer?",
+     "options": [
+      "A file",
+      "A package",
+      "A collection of recipes and config (e.g. a vendor BSP layer)",
+      "A kernel"
+     ],
+     "answer": 2,
+     "explain": "meta-*."
+    },
+    {
+     "q": "What does BitBake do?",
+     "options": [
+      "Debugs",
+      "Executes recipes' tasks to fetch, build and package software",
+      "Flashes",
+      "Tests"
+     ],
+     "answer": 1,
+     "explain": "The build engine."
+    },
+    {
+     "q": "Why do SoC vendors ship Yocto layers?",
+     "options": [
+      "Product lines need reproducible, maintainable BSPs across boards",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Standard practice."
+    }
+   ]
+  },
+  "level-2/02-u-boot-deep-dive": {
+   "questions": [
+    {
+     "q": "What problem does U-Boot's environment solve?",
+     "options": [
+      "Stores boot commands and variables like bootargs",
+      "Logs",
+      "Compiles",
+      "Mounts"
+     ],
+     "answer": 0,
+     "explain": "printenv/setenv."
+    },
+    {
+     "q": "What's `bootargs`?",
+     "options": [
+      "A device",
+      "A driver",
+      "The kernel command line passed by the bootloader",
+      "A file"
+     ],
+     "answer": 2,
+     "explain": "root=, console=."
+    },
+    {
+     "q": "What does `saveenv` do?",
+     "options": [
+      "Boots",
+      "Resets",
+      "Persists environment changes to storage",
+      "Erases"
+     ],
+     "answer": 2,
+     "explain": "Else lost on reboot."
+    },
+    {
+     "q": "If the kernel won't load, what do you check in U-Boot?",
+     "options": [
+      "Colors",
+      "Time",
+      "Wi-Fi",
+      "Load addresses, file locations and device tree/bootargs"
+     ],
+     "answer": 3,
+     "explain": "Common issues."
+    }
+   ]
+  },
+  "level-2/03-kernel-config-modules": {
+   "questions": [
+    {
+     "q": "What's the difference between built-in and a module?",
+     "options": [
+      "Built-in code is in the kernel image; modules load at run time",
+      "Same",
+      "Reverse",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "=y vs =m."
+    },
+    {
+     "q": "What does `modprobe` do?",
+     "options": [
+      "Boots",
+      "Loads a module and its dependencies",
+      "Compiles",
+      "Edits"
+     ],
+     "answer": 1,
+     "explain": "insmod doesn't resolve deps."
+    },
+    {
+     "q": "What does `make menuconfig` produce for the kernel?",
+     "options": [
+      "A dtb",
+      "A .config of selected options",
+      "An image",
+      "A module"
+     ],
+     "answer": 1,
+     "explain": "Then build."
+    },
+    {
+     "q": "Why trim kernel config for products?",
+     "options": [
+      "Smaller size, faster boot and smaller attack surface",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Only needed drivers."
+    }
+   ]
+  },
+  "level-2/04-udev-device-management": {
+   "questions": [
+    {
+     "q": "What does udev do?",
+     "options": [
+      "Logs",
+      "Mounts",
+      "Creates device nodes in /dev in response to kernel uevents",
+      "Boots"
+     ],
+     "answer": 2,
+     "explain": "Rules-driven."
+    },
+    {
+     "q": "What's a udev rule used for?",
+     "options": [
+      "Naming devices, setting permissions and running actions on events",
+      "Compiling",
+      "Logs",
+      "Routing"
+     ],
+     "answer": 0,
+     "explain": "/etc/udev/rules.d."
+    },
+    {
+     "q": "What does devtmpfs provide?",
+     "options": [
+      "Logs",
+      "Storage",
+      "A kernel-populated /dev with basic nodes before userspace runs",
+      "Network"
+     ],
+     "answer": 2,
+     "explain": "mdev/udev refine."
+    },
+    {
+     "q": "What triggers a uevent?",
+     "options": [
+      "Hardware being added, removed or changed",
+      "Login",
+      "Timer",
+      "Disk"
+     ],
+     "answer": 0,
+     "explain": "Netlink."
+    }
+   ]
+  },
+  "level-2/05-embedded-networking": {
+   "questions": [
+    {
+     "q": "What must an embedded network setup handle?",
+     "options": [
+      "Nothing",
+      "Automatic link recovery without user interaction",
+      "Manual",
+      "GUI"
+     ],
+     "answer": 1,
+     "explain": "Robust."
+    },
+    {
+     "q": "What do systemd-networkd or ifupdown replace?",
+     "options": [
+      "Routers",
+      "Kernel",
+      "Drivers",
+      "NetworkManager's GUI-oriented management on headless devices"
+     ],
+     "answer": 3,
+     "explain": "Lightweight."
+    },
+    {
+     "q": "What does a static IP vs DHCP choice depend on?",
+     "options": [
+      "Deployment: fixed infrastructure vs flexible networks",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Both supported."
+    },
+    {
+     "q": "Why configure timeouts and retries?",
+     "options": [
+      "Speed",
+      "Law",
+      "Links come and go; recovery shouldn't need a human",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "At 3 a.m."
+    }
+   ]
+  },
+  "level-2/06-storage-filesystems": {
+   "questions": [
+    {
+     "q": "What kills embedded products most often?",
+     "options": [
+      "Power cuts corrupting writable flash filesystems",
+      "Bugs",
+      "Cost",
+      "Heat"
+     ],
+     "answer": 0,
+     "explain": "Plan for it."
+    },
+    {
+     "q": "Why use UBIFS/F2FS or read-only squashfs on raw flash/eMMC?",
+     "options": [
+      "Flash wear and corruption require suitable filesystems",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "ext4 can work with care."
+    },
+    {
+     "q": "What is wear leveling?",
+     "options": [
+      "Spreading writes across flash blocks to extend life",
+      "Caching",
+      "Compression",
+      "Encryption"
+     ],
+     "answer": 0,
+     "explain": "FTL or filesystem."
+    },
+    {
+     "q": "What does `fsync` guarantee?",
+     "options": [
+      "Speed",
+      "That data has reached storage before returning",
+      "Compression",
+      "Caching"
+     ],
+     "answer": 1,
+     "explain": "Critical for durability."
+    }
+   ]
+  },
+  "level-2/07-debugging-tracing": {
+   "questions": [
+    {
+     "q": "What tools debug a remote target?",
+     "options": [
+      "gdbserver on the target with gdb on the host, plus strace/ltrace and logs",
+      "Local only",
+      "IDE only",
+      "Printf only"
+     ],
+     "answer": 0,
+     "explain": "Debug cross."
+    },
+    {
+     "q": "What does `strace` show?",
+     "options": [
+      "Interrupts",
+      "System calls a process makes",
+      "Packets",
+      "Memory"
+     ],
+     "answer": 1,
+     "explain": "Great for behavior."
+    },
+    {
+     "q": "Why keep an unstripped copy of binaries on the host?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Symbols are needed for readable backtraces and gdb"
+     ],
+     "answer": 3,
+     "explain": "Strip only the deployed copy."
+    },
+    {
+     "q": "What does `dmesg` show?",
+     "options": [
+      "Packets",
+      "Kernel log messages",
+      "Files",
+      "App logs"
+     ],
+     "answer": 1,
+     "explain": "Driver and boot issues."
+    }
+   ]
+  },
+  "level-2/08-read-only-rootfs": {
+   "questions": [
+    {
+     "q": "What does a read-only rootfs prevent?",
+     "options": [
+      "Corruption of the root filesystem from unexpected power loss",
+      "Updates",
+      "Boot",
+      "Network"
+     ],
+     "answer": 0,
+     "explain": "Writable data goes elsewhere."
+    },
+    {
+     "q": "Where does writable data go?",
+     "options": [
+      "BIOS",
+      "Separate /data partition (and tmpfs for volatile data)",
+      "ROM",
+      "Root"
+     ],
+     "answer": 1,
+     "explain": "Persistent vs temporary."
+    },
+    {
+     "q": "How do you handle /var and /tmp on a read-only root?",
+     "options": [
+      "Writable root",
+      "Ignore",
+      "Mount tmpfs or bind to /data",
+      "Delete"
+     ],
+     "answer": 2,
+     "explain": "Overlay or tmpfs."
+    },
+    {
+     "q": "What's an overlayfs used for?",
+     "options": [
+      "Backup",
+      "Encryption",
+      "Layering a writable layer over a read-only base",
+      "Compression"
+     ],
+     "answer": 2,
+     "explain": "Volatile or persistent."
+    }
+   ]
+  },
+  "level-2/09-systemd-deep-dive": {
+   "questions": [
+    {
+     "q": "What does a systemd `Restart=on-failure` do?",
+     "options": [
+      "Reboots",
+      "Disables",
+      "Never",
+      "Restarts the service if it exits with failure"
+     ],
+     "answer": 3,
+     "explain": "RestartSec sets delay."
+    },
+    {
+     "q": "What does the watchdog (WatchdogSec) enable?",
+     "options": [
+      "Logging",
+      "Mounting",
+      "Systemd restarts a service that stops sending heartbeats",
+      "Networking"
+     ],
+     "answer": 2,
+     "explain": "Detect hangs."
+    },
+    {
+     "q": "What does `Type=notify` mean?",
+     "options": [
+      "The service tells systemd when it's ready",
+      "Oneshot",
+      "Silent",
+      "Fork"
+     ],
+     "answer": 0,
+     "explain": "sd_notify."
+    },
+    {
+     "q": "How do you see why a unit failed?",
+     "options": [
+      "journalctl -u name and systemctl status",
+      "ls",
+      "dmesg",
+      "top"
+     ],
+     "answer": 0,
+     "explain": "Logs."
+    }
+   ]
+  },
+  "level-2/10-project-yocto-qemu-image": {
+   "questions": [
+    {
+     "q": "What does the Yocto QEMU project combine?",
+     "options": [
+      "Only app",
+      "A custom layer with an app recipe, unit, image recipe and persistent /data partition, booted with a read-only root",
+      "Only boot",
+      "Only kernel"
+     ],
+     "answer": 1,
+     "explain": "Capstone for Level 2."
+    },
+    {
+     "q": "How do you verify read-only root?",
+     "options": [
+      "Skip",
+      "Reboot",
+      "Assume",
+      "Try writing to / (should fail) and confirm data persists in /data"
+     ],
+     "answer": 3,
+     "explain": "Test."
+    },
+    {
+     "q": "What's in an image recipe?",
+     "options": [
+      "Driver",
+      "Kernel",
+      "Bootloader",
+      "Which packages and features go into the rootfs"
+     ],
+     "answer": 3,
+     "explain": "IMAGE_INSTALL."
+    },
+    {
+     "q": "Why a custom layer?",
+     "options": [
+      "Keep your changes separate from upstream layers",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Maintainability."
+    }
+   ]
+  },
+  "level-3/01-kernel-driver-development": {
+   "questions": [
+    {
+     "q": "What's the smallest complete kernel driver unit?",
+     "options": [
+      "A character driver with file operations",
+      "USB",
+      "Block",
+      "Network"
+     ],
+     "answer": 0,
+     "explain": "open/read/write/release."
+    },
+    {
+     "q": "What does `insmod` do?",
+     "options": [
+      "Loads a kernel module into the running kernel",
+      "Boots",
+      "Mounts",
+      "Compiles"
+     ],
+     "answer": 0,
+     "explain": "rmmod removes."
+    },
+    {
+     "q": "Why use copy_to_user instead of memcpy to userspace?",
+     "options": [
+      "Style",
+      "Law",
+      "It safely handles user pointers and faults",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Kernel/user boundary."
+    },
+    {
+     "q": "What does a driver's major/minor identify?",
+     "options": [
+      "Size",
+      "Owner",
+      "The device number mapping a node to the driver",
+      "Version"
+     ],
+     "answer": 2,
+     "explain": "cdev_add."
+    }
+   ]
+  },
+  "level-3/02-platform-drivers-device-model": {
+   "questions": [
+    {
+     "q": "What does the platform bus do?",
+     "options": [
+      "Matches platform devices (from DT) to platform drivers by compatible string",
+      "USB",
+      "PCI",
+      "Disk"
+     ],
+     "answer": 0,
+     "explain": "Non-discoverable devices."
+    },
+    {
+     "q": "What does `probe()` do?",
+     "options": [
+      "Reads",
+      "Unloads",
+      "Resets",
+      "Initializes the device when a driver is bound to it"
+     ],
+     "answer": 3,
+     "explain": "Allocate resources."
+    },
+    {
+     "q": "What's devm_ for?",
+     "options": [
+      "Managed resource allocation freed automatically on unbind",
+      "Device",
+      "Debug",
+      "Delay"
+     ],
+     "answer": 0,
+     "explain": "Prevents leaks."
+    },
+    {
+     "q": "How does the driver core match a driver?",
+     "options": [
+      "Colors",
+      "Names",
+      "IDs",
+      "Using of_match_table compatible strings"
+     ],
+     "answer": 3,
+     "explain": "Declarative."
+    }
+   ]
+  },
+  "level-3/03-device-tree-overlays": {
+   "questions": [
+    {
+     "q": "What do device tree overlays do?",
+     "options": [
+      "Compile",
+      "Modify the running hardware description without rebuilding the base dtb",
+      "Mount",
+      "Boot"
+     ],
+     "answer": 1,
+     "explain": "Daughter cards."
+    },
+    {
+     "q": "Why are overlays useful?",
+     "options": [
+      "Law",
+      "Support optional hardware or per-unit configuration",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Flexibility."
+    },
+    {
+     "q": "How are overlays applied?",
+     "options": [
+      "Login",
+      "Flashing",
+      "By the bootloader (fdt apply) or at runtime via configfs",
+      "Compiling"
+     ],
+     "answer": 2,
+     "explain": "Platform-dependent."
+    },
+    {
+     "q": "What must match for an overlay to apply?",
+     "options": [
+      "Names",
+      "Dates",
+      "Sizes",
+      "Target nodes/labels in the base tree"
+     ],
+     "answer": 3,
+     "explain": "Else fails."
+    }
+   ]
+  },
+  "level-3/04-interrupts-kernel-concurrency": {
+   "questions": [
+    {
+     "q": "What's the top-half/bottom-half interrupt split?",
+     "options": [
+      "Reverse",
+      "Minimal work in the handler, deferred work to softirq/tasklet/workqueue",
+      "One half",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Keep ISRs short."
+    },
+    {
+     "q": "Why can't you sleep in an interrupt handler?",
+     "options": [
+      "It runs in atomic context with no process to schedule",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Use threaded IRQs."
+    },
+    {
+     "q": "What protects data shared between an ISR and process context?",
+     "options": [
+      "none",
+      "mutex",
+      "semaphore",
+      "spin_lock_irqsave"
+     ],
+     "answer": 3,
+     "explain": "Mutex can sleep."
+    },
+    {
+     "q": "What's SMP's effect on drivers?",
+     "options": [
+      "Speed",
+      "Code can run concurrently on multiple CPUs, requiring locking",
+      "None",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Concurrency."
+    }
+   ]
+  },
+  "level-3/05-remoteproc-rpmsg": {
+   "questions": [
+    {
+     "q": "What is remoteproc?",
+     "options": [
+      "A framework to load and control firmware on a coprocessor like a Cortex-M",
+      "A compiler",
+      "A driver",
+      "A shell"
+     ],
+     "answer": 0,
+     "explain": "Heterogeneous cores."
+    },
+    {
+     "q": "What is RPMsg?",
+     "options": [
+      "Storage",
+      "Network",
+      "A messaging protocol between Linux and remote processors over virtio/shared memory",
+      "Display"
+     ],
+     "answer": 2,
+     "explain": "Mailbox + vrings."
+    },
+    {
+     "q": "Why use a Cortex-M alongside Linux?",
+     "options": [
+      "Hard real-time and low-power tasks Linux can't guarantee",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Offload."
+    },
+    {
+     "q": "How is firmware loaded?",
+     "options": [
+      "Network",
+      "BIOS",
+      "Via the remoteproc sysfs interface from /lib/firmware",
+      "USB"
+     ],
+     "answer": 2,
+     "explain": "echo start > state."
+    }
+   ]
+  },
+  "level-3/06-real-time-preempt-rt": {
+   "questions": [
+    {
+     "q": "What does PREEMPT_RT do?",
+     "options": [
+      "Adds drivers",
+      "Compresses",
+      "Speeds throughput",
+      "Makes the kernel mostly preemptible to bound latency"
+     ],
+     "answer": 3,
+     "explain": "Hard-ish real time."
+    },
+    {
+     "q": "What's a typical way to measure latency?",
+     "options": [
+      "top",
+      "ping",
+      "iperf",
+      "cyclictest"
+     ],
+     "answer": 3,
+     "explain": "Worst-case matters."
+    },
+    {
+     "q": "What causes latency spikes?",
+     "options": [
+      "Speed",
+      "Long non-preemptible sections, interrupts and priority inversion",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "RT tuning."
+    },
+    {
+     "q": "Which scheduling policy for RT tasks?",
+     "options": [
+      "SCHED_OTHER",
+      "nice",
+      "SCHED_FIFO or SCHED_RR with priorities",
+      "batch"
+     ],
+     "answer": 2,
+     "explain": "Set via chrt."
+    }
+   ]
+  },
+  "level-3/07-graphics-drm-wayland": {
+   "questions": [
+    {
+     "q": "What does DRM/KMS handle?",
+     "options": [
+      "Audio",
+      "Storage",
+      "Display modes and scanout via the kernel graphics subsystem",
+      "Network"
+     ],
+     "answer": 2,
+     "explain": "Direct display."
+    },
+    {
+     "q": "What's Wayland?",
+     "options": [
+      "A display server protocol where compositors manage clients (e.g. Weston)",
+      "Driver",
+      "Toolkit",
+      "Kernel"
+     ],
+     "answer": 0,
+     "explain": "Replacing X11."
+    },
+    {
+     "q": "Why prefer DRM/Wayland in embedded?",
+     "options": [
+      "Lean, modern and efficient versus X11",
+      "Style",
+      "Speed only",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Fewer components."
+    },
+    {
+     "q": "What's a framebuffer?",
+     "options": [
+      "File",
+      "Cache",
+      "A memory region mapped to pixels on the display",
+      "Driver"
+     ],
+     "answer": 2,
+     "explain": "fbdev legacy."
+    }
+   ]
+  },
+  "level-3/08-power-management-thermal": {
+   "questions": [
+    {
+     "q": "What do runtime PM and cpuidle do?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Lower power by suspending idle devices and CPUs"
+     ],
+     "answer": 3,
+     "explain": "Battery life."
+    },
+    {
+     "q": "What does the thermal framework do?",
+     "options": [
+      "Logs",
+      "Audio",
+      "Network",
+      "Monitors temperatures and throttles via cooling devices"
+     ],
+     "answer": 3,
+     "explain": "Trip points."
+    },
+    {
+     "q": "What is DVFS?",
+     "options": [
+      "IO",
+      "Network",
+      "Dynamic voltage and frequency scaling to trade power for speed",
+      "Cache"
+     ],
+     "answer": 2,
+     "explain": "cpufreq."
+    },
+    {
+     "q": "How do you check wake sources?",
+     "options": [
+      "dmesg",
+      "/sys/power and device wakeup attributes",
+      "ps",
+      "ls"
+     ],
+     "answer": 1,
+     "explain": "Debug suspend."
+    }
+   ]
+  },
+  "level-3/09-performance-profiling": {
+   "questions": [
+    {
+     "q": "What does `perf` do?",
+     "options": [
+      "Debug",
+      "Mount",
+      "Profiles CPU events and finds hotspots",
+      "Build"
+     ],
+     "answer": 2,
+     "explain": "perf top/record."
+    },
+    {
+     "q": "What's ftrace?",
+     "options": [
+      "A kernel tracing framework for function and event tracing",
+      "Profiler",
+      "Logger",
+      "Debugger"
+     ],
+     "answer": 0,
+     "explain": "/sys/kernel/tracing."
+    },
+    {
+     "q": "What first for a performance problem?",
+     "options": [
+      "Reboot",
+      "Measure to find the bottleneck",
+      "Guess",
+      "Rewrite"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What does `top` show?",
+     "options": [
+      "Syscalls",
+      "Processes' CPU and memory use",
+      "Packets",
+      "Interrupts"
+     ],
+     "answer": 1,
+     "explain": "Starting point."
+    }
+   ]
+  },
+  "level-3/10-project-sensor-driver": {
+   "questions": [
+    {
+     "q": "What does the sensor driver project combine?",
+     "options": [
+      "A platform driver bound via DT, an IIO/char interface and tests",
+      "Only boot",
+      "Only DT",
+      "Only app"
+     ],
+     "answer": 0,
+     "explain": "Level 3 capstone."
+    },
+    {
+     "q": "What's IIO?",
+     "options": [
+      "The Industrial I/O subsystem for sensors and converters",
+      "Display",
+      "Storage",
+      "Network"
+     ],
+     "answer": 0,
+     "explain": "Standard interface."
+    },
+    {
+     "q": "How do you test a driver without hardware?",
+     "options": [
+      "Skip",
+      "Wait",
+      "Assume",
+      "Emulate with QEMU or a mock device"
+     ],
+     "answer": 3,
+     "explain": "Simulate."
+    },
+    {
+     "q": "What should the driver handle?",
+     "options": [
+      "Only success",
+      "Probe errors, locking and cleanup on removal",
+      "Speed",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Robust."
+    }
+   ]
+  },
+  "level-4/01-production-bsp-maintenance": {
+   "questions": [
+    {
+     "q": "What does BSP maintenance involve?",
+     "options": [
+      "Nothing",
+      "One build",
+      "Only config",
+      "Tracking upstream kernel/bootloader updates, security fixes and vendor layers"
+     ],
+     "answer": 3,
+     "explain": "Long product life."
+    },
+    {
+     "q": "Why pin versions and track CVEs?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "Reproducible builds and timely security patches"
+     ],
+     "answer": 3,
+     "explain": "Supply chain."
+    },
+    {
+     "q": "What's an LTS kernel for?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "Long-term stable updates for products"
+     ],
+     "answer": 3,
+     "explain": "Plan for it."
+    },
+    {
+     "q": "What helps product maintenance?",
+     "options": [
+      "None",
+      "Hope",
+      "Manual",
+      "CI building images and tests on every change"
+     ],
+     "answer": 3,
+     "explain": "Automation."
+    }
+   ]
+  },
+  "level-4/02-secure-boot-hab-ahab": {
+   "questions": [
+    {
+     "q": "What does secure boot do?",
+     "options": [
+      "Verifies each boot stage's signature before running it",
+      "Speeds",
+      "Logs",
+      "Encrypts disk"
+     ],
+     "answer": 0,
+     "explain": "Chain of trust."
+    },
+    {
+     "q": "What's the root of trust?",
+     "options": [
+      "Immutable boot ROM and fused keys in the SoC",
+      "Linux",
+      "U-Boot",
+      "App"
+     ],
+     "answer": 0,
+     "explain": "HAB/AHAB."
+    },
+    {
+     "q": "What protects the private signing key?",
+     "options": [
+      "Cloud",
+      "Laptop",
+      "Git",
+      "Offline HSM or secured infrastructure, never on developer laptops"
+     ],
+     "answer": 3,
+     "explain": "Key management."
+    },
+    {
+     "q": "What happens when a signature check fails?",
+     "options": [
+      "Continues",
+      "Ignored",
+      "Boot is halted (or a fallback used)",
+      "Retry"
+     ],
+     "answer": 2,
+     "explain": "Closed devices."
+    }
+   ]
+  },
+  "level-4/03-ota-updates": {
+   "questions": [
+    {
+     "q": "What does an A/B OTA scheme do?",
+     "options": [
+      "Backups",
+      "Updates the inactive slot and switches, rolling back if boot fails",
+      "Reboots",
+      "Overwrites"
+     ],
+     "answer": 1,
+     "explain": "Safe updates."
+    },
+    {
+     "q": "What tools implement OTA?",
+     "options": [
+      "gcc",
+      "gdb",
+      "RAUC, SWUpdate and Mender",
+      "make"
+     ],
+     "answer": 2,
+     "explain": "Signed bundles."
+    },
+    {
+     "q": "Why sign update bundles?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Prevent installing tampered or malicious images"
+     ],
+     "answer": 3,
+     "explain": "Integrity."
+    },
+    {
+     "q": "What triggers rollback?",
+     "options": [
+      "Nothing",
+      "A failed health check or boot count exceeded",
+      "User",
+      "Timer"
+     ],
+     "answer": 1,
+     "explain": "Watchdog + bootcount."
+    }
+   ]
+  },
+  "level-4/04-op-tee-trustzone": {
+   "questions": [
+    {
+     "q": "What does ARM TrustZone provide?",
+     "options": [
+      "Network",
+      "Speed",
+      "Storage",
+      "Hardware-isolated secure world for sensitive code and data"
+     ],
+     "answer": 3,
+     "explain": "Secure vs normal world."
+    },
+    {
+     "q": "What is OP-TEE?",
+     "options": [
+      "Compiler",
+      "Kernel",
+      "Bootloader",
+      "An open-source Trusted Execution Environment OS"
+     ],
+     "answer": 3,
+     "explain": "Trusted applications."
+    },
+    {
+     "q": "What would you store in the secure world?",
+     "options": [
+      "Keys, certificates and security-sensitive operations",
+      "Temp",
+      "Docs",
+      "Logs"
+     ],
+     "answer": 0,
+     "explain": "Minimize exposure."
+    },
+    {
+     "q": "How does Linux talk to OP-TEE?",
+     "options": [
+      "Through the TEE driver and client API (libteec)",
+      "UART",
+      "SPI",
+      "USB"
+     ],
+     "answer": 0,
+     "explain": "SMC calls."
+    }
+   ]
+  },
+  "level-4/05-npu-ml-acceleration": {
+   "questions": [
+    {
+     "q": "How do embedded NPUs integrate?",
+     "options": [
+      "Via vendor drivers and runtimes (e.g. eIQ, Ethos-U) from userspace",
+      "Kernel only",
+      "BIOS",
+      "Bootloader"
+     ],
+     "answer": 0,
+     "explain": "Delegate."
+    },
+    {
+     "q": "What must a model be for an NPU?",
+     "options": [
+      "Large",
+      "Quantized to supported ops, compiled with the vendor tool",
+      "Float",
+      "Any"
+     ],
+     "answer": 1,
+     "explain": "Fallbacks hurt."
+    },
+    {
+     "q": "What should you benchmark?",
+     "options": [
+      "TOPS",
+      "End-to-end latency and power on the target",
+      "Clock",
+      "Spec"
+     ],
+     "answer": 1,
+     "explain": "Real data."
+    },
+    {
+     "q": "What does the kernel provide to NPU stacks?",
+     "options": [
+      "Network",
+      "UI",
+      "Drivers, memory management (CMA/DMA-BUF) and scheduling",
+      "Audio"
+     ],
+     "answer": 2,
+     "explain": "Plumbing."
+    }
+   ]
+  },
+  "level-4/06-containers-virtualization": {
+   "questions": [
+    {
+     "q": "What do containers use from Linux?",
+     "options": [
+      "Hypervisors",
+      "VMs",
+      "Namespaces and cgroups for isolation and limits",
+      "Firmware"
+     ],
+     "answer": 2,
+     "explain": "Lightweight."
+    },
+    {
+     "q": "Why containers on embedded?",
+     "options": [
+      "Law",
+      "Style",
+      "Deploy apps independently with isolation and easy updates",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Podman/Docker, LXC."
+    },
+    {
+     "q": "What's the overhead trade-off?",
+     "options": [
+      "None",
+      "More storage/RAM and complexity",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Choose deliberately."
+    },
+    {
+     "q": "What does a hypervisor add?",
+     "options": [
+      "Stronger isolation between guests on one SoC",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Jailhouse, Xen."
+    }
+   ]
+  },
+  "level-4/07-fleet-management": {
+   "questions": [
+    {
+     "q": "What does fleet management provide?",
+     "options": [
+      "Manual",
+      "Local",
+      "Remote monitoring, updates and configuration of many devices",
+      "One device"
+     ],
+     "answer": 2,
+     "explain": "Scale."
+    },
+    {
+     "q": "What should each device report?",
+     "options": [
+      "Health, version and metrics",
+      "Photos",
+      "Logs only",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Telemetry."
+    },
+    {
+     "q": "What's a device identity?",
+     "options": [
+      "Serial",
+      "Name",
+      "A unique credential (cert/key) per device for authentication",
+      "IP"
+     ],
+     "answer": 2,
+     "explain": "Provision securely."
+    },
+    {
+     "q": "How do you roll out safely?",
+     "options": [
+      "All at once",
+      "Manual",
+      "Random",
+      "Staged rollouts with monitoring and rollback"
+     ],
+     "answer": 3,
+     "explain": "Canary."
+    }
+   ]
+  },
+  "level-4/08-security-hardening": {
+   "questions": [
+    {
+     "q": "Name a hardening measure.",
+     "options": [
+      "Disable unused services, least privilege, read-only root and secure boot",
+      "Root login",
+      "More ports",
+      "Default passwords"
+     ],
+     "answer": 0,
+     "explain": "Reduce attack surface."
+    },
+    {
+     "q": "Why remove debug interfaces in production?",
+     "options": [
+      "Law",
+      "They can give attackers access (UART, JTAG)",
+      "Cost",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Lock them down."
+    },
+    {
+     "q": "What does a firewall do?",
+     "options": [
+      "Boots",
+      "Restricts inbound/outbound traffic by policy",
+      "Mounts",
+      "Logs"
+     ],
+     "answer": 1,
+     "explain": "nftables."
+    },
+    {
+     "q": "Why drop privileges after start?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "A compromised service has limited power"
+     ],
+     "answer": 3,
+     "explain": "Least privilege."
+    }
+   ]
+  },
+  "level-4/09-compliance-licensing": {
+   "questions": [
+    {
+     "q": "Why track open-source licenses?",
+     "options": [
+      "Style",
+      "Cost",
+      "Compliance obligations (GPL source offers, attribution)",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Legal risk."
+    },
+    {
+     "q": "What does the GPL require when you distribute binaries?",
+     "options": [
+      "Nothing",
+      "Patents",
+      "Money",
+      "Offering corresponding source under the same license"
+     ],
+     "answer": 3,
+     "explain": "Include notices."
+    },
+    {
+     "q": "What's an SBOM?",
+     "options": [
+      "A build",
+      "A software bill of materials listing components and versions",
+      "A test",
+      "A key"
+     ],
+     "answer": 1,
+     "explain": "Generated by Yocto/Buildroot."
+    },
+    {
+     "q": "What's a license-compliance tool?",
+     "options": [
+      "gdb",
+      "FOSSology/ORT/Yocto's license manifest",
+      "ssh",
+      "make"
+     ],
+     "answer": 1,
+     "explain": "Automate."
+    }
+   ]
+  },
+  "level-4/10-capstone-imx95-product": {
+   "questions": [
+    {
+     "q": "What does the i.MX95 capstone combine?",
+     "options": [
+      "Only app",
+      "Only boot",
+      "BSP, secure boot, OTA, containers/NPU and compliance for a product",
+      "Only kernel"
+     ],
+     "answer": 2,
+     "explain": "Full product."
+    },
+    {
+     "q": "How do you prove production readiness?",
+     "options": [
+      "Reproducible builds, tests on hardware, rollback drills and compliance review",
+      "Slides",
+      "Hope",
+      "Demo"
+     ],
+     "answer": 0,
+     "explain": "Operate it."
+    },
+    {
+     "q": "What documentation matters?",
+     "options": [
+      "Code",
+      "Architecture, BSP maintenance, update and security procedures",
+      "Slides",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Lifecycle."
+    },
+    {
+     "q": "What's the lifecycle concern?",
+     "options": [
+      "Cost",
+      "Launch",
+      "Speed",
+      "Years of security updates and field support"
+     ],
+     "answer": 3,
+     "explain": "Plan for it."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "List the boot stages in order.",
+    "options": [
+     "Init, kernel, ROM",
+     "Boot ROM, SPL/bootloader, U-Boot, kernel, init",
+     "Kernel, U-Boot, ROM, init",
+     "U-Boot, init, kernel"
+    ],
+    "answer": 1,
+    "explain": "Each stage hands off to the next."
+   },
+   {
+    "q": "The kernel boots but can't find the UART on an ARM board. What is the likely cause?",
+    "options": [
+     "Wrong keyboard",
+     "Bad compiler",
+     "Missing apt",
+     "The device tree doesn't describe it (or marks it disabled), since the hardware isn't discoverable"
+    ],
+    "answer": 3,
+    "explain": "Check the dts, compatible and status."
+   },
+   {
+    "q": "`ls` on a BusyBox system is a symlink to busybox. How does it know to act as ls?",
+    "options": [
+     "A config file",
+     "The kernel",
+     "It inspects argv[0], the name it was invoked with",
+     "Environment"
+    ],
+    "answer": 2,
+    "explain": "A multi-call binary."
+   },
+   {
+    "q": "You must build a C app for a 64 MB ARM board with no compiler. What do you do?",
+    "options": [
+     "Compile on the target",
+     "Use Python",
+     "Use apt",
+     "Cross-compile on the host with the matching toolchain/sysroot and copy the binary"
+    ],
+    "answer": 3,
+    "explain": "Match ABI and libc."
+   },
+   {
+    "q": "A service must restart if it crashes and be flagged if it hangs. What systemd settings help?",
+    "options": [
+     "Nothing",
+     "Type=simple only",
+     "RemainAfterExit",
+     "Restart=on-failure and a watchdog (WatchdogSec with sd_notify)"
+    ],
+    "answer": 3,
+    "explain": "Supervision."
+   },
+   {
+    "q": "Field units lose power often and the root filesystem corrupts. What's the standard design?",
+    "options": [
+     "A bigger flash",
+     "A read-only root with writable data on a separate partition (and tmpfs for volatile files)",
+     "Run fsck",
+     "Disable caching only"
+    ],
+    "answer": 1,
+    "explain": "Prevents corruption by construction."
+   },
+   {
+    "q": "A kernel driver needs to share data between an interrupt handler and process context. What lock?",
+    "options": [
+     "nothing",
+     "spin_lock_irqsave (a mutex can sleep, which is forbidden in IRQ context)",
+     "semaphore",
+     "mutex"
+    ],
+    "answer": 1,
+    "explain": "Atomic context."
+   },
+   {
+    "q": "Why do threaded IRQs help?",
+    "options": [
+     "Speed",
+     "Style",
+     "Law",
+     "Handlers run in process context where they can sleep, keeping hard IRQ time short"
+    ],
+    "answer": 3,
+    "explain": "Use for slow buses."
+   },
+   {
+    "q": "An optional daughter card appears on some units. How do you avoid maintaining two device trees?",
+    "options": [
+     "Use a device tree overlay applied by the bootloader or at runtime",
+     "Ignore",
+     "Two images",
+     "Edit the kernel"
+    ],
+    "answer": 0,
+    "explain": "Overlays."
+   },
+   {
+    "q": "A Cortex-M core handles hard real-time I/O beside Linux. Which frameworks connect them?",
+    "options": [
+     "USB",
+     "SSH",
+     "remoteproc to load/control firmware and RPMsg for messaging",
+     "NFS"
+    ],
+    "answer": 2,
+    "explain": "Heterogeneous SoCs."
+   },
+   {
+    "q": "Latency spikes appear on a Linux control loop. What do you try?",
+    "options": [
+     "Bigger cache",
+     "PREEMPT_RT with SCHED_FIFO priorities, measured with cyclictest",
+     "More RAM",
+     "Disable RT"
+    ],
+    "answer": 1,
+    "explain": "Measure worst case."
+   },
+   {
+    "q": "What chain does secure boot rely on?",
+    "options": [
+     "Network",
+     "Each stage verifies the next stage's signature, anchored in the immutable boot ROM and fused keys",
+     "Checksums",
+     "Passwords"
+    ],
+    "answer": 1,
+    "explain": "Chain of trust."
+   },
+   {
+    "q": "A firmware update fails halfway and the device must still boot. What OTA design handles it?",
+    "options": [
+     "A/B slots with a boot counter and automatic rollback",
+     "Two chips",
+     "Overwrite in place",
+     "Manual recovery"
+    ],
+    "answer": 0,
+    "explain": "Always keep a known-good image."
+   },
+   {
+    "q": "Why sign OTA bundles?",
+    "options": [
+     "Law",
+     "Speed",
+     "So devices only install authentic, untampered images",
+     "Style"
+    ],
+    "answer": 2,
+    "explain": "Integrity and authenticity."
+   },
+   {
+    "q": "Where should secrets such as keys live on an i.MX board?",
+    "options": [
+     "In the app",
+     "In /etc",
+     "In U-Boot env",
+     "In the TrustZone secure world (OP-TEE) or secure hardware, not in the Linux rootfs"
+    ],
+    "answer": 3,
+    "explain": "Isolate."
+   },
+   {
+    "q": "Why must you track open-source licenses in a product?",
+    "options": [
+     "Style",
+     "Cost",
+     "Speed",
+     "GPL and other licenses impose obligations on distribution (source offers, notices)"
+    ],
+    "answer": 3,
+    "explain": "Generate an SBOM."
+   },
+   {
+    "q": "A Yocto build is not reproducible and security fixes are missed. What practices help?",
+    "options": [
+     "Update randomly",
+     "Pin layer revisions, track CVEs, and build in CI",
+     "Fork everything",
+     "Skip CI"
+    ],
+    "answer": 1,
+    "explain": "Maintain the BSP."
+   },
+   {
+    "q": "What reduces the attack surface of a shipped device?",
+    "options": [
+     "Leave UART open",
+     "Add tools",
+     "Remove unused services/packages, disable debug ports, least privilege and a firewall",
+     "Root login"
+    ],
+    "answer": 2,
+    "explain": "Hardening."
+   },
+   {
+    "q": "How do you roll out an update to a fleet safely?",
+    "options": [
+     "Staged rollout with health telemetry and automatic rollback",
+     "Email",
+     "Manual",
+     "All at once"
+    ],
+    "answer": 0,
+    "explain": "Canary first."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A/B update with rollback",
+    "prompt": "Complete the toy A/B bootloader: after install(), boot() should commit the pending slot when healthy, otherwise count failed tries and roll back to the active slot after MAX_TRIES (discarding the pending image). Print the sequence for a bad v2 update followed by a good v3.",
+    "starter": "class ABBoot:\n    \"\"\"Toy bootloader state for an A/B OTA scheme with a boot counter.\"\"\"\n    MAX_TRIES = 3\n\n    def __init__(self):\n        self.slots = {\"A\": \"v1\", \"B\": None}\n        self.active = \"A\"\n        self.pending = None       # slot being trialled after an update\n        self.tries = 0\n\n    def install(self, version):\n        inactive = \"B\" if self.active == \"A\" else \"A\"\n        self.slots[inactive] = version\n        self.pending = inactive\n        self.tries = 0\n        return inactive\n\n    def boot(self, healthy):\n        \"\"\"Simulate one boot of the pending slot (or the active one if nothing is pending).\n        Healthy: commit the pending slot as active. Unhealthy: count the try; after MAX_TRIES\n        roll back to the active slot and discard the pending one. Return a status string.\"\"\"\n        return \"\"\n\nb = ABBoot()\nb.install(\"v2\")\nfor h in [False, False, False]:\n    print(b.boot(h))\nprint(b.boot(True))\nb.install(\"v3\")\nprint(b.boot(True))\nprint(b.boot(True))\n",
+    "expected": "boot failed 1x -> retry B\nboot failed 2x -> retry B\nboot failed 3x -> rollback to A (v1)\nboot A (v1)\nboot B (v3) -> committed\nboot B (v3)",
+    "solution": "class ABBoot:\n    \"\"\"Toy bootloader state for an A/B OTA scheme with a boot counter.\"\"\"\n    MAX_TRIES = 3\n\n    def __init__(self):\n        self.slots = {\"A\": \"v1\", \"B\": None}\n        self.active = \"A\"\n        self.pending = None       # slot being trialled after an update\n        self.tries = 0\n\n    def install(self, version):\n        inactive = \"B\" if self.active == \"A\" else \"A\"\n        self.slots[inactive] = version\n        self.pending = inactive\n        self.tries = 0\n        return inactive\n\n    def boot(self, healthy):\n        \"\"\"Simulate one boot. `healthy` says whether the new software comes up fine.\"\"\"\n        if self.pending is None:\n            return f\"boot {self.active} ({self.slots[self.active]})\"\n        if healthy:\n            self.active, self.pending = self.pending, None\n            return f\"boot {self.active} ({self.slots[self.active]}) -> committed\"\n        self.tries += 1\n        if self.tries >= self.MAX_TRIES:\n            bad = self.pending\n            self.pending = None\n            self.slots[bad] = None\n            return f\"boot failed {self.tries}x -> rollback to {self.active} ({self.slots[self.active]})\"\n        return f\"boot failed {self.tries}x -> retry {self.pending}\"\n\nb = ABBoot()\nb.install(\"v2\")\nfor h in [False, False, False]:\n    print(b.boot(h))\nprint(b.boot(True))\nb.install(\"v3\")\nprint(b.boot(True))\nprint(b.boot(True))\n",
+    "explain": "The active slot is never overwritten, so a failed update falls back to a known-good image. Real systems (RAUC, SWUpdate, Mender with U-Boot boot counts) implement the same idea. This is a teaching model. Verified by running the solution."
+   },
+   {
+    "title": "Match device tree nodes to drivers",
+    "prompt": "Implement match(node): skip nodes whose status is not okay, then walk the node's compatible list in order (most specific first) and return the first driver whose table contains one of the strings, along with the matching string.",
+    "starter": "# A tiny model of the Linux driver core matching a device-tree node to a driver.\nDRIVERS = {\n    \"imx-uart\": [\"fsl,imx6q-uart\", \"fsl,imx21-uart\"],\n    \"ns16550\": [\"ns16550a\", \"ns16550\"],\n    \"gpio-led\": [\"gpio-leds\"],\n}\n\nNODES = [\n    {\"name\": \"serial@4000\", \"compatible\": [\"fsl,imx6q-uart\", \"fsl,imx21-uart\"], \"status\": \"okay\"},\n    {\"name\": \"serial@5000\", \"compatible\": [\"vendor,new-uart\", \"ns16550a\"], \"status\": \"okay\"},\n    {\"name\": \"leds\", \"compatible\": [\"gpio-leds\"], \"status\": \"disabled\"},\n    {\"name\": \"mystery@9000\", \"compatible\": [\"acme,unknown\"], \"status\": \"okay\"},\n]\n\ndef match(node):\n    # return (driver, matching compatible string) or None; skip nodes whose status is not \"okay\";\n    # check node[\"compatible\"] in order (most specific first) against each driver table\n    return None\n\nfor n in NODES:\n    r = match(n)\n    print(n[\"name\"], \"->\", f\"{r[0]} (via {r[1]})\" if r else \"no driver bound\")\n",
+    "expected": "serial@4000 -> imx-uart (via fsl,imx6q-uart)\nserial@5000 -> ns16550 (via ns16550a)\nleds -> no driver bound\nmystery@9000 -> no driver bound",
+    "solution": "# A tiny model of the Linux driver core matching a device-tree node to a driver.\nDRIVERS = {\n    \"imx-uart\": [\"fsl,imx6q-uart\", \"fsl,imx21-uart\"],\n    \"ns16550\": [\"ns16550a\", \"ns16550\"],\n    \"gpio-led\": [\"gpio-leds\"],\n}\n\nNODES = [\n    {\"name\": \"serial@4000\", \"compatible\": [\"fsl,imx6q-uart\", \"fsl,imx21-uart\"], \"status\": \"okay\"},\n    {\"name\": \"serial@5000\", \"compatible\": [\"vendor,new-uart\", \"ns16550a\"], \"status\": \"okay\"},\n    {\"name\": \"leds\", \"compatible\": [\"gpio-leds\"], \"status\": \"disabled\"},\n    {\"name\": \"mystery@9000\", \"compatible\": [\"acme,unknown\"], \"status\": \"okay\"},\n]\n\ndef match(node):\n    if node[\"status\"] != \"okay\":\n        return None\n    # compatible is ordered most specific first; the first string any driver claims wins\n    for compat in node[\"compatible\"]:\n        for driver, table in DRIVERS.items():\n            if compat in table:\n                return driver, compat\n    return None\n\nfor n in NODES:\n    r = match(n)\n    print(n[\"name\"], \"->\", f\"{r[0]} (via {r[1]})\" if r else \"no driver bound\")\n",
+    "explain": "The driver core binds a driver by compatible string, preferring the earliest (most specific) entry, so serial@5000 binds to ns16550 via its fallback string. Disabled or unknown nodes bind nothing. This models the idea, not the kernel's actual code. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
