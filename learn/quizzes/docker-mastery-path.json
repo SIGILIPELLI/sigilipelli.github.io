@@ -1,0 +1,2207 @@
+{
+ "course": "docker-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-docker": {
+   "questions": [
+    {
+     "q": "What is a container?",
+     "options": [
+      "An isolated process (or group of processes) on the host's kernel, created from an image",
+      "A small virtual machine with its own kernel",
+      "A hypervisor",
+      "A package manager"
+     ],
+     "answer": 0,
+     "explain": "The promise: 'it works on my machine' becomes 'it works everywhere the container runs'."
+    },
+    {
+     "q": "Which three Linux kernel features make containers possible?",
+     "options": [
+      "Namespaces, cgroups and a layered (union) filesystem",
+      "Firewalls, NAT and routing",
+      "Hypervisors, drivers and BIOS",
+      "Systemd, cron and sudo"
+     ],
+     "answer": 0,
+     "explain": "Namespaces isolate the view; cgroups limit resources; layers share image data."
+    },
+    {
+     "q": "Why does a container start so much faster than a VM?",
+     "options": [
+      "Containers cache the OS",
+      "There's no second kernel to boot and no hardware to emulate",
+      "Containers skip networking",
+      "Containers are smaller files only"
+     ],
+     "answer": 1,
+     "explain": "It starts about as fast as launching a normal process."
+    },
+    {
+     "q": "What is the trade-off in isolation strength?",
+     "options": [
+      "They are equal",
+      "Containers have no isolation",
+      "Containers share the host kernel, so isolation is weaker than a VM's separate kernel",
+      "Containers are stronger"
+     ],
+     "answer": 2,
+     "explain": "VMs offer very strong isolation at higher overhead."
+    }
+   ]
+  },
+  "level-1/02-installing-docker": {
+   "questions": [
+    {
+     "q": "What do you install on macOS and Windows?",
+     "options": [
+      "Docker Engine natively",
+      "Docker Desktop, which bundles the daemon, CLI, a small Linux VM and a GUI (WSL2 backend on Windows)",
+      "Nothing",
+      "Only the CLI"
+     ],
+     "answer": 1,
+     "explain": "Containers there run inside a Linux VM."
+    },
+    {
+     "q": "Why does Linux need no VM?",
+     "options": [
+      "The host kernel is Linux, so Docker Engine runs natively",
+      "Linux has a built-in hypervisor",
+      "Containers are emulated",
+      "It needs WSL"
+     ],
+     "answer": 0,
+     "explain": "You install docker-ce, docker-ce-cli, containerd.io and the compose plugin."
+    },
+    {
+     "q": "Who can use the Docker socket by default, and how do you run docker without sudo?",
+     "options": [
+      "root and members of the docker group; sudo usermod -aG docker $USER, then log in again",
+      "Everyone; no change",
+      "Only the first user",
+      "Only root; edit sudoers"
+     ],
+     "answer": 0,
+     "explain": "The lesson warns that docker group membership is effectively root-equivalent."
+    },
+    {
+     "q": "Why does the lesson say to cross-check docs.docker.com?",
+     "options": [
+      "Installer screens and steps change over time",
+      "The lesson is wrong",
+      "Docker is paid",
+      "Commands are secret"
+     ],
+     "answer": 0,
+     "explain": "The lesson describes documented behaviour, not screenshots."
+    }
+   ]
+  },
+  "level-1/03-images-vs-containers": {
+   "questions": [
+    {
+     "q": "What is the relationship between an image and a container?",
+     "options": [
+      "An image is a read-only template (like a class); a container is a running or stopped instance of it (like an object)",
+      "They are the same",
+      "A container is the template",
+      "An image is running"
+     ],
+     "answer": 0,
+     "explain": "Many containers can be created from one image."
+    },
+    {
+     "q": "Which Dockerfile instructions produce new filesystem layers?",
+     "options": [
+      "All metadata",
+      "RUN, COPY and ADD, which change the filesystem",
+      "CMD and EXPOSE only",
+      "ENV only"
+     ],
+     "answer": 1,
+     "explain": "Each layer is immutable and identified by a content hash."
+    },
+    {
+     "q": "Where do a container's runtime file changes go?",
+     "options": [
+      "Into a volume automatically",
+      "A thin writable layer unique to that container; the image layers are never touched",
+      "Into the image",
+      "Into the host"
+     ],
+     "answer": 1,
+     "explain": "So containers from the same image don't interfere with each other."
+    },
+    {
+     "q": "Two images are both built FROM python:3.12-slim. What does Docker store?",
+     "options": [
+      "The shared base layer once on disk",
+      "One merged image",
+      "Two copies",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Layers are shared even across images."
+    }
+   ]
+  },
+  "level-1/04-first-container": {
+   "questions": [
+    {
+     "q": "What does `docker run hello-world` do, in order?",
+     "options": [
+      "Start then pull",
+      "Build then run",
+      "Pull then compile",
+      "Resolve hello-world:latest, check the local cache, pull if missing, create the container, start its CMD/ENTRYPOINT as PID 1, attach"
+     ],
+     "answer": 3,
+     "explain": "It explains most 'why did it pull from the internet' questions."
+    },
+    {
+     "q": "What do -i and -t mean in `docker run -it ubuntu bash`?",
+     "options": [
+      "-i is image; -t is tag",
+      "-i keeps STDIN open; -t allocates a pseudo-TTY",
+      "-i is ignore; -t is time",
+      "-i installs; -t tests"
+     ],
+     "answer": 1,
+     "explain": "Together they behave like a normal terminal."
+    },
+    {
+     "q": "What is the container's main process?",
+     "options": [
+      "dockerd",
+      "systemd",
+      "The image's configured CMD or ENTRYPOINT, running as PID 1 in the container's PID namespace",
+      "bash always"
+     ],
+     "answer": 2,
+     "explain": "When it exits, the container stops."
+    },
+    {
+     "q": "What does Docker use by default for the registry?",
+     "options": [
+      "GitHub",
+      "Quay",
+      "A local folder",
+      "Docker Hub"
+     ],
+     "answer": 3,
+     "explain": "The default tag is latest."
+    }
+   ]
+  },
+  "level-1/05-the-dockerfile": {
+   "questions": [
+    {
+     "q": "Why prefer WORKDIR /app over `RUN cd /app && ...`?",
+     "options": [
+      "cd in a RUN affects only that instruction's shell, not later instructions; WORKDIR persists and creates the directory",
+      "cd is invalid",
+      "WORKDIR is faster",
+      "RUN can't use cd"
+     ],
+     "answer": 0,
+     "explain": "WORKDIR sets the directory for later RUN, CMD, COPY and ADD."
+    },
+    {
+     "q": "What does EXPOSE 8000 do?",
+     "options": [
+      "Documents the port (metadata); it does not publish it. -p publishes, and -P publishes all exposed ports to random host ports",
+      "Publishes the port",
+      "Opens the firewall",
+      "Binds the port"
+     ],
+     "answer": 0,
+     "explain": "It's a hint for humans and tools."
+    },
+    {
+     "q": "Why prefer COPY over ADD for plain files?",
+     "options": [
+      "ADD is deprecated",
+      "ADD has surprising extras (auto-extracting tarballs, fetching URLs)",
+      "COPY supports URLs",
+      "COPY is faster"
+     ],
+     "answer": 1,
+     "explain": "COPY copies from the build context."
+    },
+    {
+     "q": "How do RUN and CMD differ?",
+     "options": [
+      "CMD runs at build time",
+      "RUN executes at build time and commits a layer; CMD only runs when a container starts",
+      "The same",
+      "RUN runs at start"
+     ],
+     "answer": 1,
+     "explain": "Use the exec (JSON array) form for CMD."
+    }
+   ]
+  },
+  "level-1/06-building-images": {
+   "questions": [
+    {
+     "q": "What is the build context in `docker build -t hello-app:1.0 .`?",
+     "options": [
+      "The directory (.) whose contents are sent to the daemon; COPY can't reference files outside it",
+      "The image tag",
+      "The registry",
+      "The Dockerfile"
+     ],
+     "answer": 0,
+     "explain": "Use -f for a differently named Dockerfile."
+    },
+    {
+     "q": "What does the daemon do for each instruction during a build?",
+     "options": [
+      "Skips unchanged files",
+      "Checks for a cached layer for that instruction plus its parent; reuses it or executes in a temporary container and commits a new layer",
+      "Always rebuilds",
+      "Pulls from the registry"
+     ],
+     "answer": 1,
+     "explain": "Caching is explained in Level 2."
+    },
+    {
+     "q": "What does -t hello-app:1.0 do?",
+     "options": [
+      "Tests it",
+      "Targets a platform",
+      "Tags the image with repository hello-app and tag 1.0 (you can pass -t multiple times)",
+      "Times it"
+     ],
+     "answer": 2,
+     "explain": "The default tag is latest."
+    },
+    {
+     "q": "What does .dockerignore do?",
+     "options": [
+      "Ignores layers",
+      "Excludes files from the build context, like .gitignore does for git",
+      "Hides the Dockerfile",
+      "Ignores errors"
+     ],
+     "answer": 1,
+     "explain": "It keeps the context small and secrets out."
+    }
+   ]
+  },
+  "level-1/07-container-lifecycle": {
+   "questions": [
+    {
+     "q": "What is `docker run` shorthand for?",
+     "options": [
+      "docker create followed by docker start",
+      "docker pull and exec",
+      "docker build and run",
+      "docker start only"
+     ],
+     "answer": 0,
+     "explain": "That's why `docker run --name x` fails the second time: the container already exists."
+    },
+    {
+     "q": "What's the difference between docker stop and docker kill?",
+     "options": [
+      "kill is graceful",
+      "They're the same",
+      "stop sends SIGTERM, waits, then SIGKILL; kill sends SIGKILL immediately",
+      "stop sends SIGKILL"
+     ],
+     "answer": 2,
+     "explain": "stop gives the app a chance to shut down cleanly."
+    },
+    {
+     "q": "What does docker pause do?",
+     "options": [
+      "Freezes process execution with the cgroup freezer while retaining memory/state",
+      "Restarts it",
+      "Deletes it",
+      "Stops it"
+     ],
+     "answer": 0,
+     "explain": "unpause resumes it."
+    },
+    {
+     "q": "What does `docker rm -f` do?",
+     "options": [
+      "Removes only stopped containers",
+      "Force: kills a running container and removes it in one step",
+      "Removes images",
+      "Removes volumes"
+     ],
+     "answer": 1,
+     "explain": "Without -f the container must be stopped first."
+    }
+   ]
+  },
+  "level-1/08-volumes-bind-mounts": {
+   "questions": [
+    {
+     "q": "What happens to data in a container's writable layer when it's removed?",
+     "options": [
+      "It's destroyed with the container",
+      "It's moved to a volume",
+      "It stays in the image",
+      "It's backed up"
+     ],
+     "answer": 0,
+     "explain": "db2 would start with a fresh empty database."
+    },
+    {
+     "q": "What is a volume?",
+     "options": [
+      "A cache",
+      "A host path mapped in",
+      "An image layer",
+      "Storage managed by Docker under its own host location, referenced by name; its lifetime is independent of any container"
+     ],
+     "answer": 3,
+     "explain": "For example -v pgdata:/var/lib/postgresql/data."
+    },
+    {
+     "q": "What happens if the named volume doesn't exist when you use -v pgdata:/path?",
+     "options": [
+      "Nothing is mounted",
+      "Docker creates it automatically on first use",
+      "An error",
+      "A bind mount is used"
+     ],
+     "answer": 1,
+     "explain": "docker volume create just makes intent clearer."
+    },
+    {
+     "q": "What is a bind mount?",
+     "options": [
+      "A network",
+      "A named volume",
+      "An image layer",
+      "A specific path on the host mapped directly into the container"
+     ],
+     "answer": 3,
+     "explain": "It's handy for development; volumes suit durable app data."
+    }
+   ]
+  },
+  "level-1/09-networking-basics": {
+   "questions": [
+    {
+     "q": "What does the default bridge network provide?",
+     "options": [
+      "A private virtual switch: each container gets its own interface and private IP, outbound traffic is NATed, and nothing outside can reach it unless ports are published",
+      "No networking",
+      "Direct host networking",
+      "Public IPs"
+     ],
+     "answer": 0,
+     "explain": "The host side commonly shows as docker0."
+    },
+    {
+     "q": "What does `docker run -d -p 8080:80 nginx` do?",
+     "options": [
+      "Binds nginx to 8080 inside",
+      "Creates a NAT rule forwarding host port 8080 to container port 80",
+      "Blocks port 80",
+      "Opens port 80 on the host"
+     ],
+     "answer": 1,
+     "explain": "-p is <host>:<container>."
+    },
+    {
+     "q": "Why create a user-defined bridge network?",
+     "options": [
+      "It's required",
+      "It's faster",
+      "Containers get DNS-based discovery by name (docker's embedded DNS), unlike the default bridge where only IPs work",
+      "It enables the internet"
+     ],
+     "answer": 2,
+     "explain": "From frontend, the hostname backend resolves automatically."
+    },
+    {
+     "q": "Why are IP addresses fragile for container-to-container communication?",
+     "options": [
+      "They're reserved",
+      "They're global",
+      "They can change on restart",
+      "They're encrypted"
+     ],
+     "answer": 2,
+     "explain": "Use names on a user-defined network."
+    }
+   ]
+  },
+  "level-1/10-docker-hub-registries": {
+   "questions": [
+    {
+     "q": "What does `docker pull nginx:1.27` resolve to?",
+     "options": [
+      "docker.io/library/nginx:1.27, where Docker Hub and the library/ namespace are implicit defaults",
+      "nginx.com/nginx",
+      "ghcr.io/nginx:1.27",
+      "localhost/nginx"
+     ],
+     "answer": 0,
+     "explain": "It then downloads the manifest and any missing layers in parallel."
+    },
+    {
+     "q": "What is an official image?",
+     "options": [
+      "An image from GitHub",
+      "Any image",
+      "A paid image",
+      "An unprefixed image like nginx, maintained and reviewed through Docker Hub, with docs and regular security patches"
+     ],
+     "answer": 3,
+     "explain": "Good default base images."
+    },
+    {
+     "q": "How must you name an image to push it to Docker Hub?",
+     "options": [
+      "Any name",
+      "With a port",
+      "<your-username>/<repo>[:tag], using docker tag to retag without rebuilding",
+      "With a hash"
+     ],
+     "answer": 2,
+     "explain": "For example docker tag hello-app:1.0 yourusername/hello-app:1.0."
+    },
+    {
+     "q": "Where does `docker login` store credentials by default?",
+     "options": [
+      "In the image",
+      "In memory",
+      "On Docker Hub only",
+      "~/.docker/config.json, ideally backed by an OS credential store rather than plaintext"
+     ],
+     "answer": 3,
+     "explain": "Subsequent push and pull use it."
+    }
+   ]
+  },
+  "level-1/11-project-containerize-app": {
+   "questions": [
+    {
+     "q": "Why does the Dockerfile copy requirements.txt and install before copying app.py?",
+     "options": [
+      "It saves disk",
+      "Editing the app later won't invalidate the slower dependency-install layer",
+      "It avoids .dockerignore",
+      "It's required"
+     ],
+     "answer": 1,
+     "explain": "This is the layer-caching order from modules 05 and 06."
+    },
+    {
+     "q": "What does -v visit-counter-data:/data achieve?",
+     "options": [
+      "The app code is mounted",
+      "The image is cached",
+      "The port is published",
+      "count.txt lives in a named volume, so the count outlives the container"
+     ],
+     "answer": 3,
+     "explain": "The count survives removing and re-creating the container."
+    },
+    {
+     "q": "What does --restart unless-stopped do?",
+     "options": [
+      "Never restarts",
+      "Rebuilds the image",
+      "Restarts every minute",
+      "Brings the container back after a crash or host reboot, unless you stopped it"
+     ],
+     "answer": 3,
+     "explain": "It's a lifecycle policy from module 7."
+    },
+    {
+     "q": "What does -p 8080:5000 mean?",
+     "options": [
+      "Only localhost",
+      "Host port 8080 forwards to the container's Flask port 5000",
+      "Host 5000 to container 8080",
+      "Both 8080"
+     ],
+     "answer": 1,
+     "explain": "The app listens on 0.0.0.0:5000 inside."
+    }
+   ]
+  },
+  "level-2/01-multi-stage-builds": {
+   "questions": [
+    {
+     "q": "What problem does a multi-stage build solve?",
+     "options": [
+      "Slow pulls",
+      "Missing tags",
+      "Network errors",
+      "Build tooling (compilers, dev dependencies, sources) never ends up in the shipped image; only artifacts you COPY --from= survive"
+     ],
+     "answer": 3,
+     "explain": "The golang:1.22 image is over 800 MB, yet the running container needs only one static binary."
+    },
+    {
+     "q": "How do you move an artifact from the build stage to the final stage?",
+     "options": [
+      "ADD --from",
+      "RUN cp",
+      "VOLUME",
+      "COPY --from=<stage>"
+     ],
+     "answer": 3,
+     "explain": "Everything else in the build stage is discarded."
+    },
+    {
+     "q": "What does a multi-stage Dockerfile contain?",
+     "options": [
+      "Several Dockerfiles",
+      "One FROM and many CMDs",
+      "More than one FROM instruction",
+      "No FROM"
+     ],
+     "answer": 2,
+     "explain": "Each FROM starts a new stage."
+    },
+    {
+     "q": "What does a naive Dockerfile ship to production for a Go app?",
+     "options": [
+      "Only logs",
+      "The whole toolchain, standard library sources and build cache",
+      "Only the binary",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "That's what multi-stage avoids."
+    }
+   ]
+  },
+  "level-2/02-docker-compose-basics": {
+   "questions": [
+    {
+     "q": "What does Compose let you do?",
+     "options": [
+      "Manage Kubernetes",
+      "Run VMs",
+      "Build a single image",
+      "Describe a multi-container app in YAML and bring it up or down with one command"
+     ],
+     "answer": 3,
+     "explain": "It replaces long docker run, network create and volume create chains."
+    },
+    {
+     "q": "What does depends_on control?",
+     "options": [
+      "Network access",
+      "Restart order",
+      "Readiness checks",
+      "Start order only; it doesn't wait for the dependency to be ready"
+     ],
+     "answer": 3,
+     "explain": "Readiness needs healthchecks (module 06)."
+    },
+    {
+     "q": "What does `docker compose down` remove?",
+     "options": [
+      "Everything including volumes",
+      "Images",
+      "Containers and the network, but it keeps named volumes",
+      "Only containers"
+     ],
+     "answer": 2,
+     "explain": "Add -v to remove volumes."
+    },
+    {
+     "q": "Why use `docker compose up -d --build`?",
+     "options": [
+      "To restart",
+      "To delete volumes",
+      "To pull images",
+      "To force a rebuild of the image from its Dockerfile, since plain up reuses an existing image"
+     ],
+     "answer": 3,
+     "explain": "Needed after code or Dockerfile changes."
+    }
+   ]
+  },
+  "level-2/03-environment-variables-env-files": {
+   "questions": [
+    {
+     "q": "What is special about a file named .env in a Compose project directory?",
+     "options": [
+      "It's injected into every container",
+      "It's an image",
+      "It's loaded automatically for variable substitution inside docker-compose.yml itself, not injected into containers",
+      "It's ignored"
+     ],
+     "answer": 2,
+     "explain": "Use environment: ${VAR} to pass values into the container."
+    },
+    {
+     "q": "How do ENV, environment:/-e, and .env differ?",
+     "options": [
+      "ENV is baked into the image; environment/-e is a runtime override; .env substitutes values into the compose file text",
+      "They're the same",
+      "-e is build time",
+      "ENV is Compose only"
+     ],
+     "answer": 0,
+     "explain": "A common mistake is expecting .env to inject variables into the container."
+    },
+    {
+     "q": "What does `docker compose config` do?",
+     "options": [
+      "Prunes",
+      "Builds images",
+      "Renders the final YAML with substitutions applied so you can verify what's sent to the Engine",
+      "Starts services"
+     ],
+     "answer": 2,
+     "explain": "Use it before trusting a nested ${VAR}."
+    },
+    {
+     "q": "Why avoid putting secrets in .env files?",
+     "options": [
+      "They're encrypted",
+      "They're ignored",
+      "They're read-only",
+      "They tend to get committed by accident; use Docker secrets or a secret manager"
+     ],
+     "answer": 3,
+     "explain": "One compose file can serve several environments with differing values only."
+    }
+   ]
+  },
+  "level-2/04-image-layering-build-cache": {
+   "questions": [
+    {
+     "q": "What happens when one layer misses the cache?",
+     "options": [
+      "Only that layer rebuilds",
+      "Every subsequent layer misses too, because their starting point changed",
+      "Nothing",
+      "The cache is deleted"
+     ],
+     "answer": 1,
+     "explain": "Order instructions from least to most frequently changing."
+    },
+    {
+     "q": "What is a COPY layer's cache key?",
+     "options": [
+      "The instruction plus a checksum of the copied files, so one changed byte invalidates it and everything after",
+      "The date",
+      "The size",
+      "The filename only"
+     ],
+     "answer": 0,
+     "explain": "For RUN, it's the exact command string plus the parent layer."
+    },
+    {
+     "q": "Why put COPY . . after the pip install layer?",
+     "options": [
+      "It saves disk",
+      "Edits to app code won't invalidate the slow dependency-install layer",
+      "It's alphabetical",
+      "COPY must be last"
+     ],
+     "answer": 1,
+     "explain": "Measured: the pip layer says CACHED and the build takes about 1 s."
+    },
+    {
+     "q": "What does a BuildKit cache mount (--mount=type=cache) do?",
+     "options": [
+      "Persists a directory like pip's download cache across builds, independent of the layer cache",
+      "Hides layers",
+      "Caches the whole image",
+      "Mounts the host"
+     ],
+     "answer": 0,
+     "explain": "Useful when requirements.txt changes."
+    }
+   ]
+  },
+  "level-2/05-logs-and-debugging": {
+   "questions": [
+    {
+     "q": "What does `docker logs` show?",
+     "options": [
+      "All files in the container",
+      "System logs",
+      "Host logs",
+      "What the container's PID 1 process wrote to stdout/stderr"
+     ],
+     "answer": 3,
+     "explain": "An app that logs only to /var/log/app.log shows nothing; symlink it to /dev/stdout."
+    },
+    {
+     "q": "When do you need -it with docker exec?",
+     "options": [
+      "For an interactive shell; a one-off command like cat needs neither",
+      "Only for root",
+      "Never",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "-i keeps stdin open; -t allocates a pseudo-TTY."
+    },
+    {
+     "q": "What does `docker inspect -f '{{.State.Status}}' myapp` show?",
+     "options": [
+      "The image",
+      "The logs",
+      "A single field of the container's state, using a Go template",
+      "The network"
+     ],
+     "answer": 2,
+     "explain": "docker inspect shows full configuration and state."
+    },
+    {
+     "q": "How do you follow logs and show only the last 100 lines?",
+     "options": [
+      "docker follow 100",
+      "docker logs --last 100 -f",
+      "docker logs -f --tail 100 myapp",
+      "docker tail myapp"
+     ],
+     "answer": 2,
+     "explain": "--since 10m limits by time; -t adds timestamps."
+    }
+   ]
+  },
+  "level-2/06-health-checks": {
+   "questions": [
+    {
+     "q": "What does 'Up' in docker ps tell you?",
+     "options": [
+      "Only that the main process hasn't exited, not that the app can serve traffic",
+      "The app is healthy",
+      "Nothing is wrong",
+      "The port is open"
+     ],
+     "answer": 0,
+     "explain": "A health check gives a real readiness signal: healthy, unhealthy or starting."
+    },
+    {
+     "q": "What does --start-period do?",
+     "options": [
+      "The delay between checks",
+      "A grace period after start during which failures don't count toward --retries",
+      "The timeout",
+      "The number of retries"
+     ],
+     "answer": 1,
+     "explain": "It suits slow-starting apps."
+    },
+    {
+     "q": "What exit codes does a health check command use?",
+     "options": [
+      "Any non-zero is healthy",
+      "HTTP codes",
+      "1 healthy, 0 unhealthy",
+      "0 for healthy and 1 for unhealthy"
+     ],
+     "answer": 3,
+     "explain": "curl -f fails on an HTTP error status."
+    },
+    {
+     "q": "What does `depends_on: api: condition: service_healthy` add?",
+     "options": [
+      "The worker waits until the api's health check is healthy, not merely running",
+      "A restart policy",
+      "Start order only",
+      "A network"
+     ],
+     "answer": 0,
+     "explain": "Without a health check, depends_on only guarantees the container process started."
+    }
+   ]
+  },
+  "level-2/07-compose-networks-volumes": {
+   "questions": [
+    {
+     "q": "Why declare explicit networks?",
+     "options": [
+      "They're required",
+      "By default every service shares one network, so a compromised web container could reach services it shouldn't; tiers limit that",
+      "For speed",
+      "To enable DNS"
+     ],
+     "answer": 1,
+     "explain": "A frontend-only proxy would have no route to the db."
+    },
+    {
+     "q": "A web service is on frontend and backend; db is on backend only. Who can reach db?",
+     "options": [
+      "web (shared backend network), but not a service on frontend alone",
+      "Nobody",
+      "Only the host",
+      "Everyone"
+     ],
+     "answer": 0,
+     "explain": "Services need a shared network to talk."
+    },
+    {
+     "q": "What does `external: true` on a volume mean?",
+     "options": [
+      "The volume is read-only",
+      "The volume is on a remote host",
+      "The volume is a bind mount",
+      "The volume already exists and Compose must not create or manage its lifecycle; `down -v` won't remove it"
+     ],
+     "answer": 3,
+     "explain": "Useful for production data that must outlive any project's teardown."
+    },
+    {
+     "q": "What is the difference between a named volume and a bind mount in Compose?",
+     "options": [
+      "They're the same",
+      "A bind mount is Docker-managed",
+      "A named volume is Docker-managed and independent of containers; a bind mount maps a literal host path and ties the container to that host's layout",
+      "Named volumes are host paths"
+     ],
+     "answer": 2,
+     "explain": "Bind mounts suit init scripts and live-reload source."
+    }
+   ]
+  },
+  "level-2/08-managing-images-tags": {
+   "questions": [
+    {
+     "q": "What does `docker tag` do?",
+     "options": [
+      "Rebuilds",
+      "Adds another name pointing at the same image ID; nothing is copied",
+      "Copies the image",
+      "Pushes"
+     ],
+     "answer": 1,
+     "explain": "Like a hard link adds a name for the same inode."
+    },
+    {
+     "q": "Why is :latest risky for deployments?",
+     "options": [
+      "It's slow",
+      "It's mutable: it silently points at whatever was last pushed",
+      "It's too large",
+      "It's insecure"
+     ],
+     "answer": 1,
+     "explain": "Pin deploys to an immutable tag such as a git SHA."
+    },
+    {
+     "q": "What is a dangling image?",
+     "options": [
+      "A large image",
+      "A broken image",
+      "An image with no tag (<none>:<none>), usually the old image after a tag moved to a rebuild",
+      "A running image"
+     ],
+     "answer": 2,
+     "explain": "docker image prune removes them."
+    },
+    {
+     "q": "How does `docker image prune -a` differ from plain prune?",
+     "options": [
+      "The same",
+      "It removes only dangling",
+      "It removes all images not used by a running container, including tagged ones: fine for CI agents, dangerous on a workstation",
+      "It removes containers"
+     ],
+     "answer": 2,
+     "explain": "It's much more aggressive."
+    }
+   ]
+  },
+  "level-2/09-compose-multi-service-apps": {
+   "questions": [
+    {
+     "q": "How does the web service reach the api in the three-tier stack?",
+     "options": [
+      "By an IP",
+      "By the host port",
+      "By its service name via Compose's default network DNS: API_URL=http://api:8000",
+      "By localhost"
+     ],
+     "answer": 2,
+     "explain": "The same applies to db:5432 and cache:6379."
+    },
+    {
+     "q": "Why does the api use depends_on db with condition: service_healthy?",
+     "options": [
+      "So it starts only after the database is actually ready",
+      "To set ports",
+      "To share volumes",
+      "To restart db"
+     ],
+     "answer": 0,
+     "explain": "The api itself has a health check too."
+    },
+    {
+     "q": "What does a realistic app stack usually include?",
+     "options": [
+      "A web tier, an API, a database and often a cache, wired with start order, environment and networks",
+      "Only a database",
+      "Only nginx",
+      "One container"
+     ],
+     "answer": 0,
+     "explain": "The module combines modules 02–08."
+    },
+    {
+     "q": "Which service publishes a host port in the example?",
+     "options": [
+      "web, with 3000:3000, while api and db are internal",
+      "All",
+      "db",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Internal services needn't publish ports."
+    }
+   ]
+  },
+  "level-2/10-project-compose-app": {
+   "questions": [
+    {
+     "q": "Which networks keep the data tier private in the link-shortener stack?",
+     "options": [
+      "All services share one network",
+      "cache is on public",
+      "data is internal: true, so db and cache aren't reachable from outside; only api joins public and data, and proxy joins public only",
+      "db is public"
+     ],
+     "answer": 2,
+     "explain": "The proxy can't reach db or cache directly (no shared network)."
+    },
+    {
+     "q": "How does the api's multi-stage Dockerfile keep the runtime image small?",
+     "options": [
+      "It uses scratch",
+      "An npm ci stage installs dependencies; the node:20-slim runtime copies only node_modules with COPY --from=deps",
+      "It uses alpine",
+      "It deletes files"
+     ],
+     "answer": 1,
+     "explain": "The runtime stage also sets NODE_ENV=production and a HEALTHCHECK."
+    },
+    {
+     "q": "What does the db health check pg_isready -U app enable?",
+     "options": [
+      "Replication",
+      "Restarts",
+      "depends_on condition service_healthy, so the api starts only once Postgres is ready",
+      "Backups"
+     ],
+     "answer": 2,
+     "explain": "The cache only needs service_started."
+    },
+    {
+     "q": "How is configuration varied between environments?",
+     "options": [
+      "A .env file supplies versions and the port via ${VAR} substitution in the compose file",
+      "Editing the Dockerfile",
+      "Hard-coded values",
+      "Rebuilding images"
+     ],
+     "answer": 0,
+     "explain": "For example image: nginx:${NGINX_VERSION} and ${APP_PORT}:80."
+    }
+   ]
+  },
+  "level-3/01-networking-deep-dive": {
+   "questions": [
+    {
+     "q": "Which network driver gives no isolation and removes the need for -p mapping?",
+     "options": [
+      "bridge",
+      "host: the container shares the host's network namespace",
+      "overlay",
+      "none"
+     ],
+     "answer": 1,
+     "explain": "Two containers can't both bind the same port; rarely appropriate as a default."
+    },
+    {
+     "q": "What is the practical reason to use a user-defined bridge instead of the default docker0 bridge?",
+     "options": [
+      "It has more IPs",
+      "It's required for ports",
+      "It's faster",
+      "It provides embedded DNS, so containers resolve each other by name; the default bridge only supports IPs and legacy --link"
+     ],
+     "answer": 3,
+     "explain": "Compose creates user-defined networks automatically."
+    },
+    {
+     "q": "What is the overlay driver for?",
+     "options": [
+      "Multi-host networking, such as Swarm services whose containers run on different machines",
+      "LAN IPs",
+      "Single-host only",
+      "Isolation"
+     ],
+     "answer": 0,
+     "explain": "It's created with --driver overlay --attachable."
+    },
+    {
+     "q": "When would you use `none` or `macvlan`?",
+     "options": [
+      "none for overlays; macvlan for DNS",
+      "Both for loopback",
+      "none for fully isolated jobs with no networking; macvlan to give a container its own MAC/IP on the physical LAN",
+      "Both for Swarm"
+     ],
+     "answer": 2,
+     "explain": "They're niche drivers."
+    }
+   ]
+  },
+  "level-3/02-security-basics": {
+   "questions": [
+    {
+     "q": "Why avoid running as root inside the container?",
+     "options": [
+      "Without user-namespace remapping, root in the container maps to the host's root UID",
+      "Docker forbids it",
+      "Root can't write",
+      "Root is slower"
+     ],
+     "answer": 0,
+     "explain": "Most web apps and workers shouldn't need it; use USER appuser or the image's node user."
+    },
+    {
+     "q": "What does `COPY --chown=node:node . .` avoid?",
+     "options": [
+      "A user",
+      "A separate RUN chown -R layer that would duplicate the copied files' size in the layer diff",
+      "Permissions",
+      "Caching"
+     ],
+     "answer": 1,
+     "explain": "Ownership is set at copy time."
+    },
+    {
+     "q": "What is the trade-off of distroless images?",
+     "options": [
+      "They lack glibc",
+      "They need root",
+      "Smallest attack surface (no shell or package manager), but you can't docker exec into them with a shell for debugging",
+      "They're larger"
+     ],
+     "answer": 2,
+     "explain": "alpine is tiny but uses musl, which can cause compatibility issues. Choose by runtime needs, not size alone."
+    },
+    {
+     "q": "What does `docker scout cves myapp:latest` do?",
+     "options": [
+      "Lints the Dockerfile",
+      "Builds the image",
+      "Runs tests",
+      "Checks installed packages against vulnerability databases and reports CVEs by severity, including which layer introduced them"
+     ],
+     "answer": 3,
+     "explain": "Scan before shipping."
+    }
+   ]
+  },
+  "level-3/03-resource-limits": {
+   "questions": [
+    {
+     "q": "What happens when a container exceeds --memory?",
+     "options": [
+      "Nothing",
+      "It swaps",
+      "It's throttled",
+      "The kernel OOM killer terminates it (exit code 137); docker inspect OOMKilled shows true"
+     ],
+     "answer": 3,
+     "explain": "A container that dies with 137 and no app error is a strong hint."
+    },
+    {
+     "q": "What does setting --memory-swap equal to --memory do?",
+     "options": [
+      "Disables swap for the container",
+      "Doubles memory",
+      "Enables swap",
+      "Sets a soft limit"
+     ],
+     "answer": 0,
+     "explain": "--memory-swap caps RAM plus swap combined."
+    },
+    {
+     "q": "How do --cpus and --cpu-shares differ?",
+     "options": [
+      "They're the same",
+      "--cpu-shares is an absolute cap",
+      "--cpus is a weight",
+      "--cpus is an absolute cap; --cpu-shares is a relative weight that only matters under contention"
+     ],
+     "answer": 3,
+     "explain": "With an idle host a low-share container can still use 100% of a core."
+    },
+    {
+     "q": "What does --memory-reservation do?",
+     "options": [
+      "A swap cap",
+      "A CPU cap",
+      "A soft limit enforced only under host memory pressure",
+      "A hard cap"
+     ],
+     "answer": 2,
+     "explain": "--cpuset-cpus pins to specific cores."
+    }
+   ]
+  },
+  "level-3/04-multi-container-patterns": {
+   "questions": [
+    {
+     "q": "What is the sidecar pattern?",
+     "options": [
+      "A init job",
+      "A container running alongside the main one (sharing network and often a volume) adds a capability like log shipping without changing the main image",
+      "A database",
+      "A replacement container"
+     ],
+     "answer": 1,
+     "explain": "In the example app writes logs to a shared volume and log-shipper reads them read-only."
+    },
+    {
+     "q": "What does an ambassador container do?",
+     "options": [
+      "Ships logs",
+      "Builds images",
+      "Runs migrations",
+      "A small proxy between the app and an external dependency, so the app talks to a stable local address while the real endpoint can change"
+     ],
+     "answer": 3,
+     "explain": "Only haproxy.cfg changes if the database's address changes."
+    },
+    {
+     "q": "What is an init container pattern, and what condition makes the api wait for it?",
+     "options": [
+      "A health check",
+      "A job that runs to completion before the main container (e.g. migrations); depends_on condition service_completed_successfully",
+      "A long-running proxy",
+      "A cache"
+     ],
+     "answer": 1,
+     "explain": "The migrate service uses restart: \"no\"."
+    },
+    {
+     "q": "Why did the log-shipper mount applogs read-only (:ro)?",
+     "options": [
+      "Faster reads",
+      "It's required",
+      "It only needs to read the logs, which prevents it from altering them",
+      "To save space"
+     ],
+     "answer": 2,
+     "explain": "The app's image never needed to know fluent-bit exists."
+    }
+   ]
+  },
+  "level-3/05-private-registries": {
+   "questions": [
+    {
+     "q": "How does Docker know where to push localhost:5000/myapp:1.0?",
+     "options": [
+      "A config file",
+      "The daemon default",
+      "The registry hostname and port are part of the image name",
+      "An environment variable"
+     ],
+     "answer": 2,
+     "explain": "Without a prefix, the implicit registry is docker.io/library."
+    },
+    {
+     "q": "Why does Docker refuse plain-HTTP registries other than localhost?",
+     "options": [
+      "They're slow",
+      "They're unsupported",
+      "They're banned",
+      "It treats them as insecure; use TLS (a proxy or the registry's own), or an insecure-registries entry for local testing only"
+     ],
+     "answer": 3,
+     "explain": "insecure-registries is a host-wide opt-out of transport security."
+    },
+    {
+     "q": "How do you add basic authentication to the registry:2 image?",
+     "options": [
+      "A password in the image name",
+      "A volume",
+      "An htpasswd file mounted at /auth with REGISTRY_AUTH=htpasswd (and realm and path variables), then docker login",
+      "A firewall"
+     ],
+     "answer": 2,
+     "explain": "An unauthenticated registry is for local experimentation only."
+    },
+    {
+     "q": "Name a managed registry option.",
+     "options": [
+      "Docker Compose",
+      "ECR, GCR, Azure ACR, GitHub Container Registry or Harbor",
+      "Kubernetes",
+      "Nginx"
+     ],
+     "answer": 1,
+     "explain": "For ECR: aws ecr get-login-password | docker login --password-stdin."
+    }
+   ]
+  },
+  "level-3/06-storage-drivers-volume-plugins": {
+   "questions": [
+    {
+     "q": "Which storage driver is the modern Linux default?",
+     "options": [
+      "aufs",
+      "devicemapper",
+      "btrfs",
+      "overlay2"
+     ],
+     "answer": 3,
+     "explain": "Check with docker info | grep \"Storage Driver\"."
+    },
+    {
+     "q": "In overlay2, what are LowerDir, UpperDir and MergedDir?",
+     "options": [
+      "Host paths",
+      "All read-only",
+      "All writable",
+      "LowerDir: read-only image layers; UpperDir: the container's single writable directory; MergedDir: the unified root filesystem the process sees"
+     ],
+     "answer": 3,
+     "explain": "Everything the container writes lands in UpperDir."
+    },
+    {
+     "q": "What does a volume plugin enable?",
+     "options": [
+      "Smaller images",
+      "Backing volumes with network or cloud storage, e.g. a volume that survives the host being terminated or is shared across hosts",
+      "More CPU",
+      "Faster builds"
+     ],
+     "answer": 1,
+     "explain": "From inside the container /data looks like a normal directory."
+    },
+    {
+     "q": "How can a volume use NFS without a plugin?",
+     "options": [
+      "Only with a plugin",
+      "With a bind mount only",
+      "The built-in local driver with --opt type=nfs and --opt o=addr=...,rw and device=:/path",
+      "It can't"
+     ],
+     "answer": 2,
+     "explain": "The lesson shows docker volume create --driver local."
+    }
+   ]
+  },
+  "level-3/07-logging-drivers": {
+   "questions": [
+    {
+     "q": "Which driver was used by default in the earlier logs lesson?",
+     "options": [
+      "fluentd",
+      "syslog",
+      "journald",
+      "json-file"
+     ],
+     "answer": 3,
+     "explain": "Logs sit on the host and vanish when the container is removed."
+    },
+    {
+     "q": "Why send logs to a central system in production?",
+     "options": [
+      "It's required",
+      "With many hosts and short-lived containers, logs must leave the host before the container and its log file disappear",
+      "It's faster",
+      "To save disk"
+     ],
+     "answer": 1,
+     "explain": "For example --log-driver=syslog --log-opt syslog-address=udp://..."
+    },
+    {
+     "q": "How do you set a logging driver for one container?",
+     "options": [
+      "--log-driver on docker run, with --log-opt options",
+      "The image",
+      "An env variable",
+      "A volume"
+     ],
+     "answer": 0,
+     "explain": "It can also be set in daemon.json for all containers."
+    },
+    {
+     "q": "What happens to `docker logs` when a non-json-file driver is used?",
+     "options": [
+      "It shows more",
+      "It exports",
+      "It always works",
+      "It may not work for drivers that don't keep a local copy, so check the driver's capabilities"
+     ],
+     "answer": 3,
+     "explain": "Some drivers only ship logs away."
+    }
+   ]
+  },
+  "level-3/08-docker-swarm-basics": {
+   "questions": [
+    {
+     "q": "What does `docker swarm init --advertise-addr ...` do?",
+     "options": [
+      "Starts a container",
+      "Creates a volume",
+      "Turns the host into a Swarm manager and prints a join command with a token for workers",
+      "Pulls an image"
+     ],
+     "answer": 2,
+     "explain": "Workers join with docker swarm join --token ... :2377."
+    },
+    {
+     "q": "What is a Swarm service?",
+     "options": [
+      "A single container",
+      "A desired state (image, replicas, ports) that the manager continuously reconciles the cluster toward",
+      "A volume",
+      "A VM"
+     ],
+     "answer": 1,
+     "explain": "If a node dies, a replacement replica is scheduled on a healthy node."
+    },
+    {
+     "q": "What does `--update-parallelism 1 --update-delay 10s` do?",
+     "options": [
+      "Replaces all at once",
+      "Delays removal",
+      "A rolling update: replace one replica, wait 10 s for it to become healthy, then continue",
+      "Scales to 1"
+     ],
+     "answer": 2,
+     "explain": "It avoids a total outage if the new image is broken."
+    },
+    {
+     "q": "How does `docker stack deploy -c stack.yml myapp` relate to Compose?",
+     "options": [
+      "It's unrelated",
+      "Swarm reuses Compose file syntax (with deploy: keys) for multi-service deployments",
+      "It needs a Dockerfile",
+      "It builds images"
+     ],
+     "answer": 1,
+     "explain": "Overlay networks are needed for multi-host stacks."
+    }
+   ]
+  },
+  "level-3/09-secrets-config-management": {
+   "questions": [
+    {
+     "q": "Why are plain environment variables a poor place for secrets?",
+     "options": [
+      "They're slow",
+      "They're read-only",
+      "They're short",
+      "They're visible via docker inspect to anyone with Engine API access, and appear in Swarm's Raft state and process listings on some platforms"
+     ],
+     "answer": 3,
+     "explain": "Secrets are mounted as files instead."
+    },
+    {
+     "q": "Where is a Docker secret mounted inside the container?",
+     "options": [
+      "A volume",
+      "/run/secrets/<name>, an in-memory tmpfs file never written to the writable layer",
+      "/etc/secrets on disk",
+      "An env variable"
+     ],
+     "answer": 1,
+     "explain": "POSTGRES_PASSWORD_FILE tells the image to read the value from that file."
+    },
+    {
+     "q": "How do configs differ from secrets?",
+     "options": [
+      "They're volumes",
+      "Configs are mounted similarly but are for non-sensitive files (nginx.conf, feature flags) and lack the same encryption-at-rest guarantees",
+      "They're env vars",
+      "They're encrypted more"
+     ],
+     "answer": 1,
+     "explain": "Both are managed, versioned objects."
+    },
+    {
+     "q": "Why must a stack file mark a secret as external: true?",
+     "options": [
+      "To speed up deploys",
+      "Swarm deliberately doesn't allow raw secret values inline, since stack files end up committed to version control",
+      "To make it public",
+      "To encrypt it"
+     ],
+     "answer": 1,
+     "explain": "Create it beforehand with docker secret create."
+    }
+   ]
+  },
+  "level-3/10-project-secure-stack": {
+   "questions": [
+    {
+     "q": "Which hardening steps does the API Dockerfile use?",
+     "options": [
+      "Copies the whole repo",
+      "Multi-stage build with npm ci --omit=dev, COPY --chown=node:node, USER node, NODE_ENV=production and a HEALTHCHECK",
+      "Runs as root",
+      "Uses latest tag"
+     ],
+     "answer": 1,
+     "explain": "The runtime image contains no dev tooling."
+    },
+    {
+     "q": "How is the database password provided to the API?",
+     "options": [
+      "Via a Docker secret mounted as a file, referenced by DATABASE_URL_FILE=/run/secrets/database_url",
+      "Plain env var",
+      "In the image",
+      "In the compose file value"
+     ],
+     "answer": 0,
+     "explain": "The secrets file is gitignored."
+    },
+    {
+     "q": "What do resource limits and reservations in the stack do?",
+     "options": [
+      "limits cap CPU and memory per replica; reservations guarantee a minimum",
+      "They set ports",
+      "Both are caps",
+      "Both are guarantees"
+     ],
+     "answer": 0,
+     "explain": "For example the api: limits 1.0 CPU/256M, reservations 0.25 CPU/128M."
+    },
+    {
+     "q": "What does the log-shipping sidecar add?",
+     "options": [
+      "Centralised logs without changing the app image",
+      "Caching",
+      "TLS",
+      "Faster builds"
+     ],
+     "answer": 0,
+     "explain": "It's one of the multi-container patterns from module 4."
+    }
+   ]
+  },
+  "level-4/01-docker-in-cicd": {
+   "questions": [
+    {
+     "q": "Why tag images with the commit SHA in CI?",
+     "options": [
+      "It speeds builds",
+      "It's required by registries",
+      "Every pushed image is traceable to the exact source that produced it, essential when debugging production weeks later",
+      "It's shorter"
+     ],
+     "answer": 2,
+     "explain": "It uses the tagging strategy from Level 2."
+    },
+    {
+     "q": "What is the benefit of a dedicated `test` stage in the Dockerfile?",
+     "options": [
+      "Faster pushes",
+      "Smaller images only",
+      "No tests needed",
+      "CI fails the build on test failure before producing the artifact, and tests run against the same dependency state as production, with the stage never shipping"
+     ],
+     "answer": 3,
+     "explain": "Build with docker build --target test."
+    },
+    {
+     "q": "How should registry credentials be supplied in the workflow?",
+     "options": [
+      "In .env committed",
+      "Hard-coded",
+      "From repository secrets (${{ secrets.REGISTRY_TOKEN }}), never in the file",
+      "In the Dockerfile"
+     ],
+     "answer": 2,
+     "explain": "docker/login-action uses them."
+    },
+    {
+     "q": "What does the pipeline do in order?",
+     "options": [
+      "Checkout, set up Buildx, log in, build and test, build the production image, push",
+      "Push, build, test",
+      "Build, checkout",
+      "Test, login, build"
+     ],
+     "answer": 0,
+     "explain": "Triggered on push to main."
+    }
+   ]
+  },
+  "level-4/02-orchestration-handoff": {
+   "questions": [
+    {
+     "q": "Which signals suggest moving beyond Compose/Swarm to Kubernetes?",
+     "options": [
+      "Many hosts with varied hardware, multiple teams needing namespaces and RBAC, metric-based autoscaling, and a need for the ecosystem (Helm, operators, meshes)",
+      "No requirements",
+      "Fashion",
+      "A single team with predictable load"
+     ],
+     "answer": 0,
+     "explain": "The lesson is honest that not every project reaches that point."
+    },
+    {
+     "q": "When is Swarm or plain Compose still the right size?",
+     "options": [
+      "Hundreds of nodes",
+      "GPU clusters",
+      "A single team, a handful of hosts and predictable load, where Swarm's simplicity is an advantage",
+      "Many teams"
+     ],
+     "answer": 2,
+     "explain": "Adopting Kubernetes for its reputation alone adds burden without benefit."
+    },
+    {
+     "q": "What do Swarm's service and task map to in Kubernetes?",
+     "options": [
+      "Pod and Deployment",
+      "Node and Pod",
+      "Deployment + Service, and Pod (which can hold several co-scheduled containers sharing a network namespace)",
+      "Namespace and Pod"
+     ],
+     "answer": 2,
+     "explain": "Docker secret maps to Secret and docker config to ConfigMap."
+    },
+    {
+     "q": "How does Kubernetes handle networking compared to Swarm's overlay?",
+     "options": [
+      "It has no networking",
+      "It uses overlay built in",
+      "It uses bridge only",
+      "It delegates to a pluggable CNI network plugin"
+     ],
+     "answer": 3,
+     "explain": "That's a key architectural difference."
+    }
+   ]
+  },
+  "level-4/03-production-image-hardening": {
+   "questions": [
+    {
+     "q": "Why is a distroless image safer?",
+     "options": [
+      "It has a shell",
+      "It runs as root",
+      "No shell, package manager or coreutils: an attacker has no shell to pivot with and no curl/wget to fetch payloads",
+      "It's smaller only"
+     ],
+     "answer": 2,
+     "explain": "Debugging shifts to logs, app instrumentation or a temporary debug image."
+    },
+    {
+     "q": "What does --read-only do, and why add --tmpfs?",
+     "options": [
+      "Blocks the network",
+      "Disables logs",
+      "Makes the root filesystem immutable (no webshell or persistence), while --tmpfs gives in-memory writable paths such as /tmp",
+      "Mounts a volume"
+     ],
+     "answer": 2,
+     "explain": "The read-only guarantee stays everywhere else."
+    },
+    {
+     "q": "What does --security-opt=no-new-privileges do?",
+     "options": [
+      "Blocks the network",
+      "Blocks a process and its children from gaining extra privileges via setuid/setgid binaries or file capabilities",
+      "Drops root",
+      "Makes the image read-only"
+     ],
+     "answer": 1,
+     "explain": "It pairs with --cap-drop=ALL, re-adding only what's proven necessary."
+    },
+    {
+     "q": "What does --cap-drop=ALL do?",
+     "options": [
+      "Removes every Linux capability from the container's processes; add back only what's needed",
+      "Removes volumes",
+      "Drops all containers",
+      "Drops the network"
+     ],
+     "answer": 0,
+     "explain": "Least privilege."
+    }
+   ]
+  },
+  "level-4/04-build-optimization-at-scale": {
+   "questions": [
+    {
+     "q": "Why use per-branch cache tags with a fallback chain?",
+     "options": [
+      "It saves disk",
+      "It speeds pushes",
+      "It's required by Buildx",
+      "A single cache tag becomes a write-contention bottleneck; each branch reads its own cache then falls back to main's"
+     ],
+     "answer": 3,
+     "explain": "New branches get fast first builds from main's layers."
+    },
+    {
+     "q": "What does cache-to ... mode=max do?",
+     "options": [
+      "Exports layers from all stages, not just the final image, for better cache reuse",
+      "Disables cache",
+      "Limits cache size",
+      "Uses the max CPUs"
+     ],
+     "answer": 0,
+     "explain": "It's used with type=registry."
+    },
+    {
+     "q": "What do remote builders provide?",
+     "options": [
+      "Faster laptops",
+      "Image storage",
+      "Consistent, powerful build hosts used via docker buildx create --driver remote",
+      "Runtime hosts"
+     ],
+     "answer": 2,
+     "explain": "Builds run on a build farm rather than on each runner."
+    },
+    {
+     "q": "What shift does this lesson recommend?",
+     "options": [
+      "Rewrite Dockerfiles only",
+      "Treat build infrastructure as a system to optimise, not just individual Dockerfiles",
+      "Avoid caching",
+      "Use bigger images"
+     ],
+     "answer": 1,
+     "explain": "Many services and concurrent jobs make it a system problem."
+    }
+   ]
+  },
+  "level-4/05-containerized-architecture-design": {
+   "questions": [
+    {
+     "q": "What two questions does 'one process per container' really stand for?",
+     "options": [
+      "Does it use Linux, and does it use Go?",
+      "Is it small, and is it fast?",
+      "Does it need to scale independently, and does it change or deploy independently?",
+      "Is it secure, and is it cheap?"
+     ],
+     "answer": 2,
+     "explain": "A CPU-bound worker and a light API gateway have different demand curves."
+    },
+    {
+     "q": "When may components legitimately stay in one container?",
+     "options": [
+      "When they're large",
+      "When they use different languages",
+      "When they always scale together, always deploy together and are maintained by the same team",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Over-decomposing adds coordination and network-hop overhead without benefit."
+    },
+    {
+     "q": "What is the downside of a direct HTTP/gRPC call between services versus a queue?",
+     "options": [
+      "It's unreliable by design",
+      "It's slower",
+      "It's insecure",
+      "It couples the caller to the callee's availability in real time; a queue decouples uptime at the cost of eventual consistency"
+     ],
+     "answer": 3,
+     "explain": "Decide synchronous or asynchronous at each boundary."
+    },
+    {
+     "q": "Why prefer each service owning its data store?",
+     "options": [
+      "Two services sharing tables aren't really separate; schema changes in one can silently break the other",
+      "It avoids backups",
+      "Less disk",
+      "Faster queries"
+     ],
+     "answer": 0,
+     "explain": "Expose data to others only through the service's own API."
+    }
+   ]
+  },
+  "level-4/06-observability-for-containers": {
+   "questions": [
+    {
+     "q": "How do metrics typically reach a collector?",
+     "options": [
+      "The app pushes to disk",
+      "Logs are parsed",
+      "The app exposes a /metrics HTTP endpoint (Prometheus format) that the collector scrapes periodically",
+      "SSH"
+     ],
+     "answer": 2,
+     "explain": "Prometheus reaches api:8000 via Compose service-name DNS."
+    },
+    {
+     "q": "What does cAdvisor give you?",
+     "options": [
+      "Per-container CPU, memory, network and disk metrics from cgroups, without instrumenting the app",
+      "Logs",
+      "App traces",
+      "Builds"
+     ],
+     "answer": 0,
+     "explain": "It reads the same cgroup data as docker stats."
+    },
+    {
+     "q": "What does distributed tracing need to cross container boundaries?",
+     "options": [
+      "Shared volumes",
+      "A trace ID propagated on each hop (HTTP headers or message metadata) so the path and per-hop latency can be reconstructed",
+      "Shared logs",
+      "A single host"
+     ],
+     "answer": 1,
+     "explain": "Services send spans to an OpenTelemetry collector."
+    },
+    {
+     "q": "Which three pillars of observability are covered across the course?",
+     "options": [
+      "CPU, RAM, disk",
+      "Build, ship, run",
+      "Alerts, dashboards, pages",
+      "Logs, metrics and traces"
+     ],
+     "answer": 3,
+     "explain": "Logs came in Level 3, module 07."
+    }
+   ]
+  },
+  "level-4/07-zero-downtime-deployments": {
+   "questions": [
+    {
+     "q": "What are the two failure windows of `docker stop web && docker run ...`?",
+     "options": [
+      "Network and disk",
+      "Connection refused between stop and the new container binding the port, and the new container being listening but not ready",
+      "Image pull time and build time",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Zero downtime never removes capacity before its replacement is ready."
+    },
+    {
+     "q": "What are the two ingredients that prevent downtime?",
+     "options": [
+      "Bigger hosts and caching",
+      "More replicas and logging",
+      "Health gating (no traffic until provably ready) and graceful shutdown (don't kill a container mid-request)",
+      "DNS and TLS"
+     ],
+     "answer": 2,
+     "explain": "The health check should verify the container is useful, e.g. can reach its database."
+    },
+    {
+     "q": "Why does --start-period=10s matter?",
+     "options": [
+      "It speeds startup",
+      "It sets timeouts",
+      "It disables checks",
+      "Failed checks during a slow cold start don't count against --retries, so it isn't mistaken for a crash and restarted endlessly"
+     ],
+     "answer": 3,
+     "explain": "Otherwise an orchestrator can kill a container that just needed more seconds."
+    },
+    {
+     "q": "What do --update-order start-first and --update-failure-action rollback do?",
+     "options": [
+      "Skip health checks",
+      "Delete the old image",
+      "Stop first, then start",
+      "Start the new replica before stopping the old one, and roll back automatically if the update fails"
+     ],
+     "answer": 3,
+     "explain": "They pair with a health command."
+    }
+   ]
+  },
+  "level-4/08-cost-performance-at-scale": {
+   "questions": [
+    {
+     "q": "Why isn't 84MiB used against a 512MiB limit 'safely under budget'?",
+     "options": [
+      "Memory is free",
+      "You're paying for 428MiB never touched, since schedulers bill and bin-pack against the request, not actual usage",
+      "The limit is a minimum",
+      "It risks OOM"
+     ],
+     "answer": 1,
+     "explain": "Inflated limits reduce containers per host and raise host count."
+    },
+    {
+     "q": "What should you do before right-sizing?",
+     "options": [
+      "Guess",
+      "Double everything",
+      "Remove limits",
+      "Measure with docker stats over time (e.g. a week), then adjust, as in docker update --memory=192m"
+     ],
+     "answer": 3,
+     "explain": "Steady usage was 90–110 MiB in the example."
+    },
+    {
+     "q": "Why does --memory-reservation matter for bin-packing?",
+     "options": [
+      "It disables limits",
+      "It raises CPU",
+      "The scheduler can plan around typical usage while --memory still protects against leaks via OOM kill",
+      "It's a hard cap"
+     ],
+     "answer": 2,
+     "explain": "It is the soft limit."
+    },
+    {
+     "q": "Which two levers move cost most?",
+     "options": [
+      "DNS and TLS",
+      "Logging and tracing",
+      "Right-sizing resource requests and image size",
+      "Tags and names"
+     ],
+     "answer": 2,
+     "explain": "Both compound at fleet scale."
+    }
+   ]
+  },
+  "level-4/09-disaster-recovery-backups": {
+   "questions": [
+    {
+     "q": "What does NOT need backing up in a containerised system?",
+     "options": [
+      "Containers and images themselves, which are rebuilt from source and redeployed from the stack file",
+      "Registry contents",
+      "Named volumes",
+      "Stack files and secret material"
+     ],
+     "answer": 0,
+     "explain": "Data in volumes and non-reproducible registry images do need backups."
+    },
+    {
+     "q": "How does the sidecar backup pattern work?",
+     "options": [
+      "It copies the container",
+      "It pauses the database",
+      "A throwaway alpine container mounts the volume read-only plus a host directory, and tar writes a timestamped archive",
+      "It exports the image"
+     ],
+     "answer": 2,
+     "explain": "The read-only mount means the backup can't corrupt live data."
+    },
+    {
+     "q": "Why restore into a new volume name first?",
+     "options": [
+      "You can verify the restored data before replacing the live volume",
+      "Docker requires it",
+      "It saves space",
+      "It's faster"
+     ],
+     "answer": 0,
+     "explain": "A backup that's never been restored is a hope, not a plan."
+    },
+    {
+     "q": "Why are registry images at risk even though they're 'reproducible'?",
+     "options": [
+      "Images expire",
+      "They're encrypted",
+      "A base image tag can be repointed upstream or the build context may disappear, so an old build might not be reconstructible",
+      "Registries delete them"
+     ],
+     "answer": 2,
+     "explain": "Pin by digest and back up registry contents."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "Which Dockerfile baseline does the capstone treat as non-optional for production?",
+     "options": [
+      "Non-root USER, a multi-stage build without dev dependencies, and a real health check",
+      "No health check",
+      "Root user",
+      "Single stage"
+     ],
+     "answer": 0,
+     "explain": "They come from modules 03, 04 and 07."
+    },
+    {
+     "q": "Which services make up the capstone system?",
+     "options": [
+      "Only web",
+      "Only db",
+      "A stateless web API, a Postgres db and Redis cache on named volumes, and a reverse proxy for TLS and routing",
+      "A Kubernetes cluster"
+     ],
+     "answer": 2,
+     "explain": "web is replicated with limits and rolling updates."
+    },
+    {
+     "q": "What does the web service's update_config provide?",
+     "options": [
+      "Parallel updates",
+      "Stop-first updates",
+      "No rollback",
+      "Rolling updates one at a time with start-first order and automatic rollback on failure"
+     ],
+     "answer": 3,
+     "explain": "parallelism 1, delay 10s, order start-first, failure_action rollback."
+    },
+    {
+     "q": "What is the point of the capstone's written deliverable?",
+     "options": [
+      "A demo video",
+      "Putting everything together correctly and writing down why, like a production handoff document",
+      "Writing new syntax",
+      "A test suite"
+     ],
+     "answer": 1,
+     "explain": "There's no new syntax in it."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A Dockerfile has these lines. After editing only app.py, which steps rebuild (cache miss)?\n```dockerfile\nFROM python:3.12-slim\nWORKDIR /app\nCOPY . .\nRUN pip install -r requirements.txt\nCMD [\"python\", \"app.py\"]\n```\n",
+    "options": [
+     "Nothing",
+     "Only CMD",
+     "Only COPY . .",
+     "COPY . . and then RUN pip install (every later layer misses once one layer misses)"
+    ],
+    "answer": 3,
+    "explain": "COPY . . has a changed checksum, so it and every layer after it rebuild. Verified with a small cache simulation. Copying requirements.txt first avoids the reinstall."
+   },
+   {
+    "q": "After reordering to `COPY requirements.txt .` → `RUN pip install` → `COPY . .`, you edit only app.py. What rebuilds?",
+    "options": [
+     "Only RUN pip install",
+     "Everything",
+     "Only COPY . .; the pip install layer is CACHED",
+     "The FROM layer"
+    ],
+    "answer": 2,
+    "explain": "The dependency manifest didn't change, so the install layer is reused. Verified by simulation."
+   },
+   {
+    "q": "`docker run --name web nginx` worked yesterday and fails today with a name conflict. Why, and what fixes it?",
+    "options": [
+     "docker run is create + start, so the container web still exists (Exited); docker rm web, or docker start web",
+     "The name is reserved",
+     "The image was deleted",
+     "Port 80 is in use"
+    ],
+    "answer": 0,
+    "explain": "A stopped container keeps its name until removed."
+   },
+   {
+    "q": "A container exits with code 137 and no error in its logs. What should you check first?",
+    "options": [
+     "The registry login",
+     "Whether the kernel OOM killer stopped it: docker inspect -f '{{.State.OOMKilled}}'",
+     "The image tag",
+     "The network driver"
+    ],
+    "answer": 1,
+    "explain": "Exceeding --memory gets the process killed rather than throttled."
+   },
+   {
+    "q": "`EXPOSE 8000` is in the Dockerfile, but `curl localhost:8000` from the host fails. Why?",
+    "options": [
+     "The image is too old",
+     "EXPOSE is only documentation; you must publish with -p 8000:8000 (or -P)",
+     "Port 8000 is reserved",
+     "EXPOSE needs a firewall rule"
+    ],
+    "answer": 1,
+    "explain": "-p creates the NAT rule from host port to container port."
+   },
+   {
+    "q": "In Compose, `depends_on: [db]` is set, yet the api crashes because Postgres isn't accepting connections yet. What is the fix?",
+    "options": [
+     "Add a healthcheck to db and use depends_on with condition: service_healthy",
+     "Use a longer sleep in the Dockerfile",
+     "Expose port 5432",
+     "Rename the service"
+    ],
+    "answer": 0,
+    "explain": "depends_on alone only controls start order, not readiness."
+   },
+   {
+    "q": "You run `docker compose down` on a stack with a named volume pgdata. What happens to the database data?",
+    "options": [
+     "It's compressed",
+     "It's kept: down removes containers and networks but keeps named volumes (unless -v is given)",
+     "It moves to the image",
+     "It's deleted"
+    ],
+    "answer": 1,
+    "explain": "Named volumes outlive containers."
+   },
+   {
+    "q": "A .env file next to docker-compose.yml has APP_PORT=8080 and the service uses `ports: [\"${APP_PORT}:8000\"]`. Is APP_PORT available as an environment variable inside the container?",
+    "options": [
+     "Only for build",
+     "Yes, automatically",
+     "No: .env substitutes values into the compose file; add environment: - APP_PORT=${APP_PORT} to pass it through",
+     "Only in Swarm"
+    ],
+    "answer": 2,
+    "explain": "The three mechanisms differ: ENV in the image, environment:/-e at runtime, and .env for compose-file substitution."
+   },
+   {
+    "q": "Which setup stops the proxy container from reaching the database?",
+    "options": [
+     "Name the services differently",
+     "Put db on an internal network shared only with the api, and the proxy on a public network only",
+     "Publish db's port",
+     "Use depends_on"
+    ],
+    "answer": 1,
+    "explain": "Services need a shared network to talk. Verified by parsing a compose file: proxy->db False, api->db True."
+   },
+   {
+    "q": "Which image reference means an official Docker Hub image?",
+    "options": [
+     "nginx:1.27 (shorthand for docker.io/library/nginx:1.27)",
+     "bitnami/nginx",
+     "ghcr.io/org/nginx",
+     "localhost:5000/nginx"
+    ],
+    "answer": 0,
+    "explain": "No namespace means library/ on Docker Hub."
+   },
+   {
+    "q": "Why is `myapp:latest` a poor tag to deploy in production?",
+    "options": [
+     "It's too short",
+     "Registries reject it",
+     "It's mutable and can silently point at a different image; pin to a git SHA or version",
+     "It disables caching"
+    ],
+    "answer": 2,
+    "explain": "Immutable tags make deployments reproducible and traceable."
+   },
+   {
+    "q": "You want the smallest, hardest-to-abuse final image for a Node API. Which Dockerfile ending is best?\n```dockerfile\nFROM gcr.io/distroless/nodejs20-debian12\nCOPY --from=build /app/dist ./dist\nUSER nonroot\nCMD [\"dist/server.js\"]\n```\n",
+    "options": [
+     "Switch to FROM node:20 (full image)",
+     "Run as root for simplicity",
+     "This one: distroless has no shell or package manager, runs as non-root, and uses a build stage artifact",
+     "Add RUN apt-get install curl"
+    ],
+    "answer": 2,
+    "explain": "A shell-less image gives an attacker nothing to pivot with."
+   },
+   {
+    "q": "Which run flags make the root filesystem immutable while still allowing /tmp?",
+    "options": [
+     "--cap-add=ALL",
+     "--network host",
+     "--read-only --tmpfs /tmp",
+     "--privileged"
+    ],
+    "answer": 2,
+    "explain": "--tmpfs gives in-memory writable paths without weakening the read-only guarantee."
+   },
+   {
+    "q": "How do you give a Swarm service a database password without an environment variable value?",
+    "options": [
+     "Put it in .env",
+     "Print it in logs",
+     "Create a Docker secret and read it from /run/secrets/<name>, e.g. POSTGRES_PASSWORD_FILE",
+     "Hard-code it in the image"
+    ],
+    "answer": 2,
+    "explain": "Secrets are mounted in memory as files, never in the writable layer."
+   },
+   {
+    "q": "A new image version must replace the old one with no dropped requests. Which combination is right?",
+    "options": [
+     "Restart all replicas at once",
+     "Health-gated rolling update (start-first, rollback on failure) plus graceful shutdown",
+     "docker stop then docker run",
+     "Remove the health check to start faster"
+    ],
+    "answer": 1,
+    "explain": "Never remove capacity before its replacement is provably ready."
+   },
+   {
+    "q": "A volume holds production data. Which backup is correct?",
+    "options": [
+     "docker commit the container",
+     "Copy /var/lib/docker while running",
+     "Back up the image",
+     "A throwaway container mounting the volume read-only and writing a tar to a host directory, plus a tested restore into a new volume"
+    ],
+    "answer": 3,
+    "explain": "Test restores; a backup never restored is a hope, not a plan."
+   },
+   {
+    "q": "Containers on the default bridge can't reach each other by name, but they can on a network created with `docker network create app-net`. Why?",
+    "options": [
+     "User-defined bridge networks provide embedded DNS name resolution",
+     "app-net has more IPs",
+     "The default bridge is encrypted",
+     "Names need a registry"
+    ],
+    "answer": 0,
+    "explain": "The legacy default bridge only supports IPs and --link."
+   },
+   {
+    "q": "In CI you push images tagged with the commit SHA. What does that buy you?",
+    "options": [
+     "Faster pulls",
+     "Smaller images",
+     "Traceability: every image maps to the exact source that built it",
+     "Automatic rollbacks"
+    ],
+    "answer": 2,
+    "explain": "It's essential when debugging production weeks later."
+   },
+   {
+    "q": "When is Kubernetes justified over Compose or Swarm?",
+    "options": [
+     "Many hosts with varied hardware, multiple teams needing RBAC and namespaces, metric-based autoscaling, or the Helm/operator ecosystem",
+     "Because Docker is deprecated",
+     "To look modern",
+     "Whenever you have two containers"
+    ],
+    "answer": 0,
+    "explain": "For a single team with a handful of hosts and predictable load, Swarm or Compose is often the right size."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Isolate the tiers",
+    "prompt": "Fill in the Compose file so that the proxy can reach the api, the api can reach the db, but the proxy cannot reach the db; only the proxy publishes a port; and the data network is internal. The checker parses your YAML and prints the results. (Needs PyYAML: pip install pyyaml.)",
+    "starter": "import yaml\nCOMPOSE = \"\"\"\nservices:\n  proxy:\n    image: nginx:1.25\n    # TODO: ports and networks\n  api:\n    build: ./api\n    # TODO: networks\n  db:\n    image: postgres:16\n    volumes: [\"pgdata:/var/lib/postgresql/data\"]\n    # TODO: networks\n# TODO: declare the networks (data must be internal)\nvolumes:\n  pgdata:\n\"\"\"\ncfg = yaml.safe_load(COMPOSE)\nsvc = cfg[\"services\"]\ndef can_reach(a, b):\n    return bool(set(svc[a].get(\"networks\", [])) & set(svc[b].get(\"networks\", [])))\nfor a, b in [(\"proxy\", \"db\"), (\"api\", \"db\"), (\"proxy\", \"api\")]:\n    print(f\"{a}->{b}: {can_reach(a, b)}\")\nprint(\"published:\", sorted(n for n, s in svc.items() if s.get(\"ports\")))\nprint(\"internal networks:\", sorted(n for n, v in cfg[\"networks\"].items() if v and v.get(\"internal\")))\n",
+    "expected": "proxy->db: False\napi->db: True\nproxy->api: True\npublished: ['proxy']\ninternal networks: ['data']",
+    "solution": "import yaml\nCOMPOSE = \"\"\"\nservices:\n  proxy:\n    image: nginx:1.25\n    ports: [\"8080:80\"]\n    networks: [public]\n  api:\n    build: ./api\n    networks: [public, data]\n  db:\n    image: postgres:16\n    volumes: [\"pgdata:/var/lib/postgresql/data\"]\n    networks: [data]\nnetworks:\n  public:\n  data:\n    internal: true\nvolumes:\n  pgdata:\n\"\"\"\ncfg = yaml.safe_load(COMPOSE)\nsvc = cfg[\"services\"]\ndef can_reach(a, b):\n    return bool(set(svc[a].get(\"networks\", [])) & set(svc[b].get(\"networks\", [])))\nfor a, b in [(\"proxy\", \"db\"), (\"api\", \"db\"), (\"proxy\", \"api\")]:\n    print(f\"{a}->{b}: {can_reach(a, b)}\")\nprint(\"published:\", sorted(n for n, s in svc.items() if s.get(\"ports\")))\nprint(\"internal networks:\", sorted(n for n, v in cfg[\"networks\"].items() if v and v.get(\"internal\")))\n",
+    "explain": "Services can talk only if they share a network. proxy is on public, db on data, and api on both, so api bridges them. internal: true stops the data network from reaching outside. Verified by running the checker (PyYAML) against the solution."
+   },
+   {
+    "title": "Reorder for the build cache",
+    "prompt": "The NAIVE Dockerfile reinstalls dependencies on every code edit. Write GOOD so that editing app.py rebuilds only COPY . ., while editing requirements.txt rebuilds the install too. The simulation applies the rule 'once one layer misses the cache, every later layer misses'.",
+    "starter": "NAIVE = \"\"\"FROM python:3.12-slim\nWORKDIR /app\nCOPY . .\nRUN pip install -r requirements.txt\nCMD [\"python\", \"app.py\"]\"\"\"\n\nGOOD = \"\"\"FROM python:3.12-slim\n# TODO: reorder so dependencies are installed before the source is copied\n\"\"\"\n\ndef rebuilt(dockerfile, changed):\n    \"\"\"Layers that must rebuild: once one layer misses the cache, every later layer misses too.\"\"\"\n    missed, out = False, []\n    for line in dockerfile.splitlines():\n        op, _, rest = line.partition(\" \")\n        if op not in (\"FROM\", \"WORKDIR\", \"COPY\", \"RUN\"):\n            continue  # CMD only adds metadata\n        if op == \"COPY\":\n            src = rest.split()[0]\n            if src == \".\" or src in changed:\n                missed = missed or bool(src == \".\" and changed) or src in changed\n        if missed:\n            out.append(line)\n    return out\n\nprint(\"naive, edit app.py ->\", rebuilt(NAIVE, {\"app.py\"}))\nprint(\"good, edit app.py ->\", rebuilt(GOOD, {\"app.py\"}))\nprint(\"good, edit requirements.txt ->\", rebuilt(GOOD, {\"requirements.txt\"}))\n",
+    "expected": "naive, edit app.py -> ['COPY . .', 'RUN pip install -r requirements.txt']\ngood, edit app.py -> ['COPY . .']\ngood, edit requirements.txt -> ['COPY requirements.txt .', 'RUN pip install -r requirements.txt', 'COPY . .']",
+    "solution": "NAIVE = \"\"\"FROM python:3.12-slim\nWORKDIR /app\nCOPY . .\nRUN pip install -r requirements.txt\nCMD [\"python\", \"app.py\"]\"\"\"\n\nGOOD = \"\"\"FROM python:3.12-slim\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install -r requirements.txt\nCOPY . .\nCMD [\"python\", \"app.py\"]\"\"\"\n\ndef rebuilt(dockerfile, changed):\n    \"\"\"Layers that must rebuild: once one layer misses the cache, every later layer misses too.\"\"\"\n    missed, out = False, []\n    for line in dockerfile.splitlines():\n        op, _, rest = line.partition(\" \")\n        if op not in (\"FROM\", \"WORKDIR\", \"COPY\", \"RUN\"):\n            continue  # CMD only adds metadata\n        if op == \"COPY\":\n            src = rest.split()[0]\n            if src == \".\" or src in changed:\n                missed = missed or bool(src == \".\" and changed) or src in changed\n        if missed:\n            out.append(line)\n    return out\n\nprint(\"naive, edit app.py ->\", rebuilt(NAIVE, {\"app.py\"}))\nprint(\"good, edit app.py ->\", rebuilt(GOOD, {\"app.py\"}))\nprint(\"good, edit requirements.txt ->\", rebuilt(GOOD, {\"requirements.txt\"}))\n",
+    "explain": "Copy the manifest and install dependencies first, then copy the source. Source edits then only invalidate the last COPY. Verified by running the simulation against the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
