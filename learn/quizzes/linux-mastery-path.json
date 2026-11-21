@@ -1,0 +1,2148 @@
+{
+ "course": "linux-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-linux-is": {
+   "questions": [
+    {
+     "q": "What is \"Linux\" in the strictest sense?",
+     "options": [
+      "A distro",
+      "The shell",
+      "The whole operating system",
+      "The kernel only"
+     ],
+     "answer": 3,
+     "explain": "The kernel is a single program that schedules processes, manages memory, talks to hardware and implements the filesystem abstraction. `uname -r` shows the kernel build."
+    },
+    {
+     "q": "What does a distro (distribution) add around the kernel?",
+     "options": [
+      "Nothing",
+      "A package manager, init system, standard directories, default config and curated packages",
+      "A different kernel language",
+      "A new CPU driver"
+     ],
+     "answer": 1,
+     "explain": "Debian, Ubuntu, Fedora, Arch and Alpine ship the same kernel source but differ above it."
+    },
+    {
+     "q": "How do ordinary programs like bash or ls touch hardware?",
+     "options": [
+      "Through GRUB",
+      "By asking the kernel through a system call, since they run in unprivileged user mode",
+      "Directly",
+      "Through the bootloader"
+     ],
+     "answer": 1,
+     "explain": "Only the kernel runs in privileged mode."
+    },
+    {
+     "q": "Why can some scripts that work elsewhere break on Alpine?",
+     "options": [
+      "It has no shell",
+      "It swaps GNU coreutils and glibc for BusyBox and musl",
+      "It uses a different kernel",
+      "It lacks files"
+     ],
+     "answer": 1,
+     "explain": "That substitution changes behaviour of some tools and libraries."
+    }
+   ]
+  },
+  "level-1/02-boot-process": {
+   "questions": [
+    {
+     "q": "What is the order of boot stages?",
+     "options": [
+      "GRUB, firmware, initramfs, kernel",
+      "Kernel, firmware, GRUB, systemd",
+      "Firmware, bootloader, kernel, initramfs, switch_root to systemd (PID 1)",
+      "systemd, kernel, firmware"
+     ],
+     "answer": 2,
+     "explain": "Each stage fails in a recognizable way."
+    },
+    {
+     "q": "What is initramfs?",
+     "options": [
+      "A bootloader",
+      "A temporary root filesystem in RAM with just enough tools (udev, disk/RAID/LUKS drivers) to find and mount the real root",
+      "The real root filesystem",
+      "A kernel module"
+     ],
+     "answer": 1,
+     "explain": "The real root may be on an encrypted LVM volume."
+    },
+    {
+     "q": "What does UEFI read boot entries from?",
+     "options": [
+      "The BIOS chip only",
+      "An EFI System Partition (a small FAT32 partition)",
+      "The first sector of the disk only",
+      "The network"
+     ],
+     "answer": 1,
+     "explain": "Legacy BIOS scanned a disk's first sector."
+    },
+    {
+     "q": "What does switch_root do?",
+     "options": [
+      "Mounts /tmp",
+      "Switches users",
+      "Replaces the initramfs root with the real root filesystem and execs the init system as PID 1",
+      "Starts GRUB"
+     ],
+     "answer": 2,
+     "explain": "On most modern distros that's systemd."
+    }
+   ]
+  },
+  "level-1/03-filesystem-hierarchy": {
+   "questions": [
+    {
+     "q": "Where is system-wide configuration usually found?",
+     "options": [
+      "/var",
+      "/etc, almost always plain text",
+      "/tmp",
+      "/opt"
+     ],
+     "answer": 1,
+     "explain": "If you're hunting for where X is configured, start in /etc."
+    },
+    {
+     "q": "What belongs in /var?",
+     "options": [
+      "Device files",
+      "Programs",
+      "Home directories",
+      "Data that changes while the system runs: logs, caches, spool files"
+     ],
+     "answer": 3,
+     "explain": "For example /var/log and /var/cache."
+    },
+    {
+     "q": "What are /proc and /sys?",
+     "options": [
+      "Backups",
+      "Network mounts",
+      "Virtual filesystems, not files on disk",
+      "Normal disk directories"
+     ],
+     "answer": 2,
+     "explain": "`stat -f /proc` reports Type: proc with zero blocks."
+    },
+    {
+     "q": "Why is /root kept separate from /home?",
+     "options": [
+      "So the superuser's home is never accidentally on a separate, possibly-unavailable mount",
+      "It's smaller",
+      "For security tools",
+      "It's a symlink"
+     ],
+     "answer": 0,
+     "explain": "/home holds regular users' directories."
+    }
+   ]
+  },
+  "level-1/04-inodes-links": {
+   "questions": [
+    {
+     "q": "What does an inode NOT store?",
+     "options": [
+      "The filename",
+      "Pointers to data blocks",
+      "The owner (UID/GID)",
+      "Permission bits"
+     ],
+     "answer": 0,
+     "explain": "The name lives in a directory entry, a (filename, inode number) pair in the parent directory."
+    },
+    {
+     "q": "After `ln original.txt hardlink.txt`, how do the two relate?",
+     "options": [
+      "A symlink",
+      "Two names for the same inode, and stat shows Links: 2",
+      "Independent files",
+      "Two copies of the file"
+     ],
+     "answer": 1,
+     "explain": "ls -i shows the same inode number, 135 in the lesson."
+    },
+    {
+     "q": "What happens to a symlink if you delete its target?",
+     "options": [
+      "It becomes a hard link",
+      "It keeps working",
+      "It copies the data",
+      "It breaks: cat gives 'No such file or directory'"
+     ],
+     "answer": 3,
+     "explain": "A symlink is a separate tiny file whose content is just a path."
+    },
+    {
+     "q": "After rm original.txt, does cat hardlink.txt still work?",
+     "options": [
+      "Only as root",
+      "Yes, because the inode survives while another link exists",
+      "No",
+      "Only after fsck"
+     ],
+     "answer": 1,
+     "explain": "The data is freed when the link count reaches zero (and no process has it open)."
+    }
+   ]
+  },
+  "level-1/05-users-permissions": {
+   "questions": [
+    {
+     "q": "Does the kernel know usernames?",
+     "options": [
+      "Only for root",
+      "No: it checks numeric UIDs/GIDs, and /etc/passwd and /etc/group are just lookup tables for humans",
+      "Yes",
+      "Only on ext4"
+     ],
+     "answer": 1,
+     "explain": "If a user is deleted while their UID still owns files, ls -l shows the bare number."
+    },
+    {
+     "q": "In which order does the kernel check permission classes, and what happens at the first match?",
+     "options": [
+      "All rows combined",
+      "Owner, then group, then other; it stops at the first match",
+      "The most generous row",
+      "Other, group, owner"
+     ],
+     "answer": 1,
+     "explain": "So an owner with a more restrictive owner row than 'other' still gets only the owner row."
+    },
+    {
+     "q": "In the lesson, with mode 311 (-wx--x--x) on a directory, what works for its owner?",
+     "options": [
+      "ls works but cat doesn't",
+      "cat project/notes.txt works, but ls project is denied, because there's no read bit",
+      "Both work",
+      "Nothing works"
+     ],
+     "answer": 1,
+     "explain": "Read on a directory allows listing names; execute allows traversing into it."
+    },
+    {
+     "q": "What does execute (x) mean on a directory?",
+     "options": [
+      "Permission to list names",
+      "Permission to run it as a program",
+      "Permission to traverse it (access entries by name)",
+      "Permission to delete it"
+     ],
+     "answer": 2,
+     "explain": "Listing requires read (r)."
+    }
+   ]
+  },
+  "level-1/06-suid-sgid-acls": {
+   "questions": [
+    {
+     "q": "Why can an unprivileged user run /usr/bin/passwd and update /etc/shadow?",
+     "options": [
+      "/etc/shadow is world-writable",
+      "It's owned by root with the SUID bit, so it runs with the owner's UID",
+      "It's setuid on the user",
+      "The kernel bypasses permissions"
+     ],
+     "answer": 1,
+     "explain": "The `s` in -rwsr-xr-x marks SUID."
+    },
+    {
+     "q": "What does SGID on a directory do?",
+     "options": [
+      "Restricts deletion",
+      "Runs programs as root",
+      "Hides files",
+      "New files inside inherit the directory's group instead of the creator's primary group"
+     ],
+     "answer": 3,
+     "explain": "The standard way to make a shared team directory."
+    },
+    {
+     "q": "What does the sticky bit (t) do on a directory like /tmp?",
+     "options": [
+      "Only a file's owner can delete or rename it, regardless of write permission on the directory",
+      "Inherits the group",
+      "Makes files immutable",
+      "Makes files executable"
+     ],
+     "answer": 0,
+     "explain": "/tmp is drwxrwxrwt."
+    },
+    {
+     "q": "What is mode 2775 on team-shared (after chgrp testeng)?",
+     "options": [
+      "SUID root",
+      "rwxrwxr-x with sticky",
+      "rwxrwsr-x with SGID, so files created there get group testeng",
+      "rwx------"
+     ],
+     "answer": 2,
+     "explain": "The lesson's touch team-shared/report2.txt shows group testeng."
+    }
+   ]
+  },
+  "level-1/07-processes-101": {
+   "questions": [
+    {
+     "q": "What do fork() and exec() each do?",
+     "options": [
+      "fork replaces; exec copies",
+      "Both kill processes",
+      "Both create processes",
+      "fork copies the calling process (new PID); exec replaces the program in the same PID"
+     ],
+     "answer": 3,
+     "explain": "The shell uses fork then exec to start every command."
+    },
+    {
+     "q": "What values does fork() return?",
+     "options": [
+      "0 to both",
+      "0 to the child, and the child's PID to the parent",
+      "-1 always",
+      "The PID to both"
+     ],
+     "answer": 1,
+     "explain": "This tells the two processes apart."
+    },
+    {
+     "q": "What is special about PID 1?",
+     "options": [
+      "It's the shell",
+      "It's the one process the kernel starts directly during boot (systemd), with PPID 0, and everything else descends from it",
+      "It's kthreadd",
+      "It's init only on BSD"
+     ],
+     "answer": 1,
+     "explain": "Losing it is fatal."
+    },
+    {
+     "q": "Why do kernel worker threads like kworker appear in brackets in ps?",
+     "options": [
+      "They're created by the kernel (children of kthreadd, PID 2), not by fork/exec from userspace, and have no real command line",
+      "They're stopped",
+      "They're remote",
+      "They're zombies"
+     ],
+     "answer": 0,
+     "explain": "ps -ef --forest draws the tree by PPID."
+    }
+   ]
+  },
+  "level-1/08-streams-descriptors-pipes": {
+   "questions": [
+    {
+     "q": "What are file descriptors 0, 1 and 2 by convention?",
+     "options": [
+      "Logs",
+      "Three files named 0, 1, 2",
+      "Network sockets",
+      "stdin, stdout and stderr"
+     ],
+     "answer": 3,
+     "explain": "It's a convention the kernel doesn't enforce."
+    },
+    {
+     "q": "What does `cmd > file 2>&1` do?",
+     "options": [
+      "Sends stderr to the terminal",
+      "Appends",
+      "Points fd 1 at the file, then fd 2 at wherever fd 1 now points, so both go to the file",
+      "Sends stdout to the terminal"
+     ],
+     "answer": 2,
+     "explain": "The lesson's first ls /nonexistent wrote the error into cmd.log."
+    },
+    {
+     "q": "What does `cmd 2>&1 > file` do?",
+     "options": [
+      "Both to the terminal",
+      "Both to the file",
+      "stderr goes to where stdout pointed (the terminal) first, then stdout goes to the file, so errors still print to the terminal",
+      "Same as the other order"
+     ],
+     "answer": 2,
+     "explain": "Order matters: the second run left cmd2.log empty."
+    },
+    {
+     "q": "How can you inspect a process's open descriptors?",
+     "options": [
+      "ls -l /proc/<pid>/fd, a directory of symlinks, one per descriptor",
+      "ps -fd",
+      "lsblk",
+      "cat /etc/fd"
+     ],
+     "answer": 0,
+     "explain": "fd 0 pointed to /dev/null in the example."
+    }
+   ]
+  },
+  "level-1/09-package-management-internals": {
+   "questions": [
+    {
+     "q": "What is the difference between dpkg and APT?",
+     "options": [
+      "They are identical",
+      "dpkg resolves dependencies",
+      "dpkg installs .deb files and keeps the on-disk database but resolves nothing; APT fetches from repositories and resolves dependency graphs, then hands installation to dpkg",
+      "APT installs files; dpkg fetches"
+     ],
+     "answer": 2,
+     "explain": "rpm and DNF split the same way for the Red Hat lineage."
+    },
+    {
+     "q": "What does `dpkg -L curl` show?",
+     "options": [
+      "The dependencies",
+      "The repository",
+      "The package's exact file manifest, which is what apt remove deletes and nothing more",
+      "The version"
+     ],
+     "answer": 2,
+     "explain": "dpkg -S /usr/bin/curl does the reverse: which package owns a file."
+    },
+    {
+     "q": "What three things does 'install this package' really involve?",
+     "options": [
+      "Fetch, reboot, test",
+      "Copy, chmod, link",
+      "Download, compile, run",
+      "Unpack files, record which files belong to the package, and verify dependencies"
+     ],
+     "answer": 3,
+     "explain": "The record is what makes clean uninstalls possible."
+    },
+    {
+     "q": "What does `apt-cache depends curl` list?",
+     "options": [
+      "Its version history",
+      "Its reverse dependencies",
+      "Its files",
+      "Its dependencies, such as libcurl4t64, libc6 and zlib1g"
+     ],
+     "answer": 3,
+     "explain": "APT resolves that whole graph."
+    }
+   ]
+  },
+  "level-1/10-project-minimal-rootfs": {
+   "questions": [
+    {
+     "q": "What does debootstrap do?",
+     "options": [
+      "Compiles the kernel",
+      "Boots a VM",
+      "Downloads and unpacks just enough .deb packages into a target directory to make a minimal root filesystem, without booting anything",
+      "Formats disks"
+     ],
+     "answer": 2,
+     "explain": "Debian and Ubuntu installers use it internally."
+    },
+    {
+     "q": "Why does debootstrap have a second stage that runs inside chroot?",
+     "options": [
+      "To download packages",
+      "So package postinst scripts execute in the new filesystem's environment rather than against the host",
+      "For speed",
+      "To install GRUB"
+     ],
+     "answer": 1,
+     "explain": "The first stage unpacks core packages."
+    },
+    {
+     "q": "What does --variant=minbase mean?",
+     "options": [
+      "A mirror",
+      "A partition type",
+      "A kernel variant",
+      "The smallest useful set of packages rather than a full default install"
+     ],
+     "answer": 3,
+     "explain": "--arch lets you build for another architecture, such as arm64 for a Raspberry Pi."
+    },
+    {
+     "q": "Why bind-mount /dev and mount proc and sysfs inside the chroot?",
+     "options": [
+      "So tools inside see device nodes and the /proc and /sys virtual filesystems",
+      "To save space",
+      "To enable networking",
+      "To speed up chroot"
+     ],
+     "answer": 0,
+     "explain": "The chroot reported Ubuntu 24.04 while the host was 26.04."
+    }
+   ]
+  },
+  "level-2/01-process-states-signals": {
+   "questions": [
+    {
+     "q": "What does state D mean, and can SIGKILL stop it?",
+     "options": [
+      "Dead; yes",
+      "Uninterruptible sleep, usually waiting on disk I/O; it can't be killed until the I/O completes",
+      "Daemon; yes",
+      "Detached; no"
+     ],
+     "answer": 1,
+     "explain": "The kernel considers the operation too delicate to abort."
+    },
+    {
+     "q": "What is a zombie (Z) process?",
+     "options": [
+      "A stopped process",
+      "A sleeping process",
+      "A process that has exited but whose parent hasn't collected its exit status; kill -9 can't remove it",
+      "A hung process"
+     ],
+     "answer": 2,
+     "explain": "It has no running code left to signal. The parent must wait() or die."
+    },
+    {
+     "q": "What do kill -STOP and kill -CONT do?",
+     "options": [
+      "Lower priority",
+      "Terminate and restart",
+      "Pause the kernel",
+      "Move a process between S (sleeping) and T (stopped), like Ctrl-Z and fg/bg"
+     ],
+     "answer": 3,
+     "explain": "The lesson showed S → T → S with ps."
+    },
+    {
+     "q": "What is a signal, per the lesson?",
+     "options": [
+      "A pipe",
+      "A file",
+      "Not a forceful interrupt but a flag the kernel sets that the target process, if in a position to, gets a chance to act on",
+      "A forced kill"
+     ],
+     "answer": 2,
+     "explain": "That's why kill -9 sometimes does nothing."
+    }
+   ]
+  },
+  "level-2/02-scheduling-cfs": {
+   "questions": [
+    {
+     "q": "What does a higher nice value mean?",
+     "options": [
+      "Higher memory",
+      "More CPU",
+      "More generous to others: a smaller claim on the CPU (range -20 to 19)",
+      "Real-time priority"
+     ],
+     "answer": 2,
+     "explain": "Default is 0; -20 is the most aggressive."
+    },
+    {
+     "q": "In the lesson's ps output, how does PRI relate to NI?",
+     "options": [
+      "They're always equal",
+      "Higher PRI with higher nice",
+      "Lower PRI tracks higher (less favourable) nice: nice 0 showed PRI 19, nice 10 showed 9, nice 15 showed 4",
+      "Unrelated"
+     ],
+     "answer": 2,
+     "explain": "ni is what you set; pri is procps's view of the kernel-level priority."
+    },
+    {
+     "q": "What does renice do?",
+     "options": [
+      "Restarts a process",
+      "Changes the niceness of an already running process, e.g. to deprioritise a batch job without restarting it",
+      "Kills a process",
+      "Sets nice at launch only"
+     ],
+     "answer": 1,
+     "explain": "Raising priority (lower nice) requires root."
+    },
+    {
+     "q": "What does `chrt -p $$` report for a normal shell?",
+     "options": [
+      "SCHED_OTHER, the default time-shared policy",
+      "SCHED_RR",
+      "SCHED_FIFO",
+      "SCHED_DEADLINE"
+     ],
+     "answer": 0,
+     "explain": "SCHED_FIFO and SCHED_RR are real-time policies."
+    }
+   ]
+  },
+  "level-2/03-memory-management": {
+   "questions": [
+    {
+     "q": "Why does `free -h` show a tiny 'free' but a large 'available'?",
+     "options": [
+      "Swap is full",
+      "Much of memory is used as reclaimable page cache (buff/cache), which the kernel can free when needed",
+      "The cache is corrupt",
+      "Memory is leaking"
+     ],
+     "answer": 1,
+     "explain": "In the lesson, 1.0 GiB was free but 3.3 GiB available, with 2.5 GiB in buff/cache."
+    },
+    {
+     "q": "What does virtual memory give each process?",
+     "options": [
+      "Shared memory by default",
+      "No isolation",
+      "Direct RAM addresses",
+      "Its own private address space, mapped to physical pages by page tables (4 KiB pages on most systems)"
+     ],
+     "answer": 3,
+     "explain": "It also enables fork's copy-on-write and swapping."
+    },
+    {
+     "q": "How was the OOM kill in the lesson triggered?",
+     "options": [
+      "By swap",
+      "By a bug",
+      "systemd-run --scope -p MemoryMax=100M ran a script in a memory-limited cgroup, and the kernel killed it (CONSTRAINT_MEMCG)",
+      "By filling all system RAM"
+     ],
+     "answer": 2,
+     "explain": "dmesg showed 'Memory cgroup out of memory: Killed process'."
+    },
+    {
+     "q": "What does the VM in the lesson lack that is common on cloud VMs and containers?",
+     "options": [
+      "A kernel",
+      "Cgroups",
+      "Swap (Swap: 0B)",
+      "Page tables"
+     ],
+     "answer": 2,
+     "explain": "free -h showed 3.8 GiB total and no swap."
+    }
+   ]
+  },
+  "level-2/04-disks-lvm-filesystems": {
+   "questions": [
+    {
+     "q": "What are LVM's three layers?",
+     "options": [
+      "Blocks, pages, frames",
+      "Physical volumes (PVs) pooled into a volume group (VG), with logical volumes (LVs) carved out of the pool",
+      "Partitions, files, directories",
+      "Disks, mounts, inodes"
+     ],
+     "answer": 1,
+     "explain": "An LV can span multiple physical disks."
+    },
+    {
+     "q": "Why does LVM make growing storage easier than partitions?",
+     "options": [
+      "It avoids filesystems",
+      "Growing an LV is a software operation against the VG's free space, not a disk-geometry problem",
+      "Partitions can't be created",
+      "LVM adds disks automatically"
+     ],
+     "answer": 1,
+     "explain": "Partition resizing means shuffling data to make room."
+    },
+    {
+     "q": "How did the lesson simulate two physical disks?",
+     "options": [
+      "Two USB drives",
+      "Two 512 MB plain files attached as loop devices with losetup",
+      "Two partitions",
+      "Two VMs"
+     ],
+     "answer": 1,
+     "explain": "The files became /dev/loop0 and /dev/loop1."
+    },
+    {
+     "q": "What order of commands builds a usable LVM filesystem?",
+     "options": [
+      "pvcreate, vgcreate, lvcreate, mkfs.ext4, then mount",
+      "mkfs, vgcreate, pvcreate",
+      "lvcreate, pvcreate, vgcreate",
+      "mount, mkfs, lvcreate"
+     ],
+     "answer": 0,
+     "explain": "Then df -h confirms the mounted size (770M of an 800M LV after overhead)."
+    }
+   ]
+  },
+  "level-2/05-mounting-fstab-nfs": {
+   "questions": [
+    {
+     "q": "What do the six fstab fields mean, in order?",
+     "options": [
+      "Mount, device, label, UUID, type, flags",
+      "Device, mount point, type, options, dump flag, fsck pass number",
+      "Name, size, type, owner, group, mode",
+      "Path, inode, type, options, time, size"
+     ],
+     "answer": 1,
+     "explain": "fsck pass 1 is for root, 2 for others, 0 for never."
+    },
+    {
+     "q": "Why identify a device by LABEL in fstab rather than /dev/vda1?",
+     "options": [
+      "The label survives device renumbering",
+      "Labels are faster",
+      "Labels are encrypted",
+      "Paths are invalid"
+     ],
+     "answer": 0,
+     "explain": "A hardcoded path breaks if /dev/vda1 becomes /dev/vda2."
+    },
+    {
+     "q": "What does a bind mount do?",
+     "options": [
+      "Creates a network share",
+      "Mounts a new disk",
+      "Makes the same directory's contents visible at a second path; it's not a new filesystem",
+      "Copies files"
+     ],
+     "answer": 2,
+     "explain": "Writes through either path affect the same files; container runtimes use this to expose host directories."
+    },
+    {
+     "q": "How does findmnt differ from fstab?",
+     "options": [
+      "findmnt edits fstab",
+      "findmnt shows the live mounts, which can differ from fstab if something was mounted by hand",
+      "fstab is live",
+      "They're identical"
+     ],
+     "answer": 1,
+     "explain": "fstab is a declarative list for boot time."
+    }
+   ]
+  },
+  "level-2/06-systemd-deep-dive": {
+   "questions": [
+    {
+     "q": "What is a target in systemd?",
+     "options": [
+      "A special unit that groups other units as a synchronization point, like multi-user.target",
+      "A daemon",
+      "A file",
+      "A mount"
+     ],
+     "answer": 0,
+     "explain": "Units declare WantedBy=multi-user.target to start as part of reaching it, which is how systemctl enable works."
+    },
+    {
+     "q": "What does After= in a unit file mean?",
+     "options": [
+      "A timer",
+      "An ordering constraint only, not a dependency; Wants=/Requires= express need",
+      "A conflict",
+      "A requirement"
+     ],
+     "answer": 1,
+     "explain": "ssh.service is deliberately tolerant of a not-fully-ready network."
+    },
+    {
+     "q": "What does ConditionPathExists=!/etc/ssh/sshd_not_to_be_run do?",
+     "options": [
+      "Deletes the file",
+      "Always starts",
+      "Creates the file",
+      "A runtime gate: the unit is skipped if that file exists"
+     ],
+     "answer": 3,
+     "explain": "The ! negates the condition."
+    },
+    {
+     "q": "Which unit type starts its service lazily on first connection?",
+     "options": [
+      ".mount",
+      ".target",
+      ".socket",
+      ".timer"
+     ],
+     "answer": 2,
+     "explain": "A .timer is the scheduled-trigger unit."
+    }
+   ]
+  },
+  "level-2/07-systemd-services-timers": {
+   "questions": [
+    {
+     "q": "What problem does OnUnitActiveSec= avoid compared with cron?",
+     "options": [
+      "Missing logs",
+      "Wrong time zones",
+      "A job overlapping itself, because it runs N seconds after the previous run finished",
+      "Slow starts"
+     ],
+     "answer": 2,
+     "explain": "A 5-minute job scheduled every 5 minutes can overlap if one run takes 6 minutes under cron."
+    },
+    {
+     "q": "What does `Type=oneshot` on heartbeat.service mean?",
+     "options": [
+      "It runs forever",
+      "It runs once at boot only",
+      "It's a socket",
+      "It runs a command to completion and then becomes inactive (dead) until triggered again"
+     ],
+     "answer": 3,
+     "explain": "systemctl status showed inactive (dead) with status=0/SUCCESS between timer runs."
+    },
+    {
+     "q": "What do you run to enable a timer and start it right now?",
+     "options": [
+      "sudo systemctl enable --now heartbeat.timer",
+      "crontab -e",
+      "systemctl start heartbeat.service",
+      "systemctl reload timers"
+     ],
+     "answer": 0,
+     "explain": "It creates the symlink under timers.target.wants."
+    },
+    {
+     "q": "Where does the service's output go with a timer-based job?",
+     "options": [
+      "To a cron log",
+      "Through the normal journald pipeline, with no mail or separate logging setup",
+      "To /dev/null",
+      "To email"
+     ],
+     "answer": 1,
+     "explain": "systemctl status also shows when it last ran and whether it succeeded."
+    }
+   ]
+  },
+  "level-2/08-journald-logging": {
+   "questions": [
+    {
+     "q": "How does a journal entry differ from a syslog text line?",
+     "options": [
+      "It has no timestamp",
+      "It's binary only",
+      "It's plain text",
+      "It's a structured record with named fields, several attached automatically by the journal"
+     ],
+     "answer": 3,
+     "explain": "Examples: _UID, _GID, _BOOT_ID, _SYSTEMD_CGROUP."
+    },
+    {
+     "q": "Why can journalctl -u filter by unit even for programs that never use systemd APIs?",
+     "options": [
+      "The filtering key comes from the environment the message was logged in (the cgroup/unit), not from parsing text",
+      "It greps for the name",
+      "Programs must tag it",
+      "It's random"
+     ],
+     "answer": 0,
+     "explain": "Programs writing to stdout or stderr under a unit still get unit, UID, GID, cgroup and boot ID fields."
+    },
+    {
+     "q": "What do CODE_FILE, CODE_FUNC and CODE_LINE show?",
+     "options": [
+      "The user",
+      "The source location, present only when the program uses sd_journal_print()-style calls",
+      "The kernel version",
+      "The service name"
+     ],
+     "answer": 1,
+     "explain": "Plain stdout logging doesn't include them."
+    },
+    {
+     "q": "What does an existing /var/log/journal directory indicate?",
+     "options": [
+      "Syslog is in use",
+      "Persistent journal storage (otherwise logs live in memory and are lost at reboot)",
+      "A corrupt journal",
+      "A log rotation bug"
+     ],
+     "answer": 1,
+     "explain": "The lesson's `journalctl --disk-usage` showed 8M."
+    }
+   ]
+  },
+  "level-2/09-device-files-udev": {
+   "questions": [
+    {
+     "q": "What do the leading c and b in ls -l on a device file mean?",
+     "options": [
+      "Compressed and bare",
+      "c is a character device (stream); b is a block device (fixed-size blocks)",
+      "c is copy; b is backup",
+      "c is config; b is binary"
+     ],
+     "answer": 1,
+     "explain": "/dev/null is c; /dev/vda is b."
+    },
+    {
+     "q": "What do the major and minor numbers identify?",
+     "options": [
+      "Version and revision",
+      "Major: which driver handles the device; minor: which specific instance the driver should talk to",
+      "Mode and group",
+      "Size and owner"
+     ],
+     "answer": 1,
+     "explain": "/dev/null (1,3) and /dev/zero (1,5) share major 1 and differ by minor."
+    },
+    {
+     "q": "What does udev do?",
+     "options": [
+      "Schedules processes",
+      "Mounts filesystems",
+      "Manages users",
+      "Names newly detected devices and creates symlinks such as disk/by-path and disk/by-diskseq"
+     ],
+     "answer": 3,
+     "explain": "udevadm info shows the S: symlink lines."
+    },
+    {
+     "q": "Why is /dev/vda major 253 in the lesson's VM?",
+     "options": [
+      "It's a typo",
+      "All disks use 253",
+      "It's a virtio_blk paravirtualised disk; real hardware would show a different major for its driver",
+      "It's a partition"
+     ],
+     "answer": 2,
+     "explain": "The major identifies the driver."
+    }
+   ]
+  },
+  "level-2/10-project-resource-diagnosis": {
+   "questions": [
+    {
+     "q": "What does `ps -eo ... --sort=-pcpu` reveal about two cpu_hog.sh loops?",
+     "options": [
+      "They are zombies",
+      "They're sleeping",
+      "They're in state R at about 100% CPU each, dwarfing every other process",
+      "They use all memory"
+     ],
+     "answer": 2,
+     "explain": "R means runnable: on a CPU or waiting for one."
+    },
+    {
+     "q": "Why did uptime's load average look low (0.00, 0.05, 0.04) right after starting the hogs?",
+     "options": [
+      "uptime is broken",
+      "The hogs didn't run",
+      "Load excludes R",
+      "Load average is an exponentially decaying moving average over 1/5/15 minutes, so it takes wall-clock time to rise"
+     ],
+     "answer": 3,
+     "explain": "The samples were taken in the first couple of seconds."
+    },
+    {
+     "q": "In the vmstat output, what did the two hogs show?",
+     "options": [
+      "wa 100%",
+      "us (user CPU) about 50% and id about 50%, with r = 2 runnable processes",
+      "sy 100%",
+      "swap activity"
+     ],
+     "answer": 1,
+     "explain": "A 2-CPU VM with two spinning loops uses half the CPU in user mode on average."
+    },
+    {
+     "q": "What does an infinite `while true; do :; done` loop simulate?",
+     "options": [
+      "A process stuck in a bad loop or spinning instead of blocking on I/O: a realistic incident pattern",
+      "A memory leak",
+      "A network outage",
+      "A disk failure"
+     ],
+     "answer": 0,
+     "explain": "The kernel schedules it like any CPU-bound process."
+    }
+   ]
+  },
+  "level-3/01-network-stack-routing": {
+   "questions": [
+    {
+     "q": "What is the loopback interface (lo) for?",
+     "options": [
+      "Wi-Fi",
+      "Routing",
+      "Connecting to the internet",
+      "Letting a machine talk to itself without touching real hardware"
+     ],
+     "answer": 3,
+     "explain": "A real NIC, a virtual device or lo can each be an interface."
+    },
+    {
+     "q": "What does `scope link` on an address mean, versus `scope global`?",
+     "options": [
+      "global is local only",
+      "They're the same",
+      "link is valid only on the local network segment (like IPv6 link-local); global is routable beyond this machine",
+      "link is public"
+     ],
+     "answer": 2,
+     "explain": "The lesson's fe80:: address has scope link."
+    },
+    {
+     "q": "What does `dynamic` on an inet address indicate?",
+     "options": [
+      "It's loopback",
+      "It came from DHCP, with valid_lft/preferred_lft lease timers, so it can change",
+      "It's static",
+      "It's IPv6"
+     ],
+     "answer": 1,
+     "explain": "Nothing on the system owns the IP permanently."
+    },
+    {
+     "q": "What does `ip route get 8.8.8.8` show?",
+     "options": [
+      "The DNS record",
+      "The ping time",
+      "The kernel's actual routing decision: next hop (via 192.168.5.2), interface and source address",
+      "The firewall rule"
+     ],
+     "answer": 2,
+     "explain": "Anything outside the local /24 uses the default route via the gateway."
+    }
+   ]
+  },
+  "level-3/02-dns-resolution": {
+   "questions": [
+    {
+     "q": "What does the hosts: files dns line in nsswitch.conf mean?",
+     "options": [
+      "Only DNS",
+      "DNS first",
+      "Check /etc/hosts first, then DNS",
+      "Only files"
+     ],
+     "answer": 2,
+     "explain": "That's why a /etc/hosts entry overrides DNS."
+    },
+    {
+     "q": "Why does /etc/resolv.conf show nameserver 127.0.0.53?",
+     "options": [
+      "It's systemd-resolved's local stub resolver; the real upstream server (192.168.5.2) is shown by resolvectl status",
+      "The network's DNS server is localhost",
+      "It's a hack",
+      "It's a typo"
+     ],
+     "answer": 0,
+     "explain": "The file says 'Do not edit'."
+    },
+    {
+     "q": "What does resolvectl query github.com show?",
+     "options": [
+      "The routing table",
+      "The firewall",
+      "One real resolution end to end: the address, the link, time taken and the protocol used",
+      "The cache size"
+     ],
+     "answer": 2,
+     "explain": "In the lesson: 22.2 ms via DNS."
+    },
+    {
+     "q": "Which layer is consulted first for any program calling getaddrinfo()?",
+     "options": [
+      "nsswitch.conf's lookup order",
+      "The DNS server",
+      "resolv.conf",
+      "The routing table"
+     ],
+     "answer": 0,
+     "explain": "resolv.conf comes into play only when resolution falls through to dns."
+    }
+   ]
+  },
+  "level-3/03-netfilter-iptables-nftables": {
+   "questions": [
+    {
+     "q": "What is Netfilter?",
+     "options": [
+      "The kernel subsystem with hook points (prerouting, input, forward, output, postrouting) that iptables and nftables configure",
+      "A userspace firewall tool",
+      "A router",
+      "A DNS tool"
+     ],
+     "answer": 0,
+     "explain": "Neither iptables nor nftables is netfilter itself."
+    },
+    {
+     "q": "What does `iptables -V` showing `(nf_tables)` mean?",
+     "options": [
+      "iptables is removed",
+      "The iptables command is a compatibility layer that translates rules into nftables",
+      "It's an old version",
+      "It uses legacy x_tables"
+     ],
+     "answer": 1,
+     "explain": "It doesn't touch the legacy ipt_* modules."
+    },
+    {
+     "q": "What does this nft rule do? `nft add rule inet demo input ip saddr 10.99.99.99 drop`",
+     "options": [
+      "Logs them only",
+      "Forwards them",
+      "Drops incoming packets from source 10.99.99.99 in a chain attached to the input hook",
+      "Accepts them"
+     ],
+     "answer": 2,
+     "explain": "The chain was created with type filter hook input."
+    },
+    {
+     "q": "Where did the LIMADNS chain in the VM's ruleset come from?",
+     "options": [
+      "The kernel",
+      "The lesson's commands",
+      "systemd",
+      "Lima's own networking setup, redirecting DNS traffic for the VM"
+     ],
+     "answer": 3,
+     "explain": "nft list ruleset shows the system's actual configuration."
+    }
+   ]
+  },
+  "level-3/04-sockets-ports-ss": {
+   "questions": [
+    {
+     "q": "What does a LISTEN socket represent?",
+     "options": [
+      "An active conversation",
+      "A client",
+      "A closed port",
+      "A server announcing it will accept new connections on a port; the kernel queues handshaken connections until accept()"
+     ],
+     "answer": 3,
+     "explain": "ESTABLISHED is an active two-way conversation."
+    },
+    {
+     "q": "What uniquely identifies an ESTABLISHED connection?",
+     "options": [
+      "The PID",
+      "The port only",
+      "The pairing of a local address:port with a remote address:port",
+      "The protocol"
+     ],
+     "answer": 2,
+     "explain": "The lesson showed both ends of 127.0.0.1:8899 and 127.0.0.1:38698."
+    },
+    {
+     "q": "What does `ss -tlnp` list?",
+     "options": [
+      "Routes",
+      "TCP listening sockets with numeric ports and the owning process",
+      "UDP sockets",
+      "Established only"
+     ],
+     "answer": 1,
+     "explain": "-t TCP, -l listening, -n numeric, -p process."
+    },
+    {
+     "q": "What does listening on 0.0.0.0:22 versus 127.0.0.1:8899 mean?",
+     "options": [
+      "0.0.0.0 is local only",
+      "The same",
+      "0.0.0.0 accepts on all interfaces; 127.0.0.1 accepts only local connections",
+      "127.0.0.1 is public"
+     ],
+     "answer": 2,
+     "explain": "systemd-resolved listens on 127.0.0.53 and 127.0.0.54 on port 53."
+    }
+   ]
+  },
+  "level-3/05-ssh-internals": {
+   "questions": [
+    {
+     "q": "What is the difference between a host key and a user key?",
+     "options": [
+      "Host keys are for users",
+      "User keys are for servers",
+      "The same thing",
+      "A host key proves the server's identity to you; a user key proves your authorisation to the server"
+     ],
+     "answer": 3,
+     "explain": "authorized_keys and ssh-copy-id are built around user keys."
+    },
+    {
+     "q": "Why does SSH warn loudly 'REMOTE HOST IDENTIFICATION HAS CHANGED'?",
+     "options": [
+      "A host key almost never changes, so a change could be re-provisioning or a man-in-the-middle, and SSH can't tell which",
+      "A bug",
+      "Wrong password",
+      "Keys expire daily"
+     ],
+     "answer": 0,
+     "explain": "It catches both causes."
+    },
+    {
+     "q": "Why must the host private key be mode rw-------?",
+     "options": [
+      "Convention only",
+      "Backups",
+      "Performance",
+      "sshd refuses to use a key file with overly permissive permissions, and a readable private key defeats its purpose"
+     ],
+     "answer": 3,
+     "explain": "The public key is world-readable, as it should be."
+    },
+    {
+     "q": "What does ssh-agent hold, and what does `ssh-add -l` list?",
+     "options": [
+      "Passwords on disk; hostnames",
+      "Loaded identities in memory; their fingerprints",
+      "Certificates; CAs",
+      "Host keys; users"
+     ],
+     "answer": 1,
+     "explain": "It showed the demo-key's SHA256 fingerprint."
+    }
+   ]
+  },
+  "level-3/06-selinux-apparmor": {
+   "questions": [
+    {
+     "q": "What question does a Linux Security Module answer that rwx permissions don't?",
+     "options": [
+      "Can this specific program, regardless of which user runs it, do this specific thing — even for root",
+      "Is the network open",
+      "Can this user read this file",
+      "Is this file encrypted"
+     ],
+     "answer": 0,
+     "explain": "It's mandatory access control layered on top of owner/group/other."
+    },
+    {
+     "q": "How do AppArmor and SELinux differ?",
+     "options": [
+      "SELinux is path-based",
+      "They are identical",
+      "AppArmor is path-based with per-executable profiles; SELinux is label-based with contexts (user:role:type:level)",
+      "AppArmor is label-based"
+     ],
+     "answer": 2,
+     "explain": "AppArmor is Ubuntu/Debian's default; SELinux is Red Hat/Fedora's."
+    },
+    {
+     "q": "In the lesson, why did sshd show 'unconfined' while dig showed 'dig (enforce)'?",
+     "options": [
+      "sshd is a daemon",
+      "dig is root",
+      "A profile exists and is enforced for dig but not for sshd on that system; having some profiles doesn't confine every process",
+      "AppArmor was off"
+     ],
+     "answer": 2,
+     "explain": "/proc/<pid>/attr/current reveals a process's confinement."
+    },
+    {
+     "q": "What does aa-status report?",
+     "options": [
+      "Running services",
+      "Users",
+      "How many profiles are loaded and in enforce or complain mode",
+      "Open ports"
+     ],
+     "answer": 2,
+     "explain": "The lesson showed 180 loaded, 103 enforcing, 2 complain."
+    }
+   ]
+  },
+  "level-3/07-namespaces-cgroups": {
+   "questions": [
+    {
+     "q": "What are the two mechanisms that make a container look isolated?",
+     "options": [
+      "Firewalls and SELinux",
+      "Chroot and sudo",
+      "Hypervisors and VMs",
+      "Namespaces (what a process can see) and cgroups (what it can use)"
+     ],
+     "answer": 3,
+     "explain": "A container is a normal Linux process on the host kernel."
+    },
+    {
+     "q": "In the unshare PID-namespace demo, what PID did bash report for itself?",
+     "options": [
+      "1, genuinely what getpid() returns inside the namespace",
+      "0",
+      "The host PID",
+      "2"
+     ],
+     "answer": 0,
+     "explain": "ps aux inside saw only three processes."
+    },
+    {
+     "q": "Why was --mount-proc needed?",
+     "options": [
+      "To start systemd",
+      "To mount NFS",
+      "Otherwise /proc would still show the host's process table through the mount namespace",
+      "To mount disks"
+     ],
+     "answer": 2,
+     "explain": "It mounts a fresh /proc for the new PID namespace."
+    },
+    {
+     "q": "Which namespace isolates the hostname, which plain chroot does not?",
+     "options": [
+      "UTS",
+      "IPC",
+      "PID",
+      "Mount"
+     ],
+     "answer": 0,
+     "explain": "Others: network, user (UID/GID mapping), IPC and cgroup."
+    }
+   ]
+  },
+  "level-3/08-sysctl-kernel-tuning": {
+   "questions": [
+    {
+     "q": "How does the sysctl name net.ipv4.ip_forward map to the filesystem?",
+     "options": [
+      "/var/ip_forward",
+      "/sys/net/ip_forward",
+      "/proc/sys/net/ipv4/ip_forward (dots become slashes)",
+      "/etc/net/ipv4"
+     ],
+     "answer": 2,
+     "explain": "Reading or writing the file has the identical immediate effect."
+    },
+    {
+     "q": "What does net.ipv4.ip_forward = 1 do?",
+     "options": [
+      "Blocks packets",
+      "Opens ports",
+      "Enables IPv6",
+      "Lets the kernel route packets between interfaces (an endpoint becomes a router)"
+     ],
+     "answer": 3,
+     "explain": "sysctl -w takes effect immediately, no reboot."
+    },
+    {
+     "q": "How do you make a sysctl setting persist across reboots?",
+     "options": [
+      "Reboot",
+      "Put it in a file under /etc/sysctl.d/",
+      "sysctl -w alone",
+      "Edit /proc"
+     ],
+     "answer": 1,
+     "explain": "For example 99-lima.conf."
+    },
+    {
+     "q": "What does net.ipv4.ip_unprivileged_port_start=0 do?",
+     "options": [
+      "Forwards packets",
+      "Lets unprivileged users bind ports below 1024",
+      "Disables IPv4",
+      "Blocks all ports"
+     ],
+     "answer": 1,
+     "explain": "Ports under 1024 are traditionally root-only."
+    }
+   ]
+  },
+  "level-3/09-auditd-fail2ban-hardening": {
+   "questions": [
+    {
+     "q": "What does `auditctl -w /etc/passwd -p wa -k passwd_watch` do?",
+     "options": [
+      "Backs it up",
+      "Blocks writes",
+      "Encrypts the file",
+      "Watches /etc/passwd for write and attribute-change access, tagging events with the key passwd_watch"
+     ],
+     "answer": 3,
+     "explain": "touch caused one matching event."
+    },
+    {
+     "q": "What does an audit record give you that an inotify-style 'file changed' event doesn't?",
+     "options": [
+      "Only a timestamp",
+      "Only the file name",
+      "Only the size",
+      "A forensic record: process, real vs audit UID, syscall and success or failure, tied to a rule key"
+     ],
+     "answer": 3,
+     "explain": "It's suited to compliance reviews and incident investigation."
+    },
+    {
+     "q": "What was the real tooling mismatch in the lab?",
+     "options": [
+      "fail2ban crashed",
+      "The log was empty",
+      "auditctl failed",
+      "ausearch -k found nothing although grep found the event in the raw audit log"
+     ],
+     "answer": 3,
+     "explain": "Probably a parsing mismatch between the ausearch version and the log format."
+    },
+    {
+     "q": "What lesson does the mismatch teach?",
+     "options": [
+      "Always trust ausearch",
+      "Delete logs",
+      "Know the raw log location (/var/log/audit/audit.log) and sanity-check a 'no matches' result against it",
+      "Never use ausearch"
+     ],
+     "answer": 2,
+     "explain": "Otherwise you might believe a real event never happened."
+    }
+   ]
+  },
+  "level-3/10-project-mini-container": {
+   "questions": [
+    {
+     "q": "What does the project combine to build a 'container' by hand?",
+     "options": [
+      "unshare namespaces (PID, mount, UTS) and a cgroup v2 memory limit",
+      "chroot and sudo",
+      "Docker and Podman",
+      "A VM and a hypervisor"
+     ],
+     "answer": 0,
+     "explain": "No container runtime is involved."
+    },
+    {
+     "q": "How is the shell placed into the limited cgroup?",
+     "options": [
+      "By writing its PID to the cgroup's cgroup.procs; memory.max sets the ceiling",
+      "By chroot",
+      "By nice",
+      "By renaming it"
+     ],
+     "answer": 0,
+     "explain": "Everything it spawns afterwards is in the group too."
+    },
+    {
+     "q": "What happened when python allocated memory past 50M?",
+     "options": [
+      "Nothing",
+      "The system crashed",
+      "It swapped",
+      "The kernel OOM-killed it inside the cgroup (CONSTRAINT_MEMCG); the shell reported 'Killed'"
+     ],
+     "answer": 3,
+     "explain": "dmesg showed 'Memory cgroup out of memory: Killed process'."
+    },
+    {
+     "q": "Why does hostname inside show minicontainer while the host still shows lima-linuxlab?",
+     "options": [
+      "The UTS namespace isolates the hostname, unlike plain chroot",
+      "Cache",
+      "DNS",
+      "A bug"
+     ],
+     "answer": 0,
+     "explain": "--uts adds it to the PID and mount namespaces."
+    }
+   ]
+  },
+  "level-4/01-performance-tools": {
+   "questions": [
+    {
+     "q": "In top's %Cpu(s), what does wa mean?",
+     "options": [
+      "Time spent waiting on I/O: CPU idle but not free, something is blocked on disk or network",
+      "User time",
+      "System time",
+      "Steal time"
+     ],
+     "answer": 0,
+     "explain": "us is user mode, sy is kernel, id is genuinely idle."
+    },
+    {
+     "q": "Why is 'avail Mem' much larger than 'free' in top?",
+     "options": [
+      "Overcommit",
+      "A bug",
+      "Swap",
+      "Reclaimable buff/cache counts as available"
+     ],
+     "answer": 3,
+     "explain": "3340.9 available versus 1018.4 free in the lesson."
+    },
+    {
+     "q": "Why is iostat's %util misunderstood?",
+     "options": [
+      "It's memory use",
+      "It measures time with outstanding I/O, not percent of disk capacity or throughput headroom; check await and aqu-sz too",
+      "It's CPU use",
+      "It's the used space"
+     ],
+     "answer": 1,
+     "explain": "Don't size storage decisions on it alone."
+    },
+    {
+     "q": "What does the `1 zombie` in top's Tasks line refer to?",
+     "options": [
+      "The leftover sshd zombie seen in the earlier process-states lesson",
+      "A hung process",
+      "A new bug",
+      "A kernel thread"
+     ],
+     "answer": 0,
+     "explain": "A zombie is an exited process whose parent hasn't collected it."
+    }
+   ]
+  },
+  "level-4/02-strace-ltrace-perf": {
+   "questions": [
+    {
+     "q": "What does strace show?",
+     "options": [
+      "Library calls",
+      "Every system call a running process makes",
+      "Memory maps only",
+      "Network packets"
+     ],
+     "answer": 1,
+     "explain": "ltrace shows library calls; perf shows where CPU time goes."
+    },
+    {
+     "q": "What did `strace -c ls /tmp` reveal?",
+     "options": [
+      "ls makes 3 syscalls",
+      "No errors",
+      "Even a simple command made 159 syscalls and hit 12 errors",
+      "It failed"
+     ],
+     "answer": 2,
+     "explain": "Locale lookups, mmap of libraries and terminal checks add up."
+    },
+    {
+     "q": "What did strace show about cat's failed openat of a locale .ftl file?",
+     "options": [
+      "A permissions issue",
+      "ENOENT: a harmless lookup that cat silently tolerates before opening the real file",
+      "A network error",
+      "A crash"
+     ],
+     "answer": 1,
+     "explain": "It answers 'why is this program touching that path' with evidence."
+    },
+    {
+     "q": "What does strace -e trace=open,openat do?",
+     "options": [
+      "Filters output to just those syscalls",
+      "Opens files",
+      "Sets limits",
+      "Traces the network"
+     ],
+     "answer": 0,
+     "explain": "It makes long traces readable."
+    }
+   ]
+  },
+  "level-4/03-filesystem-performance-io": {
+   "questions": [
+    {
+     "q": "When is the `none` I/O scheduler often the right choice?",
+     "options": [
+      "For fast NVMe storage, where the device's own queues do better than software reordering",
+      "For spinning disks",
+      "Never",
+      "For slow USB sticks"
+     ],
+     "answer": 0,
+     "explain": "Reordering has a cost, and skipping it is correct when the device doesn't need help."
+    },
+    {
+     "q": "What does mq-deadline prioritise?",
+     "options": [
+      "Interactivity only",
+      "Raw throughput only",
+      "Power saving",
+      "Fairness and bounded latency, so no request waits indefinitely"
+     ],
+     "answer": 3,
+     "explain": "bfq optimises interactive responsiveness on slower devices."
+    },
+    {
+     "q": "Why was `rotational = 1` on a virtio disk surprising?",
+     "options": [
+      "It tells the kernel it's a spinning disk, but the 1.4 GB/s throughput shows it's flash-backed; virtualisation made the hint unreliable",
+      "It was correct",
+      "It meant SSD",
+      "It meant NVMe"
+     ],
+     "answer": 0,
+     "explain": "The flag wasn't correctly propagated through the virtual device."
+    },
+    {
+     "q": "What does nr_requests = 256 mean?",
+     "options": [
+      "256 inodes",
+      "256 disks",
+      "The queue depth the block layer holds before applying backpressure to the application",
+      "256 MB cache"
+     ],
+     "answer": 2,
+     "explain": "It's visible in /sys/block/vda/queue/."
+    }
+   ]
+  },
+  "level-4/04-kernel-modules": {
+   "questions": [
+    {
+     "q": "What does `insmod hello.ko` do, and how do you confirm it loaded?",
+     "options": [
+      "Installs a package; apt",
+      "Loads the module into the running kernel; lsmod | grep hello shows it",
+      "Unloads it; dmesg",
+      "Compiles it; ls"
+     ],
+     "answer": 1,
+     "explain": "The usage count of 0 means nothing depends on it, so rmmod is safe."
+    },
+    {
+     "q": "Where did the module's printk messages appear?",
+     "options": [
+      "On stdout",
+      "In /var/www",
+      "In journald only",
+      "In the kernel log, via dmesg"
+     ],
+     "answer": 3,
+     "explain": "One message on init, one on exit."
+    },
+    {
+     "q": "Why does the build need /lib/modules/$(uname -r)/build?",
+     "options": [
+      "It's the output folder",
+      "It compiles against the running kernel's real headers and build system",
+      "It holds the source of the module",
+      "It's for DKMS only"
+     ],
+     "answer": 1,
+     "explain": "The Makefile calls make -C ... M=$(PWD) modules."
+    },
+    {
+     "q": "What were the two build warnings about?",
+     "options": [
+      "Missing headers",
+      "Bad syntax",
+      "Wrong licence",
+      "The compiler and pahole versions differ from those that built the shipped kernel, usually harmless for simple modules but risky for complex ones"
+     ],
+     "answer": 3,
+     "explain": "pahole generates BTF debug metadata."
+    }
+   ]
+  },
+  "level-4/05-proc-sys-debugging": {
+   "questions": [
+    {
+     "q": "What does `ls -l /proc/$PID/fd` reveal about a running process?",
+     "options": [
+      "Exactly what it has open: files, sockets and pipes, without attaching a debugger",
+      "Its source code",
+      "Its memory",
+      "Its environment"
+     ],
+     "answer": 0,
+     "explain": "The example showed a listening socket (fd 3) and a file opened for writing (fd 4)."
+    },
+    {
+     "q": "What does /proc/$PID/wchan show?",
+     "options": [
+      "The kernel function the process is currently blocked in (e.g. hrtimer_nanosleep)",
+      "Its parent",
+      "Its owner",
+      "Its working directory"
+     ],
+     "answer": 0,
+     "explain": "It matched time.sleep(60) in the script."
+    },
+    {
+     "q": "Why was reading /proc/$PID/syscall refused without sudo?",
+     "options": [
+      "Yama's ptrace_scope only allows inspecting direct ancestors or descendants by default",
+      "The file doesn't exist",
+      "A bug",
+      "The process was root"
+     ],
+     "answer": 0,
+     "explain": "sudo bypassed the restriction."
+    },
+    {
+     "q": "What does /proc/$PID/syscall show?",
+     "options": [
+      "The syscall history",
+      "The file list",
+      "Its signals",
+      "The raw syscall number and argument registers the process is currently inside"
+     ],
+     "answer": 3,
+     "explain": "Syscall 115 on that architecture is nanosleep-family."
+    }
+   ]
+  },
+  "level-4/06-boot-failure-recovery": {
+   "questions": [
+    {
+     "q": "How can you validate a new fstab line before a reboot?",
+     "options": [
+      "Reboot and hope",
+      "Run fsck",
+      "Edit /proc",
+      "Run mount -a, which attempts every entry as boot would"
+     ],
+     "answer": 3,
+     "explain": "It caught a missing mount point in the lesson."
+    },
+    {
+     "q": "What happens at boot when a non-root fstab entry fails?",
+     "options": [
+      "It boots normally",
+      "It ignores it",
+      "It deletes the line",
+      "systemd can't reach the dependent target and drops to an emergency shell for a human to intervene"
+     ],
+     "answer": 3,
+     "explain": "It doesn't silently continue in a broken state."
+    },
+    {
+     "q": "What are two common fstab failure modes?",
+     "options": [
+      "Wrong colour",
+      "Wrong shell",
+      "Wrong kernel",
+      "The device doesn't exist, or the mount point doesn't exist (mkdir -p may be all that's missing)"
+     ],
+     "answer": 3,
+     "explain": "Both can be tested on a running system."
+    },
+    {
+     "q": "What does journalctl --list-boots show?",
+     "options": [
+      "Boot time",
+      "Failed units",
+      "The boots recorded in the journal; the VM had only one",
+      "Running services"
+     ],
+     "answer": 2,
+     "explain": "It's the command to check earlier boots for a failure."
+    }
+   ]
+  },
+  "level-4/07-containers-vs-vms": {
+   "questions": [
+    {
+     "q": "What is a container, compared with a VM?",
+     "options": [
+      "A hypervisor",
+      "A tiny VM",
+      "A different CPU",
+      "A normal process on the same running kernel with a restricted view of resources; a VM boots a separate kernel on virtualised hardware"
+     ],
+     "answer": 3,
+     "explain": "There's exactly one kernel involved for a container."
+    },
+    {
+     "q": "Why is creating a container so fast?",
+     "options": [
+      "It uses GPUs",
+      "It's just a new process with extra kernel bookkeeping (namespaces, a cgroup); `unshare --pid --mount-proc --fork true` took about 13 ms",
+      "It skips the kernel",
+      "It caches the VM"
+     ],
+     "answer": 1,
+     "explain": "A VM's boot measures in seconds to minutes."
+    },
+    {
+     "q": "How was the VM's boot time measured in the lesson?",
+     "options": [
+      "systemd-analyze: kernel 317ms, initrd 1.3s, userspace about 2m45s (mostly cloud-init network wait)",
+      "By dmesg",
+      "By stopwatch",
+      "By uptime"
+     ],
+     "answer": 0,
+     "explain": "A real kernel boot and full userspace startup are unavoidable costs."
+    },
+    {
+     "q": "What's a mistake in choosing between them?",
+     "options": [
+      "Using chroot",
+      "Using containers for everything",
+      "Choosing a VM 'to be safe' where properly configured container isolation would suffice",
+      "Using bare metal"
+     ],
+     "answer": 2,
+     "explain": "The right tool depends on the isolation needed."
+    }
+   ]
+  },
+  "level-4/08-distros-compared": {
+   "questions": [
+    {
+     "q": "What differs between mainstream distros, and what doesn't?",
+     "options": [
+      "Nothing differs",
+      "Everything differs",
+      "Only the kernel differs",
+      "Package manager, release model and defaults differ; kernel and systemd features like permissions, namespaces and netfilter are the same"
+     ],
+     "answer": 3,
+     "explain": "The lesson is documentation-based because it can't be verified on one distro."
+    },
+    {
+     "q": "How do Fedora and RHEL relate?",
+     "options": [
+      "Fedora is the fast-moving upstream; RHEL (and Rocky, AlmaLinux) is the long-support downstream built from a Fedora base",
+      "They're unrelated",
+      "Both are rolling",
+      "RHEL is the upstream"
+     ],
+     "answer": 0,
+     "explain": "It mirrors Ubuntu's LTS philosophy."
+    },
+    {
+     "q": "What is Arch Linux's release model?",
+     "options": [
+      "Annual",
+      "Fixed releases every 6 months",
+      "Rolling release: there is no 'Arch 26.04'; the system continuously updates (pacman)",
+      "LTS"
+     ],
+     "answer": 2,
+     "explain": "The philosophy differs from Debian and RHEL."
+    },
+    {
+     "q": "Which default LSM do Ubuntu/Debian and RHEL/Fedora use?",
+     "options": [
+      "AppArmor for both",
+      "None",
+      "AppArmor for Debian/Ubuntu; SELinux for RHEL/Fedora",
+      "SELinux for both"
+     ],
+     "answer": 2,
+     "explain": "Both use systemd init."
+    }
+   ]
+  },
+  "level-4/09-kernel-versions-lts": {
+   "questions": [
+    {
+     "q": "What are the three kernel.org lines?",
+     "options": [
+      "Mainline (newest, least tested), stable (bugfix backports for a few months) and longterm (bugfixes for years)",
+      "Old, new, next",
+      "Dev, test, prod",
+      "Alpha, beta, final"
+     ],
+     "answer": 0,
+     "explain": "Distros and embedded systems build on longterm lines."
+    },
+    {
+     "q": "Is the newest longterm kernel the newest mainline release?",
+     "options": [
+      "No: LTS is a deliberate choice for specific releases (6.18 longterm versus 7.3 mainline in the data)",
+      "Only on Fridays",
+      "Never",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "A kernel needn't be the newest to be fully supported."
+    },
+    {
+     "q": "How many longterm lines were receiving updates in the lesson's data?",
+     "options": [
+      "Twelve",
+      "One",
+      "Two",
+      "Six (from 5.10 through 6.18)"
+     ],
+     "answer": 3,
+     "explain": "It was fetched live from kernel.org/releases.json."
+    },
+    {
+     "q": "Why does the lesson fetch live release data?",
+     "options": [
+      "It signs kernels",
+      "Version numbers go stale, so check current data rather than memory",
+      "The API is required",
+      "It's faster"
+     ],
+     "answer": 1,
+     "explain": "The output will look different by the time you read it."
+    }
+   ]
+  },
+  "level-4/10-capstone-server-build": {
+   "questions": [
+    {
+     "q": "What makes `appuser` a least-privilege setup?",
+     "options": [
+      "Open sudo",
+      "Root runs everything",
+      "A dedicated user with key-only SSH (authorized_keys 600, .ssh 700, no password) running the service",
+      "Shared account"
+     ],
+     "answer": 2,
+     "explain": "The service also runs as appuser under systemd."
+    },
+    {
+     "q": "What does curl returning 000 mean when the service is stopped?",
+     "options": [
+      "No HTTP status at all: nothing is accepting the connection, so check systemctl status (inactive (dead))",
+      "HTTP 500",
+      "HTTP 404",
+      "HTTP 200"
+     ],
+     "answer": 0,
+     "explain": "It points away from an HTTP-level problem."
+    },
+    {
+     "q": "What does Fault 2 in the lesson illustrate?",
+     "options": [
+      "A crashed service",
+      "A full disk",
+      "A DNS issue",
+      "A firewall rule silently dropping a port that is listening, which ss -tln shows as LISTEN while connections still fail"
+     ],
+     "answer": 3,
+     "explain": "The listener exists, but the packets never reach it."
+    },
+    {
+     "q": "Which pieces does the capstone combine?",
+     "options": [
+      "Only cron",
+      "Only Docker",
+      "Only SSH",
+      "Users and SSH keys, a systemd service, an nftables rule, and diagnosis with the course's tools"
+     ],
+     "answer": 3,
+     "explain": "Three faults were injected on purpose and diagnosed."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A directory has mode 311 (d-wx--x--x) and you are its owner. `ls project` fails with 'Permission denied' but `cat project/notes.txt` works. Why?",
+    "options": [
+     "The owner can never list a directory",
+     "cat bypasses permissions",
+     "There is no read bit, so listing names is denied, but execute lets you traverse into it by name",
+     "The file is world-writable"
+    ],
+    "answer": 2,
+    "explain": "Read on a directory lists names; execute allows access by name. Verified: chmod 311 gives d-wx--x--x."
+   },
+   {
+    "q": "With umask 022, what modes do a new file and a new directory get? With umask 077?",
+    "options": [
+     "Both 644",
+     "022: 755 and 644. 077: 700 and 600",
+     "Both 755",
+     "022: file 644, directory 755. 077: file 600, directory 700"
+    ],
+    "answer": 3,
+    "explain": "New files start at 666 and directories at 777, minus the umask. Verified by creating them: 644/755 and 600/700."
+   },
+   {
+    "q": "A shared project directory should make every new file belong to the team group automatically. Which setting?",
+    "options": [
+     "SUID on the directory",
+     "chmod 777",
+     "SGID on the directory (chmod 2775, group set to the team): drwxrwsr-x",
+     "The sticky bit"
+    ],
+    "answer": 2,
+    "explain": "SGID on a directory makes new files inherit the directory's group. Verified: chmod 2775 shows drwxrwsr-x."
+   },
+   {
+    "q": "Anyone may create files in /tmp but only a file's owner may delete it. Which bit, and how does it appear?",
+    "options": [
+     "The sticky bit, shown as t: drwxrwxrwt (mode 1777)",
+     "SGID, shown as S",
+     "No special bit is needed",
+     "SUID, shown as s"
+    ],
+    "answer": 0,
+    "explain": "Verified: chmod 1777 gives drwxrwxrwt."
+   },
+   {
+    "q": "`ls -l /usr/bin/passwd` shows -rwsr-xr-x root root. What does the s mean for a normal user running it?",
+    "options": [
+     "The user becomes root permanently",
+     "The program runs with the file owner's (root's) UID, so it can update /etc/shadow",
+     "The file is a symlink",
+     "Only root can run it"
+    ],
+    "answer": 1,
+    "explain": "SUID applies for the lifetime of that process only."
+   },
+   {
+    "q": "You run `ln original.txt hardlink.txt` and `ln -s original.txt symlink.txt`, then `rm original.txt`. What happens?",
+    "options": [
+     "Both still work",
+     "Both break",
+     "cat hardlink.txt still works (the inode survives with 1 link); the symlink is broken",
+     "Only the symlink works"
+    ],
+    "answer": 2,
+    "explain": "A hard link is another name for the same inode; a symlink stores a path. Verified by running the commands: link count 2 → 1, hardlink prints hello, symlink broken."
+   },
+   {
+    "q": "`ls /nonexistent 2>&1 > cmd.log` leaves cmd.log empty and prints the error to the screen. Why?",
+    "options": [
+     "The file was read-only",
+     "stderr was duplicated onto the terminal first; only afterwards was stdout redirected to the file",
+     "2>&1 is invalid",
+     "ls writes errors to stdout"
+    ],
+    "answer": 1,
+    "explain": "Redirections apply left to right. `> cmd.log 2>&1` captures both. Verified by running both orders."
+   },
+   {
+    "q": "A process shows state Z in ps and `kill -9` does nothing. What is it, and what removes it?",
+    "options": [
+     "A hung process; wait",
+     "An uninterruptible sleep; send SIGKILL again",
+     "A stopped process; send SIGCONT",
+     "A zombie: it already exited, so there's nothing to signal; the parent must collect its status (or die, so init reaps it)"
+    ],
+    "answer": 3,
+    "explain": "A zombie is just an exit-status record."
+   },
+   {
+    "q": "A process is stuck in state D (uninterruptible sleep) on disk I/O. Will SIGKILL end it immediately?",
+    "options": [
+     "No: it can't be killed until the I/O completes",
+     "Yes, always",
+     "Only for root",
+     "Only with SIGTERM"
+    ],
+    "answer": 0,
+    "explain": "The kernel considers the operation too delicate to abort."
+   },
+   {
+    "q": "`free -h` shows 1.0Gi free but 3.3Gi available. Is the system low on memory?",
+    "options": [
+     "Yes: memory is leaking",
+     "No: much of it is reclaimable page cache (buff/cache), which counts as available",
+     "Yes: swap is full",
+     "It depends on the CPU"
+    ],
+    "answer": 1,
+    "explain": "Look at available, not free."
+   },
+   {
+    "q": "A service must run 'every 5 minutes' without overlapping itself if a run takes 6 minutes. Which mechanism fits best?",
+    "options": [
+     "A cron entry every 5 minutes",
+     "A systemd timer using OnUnitActiveSec= (runs after the previous run finished)",
+     "A while-true loop with &",
+     "at now + 5 minutes"
+    ],
+    "answer": 1,
+    "explain": "OnUnitActiveSec counts from the end of the last run. Output also goes to journald."
+   },
+   {
+    "q": "You added a new line to /etc/fstab. How do you check it without rebooting?",
+    "options": [
+     "Run `sudo mount -a`, which attempts every entry as boot would",
+     "Run fsck on /",
+     "Run `mount -l`",
+     "Reboot and watch"
+    ],
+    "answer": 0,
+    "explain": "A bad non-root entry can drop the next boot into an emergency shell."
+   },
+   {
+    "q": "`/etc/resolv.conf` says `nameserver 127.0.0.53`. Where do DNS queries really go?",
+    "options": [
+     "Nowhere: it is broken",
+     "To the internet's root servers directly",
+     "To systemd-resolved's local stub, which forwards them to the upstream server shown by `resolvectl status`",
+     "To /etc/hosts only"
+    ],
+    "answer": 2,
+    "explain": "nsswitch.conf's hosts: files dns line decides that /etc/hosts is checked first."
+   },
+   {
+    "q": "A service is listening on port 9090 (`ss -tln` shows it), but remote connections time out while local ones work. What is the most likely cause?",
+    "options": [
+     "The service isn't started",
+     "DNS is wrong",
+     "The kernel is too old",
+     "A firewall rule dropping the port (check nft list ruleset / iptables)"
+    ],
+    "answer": 3,
+    "explain": "The capstone's Fault 2: the socket is LISTENing, yet packets never reach it."
+   },
+   {
+    "q": "`curl` returns HTTP status 000 for your service. What does it tell you?",
+    "options": [
+     "The server returned 500",
+     "No HTTP exchange took place: nothing accepted the connection (service stopped, wrong port or firewall), so check the service and socket first",
+     "The TLS certificate expired",
+     "The server returned 404"
+    ],
+    "answer": 1,
+    "explain": "Status 000 means curl got no HTTP response."
+   },
+   {
+    "q": "Which two kernel mechanisms make a process look like a container, and what does each do?",
+    "options": [
+     "Namespaces limit what it can see (PID, mount, UTS, network, user…); cgroups limit what it can use (CPU, memory…)",
+     "SELinux and AppArmor",
+     "Hypervisor and VM",
+     "Chroot and sudo"
+    ],
+    "answer": 0,
+    "explain": "A container is a normal process on the host kernel."
+   },
+   {
+    "q": "A process in a cgroup with memory.max=50M tries to allocate more. What happens?",
+    "options": [
+     "The kernel OOM-kills it inside the cgroup (CONSTRAINT_MEMCG); the host keeps running",
+     "The whole system freezes",
+     "The allocation silently succeeds",
+     "It gets swap"
+    ],
+    "answer": 0,
+    "explain": "dmesg shows 'Memory cgroup out of memory: Killed process'."
+   },
+   {
+    "q": "Why does `iptables -V` print (nf_tables) on modern distros?",
+    "options": [
+     "iptables is the old kernel subsystem",
+     "Netfilter was removed",
+     "iptables is a compatibility front end that translates rules into nftables, both configuring netfilter's hooks",
+     "nftables is just a rename"
+    ],
+    "answer": 2,
+    "explain": "Neither tool is netfilter itself."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Redirection order",
+    "prompt": "Using the emit function (writes one line to stdout and one to stderr), write redirections so that: A) both streams end up in both.log, B) stdout goes to out.log and stderr to err.log, C) demonstrate the common mistake by writing `2>&1` BEFORE `> wrong.log`, capturing what leaks to the terminal with $( ). Print the results exactly as shown in the expected output.",
+    "starter": "emit() { echo \"to stdout\"; echo \"to stderr\" >&2; }\n\n# A: send both streams into both.log\nemit # your redirection here\necho \"A: $(wc -l < both.log | tr -d ' ') lines\"\n\n# B: stdout to out.log, stderr to err.log\nemit # your redirection here\necho \"B: out=[$(cat out.log)] err=[$(cat err.log)]\"\n\n# C: wrong order\nleaked=$(emit) # your redirection here\necho \"C: leaked=[$leaked] wrong.log=[$(cat wrong.log)]\"\n",
+    "expected": "A: 2 lines\nB: out=[to stdout] err=[to stderr]\nC: leaked=[to stderr] wrong.log=[to stdout]",
+    "solution": "emit() { echo \"to stdout\"; echo \"to stderr\" >&2; }\n\n# A: send both streams into both.log\nemit > both.log 2>&1\necho \"A: $(wc -l < both.log | tr -d ' ') lines\"\n\n# B: stdout to out.log, stderr to err.log\nemit > out.log 2> err.log\necho \"B: out=[$(cat out.log)] err=[$(cat err.log)]\"\n\n# C: wrong order - stderr is duplicated onto the terminal (here, captured by $( ))\nleaked=$(emit 2>&1 > wrong.log)\necho \"C: leaked=[$leaked] wrong.log=[$(cat wrong.log)]\"\n",
+    "explain": "`> file 2>&1` points fd 1 at the file and then fd 2 at wherever fd 1 now points. With `2>&1 > file`, fd 2 is duplicated onto the terminal first, so errors still leak. Verified by running the solution in bash: output matches."
+   },
+   {
+    "title": "Hard link versus symlink",
+    "prompt": "Create original.txt containing hello, a hard link hardlink.txt and a symlink symlink.txt. Print the link count of original.txt, delete the original, then show whether the hard link and the symlink still work and the link count that remains.",
+    "starter": "echo hello > original.txt\n# create a hard link and a symlink to original.txt\n\necho \"links before: $(ls -l original.txt | awk '{print $2}')\"\nrm original.txt\necho \"hardlink: $(cat hardlink.txt)\"\nif [ -e symlink.txt ]; then echo \"symlink: works\"; else echo \"symlink: broken\"; fi\necho \"links after: $(ls -l hardlink.txt | awk '{print $2}')\"\n",
+    "expected": "links before: 2\nhardlink: hello\nsymlink: broken\nlinks after: 1",
+    "solution": "echo hello > original.txt\nln original.txt hardlink.txt\nln -s original.txt symlink.txt\necho \"links before: $(ls -l original.txt | awk '{print $2}')\"\nrm original.txt\necho \"hardlink: $(cat hardlink.txt)\"\nif [ -e symlink.txt ]; then echo \"symlink: works\"; else echo \"symlink: broken\"; fi\necho \"links after: $(ls -l hardlink.txt | awk '{print $2}')\"\n",
+    "explain": "A hard link is a second directory entry for the same inode (link count 2), so the data survives rm. A symlink is a separate tiny file holding a path, which breaks when the target disappears. Verified by running the solution in bash: output matches."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
