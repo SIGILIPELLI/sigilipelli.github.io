@@ -1,0 +1,2159 @@
+{
+ "course": "kafka-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-kafka-is": {
+   "questions": [
+    {
+     "q": "What is Kafka at its core?",
+     "options": [
+      "A distributed, durable, append-only commit log for streaming events",
+      "A cache",
+      "A database only",
+      "A REST gateway"
+     ],
+     "answer": 0,
+     "explain": "Producers write, consumers read at their own pace."
+    },
+    {
+     "q": "How does Kafka differ from a traditional queue?",
+     "options": [
+      "No ordering",
+      "Messages are deleted on read",
+      "Single consumer",
+      "Messages are retained and can be re-read by many independent consumers"
+     ],
+     "answer": 3,
+     "explain": "Consumers track offsets."
+    },
+    {
+     "q": "What problem does Kafka solve between systems?",
+     "options": [
+      "Compilation",
+      "Decoupling producers from consumers with scalable, replayable event streams",
+      "Auth",
+      "Rendering"
+     ],
+     "answer": 1,
+     "explain": "Integration backbone."
+    },
+    {
+     "q": "Is Kafka's default delivery model push or pull?",
+     "options": [
+      "Pull: consumers fetch at their own rate",
+      "Push",
+      "Polling DB",
+      "Broadcast"
+     ],
+     "answer": 0,
+     "explain": "Natural backpressure."
+    }
+   ]
+  },
+  "level-1/02-brokers-clusters-kraft": {
+   "questions": [
+    {
+     "q": "What does a Kafka broker do?",
+     "options": [
+      "Builds apps",
+      "Stores partitions and serves produce/fetch requests",
+      "Runs consumers",
+      "Routes HTTP"
+     ],
+     "answer": 1,
+     "explain": "A cluster is many brokers."
+    },
+    {
+     "q": "What replaced ZooKeeper for metadata?",
+     "options": [
+      "Redis",
+      "KRaft: Raft-based controller quorum inside Kafka",
+      "etcd",
+      "Consul"
+     ],
+     "answer": 1,
+     "explain": "No external ZooKeeper."
+    },
+    {
+     "q": "How many controllers keep a quorum with 3 voters?",
+     "options": [
+      "1",
+      "3",
+      "2 (a majority)",
+      "0"
+     ],
+     "answer": 2,
+     "explain": "Tolerates one failure."
+    },
+    {
+     "q": "What's a cluster ID for?",
+     "options": [
+      "Uniquely identifying the cluster and formatting KRaft storage",
+      "Group",
+      "Topic",
+      "Auth"
+     ],
+     "answer": 0,
+     "explain": "kafka-storage format."
+    }
+   ]
+  },
+  "level-1/03-topics-partitions-log": {
+   "questions": [
+    {
+     "q": "What is a topic partition?",
+     "options": [
+      "A group",
+      "An ordered, immutable log; the unit of parallelism and ordering",
+      "A replica",
+      "A broker"
+     ],
+     "answer": 1,
+     "explain": "Order only within a partition."
+    },
+    {
+     "q": "What is an offset?",
+     "options": [
+      "A message's sequential position within a partition",
+      "Timestamp",
+      "Size",
+      "Key"
+     ],
+     "answer": 0,
+     "explain": "Per partition."
+    },
+    {
+     "q": "Where is ordering guaranteed?",
+     "options": [
+      "Nowhere",
+      "Across topic",
+      "Within a single partition only",
+      "Across brokers"
+     ],
+     "answer": 2,
+     "explain": "Key by entity."
+    },
+    {
+     "q": "With 6 partitions and a consumer group of 8 consumers, how many consumers are idle?\n```python\nprint(max(0,8-6))\n```\n",
+     "options": [
+      "2",
+      "0",
+      "6",
+      "8"
+     ],
+     "answer": 0,
+     "explain": "Parallelism is bounded by partitions. Verified by running it."
+    }
+   ]
+  },
+  "level-1/04-producers-keys-batching": {
+   "questions": [
+    {
+     "q": "Which partition does a key map to with hash % 4 (simple model)? Keys 'a','b','c' with ord sums 97,98,99.\n```python\nprint([k%4 for k in (97,98,99)])\n```\n",
+     "options": [
+      "[1, 1, 1]",
+      "[97, 98, 99]",
+      "[0, 1, 2]",
+      "[1, 2, 3]"
+     ],
+     "answer": 3,
+     "explain": "Same key, same partition. Verified by running it."
+    },
+    {
+     "q": "Why set a record key?",
+     "options": [
+      "Compression",
+      "Security",
+      "Speed only",
+      "To keep related events ordered in the same partition"
+     ],
+     "answer": 3,
+     "explain": "Keyed partitioning."
+    },
+    {
+     "q": "What do linger.ms and batch.size trade?",
+     "options": [
+      "Latency versus throughput via batching",
+      "Ordering",
+      "Security",
+      "Retention"
+     ],
+     "answer": 0,
+     "explain": "Bigger batches, higher throughput."
+    },
+    {
+     "q": "What does compression do for producers?",
+     "options": [
+      "Encrypts",
+      "Shrinks batches to save network and disk",
+      "Orders",
+      "Adds keys"
+     ],
+     "answer": 1,
+     "explain": "lz4/zstd."
+    }
+   ]
+  },
+  "level-1/05-consumers-consumer-groups": {
+   "questions": [
+    {
+     "q": "What is a consumer group?",
+     "options": [
+      "A producer",
+      "Consumers sharing a topic's partitions, each partition read by one member",
+      "A topic",
+      "A broker set"
+     ],
+     "answer": 1,
+     "explain": "Scale-out."
+    },
+    {
+     "q": "What does committing an offset record?",
+     "options": [
+      "Schema",
+      "A copy",
+      "The key",
+      "The consumer's progress so it can resume"
+     ],
+     "answer": 3,
+     "explain": "__consumer_offsets."
+    },
+    {
+     "q": "What if two groups subscribe to one topic?",
+     "options": [
+      "Error",
+      "Shared",
+      "Split",
+      "Each gets every message independently"
+     ],
+     "answer": 3,
+     "explain": "Fan-out."
+    },
+    {
+     "q": "What happens with more consumers than partitions?",
+     "options": [
+      "Error",
+      "Rebalance fails",
+      "They share",
+      "Extra consumers sit idle"
+     ],
+     "answer": 3,
+     "explain": "Plan partitions."
+    }
+   ]
+  },
+  "level-1/06-rebalance-protocols": {
+   "questions": [
+    {
+     "q": "What triggers a rebalance?",
+     "options": [
+      "Every message",
+      "Each commit",
+      "Compaction",
+      "Members joining/leaving or partition changes"
+     ],
+     "answer": 3,
+     "explain": "Pauses consumption."
+    },
+    {
+     "q": "What does cooperative rebalancing improve?",
+     "options": [
+      "Keys",
+      "Security",
+      "Only moved partitions pause instead of stop-the-world",
+      "Retention"
+     ],
+     "answer": 2,
+     "explain": "Incremental."
+    },
+    {
+     "q": "What does static membership (group.instance.id) reduce?",
+     "options": [
+      "Keys",
+      "Latency",
+      "Rebalances on short restarts",
+      "Disk"
+     ],
+     "answer": 2,
+     "explain": "Sticky identity."
+    },
+    {
+     "q": "What does session.timeout.ms control?",
+     "options": [
+      "Batch",
+      "Retention",
+      "How long before a silent member is considered dead",
+      "Compression"
+     ],
+     "answer": 2,
+     "explain": "Heartbeats."
+    }
+   ]
+  },
+  "level-1/07-replication-isr": {
+   "questions": [
+    {
+     "q": "What is the ISR?",
+     "options": [
+      "In-sync replicas that are caught up with the leader",
+      "Consumers",
+      "All brokers",
+      "Partitions"
+     ],
+     "answer": 0,
+     "explain": "Candidates for leader."
+    },
+    {
+     "q": "What does replication factor 3 give?",
+     "options": [
+      "Speed",
+      "Keys",
+      "Order",
+      "Two additional copies, tolerating broker failures"
+     ],
+     "answer": 3,
+     "explain": "Durability."
+    },
+    {
+     "q": "What does min.insync.replicas=2 with acks=all guarantee?",
+     "options": [
+      "Any write",
+      "No copies",
+      "One copy",
+      "A write succeeds only when at least 2 replicas have it"
+     ],
+     "answer": 3,
+     "explain": "Fail instead of losing data."
+    },
+    {
+     "q": "What happens to a lagging follower?",
+     "options": [
+      "It leaves the ISR until it catches up",
+      "Deleted",
+      "Ignored",
+      "Promoted"
+     ],
+     "answer": 0,
+     "explain": "replica.lag.time.max."
+    }
+   ]
+  },
+  "level-1/08-delivery-semantics": {
+   "questions": [
+    {
+     "q": "What does acks=all mean?",
+     "options": [
+      "The leader waits for all in-sync replicas",
+      "No wait",
+      "One",
+      "Leader only"
+     ],
+     "answer": 0,
+     "explain": "Strongest durability."
+    },
+    {
+     "q": "What do at-least-once semantics risk?",
+     "options": [
+      "Duplicates after retries",
+      "Disorder",
+      "Loss",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Idempotent consumers."
+    },
+    {
+     "q": "What does an idempotent producer prevent?",
+     "options": [
+      "Loss",
+      "Security",
+      "Disorder",
+      "Duplicates from retries within a partition"
+     ],
+     "answer": 3,
+     "explain": "enable.idempotence."
+    },
+    {
+     "q": "What's at-most-once?",
+     "options": [
+      "Exactly once",
+      "Replays",
+      "Duplicates",
+      "No retries and no duplicates, but data may be lost"
+     ],
+     "answer": 3,
+     "explain": "Rarely wanted."
+    }
+   ]
+  },
+  "level-1/09-retention-compaction": {
+   "questions": [
+    {
+     "q": "What does retention.ms control?",
+     "options": [
+      "Order",
+      "Keys",
+      "Batch",
+      "How long data is kept before deletion"
+     ],
+     "answer": 3,
+     "explain": "Time-based."
+    },
+    {
+     "q": "What does log compaction keep?",
+     "options": [
+      "None",
+      "First",
+      "All",
+      "The latest value per key"
+     ],
+     "answer": 3,
+     "explain": "Changelogs."
+    },
+    {
+     "q": "How is a key deleted in a compacted topic?",
+     "options": [
+      "Delete topic",
+      "Offset",
+      "Write a tombstone (null value)",
+      "Timeout"
+     ],
+     "answer": 2,
+     "explain": "Later cleaned."
+    },
+    {
+     "q": "When use compaction instead of deletion?",
+     "options": [
+      "Metrics",
+      "State/changelog topics where only the latest value matters",
+      "Event history",
+      "Logs"
+     ],
+     "answer": 1,
+     "explain": "Different goals."
+    }
+   ]
+  },
+  "level-1/10-project-producer-consumer-pipeline": {
+   "questions": [
+    {
+     "q": "What does the pipeline project combine?",
+     "options": [
+      "A producer, topic and consumer group with offsets and delivery settings",
+      "Only Connect",
+      "Only Streams",
+      "Only brokers"
+     ],
+     "answer": 0,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How verify no loss?",
+     "options": [
+      "Guess",
+      "Hope",
+      "Compare produced and consumed counts end to end",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Reconcile."
+    },
+    {
+     "q": "What do you handle on consumer failure?",
+     "options": [
+      "Reset",
+      "Skip",
+      "Delete",
+      "Restart from committed offsets, with idempotent processing"
+     ],
+     "answer": 3,
+     "explain": "At-least-once."
+    },
+    {
+     "q": "Why commit after processing?",
+     "options": [
+      "Style",
+      "To avoid losing messages on crash (at-least-once)",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Order matters."
+    }
+   ]
+  },
+  "level-2/01-multi-broker-kraft-quorum": {
+   "questions": [
+    {
+     "q": "How many brokers tolerate one failure with replication factor 3?",
+     "options": [
+      "1",
+      "At least 3",
+      "4 only",
+      "2"
+     ],
+     "answer": 1,
+     "explain": "Replicas on different brokers."
+    },
+    {
+     "q": "What is a KRaft quorum?",
+     "options": [
+      "Producers",
+      "Consumers",
+      "Topics",
+      "Controllers electing a leader and replicating metadata"
+     ],
+     "answer": 3,
+     "explain": "Raft."
+    },
+    {
+     "q": "Why odd numbers of controllers?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Majorities are well-defined and cheaper"
+     ],
+     "answer": 3,
+     "explain": "3 or 5."
+    },
+    {
+     "q": "What does the active controller do?",
+     "options": [
+      "Consumes",
+      "Auth",
+      "Serves data only",
+      "Manages partition leadership and metadata changes"
+     ],
+     "answer": 3,
+     "explain": "Cluster brain."
+    }
+   ]
+  },
+  "level-2/02-producer-configuration": {
+   "questions": [
+    {
+     "q": "What does enable.idempotence do?",
+     "options": [
+      "Encrypt",
+      "Compress",
+      "Order topics",
+      "Deduplicates producer retries via sequence numbers"
+     ],
+     "answer": 3,
+     "explain": "Safe retries."
+    },
+    {
+     "q": "Which setting bounds total send time?",
+     "options": [
+      "batch.size",
+      "linger",
+      "acks",
+      "delivery.timeout.ms"
+     ],
+     "answer": 3,
+     "explain": "Includes retries."
+    },
+    {
+     "q": "What does max.in.flight.requests matter for?",
+     "options": [
+      "Keys",
+      "Size",
+      "Ordering when retries occur (idempotence allows up to 5)",
+      "Security"
+     ],
+     "answer": 2,
+     "explain": "Order safety."
+    },
+    {
+     "q": "What does buffer.memory limit?",
+     "options": [
+      "Topic",
+      "Unsent records buffered in the producer",
+      "Heap",
+      "Disk"
+     ],
+     "answer": 1,
+     "explain": "Blocks when full."
+    }
+   ]
+  },
+  "level-2/03-consumer-configuration": {
+   "questions": [
+    {
+     "q": "What does auto.offset.reset=earliest do?",
+     "options": [
+      "Fail",
+      "Skip",
+      "Start from the beginning when no committed offset exists",
+      "Latest"
+     ],
+     "answer": 2,
+     "explain": "New groups."
+    },
+    {
+     "q": "What does max.poll.interval.ms guard?",
+     "options": [
+      "Fetch",
+      "Time between polls before the consumer is considered stuck",
+      "Heartbeat",
+      "Commit"
+     ],
+     "answer": 1,
+     "explain": "Slow processing."
+    },
+    {
+     "q": "What does fetch.min.bytes trade?",
+     "options": [
+      "Throughput versus latency",
+      "Order",
+      "Retention",
+      "Security"
+     ],
+     "answer": 0,
+     "explain": "Broker waits for data."
+    },
+    {
+     "q": "Why disable auto-commit in critical apps?",
+     "options": [
+      "Commit only after processing to control delivery semantics",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Manual commits."
+    }
+   ]
+  },
+  "level-2/04-exactly-once-transactions": {
+   "questions": [
+    {
+     "q": "What do transactions enable?",
+     "options": [
+      "Security",
+      "Compression",
+      "Ordering",
+      "Atomic writes across partitions plus offset commits (exactly-once in Kafka pipelines)"
+     ],
+     "answer": 3,
+     "explain": "transactional.id."
+    },
+    {
+     "q": "What must consumers set to see only committed data?",
+     "options": [
+      "acks=all",
+      "isolation.level=read_committed",
+      "earliest",
+      "read_uncommitted"
+     ],
+     "answer": 1,
+     "explain": "Skip aborted."
+    },
+    {
+     "q": "What does exactly-once cover?",
+     "options": [
+      "DBs",
+      "Everything",
+      "HTTP",
+      "Kafka-to-Kafka read-process-write, not external side effects"
+     ],
+     "answer": 3,
+     "explain": "Idempotent sinks."
+    },
+    {
+     "q": "What is a zombie producer fenced by?",
+     "options": [
+      "Key",
+      "Offset",
+      "Group",
+      "The transactional.id epoch"
+     ],
+     "answer": 3,
+     "explain": "Fencing."
+    }
+   ]
+  },
+  "level-2/05-monitoring-metrics": {
+   "questions": [
+    {
+     "q": "What's the key consumer health metric?",
+     "options": [
+      "Topics",
+      "Disk",
+      "CPU only",
+      "Consumer lag (end offset minus committed offset)"
+     ],
+     "answer": 3,
+     "explain": "Growing lag means falling behind."
+    },
+    {
+     "q": "What does UnderReplicatedPartitions indicate?",
+     "options": [
+      "Healthy",
+      "Idle",
+      "Followers not keeping up with leaders",
+      "Done"
+     ],
+     "answer": 2,
+     "explain": "Alert."
+    },
+    {
+     "q": "Which metric signals broker request saturation?",
+     "options": [
+      "Retention",
+      "Lag",
+      "Keys",
+      "Request handler idle ratio dropping"
+     ],
+     "answer": 3,
+     "explain": "Capacity."
+    },
+    {
+     "q": "What should alerts target?",
+     "options": [
+      "CPU 40%",
+      "Symptoms like lag growth and ISR shrinks",
+      "Every log",
+      "Topics"
+     ],
+     "answer": 1,
+     "explain": "Actionable."
+    }
+   ]
+  },
+  "level-2/06-segments-indexes-cleanup": {
+   "questions": [
+    {
+     "q": "What is a log segment?",
+     "options": [
+      "A topic",
+      "A group",
+      "A key",
+      "A file chunk of a partition log; old segments are deleted or compacted"
+     ],
+     "answer": 3,
+     "explain": "segment.bytes."
+    },
+    {
+     "q": "What do index files do?",
+     "options": [
+      "Encrypt",
+      "Map offsets/timestamps to file positions for fast lookup",
+      "Compress",
+      "Store data"
+     ],
+     "answer": 1,
+     "explain": ".index/.timeindex."
+    },
+    {
+     "q": "Why does a small segment.bytes cost?",
+     "options": [
+      "Many files and slower retention granularity",
+      "Law",
+      "None",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Balance."
+    },
+    {
+     "q": "When is data eligible for deletion?",
+     "options": [
+      "Immediately",
+      "Never",
+      "Per message",
+      "When whole segments exceed retention"
+     ],
+     "answer": 3,
+     "explain": "Segment granularity."
+    }
+   ]
+  },
+  "level-2/07-security-sasl-ssl-acls": {
+   "questions": [
+    {
+     "q": "What does TLS (SSL) protect?",
+     "options": [
+      "Offsets",
+      "Keys",
+      "Data at rest",
+      "Data in transit between clients and brokers"
+     ],
+     "answer": 3,
+     "explain": "Encryption + auth."
+    },
+    {
+     "q": "What does SASL provide?",
+     "options": [
+      "Authentication mechanisms (SCRAM, OAUTHBEARER, GSSAPI)",
+      "Retention",
+      "Quotas",
+      "Encryption"
+     ],
+     "answer": 0,
+     "explain": "Who you are."
+    },
+    {
+     "q": "What do ACLs control?",
+     "options": [
+      "Which principals can read/write which resources",
+      "Speed",
+      "Disk",
+      "Order"
+     ],
+     "answer": 0,
+     "explain": "Authorization."
+    },
+    {
+     "q": "What's least privilege here?",
+     "options": [
+      "Super user",
+      "All",
+      "Grant produce/consume on only the needed topics and groups",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Scoped ACLs."
+    }
+   ]
+  },
+  "level-2/08-reassignment-scaling": {
+   "questions": [
+    {
+     "q": "What does partition reassignment do?",
+     "options": [
+      "Deletes",
+      "Encrypts",
+      "Compacts",
+      "Moves replicas between brokers, e.g. after adding brokers"
+     ],
+     "answer": 3,
+     "explain": "kafka-reassign-partitions."
+    },
+    {
+     "q": "Why throttle reassignments?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "To protect production traffic from replication load"
+     ],
+     "answer": 3,
+     "explain": "Bandwidth limits."
+    },
+    {
+     "q": "Can you reduce a topic's partition count?",
+     "options": [
+      "Always",
+      "Never increase",
+      "Yes",
+      "No: only increase (which changes key mapping)"
+     ],
+     "answer": 3,
+     "explain": "Plan upfront."
+    },
+    {
+     "q": "What happens to key ordering when adding partitions?",
+     "options": [
+      "Same",
+      "Key-to-partition mapping changes for new messages",
+      "Deleted",
+      "Perfect"
+     ],
+     "answer": 1,
+     "explain": "Careful."
+    }
+   ]
+  },
+  "level-2/09-quotas-multi-tenancy": {
+   "questions": [
+    {
+     "q": "What do quotas protect?",
+     "options": [
+      "Schema",
+      "Disk",
+      "Keys",
+      "The cluster from a noisy client or tenant"
+     ],
+     "answer": 3,
+     "explain": "Produce/fetch/request quotas."
+    },
+    {
+     "q": "How are quotas identified?",
+     "options": [
+      "Topic",
+      "By user and/or client.id",
+      "Key",
+      "Offset"
+     ],
+     "answer": 1,
+     "explain": "Per principal."
+    },
+    {
+     "q": "What happens when a client exceeds its quota?",
+     "options": [
+      "Disconnects",
+      "Deletes",
+      "The broker throttles it (delays responses)",
+      "Crashes"
+     ],
+     "answer": 2,
+     "explain": "Backoff."
+    },
+    {
+     "q": "What multi-tenancy practice helps?",
+     "options": [
+      "Shared admin",
+      "One topic",
+      "None",
+      "Topic naming conventions, ACLs and quotas per team"
+     ],
+     "answer": 3,
+     "explain": "Isolation."
+    }
+   ]
+  },
+  "level-2/10-project-consumer-lag": {
+   "questions": [
+    {
+     "q": "Lag is the difference between end offset and committed offset. Partitions end at [120, 90, 50] and committed [100, 90, 10]. Total lag?\n```python\nprint(sum(e-c for e,c in zip([120,90,50],[100,90,10])))\n```\n",
+     "options": [
+      "160",
+      "60",
+      "20",
+      "50"
+     ],
+     "answer": 1,
+     "explain": "Sum across partitions. Verified by running it."
+    },
+    {
+     "q": "Why track lag per partition?",
+     "options": [
+      "Style",
+      "One slow partition can hide behind a healthy average",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Skew."
+    },
+    {
+     "q": "What do you alert on?",
+     "options": [
+      "Zero lag",
+      "Lag growing over time, not just a static number",
+      "Topics",
+      "Any lag"
+     ],
+     "answer": 1,
+     "explain": "Trend."
+    },
+    {
+     "q": "What reduces lag?",
+     "options": [
+      "Less retention",
+      "More topics",
+      "Compaction",
+      "More consumers (up to partitions), faster processing or batching"
+     ],
+     "answer": 3,
+     "explain": "Scale and tune."
+    }
+   ]
+  },
+  "level-3/01-connect-architecture": {
+   "questions": [
+    {
+     "q": "What is Kafka Connect?",
+     "options": [
+      "A framework for moving data between Kafka and external systems with connectors",
+      "A broker",
+      "A database",
+      "A UI"
+     ],
+     "answer": 0,
+     "explain": "No custom code."
+    },
+    {
+     "q": "What's a source vs sink connector?",
+     "options": [
+      "Source ingests into Kafka; sink writes out of Kafka",
+      "None",
+      "Same",
+      "Reverse"
+     ],
+     "answer": 0,
+     "explain": "Directions."
+    },
+    {
+     "q": "What does a converter do?",
+     "options": [
+      "Encrypts",
+      "Routes",
+      "Serializes/deserializes data (JSON, Avro, Protobuf)",
+      "Compacts"
+     ],
+     "answer": 2,
+     "explain": "Format."
+    },
+    {
+     "q": "What are SMTs?",
+     "options": [
+      "Single Message Transforms applied per record",
+      "Topics",
+      "ACLs",
+      "Streams"
+     ],
+     "answer": 0,
+     "explain": "Light changes."
+    }
+   ]
+  },
+  "level-3/02-connect-standalone": {
+   "questions": [
+    {
+     "q": "When use standalone Connect?",
+     "options": [
+      "Production scale",
+      "HA",
+      "Clusters",
+      "Development and simple single-process jobs"
+     ],
+     "answer": 3,
+     "explain": "Offsets in a file."
+    },
+    {
+     "q": "Where does standalone store offsets?",
+     "options": [
+      "In a local file",
+      "Kafka",
+      "ZooKeeper",
+      "DB"
+     ],
+     "answer": 0,
+     "explain": "Not fault tolerant."
+    },
+    {
+     "q": "How configure a standalone connector?",
+     "options": [
+      "REST",
+      "UI",
+      "Properties files passed at startup",
+      "Env only"
+     ],
+     "answer": 2,
+     "explain": "Simple."
+    },
+    {
+     "q": "What limits standalone?",
+     "options": [
+      "Law",
+      "Single point of failure and no scaling",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Use distributed."
+    }
+   ]
+  },
+  "level-3/03-connect-distributed-rest": {
+   "questions": [
+    {
+     "q": "What does distributed Connect provide?",
+     "options": [
+      "Manual",
+      "File offsets",
+      "Single process",
+      "Scalable, fault-tolerant workers coordinating via Kafka topics"
+     ],
+     "answer": 3,
+     "explain": "Config/offset/status topics."
+    },
+    {
+     "q": "How manage connectors in distributed mode?",
+     "options": [
+      "SSH",
+      "Files",
+      "The REST API",
+      "UI only"
+     ],
+     "answer": 2,
+     "explain": "POST /connectors."
+    },
+    {
+     "q": "What are tasks?",
+     "options": [
+      "Units of parallel work a connector spawns",
+      "Topics",
+      "Keys",
+      "Brokers"
+     ],
+     "answer": 0,
+     "explain": "tasks.max."
+    },
+    {
+     "q": "What happens when a worker dies?",
+     "options": [
+      "Stuck",
+      "Lost",
+      "Tasks rebalance to remaining workers",
+      "Deleted"
+     ],
+     "answer": 2,
+     "explain": "Resilience."
+    }
+   ]
+  },
+  "level-3/04-streams-fundamentals": {
+   "questions": [
+    {
+     "q": "What is Kafka Streams?",
+     "options": [
+      "A client library for stateful stream processing in your app",
+      "A cluster",
+      "A queue",
+      "A broker"
+     ],
+     "answer": 0,
+     "explain": "No separate cluster."
+    },
+    {
+     "q": "KStream vs KTable?",
+     "options": [
+      "Tables only",
+      "Reverse",
+      "KStream is an event stream; KTable is the latest value per key",
+      "Same"
+     ],
+     "answer": 2,
+     "explain": "Duality."
+    },
+    {
+     "q": "How does Streams scale?",
+     "options": [
+      "Bigger broker",
+      "Running more instances, each handling partitions (tasks)",
+      "Manual",
+      "Threads only"
+     ],
+     "answer": 1,
+     "explain": "Same app id."
+    },
+    {
+     "q": "What defines parallelism limits?",
+     "options": [
+      "Keys",
+      "Input topic partition count",
+      "Instances",
+      "CPU"
+     ],
+     "answer": 1,
+     "explain": "Tasks = partitions."
+    }
+   ]
+  },
+  "level-3/05-streams-state-stores": {
+   "questions": [
+    {
+     "q": "What is a state store?",
+     "options": [
+      "Topic",
+      "Local (RocksDB) storage for aggregations and joins",
+      "Index",
+      "Broker"
+     ],
+     "answer": 1,
+     "explain": "Backed by changelog."
+    },
+    {
+     "q": "What backs a state store for recovery?",
+     "options": [
+      "Cache",
+      "A compacted changelog topic",
+      "DB",
+      "File"
+     ],
+     "answer": 1,
+     "explain": "Rebuild."
+    },
+    {
+     "q": "What speeds failover of state?",
+     "options": [
+      "Standby replicas",
+      "Retention",
+      "Keys",
+      "Bigger disks"
+     ],
+     "answer": 0,
+     "explain": "num.standby.replicas."
+    },
+    {
+     "q": "Why is state local?",
+     "options": [
+      "Law",
+      "Cost",
+      "Fast access without network round trips",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Co-partitioning."
+    }
+   ]
+  },
+  "level-3/06-streams-joins-windowing": {
+   "questions": [
+    {
+     "q": "What must be true to join two streams/tables by key?",
+     "options": [
+      "They are co-partitioned (same key and partition count)",
+      "Same brokers",
+      "Same size",
+      "Same name"
+     ],
+     "answer": 0,
+     "explain": "Repartition if not."
+    },
+    {
+     "q": "What do windows do?",
+     "options": [
+      "Group events by time (tumbling, hopping, sliding, session)",
+      "Group by key",
+      "Sort",
+      "Filter"
+     ],
+     "answer": 0,
+     "explain": "Time aggregates."
+    },
+    {
+     "q": "What is grace period for?",
+     "options": [
+      "Joins",
+      "Batching",
+      "Retention",
+      "Accepting late events after a window closes"
+     ],
+     "answer": 3,
+     "explain": "Late data."
+    },
+    {
+     "q": "What is a GlobalKTable?",
+     "options": [
+      "A fully replicated table on every instance for lookups",
+      "Partitioned",
+      "Window",
+      "Sink"
+     ],
+     "answer": 0,
+     "explain": "Small reference data."
+    }
+   ]
+  },
+  "level-3/07-changelog-fault-tolerance": {
+   "questions": [
+    {
+     "q": "How does Streams recover state after a crash?",
+     "options": [
+      "Loses it",
+      "Replays the changelog topic to rebuild the store",
+      "Restarts",
+      "Manual"
+     ],
+     "answer": 1,
+     "explain": "Fault tolerance."
+    },
+    {
+     "q": "What does processing.guarantee=exactly_once_v2 provide?",
+     "options": [
+      "Atomic consume-process-produce within Kafka",
+      "At-most-once",
+      "Retry",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Transactions."
+    },
+    {
+     "q": "What causes long recovery?",
+     "options": [
+      "Small state",
+      "Law",
+      "Keys",
+      "Large state restored from changelog (use standbys)"
+     ],
+     "answer": 3,
+     "explain": "Plan for it."
+    },
+    {
+     "q": "What compacts changelogs?",
+     "options": [
+      "Log compaction keeps latest per key",
+      "Deletion",
+      "None",
+      "TTL"
+     ],
+     "answer": 0,
+     "explain": "Bounded size."
+    }
+   ]
+  },
+  "level-3/08-schema-evolution": {
+   "questions": [
+    {
+     "q": "What does a schema registry provide?",
+     "options": [
+      "Versioned schemas and compatibility checks for messages",
+      "Brokers",
+      "ACLs",
+      "Topics"
+     ],
+     "answer": 0,
+     "explain": "Contracts."
+    },
+    {
+     "q": "Which change is backward compatible in Avro?",
+     "options": [
+      "Removing required",
+      "Renaming",
+      "Type change",
+      "Adding a field with a default"
+     ],
+     "answer": 3,
+     "explain": "Consumers keep working."
+    },
+    {
+     "q": "What does BACKWARD compatibility mean?",
+     "options": [
+      "New schema can read data written with the old schema",
+      "Old reads new",
+      "None",
+      "Both"
+     ],
+     "answer": 0,
+     "explain": "Upgrade consumers first."
+    },
+    {
+     "q": "Why not free-form JSON?",
+     "options": [
+      "Law",
+      "Style",
+      "No enforced contract, so breaking changes slip through",
+      "Slow"
+     ],
+     "answer": 2,
+     "explain": "Use schemas."
+    }
+   ]
+  },
+  "level-3/09-error-handling-dlq": {
+   "questions": [
+    {
+     "q": "What is a dead letter queue/topic?",
+     "options": [
+      "Backup",
+      "Cache",
+      "Archive",
+      "A topic for records that repeatedly fail processing"
+     ],
+     "answer": 3,
+     "explain": "Inspect later."
+    },
+    {
+     "q": "What should you store with a DLQ record?",
+     "options": [
+      "Error details, source topic/partition/offset",
+      "Password",
+      "Key",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Debuggability."
+    },
+    {
+     "q": "What's a poison pill?",
+     "options": [
+      "Encrypted",
+      "Large",
+      "A record that always fails processing and blocks progress",
+      "Old"
+     ],
+     "answer": 2,
+     "explain": "Isolate it."
+    },
+    {
+     "q": "How do Connect sinks handle errors?",
+     "options": [
+      "Retry forever",
+      "Crash only",
+      "Ignore",
+      "errors.tolerance and deadletterqueue settings"
+     ],
+     "answer": 3,
+     "explain": "Configurable."
+    }
+   ]
+  },
+  "level-3/10-project-streams-application": {
+   "questions": [
+    {
+     "q": "What does the Streams app project combine?",
+     "options": [
+      "Only Connect",
+      "Topology, state, windows, joins and error handling",
+      "Only brokers",
+      "Only ACLs"
+     ],
+     "answer": 1,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How test a topology without a cluster?",
+     "options": [
+      "Prod",
+      "Mock DB",
+      "TopologyTestDriver",
+      "Manual"
+     ],
+     "answer": 2,
+     "explain": "Fast tests."
+    },
+    {
+     "q": "How scale it?",
+     "options": [
+      "Keys",
+      "Add instances up to the partition count",
+      "Brokers",
+      "Topics"
+     ],
+     "answer": 1,
+     "explain": "Tasks."
+    },
+    {
+     "q": "How monitor it?",
+     "options": [
+      "Names",
+      "Topics",
+      "CPU",
+      "Lag, state restore time and process rate"
+     ],
+     "answer": 3,
+     "explain": "Metrics."
+    }
+   ]
+  },
+  "level-4/01-performance-tuning": {
+   "questions": [
+    {
+     "q": "What most affects producer throughput?",
+     "options": [
+      "TLS",
+      "Names",
+      "Batching (linger.ms/batch.size), compression and acks",
+      "Keys only"
+     ],
+     "answer": 2,
+     "explain": "Tune together."
+    },
+    {
+     "q": "What affects consumer throughput?",
+     "options": [
+      "Keys",
+      "ACLs",
+      "fetch sizes, partitions and processing speed",
+      "Quotas"
+     ],
+     "answer": 2,
+     "explain": "Parallelism."
+    },
+    {
+     "q": "What hardware matters most for brokers?",
+     "options": [
+      "Disk throughput/page cache and network",
+      "RAM only",
+      "CPU only",
+      "GPU"
+     ],
+     "answer": 0,
+     "explain": "Sequential IO."
+    },
+    {
+     "q": "How tune safely?",
+     "options": [
+      "Prod",
+      "Many",
+      "Guess",
+      "Change one thing and measure with realistic load"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-4/02-capacity-planning": {
+   "questions": [
+    {
+     "q": "Ingest 50 MB/s with replication factor 3 and 7-day retention: roughly how many TB of disk across the cluster?\n```python\nprint(round(50e6*86400*7*3/1e12,1))\n```\n",
+     "options": [
+      "10",
+      "90.7",
+      "907",
+      "30.2"
+     ],
+     "answer": 1,
+     "explain": "throughput x retention x replication. Verified by running it."
+    },
+    {
+     "q": "What drives partition count?",
+     "options": [
+      "Target throughput and consumer parallelism",
+      "Users",
+      "Colors",
+      "Names"
+     ],
+     "answer": 0,
+     "explain": "Plan upfront."
+    },
+    {
+     "q": "Why leave headroom?",
+     "options": [
+      "Failures and rebalances shift load onto remaining brokers",
+      "Style",
+      "Law",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "N+1 capacity."
+    },
+    {
+     "q": "What network cost multiplies traffic?",
+     "options": [
+      "Replication and fan-out to consumer groups",
+      "Compression",
+      "Keys",
+      "Offsets"
+     ],
+     "answer": 0,
+     "explain": "Count both."
+    }
+   ]
+  },
+  "level-4/03-troubleshooting-common-failures": {
+   "questions": [
+    {
+     "q": "First step when consumers lag?",
+     "options": [
+      "Delete",
+      "Add topics",
+      "Restart all",
+      "Check whether it's slow processing, a rebalance storm or broker issues"
+     ],
+     "answer": 3,
+     "explain": "Diagnose."
+    },
+    {
+     "q": "What does repeated rebalancing suggest?",
+     "options": [
+      "Keys",
+      "Too-slow polls, unstable members or short timeouts",
+      "Network",
+      "Disk"
+     ],
+     "answer": 1,
+     "explain": "Tune max.poll."
+    },
+    {
+     "q": "What does an offline partition imply?",
+     "options": [
+      "Compaction",
+      "No leader available: check ISR and broker health",
+      "Idle",
+      "Healthy"
+     ],
+     "answer": 1,
+     "explain": "Unclean election risks."
+    },
+    {
+     "q": "What is unclean leader election?",
+     "options": [
+      "Safe",
+      "Faster only",
+      "Normal",
+      "Electing an out-of-sync replica, risking data loss"
+     ],
+     "answer": 3,
+     "explain": "Default off."
+    }
+   ]
+  },
+  "level-4/04-disaster-recovery-mirrormaker": {
+   "questions": [
+    {
+     "q": "What is MirrorMaker 2 for?",
+     "options": [
+      "Streams",
+      "Connect only",
+      "Auth",
+      "Replicating topics and offsets across clusters (DR/migration)"
+     ],
+     "answer": 3,
+     "explain": "Cross-cluster."
+    },
+    {
+     "q": "What's active-passive DR?",
+     "options": [
+      "Single",
+      "None",
+      "Both active",
+      "One cluster serves traffic; the other is a replica ready to take over"
+     ],
+     "answer": 3,
+     "explain": "Simpler."
+    },
+    {
+     "q": "What must consumers handle on failover?",
+     "options": [
+      "Schemas",
+      "Keys",
+      "Nothing",
+      "Translated offsets and possible duplicates"
+     ],
+     "answer": 3,
+     "explain": "Idempotent."
+    },
+    {
+     "q": "What defines acceptable DR?",
+     "options": [
+      "Speed",
+      "Cost",
+      "Region",
+      "RPO and RTO"
+     ],
+     "answer": 3,
+     "explain": "Business targets."
+    }
+   ]
+  },
+  "level-4/05-upgrades-kraft-migration": {
+   "questions": [
+    {
+     "q": "How upgrade brokers safely?",
+     "options": [
+      "All at once",
+      "Rolling restarts, one broker at a time, following compatibility notes",
+      "Skip tests",
+      "Delete"
+     ],
+     "answer": 1,
+     "explain": "Zero downtime."
+    },
+    {
+     "q": "What's the order for protocol/metadata versions?",
+     "options": [
+      "Upgrade binaries first, then bump metadata/feature versions",
+      "Never",
+      "Reverse",
+      "Together"
+     ],
+     "answer": 0,
+     "explain": "Rollback safety."
+    },
+    {
+     "q": "What does ZooKeeper-to-KRaft migration involve?",
+     "options": [
+      "Copy",
+      "None",
+      "Reinstall",
+      "Dual-write migration mode with controllers before cutover"
+     ],
+     "answer": 3,
+     "explain": "Follow the procedure."
+    },
+    {
+     "q": "Why test upgrades?",
+     "options": [
+      "Cost",
+      "Style",
+      "Law",
+      "In staging with production-like load"
+     ],
+     "answer": 3,
+     "explain": "Reduce risk."
+    }
+   ]
+  },
+  "level-4/06-kafka-vs-other-systems": {
+   "questions": [
+    {
+     "q": "When choose Kafka over a simple queue?",
+     "options": [
+      "Tiny tasks",
+      "RPC",
+      "High-throughput streaming, replay and many independent consumers",
+      "Single worker"
+     ],
+     "answer": 2,
+     "explain": "Fit."
+    },
+    {
+     "q": "How does RabbitMQ differ?",
+     "options": [
+      "Smart broker routing with message deletion on ack",
+      "Log",
+      "Same",
+      "Streams"
+     ],
+     "answer": 0,
+     "explain": "Different model."
+    },
+    {
+     "q": "What do managed streams (Kinesis, Pub/Sub) trade?",
+     "options": [
+      "Speed",
+      "None",
+      "Cost",
+      "Less ops for less control and portability"
+     ],
+     "answer": 3,
+     "explain": "Choose by needs."
+    },
+    {
+     "q": "When is a database enough?",
+     "options": [
+      "Always",
+      "Streaming",
+      "Never",
+      "Low volume, simple needs with transactions"
+     ],
+     "answer": 3,
+     "explain": "Don't over-engineer."
+    }
+   ]
+  },
+  "level-4/07-event-driven-patterns": {
+   "questions": [
+    {
+     "q": "What is event sourcing?",
+     "options": [
+      "Storing state changes as an immutable event log",
+      "CRUD",
+      "Caching",
+      "Queues"
+     ],
+     "answer": 0,
+     "explain": "Replay to rebuild."
+    },
+    {
+     "q": "What does CQRS separate?",
+     "options": [
+      "Topics",
+      "Write and read models",
+      "Brokers",
+      "Keys"
+     ],
+     "answer": 1,
+     "explain": "Projections."
+    },
+    {
+     "q": "What's the outbox pattern?",
+     "options": [
+      "Lock",
+      "Writing events with DB changes in one transaction then publishing them",
+      "Retry",
+      "Cache"
+     ],
+     "answer": 1,
+     "explain": "Consistency."
+    },
+    {
+     "q": "What's a saga?",
+     "options": [
+      "Lock",
+      "Window",
+      "Join",
+      "A sequence of local transactions with compensations"
+     ],
+     "answer": 3,
+     "explain": "Distributed workflows."
+    }
+   ]
+  },
+  "level-4/08-kafka-on-kubernetes": {
+   "questions": [
+    {
+     "q": "What does Strimzi do?",
+     "options": [
+      "UI",
+      "DB",
+      "Broker",
+      "Runs Kafka on Kubernetes via operators"
+     ],
+     "answer": 3,
+     "explain": "Declarative."
+    },
+    {
+     "q": "What storage suits brokers on K8s?",
+     "options": [
+      "Persistent volumes with fast disks",
+      "Memory",
+      "emptyDir",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Durability."
+    },
+    {
+     "q": "What's key for K8s networking?",
+     "options": [
+      "Stable broker addressing and advertised listeners",
+      "None",
+      "Names",
+      "Colors"
+     ],
+     "answer": 0,
+     "explain": "Client access."
+    },
+    {
+     "q": "What do pod disruption budgets protect?",
+     "options": [
+      "Availability during node maintenance",
+      "Speed",
+      "Keys",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "Keep ISR."
+    }
+   ]
+  },
+  "level-4/09-cost-operational-tradeoffs": {
+   "questions": [
+    {
+     "q": "What drives Kafka cost?",
+     "options": [
+      "Keys",
+      "Names",
+      "Topics",
+      "Storage, network egress, broker count and ops effort"
+     ],
+     "answer": 3,
+     "explain": "Retention and replication."
+    },
+    {
+     "q": "How cut storage cost?",
+     "options": [
+      "Bigger",
+      "More topics",
+      "More replicas",
+      "Shorter retention, compression and tiered storage"
+     ],
+     "answer": 3,
+     "explain": "Tier cold data."
+    },
+    {
+     "q": "What's tiered storage?",
+     "options": [
+      "Quotas",
+      "Offloading old segments to object storage",
+      "Replication",
+      "Compaction"
+     ],
+     "answer": 1,
+     "explain": "Cheaper retention."
+    },
+    {
+     "q": "Managed vs self-managed trade-off?",
+     "options": [
+      "Speed",
+      "Convenience and SLAs versus control and cost at scale",
+      "Law",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Decide by team."
+    }
+   ]
+  },
+  "level-4/10-capstone-event-driven-pipeline": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only Connect",
+      "Producers, Connect, Streams, schemas, monitoring and DR in one pipeline",
+      "Only brokers",
+      "Only Streams"
+     ],
+     "answer": 1,
+     "explain": "Event-driven pipeline."
+    },
+    {
+     "q": "How prove readiness?",
+     "options": [
+      "Slides",
+      "Hope",
+      "Demo",
+      "Failure drills, load tests, lag alerts and runbooks"
+     ],
+     "answer": 3,
+     "explain": "Operate."
+    },
+    {
+     "q": "What documentation matters?",
+     "options": [
+      "None",
+      "Code",
+      "Slides",
+      "Topic catalog, schemas, ownership and runbooks"
+     ],
+     "answer": 3,
+     "explain": "Governance."
+    },
+    {
+     "q": "What sustains the platform?",
+     "options": [
+      "Ownership, standards and capacity reviews",
+      "Luck",
+      "Silence",
+      "Tools"
+     ],
+     "answer": 0,
+     "explain": "Lifecycle."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "Why does Kafka guarantee ordering only within a partition?",
+    "options": [
+     "Each partition is an independent append-only log; there is no global order across partitions",
+     "Consumers reorder",
+     "Brokers sort",
+     "Keys are random"
+    ],
+    "answer": 0,
+    "explain": "Use a key to keep related events together."
+   },
+   {
+    "q": "Which consumers are idle when 5 consumers share a 3-partition topic?\n```python\nprint(5-3)\n```\n",
+    "options": [
+     "2",
+     "5",
+     "3",
+     "0"
+    ],
+    "answer": 0,
+    "explain": "Parallelism is bounded by partitions. Verified by running it."
+   },
+   {
+    "q": "Partition ends are [30, 10, 5] and committed offsets are [25, 10, 0]. Total lag?\n```python\nprint(sum(e-c for e,c in zip([30,10,5],[25,10,0])))\n```\n",
+    "options": [
+     "5",
+     "45",
+     "10",
+     "15"
+    ],
+    "answer": 2,
+    "explain": "Lag = end offset minus committed offset. Verified by running it."
+   },
+   {
+    "q": "A producer retries after a lost ack and duplicates appear. What fixes it?",
+    "options": [
+     "Compression",
+     "acks=0",
+     "More partitions",
+     "enable.idempotence=true (sequence numbers dedupe within a partition)"
+    ],
+    "answer": 3,
+    "explain": "Safe retries."
+   },
+   {
+    "q": "How do you avoid data loss when a broker dies?",
+    "options": [
+     "More consumers",
+     "RF 1",
+     "acks=1 only",
+     "Replication factor 3, acks=all and min.insync.replicas=2"
+    ],
+    "answer": 3,
+    "explain": "Durability settings."
+   },
+   {
+    "q": "Consumers commit offsets before processing and lose messages on a crash. What's the fix?",
+    "options": [
+     "Commit earlier",
+     "Disable commits",
+     "Commit after processing (at-least-once) and make handlers idempotent",
+     "Add partitions"
+    ],
+    "answer": 2,
+    "explain": "Order of commit matters."
+   },
+   {
+    "q": "A consumer is repeatedly removed from its group. What do you check?",
+    "options": [
+     "ACLs",
+     "Compaction",
+     "Poll interval/processing time (max.poll.interval.ms), session timeout and heartbeats",
+     "Retention"
+    ],
+    "answer": 2,
+    "explain": "Rebalance storms."
+   },
+   {
+    "q": "Which topic setting keeps only the latest value per key?",
+    "options": [
+     "retention.ms",
+     "acks",
+     "cleanup.policy=compact",
+     "delete"
+    ],
+    "answer": 2,
+    "explain": "Changelogs and tables."
+   },
+   {
+    "q": "How do you delete a key from a compacted topic?",
+    "options": [
+     "Produce a tombstone (null value)",
+     "Drop topic",
+     "Delete offset",
+     "Set TTL"
+    ],
+    "answer": 0,
+    "explain": "Compaction removes it later."
+   },
+   {
+    "q": "An exactly-once pipeline writes to an external database. Does Kafka transactions cover it?",
+    "options": [
+     "No: use an idempotent or transactional sink; Kafka's exactly-once covers Kafka-to-Kafka",
+     "Yes",
+     "Only keys",
+     "Only reads"
+    ],
+    "answer": 0,
+    "explain": "Idempotent consumers."
+   },
+   {
+    "q": "What must consumers set to skip aborted transactional records?",
+    "options": [
+     "auto commit",
+     "earliest",
+     "isolation.level=read_committed",
+     "read_uncommitted"
+    ],
+    "answer": 2,
+    "explain": "Transaction visibility."
+   },
+   {
+    "q": "Two streams must be joined by key but fail with an error. What's usually required?",
+    "options": [
+     "More RAM",
+     "Co-partitioning: same keys and the same partition count (repartition if needed)",
+     "A bigger broker",
+     "Compaction"
+    ],
+    "answer": 1,
+    "explain": "Join prerequisite."
+   },
+   {
+    "q": "A Kafka Streams instance restarts and takes ages to serve. What reduces this?",
+    "options": [
+     "acks=all",
+     "More topics",
+     "Standby replicas and smaller state; state is rebuilt from the changelog",
+     "Compression"
+    ],
+    "answer": 2,
+    "explain": "Fast failover."
+   },
+   {
+    "q": "A schema change breaks consumers. What prevents it?",
+    "options": [
+     "Free-form JSON",
+     "Quotas",
+     "A schema registry with compatibility checks (e.g. adding fields with defaults)",
+     "More partitions"
+    ],
+    "answer": 2,
+    "explain": "Contracts."
+   },
+   {
+    "q": "A poison message blocks a consumer. What's the pattern?",
+    "options": [
+     "Retry a bounded number of times, then send to a dead-letter topic with error context",
+     "Infinite retry",
+     "Skip silently",
+     "Delete topic"
+    ],
+    "answer": 0,
+    "explain": "Keep the stream moving."
+   },
+   {
+    "q": "You need cross-region disaster recovery. Which tool?",
+    "options": [
+     "MirrorMaker 2 (replicating topics and translating offsets)",
+     "Compaction",
+     "Connect only",
+     "Streams"
+    ],
+    "answer": 0,
+    "explain": "Plan RPO/RTO."
+   },
+   {
+    "q": "Roughly how many TB of disk for 20 MB/s, RF 3, 3-day retention?\n```python\nprint(round(20e6*86400*3*3/1e12,1))\n```\n",
+    "options": [
+     "1.6",
+     "52",
+     "15.6",
+     "5.2"
+    ],
+    "answer": 2,
+    "explain": "throughput x time x replication. Verified by running it."
+   },
+   {
+    "q": "Producers overload the cluster for other teams. What's the control?",
+    "options": [
+     "Per-client/user quotas (produce/fetch/request)",
+     "TLS",
+     "Fewer topics",
+     "Compaction"
+    ],
+    "answer": 0,
+    "explain": "Multi-tenancy."
+   },
+   {
+    "q": "What's the safe way to upgrade brokers?",
+    "options": [
+     "Skip staging",
+     "Rolling restarts one at a time, upgrade binaries before bumping metadata/protocol versions",
+     "All at once",
+     "Delete logs"
+    ],
+    "answer": 1,
+    "explain": "Zero downtime."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Partitions, consumer groups and lag",
+    "prompt": "Model a topic with key-based partitioning and a consumer group: assignment() gives each partition to exactly one member (round-robin), poll() reads from the committed offset, commit() advances offsets and lag() reports end minus committed per partition. Check the rebalance with more members than partitions.",
+    "starter": "class Partition:\n    def __init__(self):\n        self.log = []                              # list of (key, value); offset = index\n\nclass Topic:\n    def __init__(self, partitions):\n        self.parts = [Partition() for _ in range(partitions)]\n\n    def produce(self, key, value):\n        p = sum(key.encode()) % len(self.parts)    # stable key -> partition (toy hash)\n        self.parts[p].log.append((key, value))\n        return p, len(self.parts[p].log) - 1\n\nclass Group:\n    \"\"\"A consumer group: each partition is owned by exactly one member; offsets are committed per partition.\"\"\"\n    def __init__(self, topic):\n        self.topic = topic\n        self.members = []\n        self.committed = {i: 0 for i in range(len(topic.parts))}\n\n    def assignment(self):\n        # {member: [partition ids]} - each partition owned by exactly one member (round-robin by partition id)\n        return {}\n\n    def poll(self, member, max_records=10):\n        # records for the member's partitions starting at the committed offset: [(partition, offset, (key, value))]\n        return []\n\n    def commit(self, records):\n        # advance each partition's committed offset past the highest offset seen\n        pass\n\n    def lag(self):\n        # {partition: end offset - committed offset}\n        return {}\n\nt = Topic(3)\nfor k in [\"ada\", \"bo\", \"cy\", \"ada\", \"bo\", \"ada\", \"dee\"]:\n    t.produce(k, \"event-\" + k)\ng = Group(t)\ng.members = [\"c1\", \"c2\"]\nprint(\"assignment:\", g.assignment())\nprint(\"lag:\", g.lag())\nr1 = g.poll(\"c1\")\nprint(\"c1 got:\", [(i, o) for i, o, _ in r1])\ng.commit(r1)\nprint(\"lag after c1 commit:\", g.lag())\ng.members = [\"c1\", \"c2\", \"c3\", \"c4\"]                    # rebalance: more members than partitions\nprint(\"assignment:\", g.assignment())\nprint(\"same key -> same partition:\", len({t.produce(\"ada\", \"x\")[0] for _ in range(5)}) == 1)\n",
+    "expected": "assignment: {'c1': [0, 2], 'c2': [1]}\nlag: {0: 3, 1: 1, 2: 3}\nc1 got: [(0, 0), (0, 1), (0, 2), (2, 0), (2, 1), (2, 2)]\nlag after c1 commit: {0: 0, 1: 1, 2: 0}\nassignment: {'c1': [0], 'c2': [1], 'c3': [2], 'c4': []}\nsame key -> same partition: True",
+    "solution": "class Partition:\n    def __init__(self):\n        self.log = []                              # list of (key, value); offset = index\n\nclass Topic:\n    def __init__(self, partitions):\n        self.parts = [Partition() for _ in range(partitions)]\n\n    def produce(self, key, value):\n        p = sum(key.encode()) % len(self.parts)    # stable key -> partition (toy hash)\n        self.parts[p].log.append((key, value))\n        return p, len(self.parts[p].log) - 1\n\nclass Group:\n    \"\"\"A consumer group: each partition is owned by exactly one member; offsets are committed per partition.\"\"\"\n    def __init__(self, topic):\n        self.topic = topic\n        self.members = []\n        self.committed = {i: 0 for i in range(len(topic.parts))}\n\n    def assignment(self):\n        out = {m: [] for m in self.members}\n        for i in range(len(self.topic.parts)):\n            out[self.members[i % len(self.members)]].append(i)       # round-robin\n        return out\n\n    def poll(self, member, max_records=10):\n        got = []\n        for i in self.assignment()[member]:\n            log = self.topic.parts[i].log\n            for off in range(self.committed[i], min(len(log), self.committed[i] + max_records)):\n                got.append((i, off, log[off]))\n        return got\n\n    def commit(self, records):\n        for i, off, _ in records:\n            self.committed[i] = max(self.committed[i], off + 1)\n\n    def lag(self):\n        return {i: len(self.topic.parts[i].log) - self.committed[i] for i in self.committed}\n\nt = Topic(3)\nfor k in [\"ada\", \"bo\", \"cy\", \"ada\", \"bo\", \"ada\", \"dee\"]:\n    t.produce(k, \"event-\" + k)\ng = Group(t)\ng.members = [\"c1\", \"c2\"]\nprint(\"assignment:\", g.assignment())\nprint(\"lag:\", g.lag())\nr1 = g.poll(\"c1\")\nprint(\"c1 got:\", [(i, o) for i, o, _ in r1])\ng.commit(r1)\nprint(\"lag after c1 commit:\", g.lag())\ng.members = [\"c1\", \"c2\", \"c3\", \"c4\"]                    # rebalance: more members than partitions\nprint(\"assignment:\", g.assignment())\nprint(\"same key -> same partition:\", len({t.produce(\"ada\", \"x\")[0] for _ in range(5)}) == 1)\n",
+    "explain": "Each partition is owned by one member of the group, offsets are committed per partition and lag is end offset minus committed offset; extra members get no partitions. This is a teaching model, not the Kafka client. Verified by running the solution."
+   },
+   {
+    "title": "Idempotent producer and at-least-once consumer",
+    "prompt": "Complete Broker.append (dedupe by (producer, sequence) when enabled) and Consumer.run (process then commit; a crash before commit means the record is processed again). Compare plain retries with idempotence, and a naive consumer with an idempotent handler.",
+    "starter": "class Producer:\n    \"\"\"Idempotent producer model: retries after a lost ack must not create duplicates.\"\"\"\n    def __init__(self, broker):\n        self.broker = broker\n        self.seq = 0\n\n    def send(self, value, fail_ack_times=0):\n        seq = self.seq\n        self.seq += 1\n        attempts = 0\n        while True:\n            attempts += 1\n            ack = self.broker.append((\"p1\", seq), value)\n            if attempts > fail_ack_times:             # the first N acks are \"lost\" on the network\n                return attempts\n\nclass Broker:\n    def __init__(self, dedupe):\n        self.log, self.seen, self.dedupe = [], set(), dedupe\n\n    def append(self, pid_seq, value):\n        # store value; when self.dedupe is on, a (producer, sequence) pair already seen must not be\n        # stored again but should still be acknowledged. Always return True.\n        return True\n\nclass Consumer:\n    \"\"\"At-least-once consumer: commits after processing; a crash before the commit means reprocessing.\"\"\"\n    def __init__(self, log, handler):\n        self.log, self.handler, self.committed = log, handler, 0\n\n    def run(self, crash_after=None):\n        # process records from the committed offset, committing AFTER each is handled; when crash_after\n        # records have been handled in this call, return \"crashed\" before committing that last one;\n        # otherwise return \"done\" at the end of the log\n        return \"done\"\n\nfor dedupe in (False, True):\n    b = Broker(dedupe); p = Producer(b)\n    p.send(\"a\"); p.send(\"b\", fail_ack_times=2); p.send(\"c\")\n    print(\"idempotence\" if dedupe else \"plain retries\", \"->\", b.log)\n\nb = Broker(True); p = Producer(b)\nfor v in \"abc\": p.send(v)\nseen = []\nc = Consumer(b.log, seen.append)\nprint(c.run(crash_after=2), seen, \"committed\", c.committed)\nprint(c.run(), seen, \"committed\", c.committed)\neffects = {}\ndef idempotent(v): effects[v] = effects.get(v, 0) + 1\nc2 = Consumer(b.log, lambda v: idempotent(v)); c2.run(crash_after=2); c2.run()\nprint(\"side effects by key (naive):\", effects)\ndone = set(); applied = []\ndef dedup_handler(v):\n    if v not in done:\n        done.add(v); applied.append(v)\nc3 = Consumer(b.log, dedup_handler); c3.run(crash_after=2); c3.run()\nprint(\"applied with idempotent handler:\", applied)\n",
+    "expected": "plain retries -> ['a', 'b', 'b', 'b', 'c']\nidempotence -> ['a', 'b', 'c']\ncrashed ['a', 'b'] committed 1\ndone ['a', 'b', 'b', 'c'] committed 3\nside effects by key (naive): {'a': 1, 'b': 2, 'c': 1}\napplied with idempotent handler: ['a', 'b', 'c']",
+    "solution": "class Producer:\n    \"\"\"Idempotent producer model: retries after a lost ack must not create duplicates.\"\"\"\n    def __init__(self, broker):\n        self.broker = broker\n        self.seq = 0\n\n    def send(self, value, fail_ack_times=0):\n        seq = self.seq\n        self.seq += 1\n        attempts = 0\n        while True:\n            attempts += 1\n            ack = self.broker.append((\"p1\", seq), value)\n            if attempts > fail_ack_times:             # the first N acks are \"lost\" on the network\n                return attempts\n\nclass Broker:\n    def __init__(self, dedupe):\n        self.log, self.seen, self.dedupe = [], set(), dedupe\n\n    def append(self, pid_seq, value):\n        if self.dedupe and pid_seq in self.seen:\n            return True                                # duplicate detected, already stored\n        self.seen.add(pid_seq)\n        self.log.append(value)\n        return True\n\nclass Consumer:\n    \"\"\"At-least-once consumer: commits after processing; a crash before the commit means reprocessing.\"\"\"\n    def __init__(self, log, handler):\n        self.log, self.handler, self.committed = log, handler, 0\n\n    def run(self, crash_after=None):\n        processed = 0\n        while self.committed < len(self.log):\n            self.handler(self.log[self.committed])\n            processed += 1\n            if crash_after is not None and processed == crash_after:\n                return \"crashed\"                       # processed but not yet committed\n            self.committed += 1\n        return \"done\"\n\nfor dedupe in (False, True):\n    b = Broker(dedupe); p = Producer(b)\n    p.send(\"a\"); p.send(\"b\", fail_ack_times=2); p.send(\"c\")\n    print(\"idempotence\" if dedupe else \"plain retries\", \"->\", b.log)\n\nb = Broker(True); p = Producer(b)\nfor v in \"abc\": p.send(v)\nseen = []\nc = Consumer(b.log, seen.append)\nprint(c.run(crash_after=2), seen, \"committed\", c.committed)\nprint(c.run(), seen, \"committed\", c.committed)\neffects = {}\ndef idempotent(v): effects[v] = effects.get(v, 0) + 1\nc2 = Consumer(b.log, lambda v: idempotent(v)); c2.run(crash_after=2); c2.run()\nprint(\"side effects by key (naive):\", effects)\ndone = set(); applied = []\ndef dedup_handler(v):\n    if v not in done:\n        done.add(v); applied.append(v)\nc3 = Consumer(b.log, dedup_handler); c3.run(crash_after=2); c3.run()\nprint(\"applied with idempotent handler:\", applied)\n",
+    "explain": "Sequence numbers let the broker drop duplicate retries, while commit-after-processing gives at-least-once delivery, so side effects must be idempotent. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
