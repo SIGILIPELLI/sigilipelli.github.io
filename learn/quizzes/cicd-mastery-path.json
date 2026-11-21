@@ -1,0 +1,2159 @@
+{
+ "course": "cicd-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-ci-cd-is": {
+   "questions": [
+    {
+     "q": "What distinguishes Continuous Deployment from Continuous Delivery?",
+     "options": [
+      "Deployment has no tests",
+      "They are the same",
+      "Delivery means deploying weekly",
+      "Deployment releases every passing change to production automatically; delivery keeps every change releasable but a human decides when"
+     ],
+     "answer": 3,
+     "explain": "Delivery has a manual gate; deployment doesn't."
+    },
+    {
+     "q": "What does Continuous Integration require at minimum?",
+     "options": [
+      "A Kubernetes cluster",
+      "Frequent merges to a shared mainline, with every change automatically built and tested",
+      "Weekly integration branches",
+      "Manual QA before merge"
+     ],
+     "answer": 1,
+     "explain": "Small frequent merges keep integration pain low."
+    },
+    {
+     "q": "Why does the course say the pipeline ideas were demonstrated with minici rather than GitHub Actions?",
+     "options": [
+      "Jenkins can't run pipelines",
+      "GitHub Actions is deprecated",
+      "No Actions runner or Jenkins server was available when it was written, so the ideas were run locally and the platform syntax comes from documentation",
+      "minici is the official tool"
+     ],
+     "answer": 2,
+     "explain": "The course states honestly what was and wasn't run."
+    },
+    {
+     "q": "Before CI/CD, what was the typical integration failure?",
+     "options": [
+      "Weeks of separate branches merged the night before a release, producing a large, risky merge",
+      "Daily merges",
+      "Automatic rollbacks",
+      "Feature flags"
+     ],
+     "answer": 0,
+     "explain": "CI shrinks the batch size."
+    }
+   ]
+  },
+  "level-1/02-pipeline-anatomy": {
+   "questions": [
+    {
+     "q": "In GitHub Actions vocabulary, what is the `needs:` keyword for?",
+     "options": [
+      "Choosing a runner",
+      "Installing packages",
+      "Declaring that a job depends on other jobs finishing first",
+      "Setting secrets"
+     ],
+     "answer": 2,
+     "explain": "It expresses ordering between jobs."
+    },
+    {
+     "q": "Which is a job and which is a step?",
+     "options": [
+      "A job is a unit of work on one runner with its own clean workspace; a step is one command or action inside it",
+      "They are identical",
+      "Steps contain jobs",
+      "A job is a trigger"
+     ],
+     "answer": 0,
+     "explain": "Jobs run in parallel unless they declare needs."
+    },
+    {
+     "q": "What is a trigger?",
+     "options": [
+      "An artifact",
+      "A cache",
+      "The event that starts a pipeline run, such as push, pull_request, schedule or manual dispatch",
+      "A step"
+     ],
+     "answer": 2,
+     "explain": "A pipeline should start for a reason you can name."
+    },
+    {
+     "q": "In Jenkins Declarative pipelines, what plays the role GitHub's `runs-on:` plays?",
+     "options": [
+      "post",
+      "agent { ... }, which selects the machine or container",
+      "stage",
+      "options"
+     ],
+     "answer": 1,
+     "explain": "Both name where work executes."
+    }
+   ]
+  },
+  "level-1/03-github-actions-essentials": {
+   "questions": [
+    {
+     "q": "What does `concurrency` with `cancel-in-progress: true` do in the sample workflow?",
+     "options": [
+      "Runs two jobs at once",
+      "Disables caching",
+      "Increases the timeout",
+      "Cancels an older in-flight run of the same group when a newer one starts"
+     ],
+     "answer": 3,
+     "explain": "The group is keyed by workflow and ref."
+    },
+    {
+     "q": "Why does the sample set `permissions: contents: read`?",
+     "options": [
+      "Least privilege: the token gets only read access unless a job asks for more",
+      "To speed up checkout",
+      "To allow deployment",
+      "To enable secrets"
+     ],
+     "answer": 0,
+     "explain": "The default token may be read-write."
+    },
+    {
+     "q": "What does a matrix of two Python versions with `fail-fast: false` do?",
+     "options": [
+      "Runs sequentially",
+      "Picks one version",
+      "Runs both versions even if one fails, so you see every result",
+      "Stops at the first failure"
+     ],
+     "answer": 2,
+     "explain": "fail-fast: true cancels remaining cells."
+    },
+    {
+     "q": "Why set `timeout-minutes` on a job?",
+     "options": [
+      "It enables caching",
+      "It speeds up tests",
+      "A hung job would otherwise run until the platform limit, wasting hours",
+      "It's required syntax"
+     ],
+     "answer": 2,
+     "explain": "Linter rule W004 flags its absence."
+    }
+   ]
+  },
+  "level-1/04-jenkins-essentials": {
+   "questions": [
+    {
+     "q": "What's the Jenkins controller's job, and what should NOT run on it?",
+     "options": [
+      "It hosts the UI, job definitions, credentials and queue; keep builds off it and run them on agents",
+      "It runs all builds",
+      "It only stores logs",
+      "It is the SCM"
+     ],
+     "answer": 0,
+     "explain": "Agents execute the work."
+    },
+    {
+     "q": "How do jobs choose an agent?",
+     "options": [
+      "By file name",
+      "By commit author",
+      "By label, such as 'linux && docker'",
+      "Randomly"
+     ],
+     "answer": 2,
+     "explain": "Labels describe capabilities."
+    },
+    {
+     "q": "What is the main operational burden of Jenkins plugins?",
+     "options": [
+      "Each plugin is code with controller privileges, with its own update and vulnerability cadence",
+      "They are slow to install",
+      "They can't be disabled",
+      "They cost money"
+     ],
+     "answer": 0,
+     "explain": "Plugin sprawl is a scaling risk."
+    },
+    {
+     "q": "What does `parallel {}` inside a Declarative pipeline do?",
+     "options": [
+      "Skips them",
+      "Runs the contained stages at the same time",
+      "Repeats them",
+      "Locks them"
+     ],
+     "answer": 1,
+     "explain": "Sequential stages run in order."
+    }
+   ]
+  },
+  "level-1/05-testing-gates": {
+   "questions": [
+    {
+     "q": "Two jobs: a 3-second integration suite that fails and a 0.1-second unit suite that fails. How does ordering affect feedback?",
+     "options": [
+      "Integration first is faster",
+      "Running unit first reports the failure in 0.1 s versus 3.1 s: same checks, 30x faster feedback",
+      "No difference",
+      "Only parallelism matters"
+     ],
+     "answer": 1,
+     "explain": "Order gates by cost and likelihood of failing."
+    },
+    {
+     "q": "What shape does the test pyramid recommend?",
+     "options": [
+      "Equal numbers",
+      "Many fast unit tests, fewer integration tests and very few end-to-end tests",
+      "Mostly UI tests",
+      "Only integration"
+     ],
+     "answer": 1,
+     "explain": "The reverse (an ice-cream cone) is slow and flaky."
+    },
+    {
+     "q": "Where should static checks like lint and type checks go?",
+     "options": [
+      "Only on main",
+      "Never",
+      "First: they take seconds and catch cheap mistakes",
+      "Last"
+     ],
+     "answer": 2,
+     "explain": "Surface problems early and cheaply."
+    },
+    {
+     "q": "What's a gate?",
+     "options": [
+      "A log level",
+      "A load balancer",
+      "A check that must pass before a change moves on",
+      "A cache key"
+     ],
+     "answer": 2,
+     "explain": "Most pipeline value comes from the gates and their order."
+    }
+   ]
+  },
+  "level-1/06-reproducible-builds-caching": {
+   "questions": [
+    {
+     "q": "Which practice makes a build more reproducible?",
+     "options": [
+      "Embed timestamps",
+      "Fetch newest packages",
+      "Use :latest images",
+      "Pin dependencies with a lockfile, the toolchain version and base images by digest"
+     ],
+     "answer": 3,
+     "explain": "Otherwise the build is a function of the internet."
+    },
+    {
+     "q": "What should a cache key be derived from?",
+     "options": [
+      "The hash of the inputs, such as the lockfile, rather than the date",
+      "The calendar day",
+      "The branch name only",
+      "A random value"
+     ],
+     "answer": 0,
+     "explain": "Same inputs, same key; changed lockfile, new key."
+    },
+    {
+     "q": "Why is `image:latest` a reproducibility problem?",
+     "options": [
+      "It's slow",
+      "It's mutable: the same tag can point to a different image tomorrow",
+      "It uses more disk",
+      "It's not allowed"
+     ],
+     "answer": 1,
+     "explain": "Use image@sha256 digests."
+    },
+    {
+     "q": "What does a bit-for-bit reproducible build guarantee?",
+     "options": [
+      "Smaller artifacts",
+      "No tests needed",
+      "Faster builds",
+      "Two machines building the same inputs produce identical bytes, useful for supply-chain verification"
+     ],
+     "answer": 3,
+     "explain": "It's a stronger goal than ordinary repeatability."
+    }
+   ]
+  },
+  "level-1/07-artifacts-versioning": {
+   "questions": [
+    {
+     "q": "What is the rule about promoting a build to production?",
+     "options": [
+      "Rebuild for each environment",
+      "Build once and promote the same artifact (same digest) through staging to production",
+      "Use latest tag",
+      "Build on production"
+     ],
+     "answer": 1,
+     "explain": "Rebuilding deploys something you never tested."
+    },
+    {
+     "q": "Under Semantic Versioning, which change bumps MAJOR?",
+     "options": [
+      "A bug fix",
+      "An incompatible change to the public API",
+      "A docs update",
+      "A new backward-compatible feature"
+     ],
+     "answer": 1,
+     "explain": "MINOR is features, PATCH is fixes."
+    },
+    {
+     "q": "Why mirror public dependencies in a private registry?",
+     "options": [
+      "It removes tests",
+      "A public outage or package removal won't break your builds",
+      "It's faster to type",
+      "It's required by law"
+     ],
+     "answer": 1,
+     "explain": "The left-pad incident is the example."
+    },
+    {
+     "q": "Why address a container image by digest as well as tag?",
+     "options": [
+      "Tags can be moved; a digest identifies exact content",
+      "Digests are shorter",
+      "Tags are encrypted",
+      "Digests are optional documentation"
+     ],
+     "answer": 0,
+     "explain": "Immutability is the point of an artifact."
+    }
+   ]
+  },
+  "level-1/08-secrets-in-pipelines": {
+   "questions": [
+    {
+     "q": "A secret is committed then deleted in the next commit. Is it safe?",
+     "options": [
+      "No: Git history keeps it, so revoke and rotate it",
+      "Yes if private repo",
+      "Yes after a squash only",
+      "Yes, deleted"
+     ],
+     "answer": 0,
+     "explain": "Treat it as compromised."
+    },
+    {
+     "q": "Why are secrets passed on command lines risky?",
+     "options": [
+      "They are encrypted",
+      "They expire",
+      "They're visible to other processes (ps) and often logged",
+      "The shell rejects them"
+     ],
+     "answer": 2,
+     "explain": "Prefer environment variables injected into only the needed step."
+    },
+    {
+     "q": "Which pull-request scenario exposes secrets to untrusted code?",
+     "options": [
+      "Workflows triggered by forks that can read secrets",
+      "Draft PRs",
+      "Closed PRs",
+      "Pull requests from the same repo with read-only tokens"
+     ],
+     "answer": 0,
+     "explain": "Untrusted code must not receive secrets."
+    },
+    {
+     "q": "What does 'scope narrowly, inject late' mean?",
+     "options": [
+      "Print secrets for debugging",
+      "Share one token everywhere",
+      "Put secrets in the image",
+      "Give each environment/job only the secrets it needs, exposed only to the step that uses them"
+     ],
+     "answer": 3,
+     "explain": "A single all-powerful token makes any leak catastrophic."
+    }
+   ]
+  },
+  "level-1/09-branching-pr-checks": {
+   "questions": [
+    {
+     "q": "Two branches each pass tests alone but fail when combined. What does this show?",
+     "options": [
+      "Tests are flaky",
+      "The branches are fine",
+      "PR checks must run on what will actually merge (the merged result), not the branch alone",
+      "The base is wrong"
+     ],
+     "answer": 2,
+     "explain": "A rename plus a new caller of the old name broke after the merge."
+    },
+    {
+     "q": "Which branching strategy integrates continuously with very short-lived branches?",
+     "options": [
+      "GitFlow",
+      "Forking per developer",
+      "Long-lived release branches",
+      "Trunk-based development, usually with feature flags"
+     ],
+     "answer": 3,
+     "explain": "Longer-lived branches mean riskier merges."
+    },
+    {
+     "q": "When is GitFlow a reasonable fit?",
+     "options": [
+      "Hourly releases",
+      "Solo projects",
+      "Software shipped in discrete versions with long support windows",
+      "Continuously deployed SaaS"
+     ],
+     "answer": 2,
+     "explain": "It integrates per release."
+    },
+    {
+     "q": "What should a PR pipeline answer within minutes?",
+     "options": [
+      "Has it been deployed",
+      "Is the CEO happy",
+      "What is the cloud bill",
+      "Does it build, do tests/lint/type checks pass, are there security findings, who needs to review"
+     ],
+     "answer": 3,
+     "explain": "Fast feedback before merge."
+    }
+   ]
+  },
+  "level-1/10-project-local-ci-runner": {
+   "questions": [
+    {
+     "q": "In minici, what happens to a job whose dependency failed?",
+     "options": [
+      "It runs anyway",
+      "It's skipped unless it has `if: always()`",
+      "It retries forever",
+      "It deletes the cache"
+     ],
+     "answer": 1,
+     "explain": "Same idea as GitHub's default behaviour."
+    },
+    {
+     "q": "Why does minici refuse unsupported `${{ }}` expressions?",
+     "options": [
+      "They are slow",
+      "YAML forbids them",
+      "Silently ignoring them would make a pipeline appear to work while skipping logic",
+      "They are secrets"
+     ],
+     "answer": 2,
+     "explain": "Fail loudly."
+    },
+    {
+     "q": "Why run step scripts with `set -eo pipefail`?",
+     "options": [
+      "So a failing command in a pipeline fails the step instead of being hidden",
+      "It loads secrets",
+      "It enables colour",
+      "It speeds up scripts"
+     ],
+     "answer": 0,
+     "explain": "A step otherwise reports only the last command's status."
+    },
+    {
+     "q": "When does the runner save a cache?",
+     "options": [
+      "Never",
+      "Only on success",
+      "Always",
+      "Only on failure"
+     ],
+     "answer": 1,
+     "explain": "A failed build could save a poisoned cache."
+    }
+   ]
+  },
+  "level-2/01-matrix-parallelism": {
+   "questions": [
+    {
+     "q": "A 3x3 os/python matrix with one exclude and one include that matches no cell. How many jobs?",
+     "options": [
+      "8",
+      "7",
+      "9 (9 - 1 + 1)",
+      "10"
+     ],
+     "answer": 2,
+     "explain": "The unmatched include adds a new job."
+    },
+    {
+     "q": "How does `exclude` match?",
+     "options": [
+      "It removes the first row",
+      "It removes by name",
+      "It only works on os",
+      "A combination is removed when it matches all the keys given; a partial pattern removes every combination containing those values"
+     ],
+     "answer": 3,
+     "explain": "Include matches existing cells or adds a new one."
+    },
+    {
+     "q": "When does `include` add a new job instead of extending an existing one?",
+     "options": [
+      "When fail-fast is false",
+      "When it matches no existing combination",
+      "Never",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "This trips people up."
+    },
+    {
+     "q": "Why is a matrix a trade-off?",
+     "options": [
+      "It removes parallelism",
+      "It multiplies coverage but also compute minutes and queue time",
+      "It's free",
+      "It reduces coverage"
+     ],
+     "answer": 1,
+     "explain": "Billed minutes sum every cell."
+    }
+   ]
+  },
+  "level-2/02-cache-design": {
+   "questions": [
+    {
+     "q": "The lockfile changes when a dependency is bumped. What happens to a lockfile-hash cache key?",
+     "options": [
+      "It changes, so the cache rebuilds, and reverting restores the original key's entry",
+      "It stays",
+      "It's deleted forever",
+      "It becomes random"
+     ],
+     "answer": 0,
+     "explain": "The key is deterministic over the inputs."
+    },
+    {
+     "q": "Why hash a lockfile rather than a loose requirements list?",
+     "options": [
+      "It's required by Actions",
+      "`flask>=3` resolves to different packages over time while its file hash stays the same",
+      "Lockfiles are shorter",
+      "Hash is faster"
+     ],
+     "answer": 1,
+     "explain": "The key must capture what determined the contents."
+    },
+    {
+     "q": "What are restore keys for?",
+     "options": [
+      "Security",
+      "Faster hashing",
+      "Deleting caches",
+      "Partial hits: restore the closest older cache when the exact key misses"
+     ],
+     "answer": 3,
+     "explain": "Most packages didn't change."
+    },
+    {
+     "q": "What is cache poisoning?",
+     "options": [
+      "A slow restore",
+      "Bad content saved into a shared cache that later builds then trust",
+      "A full disk",
+      "An expired key"
+     ],
+     "answer": 1,
+     "explain": "Scope caches and avoid saving from untrusted PRs."
+    }
+   ]
+  },
+  "level-2/03-reusable-pipelines": {
+   "questions": [
+    {
+     "q": "When should you choose a reusable workflow over a composite action?",
+     "options": [
+      "For a few steps in one job",
+      "When the shared unit needs its own runner, permissions or matrix (it delegates a whole job)",
+      "For caches only",
+      "For documentation"
+     ],
+     "answer": 1,
+     "explain": "Composite actions share steps inside a job."
+    },
+    {
+     "q": "How do reusable workflows receive secrets, and which is preferred?",
+     "options": [
+      "They can't",
+      "Passed explicitly or via `secrets: inherit`; explicit is preferred",
+      "Inherit is always best",
+      "Only through inputs"
+     ],
+     "answer": 1,
+     "explain": "Inputs are plain values, not secret."
+    },
+    {
+     "q": "Why was the top-level `on` key read as the boolean True in PyYAML?",
+     "options": [
+      "It's reserved",
+      "YAML 1.1 treats `on` as a boolean",
+      "It's a bug in Actions",
+      "It means push"
+     ],
+     "answer": 1,
+     "explain": "Tools parsing workflows must account for it."
+    },
+    {
+     "q": "What is the gain of reusable pipelines across 15 repos?",
+     "options": [
+      "No YAML",
+      "No permissions",
+      "One place to fix a security patch instead of fifteen copies",
+      "Faster jobs"
+     ],
+     "answer": 2,
+     "explain": "Reuse is a maintenance and security lever."
+    }
+   ]
+  },
+  "level-2/04-containers-in-ci": {
+   "questions": [
+    {
+     "q": "A database service container is started but tests fail on the first query. Why?",
+     "options": [
+      "Matrix problem",
+      "Postgres can't run in CI",
+      "Started is not ready: the process launched but isn't accepting queries; add a health check",
+      "The image is wrong"
+     ],
+     "answer": 2,
+     "explain": "The sample uses --health-cmd pg_isready."
+    },
+    {
+     "q": "How do steps inside a `container:` job reach a service named db?",
+     "options": [
+      "By IP only",
+      "localhost only",
+      "Via the host name db (the service name) on its port",
+      "They can't"
+     ],
+     "answer": 2,
+     "explain": "Service name is the DNS name."
+    },
+    {
+     "q": "What's the risk of `container: python:3.12-slim`?",
+     "options": [
+      "It needs root",
+      "It's too small",
+      "It disables caching",
+      "The tag is mutable and may change under you; pin by digest for reproducibility"
+     ],
+     "answer": 3,
+     "explain": "Mutable tags break reproducibility."
+    },
+    {
+     "q": "What does this lesson say honestly about what was run?",
+     "options": [
+      "Kubernetes ran it",
+      "Everything was run in Docker",
+      "No container was built or run; the syntax comes from documentation",
+      "Only Jenkins ran"
+     ],
+     "answer": 2,
+     "explain": "No container runtime was available."
+    }
+   ]
+  },
+  "level-2/05-test-reports-flaky": {
+   "questions": [
+    {
+     "q": "A suite has 100 tests, each flaking with probability 0.1%. How often is it green on correct code?",
+     "options": [
+      "99.9%",
+      "50%",
+      "10%",
+      "About 90.5% ((0.999)^100)"
+     ],
+     "answer": 3,
+     "explain": "Flakes compound: P(green) = (1-p)^n."
+    },
+    {
+     "q": "A 500-test suite with a 1% per-test flake rate is green how often?",
+     "options": [
+      "37%",
+      "90%",
+      "About 0.7%",
+      "50%"
+     ],
+     "answer": 2,
+     "explain": "(0.99)^500 is roughly 0.0066."
+    },
+    {
+     "q": "What is a flaky test?",
+     "options": [
+      "One that passes and fails on the same code",
+      "A test with no asserts",
+      "A slow test",
+      "A failing test"
+     ],
+     "answer": 0,
+     "explain": "A few hundred make the pipeline random."
+    },
+    {
+     "q": "Why is rerunning until green a bad habit?",
+     "options": [
+      "It hides flakes and teaches people to ignore red builds; fix or quarantine them with a flake budget",
+      "Reruns are free",
+      "It speeds up merges",
+      "It improves coverage"
+     ],
+     "answer": 0,
+     "explain": "Trust in the pipeline erodes."
+    }
+   ]
+  },
+  "level-2/06-quality-gates": {
+   "questions": [
+    {
+     "q": "A module has 100% line and branch coverage and a pricing bug passes the weak test suite. What does this show?",
+     "options": [
+      "Branch coverage is wrong",
+      "Coverage shows what code ran, not that behaviour was checked; assertions matter",
+      "The bug is fake",
+      "Coverage is useless"
+     ],
+     "answer": 1,
+     "explain": "A strong suite with the same coverage caught the bug."
+    },
+    {
+     "q": "What does mutation testing check?",
+     "options": [
+      "Code style",
+      "Whether tests fail when small changes (like > to >=) are made to the code",
+      "Memory use",
+      "Test speed"
+     ],
+     "answer": 1,
+     "explain": "It gives evidence tests check behaviour."
+    },
+    {
+     "q": "What is a quality gate?",
+     "options": [
+      "A secret",
+      "A log level",
+      "A check whose failure blocks a merge or deployment",
+      "An artifact"
+     ],
+     "answer": 2,
+     "explain": "Examples: tests, coverage not dropping, lint, vulnerabilities."
+    },
+    {
+     "q": "Which signal can coverage legitimately give?",
+     "options": [
+      "Absence of bugs",
+      "Proof of correctness",
+      "Finding code that no test touches",
+      "Proof of good assertions"
+     ],
+     "answer": 2,
+     "explain": "It can't find missing assertions."
+    }
+   ]
+  },
+  "level-2/07-environments-approvals": {
+   "questions": [
+    {
+     "q": "Why attach secrets to an environment rather than the repository?",
+     "options": [
+      "Environments are faster",
+      "Repository secrets don't exist",
+      "No difference",
+      "Repository secrets are visible to every job; environment secrets are only released to jobs that pass the environment's protection rules"
+     ],
+     "answer": 3,
+     "explain": "Protection rules gate access."
+    },
+    {
+     "q": "What do required reviewers do on an environment?",
+     "options": [
+      "Choose runners",
+      "Pause the deploy job until an approver signs off",
+      "Run tests",
+      "Review code"
+     ],
+     "answer": 1,
+     "explain": "A waiting job doesn't consume a runner."
+    },
+    {
+     "q": "What do branch restrictions on an environment do?",
+     "options": [
+      "Allow only workflows from specific branches (e.g. main) to deploy there",
+      "Merge PRs",
+      "Rename branches",
+      "Delete branches"
+     ],
+     "answer": 0,
+     "explain": "They stop feature branches from deploying to production."
+    },
+    {
+     "q": "What happens to a run waiting for approval for too long?",
+     "options": [
+      "It's eventually cancelled (documented limit around 30 days)",
+      "It waits forever",
+      "It deploys",
+      "It's approved"
+     ],
+     "answer": 0,
+     "explain": "Stale approvals silently expire."
+    }
+   ]
+  },
+  "level-2/08-runners-agents": {
+   "questions": [
+    {
+     "q": "What's the main risk of a persistent self-hosted runner workspace?",
+     "options": [
+      "It's slower to boot",
+      "It costs per minute",
+      "It can't run Linux",
+      "Stale files from earlier builds can make a build pass or fail depending on leftovers"
+     ],
+     "answer": 3,
+     "explain": "The lesson demonstrates this with minici."
+    },
+    {
+     "q": "When is a self-hosted runner justified?",
+     "options": [
+      "Needs hosted runners can't meet: GPUs, ARM, private network access, special hardware",
+      "For public forks",
+      "To avoid patching",
+      "Always cheaper"
+     ],
+     "answer": 0,
+     "explain": "You own patching and isolation."
+    },
+    {
+     "q": "Which runs jobs in a fresh VM discarded afterwards?",
+     "options": [
+      "Agents on bare metal",
+      "Hosted runners",
+      "Controllers",
+      "Self-hosted runners always"
+     ],
+     "answer": 1,
+     "explain": "Isolation is a hosted-runner strength."
+    },
+    {
+     "q": "Why is running untrusted PR code on a persistent self-hosted runner dangerous?",
+     "options": [
+      "It's disallowed by YAML",
+      "It breaks caching only",
+      "It slows tests",
+      "It can persist malware or steal credentials between jobs"
+     ],
+     "answer": 3,
+     "explain": "Use ephemeral runners for untrusted code."
+    }
+   ]
+  },
+  "level-2/09-monorepos-path-filters": {
+   "questions": [
+    {
+     "q": "30 services at 12 minutes each, run on every push: what's the cost?",
+     "options": [
+      "About 6 hours of runner time per push",
+      "12 minutes",
+      "1 hour",
+      "30 minutes"
+     ],
+     "answer": 0,
+     "explain": "Hence path filters and affected-only builds."
+    },
+    {
+     "q": "What does `paths:` do in a workflow trigger?",
+     "options": [
+      "Runs the workflow only when changed files match the patterns",
+      "Sets the working directory",
+      "Defines cache paths",
+      "Lists secrets"
+     ],
+     "answer": 0,
+     "explain": "paths-ignore is the inverse."
+    },
+    {
+     "q": "Why must path filters include shared libraries a service depends on?",
+     "options": [
+      "A change in libs/common can break the service even if its own files didn't change",
+      "Libraries are slow",
+      "It enables caching",
+      "Filters require it"
+     ],
+     "answer": 0,
+     "explain": "Missing dependencies lead to false greens."
+    },
+    {
+     "q": "What does the course's pathfilter map?",
+     "options": [
+      "Users to teams",
+      "Jobs to runners",
+      "Changed files to the projects they affect, tested with a real temporary Git repo",
+      "Branches to tags"
+     ],
+     "answer": 2,
+     "explain": "Nine tests pass."
+    }
+   ]
+  },
+  "level-2/10-project-workflow-linter": {
+   "questions": [
+    {
+     "q": "What does rule W003 flag?",
+     "options": [
+      "`uses:` not pinned to a 40-hex commit SHA",
+      "Missing timeout",
+      "Missing concurrency",
+      "Missing permissions"
+     ],
+     "answer": 0,
+     "explain": "Tags can be moved; a SHA cannot."
+    },
+    {
+     "q": "Why is `pull_request_target` checking out the PR head dangerous (W002)?",
+     "options": [
+      "Untrusted code runs with a privileged token and secrets",
+      "It's slow",
+      "It skips tests",
+      "It doubles runs"
+     ],
+     "answer": 0,
+     "explain": "A classic supply-chain attack path."
+    },
+    {
+     "q": "What is script injection (W005)?",
+     "options": [
+      "A caching bug",
+      "A syntax error",
+      "Untrusted `${{ github.event... }}` text interpolated into a run: script, letting an attacker execute commands",
+      "A slow script"
+     ],
+     "answer": 2,
+     "explain": "Pass values via env instead."
+    },
+    {
+     "q": "Why does a deploy job need `concurrency:` (W006)?",
+     "options": [
+      "Two runs could deploy at once and the older one may finish last, leaving an old version live",
+      "For speed",
+      "For secrets",
+      "For caching"
+     ],
+     "answer": 0,
+     "explain": "Serialise deploys."
+    }
+   ]
+  },
+  "level-3/01-deployment-strategies": {
+   "questions": [
+    {
+     "q": "Which strategy has downtime between stopping the old version and starting the new?",
+     "options": [
+      "Blue-green",
+      "Canary",
+      "Recreate",
+      "Rolling"
+     ],
+     "answer": 2,
+     "explain": "It's simple and fine for maintenance windows."
+    },
+    {
+     "q": "What is the main risk of a rolling deployment?",
+     "options": [
+      "Old and new versions serve traffic at the same time, so they must be compatible",
+      "No rollback",
+      "Downtime",
+      "Needs a full second copy"
+     ],
+     "answer": 0,
+     "explain": "Rolling replaces instances a few at a time."
+    },
+    {
+     "q": "What does blue-green give you?",
+     "options": [
+      "No extra capacity",
+      "No database concerns",
+      "Gradual traffic",
+      "An instant switch of traffic, and an instant switch back while the old environment is kept alive"
+     ],
+     "answer": 3,
+     "explain": "Cost: a whole second environment, and shared databases still need compatible changes."
+    },
+    {
+     "q": "What does a canary release need to be safe?",
+     "options": [
+      "Good metrics and enough traffic to detect a problem on the small share",
+      "A second database",
+      "A manual approval only",
+      "Downtime"
+     ],
+     "answer": 0,
+     "explain": "Send traffic back to 0% to roll back."
+    }
+   ]
+  },
+  "level-3/02-feature-flags": {
+   "questions": [
+    {
+     "q": "What do feature flags decouple?",
+     "options": [
+      "Commit from push",
+      "Build from test",
+      "Cache from key",
+      "Deploy (code on servers) from release (behaviour exposed to users)"
+     ],
+     "answer": 3,
+     "explain": "A flag off means a deploy isn't a launch."
+    },
+    {
+     "q": "Why is a percentage rollout based on a hash of flag and user id?",
+     "options": [
+      "A user gets a consistent answer, and widening from 10% to 20% keeps the earlier 10% enabled (a subset)",
+      "It uses the clock",
+      "It's random per request",
+      "It's faster than counting"
+     ],
+     "answer": 0,
+     "explain": "The sample showed a 10% set is a subset of the 20% set."
+    },
+    {
+     "q": "Why are flags the usual fastest rollback for a bad release?",
+     "options": [
+      "They need approval",
+      "They rebuild the image",
+      "They delete code",
+      "Reverting a value takes seconds, no redeploy"
+     ],
+     "answer": 3,
+     "explain": "Remove stale flags afterwards."
+    },
+    {
+     "q": "What problem do long-lived flags cause?",
+     "options": [
+      "Accumulated untested combinations and dead code paths",
+      "Smaller artifacts",
+      "No problems",
+      "Faster builds"
+     ],
+     "answer": 0,
+     "explain": "Clean up flags once rollout completes."
+    }
+   ]
+  },
+  "level-3/03-database-migrations": {
+   "questions": [
+    {
+     "q": "Why does a direct `RENAME COLUMN name TO full_name` break a rolling deploy?",
+     "options": [
+      "Old code still running (or after a rollback) queries `name` and fails immediately",
+      "The new code breaks",
+      "It's slow",
+      "SQLite forbids it"
+     ],
+     "answer": 0,
+     "explain": "Verified in SQLite in the lesson."
+    },
+    {
+     "q": "What is the expand/migrate/contract pattern?",
+     "options": [
+      "Lock the table",
+      "Drop then add",
+      "Add the new column compatibly, migrate data and code, then remove the old column in a later release",
+      "Rename then restart"
+     ],
+     "answer": 2,
+     "explain": "Each step is compatible with its neighbours."
+    },
+    {
+     "q": "Why can't you just roll back a destructive schema change?",
+     "options": [
+      "The data or column is gone, and old code breaks",
+      "Rollbacks are disabled",
+      "Migrations are immutable",
+      "It needs approval"
+     ],
+     "answer": 0,
+     "explain": "Only additive changes are easy to roll back."
+    },
+    {
+     "q": "What should the new column be at the expand step?",
+     "options": [
+      "Nullable, with no constraint the old code would violate",
+      "NOT NULL without default",
+      "A foreign key",
+      "A unique index"
+     ],
+     "answer": 0,
+     "explain": "Old code ignores it."
+    }
+   ]
+  },
+  "level-3/04-rollbacks": {
+   "questions": [
+    {
+     "q": "Which change can a rollback restore?",
+     "options": [
+      "Stateless application code and configuration/flag values",
+      "Published messages",
+      "Sent emails",
+      "Dropped columns"
+     ],
+     "answer": 0,
+     "explain": "Redeploy the previous artifact or revert the value."
+    },
+    {
+     "q": "Which of these can a rollback NOT undo?",
+     "options": [
+      "A flag value",
+      "A container image",
+      "A config file",
+      "External effects such as emails, payments and API calls"
+     ],
+     "answer": 3,
+     "explain": "Plan forward fixes for such effects."
+    },
+    {
+     "q": "In GitOps, what is a rollback?",
+     "options": [
+      "A restart",
+      "A revert in Git that the reconciler applies",
+      "A manual kubectl edit",
+      "A DNS change"
+     ],
+     "answer": 1,
+     "explain": "The simulator models this."
+    },
+    {
+     "q": "Why is 'we can always roll back' risky?",
+     "options": [
+      "It's always true",
+      "Rollbacks cost money",
+      "It's only true for some changes; data and external effects may be irreversible",
+      "Rollbacks are slow"
+     ],
+     "answer": 2,
+     "explain": "The most expensive sentence in delivery."
+    }
+   ]
+  },
+  "level-3/05-infrastructure-pipelines": {
+   "questions": [
+    {
+     "q": "What should run on every pull request in an infrastructure repo?",
+     "options": [
+      "Destroy",
+      "Nothing",
+      "Apply",
+      "A plan, shown to reviewers, since one variable change can have large effects the HCL diff doesn't show"
+     ],
+     "answer": 3,
+     "explain": "Plan on PRs, apply on merge."
+    },
+    {
+     "q": "Why apply a saved plan (plan -out)?",
+     "options": [
+      "It guarantees the applied change is exactly what was reviewed",
+      "It's faster",
+      "It skips state",
+      "It avoids credentials"
+     ],
+     "answer": 0,
+     "explain": "A fresh plan on main may differ."
+    },
+    {
+     "q": "How should credentials differ between plan and apply jobs?",
+     "options": [
+      "Same admin key",
+      "Shared token",
+      "No credentials",
+      "Plan job read-only; apply job has write access only on the protected branch and environment"
+     ],
+     "answer": 3,
+     "explain": "Separate credentials limit blast radius."
+    },
+    {
+     "q": "Why serialise applies per state?",
+     "options": [
+      "To save money",
+      "To speed up",
+      "Concurrent applies could corrupt state; use locking and a concurrency group",
+      "To avoid reviews"
+     ],
+     "answer": 2,
+     "explain": "One at a time per state."
+    }
+   ]
+  },
+  "level-3/06-gitops": {
+   "questions": [
+    {
+     "q": "What is the GitOps reconciler's job?",
+     "options": [
+      "Build images",
+      "Continuously compare desired state in Git with actual state and apply the difference",
+      "Review PRs",
+      "Run unit tests"
+     ],
+     "answer": 1,
+     "explain": "Create what's missing, update what differs, optionally prune extras."
+    },
+    {
+     "q": "Someone sets web replicas to 10 by hand and adds a `debug` object. What does the simulator report?",
+     "options": [
+      "Nothing",
+      "A rollback",
+      "A failed build",
+      "Drift: web changed, debug extra; reconcile updates web and (with prune) deletes debug"
+     ],
+     "answer": 3,
+     "explain": "Git remains the source of truth."
+    },
+    {
+     "q": "What is the difference between push and GitOps deployment?",
+     "options": [
+      "No difference",
+      "GitOps needs no Git",
+      "Push uses no CI",
+      "Push: CI applies to the target; GitOps: a reconciler pulls and applies from Git"
+     ],
+     "answer": 3,
+     "explain": "Cluster credentials stay inside the cluster in the pull model."
+    },
+    {
+     "q": "What does `prune` do?",
+     "options": [
+      "Deletes objects that exist but aren't in Git",
+      "Adds objects",
+      "Pauses sync",
+      "Renames objects"
+     ],
+     "answer": 0,
+     "explain": "Without it extras survive."
+    }
+   ]
+  },
+  "level-3/07-release-management": {
+   "questions": [
+    {
+     "q": "Under Conventional Commits, which commit bumps MAJOR?",
+     "options": [
+      "`feat!: drop python 3.8` (or a BREAKING CHANGE footer)",
+      "refactor: x",
+      "fix: handle empty input",
+      "feat(api): add export"
+     ],
+     "answer": 0,
+     "explain": "! marks a breaking change."
+    },
+    {
+     "q": "Which bumps MINOR?",
+     "options": [
+      "docs: ...",
+      "feat(api): add export",
+      "fix: ...",
+      "chore: ..."
+     ],
+     "answer": 1,
+     "explain": "A new backward-compatible feature."
+    },
+    {
+     "q": "Why use machine-readable commit messages?",
+     "options": [
+      "They sign commits",
+      "A tool can compute the next version and write the changelog",
+      "They deploy",
+      "They're shorter"
+     ],
+     "answer": 1,
+     "explain": "semrel does this."
+    },
+    {
+     "q": "What does a changelog serve?",
+     "options": [
+      "Replacing tests",
+      "Hiding bugs",
+      "Caching",
+      "Telling consumers what changed between releases so they can judge upgrade risk"
+     ],
+     "answer": 3,
+     "explain": "Continuous delivery still needs release communication."
+    }
+   ]
+  },
+  "level-3/08-supply-chain-security": {
+   "questions": [
+    {
+     "q": "What is dependency confusion?",
+     "options": [
+      "A cache miss",
+      "A public package with the same name as your private one wins resolution",
+      "A broken link",
+      "A flaky test"
+     ],
+     "answer": 1,
+     "explain": "Use scoped registries."
+    },
+    {
+     "q": "How do you defend against a moved tag on a third-party action?",
+     "options": [
+      "Use a branch",
+      "Use latest",
+      "Pin to a full commit SHA",
+      "Trust the author"
+     ],
+     "answer": 2,
+     "explain": "A SHA can't be moved."
+    },
+    {
+     "q": "What did the checksum demo show?",
+     "options": [
+      "SHA-256 is reversible",
+      "Archives can't change",
+      "Checksums are optional",
+      "Tampering with an archive changes its SHA-256, so verification fails"
+     ],
+     "answer": 3,
+     "explain": "Verify downloads."
+    },
+    {
+     "q": "What is an SBOM for?",
+     "options": [
+      "Caching",
+      "Listing a build's components so vulnerable dependencies can be found",
+      "Signing",
+      "Speeding builds"
+     ],
+     "answer": 1,
+     "explain": "It helps with transitive dependencies."
+    }
+   ]
+  },
+  "level-3/09-dora-metrics": {
+   "questions": [
+    {
+     "q": "Which are the four DORA measures?",
+     "options": [
+      "Commits, PRs, bugs, tests",
+      "Coverage, lint, speed, cost",
+      "Deployment frequency, lead time for changes, change failure rate, time to restore",
+      "Uptime, MTBF, MTTR, SLA"
+     ],
+     "answer": 2,
+     "explain": "Two measure speed and two stability."
+    },
+    {
+     "q": "On the fixture, lead times are 2, 4, 6 and 1 hours and two of four deploys failed. What are the average lead time and change failure rate?",
+     "options": [
+      "4 hours and 25%",
+      "3.25 hours and 50%",
+      "2 hours and 75%",
+      "3 hours and 50%"
+     ],
+     "answer": 1,
+     "explain": "(2+4+6+1)/4 = 3.25; 2/4 = 50%."
+    },
+    {
+     "q": "A team deploys ten times a day with a 40% failure rate. Are they elite?",
+     "options": [
+      "It depends on language",
+      "No: speed without stability isn't elite",
+      "Yes",
+      "Yes if lead time is short"
+     ],
+     "answer": 1,
+     "explain": "Both pairs matter."
+    },
+    {
+     "q": "Why not rank people by DORA metrics?",
+     "options": [
+      "People are slow",
+      "They measure the delivery system, and using them as targets invites gaming",
+      "They're free",
+      "They're inaccurate"
+     ],
+     "answer": 1,
+     "explain": "Use them to find bottlenecks."
+    }
+   ]
+  },
+  "level-3/10-project-canary-simulator": {
+   "questions": [
+    {
+     "q": "Why is the canary test one-sided?",
+     "options": [
+      "Two-sided is slower",
+      "Only a worse canary matters; a better one isn't a reason to stop",
+      "Simplicity only",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "A test asserts z < 0 doesn't roll back."
+    },
+    {
+     "q": "Why require a minimum canary sample?",
+     "options": [
+      "To reduce cost",
+      "To use more traffic",
+      "At 1% of 20,000 requests only 200 canary requests exist and a burst of errors can look dramatic",
+      "To skip steps"
+     ],
+     "answer": 2,
+     "explain": "min_canary=400."
+    },
+    {
+     "q": "What does the simulator do after the last step succeeds?",
+     "options": [
+      "Rolls back",
+      "Waits",
+      "Restarts",
+      "Promotes the canary to 100%"
+     ],
+     "answer": 3,
+     "explain": "Otherwise it rolls back when z exceeds the limit."
+    },
+    {
+     "q": "Why accumulate counts across steps?",
+     "options": [
+      "It's required by Python",
+      "To reset",
+      "To reduce traffic",
+      "More samples sharpen detection of a small increase in error rate"
+     ],
+     "answer": 3,
+     "explain": "Each step adds evidence."
+    }
+   ]
+  },
+  "level-4/01-pipeline-threat-model": {
+   "questions": [
+    {
+     "q": "What should you do first when threat-modelling a pipeline?",
+     "options": [
+      "Buy a scanner",
+      "Write tests",
+      "Hire auditors",
+      "List what you're protecting (deploy credentials, source access, signing keys, secrets, artifacts, runners)"
+     ],
+     "answer": 3,
+     "explain": "Then ask what an attacker could do with each."
+    },
+    {
+     "q": "Why are signing keys a high-value asset?",
+     "options": [
+      "They expire",
+      "An attacker can make malicious artifacts look genuine",
+      "They cost money",
+      "They're large"
+     ],
+     "answer": 1,
+     "explain": "Protect them in a vault or hardware-backed service."
+    },
+    {
+     "q": "Why is a build cache a target?",
+     "options": [
+      "Caches are slow",
+      "Caches are public",
+      "Caches are big",
+      "Poisoning it can ship tampered code without touching the source"
+     ],
+     "answer": 3,
+     "explain": "Scope and key caches carefully."
+    },
+    {
+     "q": "Which earlier control does this lesson reuse?",
+     "options": [
+      "The flag evaluator",
+      "The workflow linter that flags unpinned actions, missing permissions and script injection",
+      "The DORA script",
+      "The canary"
+     ],
+     "answer": 1,
+     "explain": "Defence in depth."
+    }
+   ]
+  },
+  "level-4/02-speed-and-cost": {
+   "questions": [
+    {
+     "q": "lint 1, build 4, unit 6 (3 cells, needs build), e2e 12 (needs build), deploy 2 (needs unit and e2e). What are the critical path and billed minutes?",
+     "options": [
+      "24 and 25",
+      "12 and 37",
+      "18 minutes (build 4 → e2e 12 → deploy 2) and 37 billed minutes",
+      "37 and 18"
+     ],
+     "answer": 2,
+     "explain": "Wall-clock follows the longest dependency chain; billed time sums every job including each matrix cell."
+    },
+    {
+     "q": "What's the difference between wall-clock time and compute time?",
+     "options": [
+      "Wall-clock is what a developer waits; compute is total billed machine-minutes",
+      "They are the same",
+      "Wall-clock is cost",
+      "Compute is latency"
+     ],
+     "answer": 0,
+     "explain": "Parallelism trades one for the other."
+    },
+    {
+     "q": "Does splitting a 12-minute job across 3 runners reduce total compute?",
+     "options": [
+      "It removes the cost",
+      "Yes by 3x",
+      "No: it cuts wall-clock but total compute doesn't drop (and startup overhead adds)",
+      "It doubles latency"
+     ],
+     "answer": 2,
+     "explain": "Cost and speed are different dials."
+    },
+    {
+     "q": "What is the best way to shorten a pipeline's latency?",
+     "options": [
+      "Remove tests randomly",
+      "Shorten the critical path: split or speed up the longest chain",
+      "Add more matrix cells",
+      "Add jobs off the critical path"
+     ],
+     "answer": 1,
+     "explain": "Work off the critical path doesn't change latency."
+    }
+   ]
+  },
+  "level-4/03-jenkins-at-scale": {
+   "questions": [
+    {
+     "q": "Why shouldn't heavy logic live in a Jenkinsfile?",
+     "options": [
+      "Groovy is slow to type",
+      "It disables plugins",
+      "It breaks agents",
+      "Pipeline scripts run in the controller's JVM, so heavy loops load the controller"
+     ],
+     "answer": 3,
+     "explain": "Push work to agents and tools."
+    },
+    {
+     "q": "What stops unbounded build history filling the controller disk?",
+     "options": [
+      "Bigger labels",
+      "More agents",
+      "Build discarders (keep N builds or N days)",
+      "More plugins"
+     ],
+     "answer": 2,
+     "explain": "Set sensible defaults."
+    },
+    {
+     "q": "Why is configuration drift a problem for UI-configured Jenkins?",
+     "options": [
+      "It's insecure",
+      "Plugins break",
+      "Changes aren't versioned or reproducible, so a rebuilt controller loses them; use configuration as code",
+      "UI is slow"
+     ],
+     "answer": 2,
+     "explain": "JCasC is the remedy."
+    },
+    {
+     "q": "What is plugin sprawl?",
+     "options": [
+      "Too many agents",
+      "Too many jobs",
+      "Hundreds of plugins from many maintainers, each running with controller privileges and its own update cadence",
+      "Too many labels"
+     ],
+     "answer": 2,
+     "explain": "Reduce and review plugins."
+    }
+   ]
+  },
+  "level-4/04-actions-at-scale": {
+   "questions": [
+    {
+     "q": "A job needs 8 hours. Where can it run?",
+     "options": [
+      "Hosted only",
+      "Self-hosted runners (hosted jobs are capped at 6 hours), or split the work",
+      "Matrix",
+      "Nowhere"
+     ],
+     "answer": 1,
+     "explain": "Hosted ≤ 6 h; self-hosted ≤ 5 days."
+    },
+    {
+     "q": "A matrix needs 400 cells. What's the constraint?",
+     "options": [
+      "10",
+      "A matrix is limited to 256 jobs; split into several workflows or chunks",
+      "No limit",
+      "1000"
+     ],
+     "answer": 1,
+     "explain": "Design around documented limits."
+    },
+    {
+     "q": "Why not build a 'retry until green' habit given re-run limits?",
+     "options": [
+      "It's faster",
+      "Re-runs are free",
+      "Re-runs are capped (documented 50 attempts) and hide flakes",
+      "Re-runs are unlimited"
+     ],
+     "answer": 2,
+     "explain": "Fix flakes instead."
+    },
+    {
+     "q": "How do large caches interact with the 10 GB per repository limit?",
+     "options": [
+      "They merge",
+      "No effect",
+      "They grow",
+      "They evict each other (LRU), so share keys and cache downloads"
+     ],
+     "answer": 3,
+     "explain": "Design caches deliberately."
+    }
+   ]
+  },
+  "level-4/05-audit-compliance": {
+   "questions": [
+    {
+     "q": "Which evidence shows a change was reviewed by someone other than the author?",
+     "options": [
+      "A screenshot",
+      "Pull-request approvals with identities and timestamps, enforced by branch protection",
+      "The commit message",
+      "A Slack message"
+     ],
+     "answer": 1,
+     "explain": "Evidence should be produced by the pipeline."
+    },
+    {
+     "q": "What does separation of duties mean here?",
+     "options": [
+      "The same person shouldn't be able to write, approve and deploy a risky change",
+      "No deploys",
+      "One approver always",
+      "Different teams per file"
+     ],
+     "answer": 0,
+     "explain": "Access reviews verify it."
+    },
+    {
+     "q": "What does a hash-chained audit log give?",
+     "options": [
+      "Tamper evidence: altering any earlier entry breaks the chain",
+      "Speed",
+      "Encryption",
+      "Compression"
+     ],
+     "answer": 0,
+     "explain": "It's a teaching model, not a certified product."
+    },
+    {
+     "q": "What must be recorded about a deployment?",
+     "options": [
+      "Nothing",
+      "Version, artifact digest, commit SHA and build ID",
+      "Only the date",
+      "Only the user"
+     ],
+     "answer": 1,
+     "explain": "Traceability answers 'what exactly was deployed?'."
+    }
+   ]
+  },
+  "level-4/06-testing-pipelines": {
+   "questions": [
+    {
+     "q": "A pipeline contract test breaks a unit test and expects what?",
+     "options": [
+      "Everything deploys",
+      "The test job fails and packaging/deploy jobs are skipped",
+      "Only lint runs",
+      "Nothing happens"
+     ],
+     "answer": 1,
+     "explain": "A false green is the worst failure."
+    },
+    {
+     "q": "Why test the gates themselves?",
+     "options": [
+      "Gates are optional",
+      "To raise coverage",
+      "A scan that quietly stops running looks green; verify it fails on known-bad input",
+      "Gates are slow"
+     ],
+     "answer": 2,
+     "explain": "A gate that never fails may not be running."
+    },
+    {
+     "q": "What's a false red?",
+     "options": [
+      "A pipeline blocking good changes",
+      "A real bug",
+      "A slow job",
+      "A cache hit"
+     ],
+     "answer": 0,
+     "explain": "Both false green and false red erode trust."
+    },
+    {
+     "q": "What does a workflow linter check that tests don't?",
+     "options": [
+      "Config validity: YAML syntax, expression errors, references to jobs and secrets that don't exist",
+      "Coverage",
+      "Latency",
+      "Unit logic"
+     ],
+     "answer": 0,
+     "explain": "It's a different layer."
+    }
+   ]
+  },
+  "level-4/07-pipeline-incidents": {
+   "questions": [
+    {
+     "q": "A secret leaked in a repository. What's the first priority?",
+     "options": [
+      "Revoke and rotate it, then investigate",
+      "Delete the file",
+      "Investigate first",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Assume it's compromised."
+    },
+    {
+     "q": "Main is red and nobody can merge. What's the first priority?",
+     "options": [
+      "Restore green quickly by reverting or fixing forward",
+      "Add tests",
+      "Write a report",
+      "Freeze hiring"
+     ],
+     "answer": 0,
+     "explain": "Broken main blocks everyone."
+    },
+    {
+     "q": "A runaway matrix is burning budget. What do you do first?",
+     "options": [
+      "Raise the cap",
+      "Cancel the runs, cap spend, then fix the trigger",
+      "Add cells",
+      "Wait"
+     ],
+     "answer": 1,
+     "explain": "Stop the bleeding."
+    },
+    {
+     "q": "Why know an emergency deploy path?",
+     "options": [
+      "It's a shortcut",
+      "It bypasses review forever",
+      "If the pipeline is down, you still need a controlled way to ship a fix",
+      "Pipelines never fail"
+     ],
+     "answer": 2,
+     "explain": "Pipeline outages stop all shipping."
+    }
+   ]
+  },
+  "level-4/08-migrating-ci": {
+   "questions": [
+    {
+     "q": "What's the first phase of a CI migration?",
+     "options": [
+      "Rewrite all pipelines",
+      "Pick a vendor",
+      "Turn off the old system",
+      "Decide why (valid reasons), then inventory everything"
+     ],
+     "answer": 3,
+     "explain": "You can't migrate what you haven't found."
+    },
+    {
+     "q": "What does wf2minici do for unsupported features?",
+     "options": [
+      "Crashes",
+      "Guesses",
+      "Lists everything it can't translate rather than silently dropping it",
+      "Ignores them"
+     ],
+     "answer": 2,
+     "explain": "Honest conversion."
+    },
+    {
+     "q": "What should an inventory include for each pipeline?",
+     "options": [
+      "Triggers, steps/tools, credentials, runner needs and downstream consumers",
+      "Only owners",
+      "Only names",
+      "Only logs"
+     ],
+     "answer": 0,
+     "explain": "Downstream consumers rely on statuses and artifacts."
+    },
+    {
+     "q": "What's a safe cutover technique?",
+     "options": [
+      "Big-bang overnight",
+      "Delete the old one",
+      "Run old and new in parallel and compare results before switching required checks",
+      "Skip comparison"
+     ],
+     "answer": 2,
+     "explain": "Parallel runs find gaps."
+    }
+   ]
+  },
+  "level-4/09-golden-paths": {
+   "questions": [
+    {
+     "q": "What is a golden path?",
+     "options": [
+      "A dashboard",
+      "A single repo",
+      "A supported, easy default route that bundles the secure, tested, observable way of shipping",
+      "A mandatory policy"
+     ],
+     "answer": 2,
+     "explain": "Make the right way the easy way."
+    },
+    {
+     "q": "What belongs on a Python service's golden path?",
+     "options": [
+      "Only a Dockerfile",
+      "Nothing",
+      "Only a README",
+      "Layout, CI workflow with pinned tools, deploy pipeline with approvals, security baseline, observability, docs"
+     ],
+     "answer": 3,
+     "explain": "Teams otherwise remake these decisions."
+    },
+    {
+     "q": "How is a golden path verified?",
+     "options": [
+      "By tests that check the generated workflow meets policy (pinned actions, permissions, timeouts)",
+      "By length",
+      "By a meeting",
+      "By trust"
+     ],
+     "answer": 0,
+     "explain": "goldenpath.py has eight tests."
+    },
+    {
+     "q": "Why not force teams onto the path?",
+     "options": [
+      "It's costly",
+      "It should win by being easier; forcing breeds workarounds",
+      "It's illegal",
+      "Policy forbids"
+     ],
+     "answer": 1,
+     "explain": "Paved road, not a fence."
+    }
+   ]
+  },
+  "level-4/10-capstone-delivery-platform": {
+   "questions": [
+    {
+     "q": "When is a release `ready` in the capstone?",
+     "options": [
+      "When tests pass",
+      "When canary passes",
+      "Only when the list of reasons is empty",
+      "When manager approves"
+     ],
+     "answer": 2,
+     "explain": "Four independent checks collect reasons."
+    },
+    {
+     "q": "Which four checks does readiness combine?",
+     "options": [
+      "Cost, speed, flake, cache",
+      "Secrets only",
+      "Workflow lint, infrastructure plan guard, DORA delivery health and a canary simulation",
+      "Lint, build, test, deploy"
+     ],
+     "answer": 2,
+     "explain": "Each adds reasons."
+    },
+    {
+     "q": "What happens if the canary simulator decides to roll back?",
+     "options": [
+      "Restarts",
+      "Ignored",
+      "Auto-deploys",
+      "A reason is added and the release is not ready"
+     ],
+     "answer": 3,
+     "explain": "Metrics include canary decision."
+    },
+    {
+     "q": "What are the capstone's inputs?",
+     "options": [
+      "Real metrics",
+      "Synthetic data: a generated workflow, a plan and hand-made deployments, not real team data",
+      "Customer data",
+      "Production logs"
+     ],
+     "answer": 1,
+     "explain": "The lesson states it plainly."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "Which statement best distinguishes continuous delivery from continuous deployment?",
+    "options": [
+     "Deployment is only for mobile apps",
+     "They are identical",
+     "Delivery has no tests",
+     "Delivery keeps every passing change releasable with a human release decision; deployment releases every passing change automatically"
+    ],
+    "answer": 3,
+    "explain": "The difference is the manual gate."
+   },
+   {
+    "q": "Same two failing checks: unit (0.1 s) and integration (3 s). Which order gives the fastest feedback?",
+    "options": [
+     "Unit first, then integration: you learn about the failure in 0.1 s instead of 3.1 s",
+     "Order never matters",
+     "Integration first",
+     "Both parallel never helps"
+    ],
+    "answer": 0,
+    "explain": "Order gates by cost and likelihood of failing."
+   },
+   {
+    "q": "A team deploys with `image: python:3.12-slim` and sees a surprise change. Why?",
+    "options": [
+     "The matrix changed",
+     "Docker is nondeterministic",
+     "The runner is stale",
+     "Mutable tags can move to a different image; pin by digest"
+    ],
+    "answer": 3,
+    "explain": "Pinned inputs make builds reproducible."
+   },
+   {
+    "q": "A cache key is the date. What goes wrong?",
+    "options": [
+     "It ignores the inputs: stale dependencies are restored after a lockfile change, or the cache misses daily; hash the lockfile instead",
+     "The key is too short",
+     "Nothing",
+     "Caches are slower"
+    ],
+    "answer": 0,
+    "explain": "Hash inputs, not time."
+   },
+   {
+    "q": "A 500-test suite where every test flakes 1% of the time is green how often on correct code?",
+    "options": [
+     "About 0.7% ((0.99)^500)",
+     "About 50%",
+     "About 37%",
+     "About 99%"
+    ],
+    "answer": 0,
+    "explain": "Flakes compound, so a flake budget matters."
+   },
+   {
+    "q": "The module has 100% coverage but a pricing bug passed CI. What was missing?",
+    "options": [
+     "More lines of code",
+     "Assertions: coverage shows what ran, not that outputs were checked; consider mutation testing",
+     "Faster runners",
+     "A larger matrix"
+    ],
+    "answer": 1,
+    "explain": "Weak and strong suites can have identical coverage."
+   },
+   {
+    "q": "A PR passes on its branch but main breaks after merging. What should the PR check run on?",
+    "options": [
+     "The base branch",
+     "The latest tag",
+     "The merged result (what will actually land on main), ideally via a merge queue",
+     "The branch tip only"
+    ],
+    "answer": 2,
+    "explain": "Two green branches can combine into a red build."
+   },
+   {
+    "q": "Which setup limits damage if a PR from a fork is malicious?",
+    "options": [
+     "No secrets for fork PRs, least-privilege token, and no pull_request_target checkout of untrusted code",
+     "Give it production secrets",
+     "Disable branch protection",
+     "Run on persistent self-hosted runners"
+    ],
+    "answer": 0,
+    "explain": "Untrusted code must not meet privileged credentials."
+   },
+   {
+    "q": "How should third-party actions be referenced?",
+    "options": [
+     "@latest",
+     "Unpinned",
+     "Pinned to a full commit SHA (tags can be moved)",
+     "@main"
+    ],
+    "answer": 2,
+    "explain": "Rule W003 in the course linter."
+   },
+   {
+    "q": "A deploy job lacks `concurrency:`. What can happen?",
+    "options": [
+     "Faster deploys",
+     "Nothing",
+     "Two runs deploy at once and the older run may finish last, leaving the old version live",
+     "Secrets leak"
+    ],
+    "answer": 2,
+    "explain": "Serialise deploys per environment."
+   },
+   {
+    "q": "Production approvals should live where?",
+    "options": [
+     "On a protected environment with required reviewers and environment-scoped secrets",
+     "In a repository secret",
+     "In a Slack thread",
+     "In a comment"
+    ],
+    "answer": 0,
+    "explain": "Protection rules gate secrets and jobs."
+   },
+   {
+    "q": "You must rename a database column during a rolling deploy. What's the safe sequence?",
+    "options": [
+     "Expand (add nullable new column), migrate data and code, then contract (drop the old column) in a later release",
+     "RENAME COLUMN at once",
+     "Drop then add",
+     "Lock the table and deploy"
+    ],
+    "answer": 0,
+    "explain": "Old and new code overlap during rollouts."
+   },
+   {
+    "q": "Which cannot be fixed by a rollback?",
+    "options": [
+     "A destructive schema change, sent emails and payments",
+     "An app image",
+     "A feature flag",
+     "A bad config value"
+    ],
+    "answer": 0,
+    "explain": "Rollbacks restore code, not data or side effects."
+   },
+   {
+    "q": "Which deployment strategy gives instant switch-back but costs a whole second environment?",
+    "options": [
+     "Rolling",
+     "Recreate",
+     "Blue-green",
+     "Canary"
+    ],
+    "answer": 2,
+    "explain": "Keep the old environment alive until the new one is proven."
+   },
+   {
+    "q": "A canary at 1% of 20,000 requests gets 200 canary requests. Why does the simulator wait for a minimum sample?",
+    "options": [
+     "Small samples let a single error burst look like a real regression",
+     "To use less traffic",
+     "To save compute",
+     "Because z is undefined"
+    ],
+    "answer": 0,
+    "explain": "min_canary protects against noise."
+   },
+   {
+    "q": "Which two DORA measures describe stability?",
+    "options": [
+     "Change failure rate and time to restore",
+     "Cache hit and flake rate",
+     "Coverage and lint",
+     "Deployment frequency and lead time"
+    ],
+    "answer": 0,
+    "explain": "The other two describe speed."
+   },
+   {
+    "q": "A pipeline's wall-clock time is 18 minutes but billed minutes are 37. Why do they differ?",
+    "options": [
+     "Billing is wrong",
+     "Caching is off",
+     "Wall-clock follows the critical path; billed time sums every job and matrix cell",
+     "Jobs run twice"
+    ],
+    "answer": 2,
+    "explain": "Parallelism trades one for the other."
+   },
+   {
+    "q": "A secret was pushed to a public repo and removed in the next commit. What now?",
+    "options": [
+     "Rewrite the README",
+     "Revoke and rotate it immediately: Git history and forks keep it",
+     "Wait a week",
+     "Nothing, it's removed"
+    ],
+    "answer": 1,
+    "explain": "Revoke first, investigate second."
+   },
+   {
+    "q": "A migration from Jenkins to Actions is planned. What comes before converting pipelines?",
+    "options": [
+     "Deleting jobs",
+     "Turning off Jenkins",
+     "Inventory: triggers, tools, credentials, runners and downstream consumers",
+     "Picking colors"
+    ],
+    "answer": 2,
+    "explain": "You can't migrate what you haven't found."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Expand a build matrix",
+    "prompt": "Implement expand_matrix(): the Cartesian product of the list-valued keys, remove combinations that match every key of an `exclude` entry, then apply each `include` (extend matching cells, or add a new job if it matches none). The sample matrix should yield 9 jobs.",
+    "starter": "import itertools\n\ndef expand_matrix(matrix):\n    # Cartesian product of the list-valued keys, minus `exclude` matches,\n    # then `include`: extend matching cells or add a new job if none match.\n    return []\n\nmatrix = {\n    \"os\": [\"ubuntu\", \"windows\", \"macos\"],\n    \"python\": [\"3.11\", \"3.12\", \"3.13\"],\n    \"exclude\": [{\"os\": \"macos\", \"python\": \"3.11\"}],\n    \"include\": [{\"os\": \"ubuntu\", \"python\": \"3.14\", \"experimental\": True}],\n}\njobs = expand_matrix(matrix)\nprint(len(jobs))\nfor j in jobs:\n    print(j[\"os\"] + \"/\" + j[\"python\"] + (\" (experimental)\" if j.get(\"experimental\") else \"\"))\n",
+    "expected": "9\nubuntu/3.11\nubuntu/3.12\nubuntu/3.13\nwindows/3.11\nwindows/3.12\nwindows/3.13\nmacos/3.12\nmacos/3.13\nubuntu/3.14 (experimental)",
+    "solution": "import itertools\n\ndef expand_matrix(matrix):\n    include = matrix.get(\"include\", [])\n    exclude = matrix.get(\"exclude\", [])\n    keys = [k for k in matrix if k not in (\"include\", \"exclude\")]\n    combos = [dict(zip(keys, v)) for v in itertools.product(*(matrix[k] for k in keys))]\n    combos = [c for c in combos if not any(all(c.get(k) == v for k, v in ex.items()) for ex in exclude)]\n    for inc in include:\n        orig = {k: v for k, v in inc.items() if k in keys}\n        matched = [c for c in combos if all(c[k] == v for k, v in orig.items())] if orig else []\n        if matched:\n            for c in matched:\n                c.update(inc)\n        else:\n            combos.append(dict(inc))\n    return combos\n\nmatrix = {\n    \"os\": [\"ubuntu\", \"windows\", \"macos\"],\n    \"python\": [\"3.11\", \"3.12\", \"3.13\"],\n    \"exclude\": [{\"os\": \"macos\", \"python\": \"3.11\"}],\n    \"include\": [{\"os\": \"ubuntu\", \"python\": \"3.14\", \"experimental\": True}],\n}\njobs = expand_matrix(matrix)\nprint(len(jobs))\nfor j in jobs:\n    print(j[\"os\"] + \"/\" + j[\"python\"] + (\" (experimental)\" if j.get(\"experimental\") else \"\"))\n",
+    "explain": "3x3 = 9 combinations, minus macos/3.11, plus an include for 3.14 that matches no existing cell and therefore becomes a new job: 9. Verified by running the solution."
+   },
+   {
+    "title": "Critical path and billed minutes",
+    "prompt": "Given the job graph, compute the critical path (the longest chain of dependent jobs, in minutes) and the total billed minutes (minutes x matrix cells summed over all jobs).",
+    "starter": "JOBS = {\n    \"lint\":   {\"minutes\": 1,  \"cells\": 1, \"needs\": []},\n    \"build\":  {\"minutes\": 4,  \"cells\": 1, \"needs\": []},\n    \"unit\":   {\"minutes\": 6,  \"cells\": 3, \"needs\": [\"build\"]},\n    \"e2e\":    {\"minutes\": 12, \"cells\": 1, \"needs\": [\"build\"]},\n    \"deploy\": {\"minutes\": 2,  \"cells\": 1, \"needs\": [\"unit\", \"e2e\"]},\n}\n\ndef critical_path(jobs):\n    # longest chain of dependent jobs: return (total minutes, [job names in order])\n    return 0, []\n\ndef billed(jobs):\n    # compute minutes: sum of minutes x cells over every job\n    return 0\n\nlength, path = critical_path(JOBS)\nprint(\"critical path: %.1f minutes  %s\" % (length, \" -> \".join(path)))\nprint(\"billed minutes:\", billed(JOBS))\n",
+    "expected": "critical path: 18.0 minutes  build -> e2e -> deploy\nbilled minutes: 37",
+    "solution": "JOBS = {\n    \"lint\":   {\"minutes\": 1,  \"cells\": 1, \"needs\": []},\n    \"build\":  {\"minutes\": 4,  \"cells\": 1, \"needs\": []},\n    \"unit\":   {\"minutes\": 6,  \"cells\": 3, \"needs\": [\"build\"]},\n    \"e2e\":    {\"minutes\": 12, \"cells\": 1, \"needs\": [\"build\"]},\n    \"deploy\": {\"minutes\": 2,  \"cells\": 1, \"needs\": [\"unit\", \"e2e\"]},\n}\n\ndef finish_times(jobs):\n    done = {}\n    def finish(name):\n        if name not in done:\n            start = max((finish(n) for n in jobs[name][\"needs\"]), default=0)\n            done[name] = start + jobs[name][\"minutes\"]\n        return done[name]\n    for n in jobs:\n        finish(n)\n    return done\n\ndef critical_path(jobs):\n    done = finish_times(jobs)\n    end = max(done, key=done.get)\n    path = [end]\n    while jobs[path[-1]][\"needs\"]:\n        path.append(max(jobs[path[-1]][\"needs\"], key=lambda n: done[n]))\n    return done[end], list(reversed(path))\n\ndef billed(jobs):\n    return sum(j[\"minutes\"] * j[\"cells\"] for j in jobs.values())\n\nlength, path = critical_path(JOBS)\nprint(\"critical path: %.1f minutes  %s\" % (length, \" -> \".join(path)))\nprint(\"billed minutes:\", billed(JOBS))\n",
+    "explain": "build (4) -> e2e (12) -> deploy (2) = 18 minutes of waiting, while billed time is lint 1 + build 4 + unit 6x3 + e2e 12 + deploy 2 = 37. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
