@@ -1,0 +1,2170 @@
+{
+ "course": "mlops-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-mlops-solves": {
+   "questions": [
+    {
+     "q": "What problem does MLOps solve?",
+     "options": [
+      "Labeling",
+      "Training faster",
+      "Reliably taking models from experiments to production and keeping them healthy",
+      "Choosing algorithms"
+     ],
+     "answer": 2,
+     "explain": "Operational discipline for ML."
+    },
+    {
+     "q": "Why do ML projects fail to reach production?",
+     "options": [
+      "Bad math",
+      "Tools",
+      "Irreproducible experiments, unmanaged data/models and no deployment or monitoring path",
+      "Too much data"
+     ],
+     "answer": 2,
+     "explain": "Hidden technical debt."
+    },
+    {
+     "q": "How does ML differ from traditional software to operate?",
+     "options": [
+      "Easier",
+      "Same",
+      "Behavior depends on data and degrades as data changes, not just on code",
+      "No testing"
+     ],
+     "answer": 2,
+     "explain": "Data is part of the system."
+    },
+    {
+     "q": "What are the lifecycle stages?",
+     "options": [
+      "Design only",
+      "Code, test",
+      "Data, experiment, train, validate, deploy, monitor and retrain",
+      "Plan, build"
+     ],
+     "answer": 2,
+     "explain": "A loop."
+    }
+   ]
+  },
+  "level-1/02-experiment-tracking-fundamentals": {
+   "questions": [
+    {
+     "q": "What does experiment tracking record?",
+     "options": [
+      "Only metrics",
+      "Only models",
+      "Parameters, metrics, artifacts, code version and data version per run",
+      "Only code"
+     ],
+     "answer": 2,
+     "explain": "So results are reproducible."
+    },
+    {
+     "q": "What's an MLflow run?",
+     "options": [
+      "A table",
+      "A server",
+      "A model",
+      "One execution of training code with its logged information"
+     ],
+     "answer": 3,
+     "explain": "Grouped into experiments."
+    },
+    {
+     "q": "Why track runs rather than keeping notebooks?",
+     "options": [
+      "Speed",
+      "Style",
+      "Comparisons and reproducibility need structured records",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Notebook state is lost."
+    },
+    {
+     "q": "What should always be logged?",
+     "options": [
+      "Passwords",
+      "Nothing",
+      "Hyperparameters and evaluation metrics",
+      "Screens"
+     ],
+     "answer": 2,
+     "explain": "Core run data."
+    }
+   ]
+  },
+  "level-1/03-logging-metrics-artifacts": {
+   "questions": [
+    {
+     "q": "What are artifacts?",
+     "options": [
+      "Params",
+      "Tags",
+      "Metrics",
+      "Files produced by a run such as models, plots and reports"
+     ],
+     "answer": 3,
+     "explain": "log_artifact."
+    },
+    {
+     "q": "What's the difference between a param and a metric?",
+     "options": [
+      "Params are inputs (fixed); metrics are outputs (can be logged over time)",
+      "None",
+      "Reverse",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "Step-wise metrics."
+    },
+    {
+     "q": "Why log metrics per epoch?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "To see convergence and overfitting"
+     ],
+     "answer": 3,
+     "explain": "Curves."
+    },
+    {
+     "q": "Where store large artifacts?",
+     "options": [
+      "Object storage referenced by the tracking server",
+      "Git",
+      "Memory",
+      "The DB"
+     ],
+     "answer": 0,
+     "explain": "Artifact store."
+    }
+   ]
+  },
+  "level-1/04-comparing-runs": {
+   "questions": [
+    {
+     "q": "How compare runs fairly?",
+     "options": [
+      "Same data split, metrics and conditions, focusing on the target metric",
+      "Any",
+      "One run",
+      "Eyeball"
+     ],
+     "answer": 0,
+     "explain": "Controlled."
+    },
+    {
+     "q": "What does a parallel coordinates plot show?",
+     "options": [
+      "Loss",
+      "Relationships between hyperparameters and metrics across runs",
+      "Logs",
+      "Data"
+     ],
+     "answer": 1,
+     "explain": "Sweeps."
+    },
+    {
+     "q": "Why not pick the best run by test score repeatedly?",
+     "options": [
+      "Slow",
+      "Style",
+      "You overfit the test set; keep a final holdout",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Selection bias."
+    },
+    {
+     "q": "What helps compare noisy runs?",
+     "options": [
+      "Larger lr",
+      "Repeated runs with different seeds",
+      "Skip",
+      "One"
+     ],
+     "answer": 1,
+     "explain": "Variance."
+    }
+   ]
+  },
+  "level-1/05-reproducibility-seeds-environments": {
+   "questions": [
+    {
+     "q": "Two runs with the same seed produce what with the same code and data?\n```python\nimport random\nrandom.seed(7);a=[random.random() for _ in range(3)]\nrandom.seed(7);b=[random.random() for _ in range(3)]\nprint(a==b)\n```\n",
+     "options": [
+      "Error",
+      "True",
+      "False",
+      "Maybe"
+     ],
+     "answer": 1,
+     "explain": "Seeds make randomness repeatable. Verified by running it."
+    },
+    {
+     "q": "What else besides seeds affects reproducibility?",
+     "options": [
+      "Nothing",
+      "Fonts",
+      "Names",
+      "Library versions, hardware/nondeterminism, data versions and configuration"
+     ],
+     "answer": 3,
+     "explain": "Pin environments."
+    },
+    {
+     "q": "How capture the environment?",
+     "options": [
+      "Email",
+      "Docs",
+      "Memory",
+      "requirements/conda lock files or container images logged with the run"
+     ],
+     "answer": 3,
+     "explain": "Same environment."
+    },
+    {
+     "q": "Why log the git commit?",
+     "options": [
+      "To rebuild the exact code used",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Provenance."
+    }
+   ]
+  },
+  "level-1/06-data-lineage": {
+   "questions": [
+    {
+     "q": "What is data lineage?",
+     "options": [
+      "Format",
+      "Key",
+      "Tracking where data came from and how it was transformed into a model's inputs",
+      "Backup"
+     ],
+     "answer": 2,
+     "explain": "Auditability."
+    },
+    {
+     "q": "Why version datasets?",
+     "options": [
+      "Speed",
+      "Style",
+      "To reproduce training and explain model behavior",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "DVC/lakeFS/hashes."
+    },
+    {
+     "q": "What's a cheap lineage start?",
+     "options": [
+      "Dates",
+      "Log dataset path/hash and row counts with every run",
+      "Names",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Minimum."
+    },
+    {
+     "q": "What does lineage help during incidents?",
+     "options": [
+      "Billing",
+      "Speed",
+      "Style",
+      "Finding which data and code produced a bad model"
+     ],
+     "answer": 3,
+     "explain": "Root cause."
+    }
+   ]
+  },
+  "level-1/07-hyperparameter-sweeps": {
+   "questions": [
+    {
+     "q": "What is a hyperparameter sweep?",
+     "options": [
+      "Running training across parameter combinations to find good settings",
+      "Deploy",
+      "Label",
+      "One run"
+     ],
+     "answer": 0,
+     "explain": "Grid/random/Bayesian."
+    },
+    {
+     "q": "Why prefer random over grid search?",
+     "options": [
+      "Exhaustive",
+      "It explores more distinct values per important parameter",
+      "Simpler",
+      "Cheaper only"
+     ],
+     "answer": 1,
+     "explain": "Bergstra & Bengio."
+    },
+    {
+     "q": "What must a sweep respect?",
+     "options": [
+      "Nothing",
+      "Seeds",
+      "A separate validation set and a compute budget",
+      "Test set"
+     ],
+     "answer": 2,
+     "explain": "Avoid leakage."
+    },
+    {
+     "q": "How organize sweep runs?",
+     "options": [
+      "None",
+      "Loose",
+      "Nested/parent-child runs with tags",
+      "Random"
+     ],
+     "answer": 2,
+     "explain": "Comparison."
+    }
+   ]
+  },
+  "level-1/08-autologging": {
+   "questions": [
+    {
+     "q": "What does autologging do?",
+     "options": [
+      "Labels",
+      "Trains",
+      "Deploys",
+      "Automatically records params, metrics and models for supported libraries"
+     ],
+     "answer": 3,
+     "explain": "mlflow.autolog()."
+    },
+    {
+     "q": "What's a risk of relying only on autolog?",
+     "options": [
+      "Law",
+      "None",
+      "Missing custom metrics, data versions or business context",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Add explicit logs."
+    },
+    {
+     "q": "When enable it?",
+     "options": [
+      "Never",
+      "Manual",
+      "At the start of the script before training",
+      "After"
+     ],
+     "answer": 2,
+     "explain": "Hooks into libraries."
+    },
+    {
+     "q": "What do you still log manually?",
+     "options": [
+      "Dataset version, tags and domain-specific metrics",
+      "Nothing",
+      "Params",
+      "Epochs"
+     ],
+     "answer": 0,
+     "explain": "Context."
+    }
+   ]
+  },
+  "level-1/09-tagging-organizing-experiments": {
+   "questions": [
+    {
+     "q": "Why tag runs?",
+     "options": [
+      "Filtering and grouping by team, dataset, purpose or status",
+      "Speed",
+      "Law",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "Organization."
+    },
+    {
+     "q": "What naming convention helps experiments?",
+     "options": [
+      "Dates",
+      "Random",
+      "Consistent names by project/problem and tags for variants",
+      "Emoji"
+     ],
+     "answer": 2,
+     "explain": "Findability."
+    },
+    {
+     "q": "What's an experiment vs a run?",
+     "options": [
+      "Same",
+      "Reverse",
+      "None",
+      "An experiment groups related runs"
+     ],
+     "answer": 3,
+     "explain": "Hierarchy."
+    },
+    {
+     "q": "What's a good tag?",
+     "options": [
+      "Time",
+      "Color",
+      "Mood",
+      "owner, dataset_version, objective and git_sha"
+     ],
+     "answer": 3,
+     "explain": "Queryable."
+    }
+   ]
+  },
+  "level-1/10-project-track-training-run": {
+   "questions": [
+    {
+     "q": "What does the tracking project combine?",
+     "options": [
+      "Only metrics",
+      "Only data",
+      "Only deploy",
+      "Seeds, environment capture, params/metrics/artifacts and tags in one training run"
+     ],
+     "answer": 3,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How prove reproducibility?",
+     "options": [
+      "Trust",
+      "Re-run from the logged information and compare metrics",
+      "Guess",
+      "Skip"
+     ],
+     "answer": 1,
+     "explain": "Verify."
+    },
+    {
+     "q": "What's the deliverable?",
+     "options": [
+      "A notebook",
+      "A model",
+      "A run someone else can reproduce and explain",
+      "A plot"
+     ],
+     "answer": 2,
+     "explain": "Provenance."
+    },
+    {
+     "q": "What should the run link to?",
+     "options": [
+      "Email",
+      "Slides",
+      "Code commit, data version and environment",
+      "Docs"
+     ],
+     "answer": 2,
+     "explain": "Lineage."
+    }
+   ]
+  },
+  "level-2/01-model-registry-fundamentals": {
+   "questions": [
+    {
+     "q": "What is a model registry?",
+     "options": [
+      "A central store of versioned models with metadata and lifecycle management",
+      "Feature store",
+      "Experiment log",
+      "Pipeline"
+     ],
+     "answer": 0,
+     "explain": "Governed models."
+    },
+    {
+     "q": "What does registering link?",
+     "options": [
+      "Users",
+      "A model version to the run/code/data that produced it",
+      "Nothing",
+      "Hosts"
+     ],
+     "answer": 1,
+     "explain": "Lineage."
+    },
+    {
+     "q": "Why not pass pickles around by email?",
+     "options": [
+      "Size",
+      "Law",
+      "Style",
+      "No versioning, provenance or controlled promotion"
+     ],
+     "answer": 3,
+     "explain": "Registry."
+    },
+    {
+     "q": "What's a registered model version?",
+     "options": [
+      "Stage",
+      "An immutable numbered snapshot of a model",
+      "Run",
+      "Tag"
+     ],
+     "answer": 1,
+     "explain": "v1, v2."
+    }
+   ]
+  },
+  "level-2/02-model-stages": {
+   "questions": [
+    {
+     "q": "What do stages/aliases represent?",
+     "options": [
+      "Params",
+      "Versions",
+      "Runs",
+      "Lifecycle states such as staging and production"
+     ],
+     "answer": 3,
+     "explain": "Promotion."
+    },
+    {
+     "q": "Why use aliases (champion) over stage names in newer MLflow?",
+     "options": [
+      "Speed",
+      "Style",
+      "Flexible, explicit pointers decoupled from fixed stages",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Deployments reference aliases."
+    },
+    {
+     "q": "What should consumers reference?",
+     "options": [
+      "An alias/stage, not a hard-coded version number",
+      "Run id",
+      "Version",
+      "Path"
+     ],
+     "answer": 0,
+     "explain": "Easy rollback."
+    },
+    {
+     "q": "What happens on promotion?",
+     "options": [
+      "The pointer moves to a new validated version",
+      "Copy",
+      "Delete",
+      "Retrain"
+     ],
+     "answer": 0,
+     "explain": "Controlled."
+    }
+   ]
+  },
+  "level-2/03-packaging-signatures-environments": {
+   "questions": [
+    {
+     "q": "What is a model signature?",
+     "options": [
+      "Name",
+      "The expected input and output schema of a model",
+      "Password",
+      "Hash"
+     ],
+     "answer": 1,
+     "explain": "Validation."
+    },
+    {
+     "q": "Why capture the environment with the model?",
+     "options": [
+      "Serving must recreate dependencies to behave the same",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "conda.yaml."
+    },
+    {
+     "q": "What's a model flavor?",
+     "options": [
+      "Stage",
+      "Version",
+      "A standard packaging format for a framework (sklearn, pyfunc)",
+      "Color"
+     ],
+     "answer": 2,
+     "explain": "Portability."
+    },
+    {
+     "q": "What does pyfunc provide?",
+     "options": [
+      "Data",
+      "Plots",
+      "A generic Python function interface to any logged model",
+      "Training"
+     ],
+     "answer": 2,
+     "explain": "Uniform predict()."
+    }
+   ]
+  },
+  "level-2/04-model-lineage": {
+   "questions": [
+    {
+     "q": "What does model lineage show?",
+     "options": [
+      "Users",
+      "Latency",
+      "The run, data, code and parameters behind a registered version",
+      "Costs"
+     ],
+     "answer": 2,
+     "explain": "Traceability."
+    },
+    {
+     "q": "Why needed for audits?",
+     "options": [
+      "To explain how a production model was built",
+      "Law only",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Governance."
+    },
+    {
+     "q": "What does linking register-time tags add?",
+     "options": [
+      "Code",
+      "Evaluation reports and approvals",
+      "Nothing",
+      "Noise"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What happens if lineage is missing?",
+     "options": [
+      "Nothing",
+      "Faster",
+      "Cheaper",
+      "You can't reproduce or explain a production model"
+     ],
+     "answer": 3,
+     "explain": "Risk."
+    }
+   ]
+  },
+  "level-2/05-comparing-model-versions": {
+   "questions": [
+    {
+     "q": "How compare two model versions properly?",
+     "options": [
+      "Different data",
+      "Eyeball",
+      "Same evaluation data and metrics, including slices and latency",
+      "Overall only"
+     ],
+     "answer": 2,
+     "explain": "Fair."
+    },
+    {
+     "q": "What do slice metrics reveal?",
+     "options": [
+      "Performance on subgroups hidden by averages",
+      "Cost",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Fairness and robustness."
+    },
+    {
+     "q": "What non-accuracy criteria matter?",
+     "options": [
+      "Latency, memory, cost and stability",
+      "Fonts",
+      "Names",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Production fit."
+    },
+    {
+     "q": "What's a regression test for models?",
+     "options": [
+      "A fixed set of cases the new model must still pass",
+      "Training",
+      "Plot",
+      "Tag"
+     ],
+     "answer": 0,
+     "explain": "Golden set."
+    }
+   ]
+  },
+  "level-2/06-model-approval-workflows": {
+   "questions": [
+    {
+     "q": "What does an approval workflow add?",
+     "options": [
+      "Speed",
+      "Cost",
+      "Data",
+      "Human/automated gates before promoting to production"
+     ],
+     "answer": 3,
+     "explain": "Controls."
+    },
+    {
+     "q": "What can automated gates check?",
+     "options": [
+      "Nothing",
+      "Taste",
+      "Colors",
+      "Metric thresholds, schema compatibility and tests"
+     ],
+     "answer": 3,
+     "explain": "Policy as code."
+    },
+    {
+     "q": "Why require reviewer sign-off?",
+     "options": [
+      "Speed",
+      "Accountability for models affecting users",
+      "Style",
+      "Law only"
+     ],
+     "answer": 1,
+     "explain": "Governance."
+    },
+    {
+     "q": "What should be recorded?",
+     "options": [
+      "Nothing",
+      "Who approved, when and based on what evidence",
+      "Names",
+      "Time"
+     ],
+     "answer": 1,
+     "explain": "Audit."
+    }
+   ]
+  },
+  "level-2/07-serving-model-locally": {
+   "questions": [
+    {
+     "q": "What does serving a model locally let you do?",
+     "options": [
+      "Train",
+      "Label",
+      "Test the packaged model behind an HTTP API before deployment",
+      "Monitor"
+     ],
+     "answer": 2,
+     "explain": "mlflow models serve."
+    },
+    {
+     "q": "What endpoint style is common?",
+     "options": [
+      "SOAP",
+      "POST /invocations with JSON/CSV input",
+      "PUT",
+      "GET /"
+     ],
+     "answer": 1,
+     "explain": "Standard."
+    },
+    {
+     "q": "Why test serving early?",
+     "options": [
+      "Packaging and dependency problems appear before production",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Shift left."
+    },
+    {
+     "q": "What should you check locally?",
+     "options": [
+      "Schema validation, latency and error responses",
+      "Nothing",
+      "Logs only",
+      "Colors"
+     ],
+     "answer": 0,
+     "explain": "Behavior."
+    }
+   ]
+  },
+  "level-2/08-input-output-schemas": {
+   "questions": [
+    {
+     "q": "Why validate input schemas at serving time?",
+     "options": [
+      "Reject malformed requests instead of returning wrong predictions",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Fail clearly."
+    },
+    {
+     "q": "What's the risk of silent type coercion?",
+     "options": [
+      "Cheaper",
+      "Wrong predictions with no error",
+      "Faster",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Strict schemas."
+    },
+    {
+     "q": "What should errors return?",
+     "options": [
+      "Clear 4xx messages for invalid input",
+      "200",
+      "500",
+      "Empty"
+     ],
+     "answer": 0,
+     "explain": "Client errors."
+    },
+    {
+     "q": "What happens when features are missing?",
+     "options": [
+      "Guess",
+      "Ignore",
+      "Zero",
+      "Reject or handle explicitly per policy, not guess"
+     ],
+     "answer": 3,
+     "explain": "Defined behavior."
+    }
+   ]
+  },
+  "level-2/09-rolling-back-model-version": {
+   "questions": [
+    {
+     "q": "How roll back a bad model?",
+     "options": [
+      "Delete",
+      "Redeploy code",
+      "Point the production alias back to the previous version",
+      "Retrain"
+     ],
+     "answer": 2,
+     "explain": "Fast."
+    },
+    {
+     "q": "What makes rollback fast?",
+     "options": [
+      "Luck",
+      "Manual",
+      "Docs",
+      "Versioned immutable models and alias-based deployments"
+     ],
+     "answer": 3,
+     "explain": "Prepared."
+    },
+    {
+     "q": "What should trigger rollback?",
+     "options": [
+      "Calendar",
+      "None",
+      "Complaints",
+      "Monitored degradation or failed health checks"
+     ],
+     "answer": 3,
+     "explain": "Automation."
+    },
+    {
+     "q": "What do you do after rollback?",
+     "options": [
+      "Investigate root cause before retrying promotion",
+      "Retry",
+      "Delete",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Postmortem."
+    }
+   ]
+  },
+  "level-2/10-project-register-promote-serve": {
+   "questions": [
+    {
+     "q": "What does the register/promote/serve project combine?",
+     "options": [
+      "Registering a model, gating promotion and serving it by alias",
+      "Only registry",
+      "Only serve",
+      "Only train"
+     ],
+     "answer": 0,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "What proves the gate works?",
+     "options": [
+      "A worse model fails promotion and a better one passes",
+      "Slides",
+      "Hope",
+      "Demo"
+     ],
+     "answer": 0,
+     "explain": "Test the policy."
+    },
+    {
+     "q": "How verify serving?",
+     "options": [
+      "Look",
+      "Skip",
+      "Call the endpoint with valid and invalid payloads",
+      "Assume"
+     ],
+     "answer": 2,
+     "explain": "Contract."
+    },
+    {
+     "q": "What's the key artifact?",
+     "options": [
+      "CSV",
+      "Plot",
+      "A versioned, documented model in the registry",
+      "Notebook"
+     ],
+     "answer": 2,
+     "explain": "Handover."
+    }
+   ]
+  },
+  "level-3/01-training-pipelines": {
+   "questions": [
+    {
+     "q": "What is a training pipeline?",
+     "options": [
+      "A model",
+      "A notebook",
+      "Automated, repeatable steps from data to a validated model",
+      "A deploy"
+     ],
+     "answer": 2,
+     "explain": "Orchestrated."
+    },
+    {
+     "q": "Why parameterize pipelines?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Reuse across datasets, dates and configs"
+     ],
+     "answer": 3,
+     "explain": "Retraining."
+    },
+    {
+     "q": "What steps are typical?",
+     "options": [
+      "Deploy",
+      "Label",
+      "Ingest, validate, featurize, train, evaluate, register",
+      "Plot only"
+     ],
+     "answer": 2,
+     "explain": "DAG."
+    },
+    {
+     "q": "Why data validation up front?",
+     "options": [
+      "Law",
+      "Bad data silently produces bad models",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Gate early."
+    }
+   ]
+  },
+  "level-3/02-pipeline-orchestration": {
+   "questions": [
+    {
+     "q": "What does an orchestrator provide?",
+     "options": [
+      "Scheduling, dependencies, retries and visibility for pipeline steps",
+      "Labels",
+      "Models",
+      "Data"
+     ],
+     "answer": 0,
+     "explain": "Airflow/Kubeflow/Dagster."
+    },
+    {
+     "q": "Why idempotent steps?",
+     "options": [
+      "Retries and backfills must be safe",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Deterministic outputs."
+    },
+    {
+     "q": "What should steps pass between each other?",
+     "options": [
+      "Memory",
+      "Versioned artifacts, not local files",
+      "Globals",
+      "Email"
+     ],
+     "answer": 1,
+     "explain": "Reproducible."
+    },
+    {
+     "q": "How trigger retraining?",
+     "options": [
+      "Never",
+      "Schedule, new data arrival or monitoring signals",
+      "Random",
+      "Manual only"
+     ],
+     "answer": 1,
+     "explain": "Automation."
+    }
+   ]
+  },
+  "level-3/03-ci-for-ml": {
+   "questions": [
+    {
+     "q": "What does CI for ML test?",
+     "options": [
+      "Code, data validation, training smoke tests and model checks",
+      "Only code",
+      "Nothing",
+      "Only UI"
+     ],
+     "answer": 0,
+     "explain": "Beyond unit tests."
+    },
+    {
+     "q": "What's a training smoke test?",
+     "options": [
+      "A tiny-data run proving the pipeline works end to end",
+      "Load",
+      "Full train",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Fast."
+    },
+    {
+     "q": "What data tests help?",
+     "options": [
+      "Names",
+      "Schema, ranges, null rates and distribution checks",
+      "Typos",
+      "Colors"
+     ],
+     "answer": 1,
+     "explain": "Great Expectations."
+    },
+    {
+     "q": "What should fail a PR?",
+     "options": [
+      "Broken tests or a metric regression below the gate",
+      "Names",
+      "Size",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Quality."
+    }
+   ]
+  },
+  "level-3/04-cd-for-ml": {
+   "questions": [
+    {
+     "q": "What does CD for ML deploy?",
+     "options": [
+      "Data only",
+      "Notebooks",
+      "Validated models and serving code through staged environments",
+      "Labels"
+     ],
+     "answer": 2,
+     "explain": "Automated."
+    },
+    {
+     "q": "What gates promotion?",
+     "options": [
+      "Luck",
+      "Taste",
+      "Evaluation thresholds, tests and approvals",
+      "Time"
+     ],
+     "answer": 2,
+     "explain": "Policy."
+    },
+    {
+     "q": "How separate model and code releases?",
+     "options": [
+      "Together",
+      "Version the model independently from the service code",
+      "Manual",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Faster updates."
+    },
+    {
+     "q": "What enables safe rollout?",
+     "options": [
+      "Hope",
+      "Skip",
+      "Staged deploys with monitoring and rollback",
+      "Big bang"
+     ],
+     "answer": 2,
+     "explain": "Risk control."
+    }
+   ]
+  },
+  "level-3/05-realtime-vs-batch-inference": {
+   "questions": [
+    {
+     "q": "When choose batch inference?",
+     "options": [
+      "When predictions can be computed ahead (reports, recommendations)",
+      "Latency-critical",
+      "Always",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Cheaper."
+    },
+    {
+     "q": "When choose real-time?",
+     "options": [
+      "Batch",
+      "Archive",
+      "When a decision needs a fresh prediction per request",
+      "Reports"
+     ],
+     "answer": 2,
+     "explain": "Latency budget."
+    },
+    {
+     "q": "What does online inference require?",
+     "options": [
+      "GPUs",
+      "Low latency, scaling and the same features as training",
+      "Big files",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Consistency."
+    },
+    {
+     "q": "What hybrid exists?",
+     "options": [
+      "None",
+      "Online only",
+      "Batch only",
+      "Precompute common predictions and compute the rest online"
+     ],
+     "answer": 3,
+     "explain": "Trade-off."
+    }
+   ]
+  },
+  "level-3/06-containerizing-a-model": {
+   "questions": [
+    {
+     "q": "Why containerize a model?",
+     "options": [
+      "Style",
+      "Reproducible environment and portable deployment",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Docker."
+    },
+    {
+     "q": "What belongs in the image?",
+     "options": [
+      "Model artifact, pinned dependencies and the serving code",
+      "Notebooks",
+      "Secrets",
+      "Training data"
+     ],
+     "answer": 0,
+     "explain": "Minimal."
+    },
+    {
+     "q": "How keep images small?",
+     "options": [
+      "More layers",
+      "None",
+      "Multi-stage builds and slim bases",
+      "Bigger base"
+     ],
+     "answer": 2,
+     "explain": "Faster pulls."
+    },
+    {
+     "q": "What health endpoint should exist?",
+     "options": [
+      "/",
+      "Readiness/liveness checks (model loaded)",
+      "None",
+      "Docs"
+     ],
+     "answer": 1,
+     "explain": "Orchestration."
+    }
+   ]
+  },
+  "level-3/07-canary-shadow-deployment": {
+   "questions": [
+    {
+     "q": "What is shadow deployment?",
+     "options": [
+      "The new model receives live traffic but its outputs aren't used",
+      "Canary",
+      "Blue-green",
+      "A/B"
+     ],
+     "answer": 0,
+     "explain": "Safe comparison."
+    },
+    {
+     "q": "What is a canary?",
+     "options": [
+      "Serving a small share of real traffic with the new model",
+      "Test",
+      "Full",
+      "Shadow"
+     ],
+     "answer": 0,
+     "explain": "Gradual."
+    },
+    {
+     "q": "What do you compare in shadow mode?",
+     "options": [
+      "Clicks",
+      "Revenue",
+      "New vs current predictions and latency without user impact",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Offline-like."
+    },
+    {
+     "q": "When promote a canary?",
+     "options": [
+      "Votes",
+      "Time",
+      "When metrics are acceptable against the baseline",
+      "Hope"
+     ],
+     "answer": 2,
+     "explain": "Automated checks."
+    }
+   ]
+  },
+  "level-3/08-feature-stores-training-serving-skew": {
+   "questions": [
+    {
+     "q": "What is training-serving skew?",
+     "options": [
+      "Big models",
+      "Slow serving",
+      "Features computed differently in training and production",
+      "Bad data"
+     ],
+     "answer": 2,
+     "explain": "Silent errors."
+    },
+    {
+     "q": "What does a feature store provide?",
+     "options": [
+      "Models",
+      "Labels",
+      "Consistent, reusable features for offline and online use",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "One definition."
+    },
+    {
+     "q": "What prevents skew without a store?",
+     "options": [
+      "Sharing the same transformation code in both paths",
+      "Rewrite",
+      "Hope",
+      "Copy"
+     ],
+     "answer": 0,
+     "explain": "Single source."
+    },
+    {
+     "q": "What's point-in-time correctness?",
+     "options": [
+      "Using only data available at prediction time when building training sets",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Avoid leakage."
+    }
+   ]
+  },
+  "level-3/09-ab-testing-models": {
+   "questions": [
+    {
+     "q": "Why A/B test models?",
+     "options": [
+      "Offline metrics don't always predict business impact",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Online evaluation."
+    },
+    {
+     "q": "What must be defined before the test?",
+     "options": [
+      "Winner",
+      "Nothing",
+      "Taste",
+      "The primary metric, sample size and duration"
+     ],
+     "answer": 3,
+     "explain": "Avoid peeking."
+    },
+    {
+     "q": "What randomization unit is typical?",
+     "options": [
+      "Request",
+      "Hour",
+      "User (not request) to avoid inconsistent experience",
+      "Server"
+     ],
+     "answer": 2,
+     "explain": "Sticky assignment."
+    },
+    {
+     "q": "What guardrail metrics protect?",
+     "options": [
+      "Names",
+      "Colors",
+      "Latency, errors and key business outcomes",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Do no harm."
+    }
+   ]
+  },
+  "level-3/10-project-ci-cd-pipeline": {
+   "questions": [
+    {
+     "q": "What does the CI/CD pipeline project combine?",
+     "options": [
+      "Only training",
+      "Tests, training, evaluation gates, containerization and staged deployment",
+      "Only CD",
+      "Only CI"
+     ],
+     "answer": 1,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How prove the gate works?",
+     "options": [
+      "A degraded model is blocked automatically",
+      "Demo",
+      "Hope",
+      "Slides"
+     ],
+     "answer": 0,
+     "explain": "Negative test."
+    },
+    {
+     "q": "What's the pipeline's output?",
+     "options": [
+      "Notebook",
+      "CSV",
+      "Plot",
+      "A tested, versioned, deployable model service"
+     ],
+     "answer": 3,
+     "explain": "Release."
+    },
+    {
+     "q": "What do you log for traceability?",
+     "options": [
+      "Time",
+      "Commit, data version, metrics and image digest",
+      "Names",
+      "Mood"
+     ],
+     "answer": 1,
+     "explain": "Provenance."
+    }
+   ]
+  },
+  "level-4/01-monitoring-models-vs-services": {
+   "questions": [
+    {
+     "q": "How is monitoring a model different from monitoring a service?",
+     "options": [
+      "You must watch data and prediction quality, not just latency and errors",
+      "None",
+      "Same",
+      "Easier"
+     ],
+     "answer": 0,
+     "explain": "ML-specific signals."
+    },
+    {
+     "q": "What service metrics still matter?",
+     "options": [
+      "Drift",
+      "Accuracy",
+      "Nothing",
+      "Latency, throughput, errors and resource use"
+     ],
+     "answer": 3,
+     "explain": "Foundation."
+    },
+    {
+     "q": "What's silent failure?",
+     "options": [
+      "The service is healthy but predictions are wrong",
+      "Timeout",
+      "Error",
+      "Crash"
+     ],
+     "answer": 0,
+     "explain": "Needs ML monitoring."
+    },
+    {
+     "q": "Where log predictions?",
+     "options": [
+      "With inputs, model version and timestamps for later analysis",
+      "Memory",
+      "Nowhere",
+      "Email"
+     ],
+     "answer": 0,
+     "explain": "Enables drift and labeling."
+    }
+   ]
+  },
+  "level-4/02-data-drift": {
+   "questions": [
+    {
+     "q": "What is data drift?",
+     "options": [
+      "Label change",
+      "Bug",
+      "The distribution of input features changes from training",
+      "Latency"
+     ],
+     "answer": 2,
+     "explain": "Covariate shift."
+    },
+    {
+     "q": "What statistic compares distributions?",
+     "options": [
+      "Max",
+      "Sum",
+      "PSI, KS test or Jensen-Shannon distance",
+      "Mean"
+     ],
+     "answer": 2,
+     "explain": "Thresholds."
+    },
+    {
+     "q": "Does drift always mean worse performance?",
+     "options": [
+      "Yes",
+      "Always",
+      "No, but it's a warning to investigate",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Check impact."
+    },
+    {
+     "q": "What reference should drift compare against?",
+     "options": [
+      "The training (or recent healthy) data",
+      "Future",
+      "Random",
+      "Test set only"
+     ],
+     "answer": 0,
+     "explain": "Baseline."
+    }
+   ]
+  },
+  "level-4/03-concept-drift": {
+   "questions": [
+    {
+     "q": "What is concept drift?",
+     "options": [
+      "Latency",
+      "The relationship between inputs and target changes over time",
+      "Bug",
+      "Input shift"
+     ],
+     "answer": 1,
+     "explain": "Fraud patterns change."
+    },
+    {
+     "q": "How detect it?",
+     "options": [
+      "Monitor performance on labeled data as labels arrive",
+      "Input only",
+      "Logs",
+      "Latency"
+     ],
+     "answer": 0,
+     "explain": "Needs ground truth."
+    },
+    {
+     "q": "What's the difference from data drift?",
+     "options": [
+      "Reverse",
+      "Concept drift changes P(y|x); data drift changes P(x)",
+      "Same",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Different causes."
+    },
+    {
+     "q": "What responds to concept drift?",
+     "options": [
+      "Scale",
+      "Ignore",
+      "Reboot",
+      "Retraining on recent data or model redesign"
+     ],
+     "answer": 3,
+     "explain": "Adapt."
+    }
+   ]
+  },
+  "level-4/04-monitoring-without-ground-truth": {
+   "questions": [
+    {
+     "q": "How monitor when labels arrive late or never?",
+     "options": [
+      "Proxy signals: input drift, prediction distribution and business metrics",
+      "Nothing",
+      "Guess",
+      "Wait"
+     ],
+     "answer": 0,
+     "explain": "Indirect."
+    },
+    {
+     "q": "What does a shifting prediction distribution suggest?",
+     "options": [
+      "Inputs or behavior changed, warranting investigation",
+      "Latency",
+      "Nothing",
+      "Bug"
+     ],
+     "answer": 0,
+     "explain": "Early warning."
+    },
+    {
+     "q": "What's delayed labeling?",
+     "options": [
+      "None",
+      "Outcomes known days or weeks after predictions",
+      "Instant",
+      "Skipped"
+     ],
+     "answer": 1,
+     "explain": "Backfill metrics."
+    },
+    {
+     "q": "What can approximate ground truth?",
+     "options": [
+      "Guesses",
+      "Logs",
+      "Nothing",
+      "Human review samples or downstream outcomes"
+     ],
+     "answer": 3,
+     "explain": "Sampling."
+    }
+   ]
+  },
+  "level-4/05-alerting-on-degradation": {
+   "questions": [
+    {
+     "q": "What makes a good ML alert?",
+     "options": [
+      "Every drift",
+      "Noisy",
+      "Silent",
+      "Actionable, tied to impact, with thresholds and runbooks"
+     ],
+     "answer": 3,
+     "explain": "Avoid fatigue."
+    },
+    {
+     "q": "What's alert fatigue?",
+     "options": [
+      "Few alerts",
+      "Slow",
+      "So many alerts that real problems are ignored",
+      "Tired"
+     ],
+     "answer": 2,
+     "explain": "Tune."
+    },
+    {
+     "q": "What severity should drift alone have?",
+     "options": [
+      "None",
+      "Same",
+      "Highest",
+      "Lower than a confirmed performance drop"
+     ],
+     "answer": 3,
+     "explain": "Investigate first."
+    },
+    {
+     "q": "What should an alert link to?",
+     "options": [
+      "Nothing",
+      "Dashboards, recent changes and the model version",
+      "Names",
+      "Docs"
+     ],
+     "answer": 1,
+     "explain": "Debugging."
+    }
+   ]
+  },
+  "level-4/06-retraining-triggers": {
+   "questions": [
+    {
+     "q": "What triggers retraining?",
+     "options": [
+      "Random",
+      "Schedule, drift/performance thresholds or enough new labeled data",
+      "Whim",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Policy."
+    },
+    {
+     "q": "What must happen before a retrained model ships?",
+     "options": [
+      "Deploy",
+      "Validation against the current model and the same gates",
+      "Skip",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "No blind updates."
+    },
+    {
+     "q": "What's a risk of automatic retraining?",
+     "options": [
+      "None",
+      "Cost",
+      "Learning from bad or poisoned data and degrading silently",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Guardrails."
+    },
+    {
+     "q": "What record keeps retraining auditable?",
+     "options": [
+      "Nothing",
+      "Names",
+      "Time",
+      "Data version, parameters and approval history"
+     ],
+     "answer": 3,
+     "explain": "Lineage."
+    }
+   ]
+  },
+  "level-4/07-model-governance-auditability": {
+   "questions": [
+    {
+     "q": "What does model governance cover?",
+     "options": [
+      "Ownership, documentation, approvals, risk and audit trails",
+      "Only data",
+      "Only code",
+      "Only infra"
+     ],
+     "answer": 0,
+     "explain": "Accountability."
+    },
+    {
+     "q": "What's a model card?",
+     "options": [
+      "Key",
+      "License",
+      "Documentation of purpose, data, performance, limits and risks",
+      "Chart"
+     ],
+     "answer": 2,
+     "explain": "Transparency."
+    },
+    {
+     "q": "Why keep audit logs of predictions?",
+     "options": [
+      "Style",
+      "To explain and investigate decisions affecting people",
+      "Speed",
+      "Law only"
+     ],
+     "answer": 1,
+     "explain": "Compliance."
+    },
+    {
+     "q": "What regulations may apply?",
+     "options": [
+      "Labour",
+      "Tax",
+      "GDPR/automated decision rules and sector regulations",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Depends on use."
+    }
+   ]
+  },
+  "level-4/08-cost-latency-tradeoffs": {
+   "questions": [
+    {
+     "q": "How trade latency against accuracy?",
+     "options": [
+      "Pick the smallest model meeting the latency and quality targets",
+      "Random",
+      "Fastest",
+      "Biggest"
+     ],
+     "answer": 0,
+     "explain": "Budgets."
+    },
+    {
+     "q": "What reduces serving cost?",
+     "options": [
+      "Bigger",
+      "None",
+      "More GPUs",
+      "Batching, quantization/distillation, caching and autoscaling"
+     ],
+     "answer": 3,
+     "explain": "Efficiency."
+    },
+    {
+     "q": "What's a cascade?",
+     "options": [
+      "Ensemble",
+      "None",
+      "Pipeline",
+      "Cheap model first, expensive model only for hard cases"
+     ],
+     "answer": 3,
+     "explain": "Cost saving."
+    },
+    {
+     "q": "What should you measure?",
+     "options": [
+      "None",
+      "Average",
+      "Accuracy only",
+      "Cost per prediction and p95 latency with quality"
+     ],
+     "answer": 3,
+     "explain": "Trade-off curve."
+    }
+   ]
+  },
+  "level-4/09-mlops-antipatterns": {
+   "questions": [
+    {
+     "q": "Which is an MLOps antipattern?",
+     "options": [
+      "Monitoring",
+      "CI/CD",
+      "Registry",
+      "Manual deploys from a notebook with no versioning"
+     ],
+     "answer": 3,
+     "explain": "Fix with pipelines."
+    },
+    {
+     "q": "Another antipattern?",
+     "options": [
+      "Training and serving using different feature code",
+      "Tests",
+      "Shared code",
+      "Feature store"
+     ],
+     "answer": 0,
+     "explain": "Skew."
+    },
+    {
+     "q": "Another?",
+     "options": [
+      "No monitoring after launch",
+      "Retraining",
+      "Alerts",
+      "Dashboards"
+     ],
+     "answer": 0,
+     "explain": "Models decay."
+    },
+    {
+     "q": "Another?",
+     "options": [
+      "Tuning on the test set",
+      "CV",
+      "Validation",
+      "Holdout"
+     ],
+     "answer": 0,
+     "explain": "Optimistic metrics."
+    }
+   ]
+  },
+  "level-4/10-capstone-complete-mlops-loop": {
+   "questions": [
+    {
+     "q": "What does the complete MLOps loop include?",
+     "options": [
+      "Only serving",
+      "Tracking, registry, CI/CD, serving, monitoring and retraining",
+      "Only data",
+      "Only training"
+     ],
+     "answer": 1,
+     "explain": "Closed loop."
+    },
+    {
+     "q": "How prove the loop works?",
+     "options": [
+      "Demo",
+      "Slides",
+      "Inject drift and watch detection, alert, retrain and safe promotion",
+      "Hope"
+     ],
+     "answer": 2,
+     "explain": "End-to-end test."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "Runbooks, model cards and architecture decisions",
+      "Slides",
+      "None",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Operate."
+    },
+    {
+     "q": "What sustains it?",
+     "options": [
+      "Tools",
+      "Ownership, monitoring and continuous improvement",
+      "Luck",
+      "Silence"
+     ],
+     "answer": 1,
+     "explain": "Lifecycle."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A model has 92% test accuracy but nobody can tell which data or code produced it. What is missing?",
+    "options": [
+     "A dashboard",
+     "Experiment tracking and lineage (params, metrics, artifacts, code and data versions)",
+     "More epochs",
+     "A bigger model"
+    ],
+    "answer": 1,
+    "explain": "Reproducibility."
+   },
+   {
+    "q": "With the same seed, do two random draws match?\n```python\nimport random\nrandom.seed(3);a=random.random()\nrandom.seed(3);b=random.random()\nprint(a==b)\n```\n",
+    "options": [
+     "Maybe",
+     "False",
+     "Error",
+     "True"
+    ],
+    "answer": 3,
+    "explain": "Seeds make randomness repeatable, but library versions and hardware also matter. Verified by running it."
+   },
+   {
+    "q": "You tuned hyperparameters repeatedly against the test set. What's wrong?",
+    "options": [
+     "The test set is now overfit; keep a separate final holdout",
+     "Nothing",
+     "Too few runs",
+     "Bad seed"
+    ],
+    "answer": 0,
+    "explain": "Selection bias."
+   },
+   {
+    "q": "A production service should load 'the best model'. How should it reference it?",
+    "options": [
+     "Path",
+     "By a registry alias (e.g. production), not a hard-coded version or file path",
+     "Run id",
+     "Latest file"
+    ],
+    "answer": 1,
+    "explain": "Promotion and rollback by moving the alias."
+   },
+   {
+    "q": "What should a promotion gate check?",
+    "options": [
+     "Metric thresholds, regression vs the current model, latency and schema compatibility",
+     "Taste",
+     "Only accuracy",
+     "Nothing"
+    ],
+    "answer": 0,
+    "explain": "Policy as code."
+   },
+   {
+    "q": "Predictions are 'wrong' after a deploy though code is fine. A classic cause?",
+    "options": [
+     "GPU",
+     "Training-serving skew: features computed differently online",
+     "Disk",
+     "Latency"
+    ],
+    "answer": 1,
+    "explain": "Share transformations or use a feature store."
+   },
+   {
+    "q": "A request has an unexpected column type and the service returns a prediction anyway. What was missing?",
+    "options": [
+     "Input schema validation at serving time",
+     "Tracing",
+     "More data",
+     "A cache"
+    ],
+    "answer": 0,
+    "explain": "Fail clearly instead of silently coercing."
+   },
+   {
+    "q": "A new model must be evaluated on live traffic without affecting users. Which strategy?",
+    "options": [
+     "Canary",
+     "Blue-green",
+     "Big bang",
+     "Shadow deployment (compare outputs, don't use them)"
+    ],
+    "answer": 3,
+    "explain": "Safe comparison."
+   },
+   {
+    "q": "A small percentage of users get the new model and metrics are checked before widening. What is it?",
+    "options": [
+     "Shadow",
+     "Rollback",
+     "A/B",
+     "A canary release"
+    ],
+    "answer": 3,
+    "explain": "Gradual exposure."
+   },
+   {
+    "q": "Why randomize A/B tests by user rather than by request?",
+    "options": [
+     "Law",
+     "A user should have a consistent experience and independent samples",
+     "Cheaper",
+     "Faster"
+    ],
+    "answer": 1,
+    "explain": "Sticky assignment."
+   },
+   {
+    "q": "CI for ML should include which checks beyond unit tests?",
+    "options": [
+     "Only lint",
+     "Nothing",
+     "Data validation, a small training smoke test and model metric gates",
+     "Screenshots"
+    ],
+    "answer": 2,
+    "explain": "Ml-specific CI."
+   },
+   {
+    "q": "The pipeline retrains every night and one night the model degrades silently. What guards against shipping it?",
+    "options": [
+     "Faster GPU",
+     "More retries",
+     "Evaluation gates against the current production model before promotion",
+     "Bigger data"
+    ],
+    "answer": 2,
+    "explain": "No blind updates."
+   },
+   {
+    "q": "Input feature distributions shift but labels aren't available yet. Which signal helps?",
+    "options": [
+     "Data drift metrics (PSI/KS) and prediction distribution monitoring",
+     "Accuracy",
+     "Loss",
+     "Epochs"
+    ],
+    "answer": 0,
+    "explain": "Proxy signals."
+   },
+   {
+    "q": "A PSI of 0.3 is typically interpreted as?\n```python\np=0.3\nprint('stable' if p<0.1 else 'moderate drift' if p<0.25 else 'significant drift')\n```\n",
+    "options": [
+     "stable",
+     "moderate drift",
+     "significant drift",
+     "none"
+    ],
+    "answer": 2,
+    "explain": "Common rule of thumb: <0.1 stable, 0.1-0.25 moderate, >0.25 significant. Verified by running it."
+   },
+   {
+    "q": "Fraud patterns change so inputs look similar but outcomes differ. What is it?",
+    "options": [
+     "Data drift",
+     "Latency",
+     "Concept drift (the input-output relationship changed)",
+     "Skew"
+    ],
+    "answer": 2,
+    "explain": "Needs labeled outcomes to detect."
+   },
+   {
+    "q": "What makes an ML alert useful?",
+    "options": [
+     "It's actionable, tied to impact and links to the model version and runbook",
+     "Is silent",
+     "Fires on every drift",
+     "Email only"
+    ],
+    "answer": 0,
+    "explain": "Avoid alert fatigue."
+   },
+   {
+    "q": "When is automatic retraining risky?",
+    "options": [
+     "Never",
+     "With GPUs",
+     "Always",
+     "When bad or poisoned data can flow in and degrade the model silently"
+    ],
+    "answer": 3,
+    "explain": "Add validation and gates."
+   },
+   {
+    "q": "Which artifact documents a model's purpose, data, limits and risks?",
+    "options": [
+     "A model card",
+     "A chart",
+     "A key",
+     "A license"
+    ],
+    "answer": 0,
+    "explain": "Governance."
+   },
+   {
+    "q": "A cheaper model handles most requests and an expensive one the hard cases. What is this?",
+    "options": [
+     "Shadow",
+     "Canary",
+     "A cascade (cost/latency trade-off)",
+     "Ensemble"
+    ],
+    "answer": 2,
+    "explain": "Serving cost control."
+   },
+   {
+    "q": "Which is an MLOps anti-pattern?",
+    "options": [
+     "Deploying manually from a notebook with no versioning or monitoring",
+     "CI/CD",
+     "Registry",
+     "Drift alerts"
+    ],
+    "answer": 0,
+    "explain": "Fix with pipelines and registry."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Detect data drift with PSI and KS",
+    "prompt": "Implement psi (binned population stability index using the reference range, clamping out-of-range live values), level (stable / moderate / significant) and a two-sample KS statistic. Compare a live sample from the same distribution with one whose mean has shifted.",
+    "starter": "import math\n\ndef psi(expected, actual, bins=5):\n    # bin both samples with edges from the reference range (clamp out-of-range values into the end bins),\n    # turn counts into shares (floor at 1e-4) and return sum((a - e) * ln(a / e))\n    return 0.0\n\ndef level(p):\n    # < 0.1 \"stable\", < 0.25 \"moderate drift\", otherwise \"significant drift\"\n    return \"\"\n\ndef ks(a, b):\n    # two-sample Kolmogorov-Smirnov: the largest gap between the two empirical CDFs\n    return 0.0\n\nref = [i / 10 for i in range(100)]                       # training feature: roughly uniform 0..9.9\nsame = [i / 10 + 0.05 for i in range(100)]               # same distribution\nshifted = [i / 10 + 3 for i in range(100)]               # mean shifted by +3\nfor name, live in [(\"same\", same), (\"shifted\", shifted)]:\n    p = psi(ref, live)\n    print(f\"{name:8s} psi={p:.3f} -> {level(p)}  ks={ks(ref, live):.2f}\")\n",
+    "expected": "same     psi=0.001 -> stable  ks=0.01\nshifted  psi=1.864 -> significant drift  ks=0.30",
+    "solution": "import math\n\ndef psi(expected, actual, bins=5):\n    \"\"\"Population Stability Index between a reference sample and a live sample.\"\"\"\n    lo, hi = min(expected), max(expected)\n    edges = [lo + (hi - lo) * i / bins for i in range(bins + 1)]\n    def share(xs):\n        counts = [0] * bins\n        for x in xs:\n            i = min(max(int((x - lo) / (hi - lo) * bins), 0), bins - 1)\n            counts[i] += 1\n        return [max(c / len(xs), 1e-4) for c in counts]\n    e, a = share(expected), share(actual)\n    return sum((ai - ei) * math.log(ai / ei) for ei, ai in zip(e, a))\n\ndef level(p):\n    return \"stable\" if p < 0.1 else \"moderate drift\" if p < 0.25 else \"significant drift\"\n\ndef ks(a, b):\n    \"\"\"Two-sample Kolmogorov-Smirnov statistic (max CDF gap).\"\"\"\n    pts = sorted(set(a + b))\n    return max(abs(sum(x <= p for x in a) / len(a) - sum(x <= p for x in b) / len(b)) for p in pts)\n\nref = [i / 10 for i in range(100)]                       # training feature: roughly uniform 0..9.9\nsame = [i / 10 + 0.05 for i in range(100)]               # same distribution\nshifted = [i / 10 + 3 for i in range(100)]               # mean shifted by +3\nfor name, live in [(\"same\", same), (\"shifted\", shifted)]:\n    p = psi(ref, live)\n    print(f\"{name:8s} psi={p:.3f} -> {level(p)}  ks={ks(ref, live):.2f}\")\n",
+    "explain": "The same-distribution sample scores near zero on both metrics, while the shifted sample produces a large PSI and a high KS statistic, signalling drift without needing labels. Thresholds are rules of thumb. Verified by running the solution."
+   },
+   {
+    "title": "A registry with promotion gates and rollback",
+    "prompt": "Implement Registry.promote: reject versions below the minimum AUC, above the latency limit or regressing against the current production version, otherwise move the production alias; rollback then restores the previous version from the history.",
+    "starter": "class Registry:\n    def __init__(self):\n        self.versions = {}          # version -> {\"metrics\": {...}, \"run\": ...}\n        self.alias = {}             # alias -> version\n        self.history = []\n\n    def register(self, metrics, run):\n        v = len(self.versions) + 1\n        self.versions[v] = {\"metrics\": metrics, \"run\": run}\n        return v\n\n    def promote(self, version, gates):\n        # gates: min_auc, max_p95_ms, max_regression. Collect failure messages (\"auc X < Y\", \"p95 Nms > Mms\",\n        # \"auc regression vs vK: X < base\") and append \"REJECT vN: <failures joined by '; '>\" to history,\n        # returning False; if all pass set alias[\"production\"] = version, append\n        # \"PROMOTE vN (previous: <old or None>)\" and return True. The regression gate only applies when a\n        # production version exists and the new auc is below its auc minus max_regression.\n        return False\n\n    def rollback(self):\n        for line in reversed(self.history):\n            if line.startswith(\"PROMOTE\") and \"previous: None\" not in line:\n                prev = int(line.split(\"previous: \")[1].rstrip(\")\"))\n                self.alias[\"production\"] = prev\n                self.history.append(f\"ROLLBACK to v{prev}\")\n                return prev\n        raise RuntimeError(\"nothing to roll back to\")\n\ngates = {\"min_auc\": 0.80, \"max_p95_ms\": 100, \"max_regression\": 0.01}\nr = Registry()\nv1 = r.register({\"auc\": 0.84, \"p95_ms\": 60}, \"run-a\")\nv2 = r.register({\"auc\": 0.79, \"p95_ms\": 55}, \"run-b\")\nv3 = r.register({\"auc\": 0.86, \"p95_ms\": 140}, \"run-c\")\nv4 = r.register({\"auc\": 0.87, \"p95_ms\": 70}, \"run-d\")\nfor v in (v1, v2, v3, v4):\n    print(v, r.promote(v, gates))\nprint(\"production ->\", r.alias[\"production\"])\nprint(\"rollback ->\", r.rollback(), \"production ->\", r.alias[\"production\"])\nprint(*r.history, sep=\"\\n\")\n",
+    "expected": "1 True\n2 False\n3 False\n4 True\nproduction -> 4\nrollback -> 1 production -> 1\nPROMOTE v1 (previous: None)\nREJECT v2: auc 0.79 < 0.8; auc regression vs v1: 0.79 < 0.84\nREJECT v3: p95 140ms > 100ms\nPROMOTE v4 (previous: 1)\nROLLBACK to v1",
+    "solution": "class Registry:\n    def __init__(self):\n        self.versions = {}          # version -> {\"metrics\": {...}, \"run\": ...}\n        self.alias = {}             # alias -> version\n        self.history = []\n\n    def register(self, metrics, run):\n        v = len(self.versions) + 1\n        self.versions[v] = {\"metrics\": metrics, \"run\": run}\n        return v\n\n    def promote(self, version, gates):\n        \"\"\"Move the 'production' alias to `version` only if every gate passes; otherwise explain why not.\"\"\"\n        m = self.versions[version][\"metrics\"]\n        failures = []\n        if m[\"auc\"] < gates[\"min_auc\"]:\n            failures.append(f\"auc {m['auc']} < {gates['min_auc']}\")\n        if m[\"p95_ms\"] > gates[\"max_p95_ms\"]:\n            failures.append(f\"p95 {m['p95_ms']}ms > {gates['max_p95_ms']}ms\")\n        current = self.alias.get(\"production\")\n        if current is not None:\n            base = self.versions[current][\"metrics\"][\"auc\"]\n            if m[\"auc\"] < base - gates[\"max_regression\"]:\n                failures.append(f\"auc regression vs v{current}: {m['auc']} < {base}\")\n        if failures:\n            self.history.append(f\"REJECT v{version}: \" + \"; \".join(failures))\n            return False\n        self.alias[\"production\"] = version\n        self.history.append(f\"PROMOTE v{version} (previous: {current})\")\n        return True\n\n    def rollback(self):\n        for line in reversed(self.history):\n            if line.startswith(\"PROMOTE\") and \"previous: None\" not in line:\n                prev = int(line.split(\"previous: \")[1].rstrip(\")\"))\n                self.alias[\"production\"] = prev\n                self.history.append(f\"ROLLBACK to v{prev}\")\n                return prev\n        raise RuntimeError(\"nothing to roll back to\")\n\ngates = {\"min_auc\": 0.80, \"max_p95_ms\": 100, \"max_regression\": 0.01}\nr = Registry()\nv1 = r.register({\"auc\": 0.84, \"p95_ms\": 60}, \"run-a\")\nv2 = r.register({\"auc\": 0.79, \"p95_ms\": 55}, \"run-b\")\nv3 = r.register({\"auc\": 0.86, \"p95_ms\": 140}, \"run-c\")\nv4 = r.register({\"auc\": 0.87, \"p95_ms\": 70}, \"run-d\")\nfor v in (v1, v2, v3, v4):\n    print(v, r.promote(v, gates))\nprint(\"production ->\", r.alias[\"production\"])\nprint(\"rollback ->\", r.rollback(), \"production ->\", r.alias[\"production\"])\nprint(*r.history, sep=\"\\n\")\n",
+    "explain": "Gating promotion on quality, latency and regression protects production from worse models, and alias-based deployment makes rollback a pointer move. This is a teaching model of a registry. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
