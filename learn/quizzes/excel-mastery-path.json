@@ -1,0 +1,1927 @@
+{
+ "course": "excel-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-excel-fundamentals": {
+   "questions": [
+    {
+     "q": "How are the three nested containers in Excel ordered?",
+     "options": [
+      "A workbook holds worksheets, and each worksheet is a grid of cells",
+      "A cell holds workbooks",
+      "A worksheet holds workbooks",
+      "A range holds worksheets"
+     ],
+     "answer": 0,
+     "explain": "The workbook is the file, worksheets are tabs, and cells are addressed by column letter and row number."
+    },
+    {
+     "q": "What does the Name Box let you do besides showing the selected address?",
+     "options": [
+      "Edit formulas",
+      "Insert tables",
+      "Rename the workbook",
+      "Type an address such as B3 and press Enter to jump to it"
+     ],
+     "answer": 3,
+     "explain": "It's the box above column A."
+    },
+    {
+     "q": "What does A1:C5 represent?",
+     "options": [
+      "A single cell",
+      "Five cells in column A",
+      "A block 3 columns wide by 5 rows tall",
+      "A formula"
+     ],
+     "answer": 2,
+     "explain": "A range is written TopLeft:BottomRight."
+    },
+    {
+     "q": "What does Ctrl/Cmd+Arrow do?",
+     "options": [
+      "Jumps to the edge of the current block of data in that direction",
+      "Opens the ribbon",
+      "Deletes the row",
+      "Copies the cell"
+     ],
+     "answer": 0,
+     "explain": "Adding Shift also extends the selection."
+    }
+   ]
+  },
+  "level-1/02-formulas-functions-basics": {
+   "questions": [
+    {
+     "q": "What does every formula start with?",
+     "options": [
+      "#",
+      "+",
+      "=",
+      "@"
+     ],
+     "answer": 2,
+     "explain": "Every formula is = followed by an expression."
+    },
+    {
+     "q": "You fill D2 (=C2-B2) down to D3. What does D3 contain?",
+     "options": [
+      "=C2-B2",
+      "=$C$2-$B$2",
+      "=C3-B3, because the references are relative",
+      "A static value"
+     ],
+     "answer": 2,
+     "explain": "Relative references shift as you copy them."
+    },
+    {
+     "q": "What does the Formula Bar show for a cell with a formula?",
+     "options": [
+      "Nothing",
+      "Only the result",
+      "Only the format",
+      "The formula, while the cell shows the calculated result"
+     ],
+     "answer": 3,
+     "explain": "The stored formula versus displayed value distinction matters constantly."
+    },
+    {
+     "q": "What does =SUM(B2:B4,B6) do?",
+     "options": [
+      "Sums all five rows",
+      "Counts four rows",
+      "Sums four of the five rows, skipping B5",
+      "Errors"
+     ],
+     "answer": 2,
+     "explain": "SUM accepts multiple ranges or cells, comma-separated."
+    }
+   ]
+  },
+  "level-1/03-formatting-conditional-formatting": {
+   "questions": [
+    {
+     "q": "When you format 1200 as currency, what changes?",
+     "options": [
+      "Only how it displays; the stored value is still 1200",
+      "The stored value",
+      "The formula",
+      "The column width"
+     ],
+     "answer": 0,
+     "explain": "Every formula referencing it still uses 1200."
+    },
+    {
+     "q": "What does conditional formatting do?",
+     "options": [
+      "Protects cells",
+      "Changes the stored value",
+      "Sorts data",
+      "Changes a cell's appearance automatically based on its value"
+     ],
+     "answer": 3,
+     "explain": "It makes a budget's problem rows visually obvious."
+    },
+    {
+     "q": "What happens to a cell's precision when you use Decrease Decimal?",
+     "options": [
+      "The format resets",
+      "The value is rounded permanently",
+      "The cell is deleted",
+      "Only the display is rounded; formulas use the full stored precision"
+     ],
+     "answer": 3,
+     "explain": "Display rounding doesn't change the underlying value."
+    },
+    {
+     "q": "What does the custom format $#,##0;[Red]-$#,##0 do?",
+     "options": [
+      "Shows all in red",
+      "Shows positives normally and negatives in red with a minus",
+      "Hides negatives",
+      "Rounds to thousands"
+     ],
+     "answer": 1,
+     "explain": "It's a Custom format from More Number Formats."
+    }
+   ]
+  },
+  "level-1/04-working-with-tables": {
+   "questions": [
+    {
+     "q": "What does Insert > Table (Ctrl/Cmd+T) give you over a plain range?",
+     "options": [
+      "Only colors",
+      "Nothing",
+      "Filtering, banded rows, auto-filling formulas and structured references",
+      "Macros"
+     ],
+     "answer": 2,
+     "explain": "It turns the range into a structured object."
+    },
+    {
+     "q": "What does =SUM(Budget[Actual]) have over =SUM(C2:C6)?",
+     "options": [
+      "It adjusts automatically when rows are added or removed",
+      "It rounds",
+      "It's faster",
+      "It ignores errors"
+     ],
+     "answer": 0,
+     "explain": "A fixed range would need manual editing."
+    },
+    {
+     "q": "What does Budget[@Actual] refer to?",
+     "options": [
+      "The Actual value in that specific row",
+      "The whole column",
+      "The header",
+      "The whole table"
+     ],
+     "answer": 0,
+     "explain": "It is the structured-reference equivalent of a relative reference."
+    },
+    {
+     "q": "Which table name is valid?",
+     "options": [
+      "Budget",
+      "1 table",
+      "My Budget",
+      "A1"
+     ],
+     "answer": 0,
+     "explain": "Table names must be unique, contain no spaces and can't collide with cell addresses."
+    }
+   ]
+  },
+  "level-1/05-charts-basic-visualization": {
+   "questions": [
+    {
+     "q": "Which chart type does the lesson insert first for Budgeted vs Actual per category?",
+     "options": [
+      "Scatter",
+      "Line",
+      "Clustered Column",
+      "Pie"
+     ],
+     "answer": 2,
+     "explain": "It shows one cluster of two bars (Budgeted, Actual) per category."
+    },
+    {
+     "q": "What do the three floating buttons on a selected chart control?",
+     "options": [
+      "Sort, Filter, Group",
+      "Cut, Copy, Paste",
+      "Chart Elements, Chart Styles and Chart Filters",
+      "Open, Save, Print"
+     ],
+     "answer": 2,
+     "explain": "They cover most day-to-day chart adjustments without a separate dialog."
+    },
+    {
+     "q": "Why might you uncheck Gridlines once Data Labels are showing?",
+     "options": [
+      "Labels require it",
+      "Gridlines add visual noise when exact numbers are already displayed",
+      "Gridlines delete data",
+      "Gridlines are an error"
+     ],
+     "answer": 1,
+     "explain": "Gridlines help estimate values only when labels are absent."
+    },
+    {
+     "q": "How do you select non-adjacent columns such as Category and Budgeted for a pie chart?",
+     "options": [
+      "Drag the chart",
+      "Select A1:A7, then hold Ctrl/Cmd and select B1:B7",
+      "Use Sort",
+      "Select the whole sheet"
+     ],
+     "answer": 1,
+     "explain": "Ctrl/Cmd-click adds another range to the selection."
+    }
+   ]
+  },
+  "level-1/06-lookup-functions": {
+   "questions": [
+    {
+     "q": "In =VLOOKUP(A2,CategoryInfo!$A$2:$C$7,2,FALSE), what does 2 mean?",
+     "options": [
+      "The 2nd column of the table array",
+      "The second row",
+      "The lookup value",
+      "Two matches"
+     ],
+     "answer": 0,
+     "explain": "The column index number is a fixed position, not a column name."
+    },
+    {
+     "q": "What does FALSE as the last VLOOKUP argument request?",
+     "options": [
+      "A sorted match",
+      "An exact match",
+      "No match",
+      "An approximate match"
+     ],
+     "answer": 1,
+     "explain": "It is what you want almost always when matching text."
+    },
+    {
+     "q": "What is VLOOKUP's biggest limitation?",
+     "options": [
+      "It needs macros",
+      "It can only look rightward from the lookup column",
+      "It only works on one sheet",
+      "It can't look up text"
+     ],
+     "answer": 1,
+     "explain": "It also breaks if a column is inserted in the middle of the table array."
+    },
+    {
+     "q": "How does XLOOKUP take its range arguments?",
+     "options": [
+      "Only one range",
+      "A lookup array and a separate return array",
+      "One table array and an index number",
+      "A named table only"
+     ],
+     "answer": 1,
+     "explain": "Its arguments are lookup value, lookup array and return array."
+    }
+   ]
+  },
+  "level-1/07-logical-functions": {
+   "questions": [
+    {
+     "q": "What are IF's three arguments?",
+     "options": [
+      "Two values and a range",
+      "A condition, the value if TRUE and the value if FALSE",
+      "A cell, a row and a column",
+      "A range, a count and a sum"
+     ],
+     "answer": 1,
+     "explain": "=IF(D2>0,\"Over Budget\",\"OK\") shows the pattern."
+    },
+    {
+     "q": "Rent's Difference is 0. What does =IF(D2>0,\"Over Budget\",\"OK\") show?",
+     "options": [
+      "An error",
+      "Over Budget",
+      "OK",
+      "On Track"
+     ],
+     "answer": 2,
+     "explain": "0>0 is FALSE."
+    },
+    {
+     "q": "How does IFS differ from nested IFs?",
+     "options": [
+      "It looks up values",
+      "It takes condition/result pairs and returns the first TRUE result, without nesting parentheses",
+      "It only handles two outcomes",
+      "It sorts data"
+     ],
+     "answer": 1,
+     "explain": "Using TRUE as the final condition acts as a catch-all else."
+    },
+    {
+     "q": "Why nest a second IF in the FALSE branch?",
+     "options": [
+      "To copy formulas",
+      "To get three outcomes (Over, Under, On Track) from one formula",
+      "To speed up Excel",
+      "To avoid errors"
+     ],
+     "answer": 1,
+     "explain": "A single IF only branches two ways."
+    }
+   ]
+  },
+  "level-1/08-pivottables-basics": {
+   "questions": [
+    {
+     "q": "What kind of source data does a PivotTable need?",
+     "options": [
+      "A pre-summarized table",
+      "Flat, transaction-level data with one row per fact",
+      "A single column",
+      "A chart"
+     ],
+     "answer": 1,
+     "explain": "The Transactions table has one row per category per month."
+    },
+    {
+     "q": "What does converting the source to a Table give a PivotTable?",
+     "options": [
+      "Formulas",
+      "It auto-expands its source range when rows are added",
+      "Charts",
+      "Faster colors"
+     ],
+     "answer": 1,
+     "explain": "PivotTables built from a Table pick up new rows."
+    },
+    {
+     "q": "Dragging Category to Rows and Amount to Values defaults to what?",
+     "options": [
+      "Sum of Amount per category",
+      "Average of Amount",
+      "Count of Amount",
+      "Max of Amount"
+     ],
+     "answer": 0,
+     "explain": "Rent totals 2400 across Jan and Feb."
+    },
+    {
+     "q": "After swapping Category for Type in Rows, how many data rows appear?",
+     "options": [
+      "One",
+      "Two: Fixed (3050) and Variable (1400)",
+      "Six",
+      "Twelve"
+     ],
+     "answer": 1,
+     "explain": "Fixed = Rent 2400 + Savings 600 + Subscriptions 50."
+    }
+   ]
+  },
+  "level-1/09-data-validation-cleaning": {
+   "questions": [
+    {
+     "q": "How do you restrict a cell to a dropdown of allowed values?",
+     "options": [
+      "Data > Data Validation, Allow: List, with a Source range",
+      "Home > Format",
+      "Insert > Table",
+      "View > Freeze"
+     ],
+     "answer": 0,
+     "explain": "The lesson uses =CategoryInfo!$A$2:$A$7 as the source."
+    },
+    {
+     "q": "What is the difference between Stop and Warning error alert styles?",
+     "options": [
+      "They are identical",
+      "Stop blocks invalid entries; Warning lets the user override after confirming",
+      "Warning blocks everything",
+      "Stop only warns"
+     ],
+     "answer": 1,
+     "explain": "Warning is useful when a value is unusual but not necessarily wrong."
+    },
+    {
+     "q": "What does TRIM do?",
+     "options": [
+      "Removes duplicates",
+      "Rounds numbers",
+      "Changes case",
+      "Removes leading and trailing spaces and collapses internal multiple spaces to single spaces"
+     ],
+     "answer": 3,
+     "explain": "It's the first step in cleaning pasted or imported text."
+    },
+    {
+     "q": "Does Clear All in the Data Validation dialog change existing cell values?",
+     "options": [
+      "No, it removes only the rule",
+      "It resets formatting",
+      "Yes, it clears values",
+      "It deletes the sheet"
+     ],
+     "answer": 0,
+     "explain": "The existing values stay as they were."
+    }
+   ]
+  },
+  "level-1/10-project-personal-budget-tracker": {
+   "questions": [
+    {
+     "q": "Which formula pattern should the Difference column use?",
+     "options": [
+      "=C2-B2 with relative references, not hardcoded values",
+      "Typed numbers",
+      "=SUM(C2)",
+      "=$C$2-$B$2"
+     ],
+     "answer": 0,
+     "explain": "Relative references fill down correctly."
+    },
+    {
+     "q": "Why does the % of Budget column use an absolute reference to the Budgeted total?",
+     "options": [
+      "So it doesn't break when copied",
+      "To format as currency",
+      "To sort",
+      "So it displays faster"
+     ],
+     "answer": 0,
+     "explain": "For example $B$8 or the Table's total row."
+    },
+    {
+     "q": "What does the Needs Review column use?",
+     "options": [
+      "VLOOKUP",
+      "AND(Type=\"Variable\", Difference>50)",
+      "PivotTable",
+      "SUMIFS"
+     ],
+     "answer": 1,
+     "explain": "It flags variable categories that are more than 50 over budget."
+    },
+    {
+     "q": "Which four sheets make up the finished workbook?",
+     "options": [
+      "Budget, CategoryInfo, Transactions and Messy",
+      "Sales, Pivot, Chart, Data",
+      "Home, Insert, Formulas, Data",
+      "Jan, Feb, Mar, Apr"
+     ],
+     "answer": 0,
+     "explain": "Messy is the cleaning scratch sheet and can be deleted later."
+    }
+   ]
+  },
+  "level-2/01-advanced-formulas": {
+   "questions": [
+    {
+     "q": "Where does the sum range go in SUMIFS compared with SUMIF?",
+     "options": [
+      "Neither uses one",
+      "Last in both",
+      "First in SUMIFS, last in SUMIF",
+      "First in both"
+     ],
+     "answer": 2,
+     "explain": "The lesson notes this trips up almost everyone coming from SUMIF."
+    },
+    {
+     "q": "Using the Sales data, what does =SUMIFS(D2:D11,A2:A11,\"East\",B2:B11,\"Mar\") return?",
+     "options": [
+      "700",
+      "4900",
+      "1500",
+      "2200"
+     ],
+     "answer": 3,
+     "explain": "Rows 4 (1500) and 8 (700) match East + Mar."
+    },
+    {
+     "q": "=COUNTIFS(A2:A11,\"West\",D2:D11,\">1000\") returns 1. Why isn't the 1000 row counted?",
+     "options": [
+      "1000 is not greater than 1000",
+      "Row 11 is blank",
+      "It's text",
+      "West is excluded"
+     ],
+     "answer": 0,
+     "explain": "Only row 7 (1300) qualifies."
+    },
+    {
+     "q": "What does =AVERAGEIFS(D2:D11,C2:C11,\"Priya\") return?",
+     "options": [
+      "3900",
+      "975",
+      "1500",
+      "4"
+     ],
+     "answer": 1,
+     "explain": "Priya's deals 1500, 800, 600, 1000 sum to 3900 over 4 rows."
+    }
+   ]
+  },
+  "level-2/02-pivottables-deep-dive": {
+   "questions": [
+    {
+     "q": "What does the lesson recommend to catch a mis-selected data range?",
+     "options": [
+      "Sort the data",
+      "Cross-check the PivotTable totals against hand-calculated totals",
+      "Use macros",
+      "Re-install Excel"
+     ],
+     "answer": 1,
+     "explain": "East 4900 and West 5150 matched the hand sums."
+    },
+    {
+     "q": "How do you get an average alongside the sum?",
+     "options": [
+      "Add a new sheet",
+      "Insert a chart",
+      "Use SUMIFS",
+      "Drag Amount to Values a second time and change its Value Field Settings to Average"
+     ],
+     "answer": 3,
+     "explain": "East's average is 4900/5 = 980."
+    },
+    {
+     "q": "What controls nesting when you drag Month below Region in Rows?",
+     "options": [
+      "Sort order",
+      "The sheet order",
+      "Column width",
+      "The order of fields in the Rows box"
+     ],
+     "answer": 3,
+     "explain": "Order matters: Region then Month nests months under each region."
+    },
+    {
+     "q": "What does a calculated field Bonus = Amount*0.1 show for East's 4900?",
+     "options": [
+      "49",
+      "4900",
+      "490",
+      "5390"
+     ],
+     "answer": 2,
+     "explain": "4900 * 0.1 = 490."
+    }
+   ]
+  },
+  "level-2/03-advanced-charting-dashboards": {
+   "questions": [
+    {
+     "q": "Why use a secondary axis for Margin% alongside Revenue?",
+     "options": [
+      "Margin% is text",
+      "The scales differ by an order of magnitude, so the line would look flat on one axis",
+      "Revenue is a percentage",
+      "Secondary axes are required for all line charts"
+     ],
+     "answer": 1,
+     "explain": "Revenue runs in thousands while Margin% is a fraction near 0.30."
+    },
+    {
+     "q": "What is a sparkline?",
+     "options": [
+      "A pivot",
+      "A color scale",
+      "A small in-cell trend line summarizing a column of values",
+      "A full-page chart"
+     ],
+     "answer": 2,
+     "explain": "One sparkline per KPI, stacked, gives a quick visual scan in dashboard headers."
+    },
+    {
+     "q": "Which month has the lowest Revenue but the highest Margin% in the dataset?",
+     "options": [
+      "Mar",
+      "Jan",
+      "Apr",
+      "May"
+     ],
+     "answer": 0,
+     "explain": "March: 11000 revenue and 0.35 margin."
+    },
+    {
+     "q": "How do you snap chart edges to cell boundaries when dragging?",
+     "options": [
+      "Hold Shift",
+      "Hold Alt while dragging",
+      "Hold Ctrl",
+      "Press F4"
+     ],
+     "answer": 1,
+     "explain": "This is the grid alignment principle for dashboard tiles."
+    }
+   ]
+  },
+  "level-2/04-data-validation-advanced-form-controls": {
+   "questions": [
+    {
+     "q": "What does =INDIRECT(G1) do in the cascading dropdown?",
+     "options": [
+      "Sorts G1",
+      "Deletes G1",
+      "Turns the text in G1 (e.g. \"Fruit\") into a reference to the named range of that name",
+      "Copies G1"
+     ],
+     "answer": 2,
+     "explain": "G2's list changes to the items for whichever category G1 holds."
+    },
+    {
+     "q": "What does the custom validation =AND(H2>0,H2<=100) allow?",
+     "options": [
+      "Only 0",
+      "Numbers above 0 up to and including 100",
+      "Only text",
+      "Anything"
+     ],
+     "answer": 1,
+     "explain": "150 and 0 are rejected; 100 is accepted."
+    },
+    {
+     "q": "How does =COUNTIF($I$2:$I$10,I2)=1 block duplicates?",
+     "options": [
+      "If the value already appears, the count becomes 2, returning FALSE and rejecting it",
+      "It deletes duplicates",
+      "It sorts the range",
+      "It highlights them"
+     ],
+     "answer": 0,
+     "explain": "Only a first occurrence gives a count of 1."
+    },
+    {
+     "q": "What do Form Controls like combo boxes and check boxes let a sheet do?",
+     "options": [
+      "Import data",
+      "Print",
+      "Respond to user clicks without VBA",
+      "Run macros only"
+     ],
+     "answer": 2,
+     "explain": "First enable the Developer tab in Customize Ribbon."
+    }
+   ]
+  },
+  "level-2/05-power-query-basics": {
+   "questions": [
+    {
+     "q": "What makes Power Query repeatable?",
+     "options": [
+      "It copies data",
+      "It locks cells",
+      "It saves a macro",
+      "Every action is recorded as a numbered Applied Step that replays on refresh"
+     ],
+     "answer": 3,
+     "explain": "Manual copy/paste cleanup would have to be redone each time."
+    },
+    {
+     "q": "Why Replace Values (null → 0) rather than Fill Down for a blank sales cell?",
+     "options": [
+      "Fill Down deletes rows",
+      "Replace is faster",
+      "A missing figure should become 0, not inherit a neighbor's value",
+      "Fill Down is invalid"
+     ],
+     "answer": 2,
+     "explain": "Row 5 becomes Alan, EAST, 0."
+    },
+    {
+     "q": "After cleaning, what does Group By region with Sum of sales show?",
+     "options": [
+      "EAST 2900 and WEST 2600",
+      "One row of 5500",
+      "EAST 2600 and WEST 2900",
+      "EAST 4900 and WEST 5150"
+     ],
+     "answer": 0,
+     "explain": "East = 1200+900+0+800; West = 1500+1100."
+    },
+    {
+     "q": "Why normalize region case to one convention?",
+     "options": [
+      "To reduce file size",
+      "Power Query requires it",
+      "So East and east aren't treated as separate groups downstream",
+      "To change colors"
+     ],
+     "answer": 2,
+     "explain": "Pick one convention and apply it everywhere."
+    }
+   ]
+  },
+  "level-2/06-array-formulas-dynamic-arrays": {
+   "questions": [
+    {
+     "q": "What does 'spill' mean for dynamic array functions?",
+     "options": [
+      "Data is deleted",
+      "Errors overflow",
+      "Results automatically fill neighboring cells, with no Ctrl+Shift+Enter needed",
+      "Cells merge"
+     ],
+     "answer": 2,
+     "explain": "FILTER, SORT, UNIQUE and SEQUENCE return multiple results."
+    },
+    {
+     "q": "How do you combine two conditions inside FILTER as AND?",
+     "options": [
+      "Use &",
+      "Use a comma",
+      "Multiply the boolean arrays, e.g. (B2:B9=\"Sales\")*(C2:C9>80)",
+      "Use +"
+     ],
+     "answer": 2,
+     "explain": "Multiplication acts as AND and returns 3 rows in the example."
+    },
+    {
+     "q": "What does =SORT(UNIQUE(B2:B9)) return for the Team data?",
+     "options": [
+      "IT, HR, Sales",
+      "HR, IT, Sales",
+      "Sales, Sales, IT",
+      "Sales, IT, HR"
+     ],
+     "answer": 1,
+     "explain": "UNIQUE gives first-seen order Sales, IT, HR; SORT orders it alphabetically."
+    },
+    {
+     "q": "What does the # operator in I1# refer to?",
+     "options": [
+      "The header",
+      "A comment",
+      "The first cell",
+      "The entire spilled array"
+     ],
+     "answer": 3,
+     "explain": "=COUNTIF(B2:B9,I1#) spills counts aligned to the sorted departments."
+    }
+   ]
+  },
+  "level-2/07-what-if-analysis": {
+   "questions": [
+    {
+     "q": "What does Goal Seek do in the loan model?",
+     "options": [
+      "Formats cells",
+      "Sorts data",
+      "Creates a chart",
+      "Iterates to find the input (e.g. Principal) that produces a target output (e.g. a 350 payment)"
+     ],
+     "answer": 3,
+     "explain": "It solves for B1 so that B4 reaches 350, roughly 18122."
+    },
+    {
+     "q": "In a one-variable Data Table with rates listed down a column, which input cell do you specify?",
+     "options": [
+      "D1",
+      "Row input cell B1",
+      "B4",
+      "Column input cell B2 (the rate)"
+     ],
+     "answer": 3,
+     "explain": "Rates vary down a column, so B2 is the column input cell."
+    },
+    {
+     "q": "What sanity check does the lesson give for the Data Table results?",
+     "options": [
+      "Payments are negative",
+      "Payments fall as rates rise",
+      "All payments equal",
+      "Payments rise monotonically as the rate increases from 0.04 to 0.08"
+     ],
+     "answer": 3,
+     "explain": "At 0.08 expect roughly 405.53, higher than 386.66 at 0.06."
+    },
+    {
+     "q": "Why does the formula negate PMT?",
+     "options": [
+      "To convert to percentage",
+      "To round",
+      "PMT returns a negative number for a cash outflow",
+      "PMT is always positive"
+     ],
+     "answer": 2,
+     "explain": "=-PMT(B2/12,B3*12,B1) shows the payment as a positive amount."
+    }
+   ]
+  },
+  "level-2/08-multiple-sheets-workbooks": {
+   "questions": [
+    {
+     "q": "What does =SUM(Jan:Mar!B2) compute?",
+     "options": [
+      "Only Jan's B2",
+      "The row total",
+      "Only Mar's B2",
+      "B2 summed across every sheet from Jan through Mar, including sheets inserted between"
+     ],
+     "answer": 3,
+     "explain": "Widget is 500 + 600 + 550 = 1650."
+    },
+    {
+     "q": "How does =Feb!B2 differ from a 3-D reference?",
+     "options": [
+      "It is an error",
+      "It points to one cell on one sheet, rather than aggregating across a range of sheets",
+      "It averages",
+      "It sums"
+     ],
+     "answer": 1,
+     "explain": "It returns 600, February's Widget figure."
+    },
+    {
+     "q": "A linked source workbook is moved. What breaks, and what fixes it?",
+     "options": [
+      "The sheet is deleted",
+      "Excel recalculates automatically",
+      "The links break; use Data > Edit Links to repoint them",
+      "Nothing breaks"
+     ],
+     "answer": 2,
+     "explain": "Closed-workbook references store the full path."
+    },
+    {
+     "q": "What is the best practice for workbooks that link to each other?",
+     "options": [
+      "Keep them in the same folder and avoid renaming source files",
+      "Rename them often",
+      "Use macros",
+      "Store them on different drives"
+     ],
+     "answer": 0,
+     "explain": "This reduces broken links."
+    }
+   ]
+  },
+  "level-2/09-intro-recording-macros": {
+   "questions": [
+    {
+     "q": "What does the Macro Recorder write behind the scenes?",
+     "options": [
+      "JSON",
+      "Python",
+      "SQL",
+      "Real VBA code"
+     ],
+     "answer": 3,
+     "explain": "You can inspect it via Developer > Macros > Edit."
+    },
+    {
+     "q": "What happens with Use Relative References OFF (the default)?",
+     "options": [
+      "The macro always acts on the recorded fixed cells, like A1:C1",
+      "It acts on the active row",
+      "It does nothing",
+      "It acts on the next sheet"
+     ],
+     "answer": 0,
+     "explain": "It selects A1:C1 regardless of which cell is active."
+    },
+    {
+     "q": "A macro recorded relative to A2 is run with A3 active. Which row does it format?",
+     "options": [
+      "A2:C2",
+      "A4:C4",
+      "A3:C3",
+      "A1:C1"
+     ],
+     "answer": 2,
+     "explain": "It acts relative to the starting cell, useful for 'the row I clicked'."
+    },
+    {
+     "q": "What are the totals the AddTotalColumn macro should generate for D2:D4?",
+     "options": [
+      "20, 60 and 50",
+      "10, 4 and 2",
+      "30, 60 and 90",
+      "2, 15 and 25"
+     ],
+     "answer": 0,
+     "explain": "D2 = 10*2, D3 = 4*15, D4 = 2*25."
+    }
+   ]
+  },
+  "level-2/10-project-interactive-sales-dashboard": {
+   "questions": [
+    {
+     "q": "With the Region selector set to East, what should the SUMIFS total be?",
+     "options": [
+      "4900",
+      "6050",
+      "7200",
+      "13250"
+     ],
+     "answer": 2,
+     "explain": "East rows: 1200+1400+1600+700+1050+1250."
+    },
+    {
+     "q": "Why cross-check the PivotTable against the SUMIFS total?",
+     "options": [
+      "To insert a chart",
+      "A consistency check a real dashboard needs: East months 1900+2450+2850 = 7200",
+      "To save time",
+      "To format it"
+     ],
+     "answer": 1,
+     "explain": "Both methods should agree."
+    },
+    {
+     "q": "What does a Slicer provide compared with a page filter dropdown?",
+     "options": [
+      "Data validation",
+      "A new sheet",
+      "A more visual East/West button filter that updates instantly",
+      "A macro"
+     ],
+     "answer": 2,
+     "explain": "Insert it via PivotTable Analyze > Insert Slicer > Region."
+    },
+    {
+     "q": "What drives the whole dashboard?",
+     "options": [
+      "A macro button only",
+      "A chart",
+      "Power Query",
+      "A single dropdown selector for Region"
+     ],
+     "answer": 3,
+     "explain": "It combines SUMIFS, PivotTables, combo charts, validation dropdowns and a Form Control."
+    }
+   ]
+  },
+  "level-3/01-vba-basics-automation": {
+   "questions": [
+    {
+     "q": "How do you open the VBA editor?",
+     "options": [
+      "Ctrl+T",
+      "Alt+F4",
+      "Alt+F11",
+      "F5"
+     ],
+     "answer": 2,
+     "explain": "Then Insert > Module to type a Sub."
+    },
+    {
+     "q": "Why declare total As Long rather than Integer in the SumQty macro?",
+     "options": [
+      "Long holds sums that may exceed Integer's ~32,767 limit",
+      "Long is faster to type",
+      "Integer can't hold numbers",
+      "Long is a text type"
+     ],
+     "answer": 0,
+     "explain": "Integer is fine for a small loop counter like i."
+    },
+    {
+     "q": "What does Cells(2,2) refer to?",
+     "options": [
+      "Column 2, row 2 as text",
+      "The second sheet",
+      "A named range",
+      "Row 2, column 2, equivalent to B2"
+     ],
+     "answer": 3,
+     "explain": "It is useful in loops where row and column are variables."
+    },
+    {
+     "q": "In FlagLowStock, which items are flagged Reorder (Qty < 10)?",
+     "options": [
+      "Only Pencil",
+      "Book, Pencil and Eraser",
+      "All items",
+      "Pen and Bag"
+     ],
+     "answer": 1,
+     "explain": "Book(3), Pencil(0) and Eraser(8) are under 10; Pen(12) and Bag(25) are OK."
+    }
+   ]
+  },
+  "level-3/02-advanced-power-query-m-language": {
+   "questions": [
+    {
+     "q": "What does every Power Query transformation generate?",
+     "options": [
+      "SQL",
+      "Code in the M language, visible in the Advanced Editor",
+      "DAX measures",
+      "VBA code"
+     ],
+     "answer": 1,
+     "explain": "Each UI action appends a step inside the let...in block."
+    },
+    {
+     "q": "What does the final in line of an M query name?",
+     "options": [
+      "The last column",
+      "The file name",
+      "Which step's output is returned",
+      "The sheet"
+     ],
+     "answer": 2,
+     "explain": "Steps are bound to names inside let."
+    },
+    {
+     "q": "What Join Kind keeps every order and adds customer info where it matches?",
+     "options": [
+      "Left Outer",
+      "Anti",
+      "Inner",
+      "Full Outer"
+     ],
+     "answer": 0,
+     "explain": "Underlying M: Table.NestedJoin(..., JoinKind.LeftOuter)."
+    },
+    {
+     "q": "Using the rule Amount >= 500 -> Large, how many orders are Large?",
+     "options": [
+      "Three",
+      "One",
+      "Five",
+      "Two (500 and 800)"
+     ],
+     "answer": 3,
+     "explain": "500→Large, 300→Small, 800→Large, 200→Small, 450→Small."
+    }
+   ]
+  },
+  "level-3/03-power-pivot-data-model": {
+   "questions": [
+    {
+     "q": "What does the Data Model let a PivotTable do?",
+     "options": [
+      "Only read one table",
+      "Skip relationships",
+      "Run macros",
+      "Pull fields from several related tables at once without VLOOKUP glue columns"
+     ],
+     "answer": 3,
+     "explain": "Tables relate like a small database."
+    },
+    {
+     "q": "In the Sales/Products relationship, which side is the 'one' side?",
+     "options": [
+      "Sales",
+      "Both",
+      "Products, where ProductID is unique",
+      "Neither"
+     ],
+     "answer": 2,
+     "explain": "ProductID repeats in Sales (the many side)."
+    },
+    {
+     "q": "What does RELATED(Products[Price]) do inside a Sales calculated column?",
+     "options": [
+      "Sorts prices",
+      "Deletes prices",
+      "Pulls the matching Price from the one side into each Sales row",
+      "Sums prices"
+     ],
+     "answer": 2,
+     "explain": "Each Sales row looks up its own ProductID's Price."
+    },
+    {
+     "q": "What is the Revenue for row 3 (P2, Qty 5, Price 35)?",
+     "options": [
+      "210",
+      "160",
+      "175",
+      "200"
+     ],
+     "answer": 2,
+     "explain": "5 × 35 = 175."
+    }
+   ]
+  },
+  "level-3/04-dax-basics-power-pivot": {
+   "questions": [
+    {
+     "q": "How does a DAX measure differ from a calculated column?",
+     "options": [
+      "A measure is computed dynamically from the filter context; a column is evaluated row by row",
+      "A measure is stored per row",
+      "They are identical",
+      "A column ignores filters"
+     ],
+     "answer": 0,
+     "explain": "The same measure returns different numbers depending on where it's placed in the PivotTable."
+    },
+    {
+     "q": "What does SUMX(Sales, Sales[Qty] * RELATED(Products[Price])) do?",
+     "options": [
+      "Sums the Qty column only",
+      "Averages prices",
+      "Counts rows",
+      "Iterates each Sales row, computes the product, then sums the results"
+     ],
+     "answer": 3,
+     "explain": "SUMX is an iterator."
+    },
+    {
+     "q": "What does CALCULATE do?",
+     "options": [
+      "Calculates averages",
+      "Deletes filters permanently",
+      "Overrides the current filter context with an explicit condition",
+      "Creates tables"
+     ],
+     "answer": 2,
+     "explain": "Alan Revenue stays 380 even next to Priya's row."
+    },
+    {
+     "q": "What is Alan's total revenue in the lesson's data?",
+     "options": [
+      "380",
+      "160",
+      "385",
+      "925"
+     ],
+     "answer": 0,
+     "explain": "10×20 + 12×15 = 200 + 180."
+    }
+   ]
+  },
+  "level-3/05-advanced-vba-userforms-error-handling": {
+   "questions": [
+    {
+     "q": "What does On Error GoTo ErrHandler do?",
+     "options": [
+      "Deletes the macro",
+      "Ignores all errors permanently",
+      "Restarts Excel",
+      "Routes execution to the handler label instead of crashing on a runtime error"
+     ],
+     "answer": 3,
+     "explain": "With B2 = 0, error 11 (Division by zero) is shown by the handler."
+    },
+    {
+     "q": "Why is Exit Sub placed before the ErrHandler label?",
+     "options": [
+      "It is optional decoration",
+      "To close Excel",
+      "To save memory",
+      "So the handler only runs when an error occurs, not after normal completion"
+     ],
+     "answer": 3,
+     "explain": "Without it the code would fall through into the handler."
+    },
+    {
+     "q": "What does the Add button's validation do when both fields are blank?",
+     "options": [
+      "Shows a 'Both fields are required' message and writes no row",
+      "Writes an empty row",
+      "Crashes",
+      "Closes the form"
+     ],
+     "answer": 0,
+     "explain": "It uses MsgBox and Exit Sub."
+    },
+    {
+     "q": "How does On Error Resume Next differ?",
+     "options": [
+      "It logs errors",
+      "It stops the macro",
+      "It rolls back",
+      "It skips the failing line and continues, a looser alternative"
+     ],
+     "answer": 3,
+     "explain": "It's useful only when a failure on one line is acceptable."
+    }
+   ]
+  },
+  "level-3/06-custom-functions-lambda": {
+   "questions": [
+    {
+     "q": "What does LAMBDA let you do?",
+     "options": [
+      "Draw charts",
+      "Run macros",
+      "Import data",
+      "Define a reusable custom function in worksheet formulas, with no VBA"
+     ],
+     "answer": 3,
+     "explain": "Name it via Name Manager so it behaves like a built-in function."
+    },
+    {
+     "q": "What does the trailing (B2,C2) do in =LAMBDA(cost,pct,cost*(1+pct))(B2,C2)?",
+     "options": [
+      "Immediately calls the LAMBDA with those arguments",
+      "Comments it",
+      "Defines parameters",
+      "Names the function"
+     ],
+     "answer": 0,
+     "explain": "For Pen, 10*(1+0.20) = 12."
+    },
+    {
+     "q": "What does FactorialFn(5) return?",
+     "options": [
+      "15",
+      "25",
+      "5",
+      "120"
+     ],
+     "answer": 3,
+     "explain": "5*4*3*2*1 = 120; a named LAMBDA can call itself."
+    },
+    {
+     "q": "What is LET useful for in a LAMBDA?",
+     "options": [
+      "Protecting cells",
+      "Looking up values",
+      "Naming intermediate values within one formula for readability",
+      "Sorting"
+     ],
+     "answer": 2,
+     "explain": "For Margin, profit and margin are named steps."
+    }
+   ]
+  },
+  "level-3/07-financial-modeling-techniques": {
+   "questions": [
+    {
+     "q": "Why is the upfront investment added outside the NPV function?",
+     "options": [
+      "NPV ignores B1",
+      "NPV assumes the first value is one period away, but the investment is at time 0",
+      "NPV can't take negatives",
+      "It's a bug"
+     ],
+     "answer": 1,
+     "explain": "The formula is =B1+NPV(B6,B2:B5)."
+    },
+    {
+     "q": "What does a positive NPV indicate?",
+     "options": [
+      "It will lose money",
+      "The rate is zero",
+      "The data is wrong",
+      "The investment is expected to create value at that discount rate"
+     ],
+     "answer": 3,
+     "explain": "Here NPV ≈ 2180.18 at 10%."
+    },
+    {
+     "q": "What is IRR?",
+     "options": [
+      "The loan rate",
+      "The average cash flow",
+      "The discount rate at which NPV would be exactly zero",
+      "The tax rate"
+     ],
+     "answer": 2,
+     "explain": "Since NPV at 10% is positive, the IRR must be higher than 10%."
+    },
+    {
+     "q": "What happens to interest and principal as a loan amortizes?",
+     "options": [
+      "Interest grows",
+      "Both stay flat",
+      "Interest shrinks and principal grows each year as the balance declines",
+      "Principal shrinks"
+     ],
+     "answer": 2,
+     "explain": "Year 1 interest is 1200; Year 2 is about 987.17."
+    }
+   ]
+  },
+  "level-3/08-advanced-dashboard-design-principles": {
+   "questions": [
+    {
+     "q": "What is the dynamic title trick?",
+     "options": [
+      "Use a macro",
+      "Type the title manually",
+      "Make the chart title a formula referencing a cell, so it updates when the filter changes",
+      "Hide the title"
+     ],
+     "answer": 2,
+     "explain": "E3 builds a string such as Total Revenue — North: $37,300."
+    },
+    {
+     "q": "Which chart best shows how one metric trends over time?",
+     "options": [
+      "Scatter",
+      "Line chart",
+      "Pie chart",
+      "3-D bar"
+     ],
+     "answer": 1,
+     "explain": "It emphasizes direction and slope."
+    },
+    {
+     "q": "Why avoid pie charts past 3–4 slices?",
+     "options": [
+      "They hide data",
+      "They're always wrong",
+      "They are not supported",
+      "They're hard to compare"
+     ],
+     "answer": 3,
+     "explain": "Use a stacked bar for part-to-whole breakdowns."
+    },
+    {
+     "q": "Why avoid 3-D charts and dual unrelated axes?",
+     "options": [
+      "They need VBA",
+      "They distort the visual comparison a dashboard should make effortless",
+      "They aren't available",
+      "They're slow"
+     ],
+     "answer": 1,
+     "explain": "Keep charts honest and simple."
+    }
+   ]
+  },
+  "level-3/09-auditing-error-checking-workbooks": {
+   "questions": [
+    {
+     "q": "What bug is planted in the Audit sheet?",
+     "options": [
+      "Totals use B2:B4 and C2:C4, omitting row 5 (Staples)",
+      "A circular reference",
+      "Text stored as numbers",
+      "A hidden sheet"
+     ],
+     "answer": 0,
+     "explain": "It is a common copy-paste range bug."
+    },
+    {
+     "q": "What does Trace Precedents show?",
+     "options": [
+      "Hidden rows",
+      "Errors only",
+      "Cells that depend on the selected cell",
+      "Arrows to the cells a formula depends on"
+     ],
+     "answer": 3,
+     "explain": "For B6 it shows B2:B4, revealing the range stops one row short; Trace Dependents shows the reverse."
+    },
+    {
+     "q": "What does =IFERROR(D2/(B2-10),\"n/a\") return when B2 = 10?",
+     "options": [
+      "25",
+      "0",
+      "\"n/a\"",
+      "#DIV/0!"
+     ],
+     "answer": 2,
+     "explain": "It prevents the error from propagating into dependent formulas."
+    },
+    {
+     "q": "How does data validation help prevent errors?",
+     "options": [
+      "It traces arrows",
+      "It fixes formulas",
+      "It stops invalid entries such as a negative quantity at entry rather than during an audit",
+      "It deletes bad rows"
+     ],
+     "answer": 2,
+     "explain": "Add an Input Message and Error Alert to guide users."
+    }
+   ]
+  },
+  "level-3/10-project-financial-model-scenario-analysis": {
+   "questions": [
+    {
+     "q": "What is Year 1 profit in the projection?",
+     "options": [
+      "18450",
+      "15000",
+      "50000",
+      "12000"
+     ],
+     "answer": 3,
+     "explain": "50000 revenue − 1000×30 variable cost − 8000 fixed cost."
+    },
+    {
+     "q": "How does the model compute Year 2 units?",
+     "options": [
+      "The same as Year 1",
+      "Year 1 units × (1 + growth rate), giving 1150",
+      "Year 1 units + 150 fixed",
+      "Price × units"
+     ],
+     "answer": 1,
+     "explain": "The growth rate is 0.15 and referenced absolutely as $B$2."
+    },
+    {
+     "q": "What should happen to NPV as growth rate rises from 5% to 25%?",
+     "options": [
+      "It increases monotonically",
+      "It stays flat",
+      "It becomes negative",
+      "It decreases"
+     ],
+     "answer": 0,
+     "explain": "Higher growth compounds units and profit in Years 2–3."
+    },
+    {
+     "q": "What does Scenario Manager add to the model?",
+     "options": [
+      "A new formula language",
+      "A chart",
+      "Several named scenarios (best, worst, base) presented side by side",
+      "A macro"
+     ],
+     "answer": 2,
+     "explain": "It's used alongside the Data Table for what-if analysis."
+    }
+   ]
+  },
+  "level-4/01-enterprise-excel-architecture": {
+   "questions": [
+    {
+     "q": "Why are linked workbooks fragile at scale?",
+     "options": [
+      "They need macros",
+      "They can't hold numbers",
+      "They are too fast",
+      "Moving or renaming the source breaks every external reference, with no central registry of dependencies"
+     ],
+     "answer": 3,
+     "explain": "Edit Links repairs are manual, per workbook and per broken link."
+    },
+    {
+     "q": "What is the enterprise-safer alternative to cell-level links between files?",
+     "options": [
+      "Power Query connections to a shared source such as a folder, database or SharePoint list",
+      "Email attachments",
+      "Copy/paste values",
+      "More VLOOKUPs"
+     ],
+     "answer": 0,
+     "explain": "Power Query re-resolves the connection on refresh instead of caching a brittle reference."
+    },
+    {
+     "q": "What does a relationship in a Data Model replace?",
+     "options": [
+      "Number formats",
+      "Slicers",
+      "Charts",
+      "VLOOKUPs and helper columns copied across report sheets"
+     ],
+     "answer": 3,
+     "explain": "A DAX measure like Total Budget can then be sliced by any related field."
+    },
+    {
+     "q": "What do Report.xlsx's cached values do when Source.xlsx is closed?",
+     "options": [
+      "Excel keeps the last known value and re-reads on open, as long as the path doesn't move",
+      "The formula is deleted",
+      "It errors immediately",
+      "It asks for a password"
+     ],
+     "answer": 0,
+     "explain": "The link still works unless the file moves."
+    }
+   ]
+  },
+  "level-4/02-advanced-dax-power-pivot-modeling": {
+   "questions": [
+    {
+     "q": "What does SAMEPERIODLASTYEAR enable?",
+     "options": [
+      "Currency conversion",
+      "Year-over-year comparison, e.g. Sales PY",
+      "Sorting",
+      "Data validation"
+     ],
+     "answer": 1,
+     "explain": "For 2027 it returns the 2026 total of 5950."
+    },
+    {
+     "q": "What is the YoY % for 2027 (7100 vs 5950)?",
+     "options": [
+      "About -19.3%",
+      "About +5.95%",
+      "About 71%",
+      "About +19.3%"
+     ],
+     "answer": 3,
+     "explain": "(7100−5950)/5950 ≈ 0.1933."
+    },
+    {
+     "q": "Why must the Calendar table be marked as a Date Table?",
+     "options": [
+      "So time intelligence functions work correctly across a continuous date range",
+      "To speed up loading only",
+      "It's decorative",
+      "To change colors"
+     ],
+     "answer": 0,
+     "explain": "It spans 2026-01-01 to 2027-12-31 and relates to Sales[Date]."
+    },
+    {
+     "q": "What does North Share % show?",
+     "options": [
+      "Growth rate",
+      "North's sales as a share of total, about 55.6%",
+      "Average sale",
+      "North's total only"
+     ],
+     "answer": 1,
+     "explain": "7250 / 13050 ≈ 0.5556."
+    }
+   ]
+  },
+  "level-4/03-integrating-excel-power-bi": {
+   "questions": [
+    {
+     "q": "What does Power BI import when you open an Excel workbook that has a Data Model?",
+     "options": [
+      "Only the charts",
+      "The Data Model directly, including relationships and DAX measures",
+      "Only the raw cells",
+      "Only the macros"
+     ],
+     "answer": 1,
+     "explain": "Total Sales arrives still equal to 13050."
+    },
+    {
+     "q": "What does Analyze in Excel produce?",
+     "options": [
+      "A PDF",
+      "A macro workbook",
+      "An .xlsx with a PivotTable connected live to the Power BI dataset",
+      "A static copy of the data"
+     ],
+     "answer": 2,
+     "explain": "Refresh All pulls the latest numbers from the Power BI Service."
+    },
+    {
+     "q": "What problem does a shared model solve?",
+     "options": [
+      "Slower refresh",
+      "Separate rules per tool",
+      "One measure definition, so Excel and Power BI don't disagree and refresh from a single source",
+      "More files"
+     ],
+     "answer": 2,
+     "explain": "Users via Analyze in Excel also inherit the dataset's row-level security."
+    },
+    {
+     "q": "For a one-time full transfer from Excel to Power BI, what is simplest?",
+     "options": [
+      "Export to PDF",
+      "Use VBA",
+      "Open the .xlsx directly in Power BI Desktop via Get Data",
+      "Retype the data"
+     ],
+     "answer": 2,
+     "explain": "The reverse direction uses Analyze in Excel."
+    }
+   ]
+  },
+  "level-4/04-advanced-vba-application-development": {
+   "questions": [
+    {
+     "q": "Why wrap an expense's fields in a class instead of three parallel arrays?",
+     "options": [
+      "Classes avoid sheets",
+      "Each expense travels as one object, with no separate variables to keep in sync",
+      "Classes are faster at everything",
+      "Arrays don't exist in VBA"
+     ],
+     "answer": 1,
+     "explain": "You can pass it to functions, add it to a collection or write it to a sheet in one call."
+    },
+    {
+     "q": "What does TotalByCategory(\"Office\") return after adding Paper 25 Office, Taxi 40 Travel, Pens 8 Office?",
+     "options": [
+      "73",
+      "65",
+      "25",
+      "33"
+     ],
+     "answer": 3,
+     "explain": "It loops all three and adds the two Office items: 25 + 8."
+    },
+    {
+     "q": "What do Property Let and Property Get do in the Expense class?",
+     "options": [
+      "Create sheets",
+      "Set and read the private fields",
+      "Delete fields",
+      "Handle errors"
+     ],
+     "answer": 1,
+     "explain": "Private pItem, pCategory and pAmount are exposed through properties."
+    },
+    {
+     "q": "What does the DumpToSheet procedure do?",
+     "options": [
+      "Imports a CSV",
+      "Loops the collection and writes each expense's fields into the Data sheet rows",
+      "Deletes the sheet",
+      "Draws a chart"
+     ],
+     "answer": 1,
+     "explain": "It starts at row 2 below the headers."
+    }
+   ]
+  },
+  "level-4/05-performance-optimization-large-workbooks": {
+   "questions": [
+    {
+     "q": "What is a volatile function?",
+     "options": [
+      "One that always returns errors",
+      "One that locks cells",
+      "One that is deprecated",
+      "One Excel recalculates on every worksheet recalculation, even if its inputs didn't change"
+     ],
+     "answer": 3,
+     "explain": "Examples: NOW, TODAY, RAND, RANDBETWEEN, OFFSET and INDIRECT."
+    },
+    {
+     "q": "What does the lesson suggest instead of OFFSET-based dynamic ranges?",
+     "options": [
+      "INDIRECT",
+      "Manual copying",
+      "More OFFSETs",
+      "Excel Tables or INDEX, which are non-volatile"
+     ],
+     "answer": 3,
+     "explain": "=INDEX(A:A,1):INDEX(A:A,COUNTA(A:A)) returns the same range without constant recalculation."
+    },
+    {
+     "q": "What is the risk of VLOOKUP with TRUE (approximate match)?",
+     "options": [
+      "It errors loudly",
+      "It is slower",
+      "It uses binary search, which is fast but silently wrong on unsorted data",
+      "It ignores IDs"
+     ],
+     "answer": 2,
+     "explain": "Only use it when the lookup column is guaranteed sorted."
+    },
+    {
+     "q": "Why switch Calculation Options to Manual when bulk-editing?",
+     "options": [
+      "It reduces file size",
+      "Manual is required for charts",
+      "It locks formulas",
+      "Automatic mode would recalculate the entire dependency tree after each edit"
+     ],
+     "answer": 3,
+     "explain": "Switch back and recalculate when done."
+    }
+   ]
+  },
+  "level-4/06-excel-python-integration": {
+   "questions": [
+    {
+     "q": "What can a =PY() cell not do?",
+     "options": [
+      "Sum a column",
+      "Use pandas",
+      "Reach the local file system or network, so it can't pull in an external CSV or API directly",
+      "Draw a chart"
+     ],
+     "answer": 2,
+     "explain": "Python in Excel runs in a secure, isolated container."
+    },
+    {
+     "q": "When is openpyxl or pandas the better choice than =PY()?",
+     "options": [
+      "Batch-processing many workbooks unattended, such as a folder of 200 monthly reports",
+      "Formatting one cell",
+      "Summing one cell",
+      "Printing"
+     ],
+     "answer": 0,
+     "explain": "=PY() works inside a single open workbook."
+    },
+    {
+     "q": "What does pandas do better than a Python loop per cell?",
+     "options": [
+      "Opening Excel",
+      "Vectorized operations over large tables, such as df[\"Units\"] * 1.1",
+      "Writing VBA",
+      "Changing colors"
+     ],
+     "answer": 1,
+     "explain": "For Widget (120), Units_x1.1 = 132.0."
+    },
+    {
+     "q": "What is the total of the Units column in the worked dataset?",
+     "options": [
+      "525",
+      "500",
+      "460",
+      "95"
+     ],
+     "answer": 0,
+     "explain": "120+95+140+60+110 = 525."
+    }
+   ]
+  },
+  "level-4/07-excel-based-tools-for-teams": {
+   "questions": [
+    {
+     "q": "How do you let team members edit only the input cells on a protected form?",
+     "options": [
+      "Uncheck Locked on the input cells, then Protect Sheet",
+      "Use Mark as Final",
+      "Delete the formulas",
+      "Hide the sheet"
+     ],
+     "answer": 0,
+     "explain": "Every cell is Locked by default, so unlock the inputs before protecting."
+    },
+    {
+     "q": "Why restrict Department to a validation list?",
+     "options": [
+      "So SUMIFS and PivotTables never split 'Sales' and 'sales' into two categories",
+      "To change colors",
+      "To hide values",
+      "To speed up the file"
+     ],
+     "answer": 0,
+     "explain": "Consistent input keeps downstream aggregation clean."
+    },
+    {
+     "q": "How do you make =ApprovalStatus(B3) available in any workbook?",
+     "options": [
+      "Copy the formula",
+      "Protect the workbook",
+      "Use Mark as Final",
+      "Save the module's workbook as an Excel Add-in (.xlam) and load it"
+     ],
+     "answer": 3,
+     "explain": "This is how a team standardizes a business rule."
+    },
+    {
+     "q": "With B3 = 7500, what does the approval formula show?",
+     "options": [
+      "Error",
+      "Auto-approved",
+      "Needs manager sign-off",
+      "Blank"
+     ],
+     "answer": 2,
+     "explain": "The rule auto-approves amounts up to 5000."
+    }
+   ]
+  },
+  "level-4/08-data-governance-spreadsheet-organizations": {
+   "questions": [
+    {
+     "q": "What is the 'many copies' problem?",
+     "options": [
+      "Too many formulas",
+      "Several copies of the same figure disagree, and a report silently picks whichever was pasted",
+      "Too many sheets",
+      "Slow files"
+     ],
+     "answer": 1,
+     "explain": "North's Q1 revenue appeared as 120000, 115000 and 121500."
+    },
+    {
+     "q": "How does a single source of truth fix an error once?",
+     "options": [
+      "Other reports pull from it via Power Query or links, so a correction propagates on refresh",
+      "By locking sheets",
+      "By hiding rows",
+      "By emailing everyone"
+     ],
+     "answer": 0,
+     "explain": "Fix 115000 to 120000 once in the master."
+    },
+    {
+     "q": "Are sheet protection passwords real security?",
+     "options": [
+      "Only with Mark as Final",
+      "No, they are deterrents; real access control belongs at the file/sharing-permission level",
+      "Yes, unbreakable",
+      "Only for workbooks"
+     ],
+     "answer": 1,
+     "explain": "Use SharePoint/OneDrive permissions such as Can View vs Can Edit."
+    },
+    {
+     "q": "What does Mark as Final provide?",
+     "options": [
+      "Version history",
+      "A password",
+      "Encryption",
+      "A soft warning that a document is meant to be read-only, not real protection"
+     ],
+     "answer": 3,
+     "explain": "It's only advisory."
+    }
+   ]
+  },
+  "level-4/09-career-growth-analytics-lead": {
+   "questions": [
+    {
+     "q": "What does the lesson say marks the jump from Level 3 to Level 4?",
+     "options": [
+      "Learning shortcuts",
+      "Learning more formulas",
+      "Going from 'I can build a great model' to 'I can be trusted to design the reporting system a team depends on'",
+      "Learning charts"
+     ],
+     "answer": 2,
+     "explain": "Governance, architecture and integration are what that trust is built on."
+    },
+    {
+     "q": "A tool saves 8 people 15 minutes a week. How many hours per year at 48 working weeks?",
+     "options": [
+      "120",
+      "48",
+      "15",
+      "96"
+     ],
+     "answer": 3,
+     "explain": "8 × 15 = 120 min = 2 hours a week; 2 × 48 = 96."
+    },
+    {
+     "q": "At $45/hour, what is that annual value?",
+     "options": [
+      "$2,160",
+      "$96",
+      "$4,320",
+      "$5,400"
+     ],
+     "answer": 2,
+     "explain": "96 × 45 = 4,320."
+    },
+    {
+     "q": "Which extra skill does the lesson say helps move from reporting what happened to explaining why?",
+     "options": [
+      "Statistics fundamentals",
+      "Typing speed",
+      "Macros only",
+      "Font design"
+     ],
+     "answer": 0,
+     "explain": "It also lists SQL, a BI tool beyond Power BI's integration, and stakeholder communication."
+    }
+   ]
+  },
+  "level-4/10-capstone-business-reporting-system": {
+   "questions": [
+    {
+     "q": "Why does every dashboard element reference the Table SalesTbl rather than a raw range?",
+     "options": [
+      "Tables are faster to print",
+      "Ranges are invalid",
+      "It avoids charts",
+      "New months appended to the Table flow through automatically"
+     ],
+     "answer": 3,
+     "explain": "The Table is the single source of truth."
+    },
+    {
+     "q": "What is the grand total revenue in the dataset?",
+     "options": [
+      "119500",
+      "200000",
+      "265500",
+      "146000"
+     ],
+     "answer": 2,
+     "explain": "The sum of all twelve monthly region figures."
+    },
+    {
+     "q": "What does North Share % come to?",
+     "options": [
+      "About 25%",
+      "About 55%",
+      "About 45%",
+      "About 100%"
+     ],
+     "answer": 1,
+     "explain": "146000 / 265500 ≈ 0.5499."
+    },
+    {
+     "q": "Why does RefreshDashboard turn off ScreenUpdating and set manual calculation?",
+     "options": [
+      "It hides errors",
+      "It protects the sheet",
+      "It keeps a one-click refresh fast as data grows",
+      "It deletes data"
+     ],
+     "answer": 2,
+     "explain": "It restores automatic calculation afterward."
+    }
+   ]
+  }
+ }
+}
