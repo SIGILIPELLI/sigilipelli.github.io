@@ -1,0 +1,2159 @@
+{
+ "course": "power-bi-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-power-bi": {
+   "questions": [
+    {
+     "q": "What are the main parts of the Power BI toolset?",
+     "options": [
+      "Only web",
+      "Excel only",
+      "Power BI Desktop (author), the Service (share/refresh) and Mobile (consume)",
+      "Only Desktop"
+     ],
+     "answer": 2,
+     "explain": "Typical workflow: build in Desktop, publish to the Service."
+    },
+    {
+     "q": "What does Power BI do at a high level?",
+     "options": [
+      "Hosts databases",
+      "Writes apps",
+      "Edits video",
+      "Connects to data, models it and presents interactive reports and dashboards"
+     ],
+     "answer": 3,
+     "explain": "Get data, model, visualize, share."
+    },
+    {
+     "q": "What is the difference between a report and a dashboard?",
+     "options": [
+      "Dashboard is Desktop",
+      "Same",
+      "Reverse",
+      "A report has multiple pages of interactive visuals; a dashboard is a single canvas of pinned tiles in the Service"
+     ],
+     "answer": 3,
+     "explain": "Tiles link back to reports."
+    },
+    {
+     "q": "Which language is used for calculations in the model?",
+     "options": [
+      "M",
+      "DAX",
+      "SQL",
+      "Python"
+     ],
+     "answer": 1,
+     "explain": "M is for Power Query."
+    }
+   ]
+  },
+  "level-1/02-getting-data": {
+   "questions": [
+    {
+     "q": "What does Import mode do?",
+     "options": [
+      "Copies data into the model's in-memory engine for fast queries (refresh needed for new data)",
+      "Links only",
+      "Queries live",
+      "Streams"
+     ],
+     "answer": 0,
+     "explain": "Fast but stale until refresh."
+    },
+    {
+     "q": "What is DirectQuery?",
+     "options": [
+      "Import",
+      "Export",
+      "Cache",
+      "Queries the source live at report time instead of storing the data"
+     ],
+     "answer": 3,
+     "explain": "Fresher but slower and limited."
+    },
+    {
+     "q": "Why prefer a query-foldable source step?",
+     "options": [
+      "Colors",
+      "Style",
+      "Law",
+      "The work is pushed to the source database instead of done in Power Query locally"
+     ],
+     "answer": 3,
+     "explain": "Folding speeds refresh."
+    },
+    {
+     "q": "A CSV path points to your Downloads folder. What breaks after publishing?",
+     "options": [
+      "Colors",
+      "Visuals",
+      "Nothing",
+      "Scheduled refresh can't reach a personal path without a gateway; use a shared/cloud location"
+     ],
+     "answer": 3,
+     "explain": "Plan data access early."
+    }
+   ]
+  },
+  "level-1/03-power-query-basics": {
+   "questions": [
+    {
+     "q": "Which pane records the steps of a query?",
+     "options": [
+      "Fields",
+      "Applied Steps in Power Query",
+      "Format",
+      "Filters"
+     ],
+     "answer": 1,
+     "explain": "Each step is M code."
+    },
+    {
+     "q": "What does 'Use First Row as Headers' do?",
+     "options": [
+      "Promotes the first data row to column names",
+      "Deletes",
+      "Pivots",
+      "Sorts"
+     ],
+     "answer": 0,
+     "explain": "A common first step."
+    },
+    {
+     "q": "Why remove unneeded columns early in Power Query?",
+     "options": [
+      "Law",
+      "Colors",
+      "Style",
+      "Smaller model, faster refresh and less to maintain"
+     ],
+     "answer": 3,
+     "explain": "Also helps folding."
+    },
+    {
+     "q": "Where does data transformation belong relative to DAX?",
+     "options": [
+      "All DAX",
+      "Shape and clean in Power Query; calculate business logic in DAX measures",
+      "Excel",
+      "All M"
+     ],
+     "answer": 1,
+     "explain": "Right tool for each."
+    }
+   ]
+  },
+  "level-1/04-data-types-cleaning": {
+   "questions": [
+    {
+     "q": "A Price column loaded as text and won't sum. What is the fix?",
+     "options": [
+      "Hide it",
+      "Rename",
+      "Change the column data type to a number in Power Query",
+      "Use DAX only"
+     ],
+     "answer": 2,
+     "explain": "Types drive behaviour."
+    },
+    {
+     "q": "What does 'Replace Errors' help with?",
+     "options": [
+      "Deletes rows",
+      "Renames",
+      "Handling cells that fail a type conversion instead of failing the refresh",
+      "Sorts"
+     ],
+     "answer": 2,
+     "explain": "Decide deliberately."
+    },
+    {
+     "q": "Why trim and clean text before relating tables?",
+     "options": [
+      "Style",
+      "Speed",
+      "Stray spaces make 'Acme' and 'Acme ' different keys",
+      "Colors"
+     ],
+     "answer": 2,
+     "explain": "Relationships need exact matches."
+    },
+    {
+     "q": "A date arrives as '03/04/2026'. What's the risk?",
+     "options": [
+      "Day/month ambiguity depending on locale; set the column type using the correct locale",
+      "None",
+      "Sorting",
+      "Colors"
+     ],
+     "answer": 0,
+     "explain": "Use 'Change type with locale'."
+    }
+   ]
+  },
+  "level-1/05-first-visuals": {
+   "questions": [
+    {
+     "q": "Which visual shows a trend over time best?",
+     "options": [
+      "A line chart",
+      "Card",
+      "Table",
+      "Pie"
+     ],
+     "answer": 0,
+     "explain": "Time on the axis."
+    },
+    {
+     "q": "When is a pie chart a poor choice?",
+     "options": [
+      "Never",
+      "With many categories or when values must be compared precisely",
+      "With 2 slices",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "Bars compare better."
+    },
+    {
+     "q": "What does a card visual show?",
+     "options": [
+      "A trend",
+      "A map",
+      "A single key number",
+      "A list"
+     ],
+     "answer": 2,
+     "explain": "KPI headline."
+    },
+    {
+     "q": "What do you do to see exact values behind a visual?",
+     "options": [
+      "Use 'Show as a table' or data labels/tooltips",
+      "Hide",
+      "Export only",
+      "Delete"
+     ],
+     "answer": 0,
+     "explain": "Accessibility too."
+    }
+   ]
+  },
+  "level-1/06-filters-slicers": {
+   "questions": [
+    {
+     "q": "What's the difference between a slicer and a visual-level filter?",
+     "options": [
+      "Reverse",
+      "Same",
+      "Slicers are DAX",
+      "A slicer is an on-canvas control users change; a filter pane filter is set by the author (and can be locked)"
+     ],
+     "answer": 3,
+     "explain": "Choose by who should control it."
+    },
+    {
+     "q": "What does 'Sync slicers' do?",
+     "options": [
+      "Sorts",
+      "Publishes",
+      "Applies the same slicer selection across selected pages",
+      "Refreshes"
+     ],
+     "answer": 2,
+     "explain": "Consistent filtering."
+    },
+    {
+     "q": "What is the filter scope order from widest to narrowest?",
+     "options": [
+      "Visual → report",
+      "None",
+      "Page → report",
+      "Report → page → visual"
+     ],
+     "answer": 3,
+     "explain": "Narrower scopes add to wider ones."
+    },
+    {
+     "q": "Why avoid dozens of slicers on one page?",
+     "options": [
+      "Clutter and slow rendering; use filters or a smaller set of well-chosen slicers",
+      "Style",
+      "Colors",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Design for the question."
+    }
+   ]
+  },
+  "level-1/07-measures-vs-calculated-columns": {
+   "questions": [
+    {
+     "q": "Sales rows (units, price): (2,10),(3,5),(1,20). A measure SUMX(units*price) total is?\n```python\nprint(2*10+3*5+1*20)\n```\n",
+     "options": [
+      "11",
+      "35",
+      "6",
+      "55"
+     ],
+     "answer": 3,
+     "explain": "Measures evaluate per filter context over rows; a calculated column would store row values. Verified by running it."
+    },
+    {
+     "q": "When use a measure instead of a calculated column?",
+     "options": [
+      "Never",
+      "Row labels",
+      "When the result depends on filters/slicers (totals, ratios, YoY)",
+      "Static keys"
+     ],
+     "answer": 2,
+     "explain": "Measures are computed at query time."
+    },
+    {
+     "q": "When is a calculated column appropriate?",
+     "options": [
+      "Ratios",
+      "Time intel",
+      "For a row-level attribute used in slicers/axes or relationships",
+      "Totals"
+     ],
+     "answer": 2,
+     "explain": "Stored in the model."
+    },
+    {
+     "q": "Why can't you average a percentage column to get the overall rate?",
+     "options": [
+      "You can",
+      "Types",
+      "Rounding",
+      "The average of ratios ignores the weights; compute numerator and denominator in a measure"
+     ],
+     "answer": 3,
+     "explain": "DIVIDE(SUM(a), SUM(b))."
+    }
+   ]
+  },
+  "level-1/08-report-formatting": {
+   "questions": [
+    {
+     "q": "Which formatting aids readability most?",
+     "options": [
+      "3D charts",
+      "Consistent alignment, limited colors, clear titles and labelled units",
+      "Many fonts",
+      "Dense text"
+     ],
+     "answer": 1,
+     "explain": "Simple wins."
+    },
+    {
+     "q": "What do themes give you?",
+     "options": [
+      "Speed",
+      "Security",
+      "Data",
+      "Consistent colors and fonts across reports"
+     ],
+     "answer": 3,
+     "explain": "JSON themes."
+    },
+    {
+     "q": "Why check the report on mobile layout?",
+     "options": [
+      "Law",
+      "Phone users see a different canvas; design a mobile view for key visuals",
+      "Not needed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Mobile layout."
+    },
+    {
+     "q": "What is conditional formatting for?",
+     "options": [
+      "Sorting",
+      "Filtering",
+      "Highlighting values by rules (e.g. red below target)",
+      "Refresh"
+     ],
+     "answer": 2,
+     "explain": "Draw attention."
+    }
+   ]
+  },
+  "level-1/09-publishing-sharing": {
+   "questions": [
+    {
+     "q": "What does publishing do?",
+     "options": [
+      "Prints",
+      "Exports PDF",
+      "Uploads the report and dataset to a workspace in the Power BI Service",
+      "Refreshes"
+     ],
+     "answer": 2,
+     "explain": "Then share/refresh."
+    },
+    {
+     "q": "What do viewers typically need to open a shared report?",
+     "options": [
+      "Gateway",
+      "Desktop",
+      "Appropriate license/access (Pro/PPU/Fabric capacity) per sharing method",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Check licensing."
+    },
+    {
+     "q": "What is an app?",
+     "options": [
+      "A mobile app",
+      "An extension",
+      "A gateway",
+      "A packaged set of reports/dashboards published to a wider audience"
+     ],
+     "answer": 3,
+     "explain": "Managed distribution."
+    },
+    {
+     "q": "Why use workspaces?",
+     "options": [
+      "Colors",
+      "Storage",
+      "Speed",
+      "Collaborate on content with roles (Admin, Member, Contributor, Viewer)"
+     ],
+     "answer": 3,
+     "explain": "Access control."
+    }
+   ]
+  },
+  "level-1/10-project-sales-dashboard": {
+   "questions": [
+    {
+     "q": "What does the sales dashboard project combine?",
+     "options": [
+      "Only visuals",
+      "Only M",
+      "Only DAX",
+      "Get data, Power Query cleaning, measures, visuals, slicers and publishing"
+     ],
+     "answer": 3,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How validate dashboard numbers?",
+     "options": [
+      "Eyeball",
+      "Skip",
+      "Reconcile totals against the source system or a trusted report",
+      "Trust"
+     ],
+     "answer": 2,
+     "explain": "Verification."
+    },
+    {
+     "q": "What is a good first page?",
+     "options": [
+      "Blank",
+      "Key KPIs and one or two trends answering the main question",
+      "Everything",
+      "Tables only"
+     ],
+     "answer": 1,
+     "explain": "Story first."
+    },
+    {
+     "q": "What do you document?",
+     "options": [
+      "Data sources, refresh schedule, measure definitions and owners",
+      "Data",
+      "Nothing",
+      "Colors"
+     ],
+     "answer": 0,
+     "explain": "Maintainability."
+    }
+   ]
+  },
+  "level-2/01-star-schema": {
+   "questions": [
+    {
+     "q": "Why use a star schema instead of one flat table?",
+     "options": [
+      "Looks nicer",
+      "Required",
+      "Smaller UI",
+      "Correct, fast aggregation, reusable dimensions and no duplicated attributes"
+     ],
+     "answer": 3,
+     "explain": "Engine is optimized for it."
+    },
+    {
+     "q": "What is the grain of a fact table?",
+     "options": [
+      "What one row represents (e.g. one order line)",
+      "Keys",
+      "Size",
+      "Columns"
+     ],
+     "answer": 0,
+     "explain": "Decide first."
+    },
+    {
+     "q": "A monthly target is copied onto each order line and then summed. What goes wrong?",
+     "options": [
+      "Rounding",
+      "Sorting",
+      "The target is multiplied by the number of lines; targets need their own fact at a different grain",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Don't mix grains."
+    },
+    {
+     "q": "Which table type holds descriptive attributes?",
+     "options": [
+      "Fact",
+      "Staging",
+      "Bridge",
+      "Dimension tables"
+     ],
+     "answer": 3,
+     "explain": "Short and wide."
+    }
+   ]
+  },
+  "level-2/02-relationships": {
+   "questions": [
+    {
+     "q": "What is the usual relationship direction between a dimension and a fact?",
+     "options": [
+      "One-to-one",
+      "One-to-many, filtering from the dimension to the fact",
+      "Bidirectional",
+      "Many-to-many"
+     ],
+     "answer": 1,
+     "explain": "Single direction is the default."
+    },
+    {
+     "q": "When is bidirectional filtering risky?",
+     "options": [
+      "Always good",
+      "Never",
+      "Faster",
+      "It can create ambiguity and unintended filtering paths and slow queries"
+     ],
+     "answer": 3,
+     "explain": "Use sparingly."
+    },
+    {
+     "q": "What breaks if a dimension key has duplicates?",
+     "options": [
+      "Nothing",
+      "The one-side requirement fails and the relationship can't be one-to-many",
+      "Types",
+      "Colors"
+     ],
+     "answer": 1,
+     "explain": "Unique keys."
+    },
+    {
+     "q": "What does an inactive relationship need?",
+     "options": [
+      "FILTER",
+      "ALL",
+      "USERELATIONSHIP in a measure to activate it",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Role-playing dates."
+    }
+   ]
+  },
+  "level-2/03-dax-fundamentals": {
+   "questions": [
+    {
+     "q": "If Sales are [100, 250, 50] across three rows, SUM gives and AVERAGE gives?\n```python\ns=[100,250,50]; print(sum(s), round(sum(s)/len(s),2))\n```\n",
+     "options": [
+      "300 133.33",
+      "400 100",
+      "400 133.33",
+      "400 250"
+     ],
+     "answer": 2,
+     "explain": "SUM and AVERAGE aggregate over the current filter context. Verified by running it."
+    },
+    {
+     "q": "What does DIVIDE(a, b) do when b is zero?",
+     "options": [
+      "Error",
+      "0",
+      "Infinity",
+      "Returns BLANK (or a given alternate) instead of an error"
+     ],
+     "answer": 3,
+     "explain": "Safe division."
+    },
+    {
+     "q": "Which function counts distinct values of a column?",
+     "options": [
+      "VALUES",
+      "COUNT",
+      "DISTINCTCOUNT",
+      "SUM"
+     ],
+     "answer": 2,
+     "explain": "Counts unique."
+    },
+    {
+     "q": "What is a measure's evaluation context made of?",
+     "options": [
+      "Nothing",
+      "Sorting",
+      "Filters from slicers, visuals, rows/columns and relationships",
+      "Types"
+     ],
+     "answer": 2,
+     "explain": "Filter context."
+    }
+   ]
+  },
+  "level-2/04-calculate-contexts": {
+   "questions": [
+    {
+     "q": "What does CALCULATE do?",
+     "options": [
+      "Sums",
+      "Refreshes",
+      "Sorts",
+      "Evaluates an expression in a modified filter context"
+     ],
+     "answer": 3,
+     "explain": "The core DAX function."
+    },
+    {
+     "q": "What does CALCULATE([Sales], Product[Color] = \"Red\") do?",
+     "options": [
+      "Sums all",
+      "Computes Sales for red products, replacing any existing filter on Color",
+      "Deletes",
+      "Adds a slicer"
+     ],
+     "answer": 1,
+     "explain": "Filter arguments override."
+    },
+    {
+     "q": "What does ALL(Product) inside CALCULATE do?",
+     "options": [
+      "Sorts",
+      "Counts",
+      "Removes filters on the Product table so you can compute a total or denominator",
+      "Adds"
+     ],
+     "answer": 2,
+     "explain": "Percent of total."
+    },
+    {
+     "q": "What's the difference between row context and filter context?",
+     "options": [
+      "Row context iterates rows (calculated columns, iterators); filter context is the set of applied filters",
+      "None",
+      "Reverse",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "CALCULATE converts one to the other."
+    }
+   ]
+  },
+  "level-2/05-time-intelligence": {
+   "questions": [
+    {
+     "q": "What does time intelligence require?",
+     "options": [
+      "Any column",
+      "Text dates",
+      "Nothing",
+      "A proper date table marked as the date table, with contiguous dates"
+     ],
+     "answer": 3,
+     "explain": "No gaps."
+    },
+    {
+     "q": "What does TOTALYTD compute?",
+     "options": [
+      "Max",
+      "A running total from the start of the year to the current date in context",
+      "Average",
+      "Last year"
+     ],
+     "answer": 1,
+     "explain": "Year to date."
+    },
+    {
+     "q": "How compare to last year?",
+     "options": [
+      "PREVIOUS",
+      "CALCULATE([Sales], SAMEPERIODLASTYEAR('Date'[Date]))",
+      "LASTDATE",
+      "ALL"
+     ],
+     "answer": 1,
+     "explain": "Shifted dates."
+    },
+    {
+     "q": "Sales were 120 this year and 100 last year. What is YoY growth in percent?\n```python\nprint(round((120-100)/100*100,1))\n```\n",
+     "options": [
+      "16.7",
+      "120.0",
+      "-20.0",
+      "20.0"
+     ],
+     "answer": 3,
+     "explain": "(This - last) / last. Verified by running it."
+    }
+   ]
+  },
+  "level-2/06-power-query-m": {
+   "questions": [
+    {
+     "q": "What language is used in the Power Query Editor?",
+     "options": [
+      "Python",
+      "DAX",
+      "M",
+      "SQL"
+     ],
+     "answer": 2,
+     "explain": "Functional language behind the UI."
+    },
+    {
+     "q": "What does a query parameter allow?",
+     "options": [
+      "Sorting",
+      "Colors",
+      "Security",
+      "Reusing a value (like a server or date) across queries and environments"
+     ],
+     "answer": 3,
+     "explain": "Dev/prod switching."
+    },
+    {
+     "q": "When merge vs append queries?",
+     "options": [
+      "Both stack",
+      "Reverse",
+      "Same",
+      "Merge joins columns by key; append stacks rows"
+     ],
+     "answer": 3,
+     "explain": "Like JOIN vs UNION."
+    },
+    {
+     "q": "What does disabling 'Enable load' do?",
+     "options": [
+      "Hides",
+      "Keeps the query as a staging step without loading it into the model",
+      "Deletes",
+      "Refreshes"
+     ],
+     "answer": 1,
+     "explain": "Cleaner models."
+    }
+   ]
+  },
+  "level-2/07-drillthrough-bookmarks": {
+   "questions": [
+    {
+     "q": "What does drillthrough let users do?",
+     "options": [
+      "Right-click a value to jump to a detail page filtered to it",
+      "Export",
+      "Refresh",
+      "Share"
+     ],
+     "answer": 0,
+     "explain": "Context passes to the target page."
+    },
+    {
+     "q": "What does a bookmark capture?",
+     "options": [
+      "Model",
+      "Refresh",
+      "The state of a page: filters, visibility and selections",
+      "Data"
+     ],
+     "answer": 2,
+     "explain": "Guided navigation."
+    },
+    {
+     "q": "When use buttons with bookmarks?",
+     "options": [
+      "Models",
+      "Refresh",
+      "To switch views or toggle panes in a report",
+      "Security"
+     ],
+     "answer": 2,
+     "explain": "Interactivity."
+    },
+    {
+     "q": "Why name pages and buttons clearly?",
+     "options": [
+      "Speed",
+      "Colors",
+      "Maintainability and accessibility (screen readers)",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Good habits."
+    }
+   ]
+  },
+  "level-2/08-row-level-security": {
+   "questions": [
+    {
+     "q": "What is row-level security (RLS)?",
+     "options": [
+      "Hiding pages",
+      "Encryption",
+      "Licenses",
+      "Roles with DAX filters restricting which rows each user can see"
+     ],
+     "answer": 3,
+     "explain": "Defined in Desktop."
+    },
+    {
+     "q": "Where are users assigned to RLS roles?",
+     "options": [
+      "Excel",
+      "In the Power BI Service on the dataset's security settings",
+      "Gateway",
+      "Desktop"
+     ],
+     "answer": 1,
+     "explain": "Roles are authored in Desktop."
+    },
+    {
+     "q": "What does USERPRINCIPALNAME() enable?",
+     "options": [
+      "Dynamic RLS by filtering with the logged-in user's email",
+      "Static",
+      "Refresh",
+      "Sort"
+     ],
+     "answer": 0,
+     "explain": "Mapping table."
+    },
+    {
+     "q": "Do workspace Admins/Members/Contributors have RLS applied?",
+     "options": [
+      "Sometimes",
+      "Yes",
+      "Always",
+      "No; RLS applies to viewers, so use the Viewer role for testing"
+     ],
+     "answer": 3,
+     "explain": "Common surprise."
+    }
+   ]
+  },
+  "level-2/09-refresh-gateways": {
+   "questions": [
+    {
+     "q": "What does a gateway do?",
+     "options": [
+      "Lets the Service refresh data from on-premises sources",
+      "Stores",
+      "Authors",
+      "Hosts reports"
+     ],
+     "answer": 0,
+     "explain": "Install on a reliable machine."
+    },
+    {
+     "q": "What is the difference between personal and standard gateway?",
+     "options": [
+      "None",
+      "Same",
+      "Personal is for one user's Import refresh; standard serves many users and DirectQuery",
+      "Reverse"
+     ],
+     "answer": 2,
+     "explain": "Choose for the org."
+    },
+    {
+     "q": "How often can Pro schedule refresh?",
+     "options": [
+      "Up to 8 times per day (Premium: up to 48)",
+      "Once",
+      "Hourly",
+      "Unlimited"
+     ],
+     "answer": 0,
+     "explain": "Plan within limits."
+    },
+    {
+     "q": "What do you check when scheduled refresh fails?",
+     "options": [
+      "Names",
+      "Visuals",
+      "Colors",
+      "Credentials, gateway status, source availability and the refresh history error"
+     ],
+     "answer": 3,
+     "explain": "Diagnose from history."
+    }
+   ]
+  },
+  "level-2/10-project-sales-model": {
+   "questions": [
+    {
+     "q": "What does the sales model project combine?",
+     "options": [
+      "Star schema, relationships, DAX measures, time intelligence and RLS",
+      "Only M",
+      "Only visuals",
+      "Only DAX"
+     ],
+     "answer": 0,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How test RLS?",
+     "options": [
+      "As admin",
+      "Skip",
+      "Use 'View as role' in Desktop and as a Viewer in the Service",
+      "Trust"
+     ],
+     "answer": 2,
+     "explain": "Roles don't apply to editors."
+    },
+    {
+     "q": "How verify time intelligence?",
+     "options": [
+      "Skip",
+      "Eyeball",
+      "Compare YTD/YoY values against manual totals for a few periods",
+      "Trust"
+     ],
+     "answer": 2,
+     "explain": "Check boundaries."
+    },
+    {
+     "q": "What do you ship besides the report?",
+     "options": [
+      "Colors",
+      "Documentation of model, measures and refresh",
+      "Nothing",
+      "Source"
+     ],
+     "answer": 1,
+     "explain": "Handover."
+    }
+   ]
+  },
+  "level-3/01-iterators-variables": {
+   "questions": [
+    {
+     "q": "What does SUMX do?",
+     "options": [
+      "Filters",
+      "Counts",
+      "Sums column",
+      "Iterates a table row by row evaluating an expression, then sums it"
+     ],
+     "answer": 3,
+     "explain": "Row context."
+    },
+    {
+     "q": "Why use VAR in DAX?",
+     "options": [
+      "Colors",
+      "Readability and evaluating an expression once (and fixing context)",
+      "Law",
+      "Sorting"
+     ],
+     "answer": 1,
+     "explain": "Cleaner measures."
+    },
+    {
+     "q": "Why is SUMX(Sales, Qty * Price) correct for revenue when there is no Amount column?",
+     "options": [
+      "Count",
+      "Average",
+      "SUM works",
+      "Each row's Qty*Price must be computed before summing"
+     ],
+     "answer": 3,
+     "explain": "Sum of products ≠ product of sums."
+    },
+    {
+     "q": "Qty/Price rows: (2,10),(3,5). Product of sums vs sum of products?\n```python\nprint((2+3)*(10+5), 2*10+3*5)\n```\n",
+     "options": [
+      "35 75",
+      "75 35",
+      "75 75",
+      "35 35"
+     ],
+     "answer": 1,
+     "explain": "Iterators multiply per row. Verified by running it."
+    }
+   ]
+  },
+  "level-3/02-context-transition": {
+   "questions": [
+    {
+     "q": "What is context transition?",
+     "options": [
+      "CALCULATE turning the current row context into an equivalent filter context",
+      "A refresh",
+      "Sorting",
+      "Join"
+     ],
+     "answer": 0,
+     "explain": "Why measures work in iterators."
+    },
+    {
+     "q": "What happens when a measure is referenced in a calculated column?",
+     "options": [
+      "Sum all",
+      "Nothing",
+      "It is evaluated with the row converted to a filter (implicit CALCULATE)",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Context transition."
+    },
+    {
+     "q": "What's a common performance trap?",
+     "options": [
+      "DIVIDE",
+      "VAR",
+      "Iterating large tables and using context transition per row",
+      "SUM"
+     ],
+     "answer": 2,
+     "explain": "Push work to storage engine."
+    },
+    {
+     "q": "What does a measure reference do inside SUMX?",
+     "options": [
+      "Total",
+      "Error",
+      "Nothing",
+      "Evaluates per row with that row's values as filters"
+     ],
+     "answer": 3,
+     "explain": "Powerful but costly."
+    }
+   ]
+  },
+  "level-3/03-filter-modifiers": {
+   "questions": [
+    {
+     "q": "What does ALLEXCEPT do?",
+     "options": [
+      "Sorts",
+      "Adds",
+      "Counts",
+      "Removes all filters from a table except on the listed columns"
+     ],
+     "answer": 3,
+     "explain": "Group-level totals."
+    },
+    {
+     "q": "What does KEEPFILTERS do?",
+     "options": [
+      "Adds to existing filters instead of overriding them",
+      "Refresh",
+      "Removes",
+      "Sorts"
+     ],
+     "answer": 0,
+     "explain": "Intersects."
+    },
+    {
+     "q": "What does REMOVEFILTERS do?",
+     "options": [
+      "Adds",
+      "Sorts",
+      "Joins",
+      "Clears filters (clearer alias of ALL as a CALCULATE modifier)"
+     ],
+     "answer": 3,
+     "explain": "Readable."
+    },
+    {
+     "q": "Which function computes percent of grand total?",
+     "options": [
+      "DIVIDE([Sales], CALCULATE([Sales], REMOVEFILTERS()))",
+      "FILTER",
+      "SUM",
+      "VALUES"
+     ],
+     "answer": 0,
+     "explain": "Denominator ignores filters."
+    }
+   ]
+  },
+  "level-3/04-performance-vertipaq": {
+   "questions": [
+    {
+     "q": "What is VertiPaq?",
+     "options": [
+      "M",
+      "The in-memory columnar compression engine behind Import models",
+      "Gateway",
+      "DAX"
+     ],
+     "answer": 1,
+     "explain": "Column store."
+    },
+    {
+     "q": "What reduces model size most?",
+     "options": [
+      "Colors",
+      "Names",
+      "More visuals",
+      "Removing unused columns and lowering cardinality (e.g. split datetime)"
+     ],
+     "answer": 3,
+     "explain": "Fewer unique values compress better."
+    },
+    {
+     "q": "What tool analyses model size and DAX performance?",
+     "options": [
+      "Notepad",
+      "Excel",
+      "Word",
+      "DAX Studio / VertiPaq Analyzer and Performance Analyzer in Desktop"
+     ],
+     "answer": 3,
+     "explain": "Measure first."
+    },
+    {
+     "q": "Which data type compresses best?",
+     "options": [
+      "Float",
+      "Integers with low cardinality",
+      "Text",
+      "GUID"
+     ],
+     "answer": 1,
+     "explain": "Prefer ints for keys."
+    }
+   ]
+  },
+  "level-3/05-storage-modes": {
+   "questions": [
+    {
+     "q": "What is composite model?",
+     "options": [
+      "Dataset copy",
+      "Two files",
+      "A model mixing Import and DirectQuery tables",
+      "Two reports"
+     ],
+     "answer": 2,
+     "explain": "Flexibility."
+    },
+    {
+     "q": "What is Dual storage mode?",
+     "options": [
+      "Both",
+      "Neither",
+      "A table that can act as Import or DirectQuery depending on the query",
+      "Copy"
+     ],
+     "answer": 2,
+     "explain": "Optimizes relationships."
+    },
+    {
+     "q": "When choose DirectQuery?",
+     "options": [
+      "Very large or near-real-time data where import isn't feasible",
+      "Always",
+      "Never",
+      "Small data"
+     ],
+     "answer": 0,
+     "explain": "Trade-offs in speed."
+    },
+    {
+     "q": "What do aggregations do?",
+     "options": [
+      "Serve common queries from a small imported summary instead of the big DirectQuery table",
+      "Refresh",
+      "Sort",
+      "Share"
+     ],
+     "answer": 0,
+     "explain": "Speed at scale."
+    }
+   ]
+  },
+  "level-3/06-calculation-groups": {
+   "questions": [
+    {
+     "q": "What do calculation groups solve?",
+     "options": [
+      "Colors",
+      "Visuals",
+      "Many near-identical measures (e.g. YTD, YoY for every measure) with one reusable item",
+      "Security"
+     ],
+     "answer": 2,
+     "explain": "Created in Tabular Editor."
+    },
+    {
+     "q": "Which tool typically authors calculation groups?",
+     "options": [
+      "SSMS only",
+      "Tabular Editor (or the model view in recent Desktop)",
+      "Excel",
+      "Word"
+     ],
+     "answer": 1,
+     "explain": "External tool."
+    },
+    {
+     "q": "What is SELECTEDMEASURE()?",
+     "options": [
+      "A column",
+      "A table",
+      "The measure currently being evaluated by a calculation item",
+      "A slicer"
+     ],
+     "answer": 2,
+     "explain": "Used in items."
+    },
+    {
+     "q": "What's the caution?",
+     "options": [
+      "Speed",
+      "Precedence and format strings need design to avoid surprising results",
+      "None",
+      "Colors"
+     ],
+     "answer": 1,
+     "explain": "Test combos."
+    }
+   ]
+  },
+  "level-3/07-field-parameters": {
+   "questions": [
+    {
+     "q": "What are field parameters?",
+     "options": [
+      "Gateways",
+      "Themes",
+      "Slicers that let users switch which measures or columns a visual uses",
+      "Filters"
+     ],
+     "answer": 2,
+     "explain": "Dynamic visuals."
+    },
+    {
+     "q": "What benefit do field parameters give?",
+     "options": [
+      "Security",
+      "Speed",
+      "One flexible visual instead of many duplicates",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Self-service."
+    },
+    {
+     "q": "What is created behind the scenes?",
+     "options": [
+      "Column",
+      "Gateway",
+      "Measure",
+      "A calculated table with NAMEOF references"
+     ],
+     "answer": 3,
+     "explain": "Generated DAX."
+    },
+    {
+     "q": "What's a limitation?",
+     "options": [
+      "None",
+      "Not all visuals/features behave identically with parameters; test them",
+      "Colors",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Check behaviors."
+    }
+   ]
+  },
+  "level-3/08-advanced-visuals-paginated": {
+   "questions": [
+    {
+     "q": "What are paginated reports for?",
+     "options": [
+      "Pixel-perfect, printable multi-page documents (invoices, statements)",
+      "Queries",
+      "Dashboards",
+      "Models"
+     ],
+     "answer": 0,
+     "explain": "Report Builder."
+    },
+    {
+     "q": "What is a decomposition tree good for?",
+     "options": [
+      "Interactive root-cause drilling across dimensions",
+      "KPIs",
+      "Time",
+      "Maps"
+     ],
+     "answer": 0,
+     "explain": "AI visual."
+    },
+    {
+     "q": "When choose a matrix over a table?",
+     "options": [
+      "Never",
+      "When you need row/column hierarchies and subtotals",
+      "Raw rows",
+      "Charts"
+     ],
+     "answer": 1,
+     "explain": "Pivot-like."
+    },
+    {
+     "q": "What do tooltips pages add?",
+     "options": [
+      "Custom hover details with visuals",
+      "Models",
+      "Refresh",
+      "Security"
+     ],
+     "answer": 0,
+     "explain": "Context at a glance."
+    }
+   ]
+  },
+  "level-3/09-deployment-pipelines": {
+   "questions": [
+    {
+     "q": "What do deployment pipelines do?",
+     "options": [
+      "Gateways",
+      "Promote content through Dev, Test and Prod workspaces with rules",
+      "Refresh",
+      "Authoring"
+     ],
+     "answer": 1,
+     "explain": "Release management."
+    },
+    {
+     "q": "What are deployment rules for?",
+     "options": [
+      "Names",
+      "Colors",
+      "Changing parameters/data sources per stage (e.g. dev DB vs prod DB)",
+      "Roles"
+     ],
+     "answer": 2,
+     "explain": "Environment config."
+    },
+    {
+     "q": "Why test in a separate stage?",
+     "options": [
+      "Catch issues before users see them",
+      "Cost",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Safe releases."
+    },
+    {
+     "q": "What should be compared before promoting?",
+     "options": [
+      "Names",
+      "Colors",
+      "Differences between stages (the pipeline shows changes)",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Review changes."
+    }
+   ]
+  },
+  "level-3/10-project-finance-model": {
+   "questions": [
+    {
+     "q": "What does the finance model project combine?",
+     "options": [
+      "Only DAX",
+      "Calculation groups, iterators, variables, performance tuning and deployment",
+      "Only M",
+      "Only visuals"
+     ],
+     "answer": 1,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How validate finance numbers?",
+     "options": [
+      "Reconcile to the ledger and audit measure logic with test cases",
+      "Skip",
+      "Eyeball",
+      "Trust"
+     ],
+     "answer": 0,
+     "explain": "Accuracy matters."
+    },
+    {
+     "q": "How keep measures understandable?",
+     "options": [
+      "One big",
+      "Short names",
+      "Descriptive names, VARs, comments and a measure table",
+      "No docs"
+     ],
+     "answer": 2,
+     "explain": "Readable."
+    },
+    {
+     "q": "What would you add for governance?",
+     "options": [
+      "Nothing",
+      "Sensitivity labels, certified datasets and ownership docs",
+      "Colors",
+      "Sort"
+     ],
+     "answer": 1,
+     "explain": "Trust."
+    }
+   ]
+  },
+  "level-4/01-enterprise-architecture": {
+   "questions": [
+    {
+     "q": "What's a common enterprise pattern?",
+     "options": [
+      "Flat files",
+      "Copy per report",
+      "Excel",
+      "Shared certified datasets with thin reports built on top"
+     ],
+     "answer": 3,
+     "explain": "One version of truth."
+    },
+    {
+     "q": "Why separate data prep from the model?",
+     "options": [
+      "Law",
+      "Colors",
+      "Reuse via dataflows and keep the semantic model lean",
+      "Speed only"
+     ],
+     "answer": 2,
+     "explain": "Layered architecture."
+    },
+    {
+     "q": "What does a semantic model provide?",
+     "options": [
+      "Visuals",
+      "Business definitions: relationships, measures and security reused by many reports",
+      "Servers",
+      "Data"
+     ],
+     "answer": 1,
+     "explain": "Single source."
+    },
+    {
+     "q": "What does 'thin report' mean?",
+     "options": [
+      "Small file",
+      "A report connected to a shared model without its own data",
+      "Mobile",
+      "Draft"
+     ],
+     "answer": 1,
+     "explain": "Live connection."
+    }
+   ]
+  },
+  "level-4/02-microsoft-fabric": {
+   "questions": [
+    {
+     "q": "What is Microsoft Fabric?",
+     "options": [
+      "Database",
+      "Cloud VM",
+      "Only BI",
+      "A unified analytics platform (OneLake, lakehouse, warehouse, pipelines, Power BI)"
+     ],
+     "answer": 3,
+     "explain": "Integrated."
+    },
+    {
+     "q": "What is OneLake?",
+     "options": [
+      "A single logical data lake for the organization",
+      "Server",
+      "Report",
+      "Gateway"
+     ],
+     "answer": 0,
+     "explain": "Delta Parquet."
+    },
+    {
+     "q": "What is Direct Lake mode?",
+     "options": [
+      "Import",
+      "DirectQuery",
+      "Excel",
+      "Reading Delta tables from OneLake directly, with import-like speed without copying"
+     ],
+     "answer": 3,
+     "explain": "Fabric feature."
+    },
+    {
+     "q": "When use a lakehouse vs warehouse?",
+     "options": [
+      "Reverse",
+      "None",
+      "Same",
+      "Lakehouse for flexible files/Spark; warehouse for SQL-centric structured analytics"
+     ],
+     "answer": 3,
+     "explain": "Choose by workload."
+    }
+   ]
+  },
+  "level-4/03-governance": {
+   "questions": [
+    {
+     "q": "What does governance cover?",
+     "options": [
+      "Ownership, access, quality, lifecycle and compliance of data and reports",
+      "Speed",
+      "Colors",
+      "Layout"
+     ],
+     "answer": 0,
+     "explain": "Trust and safety."
+    },
+    {
+     "q": "What do sensitivity labels do?",
+     "options": [
+      "Classify and protect content, following it when exported",
+      "Sort",
+      "Share",
+      "Refresh"
+     ],
+     "answer": 0,
+     "explain": "Information protection."
+    },
+    {
+     "q": "What does endorsement (certified/promoted) signal?",
+     "options": [
+      "Which content is trusted and recommended",
+      "Size",
+      "Speed",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "Discoverability."
+    },
+    {
+     "q": "Why audit usage?",
+     "options": [
+      "Colors",
+      "See who uses what, retire unused content and detect risk",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Admin portal and metrics."
+    }
+   ]
+  },
+  "level-4/04-storytelling-design": {
+   "questions": [
+    {
+     "q": "What makes a report tell a story?",
+     "options": [
+      "3D",
+      "A clear question, logical flow and highlighted insights with context",
+      "Colors",
+      "Many visuals"
+     ],
+     "answer": 1,
+     "explain": "Audience first."
+    },
+    {
+     "q": "What is the data-ink principle?",
+     "options": [
+      "Color",
+      "Remove decoration that doesn't carry information",
+      "Add",
+      "Shade"
+     ],
+     "answer": 1,
+     "explain": "Clarity."
+    },
+    {
+     "q": "Why consistent layout across pages?",
+     "options": [
+      "Speed",
+      "Cost",
+      "Users learn once and find things faster",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Predictability."
+    },
+    {
+     "q": "What do titles that state the takeaway do?",
+     "options": [
+      "Confuse",
+      "Tell viewers what to notice ('Sales up 12%') rather than just labelling",
+      "Clutter",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Insight titles."
+    }
+   ]
+  },
+  "level-4/05-embedding": {
+   "questions": [
+    {
+     "q": "What does 'embed for your customers' mean?",
+     "options": [
+      "Teams",
+      "Internal",
+      "Excel",
+      "App-owns-data embedding for external users without Power BI licenses"
+     ],
+     "answer": 3,
+     "explain": "Service principal + capacity."
+    },
+    {
+     "q": "What does 'embed for your organization' mean?",
+     "options": [
+      "Gateway",
+      "Anonymous",
+      "External",
+      "User-owns-data: internal users sign in with their own license"
+     ],
+     "answer": 3,
+     "explain": "Secure embed."
+    },
+    {
+     "q": "What embeds a report in a web app?",
+     "options": [
+      "Excel",
+      "iframe only",
+      "PDF",
+      "The Power BI JavaScript embedding SDK with an embed token"
+     ],
+     "answer": 3,
+     "explain": "Programmatic."
+    },
+    {
+     "q": "Why handle RLS with embedding?",
+     "options": [
+      "Speed",
+      "So each external user sees only their data via the effective identity",
+      "Law",
+      "Colors"
+     ],
+     "answer": 1,
+     "explain": "Security."
+    }
+   ]
+  },
+  "level-4/06-incremental-refresh": {
+   "questions": [
+    {
+     "q": "What does incremental refresh do?",
+     "options": [
+      "Everything",
+      "Nothing",
+      "Models",
+      "Refreshes only recent partitions instead of the whole table"
+     ],
+     "answer": 3,
+     "explain": "RangeStart/RangeEnd."
+    },
+    {
+     "q": "Which parameters does incremental refresh need?",
+     "options": [
+      "Any",
+      "Colors",
+      "Names",
+      "RangeStart and RangeEnd (datetime) filtering the source"
+     ],
+     "answer": 3,
+     "explain": "Folded filters."
+    },
+    {
+     "q": "Why is query folding vital for it?",
+     "options": [
+      "Law",
+      "Speed only",
+      "The date filter must reach the source so only needed rows are read",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Else full reads."
+    },
+    {
+     "q": "What's the benefit?",
+     "options": [
+      "Colors",
+      "Faster, cheaper refreshes of large tables",
+      "Security",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Scale."
+    }
+   ]
+  },
+  "level-4/07-cicd-pbip-git": {
+   "questions": [
+    {
+     "q": "What is the PBIP format for?",
+     "options": [
+      "A folder-based project format (TMDL/PBIR) friendly to source control",
+      "Image",
+      "PDF",
+      "Excel"
+     ],
+     "answer": 0,
+     "explain": "Git diffs."
+    },
+    {
+     "q": "Why use Git for Power BI?",
+     "options": [
+      "Law",
+      "Version history, review of changes and collaboration",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Engineering practice."
+    },
+    {
+     "q": "What does Fabric Git integration do?",
+     "options": [
+      "Auth",
+      "Syncs a workspace with a Git repository branch",
+      "Refresh",
+      "Visuals"
+     ],
+     "answer": 1,
+     "explain": "Source of truth."
+    },
+    {
+     "q": "What goes in CI checks?",
+     "options": [
+      "Best-practice analyzer, model validation and DAX tests",
+      "Colors",
+      "Names",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Quality gates."
+    }
+   ]
+  },
+  "level-4/08-accessibility": {
+   "questions": [
+    {
+     "q": "What helps screen reader users?",
+     "options": [
+      "Colors",
+      "3D",
+      "Alt text, logical tab order, titles and 'show as table'",
+      "Animation"
+     ],
+     "answer": 2,
+     "explain": "WCAG basics."
+    },
+    {
+     "q": "What contrast is recommended for text?",
+     "options": [
+      "2:1",
+      "3D",
+      "1:1",
+      "At least 4.5:1 against background"
+     ],
+     "answer": 3,
+     "explain": "Readable."
+    },
+    {
+     "q": "Why not use color alone to convey meaning?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Color-blind users can't distinguish; add labels/patterns"
+     ],
+     "answer": 3,
+     "explain": "Redundant cues."
+    },
+    {
+     "q": "What does tab order control?",
+     "options": [
+      "Colors",
+      "The sequence keyboard users move through visuals",
+      "Data",
+      "Sort"
+     ],
+     "answer": 1,
+     "explain": "Set deliberately."
+    }
+   ]
+  },
+  "level-4/09-testing-models": {
+   "questions": [
+    {
+     "q": "How test a semantic model?",
+     "options": [
+      "Compare measure results with known values and check edge cases (blanks, filters)",
+      "Eyeball",
+      "Trust",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "Automated where possible."
+    },
+    {
+     "q": "What tools help?",
+     "options": [
+      "Word",
+      "None",
+      "DAX Query View, Tabular Editor Best Practice Analyzer, and DAX Studio",
+      "Excel"
+     ],
+     "answer": 2,
+     "explain": "Static and dynamic checks."
+    },
+    {
+     "q": "What do regression tests catch?",
+     "options": [
+      "Colors",
+      "Unintended changes in numbers after model edits",
+      "Layout",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Compare before/after."
+    },
+    {
+     "q": "What should test data cover?",
+     "options": [
+      "One row",
+      "Typical, boundary and empty-filter cases",
+      "Prod",
+      "Random"
+     ],
+     "answer": 1,
+     "explain": "Coverage."
+    }
+   ]
+  },
+  "level-4/10-capstone": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only visuals",
+      "Only M",
+      "Architecture, governance, performance, security, deployment and storytelling",
+      "Only DAX"
+     ],
+     "answer": 2,
+     "explain": "Production-ready BI."
+    },
+    {
+     "q": "How prove readiness?",
+     "options": [
+      "Hope",
+      "Slides",
+      "Demo",
+      "Reconciled numbers, performance checks, RLS tests and a release plan"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "None",
+      "Code",
+      "Data dictionary, measure definitions, refresh and support runbook",
+      "Slides"
+     ],
+     "answer": 2,
+     "explain": "Handover."
+    },
+    {
+     "q": "What sustains it?",
+     "options": [
+      "Tools",
+      "Luck",
+      "Silence",
+      "Ownership, usage review and regular model maintenance"
+     ],
+     "answer": 3,
+     "explain": "Lifecycle."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A sales table has Units and Price columns and no Amount column. Which measure gives revenue?",
+    "options": [
+     "SUM(Units) * SUM(Price)",
+     "SUMX(Sales, Sales[Units] * Sales[Price])",
+     "COUNT(Units)",
+     "AVERAGE(Price)"
+    ],
+    "answer": 1,
+    "explain": "Multiply per row first, then sum."
+   },
+   {
+    "q": "Rows (units, price): (2,10),(3,5). What do SUMX(units*price) and SUM(units)*SUM(price) give?\n```python\nprint(2*10+3*5, (2+3)*(10+5))\n```\n",
+    "options": [
+     "35 35",
+     "75 35",
+     "35 75",
+     "75 75"
+    ],
+    "answer": 2,
+    "explain": "Sum of products is not the product of sums. Verified by running it."
+   },
+   {
+    "q": "Slicer Category=Camping is applied and a measure uses CALCULATE([Sales], ALL(Product)). What does it return?",
+    "options": [
+     "An error",
+     "Camping sales",
+     "Total sales for all products (the Category filter is removed)",
+     "Zero"
+    ],
+    "answer": 2,
+    "explain": "Used for denominators."
+   },
+   {
+    "q": "Why does a flat table hide a product with no sales while a star schema doesn't?",
+    "options": [
+     "The dimension table still has the product row even without fact rows",
+     "Stars sort",
+     "Flat is bigger",
+     "Names"
+    ],
+    "answer": 0,
+    "explain": "Dimensions list everything."
+   },
+   {
+    "q": "A measure returns an overall rate by averaging a per-row percentage column. What's wrong?",
+    "options": [
+     "Rounding",
+     "Nothing",
+     "Types",
+     "It ignores weights; compute DIVIDE(SUM(numerator), SUM(denominator))"
+    ],
+    "answer": 3,
+    "explain": "Ratio of sums."
+   },
+   {
+    "q": "TOTALYTD returns blanks for some dates. What do you check first?",
+    "options": [
+     "Gateway",
+     "That a contiguous, marked date table exists and is related to the fact",
+     "Colors",
+     "Slicers"
+    ],
+    "answer": 1,
+    "explain": "Time intelligence prerequisite."
+   },
+   {
+    "q": "Sales this year 150 versus 120 last year. Which expression gives growth?",
+    "options": [
+     "SUM",
+     "[Sales LY] - [Sales]",
+     "[Sales] / 2",
+     "DIVIDE([Sales] - [Sales LY], [Sales LY])"
+    ],
+    "answer": 3,
+    "explain": "(150-120)/120 = 25%."
+   },
+   {
+    "q": "A user can see data for all regions in the Service, but the Desktop test with role 'West' worked. What's missing?",
+    "options": [
+     "Colors",
+     "Rebuild",
+     "Users must be assigned to the role in the Service (and testing needs the Viewer role)",
+     "Refresh"
+    ],
+    "answer": 2,
+    "explain": "Assignments are separate."
+   },
+   {
+    "q": "A scheduled refresh from an on-premises SQL Server fails after publishing. What is needed?",
+    "options": [
+     "Desktop",
+     "A data gateway with valid credentials",
+     "More RAM",
+     "Slicers"
+    ],
+    "answer": 1,
+    "explain": "On-prem access."
+   },
+   {
+    "q": "Two relationships connect Sales to Date (OrderDate, ShipDate). How use the inactive one?",
+    "options": [
+     "ALL",
+     "VALUES",
+     "CALCULATE([Sales], USERELATIONSHIP(Sales[ShipDate], 'Date'[Date]))",
+     "FILTER"
+    ],
+    "answer": 2,
+    "explain": "Role-playing dimension."
+   },
+   {
+    "q": "Which refresh strategy suits a 200-million-row fact table that only changes recently?",
+    "options": [
+     "Incremental refresh with RangeStart/RangeEnd and folded date filters",
+     "DirectQuery only",
+     "Manual",
+     "Full refresh"
+    ],
+    "answer": 0,
+    "explain": "Partitions."
+   },
+   {
+    "q": "A report is slow. What is the first diagnostic step?",
+    "options": [
+     "Guess",
+     "Performance Analyzer to see which visual/query is slow, then DAX Studio if needed",
+     "Delete visuals",
+     "Add slicers"
+    ],
+    "answer": 1,
+    "explain": "Measure."
+   },
+   {
+    "q": "Which change typically shrinks a model the most?",
+    "options": [
+     "Colors",
+     "Add visuals",
+     "Removing unused columns and reducing cardinality (e.g. split datetime into date and time)",
+     "Rename"
+    ],
+    "answer": 2,
+    "explain": "VertiPaq compression."
+   },
+   {
+    "q": "Many measures need YTD, YoY and MTD variants. What reduces duplication?",
+    "options": [
+     "More tables",
+     "Copy/paste",
+     "Calculation groups",
+     "Bookmarks"
+    ],
+    "answer": 2,
+    "explain": "Reusable time calculations."
+   },
+   {
+    "q": "Which approach keeps content consistent for hundreds of reports?",
+    "options": [
+     "Flat files",
+     "Excel",
+     "Copies",
+     "Shared certified semantic models with thin reports"
+    ],
+    "answer": 3,
+    "explain": "One version of truth."
+   },
+   {
+    "q": "What lets external customers view embedded reports without Power BI licenses?",
+    "options": [
+     "PDF",
+     "Share link",
+     "Embed for your customers (app owns data) with an embed token",
+     "Excel"
+    ],
+    "answer": 2,
+    "explain": "Capacity required."
+   },
+   {
+    "q": "Why store a Power BI project as PBIP in Git?",
+    "options": [
+     "Law",
+     "Text-based files give reviewable diffs and branching",
+     "Faster",
+     "Smaller"
+    ],
+    "answer": 1,
+    "explain": "CI/CD."
+   },
+   {
+    "q": "Which practice most improves accessibility?",
+    "options": [
+     "Alt text, logical tab order, sufficient contrast and not relying on color alone",
+     "Colors",
+     "Animation",
+     "3D"
+    ],
+    "answer": 0,
+    "explain": "WCAG."
+   },
+   {
+    "q": "How do you confirm a model change didn't break numbers?",
+    "options": [
+     "Compare measure outputs before and after against known values (regression tests)",
+     "Eyeball",
+     "Trust",
+     "Skip"
+    ],
+    "answer": 0,
+    "explain": "Automate in CI."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A filter-context engine: CALCULATE, REMOVEFILTERS and DIVIDE",
+    "prompt": "Power BI Desktop isn't available here, so model its core idea in Python: join facts to dimensions, filter rows by a context dictionary, then implement CALCULATE (override and remove filters), a safe DIVIDE and a percent-of-total measure. Also list products with no sales, which a star schema can answer but a flat table cannot.",
+    "starter": "# A tiny model of Power BI's filter context: dimensions filter a fact table through relationships.\nFACT = [  # (date, product_key, store_key, units, amount)\n    (\"2026-01-05\", 1, 1, 2, 200), (\"2026-01-20\", 2, 1, 1, 150), (\"2026-02-03\", 1, 2, 4, 400),\n    (\"2026-02-14\", 3, 2, 2, 90),  (\"2026-03-02\", 2, 1, 3, 450), (\"2026-03-15\", 1, 2, 1, 100),\n]\nDIM_PRODUCT = {1: {\"Product\": \"Tent\", \"Category\": \"Camping\"}, 2: {\"Product\": \"Boots\", \"Category\": \"Hiking\"},\n               3: {\"Product\": \"Stove\", \"Category\": \"Camping\"}, 4: {\"Product\": \"Lamp\", \"Category\": \"Camping\"}}\nDIM_STORE = {1: {\"Store\": \"Austin\", \"Region\": \"South\"}, 2: {\"Store\": \"Denver\", \"Region\": \"West\"}}\n\ndef rows_in_context(filters):\n    \"\"\"filters = {\"Category\": \"Camping\", \"Region\": \"West\", \"Month\": \"2026-02\"}; no filters means all rows.\n    Join each fact row to its product and store attributes (plus Month = first 7 chars of the date) and keep\n    the rows where every filter column equals its value.\"\"\"\n    return []\n\ndef total_sales(filters):                      # SUM(Sales[Amount]) in the given context\n    return 0\n\ndef divide(n, d, alt=None):                    # DIVIDE(n, d) returns BLANK (None) when d is 0\n    return alt if not d else n / d\n\ndef calculate(measure, context, add=None, remove=None):\n    \"\"\"CALCULATE: copy the context, REMOVEFILTERS on the named columns, then set/override filters from `add`.\"\"\"\n    ctx = dict(context)\n    for k in (remove or []): ctx.pop(k, None)\n    ctx.update(add or {})\n    return measure(ctx)\n\ndef pct_of_region(context):                    # DIVIDE([Sales], CALCULATE([Sales], REMOVEFILTERS(Product)))\n    return divide(total_sales(context), calculate(total_sales, context, remove=[\"Category\", \"Product\"]))\n\ndef products_without_sales():\n    # product names that have no fact rows, sorted\n    return []\n\nprint(\"All sales:\", total_sales({}))\nprint(\"Camping:\", total_sales({\"Category\": \"Camping\"}))\nprint(\"Camping, West:\", total_sales({\"Category\": \"Camping\", \"Region\": \"West\"}))\nprint(\"Camping vs all categories (South):\", total_sales({\"Category\": \"Camping\", \"Region\": \"South\"}), \"/\", calculate(total_sales, {\"Category\": \"Camping\", \"Region\": \"South\"}, remove=[\"Category\"]))\nprint(\"Share of South sales that is Camping:\", round(pct_of_region({\"Category\": \"Camping\", \"Region\": \"South\"}) * 100, 1), \"%\")\nprint(\"CALCULATE override (Hiking in a Camping context):\", calculate(total_sales, {\"Category\": \"Camping\"}, add={\"Category\": \"Hiking\"}))\nprint(\"Divide by zero ->\", divide(5, 0), \"| empty context ->\", total_sales({\"Category\": \"Lamps\"}))\nprint(\"Products with no sales:\", products_without_sales())\n",
+    "expected": "All sales: 1390\nCamping: 790\nCamping, West: 590\nCamping vs all categories (South): 200 / 800\nShare of South sales that is Camping: 25.0 %\nCALCULATE override (Hiking in a Camping context): 600\nDivide by zero -> None | empty context -> 0\nProducts with no sales: ['Lamp']",
+    "solution": "# A tiny model of Power BI's filter context: dimensions filter a fact table through relationships.\nFACT = [  # (date, product_key, store_key, units, amount)\n    (\"2026-01-05\", 1, 1, 2, 200), (\"2026-01-20\", 2, 1, 1, 150), (\"2026-02-03\", 1, 2, 4, 400),\n    (\"2026-02-14\", 3, 2, 2, 90),  (\"2026-03-02\", 2, 1, 3, 450), (\"2026-03-15\", 1, 2, 1, 100),\n]\nDIM_PRODUCT = {1: {\"Product\": \"Tent\", \"Category\": \"Camping\"}, 2: {\"Product\": \"Boots\", \"Category\": \"Hiking\"},\n               3: {\"Product\": \"Stove\", \"Category\": \"Camping\"}, 4: {\"Product\": \"Lamp\", \"Category\": \"Camping\"}}\nDIM_STORE = {1: {\"Store\": \"Austin\", \"Region\": \"South\"}, 2: {\"Store\": \"Denver\", \"Region\": \"West\"}}\n\ndef rows_in_context(filters):\n    \"\"\"filters = {\"Category\": \"Camping\", \"Region\": \"West\", \"Month\": \"2026-02\"}; no filters means all rows.\"\"\"\n    out = []\n    for d, p, s, u, a in FACT:\n        attrs = {**DIM_PRODUCT[p], **DIM_STORE[s], \"Month\": d[:7]}\n        if all(attrs.get(k) == v for k, v in filters.items()):\n            out.append((d, p, s, u, a))\n    return out\n\ndef total_sales(filters):                      # SUM(Sales[Amount])\n    return sum(r[4] for r in rows_in_context(filters))\n\ndef divide(n, d, alt=None):                    # DIVIDE(n, d) returns BLANK (None) when d is 0\n    return alt if not d else n / d\n\ndef calculate(measure, context, add=None, remove=None):\n    \"\"\"CALCULATE: copy the context, REMOVEFILTERS on the named columns, then set/override filters from `add`.\"\"\"\n    ctx = dict(context)\n    for k in (remove or []): ctx.pop(k, None)\n    ctx.update(add or {})\n    return measure(ctx)\n\ndef pct_of_region(context):                    # DIVIDE([Sales], CALCULATE([Sales], REMOVEFILTERS(Product)))\n    return divide(total_sales(context), calculate(total_sales, context, remove=[\"Category\", \"Product\"]))\n\ndef products_without_sales():                  # a star schema keeps dimension rows with no facts\n    sold = {r[1] for r in FACT}\n    return sorted(v[\"Product\"] for k, v in DIM_PRODUCT.items() if k not in sold)\n\nprint(\"All sales:\", total_sales({}))\nprint(\"Camping:\", total_sales({\"Category\": \"Camping\"}))\nprint(\"Camping, West:\", total_sales({\"Category\": \"Camping\", \"Region\": \"West\"}))\nprint(\"Camping vs all categories (South):\", total_sales({\"Category\": \"Camping\", \"Region\": \"South\"}), \"/\", calculate(total_sales, {\"Category\": \"Camping\", \"Region\": \"South\"}, remove=[\"Category\"]))\nprint(\"Share of South sales that is Camping:\", round(pct_of_region({\"Category\": \"Camping\", \"Region\": \"South\"}) * 100, 1), \"%\")\nprint(\"CALCULATE override (Hiking in a Camping context):\", calculate(total_sales, {\"Category\": \"Camping\"}, add={\"Category\": \"Hiking\"}))\nprint(\"Divide by zero ->\", divide(5, 0), \"| empty context ->\", total_sales({\"Category\": \"Lamps\"}))\nprint(\"Products with no sales:\", products_without_sales())\n",
+    "explain": "A filter context is just the set of dimension filters applied to the fact table; CALCULATE copies the context, removes or overrides filters, then evaluates the measure. This is a Python model of the behaviour (not DAX itself), verified by running it."
+   },
+   {
+    "title": "Date tables, time intelligence and incremental refresh",
+    "prompt": "Model a contiguous date table, TOTALYTD, SAMEPERIODLASTYEAR and a safe growth calculation, then work out which monthly partitions an incremental refresh would reload.",
+    "starter": "from datetime import date, timedelta\n\ndef date_table(start, end):\n    # every date from start to end inclusive (contiguous - required for time intelligence)\n    return []\n\nSALES = {date(2025, 1, 15): 100, date(2025, 2, 10): 120, date(2025, 3, 5): 90,\n         date(2026, 1, 12): 130, date(2026, 2, 8): 150, date(2026, 3, 20): 60}\n\ndef sales_on(days):                            # SUM over the dates in the filter context\n    return sum(SALES.get(d, 0) for d in days)\n\ndef ytd(table, as_of):\n    # TOTALYTD: sales from Jan 1 of as_of's year up to as_of\n    return 0\n\ndef same_period_last_year(table, as_of):\n    # the same window shifted back one year\n    return 0\n\ndef growth(now, before):\n    # DIVIDE(now - before, before) as a percentage rounded to 1 decimal; None when before is 0\n    return None\n\ndef month_partitions(start, end):\n    # list of \"YYYY-MM\" strings from start's month to end's month inclusive\n    return []\n\ndef partitions_to_refresh(all_parts, today, refresh_months):\n    # incremental refresh: only the most recent `refresh_months` months up to today's month\n    return []\n\ntable = date_table(date(2025, 1, 1), date(2026, 12, 31))\nprint(\"date table days:\", len(table), \"| contiguous:\", all((b - a).days == 1 for a, b in zip(table, table[1:])))\nas_of = date(2026, 2, 28)\nnow, before = ytd(table, as_of), same_period_last_year(table, as_of)\nprint(\"YTD:\", now, \"| same period last year:\", before, \"| growth:\", growth(now, before), \"%\")\nprint(\"growth with no prior year:\", growth(50, 0))\nparts = month_partitions(date(2025, 1, 1), date(2026, 3, 1))\nprint(\"partitions:\", len(parts), parts[0], \"..\", parts[-1])\nprint(\"refresh last 2 months:\", partitions_to_refresh(parts, date(2026, 3, 10), 2))\n",
+    "expected": "date table days: 730 | contiguous: True\nYTD: 280 | same period last year: 220 | growth: 27.3 %\ngrowth with no prior year: None\npartitions: 15 2025-01 .. 2026-03\nrefresh last 2 months: ['2026-02', '2026-03']",
+    "solution": "from datetime import date, timedelta\n\n# 1. A contiguous date table (required for time intelligence).\ndef date_table(start, end):\n    d, out = start, []\n    while d <= end:\n        out.append(d); d += timedelta(days=1)\n    return out\n\nSALES = {date(2025, 1, 15): 100, date(2025, 2, 10): 120, date(2025, 3, 5): 90,\n         date(2026, 1, 12): 130, date(2026, 2, 8): 150, date(2026, 3, 20): 60}\n\ndef sales_on(days):                            # SUM over the dates in the filter context\n    return sum(SALES.get(d, 0) for d in days)\n\ndef ytd(table, as_of):                         # TOTALYTD: Jan 1 .. as_of\n    return sales_on(d for d in table if date(as_of.year, 1, 1) <= d <= as_of)\n\ndef same_period_last_year(table, as_of):       # SAMEPERIODLASTYEAR: shift the YTD window back one year\n    start, end = date(as_of.year - 1, 1, 1), as_of.replace(year=as_of.year - 1)\n    return sales_on(d for d in table if start <= d <= end)\n\ndef growth(now, before):                       # DIVIDE(now - before, before)\n    return None if not before else round((now - before) / before * 100, 1)\n\n# 2. Incremental refresh: refresh only partitions inside [RangeStart, RangeEnd).\ndef month_partitions(start, end):\n    parts, y, m = [], start.year, start.month\n    while (y, m) <= (end.year, end.month):\n        parts.append(f\"{y}-{m:02d}\"); m += 1\n        if m == 13: y, m = y + 1, 1\n    return parts\n\ndef partitions_to_refresh(all_parts, today, refresh_months):\n    y, m = today.year, today.month\n    keep = []\n    for _ in range(refresh_months):\n        keep.append(f\"{y}-{m:02d}\"); m -= 1\n        if m == 0: y, m = y - 1, 12\n    return [p for p in all_parts if p in keep]\n\ntable = date_table(date(2025, 1, 1), date(2026, 12, 31))\nprint(\"date table days:\", len(table), \"| contiguous:\", all((b - a).days == 1 for a, b in zip(table, table[1:])))\nas_of = date(2026, 2, 28)\nnow, before = ytd(table, as_of), same_period_last_year(table, as_of)\nprint(\"YTD:\", now, \"| same period last year:\", before, \"| growth:\", growth(now, before), \"%\")\nprint(\"growth with no prior year:\", growth(50, 0))\nparts = month_partitions(date(2025, 1, 1), date(2026, 3, 1))\nprint(\"partitions:\", len(parts), parts[0], \"..\", parts[-1])\nprint(\"refresh last 2 months:\", partitions_to_refresh(parts, date(2026, 3, 10), 2))\n",
+    "explain": "Time intelligence needs a contiguous date table; YTD and last-year windows are date ranges over it; growth uses a safe divide; incremental refresh reloads only recent partitions. This is a Python model of the behaviour (not DAX or the Service), verified by running it."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
