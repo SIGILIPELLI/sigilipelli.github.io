@@ -1,0 +1,2159 @@
+{
+ "course": "nodemcu-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-nodemcu": {
+   "questions": [
+    {
+     "q": "What is NodeMCU?",
+     "options": [
+      "A sensor",
+      "A cloud",
+      "An open-source development board/firmware built around the ESP8266 (and ESP32 variants) with Wi-Fi",
+      "A Linux PC"
+     ],
+     "answer": 2,
+     "explain": "Cheap IoT prototyping."
+    },
+    {
+     "q": "What does the ESP8266 add over a basic MCU?",
+     "options": [
+      "Disk",
+      "Display",
+      "Built-in 2.4 GHz Wi-Fi with a TCP/IP stack",
+      "GPU"
+     ],
+     "answer": 2,
+     "explain": "Connectivity."
+    },
+    {
+     "q": "What voltage do NodeMCU GPIO pins use?",
+     "options": [
+      "1.8 V",
+      "5 V",
+      "3.3 V (not 5 V tolerant)",
+      "12 V"
+     ],
+     "answer": 2,
+     "explain": "Level shifters for 5 V."
+    },
+    {
+     "q": "What's the board's USB chip for?",
+     "options": [
+      "USB-serial to program and monitor the module",
+      "ADC",
+      "Wi-Fi",
+      "Power only"
+     ],
+     "answer": 0,
+     "explain": "CP2102/CH340."
+    }
+   ]
+  },
+  "level-1/02-arduino-ide-setup": {
+   "questions": [
+    {
+     "q": "How add NodeMCU support to the Arduino IDE?",
+     "options": [
+      "Plugin",
+      "Install the ESP8266 (or ESP32) board package via Boards Manager",
+      "Library",
+      "Driver only"
+     ],
+     "answer": 1,
+     "explain": "Board URL."
+    },
+    {
+     "q": "What must be selected before uploading?",
+     "options": [
+      "Font",
+      "Language",
+      "Theme",
+      "The correct board and serial port"
+     ],
+     "answer": 3,
+     "explain": "Tools menu."
+    },
+    {
+     "q": "What if the port doesn't appear?",
+     "options": [
+      "Reboot PC",
+      "Change board",
+      "Reinstall IDE",
+      "Install the USB-serial driver and use a data-capable cable"
+     ],
+     "answer": 3,
+     "explain": "Common issue."
+    },
+    {
+     "q": "What baud rate is typical for upload?",
+     "options": [
+      "9600 only",
+      "300",
+      "115200 (configurable)",
+      "1M only"
+     ],
+     "answer": 2,
+     "explain": "Upload speed."
+    }
+   ]
+  },
+  "level-1/03-first-blink-sketch": {
+   "questions": [
+    {
+     "q": "What does `setup()` do?",
+     "options": [
+      "Sleeps",
+      "Runs once at startup for initialization",
+      "Loops",
+      "Interrupts"
+     ],
+     "answer": 1,
+     "explain": "pinMode etc."
+    },
+    {
+     "q": "What does `loop()` do?",
+     "options": [
+      "On interrupt",
+      "Never",
+      "Once",
+      "Runs repeatedly forever after setup"
+     ],
+     "answer": 3,
+     "explain": "Main logic."
+    },
+    {
+     "q": "Why is the onboard LED often active-low on NodeMCU?",
+     "options": [
+      "Bug",
+      "It's wired to 3.3 V so LOW turns it on",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "digitalWrite(LED_BUILTIN, LOW)."
+    },
+    {
+     "q": "Why avoid long delay() calls?",
+     "options": [
+      "Cost",
+      "Law",
+      "They block everything, including Wi-Fi background work",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Use millis()."
+    }
+   ]
+  },
+  "level-1/04-gpio-basics": {
+   "questions": [
+    {
+     "q": "What does pinMode(pin, INPUT_PULLUP) do?",
+     "options": [
+      "Enables an internal pull-up so an unconnected input reads HIGH",
+      "PWM",
+      "Analog",
+      "Output"
+     ],
+     "answer": 0,
+     "explain": "Buttons to ground."
+    },
+    {
+     "q": "Which pins are risky at boot on the ESP8266?",
+     "options": [
+      "TX",
+      "Strapping pins like GPIO0, GPIO2 and GPIO15",
+      "None",
+      "All"
+     ],
+     "answer": 1,
+     "explain": "Wrong levels prevent boot."
+    },
+    {
+     "q": "What current can a GPIO source?",
+     "options": [
+      "Unlimited",
+      "500 mA",
+      "1 A",
+      "Only a few mA; drive loads through a transistor"
+     ],
+     "answer": 3,
+     "explain": "Protect the chip."
+    },
+    {
+     "q": "What's D1 vs GPIO5?",
+     "options": [
+      "Same pin different chip",
+      "Analog",
+      "Different",
+      "D1 is the board silkscreen label for GPIO5"
+     ],
+     "answer": 3,
+     "explain": "Mapping tables."
+    }
+   ]
+  },
+  "level-1/05-analog-input-adc": {
+   "questions": [
+    {
+     "q": "How many ADC channels does the ESP8266 have?",
+     "options": [
+      "3",
+      "None",
+      "8",
+      "One (A0) with a 0–1 V range on the chip"
+     ],
+     "answer": 3,
+     "explain": "Boards add a divider."
+    },
+    {
+     "q": "What does this print (10-bit ADC value 512 mapped to 0..100)?\n```c\n#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\nlong map(long x, long in_min, long in_max, long out_min, long out_max){ return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; }\nint main(void){ printf(\"%ld\", map(512, 0, 1023, 0, 100)); }\n```\n",
+     "options": [
+      "512",
+      "50",
+      "100",
+      "51"
+     ],
+     "answer": 1,
+     "explain": "Arduino map() uses integer arithmetic. Verified by compiling and running."
+    },
+    {
+     "q": "Why average several ADC samples?",
+     "options": [
+      "The ADC is noisy, especially with Wi-Fi active",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Smoothing."
+    },
+    {
+     "q": "What's the NodeMCU A0 input range?",
+     "options": [
+      "0–12 V",
+      "0–1 V raw",
+      "About 0–3.3 V (a divider on the board)",
+      "0–5 V"
+     ],
+     "answer": 2,
+     "explain": "Check the schematic."
+    }
+   ]
+  },
+  "level-1/06-pwm-basics": {
+   "questions": [
+    {
+     "q": "What does analogWrite do on the ESP8266?",
+     "options": [
+      "True analog",
+      "Software PWM with 10-bit resolution (0–1023)",
+      "ADC",
+      "Digital"
+     ],
+     "answer": 1,
+     "explain": "Default range."
+    },
+    {
+     "q": "What duty cycle (percent) is analogWrite value 256 with a 0..1023 range?\n```c\n#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\nint main(void){ printf(\"%.1f\", 256 * 100.0 / 1023); }\n```\n",
+     "options": [
+      "12.5",
+      "25.0",
+      "50.0",
+      "100.0"
+     ],
+     "answer": 1,
+     "explain": "Value / range. Verified by compiling and running."
+    },
+    {
+     "q": "What does PWM frequency affect?",
+     "options": [
+      "Voltage",
+      "Flicker and motor/LED behavior",
+      "Pins",
+      "Memory"
+     ],
+     "answer": 1,
+     "explain": "analogWriteFreq."
+    },
+    {
+     "q": "Why can't PWM drive a motor directly from a pin?",
+     "options": [
+      "Pins source too little current; use a driver/transistor",
+      "Voltage",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Flyback diode."
+    }
+   ]
+  },
+  "level-1/07-serial-monitor-debugging": {
+   "questions": [
+    {
+     "q": "What does Serial.begin(115200) do?",
+     "options": [
+      "Sets pins",
+      "Opens the serial port at that baud rate",
+      "Starts Wi-Fi",
+      "Resets"
+     ],
+     "answer": 1,
+     "explain": "Match the monitor."
+    },
+    {
+     "q": "What's garbage text in the monitor usually?",
+     "options": [
+      "Wi-Fi",
+      "Power",
+      "Broken chip",
+      "A baud rate mismatch (bootloader prints at 74880 on ESP8266)"
+     ],
+     "answer": 3,
+     "explain": "Set matching speed."
+    },
+    {
+     "q": "What's a good debug practice?",
+     "options": [
+      "Print state and values with labels, remove noisy logs later",
+      "printf all",
+      "None",
+      "LED only"
+     ],
+     "answer": 0,
+     "explain": "Readable logs."
+    },
+    {
+     "q": "What can excess Serial printing do?",
+     "options": [
+      "Free RAM",
+      "Nothing",
+      "Speed up",
+      "Slow the loop and affect timing"
+     ],
+     "answer": 3,
+     "explain": "Use sparingly."
+    }
+   ]
+  },
+  "level-1/08-connecting-to-wifi": {
+   "questions": [
+    {
+     "q": "Which library connects the ESP8266 to Wi-Fi?",
+     "options": [
+      "Ethernet",
+      "Wire",
+      "Bluetooth",
+      "ESP8266WiFi (WiFi.h on ESP32)"
+     ],
+     "answer": 3,
+     "explain": "WiFi.begin(ssid, pw)."
+    },
+    {
+     "q": "How check connection?",
+     "options": [
+      "LED",
+      "Serial",
+      "Poll WiFi.status() until WL_CONNECTED with a timeout",
+      "delay"
+     ],
+     "answer": 2,
+     "explain": "Don't loop forever."
+    },
+    {
+     "q": "What should firmware do on disconnect?",
+     "options": [
+      "Reconnect with backoff rather than hang",
+      "Reboot only",
+      "Ignore",
+      "Stop"
+     ],
+     "answer": 0,
+     "explain": "Robustness."
+    },
+    {
+     "q": "Where store credentials?",
+     "options": [
+      "Git",
+      "Not hard-coded in source shared publicly; use config/provisioning",
+      "Comments",
+      "README"
+     ],
+     "answer": 1,
+     "explain": "Security."
+    }
+   ]
+  },
+  "level-1/09-reading-a-sensor-dht11": {
+   "questions": [
+    {
+     "q": "What does a DHT11 measure?",
+     "options": [
+      "Temperature and humidity (low accuracy)",
+      "Pressure",
+      "Distance",
+      "Light"
+     ],
+     "answer": 0,
+     "explain": "Cheap sensor."
+    },
+    {
+     "q": "How often can a DHT11 be read?",
+     "options": [
+      "1 kHz",
+      "About once per second at most",
+      "Once a day",
+      "Anytime"
+     ],
+     "answer": 1,
+     "explain": "Datasheet limit."
+    },
+    {
+     "q": "What does a NaN reading mean?",
+     "options": [
+      "Valid",
+      "Zero",
+      "Cold",
+      "The read failed; handle it instead of using the value"
+     ],
+     "answer": 3,
+     "explain": "isnan()."
+    },
+    {
+     "q": "What pull-up does the DHT data line need?",
+     "options": [
+      "A resistor (often built into the module board)",
+      "Capacitor only",
+      "None",
+      "Diode"
+     ],
+     "answer": 0,
+     "explain": "Reliable reads."
+    }
+   ]
+  },
+  "level-1/10-capstone-wifi-sensor-node": {
+   "questions": [
+    {
+     "q": "What does the Wi-Fi sensor node combine?",
+     "options": [
+      "Only sensor",
+      "Only Wi-Fi",
+      "Only LED",
+      "Sensor reading, Wi-Fi connection and reporting over the network"
+     ],
+     "answer": 3,
+     "explain": "Level 1 capstone."
+    },
+    {
+     "q": "How structure the loop?",
+     "options": [
+      "Non-blocking timers (millis) for sampling and reporting",
+      "delay(60000)",
+      "Recursion",
+      "Interrupts only"
+     ],
+     "answer": 0,
+     "explain": "Responsive."
+    },
+    {
+     "q": "How handle failed uploads?",
+     "options": [
+      "Drop",
+      "Crash",
+      "Reset",
+      "Retry later and keep the latest data"
+     ],
+     "answer": 3,
+     "explain": "Resilience."
+    },
+    {
+     "q": "What proves it works?",
+     "options": [
+      "Guess",
+      "Assume",
+      "LED",
+      "Serial logs and receiving data at the server"
+     ],
+     "answer": 3,
+     "explain": "End to end."
+    }
+   ]
+  },
+  "level-2/01-mqtt-basics": {
+   "questions": [
+    {
+     "q": "What is MQTT?",
+     "options": [
+      "HTTP",
+      "SSH",
+      "FTP",
+      "A lightweight publish/subscribe protocol via a broker"
+     ],
+     "answer": 3,
+     "explain": "IoT messaging."
+    },
+    {
+     "q": "What's a topic?",
+     "options": [
+      "Payload",
+      "Client",
+      "Port",
+      "A hierarchical string that routes messages (home/kitchen/temp)"
+     ],
+     "answer": 3,
+     "explain": "Wildcards + #."
+    },
+    {
+     "q": "What do QoS 0/1/2 mean?",
+     "options": [
+      "Priorities",
+      "Speeds",
+      "Sizes",
+      "At most once, at least once and exactly once"
+     ],
+     "answer": 3,
+     "explain": "Overhead rises."
+    },
+    {
+     "q": "What is a Last Will message?",
+     "options": [
+      "Published by the broker if a client disconnects unexpectedly",
+      "Ping",
+      "Backup",
+      "Welcome"
+     ],
+     "answer": 0,
+     "explain": "Presence."
+    }
+   ]
+  },
+  "level-2/02-cloud-iot-platform": {
+   "questions": [
+    {
+     "q": "What do cloud IoT platforms provide?",
+     "options": [
+      "Wiring",
+      "Sensors",
+      "Device connectivity, dashboards, storage and rules",
+      "Firmware"
+     ],
+     "answer": 2,
+     "explain": "ThingSpeak, AWS IoT."
+    },
+    {
+     "q": "How authenticate devices?",
+     "options": [
+      "Per-device credentials or certificates",
+      "None",
+      "Shared password",
+      "Open"
+     ],
+     "answer": 0,
+     "explain": "Revocable."
+    },
+    {
+     "q": "Why rate limit uploads?",
+     "options": [
+      "Platforms throttle and battery/data costs rise",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Respect limits."
+    },
+    {
+     "q": "What data format is common?",
+     "options": [
+      "CSV only",
+      "JSON payloads",
+      "Binary only",
+      "XML only"
+     ],
+     "answer": 1,
+     "explain": "Interoperable."
+    }
+   ]
+  },
+  "level-2/03-deep-sleep-power-management": {
+   "questions": [
+    {
+     "q": "What does deep sleep do?",
+     "options": [
+      "Slows clock",
+      "Pauses",
+      "Powers down the CPU and Wi-Fi, waking on a timer or pin (microamps)",
+      "Idles"
+     ],
+     "answer": 2,
+     "explain": "ESP.deepSleep."
+    },
+    {
+     "q": "What must GPIO16 connect to for timer wake on ESP8266?",
+     "options": [
+      "3V3",
+      "RST (so it can reset the chip)",
+      "A0",
+      "GND"
+     ],
+     "answer": 1,
+     "explain": "Wiring."
+    },
+    {
+     "q": "Wake 3 s at 80 mA every 5 minutes, sleeping at 0.02 mA. Average current in mA?\n```python\nprint(round((3*80+297*0.02)/300,3))\n```\n",
+     "options": [
+      "80",
+      "8",
+      "0.82",
+      "0.02"
+     ],
+     "answer": 2,
+     "explain": "Duty-cycle average. Verified by running it."
+    },
+    {
+     "q": "What survives deep sleep?",
+     "options": [
+      "RAM",
+      "Variables",
+      "RTC memory (a little) and flash, but not RAM",
+      "Sockets"
+     ],
+     "answer": 2,
+     "explain": "Store state."
+    }
+   ]
+  },
+  "level-2/04-ota-updates": {
+   "questions": [
+    {
+     "q": "What does OTA update do?",
+     "options": [
+      "Debug",
+      "Reads",
+      "Updates firmware over Wi-Fi without a cable",
+      "Backups"
+     ],
+     "answer": 2,
+     "explain": "ArduinoOTA."
+    },
+    {
+     "q": "What must OTA protect against?",
+     "options": [
+      "Speed",
+      "None",
+      "Interrupted or malicious updates (verify and authenticate)",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Passwords/signing."
+    },
+    {
+     "q": "Why keep a fallback?",
+     "options": [
+      "Style",
+      "Speed",
+      "A failed update shouldn't brick a remote device",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Dual partitions/rollback."
+    },
+    {
+     "q": "What does the OTA need free?",
+     "options": [
+      "Voltage",
+      "Pins",
+      "Flash space for the new image beside the running one",
+      "RAM"
+     ],
+     "answer": 2,
+     "explain": "Partition scheme."
+    }
+   ]
+  },
+  "level-2/05-interrupts-debouncing": {
+   "questions": [
+    {
+     "q": "Why debounce a button?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Mechanical contacts bounce, creating many edges"
+     ],
+     "answer": 3,
+     "explain": "Time filter."
+    },
+    {
+     "q": "What should an ISR do?",
+     "options": [
+      "Wi-Fi",
+      "Minimal work: set a flag and return (IRAM_ATTR on ESP)",
+      "Print",
+      "Delay"
+     ],
+     "answer": 1,
+     "explain": "Keep short."
+    },
+    {
+     "q": "What qualifier do shared ISR variables need?",
+     "options": [
+      "const",
+      "volatile",
+      "register",
+      "static"
+     ],
+     "answer": 1,
+     "explain": "Avoid caching."
+    },
+    {
+     "q": "Why not call Serial or delay in an ISR?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "They can block or crash; defer to the main loop"
+     ],
+     "answer": 3,
+     "explain": "Safety."
+    }
+   ]
+  },
+  "level-2/06-i2c-peripherals": {
+   "questions": [
+    {
+     "q": "What is I2C?",
+     "options": [
+      "A two-wire bus (SDA, SCL) connecting many devices by address",
+      "UART",
+      "SPI",
+      "Serial"
+     ],
+     "answer": 0,
+     "explain": "Wire library."
+    },
+    {
+     "q": "What does an I2C scanner find?",
+     "options": [
+      "Device addresses on the bus",
+      "Speed",
+      "Pins",
+      "Voltage"
+     ],
+     "answer": 0,
+     "explain": "Debug wiring."
+    },
+    {
+     "q": "Why pull-up resistors on I2C?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "The bus is open-drain so devices only pull low"
+     ],
+     "answer": 3,
+     "explain": "4.7 kΩ."
+    },
+    {
+     "q": "Default I2C pins on NodeMCU?",
+     "options": [
+      "D5/D6",
+      "TX/RX",
+      "D2 (SDA) and D1 (SCL)",
+      "A0"
+     ],
+     "answer": 2,
+     "explain": "GPIO4/5."
+    }
+   ]
+  },
+  "level-2/07-spi-peripherals": {
+   "questions": [
+    {
+     "q": "What does SPI use?",
+     "options": [
+      "One wire",
+      "Two wires",
+      "Address",
+      "Clock, MOSI, MISO and a chip-select per device"
+     ],
+     "answer": 3,
+     "explain": "Faster than I2C."
+    },
+    {
+     "q": "What defines an SPI mode?",
+     "options": [
+      "Pins",
+      "Voltage",
+      "Clock polarity and phase (CPOL/CPHA)",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Match the device."
+    },
+    {
+     "q": "When prefer SPI over I2C?",
+     "options": [
+      "Higher speed needs like displays and SD cards",
+      "Few pins",
+      "Many devices",
+      "Slow"
+     ],
+     "answer": 0,
+     "explain": "Throughput."
+    },
+    {
+     "q": "What's CS for?",
+     "options": [
+      "Data",
+      "Selecting which device is active",
+      "Power",
+      "Clock"
+     ],
+     "answer": 1,
+     "explain": "One per device."
+    }
+   ]
+  },
+  "level-2/08-json-data-config-storage": {
+   "questions": [
+    {
+     "q": "Which library handles JSON on Arduino?",
+     "options": [
+      "JSON.h",
+      "Python",
+      "ArduinoJson",
+      "cJSON only"
+     ],
+     "answer": 2,
+     "explain": "Fixed-size documents."
+    },
+    {
+     "q": "Why size JSON documents carefully?",
+     "options": [
+      "RAM is small and overflows fail silently or crash",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "StaticJsonDocument."
+    },
+    {
+     "q": "Where store config persistently?",
+     "options": [
+      "Serial",
+      "RAM",
+      "LittleFS files or EEPROM/Preferences",
+      "LED"
+     ],
+     "answer": 2,
+     "explain": "Survives reboot."
+    },
+    {
+     "q": "What should config loading do on corrupt data?",
+     "options": [
+      "Hang",
+      "Crash",
+      "Ignore",
+      "Fall back to defaults safely"
+     ],
+     "answer": 3,
+     "explain": "Robust."
+    }
+   ]
+  },
+  "level-2/09-multi-device-networking": {
+   "questions": [
+    {
+     "q": "How do multiple devices find each other?",
+     "options": [
+      "None",
+      "Magic",
+      "Broadcast only",
+      "Via a broker/server or discovery (mDNS, ESP-NOW)"
+     ],
+     "answer": 3,
+     "explain": "Choose by topology."
+    },
+    {
+     "q": "What does mDNS provide?",
+     "options": [
+      "Auth",
+      "TLS",
+      "Cloud",
+      "Local hostnames like device.local without a DNS server"
+     ],
+     "answer": 3,
+     "explain": "Zero-config."
+    },
+    {
+     "q": "What's ESP-NOW?",
+     "options": [
+      "HTTP",
+      "BLE",
+      "Connectionless peer-to-peer messaging between ESP devices",
+      "MQTT"
+     ],
+     "answer": 2,
+     "explain": "Low power."
+    },
+    {
+     "q": "Why unique client IDs for MQTT?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Duplicate IDs kick each other off the broker"
+     ],
+     "answer": 3,
+     "explain": "Use chip ID."
+    }
+   ]
+  },
+  "level-2/10-capstone-mqtt-sensor-bridge": {
+   "questions": [
+    {
+     "q": "What does the MQTT sensor bridge combine?",
+     "options": [
+      "Sensors, MQTT publishing, retained status and reconnection logic",
+      "Only UI",
+      "Only MQTT",
+      "Only sensor"
+     ],
+     "answer": 0,
+     "explain": "Level 2 capstone."
+    },
+    {
+     "q": "What's a retained message good for?",
+     "options": [
+      "Giving new subscribers the last known state immediately",
+      "Delete",
+      "Order",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Status topics."
+    },
+    {
+     "q": "How handle broker downtime?",
+     "options": [
+      "Ignore",
+      "Crash",
+      "Reconnect with backoff and buffer recent data",
+      "Reboot loop"
+     ],
+     "answer": 2,
+     "explain": "Resilience."
+    },
+    {
+     "q": "How verify end to end?",
+     "options": [
+      "LED",
+      "Assume",
+      "Guess",
+      "Subscribe with a client and check payload and timing"
+     ],
+     "answer": 3,
+     "explain": "mosquitto_sub."
+    }
+   ]
+  },
+  "level-3/01-rest-api-esp32": {
+   "questions": [
+    {
+     "q": "How serve a REST API on the ESP?",
+     "options": [
+      "A web server library with route handlers returning JSON",
+      "Python",
+      "Node",
+      "CGI"
+     ],
+     "answer": 0,
+     "explain": "ESP8266WebServer."
+    },
+    {
+     "q": "Which method reads data and which changes it?",
+     "options": [
+      "Reverse",
+      "Same",
+      "None",
+      "GET reads; POST/PUT change state"
+     ],
+     "answer": 3,
+     "explain": "Semantics."
+    },
+    {
+     "q": "What status for invalid input?",
+     "options": [
+      "404",
+      "200",
+      "500",
+      "400 Bad Request"
+     ],
+     "answer": 3,
+     "explain": "Validate."
+    },
+    {
+     "q": "Why add authentication?",
+     "options": [
+      "Speed",
+      "Style",
+      "Anyone on the network could control the device",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Tokens."
+    }
+   ]
+  },
+  "level-3/02-securing-iot-tls-basics": {
+   "questions": [
+    {
+     "q": "What does TLS provide?",
+     "options": [
+      "Encryption and server authentication over the connection",
+      "Speed",
+      "Storage",
+      "Routing"
+     ],
+     "answer": 0,
+     "explain": "HTTPS/MQTTS."
+    },
+    {
+     "q": "What's a challenge on small MCUs?",
+     "options": [
+      "None",
+      "Speed",
+      "TLS needs RAM, CPU and certificate storage",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Size buffers."
+    },
+    {
+     "q": "Why verify the server certificate?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Prevent man-in-the-middle attacks"
+     ],
+     "answer": 3,
+     "explain": "Pin CA/fingerprint."
+    },
+    {
+     "q": "What's wrong with setInsecure()?",
+     "options": [
+      "It skips verification and is only for testing",
+      "Required",
+      "Faster",
+      "Safe"
+     ],
+     "answer": 0,
+     "explain": "Don't ship it."
+    }
+   ]
+  },
+  "level-3/03-multi-sensor-aggregation-buffering": {
+   "questions": [
+    {
+     "q": "What's aggregation buffering?",
+     "options": [
+      "Collecting readings and sending batches to save power and bandwidth",
+      "None",
+      "Caching",
+      "Dropping"
+     ],
+     "answer": 0,
+     "explain": "Efficiency."
+    },
+    {
+     "q": "Why ring buffers?",
+     "options": [
+      "Fixed memory with overwrite of the oldest data",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Bounded RAM."
+    },
+    {
+     "q": "What happens if the network is down?",
+     "options": [
+      "Block",
+      "Buffer locally up to a limit then drop oldest or compress",
+      "Reset",
+      "Crash"
+     ],
+     "answer": 1,
+     "explain": "Policy."
+    },
+    {
+     "q": "What timestamps do readings need?",
+     "options": [
+      "Random",
+      "Local",
+      "Real time via NTP or a relative counter plus sync",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Ordering."
+    }
+   ]
+  },
+  "level-3/04-watchdog-timers-reliability": {
+   "questions": [
+    {
+     "q": "What does a watchdog do?",
+     "options": [
+      "Resets the device if the firmware stops feeding it",
+      "Updates",
+      "Logs",
+      "Sleeps"
+     ],
+     "answer": 0,
+     "explain": "Recovery."
+    },
+    {
+     "q": "What's a hazard of long blocking calls?",
+     "options": [
+      "They can trigger the watchdog reset",
+      "Nothing",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "yield() / feed."
+    },
+    {
+     "q": "Where feed the watchdog?",
+     "options": [
+      "Timer",
+      "ISR",
+      "In the main loop only when the system is healthy",
+      "Anywhere"
+     ],
+     "answer": 2,
+     "explain": "No blind feeding."
+    },
+    {
+     "q": "What to do after a watchdog reset?",
+     "options": [
+      "Delete",
+      "Reset",
+      "Log the reason and recover to a safe state",
+      "Ignore"
+     ],
+     "answer": 2,
+     "explain": "Diagnostics."
+    }
+   ]
+  },
+  "level-3/05-task-scheduling-single-core": {
+   "questions": [
+    {
+     "q": "How schedule tasks on a single-core MCU?",
+     "options": [
+      "Locks",
+      "Processes",
+      "Cooperative scheduling with millis() timers or a small scheduler library",
+      "Threads"
+     ],
+     "answer": 2,
+     "explain": "Non-blocking."
+    },
+    {
+     "q": "What breaks cooperative scheduling?",
+     "options": [
+      "Short tasks",
+      "Timers",
+      "Flags",
+      "A task that blocks for a long time"
+     ],
+     "answer": 3,
+     "explain": "Keep tasks short."
+    },
+    {
+     "q": "Why avoid delay() in schedulers?",
+     "options": [
+      "Law",
+      "Cost",
+      "It stalls all other tasks",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "State machines."
+    },
+    {
+     "q": "What's a state machine for?",
+     "options": [
+      "Breaking long operations into steps across loop iterations",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Responsive."
+    }
+   ]
+  },
+  "level-3/06-local-data-logging": {
+   "questions": [
+    {
+     "q": "Where can a device log data locally?",
+     "options": [
+      "RAM",
+      "Serial only",
+      "LED",
+      "LittleFS/SD card files (with rotation)"
+     ],
+     "answer": 3,
+     "explain": "Persistence."
+    },
+    {
+     "q": "Why rotate logs?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "Flash is small and wears; unbounded logs fill storage"
+     ],
+     "answer": 3,
+     "explain": "Bounded."
+    },
+    {
+     "q": "What limits flash writes?",
+     "options": [
+      "Speed",
+      "Limited erase cycles, so batch and avoid frequent writes",
+      "None",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Wear."
+    },
+    {
+     "q": "What if power drops during a write?",
+     "options": [
+      "Fine",
+      "The file may corrupt; use atomic rename/journaling patterns",
+      "None",
+      "Retry"
+     ],
+     "answer": 1,
+     "explain": "Resilience."
+    }
+   ]
+  },
+  "level-3/07-captive-portal-provisioning": {
+   "questions": [
+    {
+     "q": "What's a captive portal for?",
+     "options": [
+      "Letting users enter Wi-Fi credentials by connecting to the device's own AP",
+      "Debug",
+      "Cloud",
+      "OTA"
+     ],
+     "answer": 0,
+     "explain": "Provisioning."
+    },
+    {
+     "q": "What does the device run during provisioning?",
+     "options": [
+      "Client mode",
+      "A soft AP with a small web server and DNS redirect",
+      "Sleep",
+      "Bridge"
+     ],
+     "answer": 1,
+     "explain": "WiFiManager."
+    },
+    {
+     "q": "Where store the entered credentials?",
+     "options": [
+      "In flash (LittleFS/Preferences), then reboot into station mode",
+      "RAM",
+      "Serial",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Persist."
+    },
+    {
+     "q": "Why a timeout?",
+     "options": [
+      "Return to the portal or retry if connection fails",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Recovery."
+    }
+   ]
+  },
+  "level-3/08-firmware-versioning-rollback": {
+   "questions": [
+    {
+     "q": "What should firmware report?",
+     "options": [
+      "Nothing",
+      "Time",
+      "Names",
+      "Its version and build info"
+     ],
+     "answer": 3,
+     "explain": "Support."
+    },
+    {
+     "q": "What's rollback?",
+     "options": [
+      "Delete",
+      "Update",
+      "Reset",
+      "Reverting to the previous firmware if the new one fails health checks"
+     ],
+     "answer": 3,
+     "explain": "Safe updates."
+    },
+    {
+     "q": "How decide an update is good?",
+     "options": [
+      "Size",
+      "Time",
+      "Hope",
+      "The new firmware confirms it booted and connected"
+     ],
+     "answer": 3,
+     "explain": "Self-test."
+    },
+    {
+     "q": "Why semantic versioning?",
+     "options": [
+      "Communicates compatibility of releases",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "MAJOR.MINOR.PATCH."
+    }
+   ]
+  },
+  "level-3/09-diagnostics-remote-logging": {
+   "questions": [
+    {
+     "q": "What remote diagnostics help?",
+     "options": [
+      "Uptime, RSSI, free heap, reset reason and error counters",
+      "Names",
+      "None",
+      "Colors"
+     ],
+     "answer": 0,
+     "explain": "Health."
+    },
+    {
+     "q": "How send logs remotely?",
+     "options": [
+      "None",
+      "MQTT topics or HTTP endpoints with rate limits",
+      "LED",
+      "Serial"
+     ],
+     "answer": 1,
+     "explain": "Bandwidth."
+    },
+    {
+     "q": "Why limit log volume?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Battery, bandwidth and storage"
+     ],
+     "answer": 3,
+     "explain": "Levels."
+    },
+    {
+     "q": "What does free heap trend reveal?",
+     "options": [
+      "Wi-Fi",
+      "Speed",
+      "Power",
+      "Memory leaks over time"
+     ],
+     "answer": 3,
+     "explain": "Fix leaks."
+    }
+   ]
+  },
+  "level-3/10-capstone-iot-gateway": {
+   "questions": [
+    {
+     "q": "What does the IoT gateway combine?",
+     "options": [
+      "Only MQTT",
+      "Sensors/nodes aggregation, buffering, secure uplink and diagnostics",
+      "Only UI",
+      "Only sensor"
+     ],
+     "answer": 1,
+     "explain": "Level 3 capstone."
+    },
+    {
+     "q": "How prove reliability?",
+     "options": [
+      "Soak tests with network loss and power cycles",
+      "Demo",
+      "Hope",
+      "Once"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What should it expose?",
+     "options": [
+      "A status endpoint and logs",
+      "Nothing",
+      "Pins",
+      "Colors"
+     ],
+     "answer": 0,
+     "explain": "Operations."
+    },
+    {
+     "q": "What guards updates?",
+     "options": [
+      "Plain",
+      "None",
+      "Trust",
+      "Signed firmware with rollback"
+     ],
+     "answer": 3,
+     "explain": "Safety."
+    }
+   ]
+  },
+  "level-4/01-production-iot-device-design": {
+   "questions": [
+    {
+     "q": "What's production IoT design different from prototyping?",
+     "options": [
+      "Reliability, security, updates, power and manufacturability are designed in",
+      "Speed",
+      "Looks",
+      "Features"
+     ],
+     "answer": 0,
+     "explain": "Product thinking."
+    },
+    {
+     "q": "What are key requirements?",
+     "options": [
+      "Fonts",
+      "Power budget, connectivity, security and lifecycle support",
+      "Colors",
+      "Names"
+     ],
+     "answer": 1,
+     "explain": "Constraints."
+    },
+    {
+     "q": "Why design for failure?",
+     "options": [
+      "Devices run unattended for years in uncontrolled conditions",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Fault tolerance."
+    },
+    {
+     "q": "What should be defined early?",
+     "options": [
+      "Packaging",
+      "The lifecycle: provisioning, updates, monitoring and end of life",
+      "None",
+      "Logo"
+     ],
+     "answer": 1,
+     "explain": "Plan."
+    }
+   ]
+  },
+  "level-4/02-provisioning-at-scale": {
+   "questions": [
+    {
+     "q": "What's provisioning at scale?",
+     "options": [
+      "Securely giving each device a unique identity and credentials during manufacturing",
+      "Coding",
+      "Testing",
+      "Wiring"
+     ],
+     "answer": 0,
+     "explain": "Factory flow."
+    },
+    {
+     "q": "Why unique per-device credentials?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "A leaked shared secret compromises the whole fleet"
+     ],
+     "answer": 3,
+     "explain": "Revocation."
+    },
+    {
+     "q": "What does zero-touch onboarding mean?",
+     "options": [
+      "Manual",
+      "None",
+      "QR only",
+      "Devices self-register securely on first connection"
+     ],
+     "answer": 3,
+     "explain": "No manual setup."
+    },
+    {
+     "q": "Where store keys?",
+     "options": [
+      "Source",
+      "Comments",
+      "Flash text",
+      "In secure storage/eFuse or a secure element"
+     ],
+     "answer": 3,
+     "explain": "Protect."
+    }
+   ]
+  },
+  "level-4/03-fleet-management-concepts": {
+   "questions": [
+    {
+     "q": "What does fleet management provide?",
+     "options": [
+      "Monitoring, configuration, updates and grouping of many devices",
+      "Manual",
+      "Local",
+      "One device"
+     ],
+     "answer": 0,
+     "explain": "Scale."
+    },
+    {
+     "q": "What's a device twin/shadow?",
+     "options": [
+      "A cloud record of desired and reported device state",
+      "Key",
+      "Backup",
+      "Log"
+     ],
+     "answer": 0,
+     "explain": "Sync."
+    },
+    {
+     "q": "Why group devices?",
+     "options": [
+      "Law",
+      "Style",
+      "Staged rollouts and targeted configuration",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Cohorts."
+    },
+    {
+     "q": "What telemetry matters?",
+     "options": [
+      "Photos",
+      "Names",
+      "None",
+      "Version, health, connectivity and battery"
+     ],
+     "answer": 3,
+     "explain": "Visibility."
+    }
+   ]
+  },
+  "level-4/04-ota-strategy-at-scale": {
+   "questions": [
+    {
+     "q": "What makes OTA safe at scale?",
+     "options": [
+      "Manual",
+      "Staged rollouts, signed images, health checks and automatic rollback",
+      "Unsigned",
+      "All at once"
+     ],
+     "answer": 1,
+     "explain": "Canary."
+    },
+    {
+     "q": "Why stagger updates?",
+     "options": [
+      "Limit blast radius and server load",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Waves."
+    },
+    {
+     "q": "What if devices are offline for months?",
+     "options": [
+      "Force",
+      "Brick",
+      "Handle version skew with resumable and compatible updates",
+      "Ignore"
+     ],
+     "answer": 2,
+     "explain": "Compatibility."
+    },
+    {
+     "q": "How reduce update size?",
+     "options": [
+      "Bigger",
+      "Delta/differential updates and compression",
+      "Copy",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Bandwidth."
+    }
+   ]
+  },
+  "level-4/05-power-budget-design": {
+   "questions": [
+    {
+     "q": "What's a power budget?",
+     "options": [
+      "Voltage",
+      "Size",
+      "Estimating average current from duty cycles of each state",
+      "Cost"
+     ],
+     "answer": 2,
+     "explain": "Battery life."
+    },
+    {
+     "q": "Battery 2000 mAh, average draw 0.5 mA: days of life?\n```python\nprint(round(2000/0.5/24,1))\n```\n",
+     "options": [
+      "16.7",
+      "83",
+      "1667",
+      "166.7"
+     ],
+     "answer": 3,
+     "explain": "capacity/current in hours. Verified by running it."
+    },
+    {
+     "q": "What dominates Wi-Fi device power?",
+     "options": [
+      "Sensor",
+      "CPU idle",
+      "Radio transmit/receive and wake time",
+      "LED"
+     ],
+     "answer": 2,
+     "explain": "Minimize connect time."
+    },
+    {
+     "q": "How reduce wake time?",
+     "options": [
+      "DHCP only",
+      "Scan",
+      "Longer",
+      "Use static IP, fast connect and send small batches"
+     ],
+     "answer": 3,
+     "explain": "Efficiency."
+    }
+   ]
+  },
+  "level-4/06-edge-vs-cloud-offload": {
+   "questions": [
+    {
+     "q": "When process data at the edge?",
+     "options": [
+      "Always",
+      "For fun",
+      "Never",
+      "To cut bandwidth/latency or work offline"
+     ],
+     "answer": 3,
+     "explain": "Filter locally."
+    },
+    {
+     "q": "When offload to the cloud?",
+     "options": [
+      "Heavy analytics, aggregation and storage",
+      "Tiny",
+      "Real-time",
+      "Offline"
+     ],
+     "answer": 0,
+     "explain": "Capacity."
+    },
+    {
+     "q": "What's a hybrid approach?",
+     "options": [
+      "None",
+      "Cloud only",
+      "Local filtering/alerts with cloud analytics",
+      "Edge only"
+     ],
+     "answer": 2,
+     "explain": "Balance."
+    },
+    {
+     "q": "What does edge processing risk?",
+     "options": [
+      "Law",
+      "Cost",
+      "None",
+      "Limited compute/memory and harder updates"
+     ],
+     "answer": 3,
+     "explain": "Trade-offs."
+    }
+   ]
+  },
+  "level-4/07-security-hardening": {
+   "questions": [
+    {
+     "q": "What hardens an IoT device?",
+     "options": [
+      "More ports",
+      "None",
+      "Secure boot, signed OTA, TLS, minimal services and disabled debug ports",
+      "Defaults"
+     ],
+     "answer": 2,
+     "explain": "Defense."
+    },
+    {
+     "q": "Why change default credentials?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "Default passwords are the top IoT attack vector"
+     ],
+     "answer": 3,
+     "explain": "Unique per device."
+    },
+    {
+     "q": "What's flash encryption for?",
+     "options": [
+      "Wi-Fi",
+      "Speed",
+      "Debug",
+      "Protecting firmware and secrets from readout"
+     ],
+     "answer": 3,
+     "explain": "At rest."
+    },
+    {
+     "q": "What should be disabled in production?",
+     "options": [
+      "UART/JTAG debug access (or protected)",
+      "OTA",
+      "Wi-Fi",
+      "TLS"
+     ],
+     "answer": 0,
+     "explain": "Reduce attack surface."
+    }
+   ]
+  },
+  "level-4/08-certification-regulatory-basics": {
+   "questions": [
+    {
+     "q": "What do certifications cover?",
+     "options": [
+      "Names",
+      "Speed",
+      "Radio (FCC/CE), safety (UL/EN) and sometimes security labels",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Legal sale."
+    },
+    {
+     "q": "Why use pre-certified modules?",
+     "options": [
+      "Speed",
+      "Law",
+      "Reduce radio certification effort and cost",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Module certs."
+    },
+    {
+     "q": "What's EMC testing?",
+     "options": [
+      "Names",
+      "Software",
+      "Ensuring the product doesn't emit/interfere beyond limits",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Compliance."
+    },
+    {
+     "q": "What's RoHS?",
+     "options": [
+      "Safety",
+      "Radio",
+      "Restriction of hazardous substances in electronics",
+      "Data"
+     ],
+     "answer": 2,
+     "explain": "Materials."
+    }
+   ]
+  },
+  "level-4/09-cost-engineering-bom": {
+   "questions": [
+    {
+     "q": "What's in a BOM?",
+     "options": [
+      "All parts with values, footprints, suppliers and costs",
+      "Code",
+      "Names",
+      "Docs"
+     ],
+     "answer": 0,
+     "explain": "Cost engineering."
+    },
+    {
+     "q": "How reduce BOM cost?",
+     "options": [
+      "Custom",
+      "More parts",
+      "Fewer parts, standard components and volume pricing",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Design for cost."
+    },
+    {
+     "q": "What's DFM?",
+     "options": [
+      "Flash",
+      "Firmware",
+      "Design for manufacturing: easy and cheap to build and test",
+      "Debug"
+     ],
+     "answer": 2,
+     "explain": "Yield."
+    },
+    {
+     "q": "Why secondary sources?",
+     "options": [
+      "Law",
+      "Style",
+      "Avoid supply-chain risk from a single supplier",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Resilience."
+    }
+   ]
+  },
+  "level-4/10-capstone-production-iot-product": {
+   "questions": [
+    {
+     "q": "What does the production IoT product capstone combine?",
+     "options": [
+      "Provisioning, OTA, power budget, security and certification planning",
+      "Only cloud",
+      "Only PCB",
+      "Only code"
+     ],
+     "answer": 0,
+     "explain": "Product."
+    },
+    {
+     "q": "How prove readiness?",
+     "options": [
+      "Field trials, soak tests, security review and staged rollout",
+      "Demo",
+      "Hope",
+      "Slides"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "None",
+      "Slides",
+      "Code",
+      "Architecture, runbooks and support procedures"
+     ],
+     "answer": 3,
+     "explain": "Operate."
+    },
+    {
+     "q": "What sustains the product?",
+     "options": [
+      "Silence",
+      "Luck",
+      "Updates, monitoring and customer support",
+      "Tools"
+     ],
+     "answer": 2,
+     "explain": "Lifecycle."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What voltage do NodeMCU GPIO pins tolerate?",
+    "options": [
+     "12 V",
+     "5 V",
+     "Anything",
+     "3.3 V only: use a level shifter or divider for 5 V signals"
+    ],
+    "answer": 3,
+    "explain": "Protect the pins."
+   },
+   {
+    "q": "What does Arduino's map() give for a 10-bit reading of 512 mapped to 0..100?\n```c\n#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\nlong map(long x, long in_min, long in_max, long out_min, long out_max){ return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; }\nint main(void){ printf(\"%ld %ld\", map(512, 0, 1023, 0, 100), map(1023, 0, 1023, 0, 100)); }\n```\n",
+    "options": [
+     "51 100",
+     "50 100",
+     "512 1023",
+     "50 99"
+    ],
+    "answer": 1,
+    "explain": "Integer arithmetic. Verified by compiling and running."
+   },
+   {
+    "q": "What duty cycle is analogWrite(256) on a 0..1023 scale?\n```python\nprint(round(256*100/1023,1))\n```\n",
+    "options": [
+     "12.5",
+     "25.0",
+     "100.0",
+     "50.0"
+    ],
+    "answer": 1,
+    "explain": "Value divided by range. Verified by running it."
+   },
+   {
+    "q": "The board boots only when a sensor is unplugged. What's a likely cause?",
+    "options": [
+     "Bad Wi-Fi",
+     "Low RAM",
+     "USB",
+     "The sensor loads a strapping pin (GPIO0/2/15) to the wrong level at boot"
+    ],
+    "answer": 3,
+    "explain": "Check boot-mode pins."
+   },
+   {
+    "q": "Why does `delay(10000)` in loop() hurt a Wi-Fi device?",
+    "options": [
+     "It saves power",
+     "Style",
+     "Law",
+     "It blocks everything including background Wi-Fi/network handling; use millis()"
+    ],
+    "answer": 3,
+    "explain": "Cooperative design."
+   },
+   {
+    "q": "Garbage characters appear in the serial monitor. What do you check first?",
+    "options": [
+     "The sensor",
+     "The cable color",
+     "That the monitor baud rate matches Serial.begin()",
+     "The router"
+    ],
+    "answer": 2,
+    "explain": "Boot ROM messages use 74880."
+   },
+   {
+    "q": "A DHT11 read returns NaN. What should the code do?",
+    "options": [
+     "Detect it (isnan), skip or retry and avoid sending bad data",
+     "Reset",
+     "Send NaN",
+     "Use 0"
+    ],
+    "answer": 0,
+    "explain": "Handle failures."
+   },
+   {
+    "q": "The device must survive broker and Wi-Fi outages for hours. What design?",
+    "options": [
+     "Reconnect with backoff and buffer readings in a bounded ring buffer",
+     "Reboot loop",
+     "Block",
+     "Drop all"
+    ],
+    "answer": 0,
+    "explain": "Resilience."
+   },
+   {
+    "q": "What does MQTT's Last Will do?",
+    "options": [
+     "Compresses",
+     "Retries",
+     "Tells the broker to publish a message if the client disconnects unexpectedly",
+     "Encrypts"
+    ],
+    "answer": 2,
+    "explain": "Presence/offline detection."
+   },
+   {
+    "q": "Wake 3 s at 80 mA every 5 min, sleeping 297 s at 0.02 mA: average current in mA?\n```python\nprint(round((3*80+297*0.02)/300,3))\n```\n",
+    "options": [
+     "0.82",
+     "8",
+     "80",
+     "0.02"
+    ],
+    "answer": 0,
+    "explain": "Duty-cycled average. Verified by running it."
+   },
+   {
+    "q": "For timer wake from deep sleep on an ESP8266, what must be wired?",
+    "options": [
+     "GPIO0 to GND",
+     "TX to RX",
+     "GPIO16 connected to RST",
+     "A0 to 3V3"
+    ],
+    "answer": 2,
+    "explain": "So the RTC can reset the chip."
+   },
+   {
+    "q": "An OTA update is interrupted by a power cut. What prevents a brick?",
+    "options": [
+     "No checks",
+     "Updating into a spare slot, verifying it and keeping a rollback path",
+     "Retry blindly",
+     "Overwrite in place"
+    ],
+    "answer": 1,
+    "explain": "Safe updates."
+   },
+   {
+    "q": "An ISR increments a counter read by loop(). What must you do?",
+    "options": [
+     "Use delay",
+     "Declare it volatile, keep the ISR short and avoid Serial/delay inside it",
+     "Nothing",
+     "Use Serial"
+    ],
+    "answer": 1,
+    "explain": "IRAM_ATTR on ESP."
+   },
+   {
+    "q": "Two sensors on I2C don't respond. What do you do first?",
+    "options": [
+     "Reflash",
+     "Change Wi-Fi",
+     "Run an I2C scanner and check pull-ups, addresses and wiring",
+     "Add delay"
+    ],
+    "answer": 2,
+    "explain": "Debug the bus."
+   },
+   {
+    "q": "Why validate and size ArduinoJson documents?",
+    "options": [
+     "RAM is small and oversized or malformed data can overflow or crash",
+     "Speed",
+     "Law",
+     "Style"
+    ],
+    "answer": 0,
+    "explain": "Bounded memory."
+   },
+   {
+    "q": "setInsecure() works for HTTPS in the lab. Why not ship it?",
+    "options": [
+     "Not needed",
+     "Larger",
+     "Slow",
+     "It skips certificate verification, enabling man-in-the-middle attacks"
+    ],
+    "answer": 3,
+    "explain": "Pin a CA or fingerprint."
+   },
+   {
+    "q": "The firmware hangs once a month in the field. What's a standard protection?",
+    "options": [
+     "Cron",
+     "Print more",
+     "Delay",
+     "A hardware/software watchdog fed only when the system is healthy"
+    ],
+    "answer": 3,
+    "explain": "Self-recovery."
+   },
+   {
+    "q": "Every device shares one Wi-Fi/MQTT password in the firmware. What's the risk?",
+    "options": [
+     "None",
+     "Speed",
+     "Cost",
+     "One leak compromises the whole fleet; provision unique per-device credentials"
+    ],
+    "answer": 3,
+    "explain": "Revocation."
+   },
+   {
+    "q": "You must roll out firmware to 10,000 devices. What strategy?",
+    "options": [
+     "All at once",
+     "Manual",
+     "Unsigned",
+     "Staged (canary) rollout of signed images with health checks and automatic rollback"
+    ],
+    "answer": 3,
+    "explain": "Limit blast radius."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A non-blocking scheduler and button debounce",
+    "prompt": "Implement poll() so each task runs when its period has elapsed using a rollover-safe millis comparison (and no drift), and debounce() so the stable button level flips only after three identical consecutive samples. The program starts near the 32-bit millis() rollover.",
+    "starter": "#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\n\n/* Non-blocking scheduler driven by a fake millis() (like Arduino). Each task runs every `period` ms. */\ntypedef struct { const char *name; uint32_t period, next_due; int runs; } Task;\nstatic uint32_t fake_ms = 0;\nstatic uint32_t millis(void) { return fake_ms; }\n\ntypedef struct { bool stable; bool last; int count; } Deb;\n\nstatic void poll(Task *t, int n, char *log) {\n    /* run every task whose due time has been reached using the wrap-safe test (int32_t)(millis() - next_due) >= 0:\n       increment runs, advance next_due by period (no drift) and append \"<name> \" to log */\n}\n\nstatic bool debounce(Deb *d, bool sample, int need, bool *changed) {\n    /* *changed is true only on the sample where the stable level flips; the stable level changes only after\n       `need` identical consecutive samples that differ from the current stable level */\n    *changed = false;\n    return d->stable;\n}\n\nint main(void) {\n    Task tasks[] = { {\"blink\", 500, 500, 0}, {\"sensor\", 2000, 2000, 0}, {\"report\", 5000, 5000, 0} };\n    char log[256] = \"\";\n    fake_ms = 0xFFFFFFFFu - 700;                       /* start near the 32-bit millis() rollover */\n    for (int i = 0; i < 3; i++) tasks[i].next_due = fake_ms + tasks[i].period;\n    for (int step = 0; step < 12; step++) { fake_ms += 1000; poll(tasks, 3, log); }\n    printf(\"%s\\n\", log);\n    printf(\"runs: blink=%d sensor=%d report=%d\\n\", tasks[0].runs, tasks[1].runs, tasks[2].runs);\n\n    int samples[] = {0,1,0,0,1,1,1,1,0,1,0,0,0,0};\n    Deb d = {false, false, 0};\n    for (unsigned i = 0; i < sizeof samples / sizeof *samples; i++) {\n        bool ch; debounce(&d, samples[i], 3, &ch);\n        if (ch) printf(\"sample %u: %s\\n\", i, d.stable ? \"PRESSED\" : \"RELEASED\");\n    }\n    return 0;\n}\n",
+    "expected": "blink blink sensor blink blink sensor blink report blink sensor blink blink sensor blink blink sensor report blink blink sensor \nruns: blink=12 sensor=6 report=2\nsample 6: PRESSED\nsample 12: RELEASED",
+    "solution": "#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\n\n/* Non-blocking scheduler driven by a fake millis() (like Arduino). Each task runs every `period` ms. */\ntypedef struct { const char *name; uint32_t period, next_due; int runs; } Task;\nstatic uint32_t fake_ms = 0;\nstatic uint32_t millis(void) { return fake_ms; }\n\nstatic void poll(Task *t, int n, char *log) {\n    for (int i = 0; i < n; i++) {\n        /* wrap-safe comparison: (int32_t)(now - due) >= 0 */\n        if ((int32_t)(millis() - t[i].next_due) >= 0) {\n            t[i].runs++;\n            t[i].next_due += t[i].period;              /* no drift */\n            strcat(log, t[i].name); strcat(log, \" \");\n        }\n    }\n}\n\n/* Debounce: the stable level changes only after `need` identical consecutive samples. */\ntypedef struct { bool stable; bool last; int count; } Deb;\nstatic bool debounce(Deb *d, bool sample, int need, bool *changed) {\n    *changed = false;\n    if (sample == d->last) { if (d->count < need) d->count++; } else { d->last = sample; d->count = 1; }\n    if (d->count >= need && d->stable != d->last) { d->stable = d->last; *changed = true; }\n    return d->stable;\n}\n\nint main(void) {\n    Task tasks[] = { {\"blink\", 500, 500, 0}, {\"sensor\", 2000, 2000, 0}, {\"report\", 5000, 5000, 0} };\n    char log[256] = \"\";\n    fake_ms = 0xFFFFFFFFu - 700;                       /* start near the 32-bit millis() rollover */\n    for (int i = 0; i < 3; i++) tasks[i].next_due = fake_ms + tasks[i].period;\n    for (int step = 0; step < 12; step++) { fake_ms += 1000; poll(tasks, 3, log); }\n    printf(\"%s\\n\", log);\n    printf(\"runs: blink=%d sensor=%d report=%d\\n\", tasks[0].runs, tasks[1].runs, tasks[2].runs);\n\n    int samples[] = {0,1,0,0,1,1,1,1,0,1,0,0,0,0};\n    Deb d = {false, false, 0};\n    for (unsigned i = 0; i < sizeof samples / sizeof *samples; i++) {\n        bool ch; debounce(&d, samples[i], 3, &ch);\n        if (ch) printf(\"sample %u: %s\\n\", i, d.stable ? \"PRESSED\" : \"RELEASED\");\n    }\n    return 0;\n}\n",
+    "explain": "Comparing with (int32_t)(now - due) >= 0 keeps scheduling correct when millis() wraps after ~49 days, and advancing next_due by the period avoids drift. Counting stable samples filters contact bounce without delay(). Verified by compiling and running the solution with gcc (host-side logic)."
+   },
+   {
+    "title": "Ring buffer, clamped map and ADC divider maths",
+    "prompt": "Implement ring_push (overwrite oldest), ring_avg and map_clamped, then use the provided adc_to_volts to convert readings across a 220k/100k divider. Run the readings through the buffer to see how averaging smooths a noisy spike.",
+    "starter": "#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\n\n/* Ring buffer of readings with oldest-overwrite, plus a moving average and a smoothing ADC conversion. */\n#define N 4\ntypedef struct { int v[N]; int head, count; } Ring;\n\nstatic void ring_push(Ring *r, int x) {\n    /* store x at head, advance head modulo N, and grow count up to N (the oldest value is overwritten) */\n}\nstatic double ring_avg(const Ring *r) {\n    /* average of the stored values (0 when empty) */\n    return 0;\n}\nstatic long map_clamped(long x, long in_min, long in_max, long out_min, long out_max) {\n    /* Arduino map() but clamp x into [in_min, in_max] first */\n    return 0;\n}\n/* 10-bit ADC reading across a divider: A0 sees Vin * 100k / (220k + 100k); Vin = 3.3 V max reading ~ 1023 at 1.0 V */\nstatic double adc_to_volts(int raw) { return raw / 1023.0 * 1.0 * (220.0 + 100.0) / 100.0; }\n\nint main(void) {\n    Ring r = {{0}, 0, 0};\n    int raw[] = {500, 520, 510, 900, 505, 515};\n    for (unsigned i = 0; i < sizeof raw / sizeof *raw; i++) {\n        ring_push(&r, raw[i]);\n        printf(\"after %u samples: count=%d avg=%.1f\\n\", i + 1, r.count, ring_avg(&r));\n    }\n    printf(\"map 512 -> %ld, below range -> %ld, above range -> %ld\\n\",\n           map_clamped(512, 0, 1023, 0, 100), map_clamped(-5, 0, 1023, 0, 100), map_clamped(5000, 0, 1023, 0, 100));\n    printf(\"raw 1023 = %.2f V, raw 512 = %.2f V\\n\", adc_to_volts(1023), adc_to_volts(512));\n    return 0;\n}\n",
+    "expected": "after 1 samples: count=1 avg=500.0\nafter 2 samples: count=2 avg=510.0\nafter 3 samples: count=3 avg=510.0\nafter 4 samples: count=4 avg=607.5\nafter 5 samples: count=4 avg=608.8\nafter 6 samples: count=4 avg=607.5\nmap 512 -> 50, below range -> 0, above range -> 100\nraw 1023 = 3.20 V, raw 512 = 1.60 V",
+    "solution": "#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\n\n/* Ring buffer of readings with oldest-overwrite, plus a moving average and a smoothing ADC conversion. */\n#define N 4\ntypedef struct { int v[N]; int head, count; } Ring;\n\nstatic void ring_push(Ring *r, int x) {\n    r->v[r->head] = x;\n    r->head = (r->head + 1) % N;\n    if (r->count < N) r->count++;\n}\nstatic double ring_avg(const Ring *r) {\n    if (r->count == 0) return 0;\n    int s = 0;\n    for (int i = 0; i < r->count; i++) s += r->v[i];\n    return (double)s / r->count;\n}\nstatic long map_clamped(long x, long in_min, long in_max, long out_min, long out_max) {\n    if (x < in_min) x = in_min;\n    if (x > in_max) x = in_max;\n    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;\n}\n/* 10-bit ADC reading across a divider: A0 sees Vin * 100k / (220k + 100k); Vin = 3.3 V max reading ~ 1023 at 1.0 V */\nstatic double adc_to_volts(int raw) { return raw / 1023.0 * 1.0 * (220.0 + 100.0) / 100.0; }\n\nint main(void) {\n    Ring r = {{0}, 0, 0};\n    int raw[] = {500, 520, 510, 900, 505, 515};\n    for (unsigned i = 0; i < sizeof raw / sizeof *raw; i++) {\n        ring_push(&r, raw[i]);\n        printf(\"after %u samples: count=%d avg=%.1f\\n\", i + 1, r.count, ring_avg(&r));\n    }\n    printf(\"map 512 -> %ld, below range -> %ld, above range -> %ld\\n\",\n           map_clamped(512, 0, 1023, 0, 100), map_clamped(-5, 0, 1023, 0, 100), map_clamped(5000, 0, 1023, 0, 100));\n    printf(\"raw 1023 = %.2f V, raw 512 = %.2f V\\n\", adc_to_volts(1023), adc_to_volts(512));\n    return 0;\n}\n",
+    "explain": "A fixed-size ring buffer bounds memory, averaging smooths spikes, and clamping before mapping stops out-of-range readings producing out-of-range outputs. Verified by compiling and running the solution with gcc (host-side logic)."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
