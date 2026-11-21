@@ -1,0 +1,2159 @@
+{
+ "course": "embedded-python-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-micropython-vs-python": {
+   "questions": [
+    {
+     "q": "What is MicroPython?",
+     "options": [
+      "Desktop Python",
+      "A compiler",
+      "An RTOS",
+      "A lean Python 3 implementation that runs directly on microcontrollers"
+     ],
+     "answer": 3,
+     "explain": "No OS needed."
+    },
+    {
+     "q": "What's a key limitation versus CPython?",
+     "options": [
+      "Faster",
+      "More modules",
+      "Small heap (tens to hundreds of KB) and a reduced standard library",
+      "More RAM"
+     ],
+     "answer": 2,
+     "explain": "Design for memory."
+    },
+    {
+     "q": "What does `machine` module provide?",
+     "options": [
+      "Hardware access: Pin, PWM, ADC, I2C, SPI, Timer and more",
+      "Networking only",
+      "Math",
+      "Files"
+     ],
+     "answer": 0,
+     "explain": "Port-specific."
+    },
+    {
+     "q": "Why is MicroPython productive for hardware?",
+     "options": [
+      "Cost",
+      "Interactive REPL and quick edit-run cycles without a compile/flash step",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Iterate quickly."
+    }
+   ]
+  },
+  "level-1/02-repl-workflow": {
+   "questions": [
+    {
+     "q": "What is the REPL on the board?",
+     "options": [
+      "A build",
+      "A bootloader",
+      "A live Python prompt running on the chip",
+      "A GUI"
+     ],
+     "answer": 2,
+     "explain": "Interactive testing."
+    },
+    {
+     "q": "What does Ctrl-D do at the REPL?",
+     "options": [
+      "Soft reset (restarts the Python VM)",
+      "Exit",
+      "Hard reset",
+      "Flash"
+     ],
+     "answer": 0,
+     "explain": "Re-runs boot.py/main.py."
+    },
+    {
+     "q": "What do boot.py and main.py do?",
+     "options": [
+      "Nothing",
+      "Libraries",
+      "boot.py runs first for setup; main.py runs your application",
+      "Same file"
+     ],
+     "answer": 2,
+     "explain": "Keep boot.py minimal."
+    },
+    {
+     "q": "What does `mpremote` do?",
+     "options": [
+      "Compiles",
+      "Debugs C",
+      "Connects to the board to run code, copy files and open the REPL",
+      "Trains"
+     ],
+     "answer": 2,
+     "explain": "Common tooling."
+    }
+   ]
+  },
+  "level-1/03-gpio-basics": {
+   "questions": [
+    {
+     "q": "How do you create an output pin in MicroPython?",
+     "options": [
+      "Pin(2).output()",
+      "gpio(2)",
+      "machine.Pin(2, machine.Pin.OUT)",
+      "pin.set()"
+     ],
+     "answer": 2,
+     "explain": "Then .value(1)."
+    },
+    {
+     "q": "What does Pin.PULL_UP do?",
+     "options": [
+      "Powers",
+      "Drives",
+      "Enables an internal pull-up so a floating input reads high by default",
+      "Resets"
+     ],
+     "answer": 2,
+     "explain": "Buttons to ground."
+    },
+    {
+     "q": "Why debounce a button?",
+     "options": [
+      "Style",
+      "Contacts bounce, creating multiple edges per press",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Time-based filter."
+    },
+    {
+     "q": "What does pin.value() return for an input?",
+     "options": [
+      "Voltage",
+      "None",
+      "Text",
+      "0 or 1 for the current level"
+     ],
+     "answer": 3,
+     "explain": "Read a state."
+    }
+   ]
+  },
+  "level-1/04-pwm-adc": {
+   "questions": [
+    {
+     "q": "What does PWM duty control?",
+     "options": [
+      "Frequency",
+      "Current",
+      "The fraction of time the pin is high, setting average power (LED brightness)",
+      "Voltage"
+     ],
+     "answer": 2,
+     "explain": "duty_u16 or duty."
+    },
+    {
+     "q": "An ESP32 12-bit ADC with 3.3 V reads 1024. What voltage?\n```python\nprint(round(1024/4095*3.3,3))\n```\n",
+     "options": [
+      "3.3",
+      "1.024",
+      "0.825",
+      "0.256"
+     ],
+     "answer": 2,
+     "explain": "raw/4095 x 3.3. Verified by running it."
+    },
+    {
+     "q": "Why is the ESP32's ADC noisy and non-linear?",
+     "options": [
+      "Bug",
+      "It's a SAR ADC with attenuation settings and WiFi noise; average multiple samples and calibrate",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "read_uv helps."
+    },
+    {
+     "q": "What does ADC attenuation (ADC.ATTN_11DB) change?",
+     "options": [
+      "Resolution",
+      "Speed",
+      "Power",
+      "The measurable input voltage range"
+     ],
+     "answer": 3,
+     "explain": "Larger range at lower accuracy."
+    }
+   ]
+  },
+  "level-1/05-timers-interrupts": {
+   "questions": [
+    {
+     "q": "What does a Timer provide?",
+     "options": [
+      "Periodic or one-shot callbacks driven by hardware",
+      "Sleep",
+      "Delay only",
+      "Reset"
+     ],
+     "answer": 0,
+     "explain": "Timer(period=..., callback)."
+    },
+    {
+     "q": "What must an interrupt callback avoid in MicroPython?",
+     "options": [
+      "Pins",
+      "Variables",
+      "Functions",
+      "Heap allocation (no list/str creation, no print/exceptions)"
+     ],
+     "answer": 3,
+     "explain": "ISR constraints."
+    },
+    {
+     "q": "How do you pass data from an ISR safely?",
+     "options": [
+      "Queue",
+      "Set a flag or use micropython.schedule to run code outside the ISR",
+      "print",
+      "Globals"
+     ],
+     "answer": 1,
+     "explain": "Defer work."
+    },
+    {
+     "q": "What's `micropython.alloc_emergency_exception_buf` for?",
+     "options": [
+      "Allowing exception reports from within ISRs",
+      "Memory",
+      "Speed",
+      "Debug"
+     ],
+     "answer": 0,
+     "explain": "Handy for debugging."
+    }
+   ]
+  },
+  "level-1/06-i2c-spi-sensors": {
+   "questions": [
+    {
+     "q": "What does this print (little-endian 16-bit sensor reading)?\n```python\nimport struct\nraw=bytes([0x34,0x12])\nprint(hex(struct.unpack('<H', raw)[0]), struct.unpack('>H', raw)[0])\n```\n",
+     "options": [
+      "0x3412 4660",
+      "0x34 18",
+      "0x1234 13330",
+      "0x1234 4660"
+     ],
+     "answer": 2,
+     "explain": "Byte order matters when reading registers. Verified by running it."
+    },
+    {
+     "q": "How does I2C address a device?",
+     "options": [
+      "A 7-bit address followed by a read/write bit",
+      "Chip select",
+      "IP",
+      "MAC"
+     ],
+     "answer": 0,
+     "explain": "i2c.scan() finds devices."
+    },
+    {
+     "q": "What's the difference between I2C and SPI?",
+     "options": [
+      "I2C: 2 wires and addresses; SPI: faster with a select line per device",
+      "SPI two wires",
+      "I2C faster",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "Pick by sensor."
+    },
+    {
+     "q": "What do you do first with a new I2C sensor?",
+     "options": [
+      "Write",
+      "Guess",
+      "Scan for its address and read the WHO_AM_I/ID register",
+      "Reset"
+     ],
+     "answer": 2,
+     "explain": "Verify the wiring."
+    }
+   ]
+  },
+  "level-1/07-files-persistence": {
+   "questions": [
+    {
+     "q": "Where does persistent data live?",
+     "options": [
+      "RAM",
+      "Registers",
+      "Cache",
+      "The flash filesystem (survives resets)"
+     ],
+     "answer": 3,
+     "explain": "Flash has limited writes."
+    },
+    {
+     "q": "Why avoid writing flash every second?",
+     "options": [
+      "Cost",
+      "Flash wears out after limited erase cycles",
+      "Slow",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Batch writes."
+    },
+    {
+     "q": "What does this print?\n```python\nimport json\nd={'t':21.5,'ok':True}\ns=json.dumps(d)\nprint(s, json.loads(s)['t'])\n```\n",
+     "options": [
+      "{\"t\": 21.5, \"ok\": true} 21.5",
+      "t=21.5 21.5",
+      "Error",
+      "{'t': 21.5} 21.5"
+     ],
+     "answer": 0,
+     "explain": "JSON for config and logs. Verified by running it."
+    },
+    {
+     "q": "How do you bound a log file?",
+     "options": [
+      "Grow forever",
+      "Delete all",
+      "Never",
+      "Rotate or truncate when it exceeds a size"
+     ],
+     "answer": 3,
+     "explain": "Flash is small."
+    }
+   ]
+  },
+  "level-1/08-wifi-http": {
+   "questions": [
+    {
+     "q": "What does `network.WLAN(STA_IF)` do?",
+     "options": [
+      "Creates a station interface to join a WiFi network",
+      "Ethernet",
+      "BLE",
+      "Access point"
+     ],
+     "answer": 0,
+     "explain": "wlan.connect(ssid, pw)."
+    },
+    {
+     "q": "Why handle failed connections?",
+     "options": [
+      "Law",
+      "Style",
+      "Networks drop; retry with timeouts instead of hanging",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Robustness."
+    },
+    {
+     "q": "What should you never commit to source control?",
+     "options": [
+      "Names",
+      "WiFi credentials and API keys",
+      "Baud",
+      "Pin numbers"
+     ],
+     "answer": 1,
+     "explain": "Use secrets.json."
+    },
+    {
+     "q": "What's urequests/requests for?",
+     "options": [
+      "MQTT",
+      "Serving",
+      "HTTP requests from the device",
+      "BLE"
+     ],
+     "answer": 2,
+     "explain": "Close responses to free memory."
+    }
+   ]
+  },
+  "level-1/09-uasyncio-basics": {
+   "questions": [
+    {
+     "q": "What does uasyncio provide?",
+     "options": [
+      "Interrupts",
+      "Processes",
+      "Threads",
+      "Cooperative multitasking with async/await on a single thread"
+     ],
+     "answer": 3,
+     "explain": "Lightweight."
+    },
+    {
+     "q": "What blocks uasyncio?",
+     "options": [
+      "time.sleep() or long synchronous work; use await asyncio.sleep()",
+      "await",
+      "sleep_ms",
+      "create_task"
+     ],
+     "answer": 0,
+     "explain": "Yield to the loop."
+    },
+    {
+     "q": "What does this print (CPython asyncio model of the same idea)?\n```python\nimport asyncio\nasync def a(n):\n    await asyncio.sleep(0.01*n); print('t',n)\nasync def main():\n    await asyncio.gather(a(3),a(1),a(2))\nasyncio.run(main())\n```\n",
+     "options": [
+      "t 3\nt 1\nt 2",
+      "t 1\nt 2\nt 3",
+      "t 1 t 2 t 3",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Tasks interleave at awaits. Verified by running it."
+    },
+    {
+     "q": "How do you run a task concurrently?",
+     "options": [
+      "await only",
+      "asyncio.create_task(coro())",
+      "call it",
+      "thread"
+     ],
+     "answer": 1,
+     "explain": "Then await the loop."
+    }
+   ]
+  },
+  "level-1/10-capstone-wifi-sensor-logger": {
+   "questions": [
+    {
+     "q": "What does the WiFi sensor logger combine?",
+     "options": [
+      "Only display",
+      "Only sensor",
+      "Only web",
+      "Sensor reads, bounded flash log, display and a tiny web server"
+     ],
+     "answer": 3,
+     "explain": "Level 1 capstone."
+    },
+    {
+     "q": "How do you keep the log bounded?",
+     "options": [
+      "Rotate or cap entries and size",
+      "Never",
+      "Reset",
+      "Append forever"
+     ],
+     "answer": 0,
+     "explain": "Flash and RAM limits."
+    },
+    {
+     "q": "Why serve JSON as well as HTML?",
+     "options": [
+      "Law",
+      "Machines can consume the data and the HTML page can use it",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "API-first."
+    },
+    {
+     "q": "How do you avoid blocking the server?",
+     "options": [
+      "Use uasyncio so sensing and serving run concurrently",
+      "Interrupts",
+      "sleep",
+      "Threads"
+     ],
+     "answer": 0,
+     "explain": "Cooperative."
+    }
+   ]
+  },
+  "level-2/01-mqtt-iot-messaging": {
+   "questions": [
+    {
+     "q": "What is MQTT?",
+     "options": [
+      "BLE",
+      "A lightweight publish/subscribe protocol via a broker",
+      "Raw TCP",
+      "HTTP"
+     ],
+     "answer": 1,
+     "explain": "Ideal for IoT."
+    },
+    {
+     "q": "What's a topic?",
+     "options": [
+      "Client",
+      "A hierarchical string like home/kitchen/temp that routes messages",
+      "Payload",
+      "Port"
+     ],
+     "answer": 1,
+     "explain": "Wildcards + and #."
+    },
+    {
+     "q": "Why call check_msg() or wait_msg() regularly?",
+     "options": [
+      "Speed",
+      "Style",
+      "The client must process incoming packets and keepalives",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Else the broker disconnects."
+    },
+    {
+     "q": "What does QoS 1 guarantee?",
+     "options": [
+      "At-least-once delivery (duplicates possible)",
+      "Never",
+      "At most once",
+      "Exactly once"
+     ],
+     "answer": 0,
+     "explain": "Handle duplicates."
+    }
+   ]
+  },
+  "level-2/02-ble-aioble": {
+   "questions": [
+    {
+     "q": "What does aioble provide?",
+     "options": [
+      "Display",
+      "WiFi",
+      "Async BLE APIs for MicroPython (advertising, GATT, scanning)",
+      "MQTT"
+     ],
+     "answer": 2,
+     "explain": "Built on bluetooth."
+    },
+    {
+     "q": "Why choose BLE for a wearable?",
+     "options": [
+      "Throughput",
+      "Range",
+      "Speed",
+      "Low power and phone compatibility"
+     ],
+     "answer": 3,
+     "explain": "Coin cell friendly."
+    },
+    {
+     "q": "What's a GATT service?",
+     "options": [
+      "A pin",
+      "A key",
+      "A packet",
+      "A group of characteristics exposing device data"
+     ],
+     "answer": 3,
+     "explain": "Standard UUIDs exist."
+    },
+    {
+     "q": "What does notify do?",
+     "options": [
+      "Writes",
+      "Reads",
+      "Scans",
+      "Pushes characteristic updates to subscribed clients"
+     ],
+     "answer": 3,
+     "explain": "Avoid polling."
+    }
+   ]
+  },
+  "level-2/03-deep-sleep-battery": {
+   "questions": [
+    {
+     "q": "What does machine.deepsleep(ms) do?",
+     "options": [
+      "Idle",
+      "Light sleep",
+      "Powers down most of the chip and restarts (like a reset) after the time or a wake source",
+      "Pauses"
+     ],
+     "answer": 2,
+     "explain": "Microamps."
+    },
+    {
+     "q": "What survives deep sleep on ESP32?",
+     "options": [
+      "RAM",
+      "RTC memory and NVS/flash (RAM contents are lost)",
+      "Variables",
+      "Sockets"
+     ],
+     "answer": 1,
+     "explain": "Store state wisely."
+    },
+    {
+     "q": "A device wakes for 2 s at 80 mA then sleeps 58 s at 0.01 mA. What's the average current in mA?\n```python\nprint(round((2*80+58*0.01)/60,3))\n```\n",
+     "options": [
+      "0.01",
+      "2.676",
+      "80",
+      "1.33"
+     ],
+     "answer": 1,
+     "explain": "Duty-cycled average. Verified by running it."
+    },
+    {
+     "q": "Why shut down WiFi before sleeping?",
+     "options": [
+      "Radios consume power and delay sleep; disconnect cleanly",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "wlan.active(False)."
+    }
+   ]
+  },
+  "level-2/04-custom-sensor-drivers": {
+   "questions": [
+    {
+     "q": "What's the first step writing a sensor driver from a datasheet?",
+     "options": [
+      "Skip",
+      "Guess",
+      "Write all",
+      "Identify the I2C/SPI address and read the ID register to verify communication"
+     ],
+     "answer": 3,
+     "explain": "Then configure registers."
+    },
+    {
+     "q": "Why wrap register access in a class?",
+     "options": [
+      "Encapsulate addresses and conversions and reuse across projects",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Clean API."
+    },
+    {
+     "q": "How do you convert raw sensor values?",
+     "options": [
+      "Guess",
+      "Apply the datasheet's scaling formula and handle two's complement",
+      "Round",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Check units."
+    },
+    {
+     "q": "How do you test a driver without hardware?",
+     "options": [
+      "Mock the I2C bus with canned responses on the host",
+      "Assume",
+      "Wait",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "Unit tests."
+    }
+   ]
+  },
+  "level-2/05-mpremote-mip-tooling": {
+   "questions": [
+    {
+     "q": "What does `mip` do?",
+     "options": [
+      "Debugs",
+      "Installs MicroPython packages onto the board",
+      "Flashes",
+      "Compiles"
+     ],
+     "answer": 1,
+     "explain": "mip.install('...')."
+    },
+    {
+     "q": "What does `mpremote mount .` do?",
+     "options": [
+      "Updates",
+      "Copies",
+      "Mounts a local folder on the board so you can run code without copying",
+      "Formats"
+     ],
+     "answer": 2,
+     "explain": "Fast iteration."
+    },
+    {
+     "q": "How do you copy files with mpremote?",
+     "options": [
+      "mpremote cp file.py :",
+      "git",
+      "scp",
+      "dd"
+     ],
+     "answer": 0,
+     "explain": ":path is the device."
+    },
+    {
+     "q": "Why script mpremote commands?",
+     "options": [
+      "Law",
+      "Style",
+      "Repeatable deploys and CI",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Automation."
+    }
+   ]
+  },
+  "level-2/06-ntp-rtc-timekeeping": {
+   "questions": [
+    {
+     "q": "Why must the device sync its clock?",
+     "options": [
+      "Speed",
+      "The board boots thinking it's 2000 and timestamps would be meaningless",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "NTP over WiFi."
+    },
+    {
+     "q": "What does ntptime.settime() set?",
+     "options": [
+      "Timezone",
+      "Alarm",
+      "The RTC to UTC from an NTP server",
+      "Local time"
+     ],
+     "answer": 2,
+     "explain": "Apply your offset."
+    },
+    {
+     "q": "Why store timestamps in UTC?",
+     "options": [
+      "Avoid ambiguity and DST issues",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Convert on display."
+    },
+    {
+     "q": "What does the RTC do through deep sleep?",
+     "options": [
+      "Resets",
+      "Keeps time (but may drift without sync)",
+      "Stops",
+      "Loses"
+     ],
+     "answer": 1,
+     "explain": "Resync periodically."
+    }
+   ]
+  },
+  "level-2/07-neopixels-displays-ui": {
+   "questions": [
+    {
+     "q": "What do NeoPixels (WS2812) need?",
+     "options": [
+      "A precisely timed single data line, handled by the neopixel module",
+      "I2C",
+      "SPI",
+      "PWM"
+     ],
+     "answer": 0,
+     "explain": "Add power and a level shifter."
+    },
+    {
+     "q": "Why add a capacitor and series resistor to LED strips?",
+     "options": [
+      "Protect against inrush and signal spikes",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Hardware hygiene."
+    },
+    {
+     "q": "What do OLED displays like SSD1306 use?",
+     "options": [
+      "I2C or SPI with a framebuffer",
+      "UART",
+      "CAN",
+      "USB"
+     ],
+     "answer": 0,
+     "explain": "framebuf."
+    },
+    {
+     "q": "How do you update displays without flicker?",
+     "options": [
+      "Draw live",
+      "Draw to the framebuffer then show() once",
+      "Clear often",
+      "Delay"
+     ],
+     "answer": 1,
+     "explain": "Double buffering idea."
+    }
+   ]
+  },
+  "level-2/08-espnow-peer-to-peer": {
+   "questions": [
+    {
+     "q": "What is ESP-NOW?",
+     "options": [
+      "Connectionless peer-to-peer messaging between ESP devices without a router",
+      "BLE",
+      "MQTT",
+      "HTTP"
+     ],
+     "answer": 0,
+     "explain": "Low latency."
+    },
+    {
+     "q": "What must you configure for ESP-NOW?",
+     "options": [
+      "DNS",
+      "IP",
+      "Broker",
+      "WiFi in STA mode and peer MAC addresses"
+     ],
+     "answer": 3,
+     "explain": "add_peer."
+    },
+    {
+     "q": "What's a limitation?",
+     "options": [
+      "Small payloads (~250 bytes) and no built-in delivery guarantee",
+      "Large",
+      "Reliable",
+      "Routed"
+     ],
+     "answer": 0,
+     "explain": "Design acks."
+    },
+    {
+     "q": "When prefer ESP-NOW over MQTT?",
+     "options": [
+      "Cloud",
+      "Nearby devices needing low power and no infrastructure",
+      "Many hops",
+      "Long range"
+     ],
+     "answer": 1,
+     "explain": "Local control."
+    }
+   ]
+  },
+  "level-2/09-error-handling-logging": {
+   "questions": [
+    {
+     "q": "What should a headless device do on an unhandled exception?",
+     "options": [
+      "Log it and recover (reset or retry) rather than stop",
+      "Stop",
+      "Print",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Resilience."
+    },
+    {
+     "q": "Why persist logs to flash?",
+     "options": [
+      "Law",
+      "To diagnose crashes after a reset",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Bounded files."
+    },
+    {
+     "q": "What does try/except around the main loop enable?",
+     "options": [
+      "Catch errors, record a trace and restart safely",
+      "Nothing",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "machine.reset()."
+    },
+    {
+     "q": "How do you distinguish reset causes?",
+     "options": [
+      "Logs",
+      "Guess",
+      "machine.reset_cause() (power-on, watchdog, deepsleep)",
+      "Pins"
+     ],
+     "answer": 2,
+     "explain": "Diagnose."
+    }
+   ]
+  },
+  "level-2/10-project-mqtt-weather-station": {
+   "questions": [
+    {
+     "q": "What does the MQTT weather station combine?",
+     "options": [
+      "Only sleep",
+      "Only sensor",
+      "Only MQTT",
+      "Sensor reading, timestamp, MQTT publish, display and deep sleep"
+     ],
+     "answer": 3,
+     "explain": "Level 2 capstone."
+    },
+    {
+     "q": "What's the power-friendly loop?",
+     "options": [
+      "Poll",
+      "Idle",
+      "Always on",
+      "Wake, connect, read, publish, disconnect, deep sleep"
+     ],
+     "answer": 3,
+     "explain": "Batch work."
+    },
+    {
+     "q": "How do you handle failed publishes?",
+     "options": [
+      "Block",
+      "Retry with backoff and cache readings",
+      "Reset",
+      "Drop"
+     ],
+     "answer": 1,
+     "explain": "Store and forward."
+    },
+    {
+     "q": "What validates battery life?",
+     "options": [
+      "Guess",
+      "Spec",
+      "Estimate",
+      "Measure real current over a full cycle"
+     ],
+     "answer": 3,
+     "explain": "Power profile."
+    }
+   ]
+  },
+  "level-3/01-memory-gc": {
+   "questions": [
+    {
+     "q": "Why does memory fragmentation matter on MicroPython?",
+     "options": [
+      "Small heaps can fail allocations despite free total memory",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "gc.mem_free()."
+    },
+    {
+     "q": "What does gc.collect() do?",
+     "options": [
+      "Compacts",
+      "Allocates",
+      "Frees unreachable objects immediately",
+      "Stops"
+     ],
+     "answer": 2,
+     "explain": "Call before big allocations."
+    },
+    {
+     "q": "How do you reduce allocations?",
+     "options": [
+      "Create lists",
+      "Use strings",
+      "Recursion",
+      "Preallocate buffers (bytearray) and reuse them"
+     ],
+     "answer": 3,
+     "explain": "Avoid per-loop objects."
+    },
+    {
+     "q": "What does micropython.mem_info() show?",
+     "options": [
+      "Flash",
+      "CPU",
+      "Pins",
+      "Heap usage and fragmentation summary"
+     ],
+     "answer": 3,
+     "explain": "Debug memory."
+    }
+   ]
+  },
+  "level-3/02-performance-profiling": {
+   "questions": [
+    {
+     "q": "`ticks_diff` handles wraparound. What's the result in this simulation?\n```python\nM=1<<30\ndef ticks_diff(a,b):\n    d=(a-b)%M\n    return d-M if d>=M//2 else d\nprint(ticks_diff(5, M-5), ticks_diff(M-5,5))\n```\n",
+     "options": [
+      "M M",
+      "10 -10",
+      "-10 10",
+      "5 5"
+     ],
+     "answer": 1,
+     "explain": "Never subtract tick values directly. Verified by running it."
+    },
+    {
+     "q": "What's the right way to time a code block?",
+     "options": [
+      "time.ticks_us() before and after with ticks_diff()",
+      "print",
+      "time.time()",
+      "sleep"
+     ],
+     "answer": 0,
+     "explain": "No cProfile."
+    },
+    {
+     "q": "Why measure before optimizing?",
+     "options": [
+      "Law",
+      "Style",
+      "Intuition about hotspots is often wrong",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What does `@micropython.native` do?",
+     "options": [
+      "Debug",
+      "Compiles the function to native machine code for speed",
+      "Compress",
+      "Freeze"
+     ],
+     "answer": 1,
+     "explain": "Next lesson."
+    }
+   ]
+  },
+  "level-3/03-native-viper-emitters": {
+   "questions": [
+    {
+     "q": "What does the @micropython.viper decorator provide?",
+     "options": [
+      "Readability",
+      "Memory",
+      "Native code with typed integer/pointer operations for maximum speed",
+      "Safety"
+     ],
+     "answer": 2,
+     "explain": "Use for hot loops."
+    },
+    {
+     "q": "What's a viper trade-off?",
+     "options": [
+      "Slower",
+      "None",
+      "Safer",
+      "Reduced Python semantics (ints wrap, no overflow checks) and portability limits"
+     ],
+     "answer": 3,
+     "explain": "Be careful."
+    },
+    {
+     "q": "When use native/viper?",
+     "options": [
+      "After profiling finds a hot loop that needs speed",
+      "Never",
+      "Always",
+      "First"
+     ],
+     "answer": 0,
+     "explain": "Measure."
+    },
+    {
+     "q": "What do viper type hints like int do?",
+     "options": [
+      "Document",
+      "Convert",
+      "Let the emitter use raw machine integers instead of Python objects",
+      "Check"
+     ],
+     "answer": 2,
+     "explain": "Speed."
+    }
+   ]
+  },
+  "level-3/04-c-modules": {
+   "questions": [
+    {
+     "q": "Why write a C module for MicroPython?",
+     "options": [
+      "Speed or hardware access beyond Python, exposed as a module",
+      "Law",
+      "Fun",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "USER_C_MODULES."
+    },
+    {
+     "q": "What do you rebuild to include a C module?",
+     "options": [
+      "The app",
+      "The REPL",
+      "The bootloader only",
+      "The MicroPython firmware"
+     ],
+     "answer": 3,
+     "explain": "Custom firmware."
+    },
+    {
+     "q": "What does MP_REGISTER_MODULE do?",
+     "options": [
+      "Test",
+      "Registers your C module so Python can import it",
+      "Compile",
+      "Flash"
+     ],
+     "answer": 1,
+     "explain": "Boilerplate."
+    },
+    {
+     "q": "What's a cost of C modules?",
+     "options": [
+      "Maintaining custom firmware builds",
+      "Law",
+      "None",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Use when needed."
+    }
+   ]
+  },
+  "level-3/05-rp2040-pio": {
+   "questions": [
+    {
+     "q": "What is RP2040 PIO?",
+     "options": [
+      "A CPU",
+      "Programmable I/O state machines that implement custom protocols in hardware",
+      "A bus",
+      "A timer"
+     ],
+     "answer": 1,
+     "explain": "Precise timing."
+    },
+    {
+     "q": "Why use PIO?",
+     "options": [
+      "Speed",
+      "Style",
+      "Deterministic bit-level protocols (WS2812, custom serial) without CPU load",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "rp2.asm_pio."
+    },
+    {
+     "q": "How many instructions does a PIO program have?",
+     "options": [
+      "32 instruction slots per state-machine block",
+      "1024",
+      "256",
+      "8"
+     ],
+     "answer": 0,
+     "explain": "Tiny but powerful."
+    },
+    {
+     "q": "How does the CPU feed a PIO state machine?",
+     "options": [
+      "Through FIFOs (put/get) or DMA",
+      "Registers",
+      "Interrupts only",
+      "Files"
+     ],
+     "answer": 0,
+     "explain": "Async transfer."
+    }
+   ]
+  },
+  "level-3/06-advanced-uasyncio": {
+   "questions": [
+    {
+     "q": "What does asyncio.Event do?",
+     "options": [
+      "Timing",
+      "Memory",
+      "Lets tasks wait until another task signals",
+      "IO"
+     ],
+     "answer": 2,
+     "explain": "Coordination."
+    },
+    {
+     "q": "What's a safe way to stop a task?",
+     "options": [
+      "Reset",
+      "Ignore",
+      "Cancel it and handle CancelledError for cleanup",
+      "Kill"
+     ],
+     "answer": 2,
+     "explain": "Resource release."
+    },
+    {
+     "q": "Why use asyncio.Lock?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Protect shared resources across awaits"
+     ],
+     "answer": 3,
+     "explain": "Cooperative but still interleaves."
+    },
+    {
+     "q": "What should async code avoid?",
+     "options": [
+      "Long blocking calls that starve other tasks",
+      "await",
+      "create_task",
+      "sleep"
+     ],
+     "answer": 0,
+     "explain": "Yield often."
+    }
+   ]
+  },
+  "level-3/07-inline-assembler": {
+   "questions": [
+    {
+     "q": "What does inline assembler (@micropython.asm_thumb) offer?",
+     "options": [
+      "Safety",
+      "Ease",
+      "Portability",
+      "Hand-written Thumb instructions for extreme speed or precise timing"
+     ],
+     "answer": 3,
+     "explain": "Cortex-M only."
+    },
+    {
+     "q": "When is it justified?",
+     "options": [
+      "Everywhere",
+      "Rare hot paths where native/viper isn't enough",
+      "Always",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Complexity cost."
+    },
+    {
+     "q": "What's a risk?",
+     "options": [
+      "Speed",
+      "Hard to maintain and tied to one architecture",
+      "Law",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Document well."
+    },
+    {
+     "q": "What do arguments get passed in?",
+     "options": [
+      "Stack",
+      "Heap",
+      "Flash",
+      "Registers r0-r3"
+     ],
+     "answer": 3,
+     "explain": "Calling convention."
+    }
+   ]
+  },
+  "level-3/08-frozen-modules-manifests": {
+   "questions": [
+    {
+     "q": "What are frozen modules?",
+     "options": [
+      "Encrypted",
+      "Disabled",
+      "Python code compiled into the firmware, stored in flash instead of RAM",
+      "Compressed"
+     ],
+     "answer": 2,
+     "explain": "Saves RAM."
+    },
+    {
+     "q": "Why freeze large libraries?",
+     "options": [
+      "Avoid compiling at import time and using heap",
+      "Speed only",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "manifest.py."
+    },
+    {
+     "q": "How do you add frozen modules?",
+     "options": [
+      "mip",
+      "List them in a manifest and rebuild firmware",
+      "Copy",
+      "pip"
+     ],
+     "answer": 1,
+     "explain": "freeze()."
+    },
+    {
+     "q": "Trade-off of frozen modules?",
+     "options": [
+      "Speed",
+      "Law",
+      "Updating requires a firmware rebuild/flash",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Balance."
+    }
+   ]
+  },
+  "level-3/09-threads-dual-core": {
+   "questions": [
+    {
+     "q": "What does the second RP2040 core allow?",
+     "options": [
+      "Async",
+      "More RAM",
+      "Running code in parallel on another core with _thread",
+      "Faster flash"
+     ],
+     "answer": 2,
+     "explain": "Careful with shared state."
+    },
+    {
+     "q": "What must you do when sharing data between cores?",
+     "options": [
+      "Nothing",
+      "sleep",
+      "print",
+      "Use locks (_thread.allocate_lock) to avoid races"
+     ],
+     "answer": 3,
+     "explain": "Synchronize."
+    },
+    {
+     "q": "Why is the GIL absent but caution needed?",
+     "options": [
+      "MicroPython threads can run truly in parallel on RP2040, so races are real",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Locks."
+    },
+    {
+     "q": "What does ESP32 threading differ in?",
+     "options": [
+      "No threads",
+      "GIL",
+      "Uses FreeRTOS tasks via _thread with limited stack",
+      "Same"
+     ],
+     "answer": 2,
+     "explain": "Small stacks."
+    }
+   ]
+  },
+  "level-3/10-project-high-speed-daq": {
+   "questions": [
+    {
+     "q": "What does the high-speed DAQ project combine?",
+     "options": [
+      "Only ADC",
+      "Timer-driven sampling, preallocated buffers, DMA/PIO and efficient streaming",
+      "Only WiFi",
+      "Only files"
+     ],
+     "answer": 1,
+     "explain": "Level 3 capstone."
+    },
+    {
+     "q": "Why preallocate buffers?",
+     "options": [
+      "Style",
+      "Law",
+      "Cost",
+      "Avoid heap allocation and GC pauses during capture"
+     ],
+     "answer": 3,
+     "explain": "Deterministic."
+    },
+    {
+     "q": "How do you verify sample timing?",
+     "options": [
+      "Assume",
+      "Guess",
+      "Measure intervals with ticks_us and check jitter",
+      "Print"
+     ],
+     "answer": 2,
+     "explain": "Quantify."
+    },
+    {
+     "q": "What do you do with data fast?",
+     "options": [
+      "Lists",
+      "Strings",
+      "Stream out in chunks or store in ring buffers",
+      "Print"
+     ],
+     "answer": 2,
+     "explain": "Avoid allocation."
+    }
+   ]
+  },
+  "level-4/01-production-architecture": {
+   "questions": [
+    {
+     "q": "What does production architecture add to hobby code?",
+     "options": [
+      "Speed",
+      "Size",
+      "Features",
+      "Structure, error handling, config, logging and update paths"
+     ],
+     "answer": 3,
+     "explain": "Maintainable."
+    },
+    {
+     "q": "Why separate hardware, logic and app layers?",
+     "options": [
+      "Style",
+      "Testability and portability",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Mock hardware."
+    },
+    {
+     "q": "How should configuration be managed?",
+     "options": [
+      "In a config file/NVS separate from code",
+      "Prompt",
+      "Hardcode",
+      "Globals"
+     ],
+     "answer": 0,
+     "explain": "Per-device values."
+    },
+    {
+     "q": "What's a state machine for?",
+     "options": [
+      "Style",
+      "Law",
+      "Explicit event-driven behavior that is easy to test",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Avoid spaghetti."
+    }
+   ]
+  },
+  "level-4/02-ota-updates-fleets": {
+   "questions": [
+    {
+     "q": "What's a safe OTA approach on MicroPython?",
+     "options": [
+      "No checks",
+      "Overwrite live",
+      "Download to a temp file, verify hash/signature, then swap and keep a fallback",
+      "Trust"
+     ],
+     "answer": 2,
+     "explain": "Atomic update."
+    },
+    {
+     "q": "Why stage fleet rollouts?",
+     "options": [
+      "Speed",
+      "Style",
+      "Limit blast radius if an update misbehaves",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Canary."
+    },
+    {
+     "q": "What should an update include?",
+     "options": [
+      "Colors",
+      "Logs",
+      "Version, integrity check and rollback info",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Metadata."
+    },
+    {
+     "q": "What if the new app crashes at boot?",
+     "options": [
+      "Ignore",
+      "Detect via counter and roll back to the previous version",
+      "Retry",
+      "Brick"
+     ],
+     "answer": 1,
+     "explain": "Safe mode."
+    }
+   ]
+  },
+  "level-4/03-provisioning-secrets": {
+   "questions": [
+    {
+     "q": "How should secrets be provisioned?",
+     "options": [
+      "Per-device at manufacture, never shared across the fleet or hardcoded",
+      "In repo",
+      "In main.py",
+      "Shared key"
+     ],
+     "answer": 0,
+     "explain": "Unique credentials."
+    },
+    {
+     "q": "Where can secrets be stored more safely?",
+     "options": [
+      "main.py",
+      "Encrypted NVS/secure element rather than plain files",
+      "Flash text",
+      "Comments"
+     ],
+     "answer": 1,
+     "explain": "Reduce exposure."
+    },
+    {
+     "q": "Why rotate credentials?",
+     "options": [
+      "Law",
+      "Limit damage if one leaks",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Lifecycle."
+    },
+    {
+     "q": "What do TLS certificates verify?",
+     "options": [
+      "Speed",
+      "The server's identity, preventing man-in-the-middle",
+      "Size",
+      "Time"
+     ],
+     "answer": 1,
+     "explain": "Validate, don't skip."
+    }
+   ]
+  },
+  "level-4/04-watchdogs-robustness": {
+   "questions": [
+    {
+     "q": "What does a watchdog do?",
+     "options": [
+      "Updates",
+      "Sleeps",
+      "Resets the device if the main loop stops feeding it",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "WDT(timeout=...)."
+    },
+    {
+     "q": "Why feed the WDT only when healthy?",
+     "options": [
+      "Speed",
+      "Law",
+      "Blind feeding hides hangs",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Check conditions."
+    },
+    {
+     "q": "What should you do after a WDT reset?",
+     "options": [
+      "Record the cause and enter a safe state",
+      "Ignore",
+      "Delete",
+      "Reset"
+     ],
+     "answer": 0,
+     "explain": "Diagnose."
+    },
+    {
+     "q": "What does robust firmware assume?",
+     "options": [
+      "Networks fail, sensors glitch and power drops",
+      "Perfection",
+      "Stability",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Design for faults."
+    }
+   ]
+  },
+  "level-4/05-custom-firmware-builds": {
+   "questions": [
+    {
+     "q": "Why build custom firmware?",
+     "options": [
+      "Fun",
+      "Include frozen modules, C modules or change board config",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Reproducible builds."
+    },
+    {
+     "q": "What does the build need?",
+     "options": [
+      "Docker only",
+      "The MicroPython source, toolchain (e.g. ESP-IDF) and a board definition",
+      "Python only",
+      "Pip"
+     ],
+     "answer": 1,
+     "explain": "CI helps."
+    },
+    {
+     "q": "How do you ensure reproducibility?",
+     "options": [
+      "Pin versions and build in CI",
+      "Hope",
+      "Manual",
+      "Local"
+     ],
+     "answer": 0,
+     "explain": "Same inputs, same image."
+    },
+    {
+     "q": "What do you verify after a build?",
+     "options": [
+      "Size",
+      "Boot, REPL, modules and a smoke test on hardware",
+      "Nothing",
+      "Date"
+     ],
+     "answer": 1,
+     "explain": "Test."
+    }
+   ]
+  },
+  "level-4/06-security-hardening": {
+   "questions": [
+    {
+     "q": "Which hardening measure applies to MicroPython devices?",
+     "options": [
+      "Default pw",
+      "Open REPL",
+      "Telnet",
+      "Disable the REPL/USB debug in production and protect credentials"
+     ],
+     "answer": 3,
+     "explain": "Reduce attack surface."
+    },
+    {
+     "q": "Why validate all network input?",
+     "options": [
+      "Untrusted data can crash or exploit the device",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Bounds checks."
+    },
+    {
+     "q": "What does flash encryption protect?",
+     "options": [
+      "Speed",
+      "Firmware and data from readout",
+      "Debug",
+      "Power"
+     ],
+     "answer": 1,
+     "explain": "ESP32 feature."
+    },
+    {
+     "q": "Why use secure boot?",
+     "options": [
+      "Style",
+      "Speed",
+      "Only signed firmware runs",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Chain of trust."
+    }
+   ]
+  },
+  "level-4/07-fleet-management": {
+   "questions": [
+    {
+     "q": "What does fleet management provide?",
+     "options": [
+      "Local",
+      "Manual",
+      "Monitoring, configuration and updates across many devices",
+      "One device"
+     ],
+     "answer": 2,
+     "explain": "Scale."
+    },
+    {
+     "q": "What should each device report?",
+     "options": [
+      "Version, health, battery and errors",
+      "Logs only",
+      "Photos",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Telemetry."
+    },
+    {
+     "q": "Why a device identity?",
+     "options": [
+      "Authenticate and address each device individually",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Unique ID/cert."
+    },
+    {
+     "q": "How to roll out config changes?",
+     "options": [
+      "Random",
+      "Staged with rollback and monitoring",
+      "All",
+      "Manual"
+     ],
+     "answer": 1,
+     "explain": "Safe changes."
+    }
+   ]
+  },
+  "level-4/08-ci-automated-testing": {
+   "questions": [
+    {
+     "q": "What does CI for MicroPython include?",
+     "options": [
+      "Manual",
+      "Nothing",
+      "Host unit tests with mocks, linting and firmware builds",
+      "Only flash"
+     ],
+     "answer": 2,
+     "explain": "pytest + mpy-cross."
+    },
+    {
+     "q": "How can you test hardware-independent code?",
+     "options": [
+      "Print",
+      "Only device",
+      "Never",
+      "Run it under CPython/unix port with mocked machine modules"
+     ],
+     "answer": 3,
+     "explain": "Fast feedback."
+    },
+    {
+     "q": "What does the unix port enable?",
+     "options": [
+      "Debug",
+      "Flashing",
+      "Running MicroPython on a PC for tests",
+      "Power"
+     ],
+     "answer": 2,
+     "explain": "CI friendly."
+    },
+    {
+     "q": "What do HIL tests add?",
+     "options": [
+      "Speed",
+      "Law",
+      "Verification on real boards with automated rigs",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "End to end."
+    }
+   ]
+  },
+  "level-4/09-manufacturing-factory-test": {
+   "questions": [
+    {
+     "q": "What's factory test?",
+     "options": [
+      "Unit test",
+      "Field test",
+      "Dev test",
+      "Automated per-unit verification and provisioning on the production line"
+     ],
+     "answer": 3,
+     "explain": "Quality and identity."
+    },
+    {
+     "q": "What does a test jig use?",
+     "options": [
+      "Hands",
+      "None",
+      "Pogo pins and fixtures to access test points",
+      "Wires"
+     ],
+     "answer": 2,
+     "explain": "Repeatable."
+    },
+    {
+     "q": "What belongs in factory firmware?",
+     "options": [
+      "Self-tests, serial number/credential provisioning and logging",
+      "App",
+      "Games",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Then flash the final image."
+    },
+    {
+     "q": "Why log factory results?",
+     "options": [
+      "Traceability for support and recalls",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Per-serial records."
+    }
+   ]
+  },
+  "level-4/10-capstone-production-iot": {
+   "questions": [
+    {
+     "q": "What does the production IoT capstone integrate?",
+     "options": [
+      "Secure provisioning, OTA, watchdogs, telemetry and CI",
+      "Only code",
+      "Only hardware",
+      "Only cloud"
+     ],
+     "answer": 0,
+     "explain": "Full product."
+    },
+    {
+     "q": "How do you prove readiness?",
+     "options": [
+      "CI, HIL, fault injection, field trials and staged rollouts",
+      "Hope",
+      "Demo",
+      "Slides"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation matters?",
+     "options": [
+      "Architecture, runbooks and release/support procedures",
+      "Slides",
+      "None",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Lifecycle."
+    },
+    {
+     "q": "What sustains a fleet over years?",
+     "options": [
+      "Nothing",
+      "Luck",
+      "Silence",
+      "Update strategy, security patches and monitoring"
+     ],
+     "answer": 3,
+     "explain": "Plan support."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What's MicroPython's biggest practical difference from desktop Python?",
+    "options": [
+     "No syntax",
+     "More libraries",
+     "A tiny heap and reduced library, so you must manage memory and hardware directly",
+     "More RAM"
+    ],
+    "answer": 2,
+    "explain": "Design for constraints."
+   },
+   {
+    "q": "Which REPL shortcut soft-resets the board and re-runs main.py?",
+    "options": [
+     "Ctrl-Z",
+     "Ctrl-X",
+     "Ctrl-C",
+     "Ctrl-D"
+    ],
+    "answer": 3,
+    "explain": "Ctrl-C interrupts the running program."
+   },
+   {
+    "q": "A button wired to ground should read a clean value. How do you configure the pin?",
+    "options": [
+     "No pull",
+     "PWM",
+     "Pin.OUT",
+     "machine.Pin(n, Pin.IN, Pin.PULL_UP) and debounce it"
+    ],
+    "answer": 3,
+    "explain": "Avoid floating inputs."
+   },
+   {
+    "q": "A 12-bit ADC at 3.3 V reads 3000. What voltage is that?\n```python\nprint(round(3000/4095*3.3,2))\n```\n",
+    "options": [
+     "1.2",
+     "2.42",
+     "3.0",
+     "3.3"
+    ],
+    "answer": 1,
+    "explain": "raw/4095 x Vref. Verified by running it."
+   },
+   {
+    "q": "An interrupt callback allocates a list and raises MemoryError. Why?",
+    "options": [
+     "ISRs can't allocate heap memory in MicroPython; set a flag or use micropython.schedule",
+     "Pin error",
+     "Syntax",
+     "Too slow"
+    ],
+    "answer": 0,
+    "explain": "Preallocate buffers."
+   },
+   {
+    "q": "A sensor sends bytes 0x34 0x12 for a little-endian 16-bit value. What is it?\n```python\nimport struct\nprint(struct.unpack('<H', bytes([0x34,0x12]))[0])\n```\n",
+    "options": [
+     "18",
+     "4660",
+     "13330",
+     "52"
+    ],
+    "answer": 1,
+    "explain": "0x1234 = 4660. Verified by running it."
+   },
+   {
+    "q": "Why batch flash writes in a logger?",
+    "options": [
+     "Flash wears out after limited erase cycles",
+     "Law",
+     "Style",
+     "Slow"
+    ],
+    "answer": 0,
+    "explain": "Rotate and bound logs."
+   },
+   {
+    "q": "A device must do networking, sensing and display without threads. What do you use?",
+    "options": [
+     "Threads",
+     "uasyncio tasks with await asyncio.sleep() instead of time.sleep()",
+     "Polling loops with sleep",
+     "Interrupts"
+    ],
+    "answer": 1,
+    "explain": "Cooperative multitasking."
+   },
+   {
+    "q": "The MQTT client stops receiving after a while. What did you likely forget?",
+    "options": [
+     "Baud rate",
+     "Pull-ups",
+     "Calling check_msg()/wait_msg() and keepalive pings regularly",
+     "Wi-Fi power"
+    ],
+    "answer": 2,
+    "explain": "Else the broker disconnects."
+   },
+   {
+    "q": "Wake 2 s at 80 mA each minute, otherwise deep sleep at 0.02 mA. What's the average current (mA)?\n```python\nprint(round((2*80+58*0.02)/60,3))\n```\n",
+    "options": [
+     "0.02",
+     "2.686",
+     "80",
+     "1.33"
+    ],
+    "answer": 1,
+    "explain": "Duty-cycled average. Verified by running it."
+   },
+   {
+    "q": "After deep sleep, your variables are gone. Where can state survive?",
+    "options": [
+     "RAM",
+     "RTC memory or flash/NVS (RAM is cleared)",
+     "Stack",
+     "Registers"
+    ],
+    "answer": 1,
+    "explain": "Deep sleep restarts the program."
+   },
+   {
+    "q": "The board thinks it's the year 2000. What do you do?",
+    "options": [
+     "Sync the RTC with ntptime over WiFi and store UTC",
+     "Use local time",
+     "Set manually",
+     "Ignore"
+    ],
+    "answer": 0,
+    "explain": "Timestamps need a valid clock."
+   },
+   {
+    "q": "Using wrap-safe tick arithmetic, what's ticks_diff(5, MASK-5) with a 30-bit counter?\n```python\nM=(1<<30)-1\nd=(5-(M-5))&M\nprint(d-(M+1) if d>=(M+1)//2 else d)\n```\n",
+    "options": [
+     "11",
+     "5",
+     "1073741819",
+     "-11"
+    ],
+    "answer": 0,
+    "explain": "Never subtract tick values directly. Verified by running it."
+   },
+   {
+    "q": "A hot loop is too slow. What's the correct order?",
+    "options": [
+     "Rewrite everything",
+     "Measure with ticks_us, then try @native/@viper, then consider C modules or PIO",
+     "Overclock",
+     "Assembly first"
+    ],
+    "answer": 1,
+    "explain": "Profile before optimizing."
+   },
+   {
+    "q": "Heap allocation fails though gc.mem_free() looks large. What's the cause?",
+    "options": [
+     "Fragmentation: no contiguous block big enough; preallocate and call gc.collect()",
+     "WiFi",
+     "Flash full",
+     "Bug"
+    ],
+    "answer": 0,
+    "explain": "Large buffers need contiguous space."
+   },
+   {
+    "q": "A field device hangs and never recovers. What's the standard protection?",
+    "options": [
+     "Reboot manually",
+     "Print more",
+     "A hardware watchdog fed only when the system is healthy",
+     "Sleep"
+    ],
+    "answer": 2,
+    "explain": "Blind feeding hides hangs."
+   },
+   {
+    "q": "An OTA update loses power halfway. What design avoids a bricked device?",
+    "options": [
+     "Download to a temp file, verify the hash/signature, swap atomically and keep a fallback",
+     "Trust the link",
+     "Overwrite",
+     "Skip verification"
+    ],
+    "answer": 0,
+    "explain": "Safe updates."
+   },
+   {
+    "q": "How should WiFi credentials and API keys be handled?",
+    "options": [
+     "In main.py",
+     "In the repo",
+     "Provisioned per device and stored outside source control (e.g. encrypted NVS)",
+     "In comments"
+    ],
+    "answer": 2,
+    "explain": "Never hardcode."
+   },
+   {
+    "q": "How do you unit-test hardware-independent MicroPython logic in CI?",
+    "options": [
+     "Never",
+     "Run it under CPython or the unix port with mocked machine modules",
+     "Only on a board",
+     "By printing"
+    ],
+    "answer": 1,
+    "explain": "Fast feedback."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A wrap-safe cooperative scheduler",
+    "prompt": "Implement ticks_add, ticks_diff (correct across counter wraparound like time.ticks_diff) and Scheduler.every/poll so jobs run when their period elapses without blocking and without drifting. The simulation starts near the counter wrap.",
+    "starter": "MASK = (1 << 30) - 1          # tick counter wraps like time.ticks_ms() on a MicroPython port\n\ndef ticks_add(t, d):\n    # wrap-safe addition on a MASK-bit counter\n    return 0\n\ndef ticks_diff(a, b):\n    # signed difference a - b that is correct across wraparound (like time.ticks_diff)\n    return 0\n\nclass Scheduler:\n    \"\"\"Cooperative scheduler: run jobs whose period has elapsed (no sleep() blocking).\"\"\"\n    def __init__(self):\n        self.jobs = []                    # [name, period, next_due]\n\n    def every(self, name, period, now):\n        # register a job first due at now + period\n        pass\n\n    def poll(self, now):\n        # return the names of jobs that are due (ticks_diff(now, due) >= 0) and reschedule them\n        # by adding their period to the previous due time (no drift)\n        return []\n\ns = Scheduler()\nstart = MASK - 250                        # counter about to wrap\ns.every(\"blink\", 100, start)\ns.every(\"sensor\", 250, start)\nlog = []\nfor step in range(0, 701, 50):\n    now = ticks_add(start, step)\n    ran = s.poll(now)\n    if ran:\n        log.append(f\"{step}:{'+'.join(ran)}\")\nprint(\" \".join(log))\nprint(ticks_diff(5, MASK - 5), ticks_diff(MASK - 5, 5))\n",
+    "expected": "100:blink 200:blink 250:sensor 300:blink 400:blink 500:blink+sensor 600:blink 700:blink\n11 -11",
+    "solution": "MASK = (1 << 30) - 1          # tick counter wraps like time.ticks_ms() on a MicroPython port\n\ndef ticks_add(t, d):\n    return (t + d) & MASK\n\ndef ticks_diff(a, b):\n    d = (a - b) & MASK\n    return d - (MASK + 1) if d >= (MASK + 1) // 2 else d\n\nclass Scheduler:\n    \"\"\"Cooperative scheduler: run jobs whose period has elapsed (no sleep() blocking).\"\"\"\n    def __init__(self):\n        self.jobs = []                    # [name, period, next_due]\n\n    def every(self, name, period, now):\n        self.jobs.append([name, period, ticks_add(now, period)])\n\n    def poll(self, now):\n        ran = []\n        for job in self.jobs:\n            if ticks_diff(now, job[2]) >= 0:\n                ran.append(job[0])\n                job[2] = ticks_add(job[2], job[1])\n        return ran\n\ns = Scheduler()\nstart = MASK - 250                        # counter about to wrap\ns.every(\"blink\", 100, start)\ns.every(\"sensor\", 250, start)\nlog = []\nfor step in range(0, 701, 50):\n    now = ticks_add(start, step)\n    ran = s.poll(now)\n    if ran:\n        log.append(f\"{step}:{'+'.join(ran)}\")\nprint(\" \".join(log))\nprint(ticks_diff(5, MASK - 5), ticks_diff(MASK - 5, 5))\n",
+    "explain": "Subtracting raw tick values breaks at wraparound, so differences are computed modulo the counter size and interpreted as signed. Rescheduling from the previous due time (not 'now') avoids drift. Verified by running the solution (CPython model of the MicroPython API)."
+   },
+   {
+    "title": "Bounded log and reconnect backoff",
+    "prompt": "Implement BoundedLog.append (drop the oldest lines until the byte budget fits, keep at least one) and Backoff.failure (min(cap, base*2**fails)), the two building blocks of a resilient, flash-friendly logger.",
+    "starter": "import json\n\nclass BoundedLog:\n    \"\"\"Keep the newest entries within a byte budget, like a size-limited log file on flash.\"\"\"\n    def __init__(self, max_bytes):\n        self.max_bytes = max_bytes\n        self.lines = []\n\n    def size(self):\n        return sum(len(l) + 1 for l in self.lines)\n\n    def append(self, record):\n        # add json.dumps(record, separators=(\",\", \":\")) and drop the OLDEST lines until size() <= max_bytes\n        # (always keep at least one line)\n        pass\n\nclass Backoff:\n    \"\"\"Exponential backoff with a cap, reset on success (reconnect logic).\"\"\"\n    def __init__(self, base=1, cap=30):\n        self.base, self.cap, self.fails = base, cap, 0\n\n    def failure(self):\n        # return the next delay: min(cap, base * 2**fails), then count the failure\n        return 0\n\n    def success(self):\n        self.fails = 0\n\nlog = BoundedLog(60)\nfor i in range(1, 8):\n    log.append({\"i\": i, \"t\": 20 + i})\nprint(len(log.lines), log.size(), log.lines[0])\nb = Backoff()\nprint([b.failure() for _ in range(7)])\nb.success()\nprint(b.failure())\n",
+    "expected": "4 60 {\"i\":4,\"t\":24}\n[1, 2, 4, 8, 16, 30, 30]\n1",
+    "solution": "import json\n\nclass BoundedLog:\n    \"\"\"Keep the newest entries within a byte budget, like a size-limited log file on flash.\"\"\"\n    def __init__(self, max_bytes):\n        self.max_bytes = max_bytes\n        self.lines = []\n\n    def size(self):\n        return sum(len(l) + 1 for l in self.lines)\n\n    def append(self, record):\n        self.lines.append(json.dumps(record, separators=(\",\", \":\")))\n        while self.size() > self.max_bytes and len(self.lines) > 1:\n            self.lines.pop(0)\n\nclass Backoff:\n    \"\"\"Exponential backoff with a cap, reset on success (reconnect logic).\"\"\"\n    def __init__(self, base=1, cap=30):\n        self.base, self.cap, self.fails = base, cap, 0\n\n    def failure(self):\n        delay = min(self.cap, self.base * (2 ** self.fails))\n        self.fails += 1\n        return delay\n\n    def success(self):\n        self.fails = 0\n\nlog = BoundedLog(60)\nfor i in range(1, 8):\n    log.append({\"i\": i, \"t\": 20 + i})\nprint(len(log.lines), log.size(), log.lines[0])\nb = Backoff()\nprint([b.failure() for _ in range(7)])\nb.success()\nprint(b.failure())\n",
+    "explain": "Bounding the log protects limited flash and RAM, and capped exponential backoff keeps reconnect attempts from hammering a dead network or draining the battery. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
