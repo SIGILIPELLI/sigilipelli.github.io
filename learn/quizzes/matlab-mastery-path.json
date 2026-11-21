@@ -1,0 +1,2159 @@
+{
+ "course": "matlab-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-matlab": {
+   "questions": [
+    {
+     "q": "What does MATLAB stand for?",
+     "options": [
+      "MATrix LABoratory",
+      "Math Lab",
+      "Mathematical Library",
+      "Matrix Language"
+     ],
+     "answer": 0,
+     "explain": "Everything is an array."
+    },
+    {
+     "q": "What is the Command Window used for?",
+     "options": [
+      "Plotting only",
+      "Typing commands and seeing immediate results",
+      "Debugging only",
+      "Editing files"
+     ],
+     "answer": 1,
+     "explain": "Interactive."
+    },
+    {
+     "q": "What's a script vs a function file?",
+     "options": [
+      "None",
+      "Same",
+      "A script runs commands in the workspace; a function has its own workspace and arguments",
+      "Reverse"
+     ],
+     "answer": 2,
+     "explain": "Functions are reusable."
+    },
+    {
+     "q": "What does a semicolon at the end of a line do?",
+     "options": [
+      "Starts a loop",
+      "Ends the program",
+      "Suppresses displaying the result",
+      "Comments"
+     ],
+     "answer": 2,
+     "explain": "Use it for quiet statements."
+    }
+   ]
+  },
+  "level-1/02-variables-types": {
+   "questions": [
+    {
+     "q": "What's MATLAB's default numeric type?",
+     "options": [
+      "float",
+      "single",
+      "int32",
+      "double (64-bit floating point)"
+     ],
+     "answer": 3,
+     "explain": "Even scalars are 1x1 arrays."
+    },
+    {
+     "q": "What's the difference between char and string?",
+     "options": [
+      "None",
+      "char is a character array; string is a text container (double quotes)",
+      "Reverse",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "\"text\" vs 'text'."
+    },
+    {
+     "q": "What does `whos` show?",
+     "options": [
+      "Plots",
+      "Files",
+      "Functions",
+      "Workspace variables with size and class"
+     ],
+     "answer": 3,
+     "explain": "Inspect types."
+    },
+    {
+     "q": "What does `x = int8(200)` give?",
+     "options": [
+      "Error",
+      "127 (integer types saturate)",
+      "200",
+      "-56"
+     ],
+     "answer": 1,
+     "explain": "No wraparound."
+    }
+   ]
+  },
+  "level-1/03-vectors-matrices": {
+   "questions": [
+    {
+     "q": "What is the sum of the 2x2 matrix [1 2; 3 4] elementwise vs the matrix product A*A? (A.*A sum, A*A)\n```python\nA=[[1,2],[3,4]]\nelem=sum(x*x for r in A for x in r)\nprod=[[sum(A[i][k]*A[k][j] for k in range(2)) for j in range(2)] for i in range(2)]\nprint(elem, prod)\n```\n",
+     "options": [
+      "7 [[7, 10], [15, 22]]",
+      "30 [[1, 4], [9, 16]]",
+      "30 [[7, 10], [15, 22]]",
+      "10 [[1, 4], [9, 16]]"
+     ],
+     "answer": 2,
+     "explain": "A.*A is elementwise; A*A is the matrix product. (Numbers checked with an equivalent Python computation; MATLAB itself was not available.) Verified by running it."
+    },
+    {
+     "q": "How do you create 1 to 10 in steps of 2?",
+     "options": [
+      "linspace(1,2,10)",
+      "range(1,10,2)",
+      "1:2:10",
+      "1:10:2"
+     ],
+     "answer": 2,
+     "explain": "start:step:stop."
+    },
+    {
+     "q": "What does A(2,:) return?",
+     "options": [
+      "Element",
+      "Second column",
+      "The entire second row",
+      "Diagonal"
+     ],
+     "answer": 2,
+     "explain": "Colon means all."
+    },
+    {
+     "q": "What does the apostrophe do to a matrix?",
+     "options": [
+      "Transposes it (conjugate transpose for complex)",
+      "Sorts",
+      "Inverts",
+      "Quotes"
+     ],
+     "answer": 0,
+     "explain": ".' is plain transpose."
+    }
+   ]
+  },
+  "level-1/04-control-flow": {
+   "questions": [
+    {
+     "q": "Which loop iterates over a vector's elements?",
+     "options": [
+      "repeat",
+      "foreach",
+      "for v = vec ... end",
+      "while"
+     ],
+     "answer": 2,
+     "explain": "Columns of the iterator."
+    },
+    {
+     "q": "What does `break` do?",
+     "options": [
+      "Skips iteration",
+      "Ends script",
+      "Exits the innermost loop",
+      "Pauses"
+     ],
+     "answer": 2,
+     "explain": "continue skips."
+    },
+    {
+     "q": "Which operator is logical AND for scalars with short circuit?",
+     "options": [
+      "&",
+      "AND",
+      "and",
+      "&&"
+     ],
+     "answer": 3,
+     "explain": "& is elementwise."
+    },
+    {
+     "q": "What does `switch` compare strings with?",
+     "options": [
+      "strcmp only",
+      "==",
+      "Case labels like case 'abc'",
+      "regex"
+     ],
+     "answer": 2,
+     "explain": "Works with text."
+    }
+   ]
+  },
+  "level-1/05-functions": {
+   "questions": [
+    {
+     "q": "How are functions declared in a file?",
+     "options": [
+      "function out = name(in) ... end, saved as name.m",
+      "func",
+      "lambda",
+      "def"
+     ],
+     "answer": 0,
+     "explain": "File name matches."
+    },
+    {
+     "q": "What's an anonymous function?",
+     "options": [
+      "Script",
+      "File",
+      "Class",
+      "A one-line function handle like f = @(x) x.^2"
+     ],
+     "answer": 3,
+     "explain": "Closures."
+    },
+    {
+     "q": "What does nargin give?",
+     "options": [
+      "Outputs",
+      "Class",
+      "The number of input arguments passed",
+      "Size"
+     ],
+     "answer": 2,
+     "explain": "Default handling."
+    },
+    {
+     "q": "What's variable scope in functions?",
+     "options": [
+      "Local workspace separate from the caller",
+      "Static",
+      "Shared",
+      "Global"
+     ],
+     "answer": 0,
+     "explain": "Pass data explicitly."
+    }
+   ]
+  },
+  "level-1/06-plotting-basics": {
+   "questions": [
+    {
+     "q": "What does `plot(x, y)` draw?",
+     "options": [
+      "Surface",
+      "Histogram",
+      "Table",
+      "A 2-D line plot of y versus x"
+     ],
+     "answer": 3,
+     "explain": "Basic."
+    },
+    {
+     "q": "What does `hold on` do?",
+     "options": [
+      "Freezes",
+      "Saves",
+      "Clears",
+      "Adds new plots to the same axes"
+     ],
+     "answer": 3,
+     "explain": "Overlays."
+    },
+    {
+     "q": "How label axes?",
+     "options": [
+      "xlabel, ylabel and title",
+      "axis",
+      "text",
+      "label"
+     ],
+     "answer": 0,
+     "explain": "Readable plots."
+    },
+    {
+     "q": "What saves a figure to a file?",
+     "options": [
+      "dump",
+      "exportgraphics or saveas",
+      "write",
+      "print only"
+     ],
+     "answer": 1,
+     "explain": "Formats."
+    }
+   ]
+  },
+  "level-1/07-data-files": {
+   "questions": [
+    {
+     "q": "Which function reads a CSV into a table?",
+     "options": [
+      "readtable",
+      "csvread only",
+      "fopen",
+      "load only"
+     ],
+     "answer": 0,
+     "explain": "Mixed types."
+    },
+    {
+     "q": "What does `load` do?",
+     "options": [
+      "Plots",
+      "Compiles",
+      "Reads a .mat file's variables into the workspace",
+      "Saves"
+     ],
+     "answer": 2,
+     "explain": "save writes."
+    },
+    {
+     "q": "What does `writematrix` do?",
+     "options": [
+      "Writes a numeric matrix to a file",
+      "Reads",
+      "Loads",
+      "Plots"
+     ],
+     "answer": 0,
+     "explain": "Companion to readmatrix."
+    },
+    {
+     "q": "Why check for missing data after reading?",
+     "options": [
+      "Files often contain NaN/blank fields affecting statistics",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "ismissing."
+    }
+   ]
+  },
+  "level-1/08-string-text-processing": {
+   "questions": [
+    {
+     "q": "How concatenate strings?",
+     "options": [
+      "\"a\" + \"b\" (or strcat/[...] for char)",
+      "concat only",
+      "a . b",
+      "a & b"
+     ],
+     "answer": 0,
+     "explain": "String arrays."
+    },
+    {
+     "q": "What does `split(s, \",\")` do?",
+     "options": [
+      "Trims",
+      "Splits a string at the delimiter into pieces",
+      "Joins",
+      "Counts"
+     ],
+     "answer": 1,
+     "explain": "strsplit for char."
+    },
+    {
+     "q": "What does `regexp` do?",
+     "options": [
+      "Plots",
+      "Reads",
+      "Sorts",
+      "Finds patterns with regular expressions"
+     ],
+     "answer": 3,
+     "explain": "Text extraction."
+    },
+    {
+     "q": "What does `sprintf` return?",
+     "options": [
+      "Prints",
+      "Nothing",
+      "A formatted char/string without printing",
+      "Number"
+     ],
+     "answer": 2,
+     "explain": "fprintf prints."
+    }
+   ]
+  },
+  "level-1/09-numerical-methods": {
+   "questions": [
+    {
+     "q": "What does the trapezoid rule give for the integral of x^2 on [0,1] with 4 intervals?\n```python\nn=4;h=1/n\nys=[(i*h)**2 for i in range(n+1)]\nprint(round(h*(ys[0]/2+sum(ys[1:-1])+ys[-1]/2),5))\n```\n",
+     "options": [
+      "0.5",
+      "0.25",
+      "0.34375",
+      "0.33333"
+     ],
+     "answer": 2,
+     "explain": "trapz approximates integrals; the exact value is 1/3. (Numbers checked with an equivalent Python computation; MATLAB itself was not available.) Verified by running it."
+    },
+    {
+     "q": "How does Newton's method iterate to solve x^2 = 2 from x0 = 1 (three steps)?\n```python\nx=1.0\nfor _ in range(3): x=x-(x*x-2)/(2*x)\nprint(round(x,6))\n```\n",
+     "options": [
+      "2.0",
+      "1.5",
+      "1.0",
+      "1.414216"
+     ],
+     "answer": 3,
+     "explain": "Quadratic convergence. (Numbers checked with an equivalent Python computation; MATLAB itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What does `fzero` find?",
+     "options": [
+      "A root of a function",
+      "Integral",
+      "Fit",
+      "Minimum"
+     ],
+     "answer": 0,
+     "explain": "Bracketing."
+    },
+    {
+     "q": "What does `\\` (mldivide) solve?",
+     "options": [
+      "Inverse",
+      "Linear systems A\\b (least squares if overdetermined)",
+      "Sorting",
+      "Division"
+     ],
+     "answer": 1,
+     "explain": "Prefer to inv(A)*b."
+    }
+   ]
+  },
+  "level-1/10-project-data-analysis": {
+   "questions": [
+    {
+     "q": "What does the data analysis project combine?",
+     "options": [
+      "Only stats",
+      "Only plots",
+      "Reading data, cleaning, statistics, plots and reporting in a script",
+      "Only files"
+     ],
+     "answer": 2,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How handle missing values?",
+     "options": [
+      "Detect with isnan/ismissing and remove or fill deliberately",
+      "Zero",
+      "Ignore",
+      "Crash"
+     ],
+     "answer": 0,
+     "explain": "Document it."
+    },
+    {
+     "q": "What summarizes a variable?",
+     "options": [
+      "sum only",
+      "mean, median, std and a histogram",
+      "max",
+      "none"
+     ],
+     "answer": 1,
+     "explain": "Descriptive stats."
+    },
+    {
+     "q": "How make the script reproducible?",
+     "options": [
+      "Hope",
+      "Set paths and random seeds explicitly and save outputs",
+      "Guess",
+      "Manual"
+     ],
+     "answer": 1,
+     "explain": "Repeatable."
+    }
+   ]
+  },
+  "level-2/01-advanced-matrix-linear-algebra": {
+   "questions": [
+    {
+     "q": "What is the determinant of [[2,1],[1,3]]?\n```python\nprint(2*3-1*1)\n```\n",
+     "options": [
+      "7",
+      "5",
+      "6",
+      "1"
+     ],
+     "answer": 1,
+     "explain": "det(A) = ad - bc. (Numbers checked with an equivalent Python computation; MATLAB itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What do eig and svd compute?",
+     "options": [
+      "Eigenvalues/vectors and singular value decomposition",
+      "FFT",
+      "Sorting",
+      "Fits"
+     ],
+     "answer": 0,
+     "explain": "Linear algebra."
+    },
+    {
+     "q": "Why avoid inv(A)*b?",
+     "options": [
+      "It's slower and less accurate than A\\b",
+      "Law",
+      "Wrong",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Numerical stability."
+    },
+    {
+     "q": "What does `rank` tell you?",
+     "options": [
+      "Norm",
+      "Size",
+      "The number of linearly independent rows/columns",
+      "Trace"
+     ],
+     "answer": 2,
+     "explain": "Singularity."
+    }
+   ]
+  },
+  "level-2/02-cell-arrays-structs": {
+   "questions": [
+    {
+     "q": "What does a cell array hold?",
+     "options": [
+      "Strings only",
+      "Different types/sizes in each cell, indexed with {}",
+      "Matrices",
+      "Numbers only"
+     ],
+     "answer": 1,
+     "explain": "c{2}."
+    },
+    {
+     "q": "What's a struct?",
+     "options": [
+      "Cell",
+      "Named fields grouping related data (s.name)",
+      "Table",
+      "Matrix"
+     ],
+     "answer": 1,
+     "explain": "Records."
+    },
+    {
+     "q": "What's the difference between c(2) and c{2}?",
+     "options": [
+      "None",
+      "Parentheses return a cell; braces return the contents",
+      "Reverse",
+      "Same"
+     ],
+     "answer": 1,
+     "explain": "Common bug."
+    },
+    {
+     "q": "When prefer a table?",
+     "options": [
+      "Matrices",
+      "Tabular data with named columns of mixed types",
+      "Cells",
+      "Strings"
+     ],
+     "answer": 1,
+     "explain": "Analysis."
+    }
+   ]
+  },
+  "level-2/03-vectorization-vs-loops": {
+   "questions": [
+    {
+     "q": "Computing the sum of squares of 1..5 with a loop vs vectorized gives?\n```python\nprint(sum(i*i for i in range(1,6)))\n```\n",
+     "options": [
+      "15",
+      "55",
+      "30",
+      "25"
+     ],
+     "answer": 1,
+     "explain": "sum((1:5).^2). (Numbers checked with an equivalent Python computation; MATLAB itself was not available.) Verified by running it."
+    },
+    {
+     "q": "Why vectorize?",
+     "options": [
+      "Built-in array operations are faster and clearer than loops",
+      "Style",
+      "Law",
+      "Memory"
+     ],
+     "answer": 0,
+     "explain": "JIT helps loops too."
+    },
+    {
+     "q": "What does preallocating do?",
+     "options": [
+      "Plots",
+      "Saves files",
+      "Speeds IO",
+      "Avoids growing arrays inside loops (zeros(n,1))"
+     ],
+     "answer": 3,
+     "explain": "Performance."
+    },
+    {
+     "q": "What's implicit expansion?",
+     "options": [
+      "Operations broadcasting arrays of compatible sizes",
+      "Loop",
+      "Error",
+      "Resize"
+     ],
+     "answer": 0,
+     "explain": "A + row vector."
+    }
+   ]
+  },
+  "level-2/04-robust-functions": {
+   "questions": [
+    {
+     "q": "What does `validateattributes` or `arguments` block do?",
+     "options": [
+      "Plots",
+      "Checks inputs' type, size and values",
+      "Reads",
+      "Loops"
+     ],
+     "answer": 1,
+     "explain": "Robust functions."
+    },
+    {
+     "q": "How report errors?",
+     "options": [
+      "error('id:sub', 'message %d', n)",
+      "disp",
+      "print",
+      "warn only"
+     ],
+     "answer": 0,
+     "explain": "Identifiers."
+    },
+    {
+     "q": "What does try/catch do?",
+     "options": [
+      "Logs",
+      "Skips",
+      "Handles runtime errors gracefully",
+      "Loops"
+     ],
+     "answer": 2,
+     "explain": "ME.message."
+    },
+    {
+     "q": "Why default arguments?",
+     "options": [
+      "Style",
+      "Law",
+      "Optional behavior without breaking callers",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "nargin/arguments."
+    }
+   ]
+  },
+  "level-2/05-advanced-plotting-figures": {
+   "questions": [
+    {
+     "q": "What does `subplot` or tiledlayout do?",
+     "options": [
+      "Arranges multiple axes in one figure",
+      "Saves",
+      "Zooms",
+      "Animates"
+     ],
+     "answer": 0,
+     "explain": "tiledlayout is newer."
+    },
+    {
+     "q": "What does `surf` draw?",
+     "options": [
+      "A 3-D surface from a grid",
+      "Pie",
+      "Line",
+      "Bar"
+     ],
+     "answer": 0,
+     "explain": "meshgrid."
+    },
+    {
+     "q": "How customize appearance programmatically?",
+     "options": [
+      "None",
+      "Set properties of graphics objects (handles)",
+      "Edit pixels",
+      "GUI only"
+     ],
+     "answer": 1,
+     "explain": "set/get."
+    },
+    {
+     "q": "What does `drawnow` do?",
+     "options": [
+      "Save",
+      "Close",
+      "Clear",
+      "Updates figures immediately"
+     ],
+     "answer": 3,
+     "explain": "Animations."
+    }
+   ]
+  },
+  "level-2/06-intro-simulink": {
+   "questions": [
+    {
+     "q": "What is Simulink?",
+     "options": [
+      "Toolbox",
+      "Language",
+      "A block-diagram environment for modeling and simulating dynamic systems",
+      "Editor"
+     ],
+     "answer": 2,
+     "explain": "Model-based."
+    },
+    {
+     "q": "What are blocks and signals?",
+     "options": [
+      "Plots",
+      "Files",
+      "Scripts",
+      "Blocks transform signals connected by lines"
+     ],
+     "answer": 3,
+     "explain": "Dataflow."
+    },
+    {
+     "q": "What does a solver do?",
+     "options": [
+      "Codes",
+      "Tests",
+      "Integrates the model's equations over time",
+      "Plots"
+     ],
+     "answer": 2,
+     "explain": "Fixed/variable step."
+    },
+    {
+     "q": "Where do results go?",
+     "options": [
+      "Scopes, To Workspace blocks or logged signals",
+      "Files only",
+      "Console",
+      "Nowhere"
+     ],
+     "answer": 0,
+     "explain": "Inspect."
+    }
+   ]
+  },
+  "level-2/07-curve-fitting-interpolation": {
+   "questions": [
+    {
+     "q": "Fit a line y = a + b x to points (0,1),(1,3),(2,5). What are a and b?\n```python\nimport statistics as s\nx=[0,1,2];y=[1,3,5]\nmx,my=s.mean(x),s.mean(y)\nb=sum((a-mx)*(c-my) for a,c in zip(x,y))/sum((a-mx)**2 for a in x)\nprint(my-b*mx,b)\n```\n",
+     "options": [
+      "0.0 1.0",
+      "3.0 2.0",
+      "1.0 2.0",
+      "1.0 3.0"
+     ],
+     "answer": 2,
+     "explain": "polyfit(x,y,1) returns [2 1]. (Numbers checked with an equivalent Python computation; MATLAB itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What does `interp1` do?",
+     "options": [
+      "Sorts",
+      "Integrates",
+      "Interpolates values between known data points",
+      "Fits"
+     ],
+     "answer": 2,
+     "explain": "Methods: linear, spline."
+    },
+    {
+     "q": "What does polyfit return?",
+     "options": [
+      "Polynomial coefficients, highest power first",
+      "Roots",
+      "Errors",
+      "Values"
+     ],
+     "answer": 0,
+     "explain": "polyval evaluates."
+    },
+    {
+     "q": "What's overfitting a polynomial?",
+     "options": [
+      "High degree fits noise and generalizes poorly",
+      "Good",
+      "Exact",
+      "Faster"
+     ],
+     "answer": 0,
+     "explain": "Validate."
+    }
+   ]
+  },
+  "level-2/08-toolboxes-overview": {
+   "questions": [
+    {
+     "q": "What are toolboxes?",
+     "options": [
+      "Apps",
+      "Fonts",
+      "Add-on libraries for domains like signal processing or optimization",
+      "Plugins for IDE"
+     ],
+     "answer": 2,
+     "explain": "Licensed."
+    },
+    {
+     "q": "How check what's installed?",
+     "options": [
+      "who",
+      "dir",
+      "ver or the Add-On Explorer",
+      "help"
+     ],
+     "answer": 2,
+     "explain": "Dependencies."
+    },
+    {
+     "q": "What does Signal Processing Toolbox provide?",
+     "options": [
+      "Models",
+      "Files",
+      "Filtering, spectral analysis and signal generation",
+      "Plots"
+     ],
+     "answer": 2,
+     "explain": "fft, filter."
+    },
+    {
+     "q": "Why note toolbox dependencies?",
+     "options": [
+      "Code may fail for users without the licenses",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Portability."
+    }
+   ]
+  },
+  "level-2/09-debugging": {
+   "questions": [
+    {
+     "q": "What is a breakpoint?",
+     "options": [
+      "Loop",
+      "Comment",
+      "Error",
+      "A line where execution pauses for inspection"
+     ],
+     "answer": 3,
+     "explain": "Debugging."
+    },
+    {
+     "q": "What does `dbstop if error` do?",
+     "options": [
+      "Logs",
+      "Stops MATLAB",
+      "Pauses at the line that throws",
+      "Skips"
+     ],
+     "answer": 2,
+     "explain": "Post-mortem."
+    },
+    {
+     "q": "What does the Workspace browser show?",
+     "options": [
+      "Current variables and values while debugging",
+      "Code",
+      "Files",
+      "Plots"
+     ],
+     "answer": 0,
+     "explain": "Inspect state."
+    },
+    {
+     "q": "What's a good debugging approach?",
+     "options": [
+      "Guess",
+      "Print all",
+      "Rewrite",
+      "Reproduce with a small input and inspect intermediate values"
+     ],
+     "answer": 3,
+     "explain": "Bisect."
+    }
+   ]
+  },
+  "level-2/10-project-curve-fitting-tool": {
+   "questions": [
+    {
+     "q": "What does the curve fitting tool project combine?",
+     "options": [
+      "Only data",
+      "Data import, fitting, residual analysis and plotting",
+      "Only fits",
+      "Only plots"
+     ],
+     "answer": 1,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How judge fit quality?",
+     "options": [
+      "R only",
+      "Look only",
+      "Residuals, R^2 and validation on held-out data",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What makes it robust?",
+     "options": [
+      "Style",
+      "Speed",
+      "Input validation and clear error messages",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "User-friendly."
+    },
+    {
+     "q": "How present results?",
+     "options": [
+      "Table",
+      "Text",
+      "Numbers",
+      "Annotated plots with fit equations and confidence"
+     ],
+     "answer": 3,
+     "explain": "Communicate."
+    }
+   ]
+  },
+  "level-3/01-oop-matlab": {
+   "questions": [
+    {
+     "q": "What does a classdef file define?",
+     "options": [
+      "Function",
+      "A class with properties and methods",
+      "Package",
+      "Script"
+     ],
+     "answer": 1,
+     "explain": "OOP in MATLAB."
+    },
+    {
+     "q": "What's a handle class?",
+     "options": [
+      "Value",
+      "Struct",
+      "Cell",
+      "Objects with reference semantics shared across variables"
+     ],
+     "answer": 3,
+     "explain": "< handle."
+    },
+    {
+     "q": "Value vs handle class?",
+     "options": [
+      "Same",
+      "None",
+      "Reverse",
+      "Value classes copy on assignment; handle classes share the same object"
+     ],
+     "answer": 3,
+     "explain": "Know which you need."
+    },
+    {
+     "q": "What do properties' attributes control?",
+     "options": [
+      "Speed",
+      "Law",
+      "Access, constness and dependencies (e.g. Access = private)",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Encapsulation."
+    }
+   ]
+  },
+  "level-3/02-advanced-simulink-modeling": {
+   "questions": [
+    {
+     "q": "What do subsystems do in Simulink?",
+     "options": [
+      "Plot",
+      "Fit",
+      "Group blocks into reusable hierarchical units",
+      "Solve"
+     ],
+     "answer": 2,
+     "explain": "Organization."
+    },
+    {
+     "q": "What are model references?",
+     "options": [
+      "Copy",
+      "Script",
+      "Plot",
+      "Including one model inside another for reuse"
+     ],
+     "answer": 3,
+     "explain": "Big projects."
+    },
+    {
+     "q": "What's a bus?",
+     "options": [
+      "Scope",
+      "Solver",
+      "A grouped set of signals passed together",
+      "Block"
+     ],
+     "answer": 2,
+     "explain": "Structured data."
+    },
+    {
+     "q": "Why use data dictionaries?",
+     "options": [
+      "Law",
+      "Manage parameters and types centrally",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Consistency."
+    }
+   ]
+  },
+  "level-3/03-signal-processing-basics": {
+   "questions": [
+    {
+     "q": "What's the FFT bin spacing for 1000 samples at 1000 Hz?\n```python\nprint(1000/1000)\n```\n",
+     "options": [
+      "1000",
+      "0.5",
+      "2.0",
+      "1.0"
+     ],
+     "answer": 3,
+     "explain": "fs/N Hz per bin. (Numbers checked with an equivalent Python computation; MATLAB itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What does the Nyquist rate require?",
+     "options": [
+      "Sampling at more than twice the highest signal frequency",
+      "Any",
+      "Half",
+      "Equal"
+     ],
+     "answer": 0,
+     "explain": "Avoid aliasing."
+    },
+    {
+     "q": "What does `filter(b,a,x)` do?",
+     "options": [
+      "FFT",
+      "Plots",
+      "Sorts",
+      "Applies a digital filter to data"
+     ],
+     "answer": 3,
+     "explain": "IIR/FIR."
+    },
+    {
+     "q": "What is aliasing?",
+     "options": [
+      "Clipping",
+      "Noise",
+      "Gain",
+      "High frequencies appearing as lower ones when undersampled"
+     ],
+     "answer": 3,
+     "explain": "Anti-alias filter."
+    }
+   ]
+  },
+  "level-3/04-optimization-toolbox": {
+   "questions": [
+    {
+     "q": "What does `fminsearch` do?",
+     "options": [
+      "Integrates",
+      "Plots",
+      "Solves linear",
+      "Minimizes a function without gradients"
+     ],
+     "answer": 3,
+     "explain": "Nelder-Mead."
+    },
+    {
+     "q": "What does `linprog` solve?",
+     "options": [
+      "Linear programs with linear constraints",
+      "FFT",
+      "ODEs",
+      "Nonlinear"
+     ],
+     "answer": 0,
+     "explain": "Optimization Toolbox."
+    },
+    {
+     "q": "Why give good initial guesses?",
+     "options": [
+      "Style",
+      "Local solvers can converge to poor minima",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Multi-start."
+    },
+    {
+     "q": "What defines a convex problem benefit?",
+     "options": [
+      "Any local minimum is global",
+      "Faster",
+      "None",
+      "Smaller"
+     ],
+     "answer": 0,
+     "explain": "Guarantees."
+    }
+   ]
+  },
+  "level-3/05-parallel-computing": {
+   "questions": [
+    {
+     "q": "What does `parfor` do?",
+     "options": [
+      "Runs loop iterations in parallel on workers",
+      "Plots",
+      "Sorts",
+      "Saves"
+     ],
+     "answer": 0,
+     "explain": "Parallel Computing Toolbox."
+    },
+    {
+     "q": "What must parfor iterations be?",
+     "options": [
+      "Shared",
+      "Independent of each other",
+      "Ordered",
+      "Global"
+     ],
+     "answer": 1,
+     "explain": "No dependencies."
+    },
+    {
+     "q": "What's a parallel pool?",
+     "options": [
+      "A set of workers started with parpool",
+      "Toolbox",
+      "File",
+      "Thread"
+     ],
+     "answer": 0,
+     "explain": "Overhead exists."
+    },
+    {
+     "q": "When is parallel not worth it?",
+     "options": [
+      "Always",
+      "Small tasks where overhead dominates",
+      "Never",
+      "Large"
+     ],
+     "answer": 1,
+     "explain": "Measure."
+    }
+   ]
+  },
+  "level-3/06-app-designer-basics": {
+   "questions": [
+    {
+     "q": "What is App Designer?",
+     "options": [
+      "Plotter",
+      "Compiler",
+      "A tool to build apps with a GUI and code",
+      "Debugger"
+     ],
+     "answer": 2,
+     "explain": "UI components."
+    },
+    {
+     "q": "What are callbacks?",
+     "options": [
+      "Functions run when a user interacts with a component",
+      "Loops",
+      "Tests",
+      "Plots"
+     ],
+     "answer": 0,
+     "explain": "Events."
+    },
+    {
+     "q": "How share an app?",
+     "options": [
+      "Script",
+      "Package as a standalone app or MATLAB App",
+      "Zip",
+      "Email"
+     ],
+     "answer": 1,
+     "explain": "Deployment."
+    },
+    {
+     "q": "Why separate logic from UI?",
+     "options": [
+      "Testability and reuse",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Layered."
+    }
+   ]
+  },
+  "level-3/07-large-datasets": {
+   "questions": [
+    {
+     "q": "How process data too big for memory?",
+     "options": [
+      "Crash",
+      "Load all",
+      "Skip",
+      "Use datastore, tall arrays or chunked reads"
+     ],
+     "answer": 3,
+     "explain": "Out-of-memory."
+    },
+    {
+     "q": "What are tall arrays?",
+     "options": [
+      "Fast",
+      "Arrays evaluated lazily over data larger than memory",
+      "Fixed",
+      "Big"
+     ],
+     "answer": 1,
+     "explain": "gather."
+    },
+    {
+     "q": "What does `matfile` allow?",
+     "options": [
+      "Debug",
+      "Partial loading/saving of parts of a MAT file",
+      "Sort",
+      "Plotting"
+     ],
+     "answer": 1,
+     "explain": "Memory."
+    },
+    {
+     "q": "What file format is efficient?",
+     "options": [
+      "Parquet/MAT v7.3 for large data",
+      "XLS",
+      "CSV",
+      "TXT"
+     ],
+     "answer": 0,
+     "explain": "Columnar."
+    }
+   ]
+  },
+  "level-3/08-advanced-numerical-methods": {
+   "questions": [
+    {
+     "q": "What does the RK2 (midpoint) method give for y'=y, y(0)=1, h=0.5 after 2 steps?\n```python\ny=1.0;h=0.5\nfor _ in range(2):\n    k1=y;k2=y+h/2*k1\n    y=y+h*k2\nprint(round(y,5))\n```\n",
+     "options": [
+      "2.0",
+      "2.71828",
+      "2.64062",
+      "2.25"
+     ],
+     "answer": 2,
+     "explain": "Higher order than Euler. (Numbers checked with an equivalent Python computation; MATLAB itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What does ode45 solve?",
+     "options": [
+      "Algebra",
+      "PDEs only",
+      "Non-stiff ordinary differential equations",
+      "Stiff only"
+     ],
+     "answer": 2,
+     "explain": "Adaptive steps."
+    },
+    {
+     "q": "When use ode15s?",
+     "options": [
+      "For stiff problems",
+      "Linear",
+      "Non-stiff",
+      "PDE"
+     ],
+     "answer": 0,
+     "explain": "Implicit."
+    },
+    {
+     "q": "What's step size trade-off?",
+     "options": [
+      "None",
+      "Same",
+      "Faster",
+      "Smaller steps are more accurate but slower"
+     ],
+     "answer": 3,
+     "explain": "Tolerances."
+    }
+   ]
+  },
+  "level-3/09-testing-matlab-code": {
+   "questions": [
+    {
+     "q": "What does the unit testing framework provide?",
+     "options": [
+      "matlab.unittest with test classes, assertions and runners",
+      "Plots",
+      "Fits",
+      "Apps"
+     ],
+     "answer": 0,
+     "explain": "runtests."
+    },
+    {
+     "q": "What's a test fixture?",
+     "options": [
+      "Class",
+      "Plot",
+      "Assertion",
+      "Shared setup/teardown for tests"
+     ],
+     "answer": 3,
+     "explain": "Fresh state."
+    },
+    {
+     "q": "How compare floating-point values?",
+     "options": [
+      "With tolerances (AbsTol/RelTol)",
+      "Strict",
+      "None",
+      "=="
+     ],
+     "answer": 0,
+     "explain": "Round-off."
+    },
+    {
+     "q": "What does code coverage report?",
+     "options": [
+      "Which lines tests executed",
+      "Plots",
+      "Correctness",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Not assertion quality."
+    }
+   ]
+  },
+  "level-3/10-project-signal-processing-pipeline": {
+   "questions": [
+    {
+     "q": "What does the signal pipeline project combine?",
+     "options": [
+      "Only tests",
+      "Filtering, spectral analysis, tests and reporting",
+      "Only plots",
+      "Only FFT"
+     ],
+     "answer": 1,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How validate a filter?",
+     "options": [
+      "Look",
+      "None",
+      "Compare frequency response and test known signals",
+      "Guess"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "How organize the code?",
+     "options": [
+      "Globals",
+      "One script",
+      "None",
+      "Functions/classes per stage with tests"
+     ],
+     "answer": 3,
+     "explain": "Modular."
+    },
+    {
+     "q": "How present results?",
+     "options": [
+      "None",
+      "Numbers",
+      "Text",
+      "Plots with labeled axes and units"
+     ],
+     "answer": 3,
+     "explain": "Clarity."
+    }
+   ]
+  },
+  "level-4/01-advanced-simulink-model-based-design": {
+   "questions": [
+    {
+     "q": "What is model-based design?",
+     "options": [
+      "Developing systems from executable models through simulation to code",
+      "Specs",
+      "Docs",
+      "Hand coding"
+     ],
+     "answer": 0,
+     "explain": "Workflow."
+    },
+    {
+     "q": "What does model verification involve?",
+     "options": [
+      "Guess",
+      "Requirements-based tests and coverage on the model",
+      "None",
+      "Looks"
+     ],
+     "answer": 1,
+     "explain": "Simulink Test."
+    },
+    {
+     "q": "Why use fixed-step solvers for codegen?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "Embedded targets need deterministic timing"
+     ],
+     "answer": 3,
+     "explain": "Real time."
+    },
+    {
+     "q": "What are model advisor checks?",
+     "options": [
+      "Debug",
+      "Plots",
+      "Fits",
+      "Automated guideline checks (naming, safety standards)"
+     ],
+     "answer": 3,
+     "explain": "Quality."
+    }
+   ]
+  },
+  "level-4/02-code-generation-matlab-coder": {
+   "questions": [
+    {
+     "q": "What does MATLAB Coder generate?",
+     "options": [
+      "Java",
+      "SQL",
+      "Python",
+      "C/C++ code from MATLAB functions"
+     ],
+     "answer": 3,
+     "explain": "Embedded."
+    },
+    {
+     "q": "What limits codegen?",
+     "options": [
+      "None",
+      "Law",
+      "Unsupported functions and dynamic features",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Check support."
+    },
+    {
+     "q": "What helps codegen?",
+     "options": [
+      "Cells",
+      "Dynamic",
+      "Fixed-size types and explicit input specs",
+      "Structs only"
+     ],
+     "answer": 2,
+     "explain": "Static."
+    },
+    {
+     "q": "How verify generated code?",
+     "options": [
+      "Assume",
+      "None",
+      "Guess",
+      "Compare outputs with MATLAB (SIL testing)"
+     ],
+     "answer": 3,
+     "explain": "Equivalence."
+    }
+   ]
+  },
+  "level-4/03-optimization-ml-toolbox": {
+   "questions": [
+    {
+     "q": "What does Statistics and ML Toolbox provide?",
+     "options": [
+      "Models for classification, regression and clustering",
+      "Apps",
+      "Debug",
+      "Plots"
+     ],
+     "answer": 0,
+     "explain": "fitc*, fitr*."
+    },
+    {
+     "q": "How avoid overfitting?",
+     "options": [
+      "Training only",
+      "More features",
+      "None",
+      "Cross-validation and regularization"
+     ],
+     "answer": 3,
+     "explain": "Generalization."
+    },
+    {
+     "q": "What does hyperparameter tuning do?",
+     "options": [
+      "Plots",
+      "Searches settings to improve validation performance",
+      "Cleans",
+      "Loads"
+     ],
+     "answer": 1,
+     "explain": "OptimizeHyperparameters."
+    },
+    {
+     "q": "What's a baseline model?",
+     "options": [
+      "A simple benchmark any model must beat",
+      "Fancy",
+      "Final",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Reference."
+    }
+   ]
+  },
+  "level-4/04-performance-profiling": {
+   "questions": [
+    {
+     "q": "What's the first step in performance work?",
+     "options": [
+      "Guess",
+      "Rewrite",
+      "Vectorize all",
+      "Profile with the Profiler to find hotspots"
+     ],
+     "answer": 3,
+     "explain": "profile on."
+    },
+    {
+     "q": "What do tic/toc measure?",
+     "options": [
+      "CPU",
+      "Elapsed wall-clock time",
+      "IO",
+      "Memory"
+     ],
+     "answer": 1,
+     "explain": "timeit is more reliable."
+    },
+    {
+     "q": "What's a common slowdown?",
+     "options": [
+      "Plots",
+      "Small",
+      "Growing arrays in loops and unnecessary copies",
+      "Vectors"
+     ],
+     "answer": 2,
+     "explain": "Preallocate."
+    },
+    {
+     "q": "Why use timeit?",
+     "options": [
+      "Cost",
+      "Repeated runs and warm-up for stable timings",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Benchmarks."
+    }
+   ]
+  },
+  "level-4/05-production-applications": {
+   "questions": [
+    {
+     "q": "How deploy MATLAB code to users without MATLAB?",
+     "options": [
+      "Zip",
+      "Copy",
+      "Compile with MATLAB Compiler and the MATLAB Runtime",
+      "Email"
+     ],
+     "answer": 2,
+     "explain": "Standalone."
+    },
+    {
+     "q": "What do production apps need?",
+     "options": [
+      "Plots",
+      "Speed",
+      "None",
+      "Logging, error handling, configuration and tests"
+     ],
+     "answer": 3,
+     "explain": "Robustness."
+    },
+    {
+     "q": "What's MATLAB Production Server?",
+     "options": [
+      "Serving MATLAB functions as web services",
+      "IDE",
+      "Debugger",
+      "Plot"
+     ],
+     "answer": 0,
+     "explain": "RESTful."
+    },
+    {
+     "q": "How manage dependencies?",
+     "options": [
+      "Projects and dependency analysis",
+      "None",
+      "Manual",
+      "Guess"
+     ],
+     "answer": 0,
+     "explain": "Reproducible."
+    }
+   ]
+  },
+  "level-4/06-integration-other-languages": {
+   "questions": [
+    {
+     "q": "How call Python from MATLAB?",
+     "options": [
+      "import",
+      "py. prefix with a configured pyenv",
+      "system only",
+      "python()"
+     ],
+     "answer": 1,
+     "explain": "Interop."
+    },
+    {
+     "q": "How call MATLAB from Python?",
+     "options": [
+      "import matlab only",
+      "None",
+      "os.system",
+      "The MATLAB Engine API for Python"
+     ],
+     "answer": 3,
+     "explain": "matlab.engine."
+    },
+    {
+     "q": "What converts data between languages?",
+     "options": [
+      "Strings",
+      "Files",
+      "Type mappings (numpy arrays, matlab.double)",
+      "JSON only"
+     ],
+     "answer": 2,
+     "explain": "Careful."
+    },
+    {
+     "q": "What else interoperates?",
+     "options": [
+      "Nothing",
+      "SQL",
+      "COBOL",
+      "C/C++ (MEX, loadlibrary), Java and .NET"
+     ],
+     "answer": 3,
+     "explain": "Integration."
+    }
+   ]
+  },
+  "level-4/07-parallel-gpu-computing": {
+   "questions": [
+    {
+     "q": "What does gpuArray do?",
+     "options": [
+      "Moves data to the GPU so supported functions run there",
+      "Saves",
+      "Plots",
+      "Compiles"
+     ],
+     "answer": 0,
+     "explain": "Parallel Computing Toolbox."
+    },
+    {
+     "q": "When does the GPU help?",
+     "options": [
+      "Large data-parallel computations",
+      "Logic",
+      "Small",
+      "IO"
+     ],
+     "answer": 0,
+     "explain": "Transfer cost."
+    },
+    {
+     "q": "What's gather?",
+     "options": [
+      "Plots",
+      "Sorts",
+      "Sends",
+      "Brings GPU data back to the CPU"
+     ],
+     "answer": 3,
+     "explain": "Results."
+    },
+    {
+     "q": "Why measure with gputimeit?",
+     "options": [
+      "Style",
+      "GPU calls are asynchronous; naive timing is wrong",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Accurate timing."
+    }
+   ]
+  },
+  "level-4/08-cicd-matlab": {
+   "questions": [
+    {
+     "q": "What does CI for MATLAB run?",
+     "options": [
+      "Apps",
+      "Nothing",
+      "Plots",
+      "Tests via runtests/buildtool and code analysis (checkcode)"
+     ],
+     "answer": 3,
+     "explain": "Automation."
+    },
+    {
+     "q": "What's buildtool?",
+     "options": [
+      "MATLAB's build tool for defining tasks and dependencies",
+      "Debugger",
+      "Plot",
+      "IDE"
+     ],
+     "answer": 0,
+     "explain": "Pipelines."
+    },
+    {
+     "q": "Which CI services support MATLAB?",
+     "options": [
+      "None",
+      "GitHub Actions (matlab-actions), Jenkins and others",
+      "Only one",
+      "Manual"
+     ],
+     "answer": 1,
+     "explain": "Official actions."
+    },
+    {
+     "q": "What should fail the build?",
+     "options": [
+      "Failing tests or analyzer errors",
+      "Slow",
+      "Warnings",
+      "Names"
+     ],
+     "answer": 0,
+     "explain": "Gate."
+    }
+   ]
+  },
+  "level-4/09-matlab-in-industry": {
+   "questions": [
+    {
+     "q": "Where is MATLAB used in industry?",
+     "options": [
+      "Mobile",
+      "Engineering, finance, automotive, aerospace and research",
+      "Games only",
+      "Web"
+     ],
+     "answer": 1,
+     "explain": "Numerical computing."
+    },
+    {
+     "q": "What differentiates it?",
+     "options": [
+      "Open",
+      "Domain toolboxes, Simulink and mature numerics",
+      "Free",
+      "Small"
+     ],
+     "answer": 1,
+     "explain": "Ecosystem."
+    },
+    {
+     "q": "What's a common alternative?",
+     "options": [
+      "COBOL",
+      "Java",
+      "SQL",
+      "Python (NumPy/SciPy), Julia and Octave"
+     ],
+     "answer": 3,
+     "explain": "Trade-offs."
+    },
+    {
+     "q": "How choose?",
+     "options": [
+      "Hype",
+      "Price only",
+      "Brand",
+      "By team skills, licensing and existing code"
+     ],
+     "answer": 3,
+     "explain": "Pragmatic."
+    }
+   ]
+  },
+  "level-4/10-capstone-numerical-analysis-app": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only UI",
+      "A numerical analysis app with tests, performance work and deployment",
+      "Only stats",
+      "Only plots"
+     ],
+     "answer": 1,
+     "explain": "Level 4 project."
+    },
+    {
+     "q": "How prove it works?",
+     "options": [
+      "Looks",
+      "Hope",
+      "Guess",
+      "Validation against known solutions and tests"
+     ],
+     "answer": 3,
+     "explain": "Verification."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "Code",
+      "Help text, examples and a README",
+      "None",
+      "Slides"
+     ],
+     "answer": 1,
+     "explain": "Usability."
+    },
+    {
+     "q": "What sustains it?",
+     "options": [
+      "Tests, CI and version control",
+      "Luck",
+      "Tools",
+      "Silence"
+     ],
+     "answer": 0,
+     "explain": "Maintenance."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does MATLAB stand for and what is its core data type?",
+    "options": [
+     "Math Lab; scalars",
+     "MATrix LABoratory; everything is an array (even scalars are 1x1)",
+     "Matrix Language; strings",
+     "Library; tables"
+    ],
+    "answer": 1,
+    "explain": "Array-first design."
+   },
+   {
+    "q": "What are the elementwise square sum and the matrix product of A = [1 2; 3 4]?\n```python\nA=[[1,2],[3,4]]\nprint(sum(x*x for r in A for x in r), [[sum(A[i][k]*A[k][j] for k in range(2)) for j in range(2)] for i in range(2)])\n```\n",
+    "options": [
+     "30 [[7, 10], [15, 22]]",
+     "30 [[1, 4], [9, 16]]",
+     "10 [[1, 4], [9, 16]]",
+     "7 [[7, 10], [15, 22]]"
+    ],
+    "answer": 0,
+    "explain": "A.*A is elementwise; A*A is the matrix product. (Numbers checked with an equivalent Python computation; MATLAB itself was not available.) Verified by running it."
+   },
+   {
+    "q": "How do you solve A x = b in MATLAB?",
+    "options": [
+     "x = A\\b (not inv(A)*b)",
+     "x = A/b",
+     "x = b/A",
+     "x = inv(A)*b"
+    ],
+    "answer": 0,
+    "explain": "More accurate and faster."
+   },
+   {
+    "q": "What's the difference between c(2) and c{2} for a cell array?",
+    "options": [
+     "Same",
+     "Reverse",
+     "None",
+     "Parentheses return a cell; braces return its contents"
+    ],
+    "answer": 3,
+    "explain": "Common bug."
+   },
+   {
+    "q": "What does int8(200) give?",
+    "options": [
+     "200",
+     "Error",
+     "-56",
+     "127: integer types saturate"
+    ],
+    "answer": 3,
+    "explain": "No wraparound."
+   },
+   {
+    "q": "Why preallocate arrays in loops?",
+    "options": [
+     "Syntax",
+     "Style",
+     "Law",
+     "Growing arrays each iteration copies memory and is slow"
+    ],
+    "answer": 3,
+    "explain": "zeros(n,1)."
+   },
+   {
+    "q": "A loop computing sum((1:n).^2) is slow. What's the idiom?",
+    "options": [
+     "Vectorize with array operations",
+     "More loops",
+     "Recursion",
+     "parfor always"
+    ],
+    "answer": 0,
+    "explain": "Built-in array ops."
+   },
+   {
+    "q": "What does Newton's method give for sqrt(2) after 3 steps from x0 = 1?\n```python\nx=1.0\nfor _ in range(3): x=x-(x*x-2)/(2*x)\nprint(round(x,6))\n```\n",
+    "options": [
+     "1.414216",
+     "1.0",
+     "2.0",
+     "1.5"
+    ],
+    "answer": 0,
+    "explain": "Quadratic convergence. (Numbers checked with an equivalent Python computation; MATLAB itself was not available.) Verified by running it."
+   },
+   {
+    "q": "What's the trapezoid estimate of the integral of x^2 on [0,1] with 4 intervals?\n```python\nn=4;h=1/n\nys=[(i*h)**2 for i in range(n+1)]\nprint(round(h*(ys[0]/2+sum(ys[1:-1])+ys[-1]/2),5))\n```\n",
+    "options": [
+     "0.33333",
+     "0.25",
+     "0.5",
+     "0.34375"
+    ],
+    "answer": 3,
+    "explain": "Exact value is 1/3; trapz overestimates convex functions. (Numbers checked with an equivalent Python computation; MATLAB itself was not available.) Verified by running it."
+   },
+   {
+    "q": "Fit a line to (0,1),(1,3),(2,5). What are intercept and slope?\n```python\nimport statistics as s\nx=[0,1,2];y=[1,3,5]\nmx,my=s.mean(x),s.mean(y)\nb=sum((a-mx)*(c-my) for a,c in zip(x,y))/sum((a-mx)**2 for a in x)\nprint(my-b*mx,b)\n```\n",
+    "options": [
+     "1.0 3.0",
+     "3.0 2.0",
+     "1.0 2.0",
+     "0.0 1.0"
+    ],
+    "answer": 2,
+    "explain": "polyfit(x,y,1) returns [2 1]. (Numbers checked with an equivalent Python computation; MATLAB itself was not available.) Verified by running it."
+   },
+   {
+    "q": "Which solver handles stiff ODEs?",
+    "options": [
+     "ode23",
+     "ode45",
+     "fzero",
+     "ode15s (ode45 is for non-stiff)"
+    ],
+    "answer": 3,
+    "explain": "Implicit methods."
+   },
+   {
+    "q": "An A-matrix is nearly singular and A\\b warns. What does it mean?",
+    "options": [
+     "Syntax",
+     "Success",
+     "The system is ill-conditioned: results are sensitive to small errors",
+     "Plot"
+    ],
+    "answer": 2,
+    "explain": "Check cond(A)."
+   },
+   {
+    "q": "What does the Nyquist criterion require?",
+    "options": [
+     "Equal rate",
+     "Sampling above twice the highest signal frequency to avoid aliasing",
+     "Any rate",
+     "Half rate"
+    ],
+    "answer": 1,
+    "explain": "Anti-alias filter."
+   },
+   {
+    "q": "What is the FFT bin spacing for 2000 samples at 1000 Hz?\n```python\nprint(1000/2000)\n```\n",
+    "options": [
+     "1.0",
+     "2.0",
+     "0.5",
+     "1000"
+    ],
+    "answer": 2,
+    "explain": "fs/N Hz per bin. (Numbers checked with an equivalent Python computation; MATLAB itself was not available.) Verified by running it."
+   },
+   {
+    "q": "A parfor loop gives wrong results. What's the likely cause?",
+    "options": [
+     "Plots",
+     "Too few workers",
+     "Syntax",
+     "Iterations depend on each other (parfor needs independent iterations)"
+    ],
+    "answer": 3,
+    "explain": "Parallel Computing Toolbox."
+   },
+   {
+    "q": "Data is bigger than memory. What do you use?",
+    "options": [
+     "load everything",
+     "cellfun",
+     "datastore and tall arrays (or chunked reads)",
+     "Bigger loops"
+    ],
+    "answer": 2,
+    "explain": "Out-of-memory analysis."
+   },
+   {
+    "q": "What does a handle class give you?",
+    "options": [
+     "Value copies",
+     "Immutability",
+     "Reference semantics: copies of the variable refer to the same object",
+     "Static methods"
+    ],
+    "answer": 2,
+    "explain": "Value classes copy on assignment."
+   },
+   {
+    "q": "How do you compare floating-point values in unit tests?",
+    "options": [
+     "strcmp",
+     "==",
+     "isequal",
+     "Within a tolerance (AbsTol/RelTol), not =="
+    ],
+    "answer": 3,
+    "explain": "Round-off."
+   },
+   {
+    "q": "What do you use to deploy to users without a MATLAB license?",
+    "options": [
+     "Email",
+     "Copy .m files",
+     "MATLAB Compiler with the free MATLAB Runtime",
+     "Zip"
+    ],
+    "answer": 2,
+    "explain": "Standalone apps."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Root finding and integration",
+    "prompt": "Implement newton, bisect (with a bracketing check) and a composite trapz, then compare their behaviour on x^2 - 2 and on integrals of x^2 and sin. Python mirrors the MATLAB functions fzero/trapz.",
+    "starter": "import math\n\ndef newton(f, df, x0, tol=1e-10, max_iter=50):\n    # iterate x -= f(x)/df(x); return (x, iterations) once |step| < tol; RuntimeError if it never converges\n    return x0, 0\n\ndef bisect(f, a, b, tol=1e-8):\n    # halve [a, b] keeping the sign change; ValueError(\"root not bracketed\") if f(a)*f(b) > 0;\n    # return (midpoint, number of halvings) once the half-width <= tol\n    return a, 0\n\ndef trapz(f, a, b, n):\n    # composite trapezoid rule with n intervals\n    return 0.0\n\nf = lambda x: x * x - 2\nr, it = newton(f, lambda x: 2 * x, 1.0)\nprint(\"newton:\", round(r, 8), \"iterations\", it)\nr, it = bisect(f, 0, 2)\nprint(\"bisect:\", round(r, 6), \"iterations\", it)\ntry:\n    bisect(f, 2, 3)\nexcept ValueError as e:\n    print(\"error:\", e)\nprint(\"trapz n=4:\", round(trapz(lambda x: x * x, 0, 1, 4), 5), \" n=100:\", round(trapz(lambda x: x * x, 0, 1, 100), 6))\nprint(\"sin integral:\", round(trapz(math.sin, 0, math.pi, 200), 5))\n",
+    "expected": "newton: 1.41421356 iterations 5\nbisect: 1.414214 iterations 27\nerror: root not bracketed\ntrapz n=4: 0.34375  n=100: 0.33335\nsin integral: 1.99996",
+    "solution": "import math\n\ndef newton(f, df, x0, tol=1e-10, max_iter=50):\n    x = x0\n    for i in range(1, max_iter + 1):\n        step = f(x) / df(x)\n        x -= step\n        if abs(step) < tol:\n            return x, i\n    raise RuntimeError(\"did not converge\")\n\ndef bisect(f, a, b, tol=1e-8):\n    if f(a) * f(b) > 0:\n        raise ValueError(\"root not bracketed\")\n    n = 0\n    while (b - a) / 2 > tol:\n        m = (a + b) / 2\n        if f(a) * f(m) <= 0:\n            b = m\n        else:\n            a = m\n        n += 1\n    return (a + b) / 2, n\n\ndef trapz(f, a, b, n):\n    h = (b - a) / n\n    return h * (f(a) / 2 + sum(f(a + i * h) for i in range(1, n)) + f(b) / 2)\n\nf = lambda x: x * x - 2\nr, it = newton(f, lambda x: 2 * x, 1.0)\nprint(\"newton:\", round(r, 8), \"iterations\", it)\nr, it = bisect(f, 0, 2)\nprint(\"bisect:\", round(r, 6), \"iterations\", it)\ntry:\n    bisect(f, 2, 3)\nexcept ValueError as e:\n    print(\"error:\", e)\nprint(\"trapz n=4:\", round(trapz(lambda x: x * x, 0, 1, 4), 5), \" n=100:\", round(trapz(lambda x: x * x, 0, 1, 100), 6))\nprint(\"sin integral:\", round(trapz(math.sin, 0, math.pi, 200), 5))\n",
+    "explain": "Newton converges in a handful of iterations when started near the root, bisection needs about 27 halvings for 1e-8 but always works when the root is bracketed, and the trapezoid rule's error shrinks as the interval count grows. Verified by running the solution in Python (an equivalent of the MATLAB approach)."
+   },
+   {
+    "title": "Linear solve and least-squares fit",
+    "prompt": "Implement Gaussian elimination with partial pivoting (what A\\b does for square systems) and a least-squares polyfit using the normal equations. Detect singular matrices, fit a noisy line and compute R^2.",
+    "starter": "def solve(A, b):\n    # Gaussian elimination with partial pivoting; ValueError(\"matrix is singular\") when a pivot is ~0\n    return []\n\ndef polyfit(xs, ys, deg):\n    # least squares via the normal equations (X'X)c = X'y (use solve); coefficients highest power first\n    return []\n\nprint([round(v, 6) for v in solve([[2, 1, -1], [-3, -1, 2], [-2, 1, 2]], [8, -11, -3])])\ntry:\n    solve([[1, 2], [2, 4]], [1, 2])\nexcept ValueError as e:\n    print(\"error:\", e)\nxs = [0, 1, 2, 3, 4]\nys = [1.1, 2.9, 5.2, 6.8, 9.1]\nc = polyfit(xs, ys, 1)\nprint(\"line coefficients:\", [round(v, 4) for v in c])\npred = [c[0] * x + c[1] for x in xs]\nss_res = sum((y - p) ** 2 for y, p in zip(ys, pred))\nmean = sum(ys) / len(ys)\nprint(\"R^2:\", round(1 - ss_res / sum((y - mean) ** 2 for y in ys), 4))\nprint(\"quadratic exact:\", [round(v, 6) + 0.0 for v in polyfit([0, 1, 2, 3], [1, 2, 5, 10], 2)])\n",
+    "expected": "[2.0, 3.0, -1.0]\nerror: matrix is singular\nline coefficients: [1.99, 1.04]\nR^2: 0.9973\nquadratic exact: [1.0, 0.0, 1.0]",
+    "solution": "def solve(A, b):\n    \"\"\"Gaussian elimination with partial pivoting (what A\\\\b does for a square system).\"\"\"\n    n = len(A)\n    M = [row[:] + [b[i]] for i, row in enumerate(A)]\n    for c in range(n):\n        p = max(range(c, n), key=lambda r: abs(M[r][c]))\n        if abs(M[p][c]) < 1e-12:\n            raise ValueError(\"matrix is singular\")\n        M[c], M[p] = M[p], M[c]\n        for r in range(c + 1, n):\n            f = M[r][c] / M[c][c]\n            for k in range(c, n + 1):\n                M[r][k] -= f * M[c][k]\n    x = [0.0] * n\n    for i in range(n - 1, -1, -1):\n        x[i] = (M[i][n] - sum(M[i][j] * x[j] for j in range(i + 1, n))) / M[i][i]\n    return x\n\ndef polyfit(xs, ys, deg):\n    \"\"\"Least squares via the normal equations (X'X)c = X'y; coefficients highest power first.\"\"\"\n    X = [[x ** p for p in range(deg, -1, -1)] for x in xs]\n    XtX = [[sum(X[k][i] * X[k][j] for k in range(len(xs))) for j in range(deg + 1)] for i in range(deg + 1)]\n    Xty = [sum(X[k][i] * ys[k] for k in range(len(xs))) for i in range(deg + 1)]\n    return solve(XtX, Xty)\n\nprint([round(v, 6) for v in solve([[2, 1, -1], [-3, -1, 2], [-2, 1, 2]], [8, -11, -3])])\ntry:\n    solve([[1, 2], [2, 4]], [1, 2])\nexcept ValueError as e:\n    print(\"error:\", e)\nxs = [0, 1, 2, 3, 4]\nys = [1.1, 2.9, 5.2, 6.8, 9.1]\nc = polyfit(xs, ys, 1)\nprint(\"line coefficients:\", [round(v, 4) for v in c])\npred = [c[0] * x + c[1] for x in xs]\nss_res = sum((y - p) ** 2 for y, p in zip(ys, pred))\nmean = sum(ys) / len(ys)\nprint(\"R^2:\", round(1 - ss_res / sum((y - mean) ** 2 for y in ys), 4))\nprint(\"quadratic exact:\", [round(v, 6) + 0.0 for v in polyfit([0, 1, 2, 3], [1, 2, 5, 10], 2)])\n",
+    "explain": "A\\b is elimination with pivoting; polyfit minimizes squared residuals, and R^2 compares residuals with the variance of the data. Production code prefers QR for numerical stability. Verified by running the solution in Python (an equivalent of the MATLAB approach)."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
