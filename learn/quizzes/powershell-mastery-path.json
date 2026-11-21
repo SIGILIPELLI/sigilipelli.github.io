@@ -1923,5 +1923,237 @@
     }
    ]
   }
- }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```powershell\n$a = 1,2,3\n$a -eq 2\n$a -contains 2\n$null -eq $a\n(1..3 | ForEach-Object { $_ * $_ }) -join \",\"\n```\n",
+    "options": [
+     "2\nTrue\nFalse\n1,4,9",
+     "True\nTrue\nFalse\n1,4,9",
+     "Error",
+     "2\n2\nFalse\n1,4,9"
+    ],
+    "answer": 0,
+    "explain": "-eq on an array filters; -contains tests membership. Verified by running it in PowerShell 7."
+   },
+   {
+    "q": "What does this print?\n```powershell\nfunction f { param([int]$n) $n * 2 }\nf \"21\"\ntry { f \"abc\" } catch { \"bad\" }\n```\n",
+    "options": [
+     "42\nbad",
+     "Error",
+     "21\nbad",
+     "42\n0"
+    ],
+    "answer": 0,
+    "explain": "Typed parameters convert or throw. Verified by running it in PowerShell 7."
+   },
+   {
+    "q": "What does this print?\n```powershell\n$h = @{ a = 1; b = 2 }\n$h.GetEnumerator() | Sort-Object Name | ForEach-Object { \"$($_.Name)$($_.Value)\" }\n($h.Keys | Measure-Object).Count\n```\n",
+    "options": [
+     "a1\nb2\n2",
+     "Error",
+     "b2\na1\n2",
+     "a1 b2\n2"
+    ],
+    "answer": 0,
+    "explain": "Hashtable enumeration. Verified by running it in PowerShell 7."
+   },
+   {
+    "q": "What does this print?\n```powershell\n$ErrorActionPreference = 'Continue'\nGet-Item /nope_zzz 2>$null\n\"next\"\ntry { Get-Item /nope_zzz -ErrorAction Stop } catch { \"caught\" }\n```\n",
+    "options": [
+     "Error",
+     "next\ncaught",
+     "next",
+     "caught\nnext"
+    ],
+    "answer": 1,
+    "explain": "Non-terminating errors continue; -ErrorAction Stop makes them catchable. Verified by running it in PowerShell 7."
+   },
+   {
+    "q": "What does this print?\n```powershell\n\"{0:N1} {1:P0} {2:D3}\" -f 3.14159, 0.256, 7\n'a,b,,c'.Split(',').Count\n('x' * 3) + 'y'\n\"Hello\".Substring(1,3)\n```\n",
+    "options": [
+     "3.1 0.256 007\n3\nxxxy\nell",
+     "3.1 26% 007\n4\nxxxy\nell",
+     "3.14 26% 007\n4\nxxxy\nell",
+     "Error"
+    ],
+    "answer": 1,
+    "explain": "Format operator and string methods. Verified by running it in PowerShell 7."
+   },
+   {
+    "q": "What does this print?\n```powershell\n$o = [pscustomobject]@{ A = 1 }\n$o | Add-Member -NotePropertyName B -NotePropertyValue 2\n($o | Get-Member -MemberType NoteProperty).Name -join \",\"\n$o.B * 5\n```\n",
+    "options": [
+     "A,B\n2",
+     "A,B\n10",
+     "A\n10",
+     "Error"
+    ],
+    "answer": 1,
+    "explain": "Objects are extensible. Verified by running it in PowerShell 7."
+   },
+   {
+    "q": "Why prefer returning objects over Write-Host text?",
+    "options": [
+     "Style",
+     "Callers can filter, sort and export objects; host text is for display only",
+     "Speed",
+     "Law"
+    ],
+    "answer": 1,
+    "explain": "Composable scripts."
+   },
+   {
+    "q": "A script must run unattended nightly. What is essential?",
+    "options": [
+     "Logging, error handling with non-zero exit codes and least-privilege credentials",
+     "Admin",
+     "A prompt",
+     "Nothing"
+    ],
+    "answer": 0,
+    "explain": "Unattended reliability."
+   },
+   {
+    "q": "When does Get-Content huge.log | Select-Object -First 5 stop reading?",
+    "options": [
+     "After sort",
+     "As soon as 5 lines are received (the pipeline signals upstream to stop)",
+     "Never",
+     "After file"
+    ],
+    "answer": 1,
+    "explain": "Streaming."
+   },
+   {
+    "q": "Which cmdlet adds safety for destructive actions?",
+    "options": [
+     "-Verbose",
+     "-Force",
+     "-Quiet",
+     "-WhatIf / -Confirm via SupportsShouldProcess"
+    ],
+    "answer": 3,
+    "explain": "Preview first."
+   },
+   {
+    "q": "Remote results are missing methods. Why?",
+    "options": [
+     "Firewall",
+     "Objects are serialized and come back deserialized (properties only)",
+     "Version",
+     "Bug"
+    ],
+    "answer": 1,
+    "explain": "Call methods remotely."
+   },
+   {
+    "q": "A module's helper functions leak to users. Fix?",
+    "options": [
+     "Export only public functions with Export-ModuleMember or the manifest FunctionsToExport",
+     "Rename",
+     "Delete",
+     "Alias"
+    ],
+    "answer": 0,
+    "explain": "Small public API."
+   },
+   {
+    "q": "A native tool fails but the script continues. What do you check?",
+    "options": [
+     "Verbose",
+     "$LASTEXITCODE after calling it (and use throw)",
+     "$Error",
+     "$?"
+    ],
+    "answer": 1,
+    "explain": "Native commands don't throw."
+   },
+   {
+    "q": "Which Pester feature isolates a test from the network?",
+    "options": [
+     "Retry",
+     "Tag",
+     "Mock the command that calls out",
+     "Skip"
+    ],
+    "answer": 2,
+    "explain": "Deterministic tests."
+   },
+   {
+    "q": "How avoid secrets in scripts?",
+    "options": [
+     "Base64",
+     "Plain text",
+     "Use SecretManagement/vaults or CI secret variables",
+     "Comments"
+    ],
+    "answer": 2,
+    "explain": "Least exposure."
+   },
+   {
+    "q": "Why use [ordered] for output records?",
+    "options": [
+     "Speed",
+     "Predictable column order in reports and JSON",
+     "Memory",
+     "Law"
+    ],
+    "answer": 1,
+    "explain": "Readable output."
+   },
+   {
+    "q": "What's the main cost of $array += $item in a loop?",
+    "options": [
+     "Nothing",
+     "Locks",
+     "Each += allocates and copies a new array",
+     "Sorting"
+    ],
+    "answer": 2,
+    "explain": "Use List[T]."
+   },
+   {
+    "q": "What is -Parallel good for in PowerShell 7?",
+    "options": [
+     "Debugging",
+     "Ordering",
+     "Running independent, slow tasks (I/O or remote) concurrently",
+     "Tiny loops"
+    ],
+    "answer": 2,
+    "explain": "Use ThrottleLimit."
+   },
+   {
+    "q": "What belongs in a published module?",
+    "options": [
+     "Logs",
+     "Secrets",
+     "Manifest, tests, help, semantic version and signed or trusted source",
+     "Only code"
+    ],
+    "answer": 2,
+    "explain": "Gallery quality."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A log parser with reports and an alert",
+    "prompt": "Implement ConvertFrom-LogLine (named-group regex, typed properties, skip bad lines with Write-Verbose), then use the pipeline to report counts by level, the slowest requests, the server error rate, per-service average latency and an alert flag.",
+    "starter": "$log = @\"\n2026-03-01 10:00:01 INFO  web  GET /home 200 35ms\n2026-03-01 10:00:02 ERROR api  POST /pay 500 910ms\n2026-03-01 10:00:03 INFO  web  GET /cart 200 48ms\n2026-03-01 10:01:10 WARN  api  GET /items 200 700ms\n2026-03-01 10:01:11 ERROR api  POST /pay 500 880ms\n2026-03-01 10:02:00 INFO  web  GET /home 404 12ms\nbad line that should be skipped\n\"@ -split \"`n\"\n\nfunction ConvertFrom-LogLine {\n    [CmdletBinding()]\n    param([Parameter(Mandatory, ValueFromPipeline)][string]$Line)\n    process {\n        # match \"<date> <time> <LEVEL> <service> <METHOD> <path> <status> <ms>ms\" with named groups;\n        # emit [pscustomobject] with Time ([datetime]), Level, Service, Path, Status ([int]), Ms ([int]);\n        # for lines that do not match, Write-Verbose and emit nothing\n    }\n}\n\n$entries = $log | ConvertFrom-LogLine\n\"parsed: $($entries.Count) of $($log.Count) lines\"\n\"by level:\"\n$entries | Group-Object Level | Sort-Object Name | ForEach-Object { \"  {0,-5} {1}\" -f $_.Name, $_.Count }\n\"slowest:\"\n$entries | Sort-Object Ms -Descending | Select-Object -First 2 | ForEach-Object { \"  {0} {1} {2}ms\" -f $_.Service, $_.Path, $_.Ms }\n$errRate = [math]::Round(100 * @($entries | Where-Object Status -ge 500).Count / $entries.Count, 1)\n\"server error rate: $errRate%\"\n$avg = $entries | Group-Object Service | ForEach-Object { [pscustomobject]@{ Service = $_.Name; AvgMs = [math]::Round(($_.Group | Measure-Object Ms -Average).Average, 1) } }\n($avg | Sort-Object Service | ForEach-Object { \"$($_.Service)=$($_.AvgMs)\" }) -join \"; \"\n$alert = $errRate -gt 10\n\"ALERT: $alert\"\n($entries | Select-Object Service, Path, Status | ConvertTo-Json -Compress -Depth 2).Length -gt 0\n",
+    "expected": "parsed: 6 of 7 lines\nby level:\n  ERROR 2\n  INFO  3\n  WARN  1\nslowest:\n  api /pay 910ms\n  api /pay 880ms\nserver error rate: 33.3%\napi=830; web=31.7\nALERT: True\nTrue",
+    "solution": "$log = @\"\n2026-03-01 10:00:01 INFO  web  GET /home 200 35ms\n2026-03-01 10:00:02 ERROR api  POST /pay 500 910ms\n2026-03-01 10:00:03 INFO  web  GET /cart 200 48ms\n2026-03-01 10:01:10 WARN  api  GET /items 200 700ms\n2026-03-01 10:01:11 ERROR api  POST /pay 500 880ms\n2026-03-01 10:02:00 INFO  web  GET /home 404 12ms\nbad line that should be skipped\n\"@ -split \"`n\"\n\nfunction ConvertFrom-LogLine {\n    [CmdletBinding()]\n    param([Parameter(Mandatory, ValueFromPipeline)][string]$Line)\n    process {\n        if ($Line -match '^(?<ts>\\S+ \\S+) (?<level>[A-Z]+)\\s+(?<svc>\\w+)\\s+(?<method>[A-Z]+) (?<path>\\S+) (?<status>\\d{3}) (?<ms>\\d+)ms$') {\n            [pscustomobject]@{\n                Time = [datetime]$Matches.ts; Level = $Matches.level; Service = $Matches.svc\n                Path = $Matches.path; Status = [int]$Matches.status; Ms = [int]$Matches.ms\n            }\n        } else { Write-Verbose \"skipped: $Line\" }\n    }\n}\n\n$entries = $log | ConvertFrom-LogLine\n\"parsed: $($entries.Count) of $($log.Count) lines\"\n\"by level:\"\n$entries | Group-Object Level | Sort-Object Name | ForEach-Object { \"  {0,-5} {1}\" -f $_.Name, $_.Count }\n\"slowest:\"\n$entries | Sort-Object Ms -Descending | Select-Object -First 2 | ForEach-Object { \"  {0} {1} {2}ms\" -f $_.Service, $_.Path, $_.Ms }\n$errRate = [math]::Round(100 * @($entries | Where-Object Status -ge 500).Count / $entries.Count, 1)\n\"server error rate: $errRate%\"\n$avg = $entries | Group-Object Service | ForEach-Object { [pscustomobject]@{ Service = $_.Name; AvgMs = [math]::Round(($_.Group | Measure-Object Ms -Average).Average, 1) } }\n($avg | Sort-Object Service | ForEach-Object { \"$($_.Service)=$($_.AvgMs)\" }) -join \"; \"\n$alert = $errRate -gt 10\n\"ALERT: $alert\"\n($entries | Select-Object Service, Path, Status | ConvertTo-Json -Compress -Depth 2).Length -gt 0\n",
+    "explain": "The function emits objects from process{} so the rest is ordinary pipeline work: Group-Object, Sort-Object, Measure-Object. Verified by running the solution with PowerShell 7."
+   },
+   {
+    "title": "A validating pipeline function and retry helper",
+    "prompt": "Implement Test-Password (validation attributes, a List of problems, masked output) and Invoke-WithRetry (retry with attempt numbers, rethrow after the last attempt). Run both against the sample inputs.",
+    "starter": "function Test-Password {\n    [CmdletBinding()]\n    param([Parameter(Mandatory, ValueFromPipeline)][AllowEmptyString()][string]$Password,\n          [ValidateRange(4,64)][int]$MinLength = 8)\n    process {\n        # collect problems: \"too short\", \"no uppercase\" (case-sensitive test), \"no digit\", \"no symbol\" (non-word, non-space char)\n        # emit [pscustomobject] Password (masked with '*' of the same length), Valid (bool), Problems (comma-separated)\n    }\n}\n\nfunction Invoke-WithRetry {\n    param([scriptblock]$Action, [int]$Max = 3)\n    # run $Action with the attempt number; on failure write \"attempt N failed: <message>\" and retry;\n    # rethrow after the last attempt; return the action's result on success\n}\n\n'Passw0rd!', 'short1!', 'alllowercase1!', 'NoDigits!!', '' | Test-Password | ForEach-Object { \"{0,-14} valid={1,-5} {2}\" -f $_.Password, $_.Valid, $_.Problems }\ntry { Test-Password -Password 'x' -MinLength 2 } catch { \"validation: rejected\" }\n$r = Invoke-WithRetry { param($n) if ($n -lt 3) { throw \"flaky $n\" } else { \"ok on attempt $n\" } }\n$r\ntry { Invoke-WithRetry -Max 2 { throw \"always\" } } catch { \"gave up: $($_.Exception.Message)\" }\n",
+    "expected": "*********      valid=True\n*******        valid=False too short, no uppercase\n************** valid=False no uppercase\n**********     valid=False no digit\n               valid=False too short, no uppercase, no digit, no symbol\nvalidation: rejected\nattempt 1 failed: flaky 1\nattempt 2 failed: flaky 2\nok on attempt 3\nattempt 1 failed: always\nattempt 2 failed: always\ngave up: always",
+    "solution": "function Test-Password {\n    [CmdletBinding()]\n    param([Parameter(Mandatory, ValueFromPipeline)][AllowEmptyString()][string]$Password,\n          [ValidateRange(4,64)][int]$MinLength = 8)\n    process {\n        $problems = [System.Collections.Generic.List[string]]::new()\n        if ($Password.Length -lt $MinLength) { $problems.Add(\"too short\") }\n        if ($Password -cnotmatch '[A-Z]') { $problems.Add(\"no uppercase\") }\n        if ($Password -notmatch '\\d') { $problems.Add(\"no digit\") }\n        if ($Password -notmatch '[^\\w\\s]') { $problems.Add(\"no symbol\") }\n        [pscustomobject]@{ Password = ('*' * $Password.Length); Valid = ($problems.Count -eq 0); Problems = ($problems -join ', ') }\n    }\n}\n\nfunction Invoke-WithRetry {\n    param([scriptblock]$Action, [int]$Max = 3)\n    for ($i = 1; $i -le $Max; $i++) {\n        try { return & $Action $i }\n        catch { Write-Output \"attempt $i failed: $($_.Exception.Message)\"; if ($i -eq $Max) { throw } }\n    }\n}\n\n'Passw0rd!', 'short1!', 'alllowercase1!', 'NoDigits!!', '' | Test-Password | ForEach-Object { \"{0,-14} valid={1,-5} {2}\" -f $_.Password, $_.Valid, $_.Problems }\ntry { Test-Password -Password 'x' -MinLength 2 } catch { \"validation: rejected\" }\n$r = Invoke-WithRetry { param($n) if ($n -lt 3) { throw \"flaky $n\" } else { \"ok on attempt $n\" } }\n$r\ntry { Invoke-WithRetry -Max 2 { throw \"always\" } } catch { \"gave up: $($_.Exception.Message)\" }\n",
+    "explain": "Parameter validation rejects bad arguments before the body runs; process{} handles each piped value; try/catch with a loop gives retries and rethrows the final failure. Verified by running the solution with PowerShell 7."
+   }
+  ]
+ },
+ "final_pass_pct": 70
 }
