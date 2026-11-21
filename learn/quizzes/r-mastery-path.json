@@ -1,0 +1,271 @@
+{
+ "course": "r-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {},
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```r\nx <- c(5, NA, 3)\ncat(sum(x), sum(x, na.rm = TRUE), mean(x, na.rm = TRUE), is.na(x[2]), \"\\n\")\n```\n",
+    "options": [
+     "NA 8 4 FALSE",
+     "NA 8 4 TRUE",
+     "Error",
+     "8 8 4 TRUE"
+    ],
+    "answer": 1,
+    "explain": "NA propagates unless na.rm = TRUE. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```r\nx <- c(a = 1, b = 2, c = 3)\ncat(x[-1], x[c(\"a\", \"c\")], x[x > 1], length(x[0]), \"\\n\")\n```\n",
+    "options": [
+     "2 3 1 3 2 3 0",
+     "2 3 1 3 2 3 1",
+     "Error",
+     "1 2 1 3 2 3 0"
+    ],
+    "answer": 0,
+    "explain": "Negative, named and logical indexing. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```r\nf <- function(n) { total <- 0; for (i in seq_len(n)) total <- total + i; total }\ncat(f(0), f(4), \"\\n\")\n```\n",
+    "options": [
+     "Error 10",
+     "0 4",
+     "1 10",
+     "0 10"
+    ],
+    "answer": 3,
+    "explain": "seq_len(0) loops zero times. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```r\nsuppressPackageStartupMessages(library(dplyr))\nd <- data.frame(g = c(\"a\", \"a\", \"b\"), v = c(1, 2, 10))\nr <- d %>% group_by(g) %>% summarise(m = mean(v), n = n(), .groups = \"drop\")\nprint(as.data.frame(r))\n```\n",
+    "options": [
+     "g m n\n1 a 1.5 2\n2 b 10 1",
+     "g    m n\n1 a  1.5 3\n2 b 10.0 1",
+     "Error",
+     "g    m n\n1 a  1.5 2\n2 b 10.0 1"
+    ],
+    "answer": 3,
+    "explain": "Group summaries. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```r\nx <- c(10, 20, 30)\nnames(x) <- c(\"a\", \"b\", \"c\")\nlst <- list(x = x, n = 3)\ncat(lst$x[[\"b\"]], lst[[\"n\"]], class(lst[\"n\"]), \"\\n\")\n```\n",
+    "options": [
+     "Error",
+     "20 3 numeric",
+     "20 3 list",
+     "b 3 list"
+    ],
+    "answer": 2,
+    "explain": "[ keeps a list; [[ extracts. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```r\ns <- c(\"apple pie\", \"banana\", \"cherry tart\")\ncat(sapply(strsplit(s, \" \"), length), toupper(substr(s, 1, 1)), grepl(\"an\", s), \"\\n\")\n```\n",
+    "options": [
+     "1 1 1 A B C FALSE TRUE FALSE",
+     "2 1 2 A B C FALSE TRUE FALSE",
+     "2 1 2 a b c FALSE TRUE FALSE",
+     "Error"
+    ],
+    "answer": 1,
+    "explain": "strsplit, substr and grepl. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```r\nset.seed(7)\nx <- sample(1:10, 5)\nset.seed(7)\ny <- sample(1:10, 5)\ncat(identical(x, y), length(unique(x)), \"\\n\")\n```\n",
+    "options": [
+     "TRUE 5",
+     "Error",
+     "FALSE 5",
+     "TRUE 10"
+    ],
+    "answer": 0,
+    "explain": "set.seed makes sampling reproducible. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```r\nf <- function(x, ...) UseMethod(\"f\")\nf.default <- function(x, ...) \"default\"\nf.numeric <- function(x, ...) \"number\"\nf.character <- function(x, ...) \"text\"\ncat(f(1), f(\"a\"), f(TRUE), \"\\n\")\n```\n",
+    "options": [
+     "number text number",
+     "default default default",
+     "number text default",
+     "Error"
+    ],
+    "answer": 2,
+    "explain": "S3 dispatch on class. Verified by compiling and running it."
+   },
+   {
+    "q": "A script works on your laptop but not on a colleague's. What helps most?",
+    "options": [
+     "Ignore",
+     "Email",
+     "Pin package versions with renv and document the R version",
+     "Reinstall"
+    ],
+    "answer": 2,
+    "explain": "Reproducibility."
+   },
+   {
+    "q": "A for loop over 1:length(x) fails when x is empty. What's the fix?",
+    "options": [
+     "Add if",
+     "Sort",
+     "Use while",
+     "Use seq_along(x) or seq_len(length(x))"
+    ],
+    "answer": 3,
+    "explain": "1:0 is c(1, 0)."
+   },
+   {
+    "q": "A join produces more rows than expected. What do you check?",
+    "options": [
+     "Column order",
+     "Types",
+     "Duplicate keys on either side",
+     "Names"
+    ],
+    "answer": 2,
+    "explain": "Many-to-many joins multiply rows."
+   },
+   {
+    "q": "What is the safest way to read a CSV where IDs have leading zeros?",
+    "options": [
+     "Default",
+     "Numeric",
+     "Factor",
+     "Read the column as character (colClasses or col_types)"
+    ],
+    "answer": 3,
+    "explain": "Avoid losing zeros."
+   },
+   {
+    "q": "When is a loop fine in R?",
+    "options": [
+     "Always",
+     "Never",
+     "Rarely",
+     "When logic depends on previous iterations or clarity matters more than speed"
+    ],
+    "answer": 3,
+    "explain": "Preallocate."
+   },
+   {
+    "q": "What does expect_equal use for numbers?",
+    "options": [
+     "Exact",
+     "A tolerance, so tiny floating point differences pass",
+     "Strings",
+     "Types"
+    ],
+    "answer": 1,
+    "explain": "Use expect_identical for exact."
+   },
+   {
+    "q": "Why write R functions with stopifnot or clear errors?",
+    "options": [
+     "Speed",
+     "Fail early with understandable messages when inputs are invalid",
+     "Law",
+     "Style"
+    ],
+    "answer": 1,
+    "explain": "Defensive code."
+   },
+   {
+    "q": "What belongs in tests/testthat?",
+    "options": [
+     "Plots",
+     "Data",
+     "Automated tests named test-*.R using expect_* functions",
+     "Docs"
+    ],
+    "answer": 2,
+    "explain": "Package testing."
+   },
+   {
+    "q": "What makes a Shiny app slow?",
+    "options": [
+     "UI",
+     "Names",
+     "Colors",
+     "Recomputing heavy work on every reactive update"
+    ],
+    "answer": 3,
+    "explain": "Cache and precompute."
+   },
+   {
+    "q": "What does an R Markdown report give you?",
+    "options": [
+     "Data",
+     "Package",
+     "App",
+     "Narrative plus code and results in one reproducible document"
+    ],
+    "answer": 3,
+    "explain": "knitr."
+   },
+   {
+    "q": "What do you do before trusting a regression?",
+    "options": [
+     "Plot",
+     "Check residuals, outliers and assumptions, not just p-values",
+     "R²",
+     "Nothing"
+    ],
+    "answer": 1,
+    "explain": "Diagnostics."
+   },
+   {
+    "q": "A p-value is 0.04 with n = 20000. What matters too?",
+    "options": [
+     "Effect size and practical significance",
+     "Name",
+     "Nothing",
+     "Only p"
+    ],
+    "answer": 0,
+    "explain": "Big samples find tiny effects."
+   },
+   {
+    "q": "How do you speed up grouped aggregation on 50M rows?",
+    "options": [
+     "Loop",
+     "Base",
+     "Use data.table (or arrow/duckdb) instead of copying data repeatedly",
+     "Print"
+    ],
+    "answer": 2,
+    "explain": "Efficient engines."
+   },
+   {
+    "q": "What does plumber add to R code?",
+    "options": [
+     "An HTTP API around your functions",
+     "Docs",
+     "Tests",
+     "Plots"
+    ],
+    "answer": 0,
+    "explain": "Deployment."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Clean, validate and summarise a messy customer file",
+    "prompt": "A raw customer table has duplicates, messy names and emails, mixed date formats and bad numbers. Standardise it with dplyr/stringr/lubridate, flag each bad row with a reason (case_when), split good from rejected, and report counts, reject reasons, the good rows, monthly revenue, the total and the days since the first signup.",
+    "starter": "suppressPackageStartupMessages({ library(dplyr); library(stringr); library(lubridate); library(tidyr) })\n\nraw <- data.frame(\n  id    = c(1, 2, 2, 3, 4, 5, 6),\n  name  = c(\" Ann Lee \", \"bob  stone\", \"bob  stone\", \"CY ray\", NA, \"Dee Fox\", \"eli  park\"),\n  email = c(\"ann@x.com\", \"BOB@X.COM\", \"BOB@X.COM\", \"cy-at-x.com\", \"dee@x.com\", \"dee2@x.com\", \"eli@x.com\"),\n  signup = c(\"2026-01-05\", \"2026/02/10\", \"2026/02/10\", \"2026-03-01\", \"not a date\", \"2026-04-15\", \"2026-04-20\"),\n  spend = c(\"120.50\", \"75\", \"75\", \"abc\", \"40\", \"-5\", \"300\"),\n  stringsAsFactors = FALSE\n)\n\n# TODO 1: remove duplicate rows (distinct)\n# TODO 2: standardise: name -> squish whitespace + title case; email -> lower case; signup -> Date (formats like 2026-01-05 or 2026/02/10);\n#         spend -> numeric (non-numeric becomes NA without printing a warning)\n# TODO 3: add a `problem` column using case_when in this order:\n#         \"missing name\", \"bad email\" (must look like x@y.z), \"bad date\", \"bad spend\", \"negative spend\", otherwise NA\n# TODO 4: good = rows without a problem (signup as a Date); bad = rows with one\n# TODO 5: print:  raw rows / after distinct / good / rejected, the reject reasons as id=reason,\n#         the good rows (id, name, email, signup, spend), monthly customers and revenue, total revenue,\n#         and days from the first signup to 2026-05-01\n",
+    "expected": "raw rows: 7 | after distinct: 6 | good: 3 | rejected: 3 \nreject reasons: 3=bad email, 4=missing name, 5=negative spend \n  id      name     email     signup spend\n1  1   Ann Lee ann@x.com 2026-01-05 120.5\n2  2 Bob Stone bob@x.com 2026-02-10  75.0\n3  6  Eli Park eli@x.com 2026-04-20 300.0\n    month customers revenue\n1 2026-01         1   120.5\n2 2026-02         1    75.0\n3 2026-04         1   300.0\ntotal revenue: 495.5 \ndays since first signup (to 2026-05-01): 116",
+    "solution": "suppressPackageStartupMessages({ library(dplyr); library(stringr); library(lubridate); library(tidyr) })\n\nraw <- data.frame(\n  id    = c(1, 2, 2, 3, 4, 5, 6),\n  name  = c(\" Ann Lee \", \"bob  stone\", \"bob  stone\", \"CY ray\", NA, \"Dee Fox\", \"eli  park\"),\n  email = c(\"ann@x.com\", \"BOB@X.COM\", \"BOB@X.COM\", \"cy-at-x.com\", \"dee@x.com\", \"dee2@x.com\", \"eli@x.com\"),\n  signup = c(\"2026-01-05\", \"2026/02/10\", \"2026/02/10\", \"2026-03-01\", \"not a date\", \"2026-04-15\", \"2026-04-20\"),\n  spend = c(\"120.50\", \"75\", \"75\", \"abc\", \"40\", \"-5\", \"300\"),\n  stringsAsFactors = FALSE\n)\n\nclean <- raw %>%\n  distinct() %>%\n  mutate(\n    name   = str_to_title(str_squish(name)),\n    email  = str_to_lower(email),\n    signup = parse_date_time(signup, orders = c(\"Ymd\")),\n    spend  = suppressWarnings(as.numeric(spend)),\n    problem = case_when(\n      is.na(name) ~ \"missing name\",\n      !str_detect(email, \"^[^@\\\\s]+@[^@\\\\s]+\\\\.[a-z]+$\") ~ \"bad email\",\n      is.na(signup) ~ \"bad date\",\n      is.na(spend) ~ \"bad spend\",\n      spend < 0 ~ \"negative spend\",\n      TRUE ~ NA_character_\n    )\n  )\n\ngood <- clean %>% filter(is.na(problem)) %>% mutate(signup = as_date(signup))\nbad  <- clean %>% filter(!is.na(problem))\n\ncat(\"raw rows:\", nrow(raw), \"| after distinct:\", nrow(distinct(raw)), \"| good:\", nrow(good), \"| rejected:\", nrow(bad), \"\\n\")\ncat(\"reject reasons:\", paste(bad$id, bad$problem, sep = \"=\", collapse = \", \"), \"\\n\")\nprint(as.data.frame(good %>% select(id, name, email, signup, spend)))\n\nmonthly <- good %>% mutate(month = format(signup, \"%Y-%m\")) %>%\n  group_by(month) %>% summarise(customers = n(), revenue = sum(spend), .groups = \"drop\")\nprint(as.data.frame(monthly))\ncat(\"total revenue:\", sum(good$spend), \"\\n\")\ncat(\"days since first signup (to 2026-05-01):\", as.integer(as_date(\"2026-05-01\") - min(good$signup)), \"\\n\")\n",
+    "explain": "A tidy pipeline standardises first, then validates with ordered rules so each bad row gets exactly one reason, and nothing is silently dropped. Verified by running the script with R 4.6 and the tidyverse packages."
+   },
+   {
+    "title": "Write and test functions: moving average, vectorised running max and a bootstrap interval",
+    "prompt": "Implement moving_avg (validated, vapply), a loop and a vectorised running maximum, and a reproducible bootstrap confidence interval. The script's check() helper runs testthat expectations and prints PASS/FAIL; one expectation is deliberately wrong to show a failure.",
+    "starter": "suppressPackageStartupMessages(library(testthat))\n\n# ---- code under test ----\n# TODO: implement\n#  moving_avg(x, k): validate (numeric x, whole number k >= 1 -> stopifnot), return numeric(0) when k > length(x),\n#                    otherwise the mean of every window of k consecutive values (use vapply)\n#  cum_max_loop(x): running maximum using a loop; cum_max_vec(x): the vectorised version\n#  bootstrap_ci(x, stat = mean, reps = 400, level = 0.95, seed = 1): set.seed(seed), resample with replacement `reps` times,\n#                    return the unnamed lower and upper quantiles\nmoving_avg <- function(x, k) NULL\ncum_max_loop <- function(x) NULL\ncum_max_vec <- function(x) NULL\nbootstrap_ci <- function(x, stat = mean, reps = 400, level = 0.95, seed = 1) NULL\n\n# ---- checks (each prints PASS/FAIL instead of stopping) ----\ncheck <- function(name, expr) {\n  ok <- tryCatch({ force(expr); TRUE }, error = function(e) FALSE)\n  cat(sprintf(\"%-34s %s\\n\", name, if (ok) \"PASS\" else \"FAIL\"))\n  invisible(ok)\n}\nx <- c(3, 1, 4, 1, 5, 9, 2, 6)\ncheck(\"moving_avg basic\", expect_equal(moving_avg(x, 3), c(8/3, 2, 10/3, 5, 16/3, 17/3)))\ncheck(\"moving_avg window = length\", expect_equal(moving_avg(x, 8), mean(x)))\ncheck(\"moving_avg window too large\", expect_equal(moving_avg(x, 9), numeric(0)))\ncheck(\"moving_avg rejects bad k\", expect_error(moving_avg(x, 0)))\ncheck(\"moving_avg rejects text\", expect_error(moving_avg(\"a\", 2)))\ncheck(\"loop and vectorised agree\", expect_identical(cum_max_loop(x), cum_max_vec(x)))\nci <- bootstrap_ci(x)\ncheck(\"bootstrap interval ordered\", expect_lt(ci[1], ci[2]))\ncheck(\"bootstrap reproducible\", expect_equal(bootstrap_ci(x), bootstrap_ci(x)))\ncheck(\"bootstrap contains the mean\", expect_true(ci[1] <= mean(x) && mean(x) <= ci[2]))\ncheck(\"deliberately wrong expectation\", expect_equal(moving_avg(x, 2)[1], 99))\n\ncat(\"moving_avg(x, 3):\", round(moving_avg(x, 3), 2), \"\\n\")\ncat(\"cummax:\", cum_max_vec(x), \"\\n\")\ncat(\"95% bootstrap CI for the mean:\", round(ci, 2), \"\\n\")\nbig <- as.numeric(1:200000)\ncat(\"same answer on 200k values:\", identical(cum_max_loop(big), cum_max_vec(big)), \"\\n\")\n",
+    "expected": "moving_avg basic                   PASS\nmoving_avg window = length         PASS\nmoving_avg window too large        PASS\nmoving_avg rejects bad k           PASS\nmoving_avg rejects text            PASS\nloop and vectorised agree          PASS\nbootstrap interval ordered         PASS\nbootstrap reproducible             PASS\nbootstrap contains the mean        PASS\ndeliberately wrong expectation     FAIL\nmoving_avg(x, 3): 2.67 2 3.33 5 5.33 5.67 \ncummax: 3 3 4 4 5 9 9 9 \n95% bootstrap CI for the mean: 2.12 6 \nsame answer on 200k values: TRUE",
+    "solution": "suppressPackageStartupMessages(library(testthat))\n\n# ---- code under test ----\nmoving_avg <- function(x, k) {\n  stopifnot(is.numeric(x), k >= 1, k == round(k))\n  if (k > length(x)) return(numeric(0))\n  vapply(seq_len(length(x) - k + 1), function(i) mean(x[i:(i + k - 1)]), numeric(1))\n}\ncum_max_loop <- function(x) { out <- numeric(length(x)); m <- -Inf; for (i in seq_along(x)) { m <- max(m, x[i]); out[i] <- m }; out }\ncum_max_vec <- function(x) cummax(x)\n\nbootstrap_ci <- function(x, stat = mean, reps = 400, level = 0.95, seed = 1) {\n  set.seed(seed)\n  b <- replicate(reps, stat(sample(x, replace = TRUE)))\n  unname(quantile(b, c((1 - level) / 2, 1 - (1 - level) / 2)))\n}\n\n# ---- checks (each prints PASS/FAIL instead of stopping) ----\ncheck <- function(name, expr) {\n  ok <- tryCatch({ force(expr); TRUE }, error = function(e) FALSE)\n  cat(sprintf(\"%-34s %s\\n\", name, if (ok) \"PASS\" else \"FAIL\"))\n  invisible(ok)\n}\nx <- c(3, 1, 4, 1, 5, 9, 2, 6)\ncheck(\"moving_avg basic\", expect_equal(moving_avg(x, 3), c(8/3, 2, 10/3, 5, 16/3, 17/3)))\ncheck(\"moving_avg window = length\", expect_equal(moving_avg(x, 8), mean(x)))\ncheck(\"moving_avg window too large\", expect_equal(moving_avg(x, 9), numeric(0)))\ncheck(\"moving_avg rejects bad k\", expect_error(moving_avg(x, 0)))\ncheck(\"moving_avg rejects text\", expect_error(moving_avg(\"a\", 2)))\ncheck(\"loop and vectorised agree\", expect_identical(cum_max_loop(x), cum_max_vec(x)))\nci <- bootstrap_ci(x)\ncheck(\"bootstrap interval ordered\", expect_lt(ci[1], ci[2]))\ncheck(\"bootstrap reproducible\", expect_equal(bootstrap_ci(x), bootstrap_ci(x)))\ncheck(\"bootstrap contains the mean\", expect_true(ci[1] <= mean(x) && mean(x) <= ci[2]))\ncheck(\"deliberately wrong expectation\", expect_equal(moving_avg(x, 2)[1], 99))\n\ncat(\"moving_avg(x, 3):\", round(moving_avg(x, 3), 2), \"\\n\")\ncat(\"cummax:\", cum_max_vec(x), \"\\n\")\ncat(\"95% bootstrap CI for the mean:\", round(ci, 2), \"\\n\")\nbig <- as.numeric(1:200000)\ncat(\"same answer on 200k values:\", identical(cum_max_loop(big), cum_max_vec(big)), \"\\n\")\n",
+    "explain": "Validation with stopifnot fails early, vapply guarantees the result type, vectorised code gives the same answer as a loop but faster, and a fixed seed makes bootstrapping reproducible. Verified by running the script with R 4.6 and testthat."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
