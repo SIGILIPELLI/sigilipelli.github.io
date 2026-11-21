@@ -1,0 +1,2159 @@
+{
+ "course": "databricks-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-lakehouse-architecture": {
+   "questions": [
+    {
+     "q": "What is a lakehouse?",
+     "options": [
+      "A file share",
+      "A warehouse only",
+      "Open files in cheap cloud storage with a transactional layer, catalog and several engines on top, serving SQL, ETL and ML from one copy",
+      "A streaming engine"
+     ],
+     "answer": 2,
+     "explain": "Lake cost and openness with warehouse reliability."
+    },
+    {
+     "q": "What gives Delta tables ACID transactions on object storage?",
+     "options": [
+      "The transaction log (_delta_log) recording each commit",
+      "The file names",
+      "The cloud provider",
+      "A lock server only"
+     ],
+     "answer": 0,
+     "explain": "The log is the table."
+    },
+    {
+     "q": "Why keep raw data in open formats like Parquet/Delta?",
+     "options": [
+      "Law",
+      "Speed only",
+      "Style",
+      "Avoids lock-in and lets many engines read the same data"
+     ],
+     "answer": 3,
+     "explain": "Openness is the pitch."
+    },
+    {
+     "q": "What separates storage from compute in a lakehouse?",
+     "options": [
+      "One VM",
+      "One DB",
+      "One server",
+      "Data lives in object storage while clusters and warehouses scale independently"
+     ],
+     "answer": 3,
+     "explain": "Elastic compute."
+    }
+   ]
+  },
+  "level-1/02-workspace-compute": {
+   "questions": [
+    {
+     "q": "Which compute fits scheduled production jobs?",
+     "options": [
+      "A laptop",
+      "A SQL warehouse",
+      "Always-on all-purpose cluster",
+      "Job clusters or serverless jobs compute, created per run and terminated after"
+     ],
+     "answer": 3,
+     "explain": "Cheaper and isolated."
+    },
+    {
+     "q": "Why is an all-purpose cluster costly for scheduled jobs?",
+     "options": [
+      "It's free",
+      "It's small",
+      "It's slow to start",
+      "It's meant for interactive work and keeps running (and billing) unless auto-terminated"
+     ],
+     "answer": 3,
+     "explain": "Choose the right compute type."
+    },
+    {
+     "q": "What does auto-termination do?",
+     "options": [
+      "Deletes data",
+      "Scales up",
+      "Restarts",
+      "Shuts down idle compute to stop charges"
+     ],
+     "answer": 3,
+     "explain": "Set a short idle time."
+    },
+    {
+     "q": "What can notebooks mix?",
+     "options": [
+      "Only Scala",
+      "Python, SQL, Scala and R using magic commands like %sql",
+      "Only Python",
+      "Only SQL"
+     ],
+     "answer": 1,
+     "explain": "One notebook, multiple languages."
+    }
+   ]
+  },
+  "level-1/03-spark-dataframes": {
+   "questions": [
+    {
+     "q": "What is lazy evaluation in Spark?",
+     "options": [
+      "Transformations build a plan and nothing runs until an action like count() or write",
+      "Lazy threads",
+      "Slow reads",
+      "Everything runs immediately"
+     ],
+     "answer": 0,
+     "explain": "The optimizer sees the whole plan."
+    },
+    {
+     "q": "Which is an action?",
+     "options": [
+      "count(), collect() or write",
+      "withColumn()",
+      "select()",
+      "filter()"
+     ],
+     "answer": 0,
+     "explain": "Transformations are lazy."
+    },
+    {
+     "q": "What does `df.explain()` show?",
+     "options": [
+      "The physical plan Spark will execute",
+      "Logs",
+      "The data",
+      "Metrics"
+     ],
+     "answer": 0,
+     "explain": "Find shuffles (Exchange)."
+    },
+    {
+     "q": "Why avoid `collect()` on large data?",
+     "options": [
+      "It pulls everything to the driver and can run it out of memory",
+      "It's slow to type",
+      "It's deprecated",
+      "It writes files"
+     ],
+     "answer": 0,
+     "explain": "Aggregate first."
+    }
+   ]
+  },
+  "level-1/04-spark-sql-functions": {
+   "questions": [
+    {
+     "q": "Why can SQL produce 'wrong-but-plausible' numbers?",
+     "options": [
+      "Network",
+      "Traps like NULL handling, join row duplication and implicit casts",
+      "Syntax errors",
+      "Bad formatting"
+     ],
+     "answer": 1,
+     "explain": "Check row counts after joins."
+    },
+    {
+     "q": "What does COUNT(col) ignore?",
+     "options": [
+      "Zeros",
+      "Duplicates",
+      "Strings",
+      "NULL values in col (COUNT(*) counts rows)"
+     ],
+     "answer": 3,
+     "explain": "A classic trap."
+    },
+    {
+     "q": "What's a safe way to avoid division by zero?",
+     "options": [
+      "try_divide or NULLIF on the denominator",
+      "Round",
+      "Cast",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Avoid errors or infinities."
+    },
+    {
+     "q": "What does a window function with PARTITION BY do?",
+     "options": [
+      "Computes over related rows without collapsing them",
+      "Joins",
+      "Filters",
+      "Groups rows"
+     ],
+     "answer": 0,
+     "explain": "Ranking and running totals."
+    }
+   ]
+  },
+  "level-1/05-reading-writing-data": {
+   "questions": [
+    {
+     "q": "Why define an explicit schema when reading CSV?",
+     "options": [
+      "Speed only",
+      "Inference can guess wrong types and costs a pass over the data",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Fail loudly."
+    },
+    {
+     "q": "What does PERMISSIVE parse mode do with bad rows?",
+     "options": [
+      "Keeps them with nulls (and optionally a corrupt-record column)",
+      "Fails",
+      "Drops",
+      "Fixes"
+     ],
+     "answer": 0,
+     "explain": "Silent nulls are risky."
+    },
+    {
+     "q": "What does FAILFAST do?",
+     "options": [
+      "Nulls",
+      "Repairs",
+      "Errors out on the first malformed record",
+      "Skips"
+     ],
+     "answer": 2,
+     "explain": "Good for strict pipelines."
+    },
+    {
+     "q": "Which format preserves types and compresses well?",
+     "options": [
+      "TXT",
+      "JSON strings",
+      "Parquet (or Delta)",
+      "CSV"
+     ],
+     "answer": 2,
+     "explain": "Typed columnar."
+    }
+   ]
+  },
+  "level-1/06-delta-lake-basics": {
+   "questions": [
+    {
+     "q": "What is a Delta table physically?",
+     "options": [
+      "Parquet data files plus a _delta_log directory of JSON commits",
+      "A CSV",
+      "A database",
+      "One file"
+     ],
+     "answer": 0,
+     "explain": "Open and inspectable."
+    },
+    {
+     "q": "What does UPDATE do to Delta files?",
+     "options": [
+      "Deletes all",
+      "Edits in place",
+      "Writes new files and marks old ones removed in the log; files aren't edited in place",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Copy-on-write."
+    },
+    {
+     "q": "Which SQL commands does Delta support beyond INSERT?",
+     "options": [
+      "None",
+      "UPDATE, DELETE and MERGE",
+      "Only INSERT",
+      "Only SELECT"
+     ],
+     "answer": 1,
+     "explain": "Transactional DML."
+    },
+    {
+     "q": "What does DESCRIBE HISTORY show?",
+     "options": [
+      "Permissions",
+      "The table's commit history (operations, versions, timestamps)",
+      "Schema",
+      "Data"
+     ],
+     "answer": 1,
+     "explain": "Audit."
+    }
+   ]
+  },
+  "level-1/07-delta-log-acid": {
+   "questions": [
+    {
+     "q": "What does the _delta_log contain?",
+     "options": [
+      "Data",
+      "Backups",
+      "Ordered JSON commit files (and periodic checkpoints) listing added and removed data files",
+      "Caches"
+     ],
+     "answer": 2,
+     "explain": "The log is the table."
+    },
+    {
+     "q": "How does Delta handle concurrent writers?",
+     "options": [
+      "Locks",
+      "Optimistic concurrency: a conflicting commit fails and must retry",
+      "Overwrites",
+      "Queues"
+     ],
+     "answer": 1,
+     "explain": "ACID on object storage."
+    },
+    {
+     "q": "What's a checkpoint in Delta?",
+     "options": [
+      "A version",
+      "A backup",
+      "A Parquet snapshot of the log state that speeds up reading it",
+      "A branch"
+     ],
+     "answer": 2,
+     "explain": "Every N commits."
+    },
+    {
+     "q": "Why do data files only matter 'as far as the log mentions them'?",
+     "options": [
+      "Files not referenced by the current snapshot are invisible garbage",
+      "Law",
+      "They're hidden",
+      "They're encrypted"
+     ],
+     "answer": 0,
+     "explain": "VACUUM removes them."
+    }
+   ]
+  },
+  "level-1/08-time-travel-restore-vacuum": {
+   "questions": [
+    {
+     "q": "What does time travel let you do?",
+     "options": [
+      "Query a table as of a previous version or timestamp",
+      "Reverse time",
+      "Skip logs",
+      "Copy"
+     ],
+     "answer": 0,
+     "explain": "VERSION AS OF."
+    },
+    {
+     "q": "What does RESTORE do?",
+     "options": [
+      "Rolls a table back to an earlier version (as a new commit)",
+      "Deletes history",
+      "Copies",
+      "Locks"
+     ],
+     "answer": 0,
+     "explain": "Needs the files to still exist."
+    },
+    {
+     "q": "What does VACUUM do and what's the default retention?",
+     "options": [
+      "Deletes unreferenced files older than the retention threshold (7 days by default)",
+      "Zorders",
+      "Restores",
+      "Compacts"
+     ],
+     "answer": 0,
+     "explain": "After it, old versions can't be read."
+    },
+    {
+     "q": "Why is a very short VACUUM retention dangerous?",
+     "options": [
+      "Law",
+      "Running readers or time travel may need the removed files",
+      "Costly",
+      "Slower"
+     ],
+     "answer": 1,
+     "explain": "Keep safe retention."
+    }
+   ]
+  },
+  "level-1/09-catalog-tables-volumes": {
+   "questions": [
+    {
+     "q": "What is Unity Catalog's three-level namespace?",
+     "options": [
+      "catalog.schema.table",
+      "table",
+      "db.table",
+      "schema.table"
+     ],
+     "answer": 0,
+     "explain": "Plus volumes and functions."
+    },
+    {
+     "q": "What does DROP TABLE do for a managed table?",
+     "options": [
+      "Nothing",
+      "Moves data",
+      "Only metadata",
+      "Removes the metadata and the underlying data files"
+     ],
+     "answer": 3,
+     "explain": "External tables keep data."
+    },
+    {
+     "q": "What is a volume for?",
+     "options": [
+      "Queries",
+      "Governed storage for non-tabular files",
+      "Compute",
+      "Tables"
+     ],
+     "answer": 1,
+     "explain": "Files under UC governance."
+    },
+    {
+     "q": "Why avoid legacy DBFS mounts for new work?",
+     "options": [
+      "Faster",
+      "Law",
+      "Governance is weaker; use Unity Catalog volumes and external locations",
+      "Cost"
+     ],
+     "answer": 2,
+     "explain": "Migrate."
+    }
+   ]
+  },
+  "level-1/10-project-local-sales-lakehouse": {
+   "questions": [
+    {
+     "q": "What does the local lakehouse project do with bad rows?",
+     "options": [
+      "Keeps all",
+      "Drops silently",
+      "Quarantines them and cleans the rest into a typed Delta table",
+      "Fails"
+     ],
+     "answer": 2,
+     "explain": "Reject and report."
+    },
+    {
+     "q": "How does the project recover from a bad write?",
+     "options": [
+      "Delete",
+      "Backups",
+      "Rerun",
+      "Delta time travel / RESTORE"
+     ],
+     "answer": 3,
+     "explain": "Versioned tables."
+    },
+    {
+     "q": "Why use explicit schemas in the project?",
+     "options": [
+      "Speed",
+      "Predictable types and loud failures",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Contracts."
+    },
+    {
+     "q": "What runs in Level 1 projects?",
+     "options": [
+      "A cluster",
+      "A cloud account",
+      "A local Spark session against laptop files",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Verified locally."
+    }
+   ]
+  },
+  "level-2/01-merge-upserts-cdf": {
+   "questions": [
+    {
+     "q": "What does MERGE INTO do?",
+     "options": [
+      "Applies inserts, updates and deletes from a source to a target in one atomic transaction",
+      "Copies",
+      "Joins",
+      "Appends"
+     ],
+     "answer": 0,
+     "explain": "WHEN MATCHED / NOT MATCHED."
+    },
+    {
+     "q": "What's a pitfall of MERGE sources?",
+     "options": [
+      "Speed",
+      "Multiple source rows matching one target row causes an error or ambiguity; deduplicate first",
+      "Law",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Make keys unique."
+    },
+    {
+     "q": "What does Change Data Feed (CDF) record?",
+     "options": [
+      "Logs",
+      "Schema",
+      "Row-level inserts, updates (pre/post images) and deletes per commit",
+      "Backups"
+     ],
+     "answer": 2,
+     "explain": "Downstream tables follow changes."
+    },
+    {
+     "q": "How do you enable CDF?",
+     "options": [
+      "Set delta.enableChangeDataFeed = true on the table",
+      "Vacuum",
+      "Optimize",
+      "Restart"
+     ],
+     "answer": 0,
+     "explain": "Applies to later commits."
+    }
+   ]
+  },
+  "level-2/02-schema-enforcement-evolution": {
+   "questions": [
+    {
+     "q": "What does schema enforcement do on write?",
+     "options": [
+      "Merges",
+      "Ignores",
+      "Fixes",
+      "Rejects data that doesn't match the table's schema or constraints"
+     ],
+     "answer": 3,
+     "explain": "Whole commit fails."
+    },
+    {
+     "q": "How do you add new columns deliberately?",
+     "options": [
+      "Drop",
+      "Schema evolution (mergeSchema or ALTER TABLE ADD COLUMNS)",
+      "Overwrite",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Explicit."
+    },
+    {
+     "q": "What can silently lose data around schema?",
+     "options": [
+      "Nothing",
+      "Constraints",
+      "Enforcement",
+      "Casting or overwriting with the wrong schema"
+     ],
+     "answer": 3,
+     "explain": "Be explicit."
+    },
+    {
+     "q": "What do CHECK constraints do?",
+     "options": [
+      "Add columns",
+      "Sort",
+      "Index",
+      "Reject writes violating a boolean condition"
+     ],
+     "answer": 3,
+     "explain": "Data quality at the table."
+    }
+   ]
+  },
+  "level-2/03-optimize-zorder-clustering": {
+   "questions": [
+    {
+     "q": "What does OPTIMIZE do?",
+     "options": [
+      "Deletes history",
+      "Compacts many small files into larger ones",
+      "Vacuums",
+      "Sorts"
+     ],
+     "answer": 1,
+     "explain": "Better scan performance."
+    },
+    {
+     "q": "What does ZORDER BY (or clustering) improve?",
+     "options": [
+      "Compression",
+      "Joins",
+      "Data skipping by co-locating related values in files",
+      "Security"
+     ],
+     "answer": 2,
+     "explain": "Filter on those columns."
+    },
+    {
+     "q": "What's liquid clustering?",
+     "options": [
+      "A format",
+      "A cache",
+      "A flexible, incremental clustering method replacing partitioning/ZORDER",
+      "A cluster"
+     ],
+     "answer": 2,
+     "explain": "CLUSTER BY."
+    },
+    {
+     "q": "Why do many tiny commits hurt?",
+     "options": [
+      "Small files ruin data skipping and add metadata overhead",
+      "Law",
+      "Cost only",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Compact."
+    }
+   ]
+  },
+  "level-2/04-partitioning-file-layout": {
+   "questions": [
+    {
+     "q": "When does partitioning help?",
+     "options": [
+      "Low-cardinality columns that queries filter on, with large partitions",
+      "Every table",
+      "Never",
+      "High-cardinality columns"
+     ],
+     "answer": 0,
+     "explain": "Avoid over-partitioning."
+    },
+    {
+     "q": "What's the 'small files' problem?",
+     "options": [
+      "Large files",
+      "Few files",
+      "No files",
+      "Too many tiny files slow reads and writes"
+     ],
+     "answer": 3,
+     "explain": "Partition less, optimize."
+    },
+    {
+     "q": "Which columns get data-skipping stats by default?",
+     "options": [
+      "The first 32 columns",
+      "None",
+      "All",
+      "Only partition"
+     ],
+     "answer": 0,
+     "explain": "Order columns wisely."
+    },
+    {
+     "q": "What does partition pruning do?",
+     "options": [
+      "Skips partitions that can't match the filter",
+      "Reads all",
+      "Compresses",
+      "Sorts"
+     ],
+     "answer": 0,
+     "explain": "Needs filter on the partition column."
+    }
+   ]
+  },
+  "level-2/05-spark-execution-aqe": {
+   "questions": [
+    {
+     "q": "In Spark UI vocabulary, what is a stage boundary caused by?",
+     "options": [
+      "A write",
+      "A select",
+      "A shuffle (wide transformation)",
+      "A filter"
+     ],
+     "answer": 2,
+     "explain": "Exchange in plans."
+    },
+    {
+     "q": "What does AQE (adaptive query execution) do?",
+     "options": [
+      "Re-optimizes the plan at runtime using real statistics (e.g. coalescing partitions, switching joins)",
+      "Static plan",
+      "Compiles",
+      "Caches"
+     ],
+     "answer": 0,
+     "explain": "Enabled by default."
+    },
+    {
+     "q": "What's a task?",
+     "options": [
+      "A job",
+      "A cluster",
+      "The unit of work on one partition",
+      "A stage"
+     ],
+     "answer": 2,
+     "explain": "Parallelism = partitions."
+    },
+    {
+     "q": "Why do shuffles matter?",
+     "options": [
+      "Local",
+      "Cheap",
+      "Fast",
+      "They move data across the network and dominate cost"
+     ],
+     "answer": 3,
+     "explain": "Minimize them."
+    }
+   ]
+  },
+  "level-2/06-joins-skew-broadcast": {
+   "questions": [
+    {
+     "q": "What causes data skew in a join?",
+     "options": [
+      "Caching",
+      "One key having far more rows than others, overloading one task",
+      "Small data",
+      "Fast network"
+     ],
+     "answer": 1,
+     "explain": "Salting, AQE skew join."
+    },
+    {
+     "q": "When use a broadcast join?",
+     "options": [
+      "Both big",
+      "When one side is small enough to send to every executor",
+      "Always",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Avoids shuffle."
+    },
+    {
+     "q": "How can you spot a skewed task in Spark UI?",
+     "options": [
+      "All same",
+      "Fast",
+      "One task much slower/larger than the median",
+      "Failed"
+     ],
+     "answer": 2,
+     "explain": "Look at task metrics."
+    },
+    {
+     "q": "What does a join on a mismatched key type risk?",
+     "options": [
+      "None",
+      "Speed",
+      "Implicit casts causing no matches or slow plans",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Cast deliberately."
+    }
+   ]
+  },
+  "level-2/07-structured-streaming": {
+   "questions": [
+    {
+     "q": "How does Structured Streaming treat a stream?",
+     "options": [
+      "Files",
+      "As an unbounded table processed incrementally",
+      "Batches only",
+      "Queues"
+     ],
+     "answer": 1,
+     "explain": "Same DataFrame API."
+    },
+    {
+     "q": "What is a checkpoint location for?",
+     "options": [
+      "Schema",
+      "Storing progress and state so the query restarts without loss or duplication",
+      "Logs",
+      "Output"
+     ],
+     "answer": 1,
+     "explain": "Required for fault tolerance."
+    },
+    {
+     "q": "What is a trigger like availableNow?",
+     "options": [
+      "Once forever",
+      "Never",
+      "Continuous",
+      "Process all available data then stop (incremental batch)"
+     ],
+     "answer": 3,
+     "explain": "Cost-efficient."
+    },
+    {
+     "q": "What does a watermark do?",
+     "options": [
+      "Marks files",
+      "Compresses",
+      "Encrypts",
+      "Bounds how late data is accepted for stateful windows"
+     ],
+     "answer": 3,
+     "explain": "Limits state."
+    }
+   ]
+  },
+  "level-2/08-auto-loader": {
+   "questions": [
+    {
+     "q": "What does Auto Loader provide?",
+     "options": [
+      "SQL",
+      "Incremental, exactly-once file ingestion with schema inference and evolution",
+      "ML",
+      "Batch only"
+     ],
+     "answer": 1,
+     "explain": "cloudFiles source."
+    },
+    {
+     "q": "Why is directory listing of a million files a problem?",
+     "options": [
+      "Law",
+      "It's slow and costly; Auto Loader can use file notification mode",
+      "None",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Scalable discovery."
+    },
+    {
+     "q": "What does schema evolution mode 'rescue' do?",
+     "options": [
+      "Adds columns",
+      "Fails",
+      "Captures unexpected columns in a _rescued_data column",
+      "Drops them"
+     ],
+     "answer": 2,
+     "explain": "No silent loss."
+    },
+    {
+     "q": "Where does Auto Loader track processed files?",
+     "options": [
+      "In memory",
+      "Nowhere",
+      "In the files",
+      "In its checkpoint (RocksDB state)"
+     ],
+     "answer": 3,
+     "explain": "Exactly once."
+    }
+   ]
+  },
+  "level-2/09-medallion-architecture": {
+   "questions": [
+    {
+     "q": "What are the medallion layers?",
+     "options": [
+      "Gold only",
+      "Silver only",
+      "Raw only",
+      "Bronze (raw), silver (cleaned/conformed), gold (business-ready)"
+     ],
+     "answer": 3,
+     "explain": "Progressive quality."
+    },
+    {
+     "q": "Why never overwrite bronze?",
+     "options": [
+      "Style",
+      "Cost",
+      "Law",
+      "It's the replayable source of truth"
+     ],
+     "answer": 3,
+     "explain": "Reprocess from it."
+    },
+    {
+     "q": "Where should validation live?",
+     "options": [
+      "Everywhere",
+      "Gold only",
+      "Nowhere",
+      "In one place, typically the bronze-to-silver step"
+     ],
+     "answer": 3,
+     "explain": "Single responsibility."
+    },
+    {
+     "q": "What should gold tables be?",
+     "options": [
+      "Stable, trustworthy, business-aligned aggregates",
+      "Raw",
+      "Temporary",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Consumers rely on them."
+    }
+   ]
+  },
+  "level-2/10-project-medallion-pipeline": {
+   "questions": [
+    {
+     "q": "What does the medallion project show?",
+     "options": [
+      "Only SQL",
+      "Only ML",
+      "Only streaming",
+      "End-to-end bronze, silver and gold with quality checks"
+     ],
+     "answer": 3,
+     "explain": "A full pipeline."
+    },
+    {
+     "q": "How do you make reruns safe?",
+     "options": [
+      "Skip",
+      "Append",
+      "Delete",
+      "Idempotent writes via MERGE or partition overwrite"
+     ],
+     "answer": 3,
+     "explain": "No duplicates."
+    },
+    {
+     "q": "What do you do with invalid records?",
+     "options": [
+      "Ignore",
+      "Quarantine them with reasons",
+      "Drop",
+      "Fix silently"
+     ],
+     "answer": 1,
+     "explain": "Audit trail."
+    },
+    {
+     "q": "How do you verify the pipeline?",
+     "options": [
+      "Assume",
+      "Eyeball",
+      "Row counts and expectations between layers",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Reconcile."
+    }
+   ]
+  },
+  "level-3/01-unity-catalog-model": {
+   "questions": [
+    {
+     "q": "What does Unity Catalog centralize?",
+     "options": [
+      "Governance: permissions, lineage, audit and discovery across workspaces",
+      "Storage",
+      "Compute",
+      "Notebooks"
+     ],
+     "answer": 0,
+     "explain": "One metastore per region."
+    },
+    {
+     "q": "What are the UC securable objects hierarchy?",
+     "options": [
+      "Workspace",
+      "Metastore, catalog, schema, then tables/views/volumes/functions",
+      "Cluster",
+      "Table, schema"
+     ],
+     "answer": 1,
+     "explain": "Privileges inherit down."
+    },
+    {
+     "q": "Why use groups for grants?",
+     "options": [
+      "Speed",
+      "Law",
+      "Easier management than granting to individuals",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "What does the metastore bind to?",
+     "options": [
+      "A cluster",
+      "A table",
+      "A user",
+      "A region and multiple workspaces"
+     ],
+     "answer": 3,
+     "explain": "Shared governance."
+    }
+   ]
+  },
+  "level-3/02-privileges-grants": {
+   "questions": [
+    {
+     "q": "What privilege is needed to read a table?",
+     "options": [
+      "SELECT on the table, USE SCHEMA and USE CATALOG on parents",
+      "ALL",
+      "SELECT only",
+      "MODIFY"
+     ],
+     "answer": 0,
+     "explain": "Parents need USE."
+    },
+    {
+     "q": "What does GRANT do?",
+     "options": [
+      "Deletes",
+      "Gives a principal a privilege on a securable",
+      "Creates",
+      "Revokes"
+     ],
+     "answer": 1,
+     "explain": "REVOKE removes."
+    },
+    {
+     "q": "What's the best practice for ownership?",
+     "options": [
+      "Anyone",
+      "A person",
+      "Owned by a group/service principal, not a person",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Avoid orphaned ownership."
+    },
+    {
+     "q": "What does `ALL PRIVILEGES` risk?",
+     "options": [
+      "Speed",
+      "Nothing",
+      "Law",
+      "Over-permissioning beyond least privilege"
+     ],
+     "answer": 3,
+     "explain": "Grant narrowly."
+    }
+   ]
+  },
+  "level-3/03-external-locations-volumes": {
+   "questions": [
+    {
+     "q": "What is an external location?",
+     "options": [
+      "A cluster",
+      "A volume",
+      "A table",
+      "A UC object tying a cloud storage path to a storage credential"
+     ],
+     "answer": 3,
+     "explain": "Governed access."
+    },
+    {
+     "q": "Managed vs external tables: what happens on DROP?",
+     "options": [
+      "Managed drops data; external keeps the files",
+      "Both keep",
+      "Same",
+      "Reverse"
+     ],
+     "answer": 0,
+     "explain": "Choose deliberately."
+    },
+    {
+     "q": "What do volumes govern?",
+     "options": [
+      "Access to arbitrary files like images and CSVs",
+      "Compute",
+      "Tables",
+      "Queries"
+     ],
+     "answer": 0,
+     "explain": "Path /Volumes/catalog/schema/vol."
+    },
+    {
+     "q": "Why not grant raw cloud storage access to users?",
+     "options": [
+      "Speed",
+      "It bypasses Unity Catalog governance",
+      "Law",
+      "Cost"
+     ],
+     "answer": 1,
+     "explain": "Use UC objects."
+    }
+   ]
+  },
+  "level-3/04-row-filters-column-masks": {
+   "questions": [
+    {
+     "q": "What does a row filter do?",
+     "options": [
+      "Hides columns",
+      "Sorts",
+      "Encrypts",
+      "Restricts which rows a user can see based on a function"
+     ],
+     "answer": 3,
+     "explain": "Policy attached to the table."
+    },
+    {
+     "q": "What does a column mask do?",
+     "options": [
+      "Transforms a column's values for users lacking permission",
+      "Drops",
+      "Hides rows",
+      "Sorts"
+     ],
+     "answer": 0,
+     "explain": "E.g. show last 4 digits."
+    },
+    {
+     "q": "Why use these over copies of data?",
+     "options": [
+      "Style",
+      "Cost only",
+      "Law",
+      "One governed copy with dynamic policies"
+     ],
+     "answer": 3,
+     "explain": "Less drift."
+    },
+    {
+     "q": "What function checks group membership in a policy?",
+     "options": [
+      "current_date()",
+      "rand()",
+      "is_account_group_member()",
+      "uuid()"
+     ],
+     "answer": 2,
+     "explain": "Used in UDFs."
+    }
+   ]
+  },
+  "level-3/05-lineage-system-tables": {
+   "questions": [
+    {
+     "q": "What does lineage show?",
+     "options": [
+      "Queries",
+      "Permissions",
+      "Costs",
+      "Upstream sources and downstream consumers of tables and columns"
+     ],
+     "answer": 3,
+     "explain": "Impact analysis."
+    },
+    {
+     "q": "What are system tables?",
+     "options": [
+      "Databricks-managed tables with audit, billing and usage data",
+      "Temp tables",
+      "Views",
+      "User tables"
+     ],
+     "answer": 0,
+     "explain": "system.billing.usage."
+    },
+    {
+     "q": "How can you find who accessed a table?",
+     "options": [
+      "Ask",
+      "Query audit logs in system tables",
+      "Logs on cluster",
+      "Guess"
+     ],
+     "answer": 1,
+     "explain": "Governance evidence."
+    },
+    {
+     "q": "Why is lineage useful before changing a table?",
+     "options": [
+      "Law",
+      "Speed",
+      "Cost",
+      "See what downstream assets would break"
+     ],
+     "answer": 3,
+     "explain": "Impact."
+    }
+   ]
+  },
+  "level-3/06-lakeflow-declarative-pipelines": {
+   "questions": [
+    {
+     "q": "What do Lakeflow Declarative Pipelines (formerly DLT) let you do?",
+     "options": [
+      "Write DAGs manually",
+      "Only SQL",
+      "Declare tables and expectations; the engine manages orchestration, retries and dependencies",
+      "Only ML"
+     ],
+     "answer": 2,
+     "explain": "Declarative ETL."
+    },
+    {
+     "q": "What are expectations?",
+     "options": [
+      "Data quality rules with actions (warn, drop, fail)",
+      "Docs",
+      "Tests only",
+      "Logs"
+     ],
+     "answer": 0,
+     "explain": "EXPECT ... ON VIOLATION."
+    },
+    {
+     "q": "What's the difference between streaming tables and materialized views?",
+     "options": [
+      "Streaming tables process new data incrementally; materialized views compute results of a query",
+      "Same",
+      "None",
+      "Reverse"
+     ],
+     "answer": 0,
+     "explain": "Choose by pattern."
+    },
+    {
+     "q": "What does the pipeline infer automatically?",
+     "options": [
+      "Nothing",
+      "Clusters",
+      "Schedules",
+      "Dependency order from references between datasets"
+     ],
+     "answer": 3,
+     "explain": "No manual DAG."
+    }
+   ]
+  },
+  "level-3/07-lakeflow-jobs": {
+   "questions": [
+    {
+     "q": "What do Lakeflow Jobs orchestrate?",
+     "options": [
+      "Only ML",
+      "Only notebooks",
+      "Tasks like notebooks, SQL, pipelines and Python wheels with dependencies and schedules",
+      "Only SQL"
+     ],
+     "answer": 2,
+     "explain": "Multi-task workflows."
+    },
+    {
+     "q": "How do you handle failures in a Job?",
+     "options": [
+      "Retries, alerts and conditional tasks",
+      "Ignore",
+      "Manual",
+      "Delete"
+     ],
+     "answer": 0,
+     "explain": "Operational."
+    },
+    {
+     "q": "Why use job parameters?",
+     "options": [
+      "Reuse the same job for different inputs/dates",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Parameterize."
+    },
+    {
+     "q": "What compute should production Jobs use?",
+     "options": [
+      "All-purpose",
+      "None",
+      "Laptop",
+      "Job clusters or serverless, not shared interactive clusters"
+     ],
+     "answer": 3,
+     "explain": "Isolation and cost."
+    }
+   ]
+  },
+  "level-3/08-opensharing": {
+   "questions": [
+    {
+     "q": "What does Delta Sharing do?",
+     "options": [
+      "Shares live data with other organizations over an open protocol without copying",
+      "Streams",
+      "Replicates",
+      "Backups"
+     ],
+     "answer": 0,
+     "explain": "Recipients can use any client."
+    },
+    {
+     "q": "Who controls what is shared?",
+     "options": [
+      "Cloud",
+      "Recipient",
+      "The provider, via shares and recipients",
+      "Nobody"
+     ],
+     "answer": 2,
+     "explain": "Governed."
+    },
+    {
+     "q": "Does the recipient need Databricks?",
+     "options": [
+      "Yes",
+      "No: open sharing works with other clients",
+      "Always",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Databricks-to-Databricks is richer."
+    },
+    {
+     "q": "What is a share?",
+     "options": [
+      "A table",
+      "A named collection of tables/views shared with recipients",
+      "A job",
+      "A user"
+     ],
+     "answer": 1,
+     "explain": "Grant access."
+    }
+   ]
+  },
+  "level-3/09-databricks-sql-warehouses": {
+   "questions": [
+    {
+     "q": "What are SQL warehouses for?",
+     "options": [
+      "ML training",
+      "Notebooks",
+      "BI and SQL workloads with elastic, optimized compute",
+      "Streaming only"
+     ],
+     "answer": 2,
+     "explain": "Serverless or pro."
+    },
+    {
+     "q": "What drives warehouse cost?",
+     "options": [
+      "Tables",
+      "Names",
+      "Colors",
+      "Size and running time (DBUs)"
+     ],
+     "answer": 3,
+     "explain": "Auto-stop."
+    },
+    {
+     "q": "What improves dashboard speed?",
+     "options": [
+      "Select *",
+      "Caching, right-sizing and well-modeled gold tables",
+      "More joins",
+      "Bigger logs"
+     ],
+     "answer": 1,
+     "explain": "Design for BI."
+    },
+    {
+     "q": "What's a warehouse's auto-stop for?",
+     "options": [
+      "Delete",
+      "Stop charges when idle",
+      "Scale",
+      "Restart"
+     ],
+     "answer": 1,
+     "explain": "Set low."
+    }
+   ]
+  },
+  "level-3/10-project-governed-platform": {
+   "questions": [
+    {
+     "q": "What does the governed platform project combine?",
+     "options": [
+      "Unity Catalog, grants, masks/filters, lineage and jobs",
+      "Only jobs",
+      "Only tables",
+      "Only SQL"
+     ],
+     "answer": 0,
+     "explain": "End to end."
+    },
+    {
+     "q": "How do you prove least privilege works?",
+     "options": [
+      "Skip",
+      "Ask",
+      "Test access as different principals",
+      "Assume"
+     ],
+     "answer": 2,
+     "explain": "Verify."
+    },
+    {
+     "q": "What should be automated?",
+     "options": [
+      "Clicks",
+      "Manual",
+      "Nothing",
+      "Grants and objects as code"
+     ],
+     "answer": 3,
+     "explain": "Reproducible."
+    },
+    {
+     "q": "What do you document?",
+     "options": [
+      "Slides",
+      "Code",
+      "Owners, classifications and data contracts",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Governance."
+    }
+   ]
+  },
+  "level-4/01-asset-bundles-cicd": {
+   "questions": [
+    {
+     "q": "What are Databricks Asset Bundles?",
+     "options": [
+      "A package",
+      "A format",
+      "A cluster",
+      "Infrastructure-as-code (YAML) for jobs, pipelines and resources deployed via CLI/CI"
+     ],
+     "answer": 3,
+     "explain": "databricks bundle deploy."
+    },
+    {
+     "q": "Why use bundles in CI/CD?",
+     "options": [
+      "Law",
+      "Style",
+      "Speed",
+      "Reproducible, reviewed deployments across dev/staging/prod targets"
+     ],
+     "answer": 3,
+     "explain": "Targets."
+    },
+    {
+     "q": "What should differ per target?",
+     "options": [
+      "Tests",
+      "Logic",
+      "Code",
+      "Workspace, catalog and parameters"
+     ],
+     "answer": 3,
+     "explain": "Same code, different config."
+    },
+    {
+     "q": "What should CI run?",
+     "options": [
+      "Nothing",
+      "Manual",
+      "Validation, unit tests and deployment to a test target",
+      "Only deploy"
+     ],
+     "answer": 2,
+     "explain": "Gate merges."
+    }
+   ]
+  },
+  "level-4/02-testing-pyspark": {
+   "questions": [
+    {
+     "q": "How do you unit test PySpark transforms?",
+     "options": [
+      "Manual",
+      "Production data",
+      "Pure functions on small local DataFrames with expected outputs",
+      "No asserts"
+     ],
+     "answer": 2,
+     "explain": "pytest + local session."
+    },
+    {
+     "q": "Why keep transform logic in importable modules?",
+     "options": [
+      "Law",
+      "Style",
+      "Testable outside notebooks",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Separation."
+    },
+    {
+     "q": "What should tests avoid?",
+     "options": [
+      "Assertions",
+      "Dependence on large data or cloud state",
+      "Small data",
+      "Fixtures"
+     ],
+     "answer": 1,
+     "explain": "Fast and deterministic."
+    },
+    {
+     "q": "What does chispa/assertDataFrameEqual help with?",
+     "options": [
+      "Logs",
+      "Comparing DataFrames in tests",
+      "Joins",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Clear diffs."
+    }
+   ]
+  },
+  "level-4/03-mlflow-tracking": {
+   "questions": [
+    {
+     "q": "What does MLflow Tracking record?",
+     "options": [
+      "Parameters, metrics, artifacts and code version per run",
+      "Only models",
+      "Only data",
+      "Only logs"
+     ],
+     "answer": 0,
+     "explain": "Reproducibility."
+    },
+    {
+     "q": "What's the model registry for?",
+     "options": [
+      "Versioning and stage/alias management of models (in UC)",
+      "Dashboards",
+      "Data",
+      "Jobs"
+     ],
+     "answer": 0,
+     "explain": "Promotion workflow."
+    },
+    {
+     "q": "Why log parameters and metrics?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Compare runs and reproduce results"
+     ],
+     "answer": 3,
+     "explain": "Experiment management."
+    },
+    {
+     "q": "What's an MLflow run?",
+     "options": [
+      "One execution of training code with its logged info",
+      "A table",
+      "A model",
+      "A job"
+     ],
+     "answer": 0,
+     "explain": "Grouped in experiments."
+    }
+   ]
+  },
+  "level-4/04-models-serving": {
+   "questions": [
+    {
+     "q": "What does Model Serving provide?",
+     "options": [
+      "Training",
+      "Storage",
+      "ETL",
+      "Managed REST endpoints for models with autoscaling"
+     ],
+     "answer": 3,
+     "explain": "Real-time inference."
+    },
+    {
+     "q": "What should you monitor on endpoints?",
+     "options": [
+      "Latency, errors, throughput and input/output quality",
+      "Names",
+      "Code",
+      "Colors"
+     ],
+     "answer": 0,
+     "explain": "Operate it."
+    },
+    {
+     "q": "How do you roll out a new model safely?",
+     "options": [
+      "Traffic splitting/canary with rollback",
+      "Hope",
+      "Delete",
+      "Replace all"
+     ],
+     "answer": 0,
+     "explain": "Progressive."
+    },
+    {
+     "q": "What does scale-to-zero trade off?",
+     "options": [
+      "Cost savings versus cold-start latency",
+      "Law",
+      "Speed",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Choose per SLA."
+    }
+   ]
+  },
+  "level-4/05-ai-functions-genie": {
+   "questions": [
+    {
+     "q": "What are AI Functions in Databricks SQL?",
+     "options": [
+      "Tables",
+      "Storage",
+      "Training",
+      "SQL functions that call models for tasks like classification and summarization on table data"
+     ],
+     "answer": 3,
+     "explain": "ai_query etc."
+    },
+    {
+     "q": "What is Genie?",
+     "options": [
+      "A format",
+      "A natural-language interface to ask questions of governed data",
+      "A cluster",
+      "A job"
+     ],
+     "answer": 1,
+     "explain": "Needs good metadata."
+    },
+    {
+     "q": "What makes natural-language analytics reliable?",
+     "options": [
+      "Size",
+      "Speed",
+      "Magic",
+      "Well-modeled, documented tables and verified answers"
+     ],
+     "answer": 3,
+     "explain": "Curate."
+    },
+    {
+     "q": "Why verify AI-generated SQL/results?",
+     "options": [
+      "Law",
+      "Models can be wrong or hallucinate",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Human review."
+    }
+   ]
+  },
+  "level-4/06-cost-management": {
+   "questions": [
+    {
+     "q": "How do you attribute cost to teams?",
+     "options": [
+      "Tagging compute and using billing system tables",
+      "Annual",
+      "Guess",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Chargeback."
+    },
+    {
+     "q": "What are top cost drivers?",
+     "options": [
+      "Idle compute, oversized clusters and inefficient queries",
+      "Users",
+      "Notebooks",
+      "Names"
+     ],
+     "answer": 0,
+     "explain": "Optimize."
+    },
+    {
+     "q": "What do budgets and policies do?",
+     "options": [
+      "Nothing",
+      "Speed",
+      "Cap spend and constrain compute configuration",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Cluster policies."
+    },
+    {
+     "q": "Why prefer serverless/job compute for batch?",
+     "options": [
+      "Speed",
+      "Style",
+      "Pay only while running",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Lower waste."
+    }
+   ]
+  },
+  "level-4/07-performance-photon-serverless": {
+   "questions": [
+    {
+     "q": "What is Photon?",
+     "options": [
+      "A format",
+      "A UI",
+      "A cluster",
+      "A vectorized native query engine that speeds SQL and DataFrame workloads"
+     ],
+     "answer": 3,
+     "explain": "Often cheaper per job."
+    },
+    {
+     "q": "What does serverless compute remove?",
+     "options": [
+      "Governance",
+      "Code",
+      "Cluster management and startup waits",
+      "Data"
+     ],
+     "answer": 2,
+     "explain": "Elastic."
+    },
+    {
+     "q": "What should you do before tuning?",
+     "options": [
+      "Measure with query profile and Spark UI",
+      "Rewrite",
+      "Guess",
+      "Resize"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What's predictive optimization?",
+     "options": [
+      "Automatic maintenance like OPTIMIZE and VACUUM for UC managed tables",
+      "Manual",
+      "Auth",
+      "Training"
+     ],
+     "answer": 0,
+     "explain": "Hands-off upkeep."
+    }
+   ]
+  },
+  "level-4/08-table-maintenance": {
+   "questions": [
+    {
+     "q": "Which maintenance tasks matter for Delta tables?",
+     "options": [
+      "Nothing",
+      "Only backups",
+      "OPTIMIZE (compaction), VACUUM and statistics",
+      "Only schema"
+     ],
+     "answer": 2,
+     "explain": "Keep reads fast."
+    },
+    {
+     "q": "What does VACUUM free?",
+     "options": [
+      "Tables",
+      "Compute",
+      "Memory",
+      "Storage from unreferenced old files"
+     ],
+     "answer": 3,
+     "explain": "Mind time-travel needs."
+    },
+    {
+     "q": "How often compact streaming tables?",
+     "options": [
+      "Annually",
+      "Regularly, since many small commits create small files",
+      "Once",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Or use auto compaction."
+    },
+    {
+     "q": "How do you check table health?",
+     "options": [
+      "Logs",
+      "Ignore",
+      "DESCRIBE DETAIL and file-count/size metrics",
+      "Guess"
+     ],
+     "answer": 2,
+     "explain": "Monitor."
+    }
+   ]
+  },
+  "level-4/09-migration": {
+   "questions": [
+    {
+     "q": "What's a safe migration approach?",
+     "options": [
+      "Delete old",
+      "Skip",
+      "Inventory, migrate in phases, run old and new in parallel and validate",
+      "Big bang"
+     ],
+     "answer": 2,
+     "explain": "Reduce risk."
+    },
+    {
+     "q": "What changes when moving from Hive metastore to UC?",
+     "options": [
+      "Objects become three-level and permissions move to UC grants",
+      "Only compute",
+      "Only names",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Plan upgrades."
+    },
+    {
+     "q": "How do you validate a migrated pipeline?",
+     "options": [
+      "Compare outputs and row counts against the legacy system",
+      "Eyeball",
+      "Skip",
+      "Assume"
+     ],
+     "answer": 0,
+     "explain": "Reconcile."
+    },
+    {
+     "q": "What should be decommissioned last?",
+     "options": [
+      "First",
+      "Legacy sources after consumers are verified on the new system",
+      "Never",
+      "Immediately"
+     ],
+     "answer": 1,
+     "explain": "Cutover carefully."
+    }
+   ]
+  },
+  "level-4/10-capstone-platform": {
+   "questions": [
+    {
+     "q": "What does the capstone integrate?",
+     "options": [
+      "Only SQL",
+      "Only jobs",
+      "Only ML",
+      "Ingestion, medallion, governance, CI/CD, ML/AI and cost controls on one platform"
+     ],
+     "answer": 3,
+     "explain": "Production lakehouse."
+    },
+    {
+     "q": "How do you prove production readiness?",
+     "options": [
+      "Hope",
+      "Demo",
+      "Slides",
+      "Tests, monitoring, runbooks and failure drills"
+     ],
+     "answer": 3,
+     "explain": "Operate."
+    },
+    {
+     "q": "What should documentation cover?",
+     "options": [
+      "Architecture, ownership and operations",
+      "Slides",
+      "Nothing",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Onboarding."
+    },
+    {
+     "q": "What guards against cost surprises?",
+     "options": [
+      "Hope",
+      "Tags, budgets, policies and alerts",
+      "Nothing",
+      "Annual"
+     ],
+     "answer": 1,
+     "explain": "FinOps."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What makes a Delta table different from a plain folder of Parquet files?",
+    "options": [
+     "Encryption",
+     "A database server",
+     "A different file format",
+     "A transaction log that defines which files make up each version, giving ACID commits and time travel"
+    ],
+    "answer": 3,
+    "explain": "The log is the table."
+   },
+   {
+    "q": "A job overwrote a Delta table with bad data an hour ago. What's the fastest recovery?",
+    "options": [
+     "Delete the table",
+     "Rebuild from scratch",
+     "RESTORE the table to the previous version (if the files haven't been vacuumed)",
+     "Restore a backup"
+    ],
+    "answer": 2,
+    "explain": "Time travel plus RESTORE."
+   },
+   {
+    "q": "After VACUUM with a short retention, a query `VERSION AS OF 5` fails. Why?",
+    "options": [
+     "The log was deleted",
+     "Delta is broken",
+     "Permissions",
+     "The data files for that version were deleted as unreferenced"
+    ],
+    "answer": 3,
+    "explain": "Retention governs how far back you can go."
+   },
+   {
+    "q": "A MERGE fails saying multiple source rows matched one target row. What's the fix?",
+    "options": [
+     "Disable checks",
+     "Deduplicate the source to one row per key (e.g. keep the latest) before merging",
+     "Use INSERT",
+     "Retry"
+    ],
+    "answer": 1,
+    "explain": "Make the merge deterministic."
+   },
+   {
+    "q": "An append fails with a schema mismatch error. Is that a bug?",
+    "options": [
+     "Cluster issue",
+     "Corrupt table",
+     "No: schema enforcement is protecting the table; evolve the schema explicitly if the change is intended",
+     "Yes, a bug"
+    ],
+    "answer": 2,
+    "explain": "Enforcement fails loudly."
+   },
+   {
+    "q": "Queries filter on customer_id but scan the whole table. What helps?",
+    "options": [
+     "More partitions on customer_id",
+     "Bigger cluster only",
+     "SELECT *",
+     "OPTIMIZE with ZORDER or liquid clustering on customer_id so data skipping can work"
+    ],
+    "answer": 3,
+    "explain": "High-cardinality columns are poor partition keys."
+   },
+   {
+    "q": "A table partitioned by user_id has millions of tiny files. What went wrong?",
+    "options": [
+     "Too few partitions",
+     "Over-partitioning on a high-cardinality column",
+     "Compression",
+     "Photon"
+    ],
+    "answer": 1,
+    "explain": "Partition on low-cardinality columns or use clustering."
+   },
+   {
+    "q": "In a Spark job one task runs for an hour while the rest finish in seconds. What's the likely cause and a fix?",
+    "options": [
+     "Network",
+     "Disk",
+     "Skew on a join key; use AQE skew handling, salting or broadcast the small side",
+     "Increase partitions only"
+    ],
+    "answer": 2,
+    "explain": "Look at the Spark UI task metrics."
+   },
+   {
+    "q": "Why prefer Auto Loader over listing a directory every minute?",
+    "options": [
+     "It copies files",
+     "It tracks files incrementally with exactly-once ingestion and handles schema evolution (rescued data)",
+     "It's SQL",
+     "It's older"
+    ],
+    "answer": 1,
+    "explain": "Scales to millions of files."
+   },
+   {
+    "q": "A streaming query is restarted and reprocesses old data. What was missing?",
+    "options": [
+     "A trigger",
+     "A cluster",
+     "A stable checkpoint location",
+     "A watermark"
+    ],
+    "answer": 2,
+    "explain": "Checkpoints store progress."
+   },
+   {
+    "q": "Why keep bronze tables append-only and untouched?",
+    "options": [
+     "Speed",
+     "Cost",
+     "They're the replayable source of truth if silver logic changes",
+     "Law"
+    ],
+    "answer": 2,
+    "explain": "Medallion principle."
+   },
+   {
+    "q": "A column should show only the last 4 digits to non-privileged users. What's the Unity Catalog feature?",
+    "options": [
+     "A filter",
+     "A column mask on the table",
+     "A grant",
+     "A view copy"
+    ],
+    "answer": 1,
+    "explain": "Dynamic, policy-based."
+   },
+   {
+    "q": "Analysts see all regions but should see only their own. What do you use?",
+    "options": [
+     "Column mask",
+     "Copies per region",
+     "Grants only",
+     "A row filter function based on group membership"
+    ],
+    "answer": 3,
+    "explain": "One governed table."
+   },
+   {
+    "q": "A user can't read a table even though they have SELECT on it. What else is required?",
+    "options": [
+     "USE CATALOG and USE SCHEMA on the parents",
+     "OWNER",
+     "ALL",
+     "MODIFY"
+    ],
+    "answer": 0,
+    "explain": "Privileges are hierarchical."
+   },
+   {
+    "q": "What happens on DROP TABLE for an external table?",
+    "options": [
+     "Files deleted",
+     "Metadata is removed but the underlying files remain",
+     "Nothing",
+     "Moves files"
+    ],
+    "answer": 1,
+    "explain": "Managed tables delete data."
+   },
+   {
+    "q": "A scheduled nightly job runs on an always-on all-purpose cluster. What's the issue?",
+    "options": [
+     "Wasted spend and shared interference; use job/serverless compute",
+     "Nothing",
+     "Security",
+     "Speed"
+    ],
+    "answer": 0,
+    "explain": "Right-size compute."
+   },
+   {
+    "q": "A deployment must be identical across dev, staging and prod with only config changing. What do you use?",
+    "options": [
+     "Manual clicks",
+     "Scripts on laptops",
+     "Copy notebooks",
+     "Declarative Asset Bundles (databricks bundle deploy) with per-target settings"
+    ],
+    "answer": 3,
+    "explain": "IaC and CI/CD."
+   },
+   {
+    "q": "A dashboard is slow and costly. Which is the best first check?",
+    "options": [
+     "Drop columns",
+     "Add colors",
+     "Profile the query and verify gold tables and warehouse sizing/auto-stop",
+     "More users"
+    ],
+    "answer": 2,
+    "explain": "Measure first."
+   },
+   {
+    "q": "Which is the right way to share data with an external partner without copying it?",
+    "options": [
+     "Delta Sharing with a share and recipient",
+     "Email CSVs",
+     "Open the bucket",
+     "Grant workspace access"
+    ],
+    "answer": 0,
+    "explain": "Governed, live."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Build a toy Delta log",
+    "prompt": "Implement MiniDelta: commit() records added and removed files, snapshot(version) replays the log, read() returns the rows of live files, and vacuum() deletes physical files not needed by the latest version. Show current data, time travel to v1, and what vacuum breaks.",
+    "starter": "class MiniDelta:\n    \"\"\"A toy transaction log: each commit lists files it ADDs and REMOVEs.\"\"\"\n    def __init__(self):\n        self.log = []                    # log[v] = (adds, removes)\n        self.files = {}                  # file name -> list of rows\n\n    def commit(self, adds=None, removes=()):\n        # store the new files, append (added names, removed names) to the log,\n        # and return the new version number\n        return 0\n\n    def snapshot(self, version=None):\n        # replay the log up to `version` (default: latest) and return the live file names\n        return []\n\n    def read(self, version=None):\n        # all rows from the live files of that version, sorted\n        return []\n\n    def vacuum(self, keep_versions=1):\n        # delete physical files not needed by the latest `keep_versions` versions\n        pass\n\nt = MiniDelta()\nt.commit({\"f1\": [1, 2, 3]})                         # v0\nt.commit({\"f2\": [4, 5]})                            # v1\nt.commit({\"f3\": [1, 2, 3, 40, 5]}, removes=[\"f1\", \"f2\"])   # v2 (a rewrite)\nprint(\"current:\", t.read())\nprint(\"v1:\", t.read(1))\nt.vacuum()\nprint(\"files after vacuum:\", sorted(t.files))\ntry:\n    print(\"v1 after vacuum:\", t.read(1))\nexcept KeyError as e:\n    print(\"time travel to v1 fails: missing file\", e)\n",
+    "expected": "current: [1, 2, 3, 5, 40]\nv1: [1, 2, 3, 4, 5]\nfiles after vacuum: ['f3']\ntime travel to v1 fails: missing file 'f1'",
+    "solution": "class MiniDelta:\n    \"\"\"A toy transaction log: each commit lists files it ADDs and REMOVEs.\"\"\"\n    def __init__(self):\n        self.log = []                    # log[v] = (adds, removes)\n        self.files = {}                  # file name -> list of rows\n\n    def commit(self, adds=None, removes=()):\n        adds = adds or {}\n        self.files.update(adds)\n        self.log.append((list(adds), list(removes)))\n        return len(self.log) - 1\n\n    def snapshot(self, version=None):\n        version = len(self.log) - 1 if version is None else version\n        live = []\n        for adds, removes in self.log[: version + 1]:\n            live = [f for f in live if f not in removes] + adds\n        return live\n\n    def read(self, version=None):\n        return sorted(r for f in self.snapshot(version) for r in self.files[f])\n\n    def vacuum(self, keep_versions=1):\n        keep = set(self.snapshot())\n        for v in range(max(0, len(self.log) - keep_versions), len(self.log)):\n            keep |= set(self.snapshot(v))\n        for f in list(self.files):\n            if f not in keep:\n                del self.files[f]\n\nt = MiniDelta()\nt.commit({\"f1\": [1, 2, 3]})                         # v0\nt.commit({\"f2\": [4, 5]})                            # v1\nt.commit({\"f3\": [1, 2, 3, 40, 5]}, removes=[\"f1\", \"f2\"])   # v2 (a rewrite)\nprint(\"current:\", t.read())\nprint(\"v1:\", t.read(1))\nt.vacuum()\nprint(\"files after vacuum:\", sorted(t.files))\ntry:\n    print(\"v1 after vacuum:\", t.read(1))\nexcept KeyError as e:\n    print(\"time travel to v1 fails: missing file\", e)\n",
+    "explain": "Each commit is only a list of file additions and removals; a table version is the replay of that log. Vacuum deletes unreferenced files, so older versions can no longer be read. This is a teaching model of Delta's idea, not Delta's actual protocol. Verified by running the solution."
+   },
+   {
+    "title": "MERGE with deduplicated CDC",
+    "prompt": "Implement merge(target, source) to update matches, insert new rows, and delete rows flagged op='d', raising an error when the source has duplicate keys. Then deduplicate the change feed with latest_per_key and merge again.",
+    "starter": "def merge(target, source, key=\"id\"):\n    # update matching rows, insert new ones, delete rows with op == \"d\";\n    # raise ValueError if the source has two rows with the same key\n    return target\n\ndef latest_per_key(changes, key=\"id\", order=\"ts\"):\n    best = {}\n    for r in changes:\n        if r[key] not in best or r[order] > best[r[key]][order]:\n            best[r[key]] = r\n    return list(best.values())\n\ntarget = [{\"id\": 1, \"city\": \"Oslo\"}, {\"id\": 2, \"city\": \"Rome\"}, {\"id\": 3, \"city\": \"Kyiv\"}]\nchanges = [\n    {\"id\": 2, \"city\": \"Milan\", \"ts\": 1, \"op\": \"u\"},\n    {\"id\": 2, \"city\": \"Turin\", \"ts\": 2, \"op\": \"u\"},\n    {\"id\": 3, \"ts\": 3, \"op\": \"d\"},\n    {\"id\": 4, \"city\": \"Lima\", \"ts\": 4, \"op\": \"i\"},\n]\ntry:\n    merge(target, changes)\nexcept ValueError as e:\n    print(\"error:\", e)\nprint(merge(target, latest_per_key(changes)))\n",
+    "expected": "error: multiple source rows for id=2\n[{'id': 1, 'city': 'Oslo'}, {'id': 2, 'city': 'Turin', 'ts': 2}, {'id': 4, 'city': 'Lima', 'ts': 4}]",
+    "solution": "def merge(target, source, key=\"id\"):\n    \"\"\"MERGE INTO: update matches, insert new rows, delete rows flagged op='d'.\n    Duplicate source keys are an error (ambiguous merge) unless deduplicated first.\"\"\"\n    seen = set()\n    for r in source:\n        if r[key] in seen:\n            raise ValueError(f\"multiple source rows for {key}={r[key]}\")\n        seen.add(r[key])\n    out = {r[key]: dict(r) for r in target}\n    for r in source:\n        k = r[key]\n        if r.get(\"op\") == \"d\":\n            out.pop(k, None)\n        elif k in out:\n            out[k].update({c: v for c, v in r.items() if c != \"op\"})\n        else:\n            out[k] = {c: v for c, v in r.items() if c != \"op\"}\n    return [out[k] for k in sorted(out)]\n\ndef latest_per_key(changes, key=\"id\", order=\"ts\"):\n    best = {}\n    for r in changes:\n        if r[key] not in best or r[order] > best[r[key]][order]:\n            best[r[key]] = r\n    return list(best.values())\n\ntarget = [{\"id\": 1, \"city\": \"Oslo\"}, {\"id\": 2, \"city\": \"Rome\"}, {\"id\": 3, \"city\": \"Kyiv\"}]\nchanges = [\n    {\"id\": 2, \"city\": \"Milan\", \"ts\": 1, \"op\": \"u\"},\n    {\"id\": 2, \"city\": \"Turin\", \"ts\": 2, \"op\": \"u\"},\n    {\"id\": 3, \"ts\": 3, \"op\": \"d\"},\n    {\"id\": 4, \"city\": \"Lima\", \"ts\": 4, \"op\": \"i\"},\n]\ntry:\n    merge(target, changes)\nexcept ValueError as e:\n    print(\"error:\", e)\nprint(merge(target, latest_per_key(changes)))\n",
+    "explain": "MERGE needs at most one source row per target row, so CDC feeds are reduced to the latest change per key first. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
