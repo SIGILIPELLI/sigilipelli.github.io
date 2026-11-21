@@ -1538,6 +1538,604 @@
      "explain": "It's Flux v2 (Flux CD)."
     }
    ]
+  },
+  "level-4/03-cluster-upgrades-maintenance": {
+   "questions": [
+    {
+     "q": "What is the mandated upgrade order?",
+     "options": [
+      "Nodes first, then control plane",
+      "Skip versions to save time",
+      "Control plane first, then nodes, one minor version at a time",
+      "Any order"
+     ],
+     "answer": 2,
+     "explain": "For example 1.27 → 1.28 → 1.29, never 1.27 → 1.29 directly."
+    },
+    {
+     "q": "Which component is the ceiling for version skew?",
+     "options": [
+      "kubelet",
+      "kubectl",
+      "kube-proxy",
+      "kube-apiserver"
+     ],
+     "answer": 3,
+     "explain": "No other component may run a newer minor version than it."
+    },
+    {
+     "q": "What does kubectl cordon node-3 do?",
+     "options": [
+      "Marks the node unschedulable so no new Pods are placed there",
+      "Deletes the node",
+      "Upgrades the node",
+      "Evicts all Pods"
+     ],
+     "answer": 0,
+     "explain": "kubectl drain then evicts existing Pods, respecting PodDisruptionBudgets."
+    },
+    {
+     "q": "How do control-plane Pods restart after kubeadm upgrade apply?",
+     "options": [
+      "You delete them with kubectl",
+      "Helm restarts them",
+      "The API server restarts them",
+      "kubelet watches the static Pod manifests directory and restarts them automatically"
+     ],
+     "answer": 3,
+     "explain": "Static Pods aren't normal API objects you restart via kubectl."
+    }
+   ]
+  },
+  "level-4/04-security-hardening": {
+   "questions": [
+    {
+     "q": "What are the three Pod Security Standards levels?",
+     "options": [
+      "Dev, Staging and Prod",
+      "Low, Medium and High",
+      "Open, Closed and Locked",
+      "Privileged, Baseline and Restricted"
+     ],
+     "answer": 3,
+     "explain": "They replace the deprecated PodSecurityPolicy and are enforced by the in-tree Pod Security Admission controller."
+    },
+    {
+     "q": "How do enforce, warn and audit differ?",
+     "options": [
+      "All three reject Pods",
+      "audit creates Pods",
+      "enforce rejects non-compliant Pods; warn and audit let you roll out a stricter policy gradually",
+      "warn deletes Pods"
+     ],
+     "answer": 2,
+     "explain": "Apply warn/audit first, then flip enforce once nothing new violates it."
+    },
+    {
+     "q": "How is a Pod Security Standard applied to a namespace?",
+     "options": [
+      "With a ConfigMap",
+      "With pod-security.kubernetes.io labels on the Namespace",
+      "With a Service",
+      "With a PVC"
+     ],
+     "answer": 1,
+     "explain": "For example pod-security.kubernetes.io/enforce: restricted."
+    },
+    {
+     "q": "Which are Restricted requirements?",
+     "options": [
+      "Allow privileged containers",
+      "Run as root",
+      "Allow host paths",
+      "Run as non-root, drop all capabilities, forbid privilege escalation and require a seccomp profile"
+     ],
+     "answer": 3,
+     "explain": "The compliant Pod spec sets runAsNonRoot, allowPrivilegeEscalation: false and capabilities drop ALL."
+    }
+   ]
+  },
+  "level-4/05-image-scanning-supply-chain": {
+   "questions": [
+    {
+     "q": "What are the supply chain's three attack surfaces?",
+     "options": [
+      "Build-time, distribution and runtime",
+      "Dev, test and prod",
+      "Images, Pods and Services",
+      "Network, storage and compute"
+     ],
+     "answer": 0,
+     "explain": "Scanning addresses build-time; signing and provenance address distribution and runtime."
+    },
+    {
+     "q": "What turns Trivy scanning from a dashboard nobody reads into a real gate?",
+     "options": [
+      "Wiring it into CI with --exit-code 1 on CRITICAL/HIGH so the build fails",
+      "Emailing results",
+      "Running it manually",
+      "Hiding results"
+     ],
+     "answer": 0,
+     "explain": "A scan that only reports gets ignored under deadline pressure."
+    },
+    {
+     "q": "What does keyless Cosign signing tie the signature to?",
+     "options": [
+      "An IP address",
+      "An OIDC identity (e.g. a specific GitHub Actions workflow), instead of a long-lived private key",
+      "A cluster name",
+      "A password"
+     ],
+     "answer": 1,
+     "explain": "It uses Fulcio and the Rekor transparency log."
+    },
+    {
+     "q": "What does the Kyverno ClusterPolicy do here?",
+     "options": [
+      "Scans nodes",
+      "Builds images",
+      "Creates namespaces",
+      "Enforces at admission time that images are signed (or scanned) before Pods are allowed"
+     ],
+     "answer": 3,
+     "explain": "It blocks unverified images at the admission step."
+    }
+   ]
+  },
+  "level-4/06-production-cluster-architecture": {
+   "questions": [
+    {
+     "q": "Why does etcd need an odd number of members?",
+     "options": [
+      "Even numbers can't be installed",
+      "It reduces cost",
+      "Odd numbers are faster",
+      "So a majority (quorum) is always well-defined: 3 tolerate 1 failure, 5 tolerate 2"
+     ],
+     "answer": 3,
+     "explain": "It's a Raft-based cluster."
+    },
+    {
+     "q": "Why spread 3 control-plane nodes across 3 AZs?",
+     "options": [
+      "A single AZ outage still leaves 2 members, a quorum, so the cluster keeps writing",
+      "To use more IPs",
+      "To reduce latency",
+      "To avoid backups"
+     ],
+     "answer": 0,
+     "explain": "Each AZ holds one etcd member."
+    },
+    {
+     "q": "What do taints and tolerations achieve for a GPU node pool?",
+     "options": [
+      "They delete Pods",
+      "Ordinary workloads don't land on expensive specialized nodes; only Pods that tolerate the taint do",
+      "They encrypt nodes",
+      "They schedule everything on GPUs"
+     ],
+     "answer": 1,
+     "explain": "The Pod also uses a nodeSelector for the pool."
+    },
+    {
+     "q": "What questions does a production design answer?",
+     "options": [
+      "Only which image to use",
+      "Only the namespace name",
+      "Control plane count and AZs, etcd deployment and backup, worker node pooling and cluster-wide policy",
+      "Only the Helm version"
+     ],
+     "answer": 2,
+     "explain": "The earlier levels sidestepped these for simplicity."
+    }
+   ]
+  },
+  "level-4/07-disaster-recovery-backup": {
+   "questions": [
+    {
+     "q": "Why does restoring etcd alone not recover a corrupted database?",
+     "options": [
+      "etcd is read-only",
+      "etcd stores row data",
+      "etcd holds declared API objects, while application data lives on PV storage outside etcd",
+      "Restores don't work"
+     ],
+     "answer": 2,
+     "explain": "Both halves need independent, tested backup and restore procedures."
+    },
+    {
+     "q": "Why must etcd snapshots ship off-node immediately?",
+     "options": [
+      "A snapshot only on the control-plane disk dies with that disk in a real disaster",
+      "etcd requires it",
+      "Snapshots expire",
+      "S3 is faster"
+     ],
+     "answer": 0,
+     "explain": "The cron job copies each snapshot to S3 or GCS."
+    },
+    {
+     "q": "What does etcdctl snapshot save do?",
+     "options": [
+      "Deletes keys",
+      "Writes a point-in-time snapshot of etcd to a file",
+      "Restores etcd",
+      "Upgrades etcd"
+     ],
+     "answer": 1,
+     "explain": "etcdctl snapshot status shows its hash, revision, key count and size."
+    },
+    {
+     "q": "How does the restore procedure make etcd use the restored data?",
+     "options": [
+      "Restart the API server only",
+      "Run kubectl apply",
+      "Point the etcd static Pod manifest at the restored data-dir; kubelet restarts etcd against it",
+      "Edit a ConfigMap"
+     ],
+     "answer": 2,
+     "explain": "Restoring is a full replace, not a merge."
+    }
+   ]
+  },
+  "level-4/08-cost-optimization-capacity": {
+   "questions": [
+    {
+     "q": "What drives most of a cluster's cost?",
+     "options": [
+      "The number of namespaces",
+      "Image sizes",
+      "CPU actually used",
+      "Requested, not used, resources"
+     ],
+     "answer": 3,
+     "explain": "Nodes are provisioned and billed to satisfy requests whether or not Pods use them."
+    },
+    {
+     "q": "A Pod requests 500m CPU but uses 45m. What is the problem?",
+     "options": [
+      "The Pod is OOMKilled",
+      "The Pod is throttled",
+      "Nothing",
+      "The scheduler reserved about 10x the CPU actually needed, which sits idle and billed"
+     ],
+     "answer": 3,
+     "explain": "Over-requesting is the largest source of Kubernetes waste."
+    },
+    {
+     "q": "Why start VPA with updateMode: \"Off\"?",
+     "options": [
+      "It disables HPA",
+      "It deletes Pods",
+      "It scales nodes",
+      "It only reports recommendations without evicting Pods, so a human applies new requests deliberately"
+     ],
+     "answer": 3,
+     "explain": "Auto mode evicts and recreates Pods, which is disruptive for restart-intolerant workloads."
+    },
+    {
+     "q": "What does Cluster Autoscaler react to?",
+     "options": [
+      "Disk usage",
+      "Image pulls",
+      "Unschedulable (Pending) Pods, scaling a node group up",
+      "CPU usage on nodes"
+     ],
+     "answer": 2,
+     "explain": "The log shows a node group scaled from 6 to 7."
+    }
+   ]
+  },
+  "level-4/09-platform-engineering": {
+   "questions": [
+    {
+     "q": "What two failure modes does platform engineering avoid?",
+     "options": [
+      "Large images, small images",
+      "Every team reinventing its own boilerplate, or a central team becoming a ticket queue",
+      "Slow builds, fast deploys",
+      "Too few Pods, too many nodes"
+     ],
+     "answer": 1,
+     "explain": "It provides a self-service golden path."
+    },
+    {
+     "q": "What does a Crossplane Composite Resource Definition (XRD) let a platform team do?",
+     "options": [
+      "Build images",
+      "Run backups",
+      "Define a simplified developer-facing API that expands into the real Kubernetes and cloud resources",
+      "Scan nodes"
+     ],
+     "answer": 2,
+     "explain": "A developer writes a small DatabaseClaim; a Composition provisions the real resources."
+    },
+    {
+     "q": "What does a developer submit in the lesson's example?",
+     "options": [
+      "A Helm chart",
+      "A DatabaseClaim with size and engine",
+      "A full RDS template",
+      "A Terraform plan"
+     ],
+     "answer": 1,
+     "explain": "The claim yields a connection Secret."
+    },
+    {
+     "q": "What is a golden path?",
+     "options": [
+      "A Git branch",
+      "A special node pool",
+      "A faster network",
+      "A self-service route that gives developers safe, consistent infrastructure"
+     ],
+     "answer": 3,
+     "explain": "Developers don't touch the underlying cloud details."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone introduce?",
+     "options": [
+      "A new scheduler",
+      "A new CNI",
+      "No new mechanisms: an integration exercise showing how Modules 01–09 fit together for orders-api",
+      "A new database"
+     ],
+     "answer": 2,
+     "explain": "It combines GitOps, security, supply chain, topology, DR, cost and platform surface."
+    },
+    {
+     "q": "What do topologySpreadConstraints on the zone key do for orders-api?",
+     "options": [
+      "Pin all Pods to one zone",
+      "Disable autoscaling",
+      "Add replicas",
+      "Spread replicas evenly across the three AZs"
+     ],
+     "answer": 3,
+     "explain": "maxSkew 1 with DoNotSchedule enforces even spread."
+    },
+    {
+     "q": "What access does team-orders get?",
+     "options": [
+      "The edit ClusterRole, scoped to the orders namespace only",
+      "Cluster-wide admin",
+      "No access",
+      "Read-only everywhere"
+     ],
+     "answer": 0,
+     "explain": "Every Pod they deploy must also satisfy the restricted Pod Security level."
+    },
+    {
+     "q": "What does the Kyverno policy require in the orders namespace?",
+     "options": [
+      "Public images only",
+      "Signed images only, enforced at admission",
+      "Unsigned images",
+      "No images"
+     ],
+     "answer": 1,
+     "explain": "It uses verifyImages with validationFailureAction: Enforce."
+    }
+   ]
   }
- }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "You deploy a bare Pod for a real workload and its node dies. What happens?",
+    "options": [
+     "It restarts on another node automatically",
+     "Nothing recreates it; use a Deployment for self-healing",
+     "The Service recreates it",
+     "The ReplicaSet recreates it"
+    ],
+    "answer": 1,
+    "explain": "A bare Pod has no controller behind it."
+   },
+   {
+    "q": "You change a Deployment's image tag. What does the Deployment controller do?",
+    "options": [
+     "Creates a new ReplicaSet and gradually shifts replicas from the old one (rolling update)",
+     "Does nothing until restarted",
+     "Deletes all Pods at once",
+     "Edits Pods in place"
+    ],
+    "answer": 0,
+    "explain": "The old ReplicaSet is kept at zero for rollback."
+   },
+   {
+    "q": "A rollout is broken. Which command returns to the previous revision?",
+    "options": [
+     "kubectl rollout undo deployment/web",
+     "kubectl scale deployment web --replicas=0",
+     "kubectl delete deployment web",
+     "kubectl rollback web"
+    ],
+    "answer": 0,
+    "explain": "rollout undo reverts to the previous revision; --to-revision picks a specific one."
+   },
+   {
+    "q": "Pods get new IPs on each recreation, but other services must reach them reliably. What do you create?",
+    "options": [
+     "An Ingress only",
+     "A ConfigMap",
+     "A Service with a label selector",
+     "A hard-coded IP list"
+    ],
+    "answer": 2,
+    "explain": "A Service gives a stable IP and DNS name in front of matching Pods."
+   },
+   {
+    "q": "You need one external domain with path-based routing to ten HTTP services and TLS. What do you use?",
+    "options": [
+     "An Ingress plus an Ingress controller",
+     "Ten NodePorts",
+     "A ConfigMap",
+     "Ten LoadBalancer Services"
+    ],
+    "answer": 0,
+    "explain": "Ingress describes host/path routing; the controller implements it."
+   },
+   {
+    "q": "A database password must not be baked into the image or stored in plain config. What do you use?",
+    "options": [
+     "A ConfigMap",
+     "A Secret consumed as an env var or mounted file",
+     "A label",
+     "An annotation"
+    ],
+    "answer": 1,
+    "explain": "Secrets are for sensitive data (base64-encoded, optionally encrypted at rest)."
+   },
+   {
+    "q": "A container is deadlocked but its process is still running. Which probe restarts it?",
+    "options": [
+     "Readiness probe",
+     "Startup probe",
+     "Liveness probe",
+     "No probe can"
+    ],
+    "answer": 2,
+    "explain": "A failing liveness probe makes kubelet kill and restart the container."
+   },
+   {
+    "q": "A Pod is temporarily unable to serve because its database connection dropped. What is the right probe response?",
+    "options": [
+     "Failing readiness removes it from Service endpoints without a restart",
+     "Delete the Pod",
+     "Failing liveness restarts it",
+     "Scale the Deployment to zero"
+    ],
+    "answer": 0,
+    "explain": "Readiness protects traffic without needless restarts."
+   },
+   {
+    "q": "A Pod shows OOMKilled. What happened?",
+    "options": [
+     "The node was drained",
+     "It exceeded its memory limit and the kernel OOM killer terminated it",
+     "It exceeded its CPU limit",
+     "The image failed to pull"
+    ],
+    "answer": 1,
+    "explain": "Memory limits are enforced by killing; CPU limits by throttling."
+   },
+   {
+    "q": "A Pod is stuck Pending with 'Insufficient cpu'. What does it tell you?",
+    "options": [
+     "The image is wrong",
+     "A PVC is unbound",
+     "The probe failed",
+     "No node has enough unrequested CPU for its requests"
+    ],
+    "answer": 3,
+    "explain": "The scheduler compares requests to allocatable capacity."
+   },
+   {
+    "q": "A pod shows CrashLoopBackOff. Which command shows why the previous container crashed?",
+    "options": [
+     "kubectl top pod",
+     "kubectl get pod",
+     "kubectl delete pod",
+     "kubectl logs <pod> --previous"
+    ],
+    "answer": 3,
+    "explain": "--previous shows the crashed container's logs."
+   },
+   {
+    "q": "You want to run a database migration once, retry on failure and stop. What kind of object?",
+    "options": [
+     "A bare Pod with Always restart",
+     "A Job (restartPolicy Never or OnFailure)",
+     "A DaemonSet",
+     "A Deployment"
+    ],
+    "answer": 1,
+    "explain": "A Job runs to completion; backoffLimit caps retries."
+   },
+   {
+    "q": "A database needs stable Pod names, stable DNS and its own PVC per replica. What do you use?",
+    "options": [
+     "A DaemonSet",
+     "A StatefulSet with a headless Service",
+     "A Deployment",
+     "A Job"
+    ],
+    "answer": 1,
+    "explain": "StatefulSets give each replica a stable identity."
+   },
+   {
+    "q": "You want a service account to read Pod logs only in the prod namespace. What do you create?",
+    "options": [
+     "A NetworkPolicy",
+     "A ConfigMap",
+     "A Role and a RoleBinding in prod",
+     "A ClusterRoleBinding to admin"
+    ],
+    "answer": 2,
+    "explain": "Role + RoleBinding grants permissions within one namespace."
+   },
+   {
+    "q": "By default any Pod can reach any other Pod. What is the recommended first NetworkPolicy for a namespace?",
+    "options": [
+     "Open all ports",
+     "Delete the CNI",
+     "Default-deny, then allow-list the traffic you need",
+     "Allow all"
+    ],
+    "answer": 2,
+    "explain": "Policies are additive; start with deny-all."
+   },
+   {
+    "q": "You want replicas to scale with CPU, keeping average utilization at 70%. What do you use, and what must be set?",
+    "options": [
+     "VerticalPodAutoscaler only",
+     "A Job",
+     "A ConfigMap",
+     "HorizontalPodAutoscaler, with accurate CPU requests and metrics-server"
+    ],
+    "answer": 3,
+    "explain": "Utilization is a percentage of the Pod's CPU request."
+   },
+   {
+    "q": "You must stop a node drain from evicting too many replicas of your app at once. What protects availability?",
+    "options": [
+     "A ResourceQuota",
+     "A PodDisruptionBudget",
+     "A taint",
+     "A liveness probe"
+    ],
+    "answer": 1,
+    "explain": "PDBs limit voluntary disruptions."
+   },
+   {
+    "q": "You want to reconcile cluster state continuously from Git, reverting manual edits. What approach and settings?",
+    "options": [
+     "A cron job",
+     "kubectl apply from a laptop",
+     "Manual edits",
+     "GitOps (ArgoCD) with prune and selfHeal"
+    ],
+    "answer": 3,
+    "explain": "The pull model corrects drift automatically."
+   },
+   {
+    "q": "You must reject Pods that run as root or lack resource limits across a namespace. Which mechanisms apply?",
+    "options": [
+     "A Service",
+     "A ConfigMap",
+     "Pod Security labels (restricted) and admission policy",
+     "An HPA"
+    ],
+    "answer": 2,
+    "explain": "Admission control checks the object's content."
+   }
+  ]
+ },
+ "final_pass_pct": 70
 }
