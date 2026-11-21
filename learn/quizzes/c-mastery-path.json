@@ -1,0 +1,2170 @@
+{
+ "course": "c-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What does `gcc hello.c -o hello` do?",
+     "options": [
+      "Deletes hello.c",
+      "Compiles hello.c and names the resulting binary hello",
+      "Installs gcc",
+      "Runs hello.c as a script"
+     ],
+     "answer": 1,
+     "explain": "-o names the output; without it gcc produces a.out."
+    },
+    {
+     "q": "In `int main(void)`, what do `int` and `void` mean?",
+     "options": [
+      "int is the exit status returned to the OS; void means main takes no arguments",
+      "Both are optional keywords",
+      "main must return void",
+      "int is the argument count; void is the return"
+     ],
+     "answer": 0,
+     "explain": "A return of 0 signals success."
+    },
+    {
+     "q": "What does `#include <stdio.h>` do?",
+     "options": [
+      "Links the printf code into the binary at runtime",
+      "Starts the program",
+      "Imports a Python-style module",
+      "The preprocessor pastes in declarations for standard I/O functions like printf before compilation"
+     ],
+     "answer": 3,
+     "explain": "It's a preprocessor directive, handled before the compiler proper."
+    },
+    {
+     "q": "On macOS, `gcc --version` prints 'Apple clang'. Is something broken?",
+     "options": [
+      "Yes: C won't compile",
+      "No: it means Java is installed",
+      "Yes: reinstall everything",
+      "No: gcc is usually an alias for clang there; both accept the options used in the course"
+     ],
+     "answer": 3,
+     "explain": "Homebrew installs a real gcc if you want GNU extensions."
+    }
+   ]
+  },
+  "level-1/02-variables-data-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ int a=7, b=2; double d=a/b; printf(\"%d %.1f\", a/b, d); return 0; }\n```\n",
+     "options": [
+      "4 4.0",
+      "3.5 3.5",
+      "3 3.5",
+      "3 3.0"
+     ],
+     "answer": 3,
+     "explain": "Integer division truncates before the result is stored in a double. Verified by compiling and running."
+    },
+    {
+     "q": "Why use `sizeof(int)` rather than assuming 4 bytes?",
+     "options": [
+      "sizeof changes the type",
+      "The C standard doesn't fix type sizes; they depend on platform and compiler",
+      "sizeof is faster",
+      "int is always 8 bytes"
+     ],
+     "answer": 1,
+     "explain": "sizeof is evaluated at compile time."
+    },
+    {
+     "q": "What happens if you read an uninitialized local `int score;`?",
+     "options": [
+      "Undefined behavior: it holds garbage and the compiler doesn't zero it",
+      "It's NULL",
+      "It's a compile error",
+      "It is always 0"
+     ],
+     "answer": 0,
+     "explain": "Always initialize before use."
+    },
+    {
+     "q": "Which format specifier prints a `size_t` such as the result of sizeof?",
+     "options": [
+      "%c",
+      "%f",
+      "%zu",
+      "%d"
+     ],
+     "answer": 2,
+     "explain": "size_t is unsigned and platform-sized."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ int n=1; switch(n){ case 1: printf(\"one \"); case 2: printf(\"two \"); break; case 3: printf(\"three\"); } return 0; }\n```\n",
+     "options": [
+      "one two",
+      "one two three",
+      "two",
+      "one"
+     ],
+     "answer": 0,
+     "explain": "Without break, execution falls through into the next case. Verified by compiling and running."
+    },
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ int a=10,b=3; int max=(a>b)?a:b; printf(\"%d\", max); return 0; }\n```\n",
+     "options": [
+      "3",
+      "0",
+      "1",
+      "10"
+     ],
+     "answer": 3,
+     "explain": "The ternary operator produces a value. Verified by compiling and running."
+    },
+    {
+     "q": "In C before C99, how is truth represented?",
+     "options": [
+      "There is a built-in true keyword only",
+      "Strings are true",
+      "Any non-zero value is true and 0 is false; C99 added _Bool via <stdbool.h>",
+      "Only 1 is true"
+     ],
+     "answer": 2,
+     "explain": "Conditions test for non-zero."
+    },
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ int x=0; if (x = 5) printf(\"yes\"); else printf(\"no\"); return 0; }\n```\n",
+     "options": [
+      "no",
+      "yes",
+      "It fails to compile",
+      "5"
+     ],
+     "answer": 1,
+     "explain": "= assigns 5, and the value 5 is non-zero so the branch runs. Use == to compare. Verified by compiling and running."
+    }
+   ]
+  },
+  "level-1/04-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\nvoid inc(int n){ n = n + 1; }\nint main(void){ int x=5; inc(x); printf(\"%d\", x); return 0; }\n```\n",
+     "options": [
+      "6",
+      "5",
+      "It won't compile",
+      "0"
+     ],
+     "answer": 1,
+     "explain": "C passes by value, so the function changes only its own copy. Verified by compiling and running."
+    },
+    {
+     "q": "What is a function prototype for?",
+     "options": [
+      "It runs the function early",
+      "It allocates the function's memory",
+      "It tells the compiler the name, return type and parameter types so calls can be checked before the definition",
+      "It makes the function static"
+     ],
+     "answer": 2,
+     "explain": "Headers hold prototypes for sharing across files."
+    },
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\ndouble avg(int a,int b,int c){ return (a+b+c)/3.0; }\nint main(void){ printf(\"%.2f\", avg(4,7,9)); return 0; }\n```\n",
+     "options": [
+      "6.67",
+      "7.00",
+      "6.00",
+      "6"
+     ],
+     "answer": 0,
+     "explain": "Dividing by 3.0 forces floating-point division. Verified by compiling and running."
+    },
+    {
+     "q": "How can a function modify the caller's variable?",
+     "options": [
+      "Pass its address and dereference the pointer inside the function",
+      "Declare it const",
+      "Return void",
+      "Use a global named the same"
+     ],
+     "answer": 0,
+     "explain": "Pass-by-value copies the pointer, but it still points at the original."
+    }
+   ]
+  },
+  "level-1/05-arrays-strings": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\n#include <string.h>\nint main(void){ char name[20]=\"Ada\"; printf(\"%zu %zu\", strlen(name), sizeof(name)); return 0; }\n```\n",
+     "options": [
+      "3 20",
+      "4 20",
+      "3 3",
+      "20 3"
+     ],
+     "answer": 0,
+     "explain": "strlen counts characters before '\\0'; sizeof is the buffer capacity. Verified by compiling and running."
+    },
+    {
+     "q": "What does C do when you read `scores[5]` of a 5-element array?",
+     "options": [
+      "Nothing is checked: it compiles and invokes undefined behavior, possibly corrupting memory",
+      "Stops with a compile error",
+      "Throws an exception",
+      "Returns 0"
+     ],
+     "answer": 0,
+     "explain": "Track sizes yourself."
+    },
+    {
+     "q": "Why are `strcpy` and `strcat` risky?",
+     "options": [
+      "They free memory",
+      "They are slow",
+      "They only work on ints",
+      "They don't check that the destination buffer is large enough, so they can overflow it"
+     ],
+     "answer": 3,
+     "explain": "Prefer bounded versions and generous buffers."
+    },
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\n#include <string.h>\nint main(void){ printf(\"%d %d\", strcmp(\"abc\",\"abc\")==0, \"abc\"==\"abc\"?7:7); return 0; }\n```\n",
+     "options": [
+      "0 0",
+      "0 7",
+      "1 1",
+      "1 7"
+     ],
+     "answer": 3,
+     "explain": "strcmp returns 0 when the strings are equal; never compare strings with ==. Verified by compiling and running."
+    }
+   ]
+  },
+  "level-1/06-pointers-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ int age=30; int *p=&age; *p=31; printf(\"%d\", age); return 0; }\n```\n",
+     "options": [
+      "An address",
+      "0",
+      "30",
+      "31"
+     ],
+     "answer": 3,
+     "explain": "*p = 31 writes through the pointer to age itself. Verified by compiling and running."
+    },
+    {
+     "q": "What do `&x` and `*p` mean in expressions?",
+     "options": [
+      "&x is the value; *p is the address",
+      "Both mean pointer type",
+      "Both mean multiply",
+      "&x is the address of x; *p dereferences p to reach the value it points at"
+     ],
+     "answer": 3,
+     "explain": "In a declaration, `int *p` means p is a pointer to int."
+    },
+    {
+     "q": "Why initialize a pointer to NULL when it has nothing to point at?",
+     "options": [
+      "NULL is faster",
+      "Pointers can't be zero",
+      "An uninitialized pointer holds a garbage address, and dereferencing it is undefined behavior",
+      "It saves memory"
+     ],
+     "answer": 2,
+     "explain": "You can test `if (p != NULL)` before using it."
+    },
+    {
+     "q": "How do you print a pointer's address with printf?",
+     "options": [
+      "%d",
+      "%u",
+      "%p with a (void *) cast",
+      "%s"
+     ],
+     "answer": 2,
+     "explain": "The cast is the portable convention."
+    }
+   ]
+  },
+  "level-1/07-structs": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\nstruct P{int x,y;};\nint main(void){ struct P a={10,20}; struct P b=a; b.x=99; printf(\"%d %d\", a.x, b.x); return 0; }\n```\n",
+     "options": [
+      "10 10",
+      "20 99",
+      "10 99",
+      "99 99"
+     ],
+     "answer": 2,
+     "explain": "Assigning a struct copies all members, so changing b leaves a untouched. Verified by compiling and running."
+    },
+    {
+     "q": "Why doesn't `s.name = \"Maria\";` compile when name is a char array?",
+     "options": [
+      "name is read-only text",
+      "Strings need the new keyword",
+      "Arrays can't be assigned; use strcpy (or strncpy) to copy the characters in",
+      "struct fields are const"
+     ],
+     "answer": 2,
+     "explain": "Initialization at declaration is allowed; later assignment is not."
+    },
+    {
+     "q": "Does the declaration `struct Point { int x; int y; };` allocate memory?",
+     "options": [
+      "Yes, 8 bytes",
+      "No: it only describes the shape; `struct Point p;` creates a variable",
+      "Yes, on the heap",
+      "Only if initialized"
+     ],
+     "answer": 1,
+     "explain": "It's like defining a type."
+    },
+    {
+     "q": "Can you compare two structs with `==`?",
+     "options": [
+      "Yes, using strcmp",
+      "Yes, always",
+      "Yes, only for ints",
+      "No: compare member by member"
+     ],
+     "answer": 3,
+     "explain": "C has no built-in whole-struct equality."
+    }
+   ]
+  },
+  "level-1/08-file-io": {
+   "questions": [
+    {
+     "q": "Which fopen mode erases an existing file's content as soon as it opens?",
+     "options": [
+      "\"r\"",
+      "\"r+\"",
+      "\"w\" (and \"w+\")",
+      "\"a\""
+     ],
+     "answer": 2,
+     "explain": "Use \"a\" to append instead."
+    },
+    {
+     "q": "What should you always do right after calling fopen?",
+     "options": [
+      "Nothing",
+      "Call fclose immediately",
+      "Call fflush twice",
+      "Check whether it returned NULL before using the FILE pointer"
+     ],
+     "answer": 3,
+     "explain": "A missing file, bad path or permissions all give NULL."
+    },
+    {
+     "q": "What does fopen(\"data.txt\", \"r\") return if the file doesn't exist?",
+     "options": [
+      "A new empty file",
+      "NULL",
+      "0 bytes",
+      "An error exception"
+     ],
+     "answer": 1,
+     "explain": "\"r\" never creates files; \"w\" and \"a\" do."
+    },
+    {
+     "q": "What does fprintf do differently from printf?",
+     "options": [
+      "It prints in binary",
+      "Its first argument is a FILE * saying where the formatted output goes",
+      "It reads input",
+      "It needs no format string"
+     ],
+     "answer": 1,
+     "explain": "Otherwise it formats the same way."
+    }
+   ]
+  },
+  "level-1/09-preprocessor-multifile": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\n#define SQ(x) x*x\nint main(void){ printf(\"%d\", SQ(1+2)); return 0; }\n```\n",
+     "options": [
+      "5",
+      "9",
+      "3",
+      "6"
+     ],
+     "answer": 0,
+     "explain": "SQ(1+2) expands to 1+2*1+2 = 5: macros are pure text substitution, so wrap parameters in parentheses. Verified by compiling and running."
+    },
+    {
+     "q": "What is a header guard for?",
+     "options": [
+      "Making a second #include of the same header a no-op, avoiding redefinition errors",
+      "Speeding up the linker",
+      "Encrypting the header",
+      "Making functions static"
+     ],
+     "answer": 0,
+     "explain": "#ifndef NAME / #define NAME / #endif."
+    },
+    {
+     "q": "What's the difference between #include <x.h> and #include \"x.h\"?",
+     "options": [
+      "Angle brackets are local",
+      "Angle brackets search system paths; quotes search the including file's directory first",
+      "No difference",
+      "Quotes are for the C library"
+     ],
+     "answer": 1,
+     "explain": "Use quotes for your own project headers."
+    },
+    {
+     "q": "What happens during preprocessing?",
+     "options": [
+      "Memory is allocated",
+      "Lines starting with # are handled: includes pasted, macros expanded, before the compiler sees real C",
+      "The binary is linked",
+      "Code is optimized"
+     ],
+     "answer": 1,
+     "explain": "It's pure text processing."
+    }
+   ]
+  },
+  "level-1/10-project-contact-book": {
+   "questions": [
+    {
+     "q": "Why does add_contact copy with strncpy and then set the last byte to '\\0'?",
+     "options": [
+      "strncpy may not null-terminate when the source fills the buffer, so the terminator is forced",
+      "The array would be freed otherwise",
+      "strncpy is faster than strcpy",
+      "To change the encoding"
+     ],
+     "answer": 0,
+     "explain": "It also prevents overflowing name[NAME_LEN]."
+    },
+    {
+     "q": "Why does add_contact take `int *count`?",
+     "options": [
+      "So it can increment the caller's count through the pointer after adding",
+      "To read from a file",
+      "To free the array",
+      "Because ints can't be passed"
+     ],
+     "answer": 0,
+     "explain": "Pass-by-value would only change a copy."
+    },
+    {
+     "q": "What does load_contacts return when contacts.txt does not exist yet?",
+     "options": [
+      "-1 and crash",
+      "NULL",
+      "0: the book simply starts empty",
+      "The file is created"
+     ],
+     "answer": 2,
+     "explain": "It treats a missing file as no contacts."
+    },
+    {
+     "q": "What does save_contacts' \"w\" mode mean for the file?",
+     "options": [
+      "It merges duplicates",
+      "It rewrites the whole file from the in-memory array each time",
+      "It appends one record",
+      "It reads it"
+     ],
+     "answer": 1,
+     "explain": "The array is the source of truth."
+    }
+   ]
+  },
+  "level-2/01-pointers-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ int a[]={10,20,30,40}; int *p=a; printf(\"%d %d %d\", *(p+2), p[1], (int)((a+3)-p)); return 0; }\n```\n",
+     "options": [
+      "30 20 3",
+      "40 20 3",
+      "30 20 12",
+      "20 10 3"
+     ],
+     "answer": 0,
+     "explain": "p+n advances n elements, and subtracting pointers counts elements, not bytes. Verified by compiling and running."
+    },
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ int a[]={1,2,3}; int *p=a; int x=*p++; printf(\"%d %d\", x, *p); return 0; }\n```\n",
+     "options": [
+      "2 2",
+      "1 1",
+      "1 2",
+      "2 3"
+     ],
+     "answer": 2,
+     "explain": "Postfix ++ binds tighter than *: read *p, then advance p. Verified by compiling and running."
+    },
+    {
+     "q": "What does `ip + 1` do when ip is an `int *`?",
+     "options": [
+      "Changes the type",
+      "Advances the pointer by sizeof(int) bytes, one whole element",
+      "Adds one byte",
+      "Adds one to the value"
+     ],
+     "answer": 1,
+     "explain": "Pointer arithmetic is scaled by the pointed-to type."
+    },
+    {
+     "q": "Why can qsort sort any element type?",
+     "options": [
+      "It only sorts ints",
+      "It reads the type at run time",
+      "It takes a void * array, an element size and a comparison function pointer",
+      "It uses templates"
+     ],
+     "answer": 2,
+     "explain": "Function pointers plus void * give C its generic algorithms."
+    }
+   ]
+  },
+  "level-2/02-dynamic-memory": {
+   "questions": [
+    {
+     "q": "Why write `malloc(n * sizeof *nums)` instead of `sizeof(int)`?",
+     "options": [
+      "It stays correct if nums' type changes, since the size is derived from the pointer",
+      "malloc requires it",
+      "It avoids NULL checks",
+      "It is faster"
+     ],
+     "answer": 0,
+     "explain": "malloc takes a size in bytes."
+    },
+    {
+     "q": "What must you do after calling malloc?",
+     "options": [
+      "Nothing",
+      "Cast it to int",
+      "Call free immediately",
+      "Check for NULL, since the allocation can fail"
+     ],
+     "answer": 3,
+     "explain": "Also free the block when finished."
+    },
+    {
+     "q": "What are the two most expensive bug classes in this module?",
+     "options": [
+      "Memory leaks and use-after-free",
+      "Integer division",
+      "Stack overflows only",
+      "Syntax errors and typos"
+     ],
+     "answer": 0,
+     "explain": "There's no garbage collector."
+    },
+    {
+     "q": "After free(p), what is good practice?",
+     "options": [
+      "Call free again",
+      "Set p = NULL so the dangling pointer is harmless",
+      "Cast p to void",
+      "Keep using p"
+     ],
+     "answer": 1,
+     "explain": "Double free and use-after-free are undefined behavior."
+    }
+   ]
+  },
+  "level-2/03-multidim-arrays-strings": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ int g[3][4]={{1,2,3,4},{5,6,7,8},{9,10,11,12}}; int *f=&g[0][0]; printf(\"%d %zu %zu\", f[6], sizeof g, sizeof g[0]); return 0; }\n```\n",
+     "options": [
+      "6 12 4",
+      "7 48 16",
+      "7 12 4",
+      "7 48 4"
+     ],
+     "answer": 1,
+     "explain": "A 2-D array is one flat row-major block; sizes assume 4-byte int. Verified by compiling and running."
+    },
+    {
+     "q": "Why must the column count appear in a parameter like `int grid[][COLS]`?",
+     "options": [
+      "It checks bounds",
+      "It is just documentation",
+      "It allocates memory",
+      "The compiler needs it to compute row offsets (r * COLS + c)"
+     ],
+     "answer": 3,
+     "explain": "A 2-D array decays to a pointer to its first row: int (*)[COLS]."
+    },
+    {
+     "q": "Which loop order is cache-friendly for a row-major 2-D array?",
+     "options": [
+      "Either, no difference",
+      "Rows in the outer loop, columns in the inner loop",
+      "Columns outer, rows inner",
+      "Random order"
+     ],
+     "answer": 1,
+     "explain": "It walks memory sequentially."
+    },
+    {
+     "q": "Which function is dangerous because it cannot limit how much it writes?",
+     "options": [
+      "strchr",
+      "strcmp",
+      "strlen",
+      "strcpy (and gets, strcat): no destination size is given"
+     ],
+     "answer": 3,
+     "explain": "Use bounded alternatives such as snprintf."
+    }
+   ]
+  },
+  "level-2/04-structs-unions-advanced": {
+   "questions": [
+    {
+     "q": "What does this print (typical 64-bit)?\n```c\n#include <stdio.h>\nstruct Bad{char a;int b;char c;};\nstruct Good{int b;char a;char c;};\nint main(void){ printf(\"%zu %zu\", sizeof(struct Bad), sizeof(struct Good)); return 0; }\n```\n",
+     "options": [
+      "12 12",
+      "8 12",
+      "6 6",
+      "12 8"
+     ],
+     "answer": 3,
+     "explain": "Padding aligns each field; ordering large members first wastes less. Verified by compiling and running."
+    },
+    {
+     "q": "What does `p->quantity` mean?",
+     "options": [
+      "Multiply p by quantity",
+      "A comparison",
+      "The same as (*p).quantity: the member of the struct p points to",
+      "Address of quantity"
+     ],
+     "answer": 2,
+     "explain": "Passing a pointer copies 8 bytes instead of the whole struct and lets the function modify the original."
+    },
+    {
+     "q": "What is a union?",
+     "options": [
+      "A heap block",
+      "A type whose members share the same memory, so only one is meaningful at a time",
+      "A linked list",
+      "A struct with sorted members"
+     ],
+     "answer": 1,
+     "explain": "Its size is that of its largest member."
+    },
+    {
+     "q": "Why mark a parameter `const Item *`?",
+     "options": [
+      "It makes it faster",
+      "It makes it global",
+      "It promises the function won't modify the caller's struct, and the compiler enforces it",
+      "It makes it a copy"
+     ],
+     "answer": 2,
+     "explain": "A non-const pointer is for functions that modify."
+    }
+   ]
+  },
+  "level-2/05-binary-file-io": {
+   "questions": [
+    {
+     "q": "What do fread and fwrite return?",
+     "options": [
+      "The file size",
+      "0 on success",
+      "The number of items (not bytes) transferred; a short count means EOF or error",
+      "Bytes"
+     ],
+     "answer": 2,
+     "explain": "size * count bytes are moved."
+    },
+    {
+     "q": "Why include `b` in the mode (\"rb\", \"wb\")?",
+     "options": [
+      "It's required on Linux",
+      "On Windows it stops \\n translation to \\r\\n that would corrupt binary data; it costs nothing elsewhere",
+      "It speeds up IO",
+      "It encrypts"
+     ],
+     "answer": 1,
+     "explain": "Always include it for portability."
+    },
+    {
+     "q": "Why is binary I/O good for random access?",
+     "options": [
+      "It's compressed",
+      "Fixed-size records let you jump straight to record N with fseek",
+      "It uses text",
+      "Lines are variable width"
+     ],
+     "answer": 1,
+     "explain": "Text lines are variable-width."
+    },
+    {
+     "q": "Why is a binary file not automatically portable across machines?",
+     "options": [
+      "They're encrypted",
+      "The bytes mirror the in-memory representation (endianness, type sizes, padding)",
+      "Binary files are always portable",
+      "Only Windows can read them"
+     ],
+     "answer": 1,
+     "explain": "Define the format carefully if sharing."
+    }
+   ]
+  },
+  "level-2/06-error-handling": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\n#include <stdlib.h>\nint main(void){ printf(\"%d %ld\", atoi(\"abc\"), strtol(\"12x\",NULL,10)); return 0; }\n```\n",
+     "options": [
+      "-1 12",
+      "0 12",
+      "0 0",
+      "12 12"
+     ],
+     "answer": 1,
+     "explain": "atoi can't tell 'abc' from '0'; strtol with an end pointer lets you detect trailing junk. Verified by compiling and running."
+    },
+    {
+     "q": "Why return a status and pass the value through an out-parameter?",
+     "options": [
+      "It is faster",
+      "Any return value could be a valid result, so a sentinel like -1 is ambiguous",
+      "To avoid pointers",
+      "C forbids returning ints"
+     ],
+     "answer": 1,
+     "explain": "This is the most common design in real C APIs."
+    },
+    {
+     "q": "What does fopen return on failure besides NULL?",
+     "options": [
+      "It also sets errno, which perror or strerror can describe",
+      "-1",
+      "An exception",
+      "Nothing else"
+     ],
+     "answer": 0,
+     "explain": "Read errno immediately; other calls can overwrite it."
+    },
+    {
+     "q": "Why is atoi unsafe for input you don't control?",
+     "options": [
+      "It returns 0 for invalid input, indistinguishable from a real 0, and has no error reporting",
+      "It overflows the stack",
+      "It is slow",
+      "It crashes always"
+     ],
+     "answer": 0,
+     "explain": "Use strtol."
+    }
+   ]
+  },
+  "level-2/07-modular-programming": {
+   "questions": [
+    {
+     "q": "What does file-scope `static` do to a function?",
+     "options": [
+      "Makes it run once",
+      "Makes it private to that translation unit, invisible to the linker and other files",
+      "Allocates it on the heap",
+      "Makes it faster"
+     ],
+     "answer": 1,
+     "explain": "It's the module's privacy keyword."
+    },
+    {
+     "q": "Why shouldn't you define a variable in a header?",
+     "options": [
+      "Variables can't be global",
+      "Every .c that includes it gets its own copy and the linker reports duplicate symbols; use extern in the header and define once in a .c",
+      "It is slow",
+      "Headers are read-only"
+     ],
+     "answer": 1,
+     "explain": "Include only what callers need to compile against."
+    },
+    {
+     "q": "What belongs in a header?",
+     "options": [
+      "Large data tables",
+      "Function bodies",
+      "Public prototypes, typedefs/enums callers need and the include guard",
+      "Private helpers"
+     ],
+     "answer": 2,
+     "explain": "Implementation stays in the .c."
+    },
+    {
+     "q": "What is an opaque type?",
+     "options": [
+      "A struct declared in the header but defined only in the .c, so users hold pointers and can't touch fields",
+      "A const struct",
+      "A struct with no members",
+      "An empty header"
+     ],
+     "answer": 0,
+     "explain": "It hides internals behind accessor functions."
+    }
+   ]
+  },
+  "level-2/08-makefiles-build-systems": {
+   "questions": [
+    {
+     "q": "What is the most common Makefile error and its message?",
+     "options": [
+      "Using clean",
+      "Naming it makefile",
+      "Using := for variables",
+      "Indenting a recipe with spaces instead of a TAB: 'missing separator'"
+     ],
+     "answer": 3,
+     "explain": "The message doesn't mention tabs."
+    },
+    {
+     "q": "How does make decide to rebuild a target?",
+     "options": [
+      "If any prerequisite is newer than the target (timestamps)",
+      "By file size",
+      "Only if asked",
+      "Every time"
+     ],
+     "answer": 0,
+     "explain": "Hence 'app is up to date' when nothing changed."
+    },
+    {
+     "q": "Which assignment operator lets users override with `make CC=clang`?",
+     "options": [
+      ":=",
+      "=",
+      "+=",
+      "?= (set only if not already defined)"
+     ],
+     "answer": 3,
+     "explain": ":= is evaluated once immediately and is the default choice."
+    },
+    {
+     "q": "Why add `-MMD -MP` to a Makefile?",
+     "options": [
+      "To add debug symbols",
+      "To enable optimization",
+      "To auto-generate header dependency files so changing a .h rebuilds the files that include it",
+      "To link libraries"
+     ],
+     "answer": 2,
+     "explain": "It keeps dependency tracking correct as the project grows."
+    }
+   ]
+  },
+  "level-2/09-debugging-tools": {
+   "questions": [
+    {
+     "q": "Why build with `-g -O0` for debugging?",
+     "options": [
+      "-g speeds the program",
+      "They are required to compile",
+      "-g embeds symbols; -O0 stops the optimizer from reordering or removing variables",
+      "-O0 adds optimization"
+     ],
+     "answer": 2,
+     "explain": "Optimize only for release."
+    },
+    {
+     "q": "In gdb, what's the difference between `next` and `step`?",
+     "options": [
+      "next sets a breakpoint",
+      "step runs to the end",
+      "next steps over function calls; step steps into them",
+      "They are identical"
+     ],
+     "answer": 2,
+     "explain": "Use continue to run to the next breakpoint."
+    },
+    {
+     "q": "What does valgrind catch that a normal run may not?",
+     "options": [
+      "Syntax errors",
+      "Missing headers",
+      "Slow loops",
+      "Memory bugs like leaks, invalid reads/writes and uninitialized use, even if they don't crash today"
+     ],
+     "answer": 3,
+     "explain": "Undefined behavior can look fine until production."
+    },
+    {
+     "q": "The sum_range(0, 5) bug reads values[5]. Why might it appear to work?",
+     "options": [
+      "C checks bounds",
+      "It's a compile error",
+      "Out-of-bounds read is undefined behavior, not a guaranteed crash",
+      "values[5] is 0 always"
+     ],
+     "answer": 2,
+     "explain": "This is exactly the bug a debugger or valgrind is for."
+    }
+   ]
+  },
+  "level-2/10-project-inventory-system": {
+   "questions": [
+    {
+     "q": "Why use a linked list for the inventory instead of an array?",
+     "options": [
+      "Lists are faster to search",
+      "Arrays can't hold structs",
+      "Adding an item never needs to resize or copy existing data",
+      "Lists use less memory"
+     ],
+     "answer": 2,
+     "explain": "Trade-off: pointer chasing and per-node allocation."
+    },
+    {
+     "q": "How does the project persist the list to a binary file?",
+     "options": [
+      "It flattens the list to an array of Items on save and rebuilds nodes on load",
+      "It saves as text",
+      "It uses a database",
+      "It writes raw pointers"
+     ],
+     "answer": 0,
+     "explain": "Pointers aren't meaningful after the process exits."
+    },
+    {
+     "q": "What must callers never do with the pointer returned by inventory_find?",
+     "options": [
+      "Modify quantity",
+      "Read it",
+      "Compare it to NULL",
+      "Free it: the inventory owns the nodes"
+     ],
+     "answer": 3,
+     "explain": "It points into the list."
+    },
+    {
+     "q": "What does adjusting stock refuse to do?",
+     "options": [
+      "Take a quantity below zero, returning 0 and leaving the item unchanged",
+      "Add more than 100",
+      "Delete the item",
+      "Change the SKU"
+     ],
+     "answer": 0,
+     "explain": "It validates before mutating."
+    }
+   ]
+  },
+  "level-3/01-data-structures": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\n#include <stdlib.h>\ntypedef struct N{int v;struct N*next;}N;\nint main(void){ N*h=NULL; for(int i=1;i<=3;i++){N*n=malloc(sizeof*n);n->v=i;n->next=h;h=n;} for(N*p=h;p;p=p->next)printf(\"%d \",p->v); return 0; }\n```\n",
+     "options": [
+      "3 1 2",
+      "1 2 3",
+      "3 2 1",
+      "1"
+     ],
+     "answer": 2,
+     "explain": "Each new node is inserted at the head, so the list reads in reverse insertion order. Verified by compiling and running."
+    },
+    {
+     "q": "What is the time to insert at the head of a singly linked list?",
+     "options": [
+      "O(1): allocate a node and relink the head",
+      "O(n²)",
+      "O(log n)",
+      "O(n)"
+     ],
+     "answer": 0,
+     "explain": "Appending at the tail needs a tail pointer or O(n) walk."
+    },
+    {
+     "q": "Why free a list with a loop that saves `next` first?",
+     "options": [
+      "free needs a second argument",
+      "Reading n->next after free(n) is use-after-free",
+      "next is const",
+      "To reverse the list"
+     ],
+     "answer": 1,
+     "explain": "Save the successor before freeing the node."
+    },
+    {
+     "q": "What does a stack built on an array need to guard against?",
+     "options": [
+      "Neither",
+      "Integer division",
+      "Overflow when pushing to a full array and underflow when popping an empty one",
+      "Only underflow"
+     ],
+     "answer": 2,
+     "explain": "Return a status instead of corrupting memory."
+    }
+   ]
+  },
+  "level-3/02-trees-graphs": {
+   "questions": [
+    {
+     "q": "What does an in-order walk of this BST print?\n```c\n#include <stdio.h>\n#include <stdlib.h>\ntypedef struct T{int k;struct T*l,*r;}T;\nT*ins(T*t,int k){ if(!t){t=calloc(1,sizeof*t);t->k=k;return t;} if(k<t->k)t->l=ins(t->l,k); else t->r=ins(t->r,k); return t;}\nvoid in(T*t){ if(!t)return; in(t->l); printf(\"%d \",t->k); in(t->r);}\nint main(void){ T*r=NULL; int a[]={5,2,8,1,9,3}; for(int i=0;i<6;i++)r=ins(r,a[i]); in(r); return 0; }\n```\n",
+     "options": [
+      "1 3 2 9 8 5",
+      "9 8 5 3 2 1",
+      "5 2 8 1 9 3",
+      "1 2 3 5 8 9"
+     ],
+     "answer": 3,
+     "explain": "In-order traversal of a BST yields keys in sorted order. Verified by compiling and running."
+    },
+    {
+     "q": "What is the BST invariant?",
+     "options": [
+      "The tree is complete",
+      "Every left descendant is smaller and every right descendant larger than the node",
+      "Keys are unique per level",
+      "Parents are the largest"
+     ],
+     "answer": 1,
+     "explain": "It enables O(log n) search when balanced."
+    },
+    {
+     "q": "When does a plain BST degrade to O(n) lookups?",
+     "options": [
+      "Never",
+      "With random keys",
+      "With duplicates only",
+      "When keys are inserted in sorted order, producing a chain"
+     ],
+     "answer": 3,
+     "explain": "Self-balancing trees fix this."
+    },
+    {
+     "q": "Which traversal uses a queue?",
+     "options": [
+      "In-order",
+      "Breadth-first search (level by level)",
+      "Depth-first with recursion",
+      "Post-order"
+     ],
+     "answer": 1,
+     "explain": "DFS uses the call stack or an explicit stack."
+    }
+   ]
+  },
+  "level-3/03-sorting-searching": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\n#include <stdlib.h>\nint cmp(const void*a,const void*b){ int x=*(const int*)a,y=*(const int*)b; return (x>y)-(x<y);}\nint main(void){ int a[]={5,2,9,1}; qsort(a,4,sizeof a[0],cmp); int k=2; int*f=bsearch(&k,a,4,sizeof a[0],cmp); printf(\"%d %d %d %d %d\",a[0],a[1],a[2],a[3],(int)(f-a)); return 0; }\n```\n",
+     "options": [
+      "9 5 2 1 1",
+      "1 2 5 9 1",
+      "1 2 5 9 2",
+      "5 2 9 1 1"
+     ],
+     "answer": 1,
+     "explain": "qsort sorts in place; bsearch needs sorted data and returns a pointer to the match. Verified by compiling and running."
+    },
+    {
+     "q": "What is quicksort's worst-case time?",
+     "options": [
+      "O(log n)",
+      "O(n log n) always",
+      "O(n²), e.g. always picking a bad pivot on already-sorted data without safeguards",
+      "O(n)"
+     ],
+     "answer": 2,
+     "explain": "A good pivot choice gives O(n log n) on average."
+    },
+    {
+     "q": "What precondition does binary search need?",
+     "options": [
+      "Heap memory",
+      "Unique keys",
+      "The array must be sorted",
+      "Even length"
+     ],
+     "answer": 2,
+     "explain": "Each step halves the range: O(log n)."
+    },
+    {
+     "q": "Why subtract with comparisons like `(x>y)-(x<y)` rather than `x-y` in a comparator?",
+     "options": [
+      "It's shorter",
+      "x-y can overflow for large ints, giving a wrong sign",
+      "It sorts descending",
+      "It's required by qsort"
+     ],
+     "answer": 1,
+     "explain": "Overflow is undefined behavior for signed ints."
+    }
+   ]
+  },
+  "level-3/04-bit-manipulation": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ unsigned f=0; f|=1u<<2; f|=1u<<0; f&=~(1u<<0); f^=1u<<3; printf(\"%u %d\", f, (f>>2)&1); return 0; }\n```\n",
+     "options": [
+      "13 0",
+      "8 1",
+      "12 1",
+      "4 1"
+     ],
+     "answer": 2,
+     "explain": "Set bit2, set bit0, clear bit0, toggle bit3: 4+8 = 12, and bit 2 is set. Verified by compiling and running."
+    },
+    {
+     "q": "How do you clear bit n of x?",
+     "options": [
+      "x ^= 1u << n",
+      "x |= 1u << n",
+      "x &= ~(1u << n)",
+      "x >>= n"
+     ],
+     "answer": 2,
+     "explain": "| sets, ^ toggles, & with the inverted mask clears."
+    },
+    {
+     "q": "Why prefer unsigned types for bit manipulation?",
+     "options": [
+      "Signed can't be shifted",
+      "Shifting and right-shifting signed negative values has implementation-defined or undefined behavior",
+      "Unsigned is faster",
+      "It saves memory"
+     ],
+     "answer": 1,
+     "explain": "Unsigned semantics are fully defined."
+    },
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ unsigned n=0xB5; int c=0; while(n){ n&=n-1; c++; } printf(\"%d\",c); return 0; }\n```\n",
+     "options": [
+      "4",
+      "8",
+      "6",
+      "5"
+     ],
+     "answer": 3,
+     "explain": "n & (n-1) clears the lowest set bit; 0xB5 = 10110101 has five bits set. Verified by compiling and running."
+    }
+   ]
+  },
+  "level-3/05-memory-management-deep-dive": {
+   "questions": [
+    {
+     "q": "Where do local variables, malloc'd blocks, globals and code live?",
+     "options": [
+      "All in text",
+      "All on the heap",
+      "Stack, heap, data/BSS, and text segments respectively",
+      "All on the stack"
+     ],
+     "answer": 2,
+     "explain": "Four regions in one address space."
+    },
+    {
+     "q": "Which bug does this describe: freeing a block and then reading it?",
+     "options": [
+      "Use-after-free (a dangling pointer)",
+      "Integer overflow",
+      "Memory leak",
+      "Stack overflow"
+     ],
+     "answer": 0,
+     "explain": "Set pointers to NULL after free."
+    },
+    {
+     "q": "What does valgrind/ASan report for malloc without free before exit?",
+     "options": [
+      "A buffer overflow",
+      "A memory leak: the block was still reachable or lost at exit",
+      "A syntax error",
+      "A race"
+     ],
+     "answer": 1,
+     "explain": "Leaks matter most in long-running programs."
+    },
+    {
+     "q": "What does realloc return when it can't grow a block?",
+     "options": [
+      "The old pointer freed",
+      "NULL, leaving the original block valid; assign to a temp pointer first",
+      "It aborts",
+      "A smaller block"
+     ],
+     "answer": 1,
+     "explain": "`p = realloc(p, n)` leaks the original on failure."
+    }
+   ]
+  },
+  "level-3/06-static-dynamic-libraries": {
+   "questions": [
+    {
+     "q": "What is a static library (.a)?",
+     "options": [
+      "An archive of object files copied into the executable at link time",
+      "Loaded at run time",
+      "A header file",
+      "A shell script"
+     ],
+     "answer": 0,
+     "explain": "The binary is self-contained but bigger."
+    },
+    {
+     "q": "What is a shared library (.so/.dylib)?",
+     "options": [
+      "A source archive",
+      "Code loaded at run time and shared between processes; the executable records the dependency",
+      "Copied into every binary",
+      "Only for kernels"
+     ],
+     "answer": 1,
+     "explain": "Updating the library updates all users, but it must be findable at run time."
+    },
+    {
+     "q": "Which tool creates a static library from .o files?",
+     "options": [
+      "ld -r only",
+      "make",
+      "gcc -static only",
+      "ar (e.g. ar rcs libx.a a.o b.o)"
+     ],
+     "answer": 3,
+     "explain": "Link with -L. -lx."
+    },
+    {
+     "q": "Why compile shared-library objects with `-fPIC`?",
+     "options": [
+      "Position-independent code can be loaded at any address",
+      "For static linking",
+      "For debugging",
+      "To enable optimization"
+     ],
+     "answer": 0,
+     "explain": "Needed for .so building."
+    }
+   ]
+  },
+  "level-3/07-concurrency-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\n#include <pthread.h>\nvoid*w(void*a){ *(int*)a*=2; return NULL; }\nint main(void){ int x=21; pthread_t t; pthread_create(&t,NULL,w,&x); pthread_join(t,NULL); printf(\"%d\",x); return 0; }\n```\n",
+     "options": [
+      "Undefined",
+      "0",
+      "21",
+      "42"
+     ],
+     "answer": 3,
+     "explain": "join waits for the thread to finish, so the write is visible afterwards. Verified by compiling and running."
+    },
+    {
+     "q": "What is a data race?",
+     "options": [
+      "Two threads accessing the same memory concurrently with at least one write and no synchronization",
+      "Two threads reading",
+      "A deadlock",
+      "A slow thread"
+     ],
+     "answer": 0,
+     "explain": "The result is undefined behavior."
+    },
+    {
+     "q": "What does pthread_join do?",
+     "options": [
+      "Locks a mutex",
+      "Blocks until the thread finishes and optionally collects its return value",
+      "Kills the thread",
+      "Starts the thread"
+     ],
+     "answer": 1,
+     "explain": "Always join or detach threads."
+    },
+    {
+     "q": "What does a mutex protect?",
+     "options": [
+      "The stack",
+      "File descriptors",
+      "The heap",
+      "A critical section so only one thread at a time executes it"
+     ],
+     "answer": 3,
+     "explain": "Lock before, unlock after, on every path."
+    }
+   ]
+  },
+  "level-3/08-networking-basics": {
+   "questions": [
+    {
+     "q": "What is the order of calls that make a TCP server?",
+     "options": [
+      "connect, send",
+      "socket, bind, listen, accept",
+      "bind, connect",
+      "accept, listen"
+     ],
+     "answer": 1,
+     "explain": "Then read/write on the accepted socket."
+    },
+    {
+     "q": "What does accept() return?",
+     "options": [
+      "The IP address",
+      "The port",
+      "A new socket descriptor for that client connection",
+      "The listening socket"
+     ],
+     "answer": 2,
+     "explain": "The listening socket keeps accepting."
+    },
+    {
+     "q": "Why must you check the return of read/recv?",
+     "options": [
+      "It always fills the buffer",
+      "It returns a string",
+      "It never fails",
+      "It may return fewer bytes than requested, 0 on close, or -1 on error"
+     ],
+     "answer": 3,
+     "explain": "TCP is a byte stream, not messages."
+    },
+    {
+     "q": "Why use htons() for the port?",
+     "options": [
+      "Network byte order is big-endian, so host values must be converted",
+      "It encrypts",
+      "It speeds up",
+      "It checks the port"
+     ],
+     "answer": 0,
+     "explain": "Use ntohs on receive."
+    }
+   ]
+  },
+  "level-3/09-unix-system-calls": {
+   "questions": [
+    {
+     "q": "What are file descriptors 0, 1 and 2?",
+     "options": [
+      "Process IDs",
+      "Three files",
+      "stdin, stdout and stderr",
+      "Heap blocks"
+     ],
+     "answer": 2,
+     "explain": "open() returns the lowest unused descriptor."
+    },
+    {
+     "q": "What does fork() return in the child?",
+     "options": [
+      "0 (the parent gets the child's PID)",
+      "The parent's PID",
+      "1",
+      "-1"
+     ],
+     "answer": 0,
+     "explain": "-1 means failure."
+    },
+    {
+     "q": "Why must a parent call wait/waitpid?",
+     "options": [
+      "To speed up the child",
+      "To collect the child's exit status and avoid leaving zombie processes",
+      "To free its heap",
+      "To fork again"
+     ],
+     "answer": 1,
+     "explain": "A zombie is an exited process whose status was never collected."
+    },
+    {
+     "q": "How do read/write differ from fread/fwrite?",
+     "options": [
+      "They are the same",
+      "read is buffered",
+      "write is portable C",
+      "They are unbuffered system calls on file descriptors; stdio adds user-space buffering"
+     ],
+     "answer": 3,
+     "explain": "Buffered I/O can need fflush."
+    }
+   ]
+  },
+  "level-3/10-project-kv-store": {
+   "questions": [
+    {
+     "q": "What does a key-value store's get(key) typically use for speed?",
+     "options": [
+      "Sorting each call",
+      "Binary file only",
+      "Linear scan",
+      "A hash table giving average O(1) lookup"
+     ],
+     "answer": 3,
+     "explain": "A hash function maps keys to buckets."
+    },
+    {
+     "q": "How are hash collisions handled with chaining?",
+     "options": [
+      "Grow forever",
+      "Overwrite old entry",
+      "Each bucket holds a linked list of entries with the same hash",
+      "Return an error"
+     ],
+     "answer": 2,
+     "explain": "Open addressing is the alternative."
+    },
+    {
+     "q": "Why persist the store with a write-then-rename pattern?",
+     "options": [
+      "To sort",
+      "It is faster",
+      "So a crash mid-write can't leave a half-written data file",
+      "To compress"
+     ],
+     "answer": 2,
+     "explain": "Rename is atomic on POSIX."
+    },
+    {
+     "q": "Why validate key and value lengths before copying?",
+     "options": [
+      "To sort keys",
+      "To prevent buffer overflows in fixed-size fields",
+      "To flush",
+      "To save disk"
+     ],
+     "answer": 1,
+     "explain": "Never trust sizes from a file or the network."
+    }
+   ]
+  },
+  "level-4/01-advanced-memory-management": {
+   "questions": [
+    {
+     "q": "Why is an arena (bump) allocator fast?",
+     "options": [
+      "It is lock-free by definition",
+      "It avoids pointers",
+      "Allocation is a pointer add, and everything is freed at once by resetting the pointer",
+      "It uses the GPU"
+     ],
+     "answer": 2,
+     "explain": "No per-object free means no fragmentation bookkeeping."
+    },
+    {
+     "q": "What's the main restriction of an arena?",
+     "options": [
+      "You can't free individual objects; lifetimes must be grouped",
+      "It needs a kernel module",
+      "It is slower than malloc",
+      "It can't hold structs"
+     ],
+     "answer": 0,
+     "explain": "Great for request-scoped or parse-tree data."
+    },
+    {
+     "q": "What must a custom allocator respect for each returned pointer?",
+     "options": [
+      "Page size",
+      "Alignment suitable for the object type",
+      "Endianness",
+      "Zero fill only"
+     ],
+     "answer": 1,
+     "explain": "Misaligned access is slow or faulting on some CPUs."
+    },
+    {
+     "q": "What does a free list in a pool allocator store?",
+     "options": [
+      "Fixed-size free slots linked together inside the free memory itself",
+      "Sizes",
+      "Threads",
+      "Strings"
+     ],
+     "answer": 0,
+     "explain": "Alloc pops, free pushes: O(1)."
+    }
+   ]
+  },
+  "level-4/02-concurrency-synchronization": {
+   "questions": [
+    {
+     "q": "Between a mutex, an atomic and no sync, which gives a correct shared counter with the least overhead?",
+     "options": [
+      "A bigger int",
+      "A sleep",
+      "An atomic increment (e.g. atomic_fetch_add) for a simple counter",
+      "No sync"
+     ],
+     "answer": 2,
+     "explain": "The lesson measures all three; no-sync is fast but wrong."
+    },
+    {
+     "q": "What is a deadlock?",
+     "options": [
+      "A leak",
+      "A crash",
+      "Threads wait forever for locks held by each other",
+      "A slow lock"
+     ],
+     "answer": 2,
+     "explain": "Acquire locks in a consistent global order to avoid it."
+    },
+    {
+     "q": "What does a condition variable let a thread do?",
+     "options": [
+      "Sleep until another thread signals that a condition may have changed",
+      "Share a stack",
+      "Spin forever",
+      "Allocate memory"
+     ],
+     "answer": 0,
+     "explain": "Always wait in a loop to recheck the predicate."
+    },
+    {
+     "q": "Why does an unsynchronized counter lose updates?",
+     "options": [
+      "The compiler reorders output",
+      "Threads share registers",
+      "Increment is read-modify-write, so two threads can read the same old value",
+      "Counters are small"
+     ],
+     "answer": 2,
+     "explain": "Lost updates give totals below the expected count."
+    }
+   ]
+  },
+  "level-4/03-performance-profiling": {
+   "questions": [
+    {
+     "q": "What is the first rule of optimization?",
+     "options": [
+      "Rewrite in assembly",
+      "Use -O0",
+      "Inline everything",
+      "Measure first (honest timing/profiling) and optimize the hot spot, not guesses"
+     ],
+     "answer": 3,
+     "explain": "Compile benchmarks with optimization enabled."
+    },
+    {
+     "q": "Why does row-major iteration of a 2-D array beat column-major?",
+     "options": [
+      "It walks memory sequentially and uses CPU cache lines efficiently",
+      "Fewer instructions",
+      "The compiler forbids columns",
+      "It uses less RAM"
+     ],
+     "answer": 0,
+     "explain": "Cache locality dominates for large matrices."
+    },
+    {
+     "q": "What does a profiler like gprof/perf show?",
+     "options": [
+      "Compile errors",
+      "Memory leaks only",
+      "Header usage",
+      "Where time is spent per function so you target the hottest code"
+     ],
+     "answer": 3,
+     "explain": "Instrumented tools add overhead; sampling is cheaper."
+    },
+    {
+     "q": "What does llvm-cov report?",
+     "options": [
+      "Binary size",
+      "Which lines/branches executed, i.e. code coverage from instrumented runs",
+      "Memory use",
+      "Wall time"
+     ],
+     "answer": 1,
+     "explain": "Useful for finding untested code."
+    }
+   ]
+  },
+  "level-4/04-writing-portable-c": {
+   "questions": [
+    {
+     "q": "What does the C standard guarantee about `int` size?",
+     "options": [
+      "Exactly 32 bits",
+      "Same as long",
+      "Always 64 bits",
+      "Only a minimum range (at least 16 bits); the exact size is implementation-defined"
+     ],
+     "answer": 3,
+     "explain": "Use <stdint.h> for exact widths."
+    },
+    {
+     "q": "Which header gives int32_t and uint64_t?",
+     "options": [
+      "<stdint.h>",
+      "<types.h>",
+      "<limits.h>",
+      "<stdlib.h>"
+     ],
+     "answer": 0,
+     "explain": "Fixed-width types make sizes explicit."
+    },
+    {
+     "q": "Why is it a portability bug to write a struct to disk with fwrite and read it elsewhere?",
+     "options": [
+      "fwrite is slow",
+      "Text is required",
+      "Padding, type sizes and endianness differ across platforms",
+      "structs can't be written"
+     ],
+     "answer": 2,
+     "explain": "Serialize field by field in a defined byte order."
+    },
+    {
+     "q": "What does compiling with -std=c11 -Wall -Wextra -pedantic help find?",
+     "options": [
+      "Non-standard extensions and suspicious constructs that break on other compilers",
+      "Link errors",
+      "Slow loops",
+      "Memory leaks"
+     ],
+     "answer": 0,
+     "explain": "It keeps code portable."
+    }
+   ]
+  },
+  "level-4/05-security-in-c": {
+   "questions": [
+    {
+     "q": "Why is a buffer overflow dangerous even when the program doesn't crash?",
+     "options": [
+      "It silently overwrites adjacent memory, which an attacker can use to corrupt data or hijack control flow",
+      "It leaks files",
+      "It flushes caches",
+      "It only slows the program"
+     ],
+     "answer": 0,
+     "explain": "The lesson's title point: the one that does not crash."
+    },
+    {
+     "q": "Which is the safer way to copy into a fixed buffer?",
+     "options": [
+      "gets",
+      "snprintf(buf, sizeof buf, \"%s\", src) (or another size-bounded call)",
+      "strcpy",
+      "strcat without checks"
+     ],
+     "answer": 1,
+     "explain": "Always pass the destination size."
+    },
+    {
+     "q": "What's the format-string bug in `printf(user_input)`?",
+     "options": [
+      "It is slow",
+      "It needs a newline",
+      "It prints twice",
+      "The user controls the format, so %s/%n can read or write memory"
+     ],
+     "answer": 3,
+     "explain": "Use printf(\"%s\", user_input)."
+    },
+    {
+     "q": "Which compiler/runtime options help catch memory errors?",
+     "options": [
+      "-g0",
+      "-fsanitize=address,undefined (AddressSanitizer/UBSan) in testing",
+      "-O3 only",
+      "-static"
+     ],
+     "answer": 1,
+     "explain": "Combine with stack protectors and FORTIFY_SOURCE."
+    }
+   ]
+  },
+  "level-4/06-advanced-data-structures": {
+   "questions": [
+    {
+     "q": "What invariant does an AVL tree keep?",
+     "options": [
+      "All keys equal",
+      "It is a heap",
+      "Leaves are sorted",
+      "The heights of every node's two subtrees differ by at most 1"
+     ],
+     "answer": 3,
+     "explain": "Rotations restore balance after insert/delete."
+    },
+    {
+     "q": "Why is an AVL tree guaranteed O(log n)?",
+     "options": [
+      "Balance limits its height to O(log n)",
+      "It uses hashing",
+      "It is an array",
+      "It caches"
+     ],
+     "answer": 0,
+     "explain": "A plain BST can degrade to a chain."
+    },
+    {
+     "q": "How many distinct rotation cases does AVL insert have?",
+     "options": [
+      "Four: LL, RR, LR and RL",
+      "Eight",
+      "One",
+      "Two"
+     ],
+     "answer": 0,
+     "explain": "Double rotations handle the zig-zag cases."
+    },
+    {
+     "q": "What problem does a skip list or hash table solve relative to a sorted array?",
+     "options": [
+      "Thread safety",
+      "Fast insertion/lookup without O(n) shifting",
+      "Memory use",
+      "Sorting stability"
+     ],
+     "answer": 1,
+     "explain": "The lesson quantifies the cost of the naive approach."
+    }
+   ]
+  },
+  "level-4/07-interfacing-other-languages": {
+   "questions": [
+    {
+     "q": "What does `extern \"C\"` do in a C++ header for a C library?",
+     "options": [
+      "Enables templates",
+      "Adds namespaces",
+      "Prevents C++ name mangling so the C symbols link correctly",
+      "Makes it faster"
+     ],
+     "answer": 2,
+     "explain": "Needed to call C from C++."
+    },
+    {
+     "q": "Why do FFI-friendly C libraries use opaque handles and plain types?",
+     "options": [
+      "It's required by gcc",
+      "It avoids pointers",
+      "Other languages can call them without knowing struct layouts or C++ features",
+      "It saves memory"
+     ],
+     "answer": 2,
+     "explain": "A library designed to be called."
+    },
+    {
+     "q": "Who must free memory a C library allocated and returned to Python/Rust?",
+     "options": [
+      "The caller always with free()",
+      "Nobody",
+      "The OS only",
+      "Whoever the API documents, normally via the library's own free function"
+     ],
+     "answer": 3,
+     "explain": "Mixing allocators is undefined behavior."
+    },
+    {
+     "q": "What does an ABI define?",
+     "options": [
+      "Binary-level conventions: calling convention, struct layout and symbol names",
+      "Coding style",
+      "Licence terms",
+      "Source syntax"
+     ],
+     "answer": 0,
+     "explain": "C has a stable de-facto ABI per platform."
+    }
+   ]
+  },
+  "level-4/08-testing-in-c": {
+   "questions": [
+    {
+     "q": "What is the core of a tiny C test framework?",
+     "options": [
+      "A debugger",
+      "A new compiler",
+      "A macro that checks a condition, reports file:line on failure and tracks a pass/fail count",
+      "A garbage collector"
+     ],
+     "answer": 2,
+     "explain": "Forty lines can be enough."
+    },
+    {
+     "q": "Why run tests under ASan/valgrind too?",
+     "options": [
+      "To compile faster",
+      "Tests need slow code",
+      "To measure time",
+      "Passing assertions can still hide memory errors"
+     ],
+     "answer": 3,
+     "explain": "Sanitizers find leaks and overflows."
+    },
+    {
+     "q": "How should a test program signal failure to CI?",
+     "options": [
+      "Sleep",
+      "Print a message only",
+      "Delete a file",
+      "Return a non-zero exit status from main"
+     ],
+     "answer": 3,
+     "explain": "CI treats non-zero as failed."
+    },
+    {
+     "q": "What makes a function easy to unit test?",
+     "options": [
+      "Few hidden dependencies: pass inputs in, return outputs, avoid global state",
+      "Using static buffers",
+      "Long functions",
+      "Using globals"
+     ],
+     "answer": 0,
+     "explain": "Dependency injection via function pointers helps."
+    }
+   ]
+  },
+  "level-4/09-build-systems-at-scale": {
+   "questions": [
+    {
+     "q": "What does `make -j8` do?",
+     "options": [
+      "Limits to 8 files",
+      "Uses 8 compilers",
+      "Runs up to 8 recipes in parallel, which is safe only when dependencies are correct",
+      "Cleans 8 targets"
+     ],
+     "answer": 2,
+     "explain": "Missing dependencies cause flaky parallel builds."
+    },
+    {
+     "q": "What is an out-of-source build?",
+     "options": [
+      "Static linking",
+      "Cross-compiling",
+      "Object files and binaries go in a separate build directory, keeping the source tree clean",
+      "Compiling remote files"
+     ],
+     "answer": 2,
+     "explain": "It allows several configurations side by side."
+    },
+    {
+     "q": "Why generate dependency files (-MMD -MP)?",
+     "options": [
+      "So make knows which headers each object depends on",
+      "To lint",
+      "To install",
+      "To compress"
+     ],
+     "answer": 0,
+     "explain": "Otherwise edited headers don't trigger rebuilds."
+    },
+    {
+     "q": "What do CMake and Meson do?",
+     "options": [
+      "Manage Git",
+      "Run tests only",
+      "Replace the compiler",
+      "Generate build files (Makefiles/Ninja) from a higher-level description"
+     ],
+     "answer": 3,
+     "explain": "They are meta-build systems."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What is the point of the capstone's public API header?",
+     "options": [
+      "To list every function",
+      "To hold the code",
+      "A small stable contract so callers depend on function prototypes, not internals",
+      "To avoid tests"
+     ],
+     "answer": 2,
+     "explain": "It ties together modules, error handling and tests."
+    },
+    {
+     "q": "What should every function that can fail do?",
+     "options": [
+      "Call exit",
+      "Report the failure through a documented status or errno, and callers must check it",
+      "Ignore errors",
+      "Print and continue silently"
+     ],
+     "answer": 1,
+     "explain": "C has no exceptions."
+    },
+    {
+     "q": "Which tools would you combine to verify the capstone?",
+     "options": [
+      "Nothing",
+      "-Wall -Wextra, unit tests, ASan/UBSan and valgrind/gdb",
+      "Only printf",
+      "Only a debugger"
+     ],
+     "answer": 1,
+     "explain": "Layered checks catch different bug classes."
+    },
+    {
+     "q": "What ties together ownership in the capstone's API?",
+     "options": [
+      "Reference counting only",
+      "A garbage collector",
+      "Globals",
+      "Documented ownership rules: who allocates and who frees every pointer crossing the API"
+     ],
+     "answer": 3,
+     "explain": "Unclear ownership is the root of leaks and double frees."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ int a=7,b=2; printf(\"%d %.1f %d\", a/b, (double)a/b, a%b); return 0; }\n```\n",
+    "options": [
+     "3.5 3.5 1",
+     "4 3.5 1",
+     "3 3.5 1",
+     "3 3 1"
+    ],
+    "answer": 2,
+    "explain": "Integer division truncates; cast one operand to double for a fractional result. Verified by compiling and running."
+   },
+   {
+    "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ int n=2; switch(n){ case 1: printf(\"a\"); case 2: printf(\"b\"); case 3: printf(\"c\"); break; default: printf(\"d\"); } return 0; }\n```\n",
+    "options": [
+     "bcd",
+     "c",
+     "bc",
+     "b"
+    ],
+    "answer": 2,
+    "explain": "Missing break falls through case 3 and stops at break. Verified by compiling and running."
+   },
+   {
+    "q": "What does this print?\n```c\n#include <stdio.h>\nvoid f(int *p, int v){ *p = v; v = 99; }\nint main(void){ int x=1,y=2; f(&x,y); printf(\"%d %d\", x, y); return 0; }\n```\n",
+    "options": [
+     "1 2",
+     "2 2",
+     "2 99",
+     "99 2"
+    ],
+    "answer": 1,
+    "explain": "The pointer lets f change x; v is a copy, so y is untouched. Verified by compiling and running."
+   },
+   {
+    "q": "What does this print?\n```c\n#include <stdio.h>\n#define DOUBLE(x) x*2\nint main(void){ printf(\"%d\", DOUBLE(3+4)); return 0; }\n```\n",
+    "options": [
+     "14",
+     "7",
+     "24",
+     "11"
+    ],
+    "answer": 3,
+    "explain": "The macro expands to 3+4*2, which is 11, not 14: wrap macro parameters in parentheses. Verified by compiling and running."
+   },
+   {
+    "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ int a[]={4,8,15,16}; int *p=a+1; printf(\"%d %d %d\", *p, p[2], (int)(&a[3]-p)); return 0; }\n```\n",
+    "options": [
+     "8 16 2",
+     "4 15 2",
+     "8 15 3",
+     "8 16 8"
+    ],
+    "answer": 0,
+    "explain": "p points at a[1]; p[2] is a[3]; pointer difference counts elements. Verified by compiling and running."
+   },
+   {
+    "q": "What does this print (typical 64-bit)?\n```c\n#include <stdio.h>\ntypedef struct { char a; double b; char c; } S;\nint main(void){ printf(\"%zu\", sizeof(S)); return 0; }\n```\n",
+    "options": [
+     "24",
+     "16",
+     "10",
+     "12"
+    ],
+    "answer": 0,
+    "explain": "Padding aligns the double to 8 bytes: 1+7 pad, 8, 1+7 pad. Verified by compiling and running."
+   },
+   {
+    "q": "What does this print?\n```c\n#include <stdio.h>\n#include <string.h>\nint main(void){ char s[16]=\"hello\"; printf(\"%zu %zu %c\", strlen(s), sizeof s, s[strlen(s)]=='\\0'?'Y':'N'); return 0; }\n```\n",
+    "options": [
+     "5 16 N",
+     "5 16 Y",
+     "5 5 Y",
+     "6 16 Y"
+    ],
+    "answer": 1,
+    "explain": "strlen stops at the terminator; sizeof is the whole buffer; the byte after the last char is '\\0'. Verified by compiling and running."
+   },
+   {
+    "q": "What does this print?\n```c\n#include <stdio.h>\nint main(void){ unsigned x=0x2C; printf(\"%u %u %u\", x&0x0F, x|0x01, x>>2); return 0; }\n```\n",
+    "options": [
+     "12 44 11",
+     "12 45 11",
+     "44 45 11",
+     "12 45 22"
+    ],
+    "answer": 1,
+    "explain": "0x2C = 44: & 0x0F gives 12, | 1 gives 45, >> 2 gives 11. Verified by compiling and running."
+   },
+   {
+    "q": "Why does `p = realloc(p, newsize)` risk a leak?",
+    "options": [
+     "It zeroes memory",
+     "realloc always copies twice",
+     "It frees the pointer twice",
+     "On failure realloc returns NULL, overwriting p and losing the original block; assign to a temporary first"
+    ],
+    "answer": 3,
+    "explain": "Check the temp for NULL, then assign it to p."
+   },
+   {
+    "q": "A function returns a pointer to a local array. What's wrong?",
+    "options": [
+     "The array lives on the stack and is gone when the function returns: a dangling pointer",
+     "It's a syntax error",
+     "Nothing",
+     "It leaks"
+    ],
+    "answer": 0,
+    "explain": "Return heap memory, a static buffer, or write into a caller-provided buffer."
+   },
+   {
+    "q": "You free a node then read its `next`. What happened?",
+    "options": [
+     "A stack overflow",
+     "A double free",
+     "Use-after-free: save next before freeing",
+     "Nothing wrong"
+    ],
+    "answer": 2,
+    "explain": "Undefined behavior; ASan reports it."
+   },
+   {
+    "q": "`make` rebuilds everything after you edit only a header. Which fix is correct?",
+    "options": [
+     "Use := everywhere",
+     "Use -O3",
+     "Delete the headers",
+     "Generate dependency files with -MMD -MP and include them so objects depend on the headers they use (and the opposite problem, stale builds, is also avoided)"
+    ],
+    "answer": 3,
+    "explain": "Edited headers must invalidate dependent objects."
+   },
+   {
+    "q": "A server reads a request with a single recv() into a 64-byte buffer. What can go wrong?",
+    "options": [
+     "Messages are always whole",
+     "Nothing",
+     "TCP is a byte stream: the read may return a partial message, and unbounded copying could overflow the buffer; loop and bound it",
+     "recv blocks forever"
+    ],
+    "answer": 2,
+    "explain": "Check the return value and size every copy."
+   },
+   {
+    "q": "Two threads increment a shared counter 1,000,000 times each with no synchronization. What do you expect?",
+    "options": [
+     "Exactly 1,000,000",
+     "A total below 2,000,000 because increments are read-modify-write and updates are lost; use an atomic or mutex",
+     "Exactly 2,000,000",
+     "A compile error"
+    ],
+    "answer": 1,
+    "explain": "A data race is undefined behavior."
+   },
+   {
+    "q": "Which is the safest way to build a path from user input into a 64-byte buffer?",
+    "options": [
+     "strcpy then strcat",
+     "sprintf without checks",
+     "snprintf(buf, sizeof buf, \"%s/%s\", dir, name) and check that the result is less than sizeof buf",
+     "gets"
+    ],
+    "answer": 2,
+    "explain": "snprintf never writes past the size and reports truncation."
+   },
+   {
+    "q": "Why compile and test with -fsanitize=address,undefined?",
+    "options": [
+     "They enable threads",
+     "They remove the need for tests",
+     "They turn silent memory errors and undefined behavior into immediate, located reports",
+     "They speed up the program"
+    ],
+    "answer": 2,
+    "explain": "Use them in CI along with warnings -Wall -Wextra."
+   },
+   {
+    "q": "Which structure gives guaranteed O(log n) search with inserts and deletes?",
+    "options": [
+     "A linked list",
+     "A self-balancing tree such as an AVL tree",
+     "An unsorted array",
+     "A plain BST with sorted input"
+    ],
+    "answer": 1,
+    "explain": "Rotations keep the height logarithmic."
+   },
+   {
+    "q": "You need many small short-lived allocations freed all at once (e.g. per request). Which allocator fits?",
+    "options": [
+     "malloc/free for each",
+     "An arena: allocation is a pointer bump and reset frees everything",
+     "The stack always",
+     "A linked list"
+    ],
+    "answer": 1,
+    "explain": "Lifetimes are grouped."
+   },
+   {
+    "q": "What should an exit code of a test runner convey to CI?",
+    "options": [
+     "Non-zero means at least one test failed",
+     "Always zero",
+     "Zero means failed",
+     "The number of lines"
+    ],
+    "answer": 0,
+    "explain": "CI gates on the exit status."
+   },
+   {
+    "q": "What is the safest design for a C function that can fail and returns a value?",
+    "options": [
+     "Call exit",
+     "Return -1 for all failures",
+     "Return a status code and deliver the value through an out-parameter, documenting ownership of any allocation",
+     "Ignore errors"
+    ],
+    "answer": 2,
+    "explain": "Sentinels can collide with valid values."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Reverse a linked list in place",
+    "prompt": "Implement reverse(): re-point each node's next pointer so the list is reversed without allocating new nodes, and return the new head. The program pushes 1..4 at the head (so it prints 4 3 2 1) and then prints the reversed list.",
+    "starter": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node { int v; struct Node *next; } Node;\n\nNode *push(Node *head, int v) {\n    Node *n = malloc(sizeof *n);\n    n->v = v; n->next = head;\n    return n;\n}\nNode *reverse(Node *head) {\n    // reverse the list in place by re-pointing each next; return the new head\n    return head;\n}\nvoid print(Node *h) { for (; h; h = h->next) printf(\"%d%c\", h->v, h->next ? ' ' : '\\n'); }\nint main(void) {\n    Node *h = NULL;\n    for (int i = 1; i <= 4; i++) h = push(h, i);\n    print(h);\n    h = reverse(h);\n    print(h);\n    while (h) { Node *n = h->next; free(h); h = n; }\n    return 0;\n}\n",
+    "expected": "4 3 2 1\n1 2 3 4",
+    "solution": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node { int v; struct Node *next; } Node;\n\nNode *push(Node *head, int v) {\n    Node *n = malloc(sizeof *n);\n    n->v = v; n->next = head;\n    return n;\n}\nNode *reverse(Node *head) {\n    Node *prev = NULL;\n    while (head) {\n        Node *next = head->next;\n        head->next = prev;\n        prev = head;\n        head = next;\n    }\n    return prev;\n}\nvoid print(Node *h) { for (; h; h = h->next) printf(\"%d%c\", h->v, h->next ? ' ' : '\\n'); }\nint main(void) {\n    Node *h = NULL;\n    for (int i = 1; i <= 4; i++) h = push(h, i);\n    print(h);\n    h = reverse(h);\n    print(h);\n    while (h) { Node *n = h->next; free(h); h = n; }\n    return 0;\n}\n",
+    "explain": "Walk the list keeping prev, save next before overwriting, and return prev as the new head. It's O(n) time and O(1) extra space. Verified by compiling and running the solution with gcc."
+   },
+   {
+    "title": "A bounded string copy",
+    "prompt": "Implement safe_copy(dst, cap, src): copy src into dst without overflowing, always null-terminate when cap > 0, and return 1 if everything fit or 0 if it was truncated. Print the result for a 6-byte and a 32-byte destination.",
+    "starter": "#include <stdio.h>\n#include <string.h>\n\n/* copy src into dst (capacity cap); return 1 if it all fit, 0 if truncated.\n   dst is always null-terminated when cap > 0. */\nint safe_copy(char *dst, size_t cap, const char *src) {\n    // copy without overflowing; always terminate; return 1 if it fit, else 0\n    return 0;\n}\nint main(void) {\n    char small[6], big[32];\n    int a = safe_copy(small, sizeof small, \"Mastery\");\n    int b = safe_copy(big, sizeof big, \"Mastery\");\n    printf(\"%d [%s]\\n%d [%s]\\n\", a, small, b, big);\n    return 0;\n}\n",
+    "expected": "0 [Maste]\n1 [Mastery]",
+    "solution": "#include <stdio.h>\n#include <string.h>\n\n/* copy src into dst (capacity cap); return 1 if it all fit, 0 if truncated.\n   dst is always null-terminated when cap > 0. */\nint safe_copy(char *dst, size_t cap, const char *src) {\n    if (cap == 0) return 0;\n    size_t n = strlen(src);\n    if (n >= cap) {\n        memcpy(dst, src, cap - 1);\n        dst[cap - 1] = '\\0';\n        return 0;\n    }\n    memcpy(dst, src, n + 1);\n    return 1;\n}\nint main(void) {\n    char small[6], big[32];\n    int a = safe_copy(small, sizeof small, \"Mastery\");\n    int b = safe_copy(big, sizeof big, \"Mastery\");\n    printf(\"%d [%s]\\n%d [%s]\\n\", a, small, b, big);\n    return 0;\n}\n",
+    "explain": "Compare strlen(src) with cap: if it doesn't fit, copy cap-1 bytes and terminate. This is what snprintf and strlcpy do and it removes the classic strcpy overflow. Verified by compiling and running the solution with gcc."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
