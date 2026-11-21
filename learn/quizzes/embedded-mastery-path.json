@@ -1,0 +1,2159 @@
+{
+ "course": "embedded-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup-toolchain": {
+   "questions": [
+    {
+     "q": "What is a microcontroller?",
+     "options": [
+      "A GPU",
+      "A small self-contained chip with CPU, RAM, flash and peripherals",
+      "A server",
+      "A PC"
+     ],
+     "answer": 1,
+     "explain": "Programs are cross-compiled for it."
+    },
+    {
+     "q": "What does the toolchain do on your laptop?",
+     "options": [
+      "Compile and link code into machine code for the target MCU",
+      "Emulate",
+      "Run code",
+      "Edit"
+     ],
+     "answer": 0,
+     "explain": "Cross compilation."
+    },
+    {
+     "q": "What is a sketch's `setup()` for?",
+     "options": [
+      "Power",
+      "Interrupts",
+      "One-time initialization before loop() runs repeatedly",
+      "Looping"
+     ],
+     "answer": 2,
+     "explain": "Arduino model."
+    },
+    {
+     "q": "Why upload via a bootloader or programmer?",
+     "options": [
+      "The compiled image must be written into the MCU's flash",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "USB serial or SWD."
+    }
+   ]
+  },
+  "level-1/02-c-cpp-for-embedded": {
+   "questions": [
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\nint main(void){ uint8_t x=250; x+=10; int8_t y=127; y++; printf(\"%u %d\", x, y); }\n```\n",
+     "options": [
+      "260 128",
+      "4 -128",
+      "4 127",
+      "250 127"
+     ],
+     "answer": 1,
+     "explain": "Fixed-width types wrap at their size (signed overflow is technically undefined; shown for typical two's complement). Verified by compiling and running."
+    },
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\nint main(void){ volatile uint32_t reg=0; reg|=(1u<<3); reg|=(1u<<5); reg&=~(1u<<3); printf(\"0x%02X\", reg); }\n```\n",
+     "options": [
+      "0x08",
+      "0x20",
+      "0x00",
+      "0x28"
+     ],
+     "answer": 1,
+     "explain": "Set bit 3 and 5, then clear bit 3. Verified by compiling and running."
+    },
+    {
+     "q": "What does `volatile` tell the compiler?",
+     "options": [
+      "It's atomic",
+      "The value can change outside the program's flow, so don't cache or optimize away accesses",
+      "It's in flash",
+      "It's constant"
+     ],
+     "answer": 1,
+     "explain": "Hardware registers and ISR-shared variables."
+    },
+    {
+     "q": "Why prefer fixed-width integers like uint8_t on MCUs?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "Sizes of int vary by platform; fixed width makes behavior predictable"
+     ],
+     "answer": 3,
+     "explain": "Registers have exact widths."
+    }
+   ]
+  },
+  "level-1/03-digital-io": {
+   "questions": [
+    {
+     "q": "What does pinMode(pin, OUTPUT) do?",
+     "options": [
+      "Reads",
+      "Resets",
+      "Delays",
+      "Configures the pin to drive high or low"
+     ],
+     "answer": 3,
+     "explain": "INPUT reads."
+    },
+    {
+     "q": "What's a floating input?",
+     "options": [
+      "Output",
+      "Analog",
+      "An unconnected input that picks up noise; use a pull-up or pull-down resistor",
+      "Fast"
+     ],
+     "answer": 2,
+     "explain": "INPUT_PULLUP."
+    },
+    {
+     "q": "Why debounce a mechanical button?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Contacts bounce for milliseconds producing multiple transitions"
+     ],
+     "answer": 3,
+     "explain": "Software or hardware."
+    },
+    {
+     "q": "What current limit applies to GPIO pins?",
+     "options": [
+      "A few to tens of mA; use a transistor/driver for larger loads",
+      "1 A",
+      "Unlimited",
+      "Any"
+     ],
+     "answer": 0,
+     "explain": "Check the datasheet."
+    }
+   ]
+  },
+  "level-1/04-analog-io-pwm": {
+   "questions": [
+    {
+     "q": "A 10-bit ADC reads 512 with Vref = 5 V. What voltage is that?\n```python\nprint(round(512/1023*5,3))\n```\n",
+     "options": [
+      "2.5",
+      "5.0",
+      "1.024",
+      "2.502"
+     ],
+     "answer": 3,
+     "explain": "V = raw/(2^n - 1) x Vref. Verified by running it."
+    },
+    {
+     "q": "What's the ADC resolution step of a 12-bit ADC at 3.3 V?\n```python\nprint(round(3.3/4096*1000,3))\n```\n",
+     "options": [
+      "8.06",
+      "0.806",
+      "3.3",
+      "0.0008"
+     ],
+     "answer": 1,
+     "explain": "LSB = Vref / 2^n (in mV). Verified by running it."
+    },
+    {
+     "q": "What does PWM do?",
+     "options": [
+      "Sends data",
+      "Reads analog",
+      "Switches a pin on and off quickly; the duty cycle sets the average power",
+      "Stores"
+     ],
+     "answer": 2,
+     "explain": "Dimming and motors."
+    },
+    {
+     "q": "How does a duty cycle of 25% at 5 V behave on an LED?",
+     "options": [
+      "2.5 V",
+      "0 V",
+      "5 V",
+      "About 1.25 V average, so it looks dimmer"
+     ],
+     "answer": 3,
+     "explain": "Average of the waveform."
+    }
+   ]
+  },
+  "level-1/05-serial-uart": {
+   "questions": [
+    {
+     "q": "What does UART need to communicate?",
+     "options": [
+      "Many wires",
+      "A hub",
+      "Clock line",
+      "Matching baud rate and framing on TX/RX plus a common ground"
+     ],
+     "answer": 3,
+     "explain": "Asynchronous."
+    },
+    {
+     "q": "At 9600 baud with 8N1 framing, how many characters per second at most?\n```python\nprint(9600//10)\n```\n",
+     "options": [
+      "1200",
+      "9600",
+      "96",
+      "960"
+     ],
+     "answer": 3,
+     "explain": "10 bits per character (start + 8 data + stop). Verified by running it."
+    },
+    {
+     "q": "What happens if baud rates mismatch?",
+     "options": [
+      "Silence",
+      "Garbled characters",
+      "Faster",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Check both ends."
+    },
+    {
+     "q": "Why print debug output over serial sparingly?",
+     "options": [
+      "It blocks/takes time and can disturb real-time behavior",
+      "Law",
+      "Cost",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Log levels."
+    }
+   ]
+  },
+  "level-1/06-sensors-i2c-spi": {
+   "questions": [
+    {
+     "q": "What's the difference between I2C and SPI?",
+     "options": [
+      "I2C uses two shared wires with addresses; SPI uses a clock, data lines and a chip-select per device and is faster",
+      "Same",
+      "SPI two wires",
+      "I2C faster"
+     ],
+     "answer": 0,
+     "explain": "Choose by need."
+    },
+    {
+     "q": "Why do I2C lines need pull-up resistors?",
+     "options": [
+      "The bus is open-drain: devices only pull low",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Typically 4.7k."
+    },
+    {
+     "q": "What identifies a device on I2C?",
+     "options": [
+      "Name",
+      "Chip select",
+      "Baud",
+      "A 7-bit address"
+     ],
+     "answer": 3,
+     "explain": "i2cdetect finds them."
+    },
+    {
+     "q": "What does SPI mode (CPOL/CPHA) define?",
+     "options": [
+      "Voltage",
+      "Speed",
+      "Clock polarity and phase for sampling data",
+      "Pins"
+     ],
+     "answer": 2,
+     "explain": "Must match the device."
+    }
+   ]
+  },
+  "level-1/07-timers-interrupts": {
+   "questions": [
+    {
+     "q": "Why avoid delay() in real firmware?",
+     "options": [
+      "Style",
+      "Speed",
+      "It blocks everything else; use timers or millis() state machines",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Non-blocking design."
+    },
+    {
+     "q": "What does an interrupt do?",
+     "options": [
+      "Pauses normal code to run a handler when an event occurs",
+      "Sleeps",
+      "Stops",
+      "Resets"
+     ],
+     "answer": 0,
+     "explain": "Keep it short."
+    },
+    {
+     "q": "What should an ISR do?",
+     "options": [
+      "Delay",
+      "Minimal work: set a flag or buffer data and return",
+      "Print",
+      "Compute"
+     ],
+     "answer": 1,
+     "explain": "Defer to main loop."
+    },
+    {
+     "q": "What does this print?\n```c\n#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\nvolatile int flag=0;\nvoid isr(void){ flag=1; }\nint main(void){ isr(); if(flag) printf(\"handled\"); else printf(\"missed\"); }\n```\n",
+     "options": [
+      "0",
+      "Error",
+      "handled",
+      "missed"
+     ],
+     "answer": 2,
+     "explain": "Share state with an ISR through a volatile flag. Verified by compiling and running."
+    }
+   ]
+  },
+  "level-1/08-memory-power": {
+   "questions": [
+    {
+     "q": "Which memories does an MCU typically have?",
+     "options": [
+      "Cloud",
+      "Flash (code), SRAM (data) and EEPROM/NVS for settings",
+      "HDD",
+      "SSD"
+     ],
+     "answer": 1,
+     "explain": "Fixed at design time."
+    },
+    {
+     "q": "Where do string literals go on AVR unless told otherwise?",
+     "options": [
+      "Copied to SRAM at startup; use F()/PROGMEM to keep them in flash",
+      "Flash",
+      "EEPROM",
+      "ROM"
+     ],
+     "answer": 0,
+     "explain": "Save RAM."
+    },
+    {
+     "q": "What dominates battery life?",
+     "options": [
+      "Clock",
+      "Code size",
+      "How long and how often the MCU and radios are awake",
+      "Pin count"
+     ],
+     "answer": 2,
+     "explain": "Sleep modes."
+    },
+    {
+     "q": "What does deep sleep do?",
+     "options": [
+      "Resets",
+      "Debugs",
+      "Overclocks",
+      "Powers down most of the chip, waking on a timer or pin"
+     ],
+     "answer": 3,
+     "explain": "Microamps."
+    }
+   ]
+  },
+  "level-1/09-esp32-wifi": {
+   "questions": [
+    {
+     "q": "What does an ESP32 add over a basic MCU?",
+     "options": [
+      "Display",
+      "GPU",
+      "Disk",
+      "Built-in WiFi and Bluetooth radios"
+     ],
+     "answer": 3,
+     "explain": "IoT-ready."
+    },
+    {
+     "q": "What is an HTTP GET used for in a device?",
+     "options": [
+      "Fetching data from a server",
+      "Pairing",
+      "Sending files only",
+      "Flashing"
+     ],
+     "answer": 0,
+     "explain": "Check status codes."
+    },
+    {
+     "q": "Why handle WiFi disconnects in firmware?",
+     "options": [
+      "Style",
+      "Law",
+      "Links drop; reconnect and retry rather than hang",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Robustness."
+    },
+    {
+     "q": "What should you never hardcode in source?",
+     "options": [
+      "WiFi passwords and API keys",
+      "Names",
+      "Baud",
+      "Pin numbers"
+     ],
+     "answer": 0,
+     "explain": "Use config/NVS."
+    }
+   ]
+  },
+  "level-1/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the environment monitor combine?",
+     "options": [
+      "Only WiFi",
+      "Only sensor",
+      "Only LED",
+      "Sensor reading, display, alarm and WiFi in one device"
+     ],
+     "answer": 3,
+     "explain": "Level 1 capstone."
+    },
+    {
+     "q": "Why use millis() scheduling in the project?",
+     "options": [
+      "Multiple tasks need non-blocking timing",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Cooperative scheduling."
+    },
+    {
+     "q": "How do you handle a failed sensor read?",
+     "options": [
+      "Ignore",
+      "Average",
+      "Detect and report/skip it rather than using garbage values",
+      "Reset"
+     ],
+     "answer": 2,
+     "explain": "Check for NaN."
+    },
+    {
+     "q": "What would you add for production?",
+     "options": [
+      "Fonts",
+      "Watchdog, logging and OTA",
+      "Colors",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Level 2 topics."
+    }
+   ]
+  },
+  "level-2/01-freertos-tasks-queues": {
+   "questions": [
+    {
+     "q": "What does FreeRTOS provide?",
+     "options": [
+      "A filesystem",
+      "A network",
+      "A GPU",
+      "Tasks, queues, semaphores and timers on an MCU"
+     ],
+     "answer": 3,
+     "explain": "Preemptive scheduling."
+    },
+    {
+     "q": "What's a queue for?",
+     "options": [
+      "Timing",
+      "Storage",
+      "Logging",
+      "Passing data safely between tasks or from an ISR"
+     ],
+     "answer": 3,
+     "explain": "Thread-safe."
+    },
+    {
+     "q": "What's priority inversion?",
+     "options": [
+      "Deadlock",
+      "Faster",
+      "A high-priority task blocked by a low-priority one holding a resource",
+      "Bug"
+     ],
+     "answer": 2,
+     "explain": "Use priority inheritance mutexes."
+    },
+    {
+     "q": "Why not call blocking APIs from an ISR?",
+     "options": [
+      "They can't wait in interrupt context; use FromISR variants",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "xQueueSendFromISR."
+    }
+   ]
+  },
+  "level-2/02-esp-idf": {
+   "questions": [
+    {
+     "q": "What is ESP-IDF?",
+     "options": [
+      "Espressif's official development framework underlying Arduino-ESP32",
+      "An RTOS",
+      "A language",
+      "A board"
+     ],
+     "answer": 0,
+     "explain": "More control."
+    },
+    {
+     "q": "What does menuconfig do?",
+     "options": [
+      "Flashes",
+      "Builds",
+      "Configures chip, RTOS and component options",
+      "Tests"
+     ],
+     "answer": 2,
+     "explain": "sdkconfig."
+    },
+    {
+     "q": "What's a component in ESP-IDF?",
+     "options": [
+      "Task",
+      "Pin",
+      "A reusable module with its own CMake and sources",
+      "File"
+     ],
+     "answer": 2,
+     "explain": "Modular."
+    },
+    {
+     "q": "Why use ESP-IDF over Arduino?",
+     "options": [
+      "Easier",
+      "Finer control of resources, partitions and features",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Production firmware."
+    }
+   ]
+  },
+  "level-2/03-ble": {
+   "questions": [
+    {
+     "q": "Why use BLE over WiFi?",
+     "options": [
+      "Longer range",
+      "Faster",
+      "Higher bandwidth",
+      "Much lower power and no router needed for phone connections"
+     ],
+     "answer": 3,
+     "explain": "Short data bursts."
+    },
+    {
+     "q": "What is a GATT characteristic?",
+     "options": [
+      "A data value a BLE peripheral exposes for read/write/notify",
+      "A key",
+      "A packet",
+      "A pin"
+     ],
+     "answer": 0,
+     "explain": "Services group them."
+    },
+    {
+     "q": "What is advertising in BLE?",
+     "options": [
+      "Pairing",
+      "Broadcasting presence so central devices can discover and connect",
+      "Sleeping",
+      "Encryption"
+     ],
+     "answer": 1,
+     "explain": "Interval affects power."
+    },
+    {
+     "q": "What does notify do?",
+     "options": [
+      "Reads",
+      "Writes",
+      "Pushes updates to a subscribed client without polling",
+      "Pairs"
+     ],
+     "answer": 2,
+     "explain": "Efficient."
+    }
+   ]
+  },
+  "level-2/04-mqtt-iot-messaging": {
+   "questions": [
+    {
+     "q": "What does MQTT use?",
+     "options": [
+      "Raw sockets",
+      "Publish/subscribe messaging through a broker",
+      "Request/response",
+      "Files"
+     ],
+     "answer": 1,
+     "explain": "Lightweight for IoT."
+    },
+    {
+     "q": "What are MQTT QoS levels 0, 1, 2?",
+     "options": [
+      "At most once, at least once, exactly once",
+      "Speeds",
+      "Sizes",
+      "Priority levels"
+     ],
+     "answer": 0,
+     "explain": "Trade-off with overhead."
+    },
+    {
+     "q": "What does a retained message do?",
+     "options": [
+      "The broker stores the last value for new subscribers",
+      "Compresses",
+      "Deletes",
+      "Encrypts"
+     ],
+     "answer": 0,
+     "explain": "Status topics."
+    },
+    {
+     "q": "What's a Last Will message?",
+     "options": [
+      "Ping",
+      "Published by the broker if a client disconnects unexpectedly",
+      "Backup",
+      "Welcome"
+     ],
+     "answer": 1,
+     "explain": "Detect offline devices."
+    }
+   ]
+  },
+  "level-2/05-ota-updates": {
+   "questions": [
+    {
+     "q": "Why use OTA updates?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Devices in the field can't be reached with a cable"
+     ],
+     "answer": 3,
+     "explain": "Remote maintenance."
+    },
+    {
+     "q": "What's needed for a safe OTA?",
+     "options": [
+      "Overwrite",
+      "No checks",
+      "Two app partitions, validation and rollback",
+      "One slot"
+     ],
+     "answer": 2,
+     "explain": "Fail-safe."
+    },
+    {
+     "q": "Why sign firmware images?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Prevent installing malicious or corrupted firmware"
+     ],
+     "answer": 3,
+     "explain": "Verify before boot."
+    },
+    {
+     "q": "What does the 'mark app valid' step do?",
+     "options": [
+      "Erases",
+      "Confirms the new firmware booted OK so it isn't rolled back",
+      "Reboots",
+      "Pairs"
+     ],
+     "answer": 1,
+     "explain": "Anti-brick."
+    }
+   ]
+  },
+  "level-2/06-advanced-peripherals": {
+   "questions": [
+    {
+     "q": "What does I2S carry?",
+     "options": [
+      "Continuous digital audio streams",
+      "Pulses",
+      "Files",
+      "Commands"
+     ],
+     "answer": 0,
+     "explain": "Mics and DACs."
+    },
+    {
+     "q": "What's RMT used for?",
+     "options": [
+      "WiFi",
+      "Audio",
+      "Generating/receiving precisely timed pulse trains (IR, LED strips)",
+      "Storage"
+     ],
+     "answer": 2,
+     "explain": "Hardware timing."
+    },
+    {
+     "q": "When use DMA with peripherals?",
+     "options": [
+      "Slow",
+      "Always",
+      "To move data without CPU involvement at high rates",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Frees the CPU."
+    },
+    {
+     "q": "Why not bit-bang a protocol when hardware support exists?",
+     "options": [
+      "Timing is jittery and wastes CPU",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Use peripherals."
+    }
+   ]
+  },
+  "level-2/07-filesystems-storage": {
+   "questions": [
+    {
+     "q": "What's NVS for?",
+     "options": [
+      "Logs",
+      "Streams",
+      "Storing small key/value settings that survive reboot",
+      "Code"
+     ],
+     "answer": 2,
+     "explain": "Configuration."
+    },
+    {
+     "q": "What's LittleFS suited to?",
+     "options": [
+      "PCs",
+      "SSDs",
+      "Wear-leveled, power-loss-resilient files on flash",
+      "RAM"
+     ],
+     "answer": 2,
+     "explain": "Logs."
+    },
+    {
+     "q": "Why batch flash writes?",
+     "options": [
+      "Flash has limited erase cycles and slow writes",
+      "Style",
+      "Cost",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Reduce wear."
+    },
+    {
+     "q": "What happens on a power cut during write without protection?",
+     "options": [
+      "Backup",
+      "Corruption; use journaling/atomic updates",
+      "Speed",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Design for it."
+    }
+   ]
+  },
+  "level-2/08-watchdogs-robust-firmware": {
+   "questions": [
+    {
+     "q": "What does a watchdog do?",
+     "options": [
+      "Updates",
+      "Resets the device if the firmware stops 'feeding' it",
+      "Sleeps",
+      "Logs"
+     ],
+     "answer": 1,
+     "explain": "Recovers from hangs."
+    },
+    {
+     "q": "Where should you feed the watchdog?",
+     "options": [
+      "Anywhere",
+      "Idle",
+      "Only when the system is truly healthy, not blindly in a timer ISR",
+      "ISR"
+     ],
+     "answer": 2,
+     "explain": "Otherwise it hides hangs."
+    },
+    {
+     "q": "What is a brownout?",
+     "options": [
+      "Noise",
+      "Supply voltage dropping below a safe level, causing erratic behavior",
+      "Reset",
+      "Overheat"
+     ],
+     "answer": 1,
+     "explain": "Brownout detectors reset safely."
+    },
+    {
+     "q": "What should firmware do after a watchdog reset?",
+     "options": [
+      "Reset again",
+      "Delete",
+      "Ignore",
+      "Record the cause and enter a safe state or retry"
+     ],
+     "answer": 3,
+     "explain": "Diagnose."
+    }
+   ]
+  },
+  "level-2/09-debugging-unit-testing": {
+   "questions": [
+    {
+     "q": "What's a core dump/panic handler useful for?",
+     "options": [
+      "Speed",
+      "Style",
+      "Capturing crash state for post-mortem debugging",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Save to flash."
+    },
+    {
+     "q": "How do you unit test embedded logic?",
+     "options": [
+      "Manual",
+      "Only on device",
+      "Never",
+      "Compile hardware-independent code on the host with mocks"
+     ],
+     "answer": 3,
+     "explain": "Fast tests."
+    },
+    {
+     "q": "What does JTAG/SWD provide?",
+     "options": [
+      "Flashing only",
+      "Network",
+      "Logging only",
+      "Hardware debugging: breakpoints, memory and register access"
+     ],
+     "answer": 3,
+     "explain": "OpenOCD, gdb."
+    },
+    {
+     "q": "Why add assertions?",
+     "options": [
+      "Style",
+      "Catch invalid states early near the cause",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Fail fast in development."
+    }
+   ]
+  },
+  "level-2/10-project-wifi-data-logger": {
+   "questions": [
+    {
+     "q": "What does the WiFi data logger combine?",
+     "options": [
+      "Scheduled sampling, storage, WiFi/MQTT upload, watchdog and OTA",
+      "Only WiFi",
+      "Only sensor",
+      "Only storage"
+     ],
+     "answer": 0,
+     "explain": "A year-long device."
+    },
+    {
+     "q": "How do you handle offline periods?",
+     "options": [
+      "Block",
+      "Drop",
+      "Reset",
+      "Buffer data locally and upload when the link returns"
+     ],
+     "answer": 3,
+     "explain": "Store and forward."
+    },
+    {
+     "q": "What validates robustness?",
+     "options": [
+      "Demo",
+      "Fault injection: power cuts, WiFi loss and bad sensors",
+      "Slides",
+      "Hope"
+     ],
+     "answer": 1,
+     "explain": "Test failures."
+    },
+    {
+     "q": "How do you keep power low?",
+     "options": [
+      "Max clock",
+      "Sleep between samples and batch transmissions",
+      "Always on",
+      "Streaming"
+     ],
+     "answer": 1,
+     "explain": "Duty cycle."
+    }
+   ]
+  },
+  "level-3/01-bare-metal-arm-stm32": {
+   "questions": [
+    {
+     "q": "What does bare-metal programming mean?",
+     "options": [
+      "Using Arduino",
+      "Running directly on the hardware without an OS or framework",
+      "Using RTOS",
+      "Using Linux"
+     ],
+     "answer": 1,
+     "explain": "You set clocks and registers."
+    },
+    {
+     "q": "What's the first code that runs after reset?",
+     "options": [
+      "Bootloader only",
+      "The reset handler from the vector table, which sets up memory and calls main",
+      "main",
+      "ISR"
+     ],
+     "answer": 1,
+     "explain": "Startup code."
+    },
+    {
+     "q": "Why configure the clock tree manually?",
+     "options": [
+      "Peripherals and CPU need correct frequencies from PLLs/dividers",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Datasheet."
+    },
+    {
+     "q": "What does HAL provide?",
+     "options": [
+      "A vendor abstraction layer over registers",
+      "Debugger",
+      "Compiler",
+      "RTOS"
+     ],
+     "answer": 0,
+     "explain": "LL is lower level."
+    }
+   ]
+  },
+  "level-3/02-registers-linker-startup": {
+   "questions": [
+    {
+     "q": "What does the linker script define?",
+     "options": [
+      "Memory regions and where sections (.text, .data, .bss) are placed",
+      "Clock",
+      "Tasks",
+      "Pins"
+     ],
+     "answer": 0,
+     "explain": "FLASH/RAM layout."
+    },
+    {
+     "q": "What is .bss?",
+     "options": [
+      "Code",
+      "Stack",
+      "Zero-initialized static data (cleared at startup)",
+      "Constants"
+     ],
+     "answer": 2,
+     "explain": "Not stored in flash."
+    },
+    {
+     "q": "What does startup code do with .data?",
+     "options": [
+      "Compresses",
+      "Copies initial values from flash to RAM",
+      "Clears",
+      "Ignores"
+     ],
+     "answer": 1,
+     "explain": "Before main."
+    },
+    {
+     "q": "What's the vector table?",
+     "options": [
+      "Pin map",
+      "An array of addresses for the stack pointer and exception/interrupt handlers",
+      "Task list",
+      "Heap"
+     ],
+     "answer": 1,
+     "explain": "At the start of flash."
+    }
+   ]
+  },
+  "level-3/03-rtos-internals": {
+   "questions": [
+    {
+     "q": "What does a scheduler's context switch save?",
+     "options": [
+      "Heap",
+      "Pins",
+      "Flash",
+      "CPU registers and stack pointer of the running task"
+     ],
+     "answer": 3,
+     "explain": "PendSV on Cortex-M."
+    },
+    {
+     "q": "What's a tick?",
+     "options": [
+      "A periodic timer interrupt driving scheduling and delays",
+      "Task",
+      "Queue",
+      "Pin"
+     ],
+     "answer": 0,
+     "explain": "SysTick."
+    },
+    {
+     "q": "What's a semaphore for?",
+     "options": [
+      "Storage",
+      "Signaling and resource counting between tasks/ISRs",
+      "Timing",
+      "Math"
+     ],
+     "answer": 1,
+     "explain": "Binary or counting."
+    },
+    {
+     "q": "What's stack overflow's effect in an RTOS?",
+     "options": [
+      "Logs",
+      "Speed",
+      "Corrupts memory and crashes; size stacks and enable checks",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "uxTaskGetStackHighWaterMark."
+    }
+   ]
+  },
+  "level-3/04-dma-high-speed-peripherals": {
+   "questions": [
+    {
+     "q": "What does DMA do?",
+     "options": [
+      "Stores",
+      "Encrypts",
+      "Computes",
+      "Moves data between memory and peripherals without CPU copies"
+     ],
+     "answer": 3,
+     "explain": "Frees CPU."
+    },
+    {
+     "q": "When is DMA essential?",
+     "options": [
+      "Idle",
+      "LEDs",
+      "High-speed streams like ADC sampling or audio",
+      "Buttons"
+     ],
+     "answer": 2,
+     "explain": "Throughput."
+    },
+    {
+     "q": "What is a circular DMA buffer?",
+     "options": [
+      "Random",
+      "One-shot",
+      "A buffer refilled continuously with half/complete interrupts",
+      "Fixed"
+     ],
+     "answer": 2,
+     "explain": "Double buffering."
+    },
+    {
+     "q": "What hazard do DMA buffers add?",
+     "options": [
+      "Cache coherency and ownership: CPU and DMA must not touch the same data",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Use barriers."
+    }
+   ]
+  },
+  "level-3/05-low-power-design": {
+   "questions": [
+    {
+     "q": "What's the biggest lever for low power?",
+     "options": [
+      "More logging",
+      "Faster clock",
+      "Spend most time in deep sleep and wake rarely",
+      "More LEDs"
+     ],
+     "answer": 2,
+     "explain": "Duty cycle."
+    },
+    {
+     "q": "What wakes an MCU from sleep?",
+     "options": [
+      "Nothing",
+      "Battery",
+      "Reset only",
+      "Timers, GPIO interrupts and peripherals"
+     ],
+     "answer": 3,
+     "explain": "Configure sources."
+    },
+    {
+     "q": "Why disable unused peripherals and clocks?",
+     "options": [
+      "They draw current even when idle",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Clock gating."
+    },
+    {
+     "q": "How do you measure low power accurately?",
+     "options": [
+      "A current profiler/analyzer capturing sleep and active phases",
+      "Spec",
+      "Multimeter",
+      "Guess"
+     ],
+     "answer": 0,
+     "explain": "Wake spikes matter."
+    }
+   ]
+  },
+  "level-3/06-interrupts-nvic": {
+   "questions": [
+    {
+     "q": "What is NVIC?",
+     "options": [
+      "Cortex-M's nested vectored interrupt controller handling priorities",
+      "A timer",
+      "A RTOS",
+      "A bus"
+     ],
+     "answer": 0,
+     "explain": "Preemption."
+    },
+    {
+     "q": "What does interrupt priority mean?",
+     "options": [
+      "Higher-priority interrupts can preempt lower-priority handlers",
+      "Order",
+      "Power",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Lower number = higher priority on Cortex-M."
+    },
+    {
+     "q": "What should an ISR avoid?",
+     "options": [
+      "Volatile",
+      "Flags",
+      "Short work",
+      "Long operations and blocking calls"
+     ],
+     "answer": 3,
+     "explain": "Keep latency low."
+    },
+    {
+     "q": "Why clear the pending flag in an ISR?",
+     "options": [
+      "Otherwise it re-enters continuously",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Acknowledge the source."
+    }
+   ]
+  },
+  "level-3/07-pcb-design-kicad": {
+   "questions": [
+    {
+     "q": "What's a typical first step in KiCad?",
+     "options": [
+      "Route first",
+      "Order boards",
+      "Draw the schematic, then assign footprints and lay out the PCB",
+      "Solder"
+     ],
+     "answer": 2,
+     "explain": "ERC then DRC."
+    },
+    {
+     "q": "Why add decoupling capacitors near ICs?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "They supply transient current and filter noise"
+     ],
+     "answer": 3,
+     "explain": "100 nF close to pins."
+    },
+    {
+     "q": "What does DRC check?",
+     "options": [
+      "Timing",
+      "Logic",
+      "Power",
+      "Design rules like clearances and trace widths"
+     ],
+     "answer": 3,
+     "explain": "Before fabrication."
+    },
+    {
+     "q": "Why consider return paths and ground planes?",
+     "options": [
+      "Cost",
+      "Style",
+      "Law",
+      "Signal integrity and EMI depend on them"
+     ],
+     "answer": 3,
+     "explain": "Solid ground."
+    }
+   ]
+  },
+  "level-3/08-protocol-deep-dive": {
+   "questions": [
+    {
+     "q": "What does a logic analyzer do?",
+     "options": [
+      "Compiles",
+      "Captures digital signals over time to decode protocols",
+      "Programs",
+      "Measures power"
+     ],
+     "answer": 1,
+     "explain": "Debug I2C/SPI."
+    },
+    {
+     "q": "What's clock stretching in I2C?",
+     "options": [
+      "Fast",
+      "A slave holding SCL low to delay the master",
+      "Noise",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Some masters mishandle it."
+    },
+    {
+     "q": "What does CAN provide?",
+     "options": [
+      "Audio",
+      "Video",
+      "A robust multi-master differential bus with arbitration (automotive/industrial)",
+      "WiFi"
+     ],
+     "answer": 2,
+     "explain": "Error detection."
+    },
+    {
+     "q": "Why add checksums/CRC to custom protocols?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Detect corrupted frames"
+     ],
+     "answer": 3,
+     "explain": "Reliability."
+    }
+   ]
+  },
+  "level-3/09-bootloaders": {
+   "questions": [
+    {
+     "q": "What does a bootloader do?",
+     "options": [
+      "Debug",
+      "Compiles",
+      "Logs",
+      "Runs first, can update application firmware, then jumps to it"
+     ],
+     "answer": 3,
+     "explain": "Update path."
+    },
+    {
+     "q": "What must a bootloader verify before jumping?",
+     "options": [
+      "A valid application image (CRC/signature) and vector table",
+      "Names",
+      "Colors",
+      "Size"
+     ],
+     "answer": 0,
+     "explain": "Avoid bricking."
+    },
+    {
+     "q": "Why keep the bootloader minimal and protected?",
+     "options": [
+      "A bug or erase in it can brick the device",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Write-protect flash."
+    },
+    {
+     "q": "How does the app vector table relocate?",
+     "options": [
+      "Stack",
+      "Linker only",
+      "VTOR points to the app's table",
+      "Reset"
+     ],
+     "answer": 2,
+     "explain": "Cortex-M."
+    }
+   ]
+  },
+  "level-3/10-project-sensor-board": {
+   "questions": [
+    {
+     "q": "What does the sensor board project combine?",
+     "options": [
+      "Only PCB",
+      "Custom PCB, bare-metal firmware, DMA/low power and a bootloader",
+      "Only code",
+      "Only RTOS"
+     ],
+     "answer": 1,
+     "explain": "Level 3 capstone."
+    },
+    {
+     "q": "How do you validate the board?",
+     "options": [
+      "Assume",
+      "Skip",
+      "Ship",
+      "Bring-up checklist: power rails, clocks, communications and sensor accuracy"
+     ],
+     "answer": 3,
+     "explain": "Stage the bring-up."
+    },
+    {
+     "q": "Why add test points?",
+     "options": [
+      "Law",
+      "Probing signals for debug and manufacturing test",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "DFT."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "None",
+      "Schematics, BOM, pinouts and firmware notes",
+      "Code",
+      "Slides"
+     ],
+     "answer": 1,
+     "explain": "Handover."
+    }
+   ]
+  },
+  "level-4/01-production-firmware-architecture": {
+   "questions": [
+    {
+     "q": "What does a production firmware architecture include?",
+     "options": [
+      "Layered modules, HAL abstraction, state machines, logging and update support",
+      "One file",
+      "Globals",
+      "Arduino"
+     ],
+     "answer": 0,
+     "explain": "Maintainable."
+    },
+    {
+     "q": "Why layer HAL, drivers and application?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Testability and portability across hardware"
+     ],
+     "answer": 3,
+     "explain": "Mock hardware."
+    },
+    {
+     "q": "Why use state machines?",
+     "options": [
+      "Style",
+      "Explicit, testable behavior for event-driven devices",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Avoid spaghetti."
+    },
+    {
+     "q": "What should logging support?",
+     "options": [
+      "None",
+      "Levels and persistent crash logs without blocking",
+      "Always on",
+      "Printf"
+     ],
+     "answer": 1,
+     "explain": "Field diagnosis."
+    }
+   ]
+  },
+  "level-4/02-secure-boot-ota-scale": {
+   "questions": [
+    {
+     "q": "What does secure boot at scale require?",
+     "options": [
+      "Obscurity",
+      "Passwords",
+      "Key management, signed images and anti-rollback",
+      "Checksums"
+     ],
+     "answer": 2,
+     "explain": "Chain of trust."
+    },
+    {
+     "q": "What does anti-rollback prevent?",
+     "options": [
+      "Upgrades",
+      "Installing older vulnerable firmware",
+      "Boot",
+      "Updates"
+     ],
+     "answer": 1,
+     "explain": "Version counters."
+    },
+    {
+     "q": "Why use staged OTA rollouts?",
+     "options": [
+      "Speed",
+      "Limit damage from a bad release",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Canary."
+    },
+    {
+     "q": "Where are signing keys kept?",
+     "options": [
+      "Git",
+      "Laptops",
+      "Device",
+      "In an HSM or secured offline infrastructure"
+     ],
+     "answer": 3,
+     "explain": "Never in the repo."
+    }
+   ]
+  },
+  "level-4/03-tinyml-edge-ai": {
+   "questions": [
+    {
+     "q": "What's TinyML?",
+     "options": [
+      "Big models",
+      "GPUs",
+      "Training in cloud",
+      "Running machine learning inference on microcontrollers"
+     ],
+     "answer": 3,
+     "explain": "Quantized models."
+    },
+    {
+     "q": "What are TinyML constraints?",
+     "options": [
+      "Storage",
+      "GPU",
+      "Cloud",
+      "Memory, compute and power budgets"
+     ],
+     "answer": 3,
+     "explain": "Small models."
+    },
+    {
+     "q": "Why quantize models?",
+     "options": [
+      "Smaller size and faster integer inference",
+      "Law",
+      "Accuracy",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "int8."
+    },
+    {
+     "q": "What data matters most?",
+     "options": [
+      "Synthetic",
+      "Representative data from the target sensors",
+      "Any",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Field accuracy."
+    }
+   ]
+  },
+  "level-4/04-rf-protocol-design": {
+   "questions": [
+    {
+     "q": "What does link budget account for?",
+     "options": [
+      "Speed",
+      "Cost",
+      "Transmit power, antenna gains, path loss and receiver sensitivity",
+      "Power only"
+     ],
+     "answer": 2,
+     "explain": "Range planning."
+    },
+    {
+     "q": "Why choose LoRa for long range?",
+     "options": [
+      "High throughput",
+      "Mesh only",
+      "Low data rate with high sensitivity and low power",
+      "Short range"
+     ],
+     "answer": 2,
+     "explain": "Trade-offs."
+    },
+    {
+     "q": "What's a packet format design concern?",
+     "options": [
+      "Colors",
+      "Speed",
+      "Names",
+      "Framing, CRC, versioning and security"
+     ],
+     "answer": 3,
+     "explain": "Interoperability."
+    },
+    {
+     "q": "Why consider regulatory limits (duty cycle)?",
+     "options": [
+      "Radio rules limit transmit time and power",
+      "Cost",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Compliance."
+    }
+   ]
+  },
+  "level-4/05-hil-testing-ci": {
+   "questions": [
+    {
+     "q": "What does HIL testing do?",
+     "options": [
+      "Manual",
+      "Only host",
+      "Only unit",
+      "Runs real firmware on hardware with simulated inputs automatically"
+     ],
+     "answer": 3,
+     "explain": "Hardware-in-the-loop."
+    },
+    {
+     "q": "Why integrate HIL into CI?",
+     "options": [
+      "Style",
+      "Catch hardware-dependent regressions on every change",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Test farms."
+    },
+    {
+     "q": "What does a HIL rig need?",
+     "options": [
+      "Phone",
+      "Cloud",
+      "Device under test, power/reset control, signal injection and result capture",
+      "Laptop only"
+     ],
+     "answer": 2,
+     "explain": "Automation."
+    },
+    {
+     "q": "What stays in host unit tests?",
+     "options": [
+      "Interrupts",
+      "Radios",
+      "Timing",
+      "Pure logic without hardware dependencies"
+     ],
+     "answer": 3,
+     "explain": "Fast feedback."
+    }
+   ]
+  },
+  "level-4/06-functional-safety-misra": {
+   "questions": [
+    {
+     "q": "What is MISRA C?",
+     "options": [
+      "A tool",
+      "A compiler",
+      "A coding standard for safe C in critical systems",
+      "An RTOS"
+     ],
+     "answer": 2,
+     "explain": "Reduces undefined behavior."
+    },
+    {
+     "q": "What does functional safety (IEC 61508/ISO 26262) require?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Hazard analysis, defined processes, verification and traceability"
+     ],
+     "answer": 3,
+     "explain": "Safety integrity levels."
+    },
+    {
+     "q": "What's a safe state?",
+     "options": [
+      "A defined condition the system enters on fault to avoid harm",
+      "Reset",
+      "Idle",
+      "Sleep"
+     ],
+     "answer": 0,
+     "explain": "Design for it."
+    },
+    {
+     "q": "Why static analysis?",
+     "options": [
+      "Find rule violations and defects without running the code",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Part of the process."
+    }
+   ]
+  },
+  "level-4/07-ultra-low-power": {
+   "questions": [
+    {
+     "q": "What's the target in ultra-low-power design?",
+     "options": [
+      "Microamp average current via deep sleep and minimal wake time",
+      "Speed",
+      "Size",
+      "Features"
+     ],
+     "answer": 0,
+     "explain": "Energy budget."
+    },
+    {
+     "q": "What often dominates energy?",
+     "options": [
+      "LEDs",
+      "Radio transmissions and wake overhead",
+      "Memory",
+      "CPU idle"
+     ],
+     "answer": 1,
+     "explain": "Batch and shorten."
+    },
+    {
+     "q": "How to estimate battery life?",
+     "options": [
+      "Days",
+      "Average current from duty cycle, battery capacity and derating",
+      "Guess",
+      "Spec"
+     ],
+     "answer": 1,
+     "explain": "Measure."
+    },
+    {
+     "q": "What's leakage current?",
+     "options": [
+      "Current drawn by components even when idle, such as regulators and pull-ups",
+      "Noise",
+      "Heat",
+      "Signal"
+     ],
+     "answer": 0,
+     "explain": "Choose parts carefully."
+    }
+   ]
+  },
+  "level-4/08-manufacturing-dfm-test": {
+   "questions": [
+    {
+     "q": "What is DFM?",
+     "options": [
+      "Debug",
+      "Design for manufacturing: making the board easy and cheap to build",
+      "Flash",
+      "Firmware"
+     ],
+     "answer": 1,
+     "explain": "Footprints, panelization."
+    },
+    {
+     "q": "Why provide test fixtures and a factory test mode?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "Verify every unit and provision keys/IDs on the line"
+     ],
+     "answer": 3,
+     "explain": "Production test."
+    },
+    {
+     "q": "What belongs in the BOM?",
+     "options": [
+      "Code",
+      "Names",
+      "Slides",
+      "Parts, values, footprints and approved alternatives"
+     ],
+     "answer": 3,
+     "explain": "Supply chain."
+    },
+    {
+     "q": "Why provision unique identities at manufacturing?",
+     "options": [
+      "Style",
+      "Law",
+      "Per-device keys and IDs enable secure fleet management",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Secure provisioning."
+    }
+   ]
+  },
+  "level-4/09-fleet-management": {
+   "questions": [
+    {
+     "q": "What does fleet management provide?",
+     "options": [
+      "Monitoring, configuration and updates of many devices",
+      "One device",
+      "Manual",
+      "Local"
+     ],
+     "answer": 0,
+     "explain": "Scale."
+    },
+    {
+     "q": "What telemetry matters?",
+     "options": [
+      "None",
+      "Photos",
+      "Version, health, battery, errors and connectivity",
+      "Logs only"
+     ],
+     "answer": 2,
+     "explain": "Observability."
+    },
+    {
+     "q": "How do you handle devices offline for months?",
+     "options": [
+      "Ignore",
+      "Brick",
+      "Force",
+      "Resumable updates and compatibility across versions"
+     ],
+     "answer": 3,
+     "explain": "Version skew."
+    },
+    {
+     "q": "What's a device twin/shadow?",
+     "options": [
+      "A cloud representation of desired and reported device state",
+      "Backup",
+      "Log",
+      "Key"
+     ],
+     "answer": 0,
+     "explain": "Sync later."
+    }
+   ]
+  },
+  "level-4/10-capstone-production-iot": {
+   "questions": [
+    {
+     "q": "What does the production IoT capstone integrate?",
+     "options": [
+      "Secure boot, OTA, telemetry, low power, testing and manufacturing",
+      "Only code",
+      "Only PCB",
+      "Only cloud"
+     ],
+     "answer": 0,
+     "explain": "Full product."
+    },
+    {
+     "q": "How do you prove readiness?",
+     "options": [
+      "HIL/CI, field trials, fault injection and a staged rollout plan",
+      "Hope",
+      "Demo",
+      "Slides"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What documentation matters?",
+     "options": [
+      "Architecture, runbooks, release and support procedures",
+      "Slides",
+      "None",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Lifecycle."
+    },
+    {
+     "q": "What guards long-term support?",
+     "options": [
+      "Version policy, security updates and compatibility testing",
+      "None",
+      "Hope",
+      "Marketing"
+     ],
+     "answer": 0,
+     "explain": "Years in the field."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does a microcontroller's toolchain do on your laptop?",
+    "options": [
+     "Edits it",
+     "Runs the code",
+     "Emulates it",
+     "Cross-compiles code into machine code for the target MCU"
+    ],
+    "answer": 3,
+    "explain": "Then flash via a bootloader or SWD."
+   },
+   {
+    "q": "What does this print?\n```c\n#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\nint main(void){ volatile uint32_t r=0; r|=(1u<<3); r|=(1u<<5); r&=~(1u<<3); r^=1u; printf(\"0x%02X\", r); }\n```\n",
+    "options": [
+     "0x29",
+     "0x21",
+     "0x28",
+     "0x20"
+    ],
+    "answer": 1,
+    "explain": "Set bits 3 and 5, clear 3, toggle bit 0. Verified by compiling and running."
+   },
+   {
+    "q": "What does this print?\n```c\n#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\nint main(void){ uint8_t a=200,b=100; uint8_t s=a+b; uint16_t w=(uint16_t)a+b; printf(\"%u %u\", s, w); }\n```\n",
+    "options": [
+     "44 300",
+     "300 300",
+     "44 44",
+     "255 300"
+    ],
+    "answer": 0,
+    "explain": "8-bit arithmetic wraps; widen before adding. Verified by compiling and running."
+   },
+   {
+    "q": "A 12-bit ADC at 3.3 V reads 2048. What voltage is that?\n```python\nprint(round(2048/4095*3.3,3))\n```\n",
+    "options": [
+     "1.65",
+     "0.825",
+     "3.3",
+     "2.048"
+    ],
+    "answer": 0,
+    "explain": "V = raw/(2^12-1) x Vref. Verified by running it."
+   },
+   {
+    "q": "At 115200 baud, 8N1, how long does one character take in microseconds (rounded)?\n```python\nprint(round(10/115200*1e6))\n```\n",
+    "options": [
+     "10",
+     "8",
+     "87",
+     "870"
+    ],
+    "answer": 2,
+    "explain": "10 bits per character. Verified by running it."
+   },
+   {
+    "q": "Why is a floating digital input a problem?",
+    "options": [
+     "It's faster",
+     "It's analog",
+     "It picks up noise and reads random values; add a pull-up or pull-down",
+     "It saves power"
+    ],
+    "answer": 2,
+    "explain": "INPUT_PULLUP."
+   },
+   {
+    "q": "A button produces several transitions per press. What fixes it?",
+    "options": [
+     "Ignore",
+     "Debounce in hardware (RC) or software (stable-sample counting)",
+     "Delay 5 s",
+     "Use PWM"
+    ],
+    "answer": 1,
+    "explain": "Contacts bounce for milliseconds."
+   },
+   {
+    "q": "Why shouldn't an ISR call printf or delay?",
+    "options": [
+     "Speed",
+     "Style",
+     "ISRs must be short and non-blocking; set a flag or buffer data and return",
+     "Syntax"
+    ],
+    "answer": 2,
+    "explain": "Defer work to the main loop."
+   },
+   {
+    "q": "Which qualifier must a flag shared with an ISR have?",
+    "options": [
+     "static only",
+     "register",
+     "const",
+     "volatile (and ensure atomic access)"
+    ],
+    "answer": 3,
+    "explain": "Prevent caching in a register."
+   },
+   {
+    "q": "Two tasks on FreeRTOS pass sensor data. What's the right primitive?",
+    "options": [
+     "A global variable",
+     "delay()",
+     "printf",
+     "A queue (thread-safe, can be used from ISRs with FromISR variants)"
+    ],
+    "answer": 3,
+    "explain": "Avoid data races."
+   },
+   {
+    "q": "A low-priority task holds a mutex a high-priority task needs while a medium task runs. What is this and the fix?",
+    "options": [
+     "Priority inversion; use mutexes with priority inheritance",
+     "Race; volatile",
+     "Deadlock; reboot",
+     "Starvation; sleep"
+    ],
+    "answer": 0,
+    "explain": "FreeRTOS mutexes provide inheritance."
+   },
+   {
+    "q": "Which MQTT QoS gives at-least-once delivery?",
+    "options": [
+     "QoS 2",
+     "QoS 0",
+     "QoS 1",
+     "None"
+    ],
+    "answer": 2,
+    "explain": "QoS 2 is exactly once."
+   },
+   {
+    "q": "A field device loses WiFi for hours. What should firmware do?",
+    "options": [
+     "Reboot loop",
+     "Drop data",
+     "Block",
+     "Buffer readings locally and upload when reconnected, with reconnect/backoff"
+    ],
+    "answer": 3,
+    "explain": "Store and forward."
+   },
+   {
+    "q": "A firmware update is interrupted by a power cut. Which design survives?",
+    "options": [
+     "Dual application partitions with validation and rollback",
+     "Erase first",
+     "No check",
+     "Single slot overwrite"
+    ],
+    "answer": 0,
+    "explain": "OTA safety."
+   },
+   {
+    "q": "Where should the watchdog be fed?",
+    "options": [
+     "In the main control path only when all critical tasks report healthy",
+     "Never",
+     "At boot",
+     "In a timer ISR always"
+    ],
+    "answer": 0,
+    "explain": "Otherwise it masks hangs."
+   },
+   {
+    "q": "What does the startup code do before main()?",
+    "options": [
+     "Loads WiFi",
+     "Starts RTOS",
+     "Copies .data from flash to RAM, zeroes .bss and sets up the stack and vector table",
+     "Flashes"
+    ],
+    "answer": 2,
+    "explain": "Reset handler."
+   },
+   {
+    "q": "Why use DMA for a 1 MS/s ADC stream?",
+    "options": [
+     "Style",
+     "The CPU can't service every sample by interrupt; DMA moves data to memory",
+     "Law",
+     "Cheaper"
+    ],
+    "answer": 1,
+    "explain": "Use half/full-transfer interrupts."
+   },
+   {
+    "q": "Battery life is much worse than calculated. What do you measure first?",
+    "options": [
+     "Code size",
+     "Current in sleep and during wake spikes with a current profiler, including regulators and pull-ups",
+     "Pins",
+     "Clock"
+    ],
+    "answer": 1,
+    "explain": "Leakage and radio bursts dominate."
+   },
+   {
+    "q": "A product needs functional safety evidence. What do you need besides passing tests?",
+    "options": [
+     "Hazard analysis, defined process, traceability, coding standard (MISRA) and independent verification",
+     "A demo",
+     "Nothing",
+     "Marketing"
+    ],
+    "answer": 0,
+    "explain": "Standards require process evidence."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A UART receive ring buffer",
+    "prompt": "Complete rb_put (store at head, advance, drop and count when full) and rb_get (empty check, read from tail, advance). The buffer holds RB_SIZE-1 bytes so full and empty are distinguishable. A burst of 10 bytes arrives, then the main loop drains it.",
+    "starter": "#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\n\n#define RB_SIZE 8   /* capacity is RB_SIZE - 1 so full and empty differ */\n\ntypedef struct {\n    uint8_t buf[RB_SIZE];\n    volatile uint8_t head;   /* written by the ISR (producer) */\n    volatile uint8_t tail;   /* written by the main loop (consumer) */\n    uint32_t dropped;\n} ring_t;\n\nstatic bool rb_put(ring_t *r, uint8_t b) {\n    /* store b at head and advance; if the buffer is full, count a drop and return false */\n    return false;\n}\n\nstatic bool rb_get(ring_t *r, uint8_t *out) {\n    /* return false if empty; otherwise read from tail, advance and return true */\n    return false;\n}\n\nint main(void) {\n    ring_t r; memset(&r, 0, sizeof r);\n    for (uint8_t i = 1; i <= 10; i++) rb_put(&r, i);       /* simulate a burst of 10 bytes */\n    printf(\"dropped=%u\\n\", (unsigned)r.dropped);\n    uint8_t b;\n    while (rb_get(&r, &b)) printf(\"%u \", b);\n    printf(\"\\n\");\n    rb_put(&r, 42); rb_put(&r, 43);\n    rb_get(&r, &b);\n    printf(\"after wrap: first=%u\\n\", b);\n    return 0;\n}\n",
+    "expected": "dropped=3\n1 2 3 4 5 6 7 \nafter wrap: first=42",
+    "solution": "#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\n\n#define RB_SIZE 8   /* capacity is RB_SIZE - 1 so full and empty differ */\n\ntypedef struct {\n    uint8_t buf[RB_SIZE];\n    volatile uint8_t head;   /* written by the ISR (producer) */\n    volatile uint8_t tail;   /* written by the main loop (consumer) */\n    uint32_t dropped;\n} ring_t;\n\nstatic bool rb_put(ring_t *r, uint8_t b) {\n    uint8_t next = (uint8_t)((r->head + 1) % RB_SIZE);\n    if (next == r->tail) { r->dropped++; return false; }   /* full: drop, never overwrite */\n    r->buf[r->head] = b;\n    r->head = next;\n    return true;\n}\n\nstatic bool rb_get(ring_t *r, uint8_t *out) {\n    if (r->head == r->tail) return false;                  /* empty */\n    *out = r->buf[r->tail];\n    r->tail = (uint8_t)((r->tail + 1) % RB_SIZE);\n    return true;\n}\n\nint main(void) {\n    ring_t r; memset(&r, 0, sizeof r);\n    for (uint8_t i = 1; i <= 10; i++) rb_put(&r, i);       /* simulate a burst of 10 bytes */\n    printf(\"dropped=%u\\n\", (unsigned)r.dropped);\n    uint8_t b;\n    while (rb_get(&r, &b)) printf(\"%u \", b);\n    printf(\"\\n\");\n    rb_put(&r, 42); rb_put(&r, 43);\n    rb_get(&r, &b);\n    printf(\"after wrap: first=%u\\n\", b);\n    return 0;\n}\n",
+    "explain": "The ISR only writes head and the main loop only writes tail, so a single-producer/single-consumer ring buffer needs no lock; dropping on overflow is safer than overwriting unread data. Verified by compiling and running the solution with gcc."
+   },
+   {
+    "title": "Debounce and register packing",
+    "prompt": "Implement debounce(): the stable state flips only after STABLE_COUNT identical consecutive samples that differ from it, and `*changed` is true only on that sample. The program also packs a mode/enable/channel register; observe the output.",
+    "starter": "#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\n\n/* Debounce a noisy button: the stable state changes only after STABLE_COUNT identical samples. */\n#define STABLE_COUNT 3\n\ntypedef struct { bool stable; bool last; uint8_t count; } debounce_t;\n\nstatic bool debounce(debounce_t *d, bool sample, bool *changed) {\n    /* *changed = true only on the sample where the stable state flips. The stable state flips\n       only after STABLE_COUNT identical consecutive samples that differ from the current stable state. */\n    *changed = false;\n    return d->stable;\n}\n\n/* Pack/unpack a register: bits [7:4] = mode, bit 3 = enable, bits [2:0] = channel. */\n#define MODE_SHIFT 4\n#define EN_BIT     3\nstatic uint8_t reg_make(uint8_t mode, bool en, uint8_t ch) {\n    return (uint8_t)(((mode & 0xF) << MODE_SHIFT) | ((en ? 1u : 0u) << EN_BIT) | (ch & 0x7));\n}\n\nint main(void) {\n    int samples[] = {0,1,0,0,1,1,1,1,0,1,0,0,0,0};   /* noisy press then noisy release */\n    debounce_t d = {false, false, 0};\n    for (unsigned i = 0; i < sizeof samples / sizeof *samples; i++) {\n        bool ch;\n        debounce(&d, samples[i] != 0, &ch);\n        if (ch) printf(\"sample %u: stable -> %s\\n\", i, d.stable ? \"PRESSED\" : \"RELEASED\");\n    }\n    uint8_t reg = reg_make(0xA, true, 5);\n    printf(\"reg=0x%02X mode=%u en=%u ch=%u\\n\", reg, reg >> MODE_SHIFT, (reg >> EN_BIT) & 1u, reg & 7u);\n    return 0;\n}\n",
+    "expected": "sample 6: stable -> PRESSED\nsample 12: stable -> RELEASED\nreg=0xAD mode=10 en=1 ch=5",
+    "solution": "#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n#include <string.h>\n\n/* Debounce a noisy button: the stable state changes only after STABLE_COUNT identical samples. */\n#define STABLE_COUNT 3\n\ntypedef struct { bool stable; bool last; uint8_t count; } debounce_t;\n\nstatic bool debounce(debounce_t *d, bool sample, bool *changed) {\n    *changed = false;\n    if (sample == d->last) {\n        if (d->count < STABLE_COUNT) d->count++;\n    } else {\n        d->last = sample;\n        d->count = 1;\n    }\n    if (d->count >= STABLE_COUNT && d->stable != d->last) {\n        d->stable = d->last;\n        *changed = true;\n    }\n    return d->stable;\n}\n\n/* Pack/unpack a register: bits [7:4] = mode, bit 3 = enable, bits [2:0] = channel. */\n#define MODE_SHIFT 4\n#define EN_BIT     3\nstatic uint8_t reg_make(uint8_t mode, bool en, uint8_t ch) {\n    return (uint8_t)(((mode & 0xF) << MODE_SHIFT) | ((en ? 1u : 0u) << EN_BIT) | (ch & 0x7));\n}\n\nint main(void) {\n    int samples[] = {0,1,0,0,1,1,1,1,0,1,0,0,0,0};   /* noisy press then noisy release */\n    debounce_t d = {false, false, 0};\n    for (unsigned i = 0; i < sizeof samples / sizeof *samples; i++) {\n        bool ch;\n        debounce(&d, samples[i] != 0, &ch);\n        if (ch) printf(\"sample %u: stable -> %s\\n\", i, d.stable ? \"PRESSED\" : \"RELEASED\");\n    }\n    uint8_t reg = reg_make(0xA, true, 5);\n    printf(\"reg=0x%02X mode=%u en=%u ch=%u\\n\", reg, reg >> MODE_SHIFT, (reg >> EN_BIT) & 1u, reg & 7u);\n    return 0;\n}\n",
+    "explain": "Counting consecutive identical samples filters contact bounce without delay(). Masks and shifts pack fields into a register exactly as peripheral registers are laid out. Verified by compiling and running the solution with gcc."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
