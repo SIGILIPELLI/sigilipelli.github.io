@@ -137,6 +137,7 @@
       if (after && after.nextElementSibling && after.nextElementSibling.tagName === 'P') after = after.nextElementSibling;
       if (after) host.insertBefore(sec, after.nextSibling); else host.prepend(sec);
       bindCurriculum(sec);
+      if (Q.final && Q.final.questions && Q.final.questions.length) renderQuiz(host, Q.final, Q.final_pass_pct || Q.pass_pct || 70, { key: 'final', kicker: 'Final course quiz', heading: 'Final course quiz: test what you learned' });
     }).catch(function () {});
   }
   // Prerequisites when the course page states none: the courses just before this one on its career paths.
@@ -274,14 +275,16 @@
   }
 
   // ---------- module quiz ----------
-  function renderQuiz(host, data, passPct) {
-    if ($('.mpl-quiz', host)) return;
+  function renderQuiz(host, data, passPct, opts) {
+    opts = opts || {};
+    var QK = opts.key || SLUG;
+    if ($(opts.key ? '.mpl-quiz.mpl-final' : '.mpl-quiz:not(.mpl-final)', host)) return;
     var qs = data.questions || [];
     var wrap = document.createElement('section');
-    wrap.className = 'mpl-quiz';
+    wrap.className = 'mpl-quiz' + (opts.key ? ' mpl-final' : '');
     wrap.setAttribute('aria-labelledby', 'mpl-quiz-h');
-    var prev = storeJSON(quizKey(SLUG));
-    wrap.innerHTML = '<p class="mpl-kicker">Module quiz</p><h2 id="mpl-quiz-h">Check your understanding</h2>' +
+    var prev = storeJSON(quizKey(QK));
+    wrap.innerHTML = '<p class="mpl-kicker">' + (opts.kicker || 'Module quiz') + '</p><h2 id="mpl-quiz-h">' + (opts.heading || 'Check your understanding') + '</h2>' +
       '<p class="mpl-small">' + qs.length + ' questions. Pass mark ' + passPct + '%. Retry as often as you like; your best score is saved in this browser.' + (prev ? ' Best so far: <b>' + prev.best + '%</b>.' : '') + '</p>' +
       '<form class="mpl-qform">' + qs.map(function (q, i) {
         return '<fieldset class="mpl-q" data-i="' + i + '"><legend><span class="mpl-qn">' + (i + 1) + '.</span> ' + fmt(q.q) + '</legend>' +
@@ -289,7 +292,7 @@
           '<p class="mpl-explain" hidden></p></fieldset>';
       }).join('') +
       '<div class="mpl-qactions"><button type="submit" class="mpl-btn">Check answers</button><button type="button" class="mpl-retry mpl-btn ghost" hidden>Retry quiz</button><p class="mpl-score" role="status" aria-live="polite"></p></div></form>' +
-      (data.challenge ? challengeHtml(data.challenge) : '');
+      (data.challenge ? challengeHtml(data.challenge) : '') + (data.challenges || []).map(challengeHtml).join('');
     var anchor = endAnchor(host);
     if (anchor && anchor.parentNode === host) host.insertBefore(wrap, anchor); else host.appendChild(wrap);
     var form = $('.mpl-qform', wrap), score = $('.mpl-score', wrap), retry = $('.mpl-retry', wrap), submit = $('button[type=submit]', wrap);
@@ -308,12 +311,12 @@
         $$('input', fs).forEach(function (inp) { inp.disabled = true; });
       });
       var pct = Math.round(100 * correct / qs.length);
-      var best = Math.max(pct, (storeJSON(quizKey(SLUG)) || {}).best || 0);
-      var attempts = ((storeJSON(quizKey(SLUG)) || {}).attempts || 0) + 1;
-      storeJSON(quizKey(SLUG), { best: best, last: pct, attempts: attempts, at: Date.now() });
+      var best = Math.max(pct, (storeJSON(quizKey(QK)) || {}).best || 0);
+      var attempts = ((storeJSON(quizKey(QK)) || {}).attempts || 0) + 1;
+      storeJSON(quizKey(QK), { best: best, last: pct, attempts: attempts, at: Date.now() });
       score.innerHTML = '<b>' + correct + ' / ' + qs.length + ' (' + pct + '%)</b> · ' + (pct >= passPct ? '✓ Passed' : 'Below the ' + passPct + '% pass mark. Review the explanations and retry.') + (best > pct ? ' · Best: ' + best + '%' : '');
       submit.hidden = true; retry.hidden = false;
-      track('quiz_submit', { course: META.id, lesson: SLUG, score: pct });
+      track('quiz_submit', { course: META.id, lesson: QK, score: pct });
       retry.focus();
     });
     retry.addEventListener('click', function () {
@@ -324,8 +327,11 @@
     });
     $$('.mpl-copy', wrap).forEach(function (b) { b.addEventListener('click', function () { copy(b); }); });
   }
-  function fmt(s) { // escape, then render `code` and line breaks
-    return esc(s).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\n/g, '<br>');
+  function fmt(s) { // escape, then render ```code blocks```, `code` and line breaks
+    var blocks = [];
+    var t = esc(s).replace(/```(?:[a-z]*\n)?([\s\S]*?)```/g, function (m, c) { blocks.push('<pre><code>' + c.replace(/\n$/, '') + '</code></pre>'); return '\u0000' + (blocks.length - 1) + '\u0000'; });
+    t = t.replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\n/g, '<br>');
+    return t.replace(/\u0000(\d+)\u0000/g, function (m, i) { return blocks[+i]; });
   }
   function challengeHtml(c) {
     return '<div class="mpl-challenge"><p class="mpl-kicker">Coding challenge</p><h3>' + esc(c.title) + '</h3><p>' + fmt(c.prompt) + '</p>' +

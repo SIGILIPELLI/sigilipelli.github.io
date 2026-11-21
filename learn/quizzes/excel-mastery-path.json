@@ -1923,5 +1923,230 @@
     }
    ]
   }
- }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "You copy `=C2-B2` from D2 down to D6 using the fill handle. What does D3 contain?",
+    "options": [
+     "=C2-B2",
+     "=C3-B2",
+     "=$C$2-$B$2",
+     "=C3-B3"
+    ],
+    "answer": 3,
+    "explain": "Relative references shift as you copy."
+   },
+   {
+    "q": "Your % of Budget formula breaks when copied down. What is the usual fix?",
+    "options": [
+     "Lock the total with an absolute reference such as $B$8",
+     "Use a bigger number format",
+     "Convert to text",
+     "Use Merge & Center"
+    ],
+    "answer": 0,
+    "explain": "An absolute reference stays fixed when copied."
+   },
+   {
+    "q": "A manager wants over-budget rows to stand out automatically. Which feature fits?",
+    "options": [
+     "Freeze panes",
+     "Data validation",
+     "Conditional formatting on the Difference column",
+     "Bold on the header"
+    ],
+    "answer": 2,
+    "explain": "It changes appearance based on cell values."
+   },
+   {
+    "q": "You write `=SUM(C2:C6)`, then add a new row of data below. What is a better formula?",
+    "options": [
+     "Convert the data to a Table and use =SUM(Budget[Actual])",
+     "=SUM(C2:C6,0)",
+     "=C2+C3+C4+C5+C6",
+     "=SUM(C:C6)"
+    ],
+    "answer": 0,
+    "explain": "Structured references adjust as rows are added or removed."
+   },
+   {
+    "q": "You must pull a category's Type from another sheet by exact text match. Which formula pattern is right?",
+    "options": [
+     "=SUM(CategoryInfo!B:B)",
+     "=VLOOKUP(A2, CategoryInfo!$A$2:$C$7, 2, FALSE)",
+     "=IF(A2, CategoryInfo)",
+     "=VLOOKUP(A2, CategoryInfo!A2:C7, 2, TRUE)"
+    ],
+    "answer": 1,
+    "explain": "FALSE requests an exact match, and the table array is locked with $ so it doesn't shift."
+   },
+   {
+    "q": "Your VLOOKUP breaks after someone inserts a column in the lookup table. Which function avoids that and can look left?",
+    "options": [
+     "XLOOKUP (or INDEX/MATCH)",
+     "TRIM",
+     "SUMIF",
+     "ROUND"
+    ],
+    "answer": 0,
+    "explain": "XLOOKUP takes separate lookup and return arrays, so it doesn't rely on a fixed column number."
+   },
+   {
+    "q": "Sales data has Region, Month, Rep, Amount. You need total sales for East in March. Which formula?",
+    "options": [
+     "=SUMIF(A2:A11, \"East\", \"Mar\")",
+     "=COUNTIFS(D2:D11, \"East\")",
+     "=SUMIFS(D2:D11, A2:A11, \"East\", B2:B11, \"Mar\")",
+     "=AVERAGE(D2:D11)"
+    ],
+    "answer": 2,
+    "explain": "SUMIFS takes the sum range first, then criteria pairs."
+   },
+   {
+    "q": "You want a summary of a flat transaction log by category and month that you can re-pivot freely. What do you build?",
+    "options": [
+     "A PivotTable from a Table",
+     "A chart on raw rows",
+     "A VLOOKUP grid",
+     "A macro"
+    ],
+    "answer": 0,
+    "explain": "PivotTables summarize transaction-level data and auto-expand when sourced from a Table."
+   },
+   {
+    "q": "A dashboard title must read \"Total Revenue — North: $37,300\" and change with the selected region. What do you do?",
+    "options": [
+     "Use conditional formatting",
+     "Use a text box with a picture",
+     "Link the chart title to a formula cell that builds the text",
+     "Type the title manually each time"
+    ],
+    "answer": 2,
+    "explain": "A formula-driven title updates the instant the filter cell changes."
+   },
+   {
+    "q": "Two series on a chart differ by an order of magnitude (revenue in thousands, margin near 0.3). What should you do?",
+    "options": [
+     "Use a pie chart",
+     "Delete one series",
+     "Use 3-D",
+     "Put margin on a secondary axis"
+    ],
+    "answer": 3,
+    "explain": "Otherwise the small series looks flat."
+   },
+   {
+    "q": "Messy imported data has stray spaces and mixed capitalization, and you want a repeatable cleanup that replays on refresh. Which tool?",
+    "options": [
+     "Freeze Panes",
+     "Power Query",
+     "Conditional formatting",
+     "Goal Seek"
+    ],
+    "answer": 1,
+    "explain": "Power Query records every step in Applied Steps."
+   },
+   {
+    "q": "Your loan model has a target payment of 350 and you need the principal that achieves it. Which tool?",
+    "options": [
+     "Scenario Manager",
+     "Pivot slicer",
+     "Goal Seek",
+     "Flash Fill"
+    ],
+    "answer": 2,
+    "explain": "Goal Seek solves for one input to reach a target output."
+   },
+   {
+    "q": "You must compare best/base/worst assumption sets side by side in a model. Which tool?",
+    "options": [
+     "Data validation",
+     "Sparklines",
+     "Remove Duplicates",
+     "Scenario Manager"
+    ],
+    "answer": 3,
+    "explain": "It stores named scenarios of input cells."
+   },
+   {
+    "q": "A shared form should let colleagues edit only the input cells and not overwrite the formula. What do you do?",
+    "options": [
+     "Unlock the input cells, then Protect Sheet",
+     "Hide the formulas",
+     "Rename the sheet",
+     "Mark as Final"
+    ],
+    "answer": 0,
+    "explain": "Every cell is Locked by default; protection applies once inputs are unlocked."
+   },
+   {
+    "q": "An organization's workbooks link to each other with cell-level external references and keep breaking when files move. What is the better architecture?",
+    "options": [
+     "Email copies",
+     "Power Query connections to one shared source",
+     "Rename files often",
+     "More links"
+    ],
+    "answer": 1,
+    "explain": "Power Query re-resolves the connection on refresh instead of caching brittle cell references."
+   },
+   {
+    "q": "A workbook with thousands of formulas recalculates constantly because of OFFSET-based named ranges. What is the fix?",
+    "options": [
+     "Replace them with Tables or INDEX, which are non-volatile",
+     "Use INDIRECT",
+     "Turn off the computer",
+     "Add more OFFSETs"
+    ],
+    "answer": 0,
+    "explain": "Volatile functions recalculate on every worksheet recalculation."
+   },
+   {
+    "q": "You must find an error in a total that omits the last row. Which built-in tool shows what the formula depends on?",
+    "options": [
+     "Goal Seek",
+     "Spelling",
+     "Trace Precedents",
+     "Remove Arrows"
+    ],
+    "answer": 2,
+    "explain": "The blue arrows show the range stops one row short."
+   },
+   {
+    "q": "A DAX measure must show North revenue regardless of which region a PivotTable row is sliced by. Which function overrides the filter context?",
+    "options": [
+     "RELATED",
+     "SUM",
+     "CALCULATE",
+     "TRIM"
+    ],
+    "answer": 2,
+    "explain": "CALCULATE changes the filter context with an explicit condition."
+   },
+   {
+    "q": "You want year-over-year growth in a Power Pivot model. What must exist in the model first?",
+    "options": [
+     "A form control",
+     "A chart",
+     "A VBA macro",
+     "A Date Table marked as the Date Table, related to your facts"
+    ],
+    "answer": 3,
+    "explain": "Time-intelligence functions like SAMEPERIODLASTYEAR need a proper date table."
+   },
+   {
+    "q": "Several colleagues keep their own copies of the same revenue figures and the numbers disagree. What principle fixes this?",
+    "options": [
+     "Single source of truth that reports pull from",
+     "More sheets",
+     "More protection passwords",
+     "Larger fonts"
+    ],
+    "answer": 0,
+    "explain": "Correct once in the master and it propagates on refresh."
+   }
+  ]
+ },
+ "final_pass_pct": 70
 }

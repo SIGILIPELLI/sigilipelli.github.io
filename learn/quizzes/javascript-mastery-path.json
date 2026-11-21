@@ -1971,5 +1971,248 @@
     }
    ]
   }
- }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```\nconsole.log(typeof null, typeof undefined, 5 === \"5\");\n```",
+    "options": [
+     "object undefined false",
+     "null undefined true",
+     "object object false",
+     "undefined undefined false"
+    ],
+    "answer": 0,
+    "explain": "typeof null is the long-standing quirk \"object\"; === checks type, so 5 === \"5\" is false."
+   },
+   {
+    "q": "What does this print?\n```\nconst o = { a: 1 };\nconst { a, b = 5 } = o;\nconsole.log(a, b);\n```",
+    "options": [
+     "undefined 5",
+     "5 1",
+     "1 5",
+     "1 undefined"
+    ],
+    "answer": 2,
+    "explain": "Destructuring takes a from the object and falls back to the default 5 for the missing b."
+   },
+   {
+    "q": "What does this print?\n```\nfunction mk() { let c = 0; return () => ++c; }\nconst f = mk(); f();\nconsole.log(f());\n```",
+    "options": [
+     "0",
+     "2",
+     "1",
+     "undefined"
+    ],
+    "answer": 1,
+    "explain": "The returned function closes over c, so the second call returns 2."
+   },
+   {
+    "q": "What does this print?\n```\nconsole.log([1,2,3,4,5].filter(n => n % 2).reduce((s, n) => s + n, 0));\n```",
+    "options": [
+     "9",
+     "6",
+     "3",
+     "15"
+    ],
+    "answer": 0,
+    "explain": "filter keeps 1, 3, 5, and reduce sums them to 9."
+   },
+   {
+    "q": "What do Number(\"42px\") and parseInt(\"42px\") return?",
+    "options": [
+     "NaN and NaN",
+     "42 and 42",
+     "NaN and 42",
+     "42 and NaN"
+    ],
+    "answer": 2,
+    "explain": "Number must parse the whole string; parseInt reads the leading digits and ignores the rest."
+   },
+   {
+    "q": "What is the order of the output?\n```\nsetTimeout(() => console.log(\"t\"), 0);\nPromise.resolve().then(() => console.log(\"p\"));\nconsole.log(\"s\");\n```",
+    "options": [
+     "s, p, t",
+     "t, p, s",
+     "s, t, p",
+     "p, s, t"
+    ],
+    "answer": 0,
+    "explain": "Synchronous code first, then the microtask queue (promise callbacks), then the task queue (timers)."
+   },
+   {
+    "q": "What does this print?\n```\nconsole.log(null ?? \"d\", 0 ?? \"d\", 0 || \"d\");\n```",
+    "options": [
+     "d d d",
+     "null 0 0",
+     "d 0 0",
+     "d 0 d"
+    ],
+    "answer": 3,
+    "explain": "?? only falls back for null or undefined, so 0 is kept; || falls back for any falsy value, including 0."
+   },
+   {
+    "q": "What does [10, 9, 1].sort() return?",
+    "options": [
+     "[9, 10, 1]",
+     "[1, 10, 9]",
+     "[10, 9, 1]",
+     "[1, 9, 10]"
+    ],
+    "answer": 1,
+    "explain": "With no comparison function, sort compares elements as strings, so \"1\" < \"10\" < \"9\"."
+   },
+   {
+    "q": "What does this print?\n```\nclass A { speak() { return \"a\"; } }\nclass B extends A { speak() { return super.speak() + \"b\"; } }\nconsole.log(new B().speak());\n```",
+    "options": [
+     "b",
+     "a",
+     "ba",
+     "ab"
+    ],
+    "answer": 3,
+    "explain": "super.speak() calls the parent's method, then the subclass adds \"b\"."
+   },
+   {
+    "q": "What does JSON.stringify({ x: undefined, y: () => 1, z: null, d: 1 }) return?",
+    "options": [
+     "{\"x\":null,\"y\":null,\"z\":null,\"d\":1}",
+     "An error",
+     "{\"z\":null,\"d\":1}",
+     "{\"x\":undefined,\"z\":null,\"d\":1}"
+    ],
+    "answer": 2,
+    "explain": "Functions and undefined values are omitted; null is kept."
+   },
+   {
+    "q": "What do these two loops print?\n```\nfor (var i = 0; i < 3; i++) setTimeout(() => console.log(i), 0);\nfor (let j = 0; j < 3; j++) setTimeout(() => console.log(j), 0);\n```",
+    "options": [
+     "3 3 3 then 0 1 2",
+     "3 3 3 then 3 3 3",
+     "0 1 2 then 3 3 3",
+     "0 1 2 then 0 1 2"
+    ],
+    "answer": 0,
+    "explain": "var is function-scoped, so all callbacks see the final i (3); let creates a new j for each iteration."
+   },
+   {
+    "q": "You need to run three independent API calls and use all results. Which is best?",
+    "options": [
+     "Use setTimeout for each",
+     "await Promise.all([a(), b(), c()])",
+     "await a(); await b(); await c();",
+     "Nest three callbacks"
+    ],
+    "answer": 1,
+    "explain": "Promise.all runs them concurrently, so the total wait is the slowest call, not the sum."
+   },
+   {
+    "q": "A service has to report which of five health checks failed without stopping at the first failure. Which should you use?",
+    "options": [
+     "Promise.allSettled",
+     "Promise.race",
+     "Promise.all",
+     "A for loop with break"
+    ],
+    "answer": 0,
+    "explain": "allSettled waits for everything and reports each outcome; all rejects on the first failure."
+   },
+   {
+    "q": "A user types in a comment box and you insert their text into the page. Which is the safe way?",
+    "options": [
+     "element.textContent = comment",
+     "element.innerHTML += comment",
+     "document.write(comment)",
+     "eval(comment)"
+    ],
+    "answer": 0,
+    "explain": "textContent treats the text as plain text, which prevents XSS; innerHTML would parse injected markup."
+   },
+   {
+    "q": "An Express route receives POST /notes with no `text` field in the body. What should a well-designed handler return?",
+    "options": [
+     "It should crash",
+     "201 with an empty note",
+     "400 with an error message",
+     "200 with null"
+    ],
+    "answer": 2,
+    "explain": "Validate input and return a 400 Bad Request; 201 is for successful creation."
+   },
+   {
+    "q": "Why do the lessons use prepared statements with ? placeholders for database queries?",
+    "options": [
+     "To avoid needing a schema",
+     "To enable transactions",
+     "To prevent SQL injection",
+     "To make queries shorter"
+    ],
+    "answer": 2,
+    "explain": "Values are passed as data, never concatenated into the SQL string."
+   },
+   {
+    "q": "Your Node server freezes every other request while one endpoint runs a 10-second CPU-heavy loop. What is the cause and the fix?",
+    "options": [
+     "Too many routes; split the file",
+     "It blocks the single-threaded event loop; offload it to a worker thread",
+     "Express is outdated; upgrade it",
+     "The database is slow; add an index"
+    ],
+    "answer": 1,
+    "explain": "CPU-bound work blocks the event loop; worker_threads (or clustering) keeps it free."
+   },
+   {
+    "q": "A JWT access token is short-lived (15 minutes) on purpose. Why?",
+    "options": [
+     "Browsers delete long tokens",
+     "JWTs are hard to revoke, so a short life limits the damage if one leaks",
+     "bcrypt requires it",
+     "Short tokens are smaller"
+    ],
+    "answer": 1,
+    "explain": "A JWT is verified without a database lookup, so you can't easily revoke it before it expires."
+   },
+   {
+    "q": "In a Jest test, how do you verify that a function was called with specific arguments?",
+    "options": [
+     "expect(mockFn).toBe(...)",
+     "expect(mockFn).toHaveBeenCalledWith(...)",
+     "expect(mockFn).toMatch(...)",
+     "expect(mockFn).toEqual(...)"
+    ],
+    "answer": 1,
+    "explain": "toHaveBeenCalledWith checks a mock's call arguments; toHaveBeenCalledTimes checks the count."
+   },
+   {
+    "q": "Which package.json setting lets plain .js files use import/export in Node?",
+    "options": [
+     "\"main\": \"module\"",
+     "\"imports\": \"all\"",
+     "\"type\": \"module\"",
+     "\"esm\": true"
+    ],
+    "answer": 2,
+    "explain": "Otherwise .js files are CommonJS by default unless you rename to .mjs."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Group words by length",
+    "prompt": "Write `groupByLength(words)` that returns an object whose keys are word lengths and whose values are arrays of the words with that length, in input order. Print the result with `JSON.stringify`.",
+    "starter": "function groupByLength(words) {\n  // your code here\n}\nconsole.log(JSON.stringify(groupByLength([\"to\", \"be\", \"or\", \"not\", \"bee\"])));\n",
+    "expected": "{\"2\":[\"to\",\"be\",\"or\"],\"3\":[\"not\",\"bee\"]}",
+    "solution": "function groupByLength(words) {\n  const out = {};\n  for (const w of words) (out[w.length] ??= []).push(w);\n  return out;\n}\nconsole.log(JSON.stringify(groupByLength([\"to\", \"be\", \"or\", \"not\", \"bee\"])));",
+    "explain": "`??=` creates the array the first time a length is seen, then push adds the word. Object keys are strings, so the lengths print as \"2\" and \"3\"."
+   },
+   {
+    "title": "Run promises in parallel and handle an error",
+    "prompt": "Use `Promise.all` to wait for three delayed values (`a`, `b`, `c`) and print them joined by commas in the original order, then show that `await` on a rejected promise can be caught with try/catch.",
+    "starter": "const delay = (ms, v) => new Promise((r) => setTimeout(() => r(v), ms));\nasync function main() {\n  // 1. await Promise.all([...]) with delays 30, 10, 20ms for \"a\", \"b\", \"c\"; print the results joined with \",\"\n  // 2. try { await Promise.reject(new Error(\"boom\")); } catch ... print \"caught boom\"\n}\nmain();\n",
+    "expected": "a,b,c\ncaught boom",
+    "solution": "const delay = (ms, v) => new Promise((r) => setTimeout(() => r(v), ms));\nasync function main() {\n  const results = await Promise.all([delay(30, \"a\"), delay(10, \"b\"), delay(20, \"c\")]);\n  console.log(results.join(\",\"));\n  try { await Promise.reject(new Error(\"boom\")); } catch (e) { console.log(\"caught\", e.message); }\n}\nmain();",
+    "explain": "Promise.all keeps results in the order the promises were passed, even though b finishes first. try/catch around await catches rejected promises."
+   }
+  ]
+ },
+ "final_pass_pct": 70
 }

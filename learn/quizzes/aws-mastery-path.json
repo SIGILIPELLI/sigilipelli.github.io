@@ -1923,5 +1923,230 @@
     }
    ]
   }
- }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "You must give a new teammate access to deploy but not to billing or IAM. What is the best IAM approach?",
+    "options": [
+     "Share the root credentials",
+     "Add them to a group with a least-privilege policy",
+     "Give AdministratorAccess to all",
+     "Share your access key"
+    ],
+    "answer": 1,
+    "explain": "Groups carry policies for a team, and least privilege limits blast radius."
+   },
+   {
+    "q": "The root user's credentials leak. Why is that worse than a normal IAM user leak?",
+    "options": [
+     "Root only works in one region",
+     "The root user cannot be restricted by any policy",
+     "Root can't access billing",
+     "Root users have no MFA option"
+    ],
+    "answer": 1,
+    "explain": "It has unrestricted access to everything, including billing."
+   },
+   {
+    "q": "A Lambda function needs to read one S3 bucket. Where should that permission live?",
+    "options": [
+     "In the bucket name",
+     "On the function's execution role",
+     "In the function code as keys",
+     "On the caller's identity"
+    ],
+    "answer": 1,
+    "explain": "The execution role, not the caller, determines what the function can access."
+   },
+   {
+    "q": "You want SSH to an EC2 instance only from your own IP. Which security group rule?",
+    "options": [
+     "Inbound TCP 80 from you",
+     "Outbound TCP 22 only",
+     "Inbound TCP 22 from your IP /32",
+     "Inbound TCP 22 from 0.0.0.0/0"
+    ],
+    "answer": 2,
+    "explain": "Restricting the source reduces who can even attempt to connect."
+   },
+   {
+    "q": "Your RDS database must accept connections only from your app servers. What is the standard pattern?",
+    "options": [
+     "Open 5432 to 0.0.0.0/0",
+     "Allow port 5432 from the app's security group (--source-group)",
+     "Make the database public",
+     "Use a NAT Gateway"
+    ],
+    "answer": 1,
+    "explain": "Source-group rules cover every current and future member of the app tier."
+   },
+   {
+    "q": "A private-subnet instance must download updates but never be reachable from the internet. What do you add?",
+    "options": [
+     "A public IP",
+     "A NAT Gateway",
+     "An Elastic IP",
+     "An Internet Gateway route in its subnet"
+    ],
+    "answer": 1,
+    "explain": "NAT lets private resources make outbound calls only."
+   },
+   {
+    "q": "Your static site on S3 needs managed HTTPS, global caching and a bucket that stays private. What do you use?",
+    "options": [
+     "An ALB",
+     "A public bucket policy",
+     "CloudFront with Origin Access Control",
+     "Route 53 alone"
+    ],
+    "answer": 2,
+    "explain": "OAC lets CloudFront read a private bucket."
+   },
+   {
+    "q": "Traffic to your web tier spikes at night, and one instance is a single point of failure. What combination fixes both?",
+    "options": [
+     "An Elastic IP",
+     "A larger single instance",
+     "An Auto Scaling Group behind an Application Load Balancer",
+     "A bigger EBS volume"
+    ],
+    "answer": 2,
+    "explain": "The ASG replaces failed instances and scales; the ALB spreads traffic and health-checks targets."
+   },
+   {
+    "q": "Orders must be processed by one of many workers, and failed messages must not block the queue forever. What do you use?",
+    "options": [
+     "A CloudWatch alarm",
+     "SQS with a dead-letter queue",
+     "A Route 53 record",
+     "An SNS topic only"
+    ],
+    "answer": 1,
+    "explain": "SQS delivers each message to one consumer; the DLQ catches repeated failures."
+   },
+   {
+    "q": "One order event must trigger email, inventory and analytics independently. Which pattern?",
+    "options": [
+     "SNS fan-out to multiple SQS queues",
+     "A cron job",
+     "A single SQS queue",
+     "Direct Lambda chaining"
+    ],
+    "answer": 0,
+    "explain": "SNS copies the message to every subscriber."
+   },
+   {
+    "q": "A DynamoDB table must return all orders for one customer in one efficient query. How do you model the key?",
+    "options": [
+     "Partition key customerId and sort key orderId",
+     "No key",
+     "Sort key only",
+     "Partition key orderId only"
+    ],
+    "answer": 0,
+    "explain": "Items sharing a partition key are stored together and range-queryable."
+   },
+   {
+    "q": "A password for your database must be rotated automatically every 30 days. Which service?",
+    "options": [
+     "Secrets Manager with rotation",
+     "Plain Lambda environment variables",
+     "S3",
+     "CloudWatch Logs"
+    ],
+    "answer": 0,
+    "explain": "Secrets Manager supports automatic rotation via a Lambda function."
+   },
+   {
+    "q": "You want to be warned before your monthly spend passes 80% of $50, but a budget alone won't stop resources. What does it do?",
+    "options": [
+     "Deletes unused resources",
+     "Stops everything at 100%",
+     "Refunds overspend",
+     "Notifies you; stopping resources needs an extra automated action"
+    ],
+    "answer": 3,
+    "explain": "A budget only notifies unless wired to an action."
+   },
+   {
+    "q": "You describe your infrastructure in a template so it can be recreated and torn down with one command. What is this called and which native service does it?",
+    "options": [
+     "Infrastructure as Code with CloudFormation",
+     "IAM",
+     "A cron job",
+     "Manual provisioning with the console"
+    ],
+    "answer": 0,
+    "explain": "The stack is created and deleted as a unit."
+   },
+   {
+    "q": "Several teams share one AWS account and one team's mistake took down another's production. What is the structural fix?",
+    "options": [
+     "A larger instance",
+     "Separate accounts under Organizations",
+     "More IAM users",
+     "More tags"
+    ],
+    "answer": 1,
+    "explain": "Accounts give hard blast-radius boundaries for billing, quotas and IAM."
+   },
+   {
+    "q": "You want to stop anyone in an OU from using regions outside us-east-1 and us-west-2 even if they are administrators. What do you use?",
+    "options": [
+     "An IAM user policy",
+     "A security group",
+     "A NACL",
+     "A Service Control Policy"
+    ],
+    "answer": 3,
+    "explain": "SCPs set a ceiling for accounts and OUs."
+   },
+   {
+    "q": "A request passes through API Gateway, Lambda, DynamoDB and SQS and is slow somewhere. Which service shows where?",
+    "options": [
+     "S3 versioning",
+     "X-Ray tracing",
+     "Route 53",
+     "Config"
+    ],
+    "answer": 1,
+    "explain": "One trace ID follows the request across services."
+   },
+   {
+    "q": "Your RTO is minutes and your RPO is seconds, and you have a moderate budget. Which DR strategy fits best?",
+    "options": [
+     "Backup and restore",
+     "Pilot light with no replica",
+     "Warm standby",
+     "No DR"
+    ],
+    "answer": 2,
+    "explain": "Backup and restore takes hours; warm standby recovers in minutes with seconds-minutes of data loss."
+   },
+   {
+    "q": "Ad-hoc queries over years of S3 data should only be billed for what they scan. Which pairing fits?",
+    "options": [
+     "DynamoDB scans",
+     "EC2 with cron",
+     "RDS with a big instance",
+     "Athena with a partitioned columnar format like Parquet"
+    ],
+    "answer": 3,
+    "explain": "Athena bills per byte scanned; partitions and columnar formats cut it."
+   },
+   {
+    "q": "Your pipeline builds a Docker image per commit. How should it tag images so you can roll back to a specific build?",
+    "options": [
+     "Untagged",
+     "With latest only",
+     "With the date only",
+     "With the commit SHA"
+    ],
+    "answer": 3,
+    "explain": "A SHA tag identifies exactly which build is running."
+   }
+  ]
+ },
+ "final_pass_pct": 70
 }

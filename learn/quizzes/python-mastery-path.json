@@ -1,88 +1,751 @@
 {
-  "course": "python-mastery-path",
-  "version": 1,
-  "pass_pct": 70,
-  "lessons": {
-    "level-1/01-setup": {
-      "questions": [
-        {"q": "Which command starts an interactive Python session (the REPL) on most systems where Python 3 is installed?", "options": ["python3", "pip install repl", "python --compile", "py.repl"], "answer": 0, "explain": "Running python3 (or python / py on Windows) with no file name opens the REPL, where each line you type is executed immediately."},
-        {"q": "You save print(\"Hello\") in hello.py. How do you run it from a terminal in the same folder?", "options": ["python3 hello.py", "run hello", "pip hello.py", "python3 -m hello.py --print"], "answer": 0, "explain": "Pass the file path to the interpreter: python3 hello.py. The interpreter reads the file top to bottom and executes it."},
-        {"q": "In the REPL you type 2 + 3 and press Enter. What happens?", "options": ["5 is displayed, because the REPL prints the value of each expression", "Nothing is shown until you call print()", "A SyntaxError is raised", "The REPL saves the result to a file"], "answer": 0, "explain": "The REPL evaluates each expression and echoes its value. In a script you would need print() to see it."},
-        {"q": "Which statement about Python files is correct?", "options": ["Indentation is part of the syntax, so consistent spaces matter", "Every statement must end with a semicolon", "Code blocks are wrapped in curly braces", "File names must end in .pyc to be runnable"], "answer": 0, "explain": "Python uses indentation to define blocks. PEP 8 recommends 4 spaces per level. Semicolons and braces are not needed."}
-      ],
-      "challenge": {"title": "Your first script", "prompt": "Write a script that stores your name in a variable and prints a greeting using an f-string.", "starter": "name = \"Asha\"\n# print the greeting here\n", "expected": "Hello, Asha! Welcome to Python.", "solution": "name = \"Asha\"\nprint(f\"Hello, {name}! Welcome to Python.\")", "explain": "An f-string (prefix f) evaluates expressions inside {} and inserts their values into the text."}
+ "course": "python-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "Which command starts an interactive Python session (the REPL) on most systems where Python 3 is installed?",
+     "options": [
+      "python3",
+      "pip install repl",
+      "python --compile",
+      "py.repl"
+     ],
+     "answer": 0,
+     "explain": "Running python3 (or python / py on Windows) with no file name opens the REPL, where each line you type is executed immediately."
     },
-    "level-1/02-variables-data-types": {
-      "questions": [
-        {"q": "What does type(7 / 2) return?", "options": ["<class 'float'>", "<class 'int'>", "<class 'str'>", "<class 'decimal'>"], "answer": 0, "explain": "The / operator always performs true division and returns a float (3.5). Use // for floor division, which returns an int for int operands."},
-        {"q": "What is the value of 17 % 5?", "options": ["2", "3", "3.4", "12"], "answer": 0, "explain": "% returns the remainder: 17 = 5 × 3 + 2, so 17 % 5 is 2."},
-        {"q": "What does int(\"42\") + 8 evaluate to?", "options": ["50", "\"428\"", "TypeError", "42.8"], "answer": 0, "explain": "int(\"42\") converts the string to the integer 42, so the result is 50. Without the conversion, \"42\" + 8 would raise a TypeError."},
-        {"q": "Which value is falsy in a boolean context?", "options": ["0", "\"0\"", "[0]", "-1"], "answer": 0, "explain": "The number 0, empty strings, empty containers and None are falsy. The string \"0\" and the list [0] are non-empty, so they are truthy; -1 is a non-zero number, so it is truthy."}
-      ],
-      "challenge": {"title": "Temperature converter", "prompt": "Convert 100 degrees Celsius to Fahrenheit (F = C × 9/5 + 32) and print the result with one decimal place.", "starter": "celsius = 100\n# compute fahrenheit and print it\n", "expected": "100°C = 212.0°F", "solution": "celsius = 100\nfahrenheit = celsius * 9 / 5 + 32\nprint(f\"{celsius}°C = {fahrenheit:.1f}°F\")", "explain": "Division makes the result a float; the format spec :.1f prints exactly one decimal place."}
+    {
+     "q": "You save print(\"Hello\") in hello.py. How do you run it from a terminal in the same folder?",
+     "options": [
+      "python3 hello.py",
+      "run hello",
+      "pip hello.py",
+      "python3 -m hello.py --print"
+     ],
+     "answer": 0,
+     "explain": "Pass the file path to the interpreter: python3 hello.py. The interpreter reads the file top to bottom and executes it."
     },
-    "level-1/03-control-flow": {
-      "questions": [
-        {"q": "What does this print?\nfor i in range(3):\n    print(i)", "options": ["0, 1 and 2 on separate lines", "1, 2 and 3 on separate lines", "0, 1, 2 and 3 on separate lines", "Nothing"], "answer": 0, "explain": "range(3) produces 0, 1, 2. The stop value is excluded."},
-        {"q": "When does the else block of a for loop run?", "options": ["When the loop finishes without hitting break", "Only when the loop body raises an error", "Every time the loop condition is false on an iteration", "Never; for loops cannot have else"], "answer": 0, "explain": "A loop's else runs after the loop completes normally. If break exits the loop early, the else is skipped. This is handy for search loops."},
-        {"q": "What does continue do inside a loop?", "options": ["Skips the rest of the current iteration and moves to the next one", "Exits the loop entirely", "Restarts the loop from the first item", "Pauses the program until Enter is pressed"], "answer": 0, "explain": "continue jumps straight to the next iteration; break exits the loop."},
-        {"q": "Which Python version introduced the match statement (structural pattern matching)?", "options": ["3.10", "3.6", "2.7", "3.12"], "answer": 0, "explain": "match/case arrived in Python 3.10 (PEP 634)."}
-      ],
-      "challenge": {"title": "FizzBuzz to 15", "prompt": "Print the numbers 1 to 15, but print Fizz for multiples of 3, Buzz for multiples of 5 and FizzBuzz for multiples of both, all on one line separated by spaces.", "starter": "results = []\nfor n in range(1, 16):\n    # append the right value\n    pass\nprint(\" \".join(results))\n", "expected": "1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz", "solution": "results = []\nfor n in range(1, 16):\n    if n % 15 == 0:\n        results.append(\"FizzBuzz\")\n    elif n % 3 == 0:\n        results.append(\"Fizz\")\n    elif n % 5 == 0:\n        results.append(\"Buzz\")\n    else:\n        results.append(str(n))\nprint(\" \".join(results))", "explain": "Check the combined case (divisible by 15) first, otherwise the Fizz branch would catch 15 before FizzBuzz."}
+    {
+     "q": "In the REPL you type 2 + 3 and press Enter. What happens?",
+     "options": [
+      "5 is displayed, because the REPL prints the value of each expression",
+      "Nothing is shown until you call print()",
+      "A SyntaxError is raised",
+      "The REPL saves the result to a file"
+     ],
+     "answer": 0,
+     "explain": "The REPL evaluates each expression and echoes its value. In a script you would need print() to see it."
     },
-    "level-1/04-functions-scope": {
-      "questions": [
-        {"q": "What does a function return if it reaches the end without a return statement?", "options": ["None", "0", "An empty string", "It raises an error"], "answer": 0, "explain": "Every Python function returns a value; without an explicit return it returns None."},
-        {"q": "Inside def total(*args), what is args?", "options": ["A tuple of all positional arguments passed", "A list of keyword arguments", "A dictionary of all arguments", "The first argument only"], "answer": 0, "explain": "*args collects extra positional arguments into a tuple. **kwargs collects keyword arguments into a dict."},
-        {"q": "Why is def add(item, items=[]) a common bug?", "options": ["The default list is created once and shared across calls", "Default values are not allowed for lists", "items will always be None", "It makes the function run slower"], "answer": 0, "explain": "Default values are evaluated once, when the function is defined. Use items=None and create a new list inside the function."},
-        {"q": "Are type hints like def area(r: float) -> float: enforced when the code runs?", "options": ["No, they are documentation for readers and tools like mypy", "Yes, Python raises TypeError on mismatches", "Only in Python 3.12 and later", "Only when the file is named with .pyi"], "answer": 0, "explain": "The interpreter does not enforce annotations. Type checkers and IDEs use them to catch mistakes before you run the code."}
-      ],
-      "challenge": {"title": "A reusable function", "prompt": "Write a function average(numbers) that returns the mean of a list, or 0 for an empty list. Print the results for [4, 8, 6] and [].", "starter": "def average(numbers):\n    # return the mean, or 0 for an empty list\n    pass\n\nprint(average([4, 8, 6]))\nprint(average([]))\n", "expected": "6.0\n0", "solution": "def average(numbers):\n    if not numbers:\n        return 0\n    return sum(numbers) / len(numbers)\n\nprint(average([4, 8, 6]))\nprint(average([]))", "explain": "Guarding the empty case avoids ZeroDivisionError; sum()/len() returns a float."}
-    },
-    "level-1/05-data-structures": {
-      "questions": [
-        {"q": "Which built-in type is ordered and immutable?", "options": ["tuple", "list", "set", "dict"], "answer": 0, "explain": "Tuples keep their order and cannot be changed after creation. Lists are mutable; sets are unordered."},
-        {"q": "What does {1, 2, 2, 3} evaluate to?", "options": ["{1, 2, 3}", "{1, 2, 2, 3}", "[1, 2, 3]", "A SyntaxError"], "answer": 0, "explain": "Sets store unique items, so the duplicate 2 is dropped."},
-        {"q": "prices = {\"tea\": 20}. What does prices.get(\"coffee\", 0) return?", "options": ["0", "None", "KeyError", "\"coffee\""], "answer": 0, "explain": "dict.get returns the default (here 0) when the key is missing, instead of raising KeyError like prices[\"coffee\"] would."},
-        {"q": "nums = [3, 1, 2]. What is the difference between nums.sort() and sorted(nums)?", "options": ["sort() changes the list in place and returns None; sorted() returns a new list", "They are identical", "sorted() changes the list in place", "sort() works only on numbers"], "answer": 0, "explain": "list.sort() sorts in place and returns None; sorted() leaves the original unchanged and returns a new sorted list."}
-      ],
-      "challenge": {"title": "Word counter", "prompt": "Count how many times each word appears in the sentence and print the dictionary.", "starter": "sentence = \"the cat and the hat\"\ncounts = {}\n# fill counts\nprint(counts)\n", "expected": "{'the': 2, 'cat': 1, 'and': 1, 'hat': 1}", "solution": "sentence = \"the cat and the hat\"\ncounts = {}\nfor word in sentence.split():\n    counts[word] = counts.get(word, 0) + 1\nprint(counts)", "explain": "dict.get(word, 0) starts each new word at 0. Dictionaries keep insertion order, so words print in the order first seen."}
-    },
-    "level-1/06-strings-formatting": {
-      "questions": [
-        {"q": "What does f\"{3.14159:.2f}\" produce?", "options": ["3.14", "3.142", "3.14159", "3.1"], "answer": 0, "explain": "The format spec .2f rounds to two decimal places."},
-        {"q": "What is \"Python\"[1:4]?", "options": ["\"yth\"", "\"Pyt\"", "\"ytho\"", "\"tho\""], "answer": 0, "explain": "Slicing includes the start index (1, 'y') and excludes the stop index (4), giving 'yth'."},
-        {"q": "Why do strings have methods like .upper() that return a new string?", "options": ["Strings are immutable, so they cannot be changed in place", "To save memory by copying less", "Because strings are stored as lists", "Python requires every method to return a copy"], "answer": 0, "explain": "Strings cannot be modified after creation; methods return new strings, so assign the result: s = s.upper()."},
-        {"q": "Which string is a raw string that keeps backslashes literally?", "options": ["r\"C:\\new\\folder\"", "f\"C:\\new\\folder\"", "b\"C:\\new\\folder\"", "u\"C:\\new\\folder\""], "answer": 0, "explain": "The r prefix disables escape sequences, so \\n stays as a backslash and n. That's useful for Windows paths and regular expressions."}
-      ],
-      "challenge": {"title": "Receipt line", "prompt": "Print an item name left-aligned in 10 characters and its price right-aligned with two decimals in 8 characters.", "starter": "item = \"Tea\"\nprice = 20\n# print one aligned receipt line\n", "expected": "Tea          20.00", "solution": "item = \"Tea\"\nprice = 20\nprint(f\"{item:<10}{price:>8.2f}\")", "explain": "In a format spec, < aligns left and > aligns right within the given width; .2f adds two decimals."}
-    },
-    "level-1/07-file-io": {
-      "questions": [
-        {"q": "Why is with open(\"notes.txt\") as f: preferred over calling open() and close() yourself?", "options": ["The file is closed automatically, even if an error occurs", "It reads the file faster", "It is the only way to open text files", "It locks the file for other programs"], "answer": 0, "explain": "The with statement uses a context manager that always closes the file when the block ends, including on exceptions."},
-        {"q": "What does mode \"a\" do when opening a file?", "options": ["Appends to the end, creating the file if needed", "Overwrites the file", "Opens read-only", "Opens in binary mode"], "answer": 0, "explain": "\"a\" adds to the end of an existing file (or creates it). \"w\" truncates and overwrites."},
-        {"q": "What is the most memory-friendly way to process a large text file line by line?", "options": ["for line in f:", "f.read().split(\"\\n\")", "list(f.readlines()) copied twice", "Reading it into a single string first"], "answer": 0, "explain": "Iterating over the file object reads one line at a time instead of loading the whole file into memory."},
-        {"q": "Why pass encoding=\"utf-8\" to open()?", "options": ["So the file reads and writes the same way on every operating system", "To make the file smaller", "Because Python cannot read text without it", "To open the file in binary mode"], "answer": 0, "explain": "Without it, the default encoding depends on the platform. Being explicit avoids surprises with non-English characters."}
-      ],
-      "challenge": {"title": "Write and read back", "prompt": "Write three lines to tasks.txt, then read the file and print how many lines it has.", "starter": "tasks = [\"buy milk\", \"call mom\", \"study python\"]\n# write the tasks, then count the lines\n", "expected": "3 lines", "solution": "tasks = [\"buy milk\", \"call mom\", \"study python\"]\nwith open(\"tasks.txt\", \"w\", encoding=\"utf-8\") as f:\n    for t in tasks:\n        f.write(t + \"\\n\")\nwith open(\"tasks.txt\", encoding=\"utf-8\") as f:\n    count = sum(1 for _ in f)\nprint(f\"{count} lines\")", "explain": "Each write adds a newline, so the file has three lines; iterating the file counts them without loading it all at once."}
-    },
-    "level-1/08-error-handling": {
-      "questions": [
-        {"q": "Which exception does int(\"abc\") raise?", "options": ["ValueError", "TypeError", "SyntaxError", "KeyError"], "answer": 0, "explain": "The argument has the right type (a string) but an invalid value for conversion, so Python raises ValueError."},
-        {"q": "When does the finally block run?", "options": ["Always, whether or not an exception occurred", "Only when an exception occurred", "Only when no exception occurred", "Only if there is no except block"], "answer": 0, "explain": "finally runs in every case, which makes it the place for cleanup such as closing resources."},
-        {"q": "Why should you avoid a bare except: clause?", "options": ["It also catches errors you did not expect, hiding real bugs", "It is a SyntaxError", "It only catches ValueError", "It makes the program run slower"], "answer": 0, "explain": "A bare except catches everything (even KeyboardInterrupt). Catch the specific exceptions you can handle."},
-        {"q": "In try / except / else, when does else run?", "options": ["When the try block raised no exception", "When an exception was caught", "Before the try block", "Only after finally"], "answer": 0, "explain": "else holds code that should run only if try succeeded, keeping the try block small and focused."}
-      ],
-      "challenge": {"title": "Safe number input", "prompt": "Write a function to_number(text) that returns the integer value, or None if the text is not a valid number. Print the results for \"42\" and \"forty\".", "starter": "def to_number(text):\n    # return int(text), or None on failure\n    pass\n\nprint(to_number(\"42\"))\nprint(to_number(\"forty\"))\n", "expected": "42\nNone", "solution": "def to_number(text):\n    try:\n        return int(text)\n    except ValueError:\n        return None\n\nprint(to_number(\"42\"))\nprint(to_number(\"forty\"))", "explain": "Catching only ValueError handles bad input while letting unexpected errors surface."}
-    },
-    "level-1/09-modules-packages": {
-      "questions": [
-        {"q": "What does python3 -m venv .venv do?", "options": ["Creates an isolated virtual environment in the .venv folder", "Installs a package called venv", "Upgrades Python", "Deletes installed packages"], "answer": 0, "explain": "venv creates a self-contained environment so each project can have its own package versions."},
-        {"q": "Which file conventionally lists a project's pip dependencies?", "options": ["requirements.txt", "setup.cfg.lock", "packages.json", "pip.ini"], "answer": 0, "explain": "requirements.txt lists packages (often with versions) and is installed with pip install -r requirements.txt."},
-        {"q": "What is the purpose of the if __name__ == \"__main__\": guard?", "options": ["Run code only when the file is executed directly, not when imported", "Make the file run faster", "Mark the file as a package", "Required by Python in every file"], "answer": 0, "explain": "When a module is imported, __name__ is its module name; when run directly it is \"__main__\". The guard keeps script-only code from running on import."},
-        {"q": "from math import sqrt lets you call which?", "options": ["sqrt(16)", "math.sqrt(16) only", "Math.Sqrt(16)", "import.sqrt(16)"], "answer": 0, "explain": "from module import name brings the name directly into your namespace, so you call sqrt(16)."}
-      ],
-      "challenge": {"title": "Use the standard library", "prompt": "Use the statistics module to print the mean and median of the scores.", "starter": "import statistics\nscores = [70, 85, 90, 65, 85]\n# print mean and median\n", "expected": "mean=79 median=85", "solution": "import statistics\nscores = [70, 85, 90, 65, 85]\nprint(f\"mean={statistics.mean(scores)} median={statistics.median(scores)}\")", "explain": "The standard library ships ready-made tools; statistics.mean and statistics.median avoid writing the maths yourself."}
+    {
+     "q": "Which statement about Python files is correct?",
+     "options": [
+      "Indentation is part of the syntax, so consistent spaces matter",
+      "Every statement must end with a semicolon",
+      "Code blocks are wrapped in curly braces",
+      "File names must end in .pyc to be runnable"
+     ],
+     "answer": 0,
+     "explain": "Python uses indentation to define blocks. PEP 8 recommends 4 spaces per level. Semicolons and braces are not needed."
     }
+   ],
+   "challenge": {
+    "title": "Your first script",
+    "prompt": "Write a script that stores your name in a variable and prints a greeting using an f-string.",
+    "starter": "name = \"Asha\"\n# print the greeting here\n",
+    "expected": "Hello, Asha! Welcome to Python.",
+    "solution": "name = \"Asha\"\nprint(f\"Hello, {name}! Welcome to Python.\")",
+    "explain": "An f-string (prefix f) evaluates expressions inside {} and inserts their values into the text."
+   }
+  },
+  "level-1/02-variables-data-types": {
+   "questions": [
+    {
+     "q": "What does type(7 / 2) return?",
+     "options": [
+      "<class 'float'>",
+      "<class 'int'>",
+      "<class 'str'>",
+      "<class 'decimal'>"
+     ],
+     "answer": 0,
+     "explain": "The / operator always performs true division and returns a float (3.5). Use // for floor division, which returns an int for int operands."
+    },
+    {
+     "q": "What is the value of 17 % 5?",
+     "options": [
+      "2",
+      "3",
+      "3.4",
+      "12"
+     ],
+     "answer": 0,
+     "explain": "% returns the remainder: 17 = 5 × 3 + 2, so 17 % 5 is 2."
+    },
+    {
+     "q": "What does int(\"42\") + 8 evaluate to?",
+     "options": [
+      "50",
+      "\"428\"",
+      "TypeError",
+      "42.8"
+     ],
+     "answer": 0,
+     "explain": "int(\"42\") converts the string to the integer 42, so the result is 50. Without the conversion, \"42\" + 8 would raise a TypeError."
+    },
+    {
+     "q": "Which value is falsy in a boolean context?",
+     "options": [
+      "0",
+      "\"0\"",
+      "[0]",
+      "-1"
+     ],
+     "answer": 0,
+     "explain": "The number 0, empty strings, empty containers and None are falsy. The string \"0\" and the list [0] are non-empty, so they are truthy; -1 is a non-zero number, so it is truthy."
+    }
+   ],
+   "challenge": {
+    "title": "Temperature converter",
+    "prompt": "Convert 100 degrees Celsius to Fahrenheit (F = C × 9/5 + 32) and print the result with one decimal place.",
+    "starter": "celsius = 100\n# compute fahrenheit and print it\n",
+    "expected": "100°C = 212.0°F",
+    "solution": "celsius = 100\nfahrenheit = celsius * 9 / 5 + 32\nprint(f\"{celsius}°C = {fahrenheit:.1f}°F\")",
+    "explain": "Division makes the result a float; the format spec :.1f prints exactly one decimal place."
+   }
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\nfor i in range(3):\n    print(i)",
+     "options": [
+      "0, 1 and 2 on separate lines",
+      "1, 2 and 3 on separate lines",
+      "0, 1, 2 and 3 on separate lines",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "range(3) produces 0, 1, 2. The stop value is excluded."
+    },
+    {
+     "q": "When does the else block of a for loop run?",
+     "options": [
+      "When the loop finishes without hitting break",
+      "Only when the loop body raises an error",
+      "Every time the loop condition is false on an iteration",
+      "Never; for loops cannot have else"
+     ],
+     "answer": 0,
+     "explain": "A loop's else runs after the loop completes normally. If break exits the loop early, the else is skipped. This is handy for search loops."
+    },
+    {
+     "q": "What does continue do inside a loop?",
+     "options": [
+      "Skips the rest of the current iteration and moves to the next one",
+      "Exits the loop entirely",
+      "Restarts the loop from the first item",
+      "Pauses the program until Enter is pressed"
+     ],
+     "answer": 0,
+     "explain": "continue jumps straight to the next iteration; break exits the loop."
+    },
+    {
+     "q": "Which Python version introduced the match statement (structural pattern matching)?",
+     "options": [
+      "3.10",
+      "3.6",
+      "2.7",
+      "3.12"
+     ],
+     "answer": 0,
+     "explain": "match/case arrived in Python 3.10 (PEP 634)."
+    }
+   ],
+   "challenge": {
+    "title": "FizzBuzz to 15",
+    "prompt": "Print the numbers 1 to 15, but print Fizz for multiples of 3, Buzz for multiples of 5 and FizzBuzz for multiples of both, all on one line separated by spaces.",
+    "starter": "results = []\nfor n in range(1, 16):\n    # append the right value\n    pass\nprint(\" \".join(results))\n",
+    "expected": "1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz",
+    "solution": "results = []\nfor n in range(1, 16):\n    if n % 15 == 0:\n        results.append(\"FizzBuzz\")\n    elif n % 3 == 0:\n        results.append(\"Fizz\")\n    elif n % 5 == 0:\n        results.append(\"Buzz\")\n    else:\n        results.append(str(n))\nprint(\" \".join(results))",
+    "explain": "Check the combined case (divisible by 15) first, otherwise the Fizz branch would catch 15 before FizzBuzz."
+   }
+  },
+  "level-1/04-functions-scope": {
+   "questions": [
+    {
+     "q": "What does a function return if it reaches the end without a return statement?",
+     "options": [
+      "None",
+      "0",
+      "An empty string",
+      "It raises an error"
+     ],
+     "answer": 0,
+     "explain": "Every Python function returns a value; without an explicit return it returns None."
+    },
+    {
+     "q": "Inside def total(*args), what is args?",
+     "options": [
+      "A tuple of all positional arguments passed",
+      "A list of keyword arguments",
+      "A dictionary of all arguments",
+      "The first argument only"
+     ],
+     "answer": 0,
+     "explain": "*args collects extra positional arguments into a tuple. **kwargs collects keyword arguments into a dict."
+    },
+    {
+     "q": "Why is def add(item, items=[]) a common bug?",
+     "options": [
+      "The default list is created once and shared across calls",
+      "Default values are not allowed for lists",
+      "items will always be None",
+      "It makes the function run slower"
+     ],
+     "answer": 0,
+     "explain": "Default values are evaluated once, when the function is defined. Use items=None and create a new list inside the function."
+    },
+    {
+     "q": "Are type hints like def area(r: float) -> float: enforced when the code runs?",
+     "options": [
+      "No, they are documentation for readers and tools like mypy",
+      "Yes, Python raises TypeError on mismatches",
+      "Only in Python 3.12 and later",
+      "Only when the file is named with .pyi"
+     ],
+     "answer": 0,
+     "explain": "The interpreter does not enforce annotations. Type checkers and IDEs use them to catch mistakes before you run the code."
+    }
+   ],
+   "challenge": {
+    "title": "A reusable function",
+    "prompt": "Write a function average(numbers) that returns the mean of a list, or 0 for an empty list. Print the results for [4, 8, 6] and [].",
+    "starter": "def average(numbers):\n    # return the mean, or 0 for an empty list\n    pass\n\nprint(average([4, 8, 6]))\nprint(average([]))\n",
+    "expected": "6.0\n0",
+    "solution": "def average(numbers):\n    if not numbers:\n        return 0\n    return sum(numbers) / len(numbers)\n\nprint(average([4, 8, 6]))\nprint(average([]))",
+    "explain": "Guarding the empty case avoids ZeroDivisionError; sum()/len() returns a float."
+   }
+  },
+  "level-1/05-data-structures": {
+   "questions": [
+    {
+     "q": "Which built-in type is ordered and immutable?",
+     "options": [
+      "tuple",
+      "list",
+      "set",
+      "dict"
+     ],
+     "answer": 0,
+     "explain": "Tuples keep their order and cannot be changed after creation. Lists are mutable; sets are unordered."
+    },
+    {
+     "q": "What does {1, 2, 2, 3} evaluate to?",
+     "options": [
+      "{1, 2, 3}",
+      "{1, 2, 2, 3}",
+      "[1, 2, 3]",
+      "A SyntaxError"
+     ],
+     "answer": 0,
+     "explain": "Sets store unique items, so the duplicate 2 is dropped."
+    },
+    {
+     "q": "prices = {\"tea\": 20}. What does prices.get(\"coffee\", 0) return?",
+     "options": [
+      "0",
+      "None",
+      "KeyError",
+      "\"coffee\""
+     ],
+     "answer": 0,
+     "explain": "dict.get returns the default (here 0) when the key is missing, instead of raising KeyError like prices[\"coffee\"] would."
+    },
+    {
+     "q": "nums = [3, 1, 2]. What is the difference between nums.sort() and sorted(nums)?",
+     "options": [
+      "sort() changes the list in place and returns None; sorted() returns a new list",
+      "They are identical",
+      "sorted() changes the list in place",
+      "sort() works only on numbers"
+     ],
+     "answer": 0,
+     "explain": "list.sort() sorts in place and returns None; sorted() leaves the original unchanged and returns a new sorted list."
+    }
+   ],
+   "challenge": {
+    "title": "Word counter",
+    "prompt": "Count how many times each word appears in the sentence and print the dictionary.",
+    "starter": "sentence = \"the cat and the hat\"\ncounts = {}\n# fill counts\nprint(counts)\n",
+    "expected": "{'the': 2, 'cat': 1, 'and': 1, 'hat': 1}",
+    "solution": "sentence = \"the cat and the hat\"\ncounts = {}\nfor word in sentence.split():\n    counts[word] = counts.get(word, 0) + 1\nprint(counts)",
+    "explain": "dict.get(word, 0) starts each new word at 0. Dictionaries keep insertion order, so words print in the order first seen."
+   }
+  },
+  "level-1/06-strings-formatting": {
+   "questions": [
+    {
+     "q": "What does f\"{3.14159:.2f}\" produce?",
+     "options": [
+      "3.14",
+      "3.142",
+      "3.14159",
+      "3.1"
+     ],
+     "answer": 0,
+     "explain": "The format spec .2f rounds to two decimal places."
+    },
+    {
+     "q": "What is \"Python\"[1:4]?",
+     "options": [
+      "\"yth\"",
+      "\"Pyt\"",
+      "\"ytho\"",
+      "\"tho\""
+     ],
+     "answer": 0,
+     "explain": "Slicing includes the start index (1, 'y') and excludes the stop index (4), giving 'yth'."
+    },
+    {
+     "q": "Why do strings have methods like .upper() that return a new string?",
+     "options": [
+      "Strings are immutable, so they cannot be changed in place",
+      "To save memory by copying less",
+      "Because strings are stored as lists",
+      "Python requires every method to return a copy"
+     ],
+     "answer": 0,
+     "explain": "Strings cannot be modified after creation; methods return new strings, so assign the result: s = s.upper()."
+    },
+    {
+     "q": "Which string is a raw string that keeps backslashes literally?",
+     "options": [
+      "r\"C:\\new\\folder\"",
+      "f\"C:\\new\\folder\"",
+      "b\"C:\\new\\folder\"",
+      "u\"C:\\new\\folder\""
+     ],
+     "answer": 0,
+     "explain": "The r prefix disables escape sequences, so \\n stays as a backslash and n. That's useful for Windows paths and regular expressions."
+    }
+   ],
+   "challenge": {
+    "title": "Receipt line",
+    "prompt": "Print an item name left-aligned in 10 characters and its price right-aligned with two decimals in 8 characters.",
+    "starter": "item = \"Tea\"\nprice = 20\n# print one aligned receipt line\n",
+    "expected": "Tea          20.00",
+    "solution": "item = \"Tea\"\nprice = 20\nprint(f\"{item:<10}{price:>8.2f}\")",
+    "explain": "In a format spec, < aligns left and > aligns right within the given width; .2f adds two decimals."
+   }
+  },
+  "level-1/07-file-io": {
+   "questions": [
+    {
+     "q": "Why is with open(\"notes.txt\") as f: preferred over calling open() and close() yourself?",
+     "options": [
+      "The file is closed automatically, even if an error occurs",
+      "It reads the file faster",
+      "It is the only way to open text files",
+      "It locks the file for other programs"
+     ],
+     "answer": 0,
+     "explain": "The with statement uses a context manager that always closes the file when the block ends, including on exceptions."
+    },
+    {
+     "q": "What does mode \"a\" do when opening a file?",
+     "options": [
+      "Appends to the end, creating the file if needed",
+      "Overwrites the file",
+      "Opens read-only",
+      "Opens in binary mode"
+     ],
+     "answer": 0,
+     "explain": "\"a\" adds to the end of an existing file (or creates it). \"w\" truncates and overwrites."
+    },
+    {
+     "q": "What is the most memory-friendly way to process a large text file line by line?",
+     "options": [
+      "for line in f:",
+      "f.read().split(\"\\n\")",
+      "list(f.readlines()) copied twice",
+      "Reading it into a single string first"
+     ],
+     "answer": 0,
+     "explain": "Iterating over the file object reads one line at a time instead of loading the whole file into memory."
+    },
+    {
+     "q": "Why pass encoding=\"utf-8\" to open()?",
+     "options": [
+      "So the file reads and writes the same way on every operating system",
+      "To make the file smaller",
+      "Because Python cannot read text without it",
+      "To open the file in binary mode"
+     ],
+     "answer": 0,
+     "explain": "Without it, the default encoding depends on the platform. Being explicit avoids surprises with non-English characters."
+    }
+   ],
+   "challenge": {
+    "title": "Write and read back",
+    "prompt": "Write three lines to tasks.txt, then read the file and print how many lines it has.",
+    "starter": "tasks = [\"buy milk\", \"call mom\", \"study python\"]\n# write the tasks, then count the lines\n",
+    "expected": "3 lines",
+    "solution": "tasks = [\"buy milk\", \"call mom\", \"study python\"]\nwith open(\"tasks.txt\", \"w\", encoding=\"utf-8\") as f:\n    for t in tasks:\n        f.write(t + \"\\n\")\nwith open(\"tasks.txt\", encoding=\"utf-8\") as f:\n    count = sum(1 for _ in f)\nprint(f\"{count} lines\")",
+    "explain": "Each write adds a newline, so the file has three lines; iterating the file counts them without loading it all at once."
+   }
+  },
+  "level-1/08-error-handling": {
+   "questions": [
+    {
+     "q": "Which exception does int(\"abc\") raise?",
+     "options": [
+      "ValueError",
+      "TypeError",
+      "SyntaxError",
+      "KeyError"
+     ],
+     "answer": 0,
+     "explain": "The argument has the right type (a string) but an invalid value for conversion, so Python raises ValueError."
+    },
+    {
+     "q": "When does the finally block run?",
+     "options": [
+      "Always, whether or not an exception occurred",
+      "Only when an exception occurred",
+      "Only when no exception occurred",
+      "Only if there is no except block"
+     ],
+     "answer": 0,
+     "explain": "finally runs in every case, which makes it the place for cleanup such as closing resources."
+    },
+    {
+     "q": "Why should you avoid a bare except: clause?",
+     "options": [
+      "It also catches errors you did not expect, hiding real bugs",
+      "It is a SyntaxError",
+      "It only catches ValueError",
+      "It makes the program run slower"
+     ],
+     "answer": 0,
+     "explain": "A bare except catches everything (even KeyboardInterrupt). Catch the specific exceptions you can handle."
+    },
+    {
+     "q": "In try / except / else, when does else run?",
+     "options": [
+      "When the try block raised no exception",
+      "When an exception was caught",
+      "Before the try block",
+      "Only after finally"
+     ],
+     "answer": 0,
+     "explain": "else holds code that should run only if try succeeded, keeping the try block small and focused."
+    }
+   ],
+   "challenge": {
+    "title": "Safe number input",
+    "prompt": "Write a function to_number(text) that returns the integer value, or None if the text is not a valid number. Print the results for \"42\" and \"forty\".",
+    "starter": "def to_number(text):\n    # return int(text), or None on failure\n    pass\n\nprint(to_number(\"42\"))\nprint(to_number(\"forty\"))\n",
+    "expected": "42\nNone",
+    "solution": "def to_number(text):\n    try:\n        return int(text)\n    except ValueError:\n        return None\n\nprint(to_number(\"42\"))\nprint(to_number(\"forty\"))",
+    "explain": "Catching only ValueError handles bad input while letting unexpected errors surface."
+   }
+  },
+  "level-1/09-modules-packages": {
+   "questions": [
+    {
+     "q": "What does python3 -m venv .venv do?",
+     "options": [
+      "Creates an isolated virtual environment in the .venv folder",
+      "Installs a package called venv",
+      "Upgrades Python",
+      "Deletes installed packages"
+     ],
+     "answer": 0,
+     "explain": "venv creates a self-contained environment so each project can have its own package versions."
+    },
+    {
+     "q": "Which file conventionally lists a project's pip dependencies?",
+     "options": [
+      "requirements.txt",
+      "setup.cfg.lock",
+      "packages.json",
+      "pip.ini"
+     ],
+     "answer": 0,
+     "explain": "requirements.txt lists packages (often with versions) and is installed with pip install -r requirements.txt."
+    },
+    {
+     "q": "What is the purpose of the if __name__ == \"__main__\": guard?",
+     "options": [
+      "Run code only when the file is executed directly, not when imported",
+      "Make the file run faster",
+      "Mark the file as a package",
+      "Required by Python in every file"
+     ],
+     "answer": 0,
+     "explain": "When a module is imported, __name__ is its module name; when run directly it is \"__main__\". The guard keeps script-only code from running on import."
+    },
+    {
+     "q": "from math import sqrt lets you call which?",
+     "options": [
+      "sqrt(16)",
+      "math.sqrt(16) only",
+      "Math.Sqrt(16)",
+      "import.sqrt(16)"
+     ],
+     "answer": 0,
+     "explain": "from module import name brings the name directly into your namespace, so you call sqrt(16)."
+    }
+   ],
+   "challenge": {
+    "title": "Use the standard library",
+    "prompt": "Use the statistics module to print the mean and median of the scores.",
+    "starter": "import statistics\nscores = [70, 85, 90, 65, 85]\n# print mean and median\n",
+    "expected": "mean=79 median=85",
+    "solution": "import statistics\nscores = [70, 85, 90, 65, 85]\nprint(f\"mean={statistics.mean(scores)} median={statistics.median(scores)}\")",
+    "explain": "The standard library ships ready-made tools; statistics.mean and statistics.median avoid writing the maths yourself."
+   }
   }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```\nprint(type(7 / 2), 7 // 2, 7 % 2)\n```",
+    "options": [
+     "<class 'int'> 3 1",
+     "<class 'int'> 3.5 3",
+     "<class 'float'> 3 1",
+     "<class 'float'> 3.5 1"
+    ],
+    "answer": 2,
+    "explain": "/ always returns a float; // floors; % is the remainder."
+   },
+   {
+    "q": "What does this print?\n```\nx = [1, 2, 3]\ny = x\ny.append(4)\nprint(x)\n```",
+    "options": [
+     "[1, 2, 3]",
+     "[4]",
+     "[1, 2, 3, 4]",
+     "Error"
+    ],
+    "answer": 2,
+    "explain": "y and x name the same list, so mutating through y changes x."
+   },
+   {
+    "q": "What does this print?\n```\ndef add(item, bucket=[]):\n    bucket.append(item)\n    return bucket\nadd(1)\nprint(add(2))\n```",
+    "options": [
+     "[2]",
+     "[1]",
+     "[1, 2]",
+     "[]"
+    ],
+    "answer": 2,
+    "explain": "The default list is created once at definition time and shared across calls."
+   },
+   {
+    "q": "What does this print?\n```\nprint([n * n for n in range(5) if n % 2 == 0])\n```",
+    "options": [
+     "[0, 1, 4, 9, 16]",
+     "[0, 2, 4]",
+     "[1, 9]",
+     "[0, 4, 16]"
+    ],
+    "answer": 3,
+    "explain": "A comprehension with a filter squares only the even numbers."
+   },
+   {
+    "q": "What does this print?\n```\ndef gen():\n    for i in range(3):\n        yield i\ng = gen()\nprint(next(g), next(g), list(g))\n```",
+    "options": [
+     "[0, 1, 2]",
+     "0 1 []",
+     "0 1 [2]",
+     "0 1 [0, 1, 2]"
+    ],
+    "answer": 2,
+    "explain": "A generator resumes where it stopped; list(g) collects what's left."
+   },
+   {
+    "q": "What does this print?\n```\nclass A:\n    def hi(self): return 'A'\nclass B(A):\n    def hi(self): return super().hi() + 'B'\nprint(B().hi())\n```",
+    "options": [
+     "B",
+     "BA",
+     "AB",
+     "A"
+    ],
+    "answer": 2,
+    "explain": "super().hi() calls the parent method, then B appends 'B'."
+   },
+   {
+    "q": "What does this print?\n```\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\nelse:\n    print('ok')\nfinally:\n    print('done')\n```",
+    "options": [
+     "done",
+     "bad\ndone",
+     "bad",
+     "ok\ndone"
+    ],
+    "answer": 1,
+    "explain": "except handles the error, else is skipped, and finally always runs."
+   },
+   {
+    "q": "What does this print?\n```\nfrom collections import Counter\nprint(Counter('banana').most_common(1))\n```",
+    "options": [
+     "[('a', 3)]",
+     "[('b', 1)]",
+     "[('a', 1)]",
+     "[('n', 2)]"
+    ],
+    "answer": 0,
+    "explain": "Counter counts characters; 'a' appears 3 times in 'banana'."
+   },
+   {
+    "q": "What does this print?\n```\nd = {'a': 1}\nprint(d.get('b', 0), 'a' in d, len(d))\n```",
+    "options": [
+     "KeyError",
+     "0 True 1",
+     "None True 1",
+     "0 False 1"
+    ],
+    "answer": 1,
+    "explain": "get returns the default for a missing key; in tests keys."
+   },
+   {
+    "q": "What does this print?\n```\nimport re\nprint(re.findall(r'\\d+', 'Order 12 has 3 items'))\n```",
+    "options": [
+     "['12']",
+     "['1', '2', '3']",
+     "['Order']",
+     "['12', '3']"
+    ],
+    "answer": 3,
+    "explain": "\\d+ matches runs of digits."
+   },
+   {
+    "q": "What does this print?\n```\ndef deco(f):\n    def w(*a):\n        return f(*a) * 2\n    return w\n@deco\ndef three(): return 3\nprint(three())\n```",
+    "options": [
+     "Error",
+     "6",
+     "33",
+     "3"
+    ],
+    "answer": 1,
+    "explain": "The decorator wraps the function and doubles its result."
+   },
+   {
+    "q": "What does this print?\n```\nfrom functools import reduce\nprint(reduce(lambda a, b: a + b, [1, 2, 3, 4]))\n```",
+    "options": [
+     "24",
+     "[1, 2, 3, 4]",
+     "10",
+     "4"
+    ],
+    "answer": 2,
+    "explain": "reduce folds the list with addition."
+   },
+   {
+    "q": "What does this print?\n```\nprint(f\"{3.14159:.2f} {42:05d} {'x':>3}\")\n```",
+    "options": [
+     "3.14159 42   x",
+     "3 00042 x",
+     "3.14 00042   x",
+     "3.14 42 x"
+    ],
+    "answer": 2,
+    "explain": "f-string format specs: .2f rounds, 05d zero-pads, >3 right-aligns."
+   },
+   {
+    "q": "What does this print?\n```\nprint(sorted([('b', 2), ('a', 3)], key=lambda t: t[1]))\n```",
+    "options": [
+     "[2, 3]",
+     "[('a', 3), ('b', 2)]",
+     "[('b', 2)]",
+     "[('b', 2), ('a', 3)]"
+    ],
+    "answer": 3,
+    "explain": "key=lambda t: t[1] sorts by the second element."
+   },
+   {
+    "q": "What does this print?\n```\nimport asyncio\nasync def f(n):\n    await asyncio.sleep(0.01)\n    return n\nasync def main():\n    print(await asyncio.gather(f(1), f(2)))\nasyncio.run(main())\n```",
+    "options": [
+     "[1, 2]",
+     "[2, 1]",
+     "[<coroutine>, <coroutine>]",
+     "None"
+    ],
+    "answer": 0,
+    "explain": "gather runs the coroutines concurrently and returns results in argument order."
+   },
+   {
+    "q": "You want to read a file and be sure it closes even if an error occurs. What do you use?",
+    "options": [
+     "with open(path) as f:",
+     "f = open(path) then del f",
+     "open(path).read() in a loop",
+     "f = open(path) with no close"
+    ],
+    "answer": 0,
+    "explain": "A with block (context manager) closes the file automatically."
+   },
+   {
+    "q": "A web service is I/O-bound (many API calls). Which tool fits best?",
+    "options": [
+     "a bigger for loop",
+     "multiprocessing for CPU only",
+     "asyncio (or threads)",
+     "recursion"
+    ],
+    "answer": 2,
+    "explain": "I/O-bound work waits on the network, so concurrency helps; CPU-bound work needs multiple processes."
+   },
+   {
+    "q": "A teammate's `pip install` pollutes the system Python and breaks another project. What practice prevents this?",
+    "options": [
+     "Reinstalling Python",
+     "A virtual environment per project",
+     "Deleting site-packages",
+     "sudo pip install"
+    ],
+    "answer": 1,
+    "explain": "A venv isolates each project's packages."
+   },
+   {
+    "q": "A function that runs SQL builds the query with an f-string from user input. What is the fix?",
+    "options": [
+     "Use parameterized queries with placeholders",
+     "Escape quotes by hand",
+     "Use try/except",
+     "Lowercase the input"
+    ],
+    "answer": 0,
+    "explain": "Placeholders pass input as data, preventing SQL injection."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Word frequencies",
+    "prompt": "Write `word_counts(text)` that returns a dict mapping each lowercase word to how many times it appears, then print the counts for the sample sentence sorted by word.",
+    "starter": "def word_counts(text):\n    # your code here\n    pass\n\nfor word, n in sorted(word_counts(\"The cat and the hat and THE bat\").items()):\n    print(word, n)\n",
+    "expected": "and 2\nbat 1\ncat 1\nhat 1\nthe 3",
+    "solution": "def word_counts(text):\n    counts = {}\n    for w in text.lower().split():\n        counts[w] = counts.get(w, 0) + 1\n    return counts\n\nfor word, n in sorted(word_counts(\"The cat and the hat and THE bat\").items()):\n    print(word, n)",
+    "explain": "`dict.get(w, 0) + 1` counts without a KeyError, and lower() makes 'The' and 'THE' the same word."
+   },
+   {
+    "title": "A retry decorator",
+    "prompt": "Write a decorator `retry(times)` that calls the wrapped function up to `times` times and returns the first success; a function that fails twice then succeeds should print `ok after 3 calls`.",
+    "starter": "def retry(times):\n    # return a decorator\n    pass\n\ncalls = 0\n\n@retry(3)\ndef flaky():\n    global calls\n    calls += 1\n    if calls < 3:\n        raise ValueError(\"fail\")\n    return \"ok\"\n\nprint(flaky(), \"after\", calls, \"calls\")\n",
+    "expected": "ok after 3 calls",
+    "solution": "def retry(times):\n    def deco(f):\n        def wrapper(*a, **k):\n            last = None\n            for _ in range(times):\n                try:\n                    return f(*a, **k)\n                except Exception as e:\n                    last = e\n            raise last\n        return wrapper\n    return deco\n\ncalls = 0\n\n@retry(3)\ndef flaky():\n    global calls\n    calls += 1\n    if calls < 3:\n        raise ValueError(\"fail\")\n    return \"ok\"\n\nprint(flaky(), \"after\", calls, \"calls\")",
+    "explain": "A decorator factory returns a decorator; the wrapper catches exceptions and retries until it succeeds or runs out of attempts."
+   },
+   {
+    "title": "Context manager timer",
+    "prompt": "Write a context manager class `Tag` that prints `<b>` on entry and `</b>` on exit, and use it to wrap a print of `hello`.",
+    "starter": "class Tag:\n    # implement __enter__ and __exit__\n    pass\n\nwith Tag():\n    print(\"hello\")\n",
+    "expected": "<b>\nhello\n</b>",
+    "solution": "class Tag:\n    def __enter__(self):\n        print(\"<b>\")\n        return self\n    def __exit__(self, exc_type, exc, tb):\n        print(\"</b>\")\n        return False\n\nwith Tag():\n    print(\"hello\")",
+    "explain": "__enter__ runs at the start of the with block and __exit__ always runs at the end, even on errors."
+   }
+  ]
+ },
+ "final_pass_pct": 70
 }
