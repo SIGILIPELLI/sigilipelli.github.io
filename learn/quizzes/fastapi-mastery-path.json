@@ -1,0 +1,2159 @@
+{
+ "course": "fastapi-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-fastapi-is": {
+   "questions": [
+    {
+     "q": "What three jobs do type hints do in FastAPI?",
+     "options": [
+      "Create a database",
+      "Deploy",
+      "Validate input, convert/serialize data and generate OpenAPI documentation",
+      "Compile code"
+     ],
+     "answer": 2,
+     "explain": "One source of truth."
+    },
+    {
+     "q": "What's FastAPI built on?",
+     "options": [
+      "Django",
+      "Tornado",
+      "Starlette (ASGI) and Pydantic",
+      "Flask"
+     ],
+     "answer": 2,
+     "explain": "ASGI server needed (Uvicorn)."
+    },
+    {
+     "q": "Where are interactive docs served by default?",
+     "options": [
+      "/docs (Swagger UI) and /redoc",
+      "/swagger",
+      "/api",
+      "/help"
+     ],
+     "answer": 0,
+     "explain": "Generated from your code."
+    },
+    {
+     "q": "What does `uvicorn main:app --reload` do?",
+     "options": [
+      "Builds",
+      "Tests",
+      "Deploys",
+      "Runs the ASGI app and restarts on code changes (development)"
+     ],
+     "answer": 3,
+     "explain": "main:app = module:variable."
+    }
+   ]
+  },
+  "level-1/02-first-app": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Path, Header, Form\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\n@app.get('/ping')\ndef ping():\n    return {'ok': True}\nc=TestClient(app)\nr=c.get('/ping')\nprint(r.status_code, r.json(), c.get('/nope').status_code)\n```\n",
+     "options": [
+      "404 {} 404",
+      "200 {'ok': True} 404",
+      "200 {'ok': true} 404",
+      "200 True 404"
+     ],
+     "answer": 1,
+     "explain": "Dicts become JSON; unknown routes give 404. Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "What does an endpoint decorator like @app.get('/items') define?",
+     "options": [
+      "A test",
+      "A model",
+      "The HTTP method and path that triggers the function",
+      "A dependency"
+     ],
+     "answer": 2,
+     "explain": "Path operation."
+    },
+    {
+     "q": "What's the default status code of a successful GET?",
+     "options": [
+      "204",
+      "201",
+      "200",
+      "202"
+     ],
+     "answer": 2,
+     "explain": "Use status_code= to change."
+    },
+    {
+     "q": "What does `async def` allow in an endpoint?",
+     "options": [
+      "Compilation",
+      "Using await for non-blocking I/O",
+      "Threads",
+      "Faster CPU"
+     ],
+     "answer": 1,
+     "explain": "Both def and async def work."
+    }
+   ]
+  },
+  "level-1/03-path-query-params": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Path, Header, Form\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\n@app.get('/items/{item_id}')\ndef item(item_id: int, q: str | None = None, limit: int = 10):\n    return {'id': item_id, 'q': q, 'limit': limit}\nc=TestClient(app)\nprint(c.get('/items/5?q=hi').json())\nr=c.get('/items/abc')\nprint(r.status_code, r.json()['detail'][0]['type'])\n```\n",
+     "options": [
+      "{'id': '5', 'q': 'hi', 'limit': 10}\n400 value_error",
+      "{'id': 5, 'q': 'hi', 'limit': 10}\n422 int_parsing",
+      "{'id': 5}\n422 type",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Path params are converted and invalid ones give a 422 validation error. Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "How does FastAPI tell path parameters from query parameters?",
+     "options": [
+      "By order",
+      "By name",
+      "Path parameters appear in the path template; other simple-typed arguments are query parameters",
+      "By annotation only"
+     ],
+     "answer": 2,
+     "explain": "Pydantic models are body."
+    },
+    {
+     "q": "What makes a query parameter optional?",
+     "options": [
+      "Optional keyword",
+      "Query()",
+      "A default value (e.g. = None)",
+      "?"
+     ],
+     "answer": 2,
+     "explain": "No default means required."
+    },
+    {
+     "q": "How do you constrain a query value to 1-100?",
+     "options": [
+      "if statement",
+      "Query(ge=1, le=100)",
+      "regex",
+      "Path()"
+     ],
+     "answer": 1,
+     "explain": "Validated automatically."
+    }
+   ]
+  },
+  "level-1/04-request-bodies": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Path, Header, Form\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\nclass Item(BaseModel):\n    name: str\n    price: float = Field(gt=0)\n@app.post('/items', status_code=201)\ndef create(item: Item):\n    return item\nc=TestClient(app)\nr=c.post('/items', json={'name':'pen','price':1.5})\nprint(r.status_code, r.json())\nr=c.post('/items', json={'name':'pen','price':0})\nprint(r.status_code, r.json()['detail'][0]['loc'])\n```\n",
+     "options": [
+      "200 {'name': 'pen'}\n400 []",
+      "201 {}\n422 ['price']",
+      "201 {'name': 'pen', 'price': 1.5}\n422 ['body', 'price']",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Invalid bodies are rejected before your function runs. Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "What status code means 'created'?",
+     "options": [
+      "201",
+      "202",
+      "204",
+      "200"
+     ],
+     "answer": 0,
+     "explain": "Set it on POST creating resources."
+    },
+    {
+     "q": "What does FastAPI do with a Pydantic model parameter?",
+     "options": [
+      "Reads headers",
+      "Reads the query",
+      "Reads the JSON body and validates it against the model",
+      "Ignores"
+     ],
+     "answer": 2,
+     "explain": "Body parameter."
+    },
+    {
+     "q": "What does `Field(gt=0)` do?",
+     "options": [
+      "Sets alias",
+      "Adds a validation constraint that the number must be greater than 0",
+      "Sets default",
+      "Sorts"
+     ],
+     "answer": 1,
+     "explain": "Appears in OpenAPI."
+    }
+   ]
+  },
+  "level-1/05-response-models": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Path, Header, Form\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\nclass UserIn(BaseModel):\n    name: str\n    password: str\nclass UserOut(BaseModel):\n    name: str\n@app.post('/users', response_model=UserOut)\ndef make(u: UserIn):\n    return u\nc=TestClient(app)\nprint(c.post('/users', json={'name':'ada','password':'s3cret'}).json())\n```\n",
+     "options": [
+      "{}",
+      "Error",
+      "{'name': 'ada'}",
+      "{'name': 'ada', 'password': 's3cret'}"
+     ],
+     "answer": 2,
+     "explain": "response_model filters out fields not in the output model. Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "Why use a separate output model?",
+     "options": [
+      "Law",
+      "To avoid leaking internal fields like password hashes",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Control the contract."
+    },
+    {
+     "q": "What does `response_model_exclude_unset=True` do?",
+     "options": [
+      "Masks",
+      "Adds",
+      "Omits fields that weren't explicitly set",
+      "Sorts"
+     ],
+     "answer": 2,
+     "explain": "Useful for PATCH-style output."
+    },
+    {
+     "q": "What happens if the returned data doesn't fit the response model?",
+     "options": [
+      "422",
+      "204",
+      "FastAPI raises a server error (500) because the response is invalid",
+      "Returns it"
+     ],
+     "answer": 2,
+     "explain": "Output is validated too."
+    }
+   ]
+  },
+  "level-1/06-pydantic-v2": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Path, Header, Form\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\nclass P(BaseModel):\n    id: int\n    tags: list[str] = []\np=P(id='7', tags=('a','b'))\nprint(p.id, p.tags, p.model_dump())\ntry:\n    P(id='x')\nexcept Exception as e:\n    print(type(e).__name__)\n```\n",
+     "options": [
+      "7 ('a','b') {}\nTypeError",
+      "'7' ('a','b') {}\nValueError",
+      "7 ['a', 'b'] {'id': 7, 'tags': ['a', 'b']}\nValidationError",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Pydantic coerces compatible values (lax mode) and raises ValidationError otherwise. Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "What did Pydantic v2 rename model_dump from?",
+     "options": [
+      "as_dict",
+      "dict() (and json() became model_dump_json())",
+      "to_dict",
+      "serialize"
+     ],
+     "answer": 1,
+     "explain": "Migration."
+    },
+    {
+     "q": "What does a field_validator do?",
+     "options": [
+      "Runs custom validation/normalization on a field",
+      "Routes",
+      "Tests",
+      "Sorts"
+     ],
+     "answer": 0,
+     "explain": "@field_validator('name')."
+    },
+    {
+     "q": "What does `model_config = ConfigDict(from_attributes=True)` allow?",
+     "options": [
+      "Auth",
+      "Building models from ORM objects/attributes",
+      "Cache",
+      "Async"
+     ],
+     "answer": 1,
+     "explain": "Formerly orm_mode."
+    }
+   ]
+  },
+  "level-1/07-errors": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Path, Header, Form\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\n@app.get('/items/{i}')\ndef get(i: int):\n    if i != 1:\n        raise HTTPException(status_code=404, detail='not found')\n    return {'i': i}\nc=TestClient(app)\nr=c.get('/items/2')\nprint(r.status_code, r.json())\n```\n",
+     "options": [
+      "404 {'detail': 'not found'}",
+      "200 {}",
+      "404 not found",
+      "500 {}"
+     ],
+     "answer": 0,
+     "explain": "HTTPException produces a JSON error. Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "What status does request validation failure return by default?",
+     "options": [
+      "404",
+      "422 Unprocessable Content/Entity",
+      "400",
+      "500"
+     ],
+     "answer": 1,
+     "explain": "Pydantic error list in detail."
+    },
+    {
+     "q": "How do you map a domain exception to HTTP?",
+     "options": [
+      "Middleware only",
+      "@app.exception_handler(MyError) returning a JSONResponse",
+      "Nothing",
+      "try everywhere"
+     ],
+     "answer": 1,
+     "explain": "Keep endpoints clean."
+    },
+    {
+     "q": "Why keep a consistent error shape?",
+     "options": [
+      "Law",
+      "Clients branch on it and show messages",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Part of the API contract."
+    }
+   ]
+  },
+  "level-1/08-forms-files-headers": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Path, Header, Form\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\n@app.post('/login')\ndef login(username: str = Form(), password: str = Form()):\n    return {'user': username}\n@app.get('/h')\ndef h(x_token: str = Header()):\n    return {'token': x_token}\nc=TestClient(app)\nprint(c.post('/login', data={'username':'ada','password':'x'}).json())\nprint(c.get('/h', headers={'X-Token':'abc'}).json())\n```\n",
+     "options": [
+      "{'user': 'ada'}\n{'token': None}",
+      "{'user': 'ada'}\n{'token': 'abc'}",
+      "Error",
+      "{}\n{}"
+     ],
+     "answer": 1,
+     "explain": "Header names convert underscores to hyphens. Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "Which content type do HTML forms use?",
+     "options": [
+      "text/plain",
+      "application/x-www-form-urlencoded (or multipart/form-data for files)",
+      "image/png",
+      "application/json"
+     ],
+     "answer": 1,
+     "explain": "Needs python-multipart."
+    },
+    {
+     "q": "How do you accept an uploaded file?",
+     "options": [
+      "Form()",
+      "Body()",
+      "bytes only",
+      "UploadFile with File()"
+     ],
+     "answer": 3,
+     "explain": "Streams to disk for large files."
+    },
+    {
+     "q": "Why prefer UploadFile over bytes for big files?",
+     "options": [
+      "Style",
+      "Law",
+      "It spools to disk instead of holding everything in memory",
+      "Faster"
+     ],
+     "answer": 2,
+     "explain": "Memory safety."
+    }
+   ]
+  },
+  "level-1/09-routers-structure": {
+   "questions": [
+    {
+     "q": "What's APIRouter for?",
+     "options": [
+      "Grouping related endpoints into modules included in the app",
+      "Routing DNS",
+      "Databases",
+      "Auth"
+     ],
+     "answer": 0,
+     "explain": "app.include_router()."
+    },
+    {
+     "q": "What does `prefix='/books'` do?",
+     "options": [
+      "Prepends the prefix to every route in the router",
+      "Sorts",
+      "Adds auth",
+      "Caches"
+     ],
+     "answer": 0,
+     "explain": "Combine with tags."
+    },
+    {
+     "q": "How do you organize a growing app?",
+     "options": [
+      "Classes only",
+      "One file",
+      "Globals",
+      "Separate routers, schemas, services and dependencies modules"
+     ],
+     "answer": 3,
+     "explain": "Maintainable."
+    },
+    {
+     "q": "What are tags used for?",
+     "options": [
+      "Caching",
+      "Routing",
+      "Grouping endpoints in the OpenAPI docs",
+      "Auth"
+     ],
+     "answer": 2,
+     "explain": "Documentation."
+    }
+   ]
+  },
+  "level-1/10-project-notes-api": {
+   "questions": [
+    {
+     "q": "What does the notes API combine?",
+     "options": [
+      "Only DB",
+      "Only reads",
+      "Only auth",
+      "CRUD, validation, status codes, errors, search and pagination"
+     ],
+     "answer": 3,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "Which status for a successful delete with no body?",
+     "options": [
+      "200",
+      "204",
+      "404",
+      "201"
+     ],
+     "answer": 1,
+     "explain": "No content."
+    },
+    {
+     "q": "How do you test the API?",
+     "options": [
+      "Manual",
+      "TestClient requests against the app",
+      "Browser",
+      "Print"
+     ],
+     "answer": 1,
+     "explain": "In-process."
+    },
+    {
+     "q": "How should a missing note be handled?",
+     "options": [
+      "200",
+      "Raise a domain exception mapped to a 404 handler",
+      "500",
+      "Return None"
+     ],
+     "answer": 1,
+     "explain": "Consistent errors."
+    }
+   ]
+  },
+  "level-2/01-dependency-injection": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Path, Header, Form\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\ndef get_db():\n    return {'n': 1}\n@app.get('/x')\ndef x(db: dict = Depends(get_db)):\n    return db\nc=TestClient(app)\nprint(c.get('/x').json())\napp.dependency_overrides[get_db]=lambda: {'n': 99}\nprint(c.get('/x').json())\n```\n",
+     "options": [
+      "{'n': 1}\n{'n': 1}",
+      "{'n': 1}\n{'n': 99}",
+      "Error",
+      "{'n': 99}\n{'n': 99}"
+     ],
+     "answer": 1,
+     "explain": "Overrides swap dependencies in tests. Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "What does Depends() do?",
+     "options": [
+      "Imports",
+      "Routes",
+      "Declares a dependency FastAPI resolves and injects per request",
+      "Caches"
+     ],
+     "answer": 2,
+     "explain": "Reusable logic."
+    },
+    {
+     "q": "What can dependencies be?",
+     "options": [
+      "Only async",
+      "Only functions",
+      "Only classes",
+      "Functions or classes (callables) with their own parameters and dependencies"
+     ],
+     "answer": 3,
+     "explain": "A tree."
+    },
+    {
+     "q": "Why use dependency overrides in tests?",
+     "options": [
+      "Law",
+      "Replace databases/auth with test doubles without changing app code",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "app.dependency_overrides."
+    }
+   ]
+  },
+  "level-2/02-yield-dependencies": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Path, Header, Form\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\nevents=[]\ndef res():\n    events.append('open')\n    try:\n        yield 'r'\n    finally:\n        events.append('close')\n@app.get('/y')\ndef y(r: str = Depends(res)):\n    events.append('handler')\n    return r\nc=TestClient(app)\nc.get('/y')\nprint(events)\n```\n",
+     "options": [
+      "['open', 'handler', 'close']",
+      "['open', 'close', 'handler']",
+      "['handler', 'open', 'close']",
+      "['open', 'handler']"
+     ],
+     "answer": 0,
+     "explain": "Code after yield runs after the response is handled. Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "What are yield dependencies for?",
+     "options": [
+      "Auth",
+      "Setup and cleanup around a request, like DB sessions",
+      "Routing",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "try/finally."
+    },
+    {
+     "q": "Where should session commit/rollback live?",
+     "options": [
+      "Middleware only",
+      "Everywhere",
+      "Templates",
+      "In the dependency or service layer consistently"
+     ],
+     "answer": 3,
+     "explain": "Single place."
+    },
+    {
+     "q": "What happens to cleanup code if the handler raises?",
+     "options": [
+      "Skipped",
+      "The finally block still runs",
+      "Delayed",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Resource safety."
+    }
+   ]
+  },
+  "level-2/03-async-vs-sync": {
+   "questions": [
+    {
+     "q": "Where does a plain `def` endpoint run?",
+     "options": [
+      "GPU",
+      "In a thread pool, so blocking code doesn't freeze the event loop",
+      "Event loop",
+      "New process"
+     ],
+     "answer": 1,
+     "explain": "FastAPI offloads it."
+    },
+    {
+     "q": "What's the danger of blocking code in `async def`?",
+     "options": [
+      "It blocks the event loop and stalls all requests",
+      "Speed",
+      "Law",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Use await or def."
+    },
+    {
+     "q": "When use async def?",
+     "options": [
+      "Never",
+      "When awaiting async libraries (httpx, async DB drivers)",
+      "Always",
+      "CPU work"
+     ],
+     "answer": 1,
+     "explain": "Match the stack."
+    },
+    {
+     "q": "How do you run blocking code from async def?",
+     "options": [
+      "Thread",
+      "sleep",
+      "Call it",
+      "await run_in_threadpool(...) / anyio.to_thread"
+     ],
+     "answer": 3,
+     "explain": "Offload."
+    }
+   ]
+  },
+  "level-2/04-sqlalchemy": {
+   "questions": [
+    {
+     "q": "What does SQLAlchemy 2.x provide?",
+     "options": [
+      "A web server",
+      "A queue",
+      "An ORM and SQL toolkit with typed models and sessions",
+      "A cache"
+     ],
+     "answer": 2,
+     "explain": "Mapped columns."
+    },
+    {
+     "q": "Why one session per request?",
+     "options": [
+      "Law",
+      "Isolates work and ensures cleanup via a dependency",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Avoid sharing."
+    },
+    {
+     "q": "What's a model vs a schema in this stack?",
+     "options": [
+      "Model = database table class; schema = Pydantic API shape",
+      "Reverse",
+      "None",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "Separate concerns."
+    },
+    {
+     "q": "What does `db.commit()` do?",
+     "options": [
+      "Persists the transaction's changes",
+      "Closes",
+      "Queries",
+      "Rolls back"
+     ],
+     "answer": 0,
+     "explain": "Handle errors with rollback."
+    }
+   ]
+  },
+  "level-2/05-async-sqlalchemy": {
+   "questions": [
+    {
+     "q": "What's async SQLAlchemy used with?",
+     "options": [
+      "psycopg2",
+      "MySQLdb",
+      "sqlite3",
+      "An async driver and AsyncSession from create_async_engine"
+     ],
+     "answer": 3,
+     "explain": "asyncpg/aiosqlite."
+    },
+    {
+     "q": "What must you avoid with async sessions?",
+     "options": [
+      "Select",
+      "Commit",
+      "Lazy-loading relationships implicitly; eager load with selectinload/joinedload",
+      "Close"
+     ],
+     "answer": 2,
+     "explain": "MissingGreenlet error."
+    },
+    {
+     "q": "Why await session methods?",
+     "options": [
+      "Speed",
+      "Law",
+      "They perform I/O",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Async API."
+    },
+    {
+     "q": "When is sync SQLAlchemy fine?",
+     "options": [
+      "When def endpoints run in the threadpool; it's simple and often fast enough",
+      "Async only",
+      "Never",
+      "Always bad"
+     ],
+     "answer": 0,
+     "explain": "Choose deliberately."
+    }
+   ]
+  },
+  "level-2/06-alembic": {
+   "questions": [
+    {
+     "q": "Why use Alembic?",
+     "options": [
+      "ORM",
+      "Tests",
+      "Versioned schema migrations; create_all ignores changes to existing tables",
+      "Auth"
+     ],
+     "answer": 2,
+     "explain": "alembic revision --autogenerate."
+    },
+    {
+     "q": "What does `alembic upgrade head` do?",
+     "options": [
+      "Drops",
+      "Applies all pending migrations",
+      "Creates",
+      "Reverts"
+     ],
+     "answer": 1,
+     "explain": "Run in deployment."
+    },
+    {
+     "q": "Why review autogenerated migrations?",
+     "options": [
+      "They can miss or mis-detect changes (renames become drop/add)",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Verify before applying."
+    },
+    {
+     "q": "Where do migrations belong?",
+     "options": [
+      "Wiki",
+      "Production",
+      "In version control with the code",
+      "Docs"
+     ],
+     "answer": 2,
+     "explain": "Reproducible."
+    }
+   ]
+  },
+  "level-2/07-settings": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom functools import lru_cache\nfrom pydantic import BaseModel\nimport os\nclass Settings(BaseModel):\n    db_url: str = 'sqlite://'\n    debug: bool = False\nos.environ['DEBUG']='true'\ns=Settings(db_url='postgres://x', debug=os.environ['DEBUG'])\nprint(s.db_url, s.debug)\n```\n",
+     "options": [
+      "postgres://x true",
+      "postgres://x True",
+      "sqlite:// False",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Pydantic coerces 'true' to a bool (pydantic-settings reads env vars automatically). Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "Where should secrets come from?",
+     "options": [
+      "Environment variables or a secret manager, not source control",
+      "Git",
+      "Docs",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "12-factor."
+    },
+    {
+     "q": "What's pydantic-settings for?",
+     "options": [
+      "Typed settings loaded from env vars and .env files",
+      "Models",
+      "Routes",
+      "Auth"
+     ],
+     "answer": 0,
+     "explain": "BaseSettings."
+    },
+    {
+     "q": "Why cache settings with lru_cache?",
+     "options": [
+      "Speed only",
+      "Avoid re-reading env files on every request",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Dependency returning a singleton."
+    }
+   ]
+  },
+  "level-2/08-testing": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Path, Header, Form\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\n@app.get('/me')\ndef me(user=Depends(lambda: 'real')):\n    return {'user': user}\nc=TestClient(app)\nfrom fastapi.testclient import TestClient as T2\ndef fake(): return 'test'\nprint(c.get('/me').json())\nimport inspect\nprint(callable(c.get))\n```\n",
+     "options": [
+      "Error",
+      "{'user': 'real'}\nTrue",
+      "{}\nFalse",
+      "{'user': 'test'}\nTrue"
+     ],
+     "answer": 1,
+     "explain": "Dependencies resolve normally unless overridden. Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "What's TestClient?",
+     "options": [
+      "A browser",
+      "A DB",
+      "An in-process client calling the ASGI app without a server",
+      "A server"
+     ],
+     "answer": 2,
+     "explain": "Fast tests."
+    },
+    {
+     "q": "How do you isolate DB tests?",
+     "options": [
+      "Production",
+      "None",
+      "Use a test database/transaction and override the session dependency",
+      "Shared"
+     ],
+     "answer": 2,
+     "explain": "Rollback after each test."
+    },
+    {
+     "q": "What should tests assert besides status codes?",
+     "options": [
+      "Response bodies, side effects and error shapes",
+      "Logs",
+      "Nothing",
+      "Timing"
+     ],
+     "answer": 0,
+     "explain": "Behavior."
+    }
+   ]
+  },
+  "level-2/09-pagination-filtering": {
+   "questions": [
+    {
+     "q": "Why paginate list endpoints?",
+     "options": [
+      "Style",
+      "Bound response sizes and database load",
+      "Speed only",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "limit/offset or cursors."
+    },
+    {
+     "q": "Why prefer cursor (keyset) pagination at scale?",
+     "options": [
+      "Style",
+      "Stable and fast: it avoids large OFFSET scans and skipped/duplicated rows",
+      "Simpler",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Order by an indexed key."
+    },
+    {
+     "q": "How do you validate pagination params?",
+     "options": [
+      "None",
+      "assert",
+      "regex",
+      "Query(ge=1, le=100) for limit and ge=0 for offset"
+     ],
+     "answer": 3,
+     "explain": "Protect the DB."
+    },
+    {
+     "q": "What must sorting be restricted to?",
+     "options": [
+      "Strings",
+      "An allow-list of columns to avoid injection and slow queries",
+      "Any",
+      "Names"
+     ],
+     "answer": 1,
+     "explain": "Validate sort fields."
+    }
+   ]
+  },
+  "level-2/10-project-bookshelf": {
+   "questions": [
+    {
+     "q": "What does the bookshelf project combine?",
+     "options": [
+      "SQLAlchemy models, Alembic, dependencies, pagination, settings and tests",
+      "Only models",
+      "Only auth",
+      "Only docs"
+     ],
+     "answer": 0,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How do you model authors and books?",
+     "options": [
+      "JSON",
+      "One-to-many relationship with foreign keys and Pydantic schemas",
+      "Files",
+      "One table"
+     ],
+     "answer": 1,
+     "explain": "Relational."
+    },
+    {
+     "q": "How do you rate a book?",
+     "options": [
+      "Free",
+      "Text",
+      "Float",
+      "Validated rating field (e.g. 1-5) via Pydantic constraints"
+     ],
+     "answer": 3,
+     "explain": "Validation."
+    },
+    {
+     "q": "What proves it works?",
+     "options": [
+      "Manual",
+      "Hope",
+      "Docs",
+      "Tests with overridden DB dependency and migrations applied"
+     ],
+     "answer": 3,
+     "explain": "Automate."
+    }
+   ]
+  },
+  "level-3/01-password-auth": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Path, Header, Form\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\nimport hashlib, hmac, os\nsalt=b'fixedsalt'\ndef h(p): return hashlib.pbkdf2_hmac('sha256', p.encode(), salt, 1000).hex()\nstored=h('s3cret')\nprint(hmac.compare_digest(stored, h('s3cret')), hmac.compare_digest(stored, h('wrong')), len(stored))\n```\n",
+     "options": [
+      "True True 64",
+      "False True 64",
+      "True False 64",
+      "True False 32"
+     ],
+     "answer": 2,
+     "explain": "Salted slow hash; compare in constant time (use bcrypt/argon2 in production). Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "Why hash passwords?",
+     "options": [
+      "Speed",
+      "Law",
+      "Style",
+      "Never store plaintext; hashes limit damage from database leaks"
+     ],
+     "answer": 3,
+     "explain": "Use slow salted algorithms."
+    },
+    {
+     "q": "What does OAuth2PasswordBearer do?",
+     "options": [
+      "Logs in",
+      "Extracts the bearer token and documents it in OpenAPI",
+      "Issues tokens",
+      "Hashes"
+     ],
+     "answer": 1,
+     "explain": "Dependency."
+    },
+    {
+     "q": "What should login errors reveal?",
+     "options": [
+      "Stack",
+      "Details",
+      "Which field",
+      "A generic message, not whether the username exists"
+     ],
+     "answer": 3,
+     "explain": "Avoid enumeration."
+    }
+   ]
+  },
+  "level-3/02-jwt": {
+   "questions": [
+    {
+     "q": "What is a JWT?",
+     "options": [
+      "A signed token carrying claims such as sub and exp",
+      "A session",
+      "A password",
+      "A cookie"
+     ],
+     "answer": 0,
+     "explain": "Stateless."
+    },
+    {
+     "q": "What must you verify on each JWT?",
+     "options": [
+      "Signature, expiry (exp) and issuer/audience if used",
+      "Name",
+      "Size",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Reject tampered tokens."
+    },
+    {
+     "q": "Why short access-token lifetimes?",
+     "options": [
+      "Style",
+      "Speed",
+      "Limit damage from theft; use refresh tokens",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Rotation."
+    },
+    {
+     "q": "Where should the signing secret live?",
+     "options": [
+      "In settings/env, never in the repo",
+      "Git",
+      "Docs",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Rotate if leaked."
+    }
+   ]
+  },
+  "level-3/03-authorization": {
+   "questions": [
+    {
+     "q": "What's authorization vs authentication?",
+     "options": [
+      "AuthZ decides what an authenticated user may do",
+      "Reverse",
+      "Same",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Roles/scopes."
+    },
+    {
+     "q": "How implement role checks?",
+     "options": [
+      "Frontend",
+      "Middleware only",
+      "A dependency that checks the current user's role and raises 403",
+      "Template"
+     ],
+     "answer": 2,
+     "explain": "Reusable."
+    },
+    {
+     "q": "What status for a logged-in user lacking permission?",
+     "options": [
+      "400",
+      "403 Forbidden",
+      "404",
+      "401"
+     ],
+     "answer": 1,
+     "explain": "401 means not authenticated."
+    },
+    {
+     "q": "Why enforce object ownership?",
+     "options": [
+      "Speed",
+      "Style",
+      "Roles don't stop users reading others' data (IDOR)",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Check owner."
+    }
+   ]
+  },
+  "level-3/04-middleware-cors": {
+   "questions": [
+    {
+     "q": "What does CORS control?",
+     "options": [
+      "Auth",
+      "DB",
+      "Server-to-server",
+      "Which browser origins may call your API from JavaScript"
+     ],
+     "answer": 3,
+     "explain": "Browser-enforced."
+    },
+    {
+     "q": "What's wrong with allow_origins=['*'] with credentials?",
+     "options": [
+      "Unsafe and not allowed together; list specific origins",
+      "Needed",
+      "Faster",
+      "Fine"
+     ],
+     "answer": 0,
+     "explain": "Be explicit."
+    },
+    {
+     "q": "What is middleware?",
+     "options": [
+      "Route",
+      "Endpoint",
+      "Code wrapping every request/response (timing, headers, logging)",
+      "Model"
+     ],
+     "answer": 2,
+     "explain": "@app.middleware('http')."
+    },
+    {
+     "q": "What order do middlewares run?",
+     "options": [
+      "Alphabetical",
+      "Last added wraps outermost; consider ordering carefully",
+      "Random",
+      "Parallel"
+     ],
+     "answer": 1,
+     "explain": "Stack."
+    }
+   ]
+  },
+  "level-3/05-lifespan-background": {
+   "questions": [
+    {
+     "q": "What is lifespan for?",
+     "options": [
+      "Auth",
+      "Startup/shutdown logic like creating and closing connection pools",
+      "Routing",
+      "Docs"
+     ],
+     "answer": 1,
+     "explain": "Replaces on_event."
+    },
+    {
+     "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Path, Header, Form\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\nimport asyncio\nlog=[]\n@app.post('/n')\ndef n(bg: __import__('fastapi').BackgroundTasks):\n    bg.add_task(lambda: log.append('sent'))\n    log.append('responded')\n    return {'ok': True}\nc=TestClient(app)\nprint(c.post('/n').json(), log)\n```\n",
+     "options": [
+      "{'ok': True} ['responded', 'sent']",
+      "Error",
+      "{'ok': True} ['sent', 'responded']",
+      "{} []"
+     ],
+     "answer": 0,
+     "explain": "BackgroundTasks run after the response is sent. Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "When are BackgroundTasks insufficient?",
+     "options": [
+      "Emails",
+      "Logs",
+      "Long, heavy or must-survive-restart jobs: use a queue like Celery/ARQ",
+      "Short tasks"
+     ],
+     "answer": 2,
+     "explain": "Same process."
+    },
+    {
+     "q": "What belongs in lifespan?",
+     "options": [
+      "Resources shared across requests (HTTP clients, DB engine)",
+      "Models",
+      "Handlers",
+      "Tests"
+     ],
+     "answer": 0,
+     "explain": "Created once."
+    }
+   ]
+  },
+  "level-3/06-websockets-streaming": {
+   "questions": [
+    {
+     "q": "What do WebSockets provide?",
+     "options": [
+      "One-shot",
+      "REST",
+      "Persistent bidirectional communication between client and server",
+      "Polling"
+     ],
+     "answer": 2,
+     "explain": "Chat, live updates."
+    },
+    {
+     "q": "How do you stream a large response?",
+     "options": [
+      "StreamingResponse with a generator",
+      "File",
+      "Return list",
+      "JSON"
+     ],
+     "answer": 0,
+     "explain": "Memory friendly."
+    },
+    {
+     "q": "What should WebSocket handlers do on disconnect?",
+     "options": [
+      "Catch WebSocketDisconnect and clean up",
+      "Crash",
+      "Ignore",
+      "Loop"
+     ],
+     "answer": 0,
+     "explain": "Resource hygiene."
+    },
+    {
+     "q": "What's Server-Sent Events good for?",
+     "options": [
+      "DB",
+      "One-way server-to-client event streams over HTTP",
+      "Two-way",
+      "Files"
+     ],
+     "answer": 1,
+     "explain": "Simpler than WebSockets."
+    }
+   ]
+  },
+  "level-3/07-openapi": {
+   "questions": [
+    {
+     "q": "What generates OpenAPI?",
+     "options": [
+      "Manual",
+      "Postman",
+      "Swagger editor",
+      "FastAPI from your path operations and models"
+     ],
+     "answer": 3,
+     "explain": "/openapi.json."
+    },
+    {
+     "q": "How do you improve docs?",
+     "options": [
+      "Images",
+      "Nothing",
+      "summary, description, tags, examples and response models",
+      "Comments"
+     ],
+     "answer": 2,
+     "explain": "Document errors too."
+    },
+    {
+     "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Path, Header, Form\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\n@app.get('/a', tags=['x'], summary='Do A')\ndef a(): return 1\nspec=app.openapi()\nprint(spec['paths']['/a']['get']['summary'], spec['paths']['/a']['get']['tags'])\n```\n",
+     "options": [
+      "Do A ['x']",
+      "Error",
+      "a []",
+      "Do A []"
+     ],
+     "answer": 0,
+     "explain": "The spec is generated from decorators. Verified by running it with FastAPI's TestClient."
+    },
+    {
+     "q": "Why is OpenAPI valuable?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Client SDK generation, contract testing and docs"
+     ],
+     "answer": 3,
+     "explain": "Contract."
+    }
+   ]
+  },
+  "level-3/08-async-testing": {
+   "questions": [
+    {
+     "q": "How do you test async endpoints?",
+     "options": [
+      "Mock",
+      "httpx.AsyncClient with ASGITransport and pytest-anyio/asyncio",
+      "Browser",
+      "TestClient only"
+     ],
+     "answer": 1,
+     "explain": "Same app, async client."
+    },
+    {
+     "q": "Why use async tests?",
+     "options": [
+      "To await async dependencies/DB and test concurrency behavior",
+      "Speed",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Match the stack."
+    },
+    {
+     "q": "What's a fixture for the client?",
+     "options": [
+      "Global",
+      "An async fixture yielding the AsyncClient",
+      "Import",
+      "Print"
+     ],
+     "answer": 1,
+     "explain": "Setup/teardown."
+    },
+    {
+     "q": "How do you avoid flaky async tests?",
+     "options": [
+      "Retry",
+      "No sleeps; await events/conditions and isolate state",
+      "Ignore",
+      "Sleep"
+     ],
+     "answer": 1,
+     "explain": "Deterministic."
+    }
+   ]
+  },
+  "level-3/09-caching-rate-limiting": {
+   "questions": [
+    {
+     "q": "What can you cache in an API?",
+     "options": [
+      "Writes",
+      "Secrets",
+      "Expensive read results with sensible TTLs and keys (Redis)",
+      "Tokens"
+     ],
+     "answer": 2,
+     "explain": "Invalidate correctly."
+    },
+    {
+     "q": "What does rate limiting protect?",
+     "options": [
+      "Style",
+      "Resources and fairness from abuse or bursts",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "429 Too Many Requests."
+    },
+    {
+     "q": "Where should rate limits be enforced?",
+     "options": [
+      "Client",
+      "Docs",
+      "At the edge/gateway and/or per-user in the app with a shared store",
+      "Per process only"
+     ],
+     "answer": 2,
+     "explain": "Multiple workers need shared counters."
+    },
+    {
+     "q": "Which status for rate limited?",
+     "options": [
+      "503",
+      "429",
+      "400",
+      "403"
+     ],
+     "answer": 1,
+     "explain": "Include Retry-After."
+    }
+   ]
+  },
+  "level-3/10-project-auth-api": {
+   "questions": [
+    {
+     "q": "What does the auth API project combine?",
+     "options": [
+      "Only JWT",
+      "Only CORS",
+      "Password hashing, JWTs, roles, CORS, rate limiting and tests",
+      "Only hash"
+     ],
+     "answer": 2,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How do you refresh tokens safely?",
+     "options": [
+      "Rotate refresh tokens, store them hashed and revoke on reuse",
+      "Never",
+      "Reuse",
+      "Plain"
+     ],
+     "answer": 0,
+     "explain": "Detect theft."
+    },
+    {
+     "q": "What do you log?",
+     "options": [
+      "Auth events without passwords or tokens",
+      "Tokens",
+      "Passwords",
+      "All"
+     ],
+     "answer": 0,
+     "explain": "Security logging."
+    },
+    {
+     "q": "How do you test auth?",
+     "options": [
+      "Happy path",
+      "Manual",
+      "Success, wrong password, expired token and forbidden role",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Negative tests."
+    }
+   ]
+  },
+  "level-4/01-performance": {
+   "questions": [
+    {
+     "q": "What gives the biggest FastAPI performance win?",
+     "options": [
+      "More logging",
+      "Micro-optimizing",
+      "Avoiding blocking calls and N+1 queries, and right-sizing workers",
+      "Bigger JSON"
+     ],
+     "answer": 2,
+     "explain": "Measure first."
+    },
+    {
+     "q": "What serializer speedup exists?",
+     "options": [
+      "orjson/ORJSONResponse or Pydantic v2's Rust core",
+      "CSV",
+      "XML",
+      "Pickle"
+     ],
+     "answer": 0,
+     "explain": "Already fast."
+    },
+    {
+     "q": "What should you profile?",
+     "options": [
+      "Names",
+      "Colors",
+      "Fonts",
+      "Endpoint latency, DB queries and CPU hotspots"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What does connection pooling do?",
+     "options": [
+      "Compresses",
+      "Encrypts",
+      "Caches",
+      "Reuses database connections to cut latency and load"
+     ],
+     "answer": 3,
+     "explain": "Tune pool size."
+    }
+   ]
+  },
+  "level-4/02-deployment": {
+   "questions": [
+    {
+     "q": "How is FastAPI served in production?",
+     "options": [
+      "runserver",
+      "An ASGI server like Uvicorn/Gunicorn with Uvicorn workers behind a proxy",
+      "Flask",
+      "python main.py"
+     ],
+     "answer": 1,
+     "explain": "Multiple workers."
+    },
+    {
+     "q": "Why containerize?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "Reproducible environments and easy scaling"
+     ],
+     "answer": 3,
+     "explain": "Docker."
+    },
+    {
+     "q": "What does a health endpoint enable?",
+     "options": [
+      "Docs",
+      "Orchestrators to check liveness/readiness",
+      "Caching",
+      "Auth"
+     ],
+     "answer": 1,
+     "explain": "/health."
+    },
+    {
+     "q": "What belongs in the image?",
+     "options": [
+      "Dev tools",
+      "App, locked dependencies and a non-root user",
+      "Root",
+      "Secrets"
+     ],
+     "answer": 1,
+     "explain": "Least privilege."
+    }
+   ]
+  },
+  "level-4/03-reverse-proxy": {
+   "questions": [
+    {
+     "q": "What does a reverse proxy (Nginx/Traefik) provide?",
+     "options": [
+      "DB",
+      "Auth",
+      "TLS termination, buffering, routing and static files",
+      "Python"
+     ],
+     "answer": 2,
+     "explain": "In front of Uvicorn."
+    },
+    {
+     "q": "What does `--proxy-headers`/root_path handle?",
+     "options": [
+      "Law",
+      "Speed",
+      "Correct client IPs and URL prefixes behind a proxy",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "X-Forwarded-*."
+    },
+    {
+     "q": "Why set timeouts at the proxy?",
+     "options": [
+      "Style",
+      "Law",
+      "Prevent slow clients tying up workers",
+      "Speed only"
+     ],
+     "answer": 2,
+     "explain": "Protection."
+    },
+    {
+     "q": "Where terminate TLS?",
+     "options": [
+      "DB",
+      "Client",
+      "App",
+      "At the proxy/load balancer in most setups"
+     ],
+     "answer": 3,
+     "explain": "Certificates."
+    }
+   ]
+  },
+  "level-4/04-observability": {
+   "questions": [
+    {
+     "q": "What are the pillars of observability?",
+     "options": [
+      "Disk",
+      "Logs, metrics and traces",
+      "RAM",
+      "CPU"
+     ],
+     "answer": 1,
+     "explain": "Together."
+    },
+    {
+     "q": "What does structured logging provide?",
+     "options": [
+      "Size",
+      "Color",
+      "Searchable fields like request id and user id",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "JSON logs."
+    },
+    {
+     "q": "What does a request id enable?",
+     "options": [
+      "Correlating logs across services for one request",
+      "Auth",
+      "Cache",
+      "Routing"
+     ],
+     "answer": 0,
+     "explain": "Middleware."
+    },
+    {
+     "q": "What's OpenTelemetry for?",
+     "options": [
+      "UI",
+      "DB",
+      "Auth",
+      "Standard traces/metrics instrumentation across services"
+     ],
+     "answer": 3,
+     "explain": "Vendor-neutral."
+    }
+   ]
+  },
+  "level-4/05-security-hardening": {
+   "questions": [
+    {
+     "q": "Which header protects against clickjacking?",
+     "options": [
+      "X-Frame-Options / CSP frame-ancestors",
+      "CORS",
+      "Cookie",
+      "Auth"
+     ],
+     "answer": 0,
+     "explain": "Security headers."
+    },
+    {
+     "q": "What validates all inputs?",
+     "options": [
+      "Regex",
+      "Nothing",
+      "Frontend",
+      "Pydantic models with constraints plus size limits"
+     ],
+     "answer": 3,
+     "explain": "Never trust clients."
+    },
+    {
+     "q": "How should errors be exposed?",
+     "options": [
+      "Debug",
+      "Full",
+      "Trace",
+      "Without stack traces or internals in production"
+     ],
+     "answer": 3,
+     "explain": "Log internally."
+    },
+    {
+     "q": "How handle dependency vulnerabilities?",
+     "options": [
+      "Never",
+      "Delete",
+      "Pin, scan and update dependencies regularly",
+      "Ignore"
+     ],
+     "answer": 2,
+     "explain": "pip-audit."
+    }
+   ]
+  },
+  "level-4/06-versioning": {
+   "questions": [
+    {
+     "q": "How do you version an API?",
+     "options": [
+      "Silently",
+      "Break",
+      "URL prefix (/v1) or header, keeping old versions stable for clients",
+      "Randomly"
+     ],
+     "answer": 2,
+     "explain": "Compatibility."
+    },
+    {
+     "q": "What's a breaking change?",
+     "options": [
+      "Adding optional field",
+      "New endpoint",
+      "Removing/renaming fields or changing semantics",
+      "Docs"
+     ],
+     "answer": 2,
+     "explain": "Needs a new version."
+    },
+    {
+     "q": "How do you deprecate?",
+     "options": [
+      "Silent",
+      "Announce, mark deprecated in OpenAPI and set a sunset date",
+      "Break",
+      "Remove"
+     ],
+     "answer": 1,
+     "explain": "Communicate."
+    },
+    {
+     "q": "Why additive changes first?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "They don't break existing clients"
+     ],
+     "answer": 3,
+     "explain": "Expand then contract."
+    }
+   ]
+  },
+  "level-4/07-job-queues": {
+   "questions": [
+    {
+     "q": "When use a job queue (Celery/ARQ/RQ)?",
+     "options": [
+      "Short tasks",
+      "Reads",
+      "For long-running, retryable or scheduled work outside the request",
+      "Logging"
+     ],
+     "answer": 2,
+     "explain": "Reliable processing."
+    },
+    {
+     "q": "What must tasks be?",
+     "options": [
+      "Sync",
+      "Idempotent, since delivery is at-least-once",
+      "Fast",
+      "Short"
+     ],
+     "answer": 1,
+     "explain": "Retries."
+    },
+    {
+     "q": "What's a broker?",
+     "options": [
+      "DB",
+      "Message transport such as Redis/RabbitMQ",
+      "Cache",
+      "API"
+     ],
+     "answer": 1,
+     "explain": "Between app and workers."
+    },
+    {
+     "q": "How do you report task status?",
+     "options": [
+      "Sleep",
+      "Log",
+      "Wait",
+      "Store state/results and expose a status endpoint"
+     ],
+     "answer": 3,
+     "explain": "Polling or webhooks."
+    }
+   ]
+  },
+  "level-4/08-advanced-patterns": {
+   "questions": [
+    {
+     "q": "What does Annotated enable for dependencies?",
+     "options": [
+      "Async",
+      "Cache",
+      "Auth",
+      "Reusable typed dependency aliases (e.g. CurrentUser)"
+     ],
+     "answer": 3,
+     "explain": "Cleaner signatures."
+    },
+    {
+     "q": "What does the repository/service pattern separate?",
+     "options": [
+      "Tests",
+      "Docs",
+      "Routes",
+      "Data access and business logic from HTTP handlers"
+     ],
+     "answer": 3,
+     "explain": "Testable."
+    },
+    {
+     "q": "What is a custom APIRoute for?",
+     "options": [
+      "Wrapping handlers with cross-cutting behavior",
+      "Auth",
+      "Models",
+      "DB"
+     ],
+     "answer": 0,
+     "explain": "Advanced."
+    },
+    {
+     "q": "Why keep endpoints thin?",
+     "options": [
+      "Law",
+      "Logic lives in services and is easier to test and reuse",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Layered design."
+    }
+   ]
+  },
+  "level-4/09-upgrading": {
+   "questions": [
+    {
+     "q": "What's a safe upgrade path for FastAPI/Pydantic?",
+     "options": [
+      "Read release notes, pin versions, run tests and fix deprecations incrementally",
+      "Latest blind",
+      "Skip",
+      "Rewrite"
+     ],
+     "answer": 0,
+     "explain": "CI."
+    },
+    {
+     "q": "What changed in Pydantic v2?",
+     "options": [
+      "Rust core, new API names (model_dump, field_validator) and stricter behavior",
+      "Python only",
+      "Names",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Migration tool bump-pydantic."
+    },
+    {
+     "q": "Why pin dependencies?",
+     "options": [
+      "Speed",
+      "Reproducible builds and controlled upgrades",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Lock files."
+    },
+    {
+     "q": "How do you detect breakage early?",
+     "options": [
+      "Prod",
+      "Tests and CI against new versions in a branch",
+      "Hope",
+      "Users"
+     ],
+     "answer": 1,
+     "explain": "Canary upgrades."
+    }
+   ]
+  },
+  "level-4/10-capstone": {
+   "questions": [
+    {
+     "q": "What does the capstone integrate?",
+     "options": [
+      "Only tests",
+      "Auth, database, migrations, tests, observability, deployment and CI",
+      "Only DB",
+      "Only auth"
+     ],
+     "answer": 1,
+     "explain": "Production API."
+    },
+    {
+     "q": "How do you prove production readiness?",
+     "options": [
+      "Slides",
+      "Demo",
+      "Hope",
+      "Tests, load checks, monitoring, runbooks and rollback"
+     ],
+     "answer": 3,
+     "explain": "Operate it."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "None",
+      "Code",
+      "README, architecture notes, API docs and runbooks",
+      "Slides"
+     ],
+     "answer": 2,
+     "explain": "Onboarding."
+    },
+    {
+     "q": "What guards regressions?",
+     "options": [
+      "CI running tests, lint and type checks on every change",
+      "None",
+      "Hope",
+      "Manual"
+     ],
+     "answer": 0,
+     "explain": "Automation."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Header, Request\nfrom fastapi.responses import JSONResponse\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\n@app.get('/items/{i}')\ndef get(i: int, q: str | None = None):\n    return {'i': i, 'q': q}\nc=TestClient(app)\nprint(c.get('/items/3?q=x').json(), c.get('/items/abc').status_code)\n```\n",
+    "options": [
+     "{'i': '3', 'q': 'x'} 400",
+     "{'i': 3} 404",
+     "Error",
+     "{'i': 3, 'q': 'x'} 422"
+    ],
+    "answer": 3,
+    "explain": "Path params are converted; invalid ones give 422. Verified by running it with FastAPI's TestClient."
+   },
+   {
+    "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Header, Request\nfrom fastapi.responses import JSONResponse\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\nclass U(BaseModel):\n    name: str\n    pw: str\nclass Out(BaseModel):\n    name: str\n@app.post('/u', response_model=Out)\ndef mk(u: U): return u\nc=TestClient(app)\nprint(c.post('/u', json={'name':'a','pw':'x'}).json())\n```\n",
+    "options": [
+     "{'name': 'a', 'pw': 'x'}",
+     "{'name': 'a'}",
+     "Error",
+     "{}"
+    ],
+    "answer": 1,
+    "explain": "response_model filters the output. Verified by running it with FastAPI's TestClient."
+   },
+   {
+    "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Header, Request\nfrom fastapi.responses import JSONResponse\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\n@app.get('/n')\ndef n():\n    raise HTTPException(status_code=404, detail='nope')\nc=TestClient(app)\nr=c.get('/n')\nprint(r.status_code, r.json())\n```\n",
+    "options": [
+     "200 {}",
+     "404 {'detail': 'nope'}",
+     "500 {}",
+     "404 nope"
+    ],
+    "answer": 1,
+    "explain": "HTTPException → JSON error. Verified by running it with FastAPI's TestClient."
+   },
+   {
+    "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Header, Request\nfrom fastapi.responses import JSONResponse\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\nev=[]\ndef dep():\n    ev.append('in')\n    try:\n        yield 1\n    finally:\n        ev.append('out')\n@app.get('/d')\ndef d(x=Depends(dep)):\n    ev.append('handler'); return x\nc=TestClient(app); c.get('/d'); print(ev)\n```\n",
+    "options": [
+     "['in', 'handler', 'out']",
+     "['in', 'out', 'handler']",
+     "['handler', 'in', 'out']",
+     "['in']"
+    ],
+    "answer": 0,
+    "explain": "Cleanup runs after the handler. Verified by running it with FastAPI's TestClient."
+   },
+   {
+    "q": "What does this print?\n```python\nfrom fastapi import FastAPI, HTTPException, Depends, Query, Header, Request\nfrom fastapi.responses import JSONResponse\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\napp = FastAPI()\ndef real(): return 'real'\n@app.get('/w')\ndef w(x=Depends(real)): return x\nc=TestClient(app)\napp.dependency_overrides[real]=lambda: 'fake'\nprint(c.get('/w').json())\n```\n",
+    "options": [
+     "fake",
+     "Error",
+     "None",
+     "real"
+    ],
+    "answer": 0,
+    "explain": "Overrides are how tests replace dependencies. Verified by running it with FastAPI's TestClient."
+   },
+   {
+    "q": "A client sends price=-5 to an endpoint whose model has Field(gt=0). What happens?",
+    "options": [
+     "200",
+     "FastAPI returns 422 before your function runs",
+     "Your function runs",
+     "500"
+    ],
+    "answer": 1,
+    "explain": "Validation errors list location and type."
+   },
+   {
+    "q": "A def endpoint calls a blocking library and an async def one calls time.sleep(2). Which is the problem?",
+    "options": [
+     "The async def one blocks the event loop; def endpoints run in a thread pool",
+     "def one",
+     "Both fine",
+     "Neither"
+    ],
+    "answer": 0,
+    "explain": "Use await or run_in_threadpool."
+   },
+   {
+    "q": "The model gains a column but the table isn't updated and queries fail. What did you skip?",
+    "options": [
+     "A dependency",
+     "A migration (Alembic); create_all won't alter existing tables",
+     "A restart",
+     "A cache clear"
+    ],
+    "answer": 1,
+    "explain": "Version your schema."
+   },
+   {
+    "q": "Where should the database URL and JWT secret come from?",
+    "options": [
+     "Code",
+     "README",
+     "Environment variables/settings, never committed",
+     "Docs"
+    ],
+    "answer": 2,
+    "explain": "pydantic-settings."
+   },
+   {
+    "q": "How do you give each request its own DB session and guarantee cleanup?",
+    "options": [
+     "A module variable",
+     "Middleware only",
+     "A global",
+     "A yield dependency with try/finally"
+    ],
+    "answer": 3,
+    "explain": "Dependency lifecycle."
+   },
+   {
+    "q": "A list endpoint returns 2 million rows. What do you add?",
+    "options": [
+     "A cache only",
+     "More RAM",
+     "Compression",
+     "Pagination with validated limit/offset (or cursors) and an index on the sort key"
+    ],
+    "answer": 3,
+    "explain": "Bound response size."
+   },
+   {
+    "q": "How should passwords be stored for a login endpoint?",
+    "options": [
+     "As salted, slow hashes (bcrypt/argon2), compared in constant time",
+     "Plain",
+     "MD5",
+     "Base64"
+    ],
+    "answer": 0,
+    "explain": "Never reversible."
+   },
+   {
+    "q": "A JWT's signature is valid but exp is in the past. What do you do?",
+    "options": [
+     "Log only",
+     "Accept",
+     "Reject it (401); always verify expiry as well as the signature",
+     "Refresh silently"
+    ],
+    "answer": 2,
+    "explain": "Short lifetimes."
+   },
+   {
+    "q": "A logged-in user requests an admin endpoint. Which status do you return?",
+    "options": [
+     "401",
+     "403 Forbidden",
+     "200",
+     "404"
+    ],
+    "answer": 1,
+    "explain": "401 means unauthenticated."
+   },
+   {
+    "q": "A browser app on another origin gets blocked calling your API. What do you configure?",
+    "options": [
+     "CORSMiddleware with explicit allowed origins (not '*' with credentials)",
+     "DB",
+     "Proxy",
+     "Auth"
+    ],
+    "answer": 0,
+    "explain": "CORS is browser-enforced."
+   },
+   {
+    "q": "An email must be sent after the response, but it takes 20 s and must survive a crash. What do you use?",
+    "options": [
+     "BackgroundTasks",
+     "sleep",
+     "Threads",
+     "A job queue (Celery/ARQ) rather than BackgroundTasks"
+    ],
+    "answer": 3,
+    "explain": "Durable, retryable."
+   },
+   {
+    "q": "Behind Nginx, client IPs and redirects look wrong. What do you set?",
+    "options": [
+     "Auth",
+     "Proxy headers handling (--proxy-headers / forwarded-allow-ips) and root_path if mounted",
+     "CORS",
+     "DB"
+    ],
+    "answer": 1,
+    "explain": "X-Forwarded-* headers."
+   },
+   {
+    "q": "A release renames a response field. How do you avoid breaking clients?",
+    "options": [
+     "Version the API (/v1 → /v2), keep v1 working and deprecate with notice",
+     "Rename silently",
+     "Break",
+     "Remove v1"
+    ],
+    "answer": 0,
+    "explain": "Additive changes first."
+   },
+   {
+    "q": "A Pydantic v1 codebase must move to v2. What's the safest approach?",
+    "options": [
+     "Rewrite",
+     "Pin versions, read the migration guide, update APIs (model_dump, field_validator) and rely on tests",
+     "Upgrade blindly",
+     "Skip"
+    ],
+    "answer": 1,
+    "explain": "CI protects upgrades."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A validated notes API",
+    "prompt": "Complete create, read and list_notes: create stores a note and returns only id and title (the response model hides the body), read raises the NotFound domain exception handled as a JSON 404, and list_notes paginates with validated limit/offset. The script exercises the API with TestClient.",
+    "starter": "from fastapi import FastAPI, Depends, Query, Request\nfrom fastapi.responses import JSONResponse\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\n\napp = FastAPI()\n\nclass NoteIn(BaseModel):\n    title: str = Field(min_length=1, max_length=50)\n    body: str = \"\"\n\nclass NoteOut(BaseModel):\n    id: int\n    title: str\n\nclass NotFound(Exception):\n    def __init__(self, note_id):\n        self.note_id = note_id\n\n@app.exception_handler(NotFound)\ndef not_found(request: Request, exc: NotFound):\n    return JSONResponse(status_code=404, content={\"error\": \"note_not_found\", \"id\": exc.note_id})\n\nclass Store:\n    def __init__(self):\n        self.notes = {}\n        self.next_id = 1\n\ndef get_store():\n    return STORE\n\nSTORE = Store()\n\n@app.post(\"/notes\", response_model=NoteOut, status_code=201)\ndef create(note: NoteIn, store: Store = Depends(get_store)):\n    # assign the next id, store {id, title, body}; the response model must hide the body\n    return {\"id\": 0, \"title\": \"\"}\n\n@app.get(\"/notes/{note_id}\", response_model=NoteOut)\ndef read(note_id: int, store: Store = Depends(get_store)):\n    # raise NotFound(note_id) when the note doesn't exist\n    return {\"id\": 0, \"title\": \"\"}\n\n@app.get(\"/notes\", response_model=list[NoteOut])\ndef list_notes(limit: int = Query(2, ge=1, le=10), offset: int = Query(0, ge=0), store: Store = Depends(get_store)):\n    # notes ordered by id, sliced with offset and limit\n    return []\n\nc = TestClient(app)\nr = c.post(\"/notes\", json={\"title\": \"a\", \"body\": \"secret body\"})\nprint(r.status_code, r.json())\nc.post(\"/notes\", json={\"title\": \"b\"})\nc.post(\"/notes\", json={\"title\": \"c\"})\nprint([n[\"title\"] for n in c.get(\"/notes\").json()], [n[\"title\"] for n in c.get(\"/notes?limit=2&offset=2\").json()])\nr = c.get(\"/notes/99\")\nprint(r.status_code, r.json())\nr = c.post(\"/notes\", json={\"title\": \"\"})\nprint(r.status_code, r.json()[\"detail\"][0][\"loc\"])\nprint(c.get(\"/notes?limit=0\").status_code)\n",
+    "expected": "201 {'id': 1, 'title': 'a'}\n['a', 'b'] ['c']\n404 {'error': 'note_not_found', 'id': 99}\n422 ['body', 'title']\n422",
+    "solution": "from fastapi import FastAPI, Depends, Query, Request\nfrom fastapi.responses import JSONResponse\nfrom fastapi.testclient import TestClient\nfrom pydantic import BaseModel, Field\n\napp = FastAPI()\n\nclass NoteIn(BaseModel):\n    title: str = Field(min_length=1, max_length=50)\n    body: str = \"\"\n\nclass NoteOut(BaseModel):\n    id: int\n    title: str\n\nclass NotFound(Exception):\n    def __init__(self, note_id):\n        self.note_id = note_id\n\n@app.exception_handler(NotFound)\ndef not_found(request: Request, exc: NotFound):\n    return JSONResponse(status_code=404, content={\"error\": \"note_not_found\", \"id\": exc.note_id})\n\nclass Store:\n    def __init__(self):\n        self.notes = {}\n        self.next_id = 1\n\ndef get_store():\n    return STORE\n\nSTORE = Store()\n\n@app.post(\"/notes\", response_model=NoteOut, status_code=201)\ndef create(note: NoteIn, store: Store = Depends(get_store)):\n    nid = store.next_id\n    store.next_id += 1\n    store.notes[nid] = {\"id\": nid, \"title\": note.title, \"body\": note.body}\n    return store.notes[nid]\n\n@app.get(\"/notes/{note_id}\", response_model=NoteOut)\ndef read(note_id: int, store: Store = Depends(get_store)):\n    if note_id not in store.notes:\n        raise NotFound(note_id)\n    return store.notes[note_id]\n\n@app.get(\"/notes\", response_model=list[NoteOut])\ndef list_notes(limit: int = Query(2, ge=1, le=10), offset: int = Query(0, ge=0), store: Store = Depends(get_store)):\n    items = [store.notes[k] for k in sorted(store.notes)]\n    return items[offset: offset + limit]\n\nc = TestClient(app)\nr = c.post(\"/notes\", json={\"title\": \"a\", \"body\": \"secret body\"})\nprint(r.status_code, r.json())\nc.post(\"/notes\", json={\"title\": \"b\"})\nc.post(\"/notes\", json={\"title\": \"c\"})\nprint([n[\"title\"] for n in c.get(\"/notes\").json()], [n[\"title\"] for n in c.get(\"/notes?limit=2&offset=2\").json()])\nr = c.get(\"/notes/99\")\nprint(r.status_code, r.json())\nr = c.post(\"/notes\", json={\"title\": \"\"})\nprint(r.status_code, r.json()[\"detail\"][0][\"loc\"])\nprint(c.get(\"/notes?limit=0\").status_code)\n",
+    "explain": "The response model keeps `body` out of responses, a domain exception handler gives a consistent 404 shape, and Query(ge=, le=) validates pagination before your code runs. Verified by running the solution with FastAPI's TestClient."
+   },
+   {
+    "title": "Authentication, roles and ownership",
+    "prompt": "Implement current_user (401 for missing or unknown Bearer tokens), require_role (a dependency factory that raises 403) and the document endpoint's ownership rule (return 404, not 403, for documents the caller may not see).",
+    "starter": "from fastapi import FastAPI, Depends, Header, HTTPException\nfrom fastapi.testclient import TestClient\n\napp = FastAPI()\n\nUSERS = {\"tok-ada\": {\"name\": \"ada\", \"role\": \"admin\"}, \"tok-bo\": {\"name\": \"bo\", \"role\": \"user\"}}\nDOCS = {1: {\"owner\": \"ada\", \"text\": \"ada's doc\"}, 2: {\"owner\": \"bo\", \"text\": \"bo's doc\"}}\n\ndef current_user(authorization: str | None = Header(default=None)):\n    # 401 when the header is missing/not Bearer or the token is unknown; otherwise return the user dict\n    return {\"name\": \"\", \"role\": \"\"}\n\ndef require_role(role):\n    # return a dependency that depends on current_user and raises 403 unless user[\"role\"] == role\n    def checker(user=Depends(current_user)):\n        return user\n    return checker\n\n@app.get(\"/docs/{doc_id}\")\ndef read_doc(doc_id: int, user=Depends(current_user)):\n    # 404 if missing; 404 (not 403) if the doc belongs to someone else and the user isn't an admin\n    return {}\n\n@app.get(\"/admin/stats\")\ndef stats(user=Depends(require_role(\"admin\"))):\n    return {\"docs\": len(DOCS)}\n\nc = TestClient(app)\ndef show(r): print(r.status_code, r.json()[\"detail\"] if r.status_code >= 400 else r.json())\nshow(c.get(\"/docs/1\"))\nshow(c.get(\"/docs/1\", headers={\"Authorization\": \"Bearer nope\"}))\nshow(c.get(\"/docs/1\", headers={\"Authorization\": \"Bearer tok-ada\"}))\nshow(c.get(\"/docs/1\", headers={\"Authorization\": \"Bearer tok-bo\"}))\nshow(c.get(\"/docs/2\", headers={\"Authorization\": \"Bearer tok-ada\"}))\nshow(c.get(\"/admin/stats\", headers={\"Authorization\": \"Bearer tok-bo\"}))\nshow(c.get(\"/admin/stats\", headers={\"Authorization\": \"Bearer tok-ada\"}))\n",
+    "expected": "401 missing token\n401 invalid token\n200 {'owner': 'ada', 'text': \"ada's doc\"}\n404 no such doc\n200 {'owner': 'bo', 'text': \"bo's doc\"}\n403 forbidden\n200 {'docs': 2}",
+    "solution": "from fastapi import FastAPI, Depends, Header, HTTPException\nfrom fastapi.testclient import TestClient\n\napp = FastAPI()\n\nUSERS = {\"tok-ada\": {\"name\": \"ada\", \"role\": \"admin\"}, \"tok-bo\": {\"name\": \"bo\", \"role\": \"user\"}}\nDOCS = {1: {\"owner\": \"ada\", \"text\": \"ada's doc\"}, 2: {\"owner\": \"bo\", \"text\": \"bo's doc\"}}\n\ndef current_user(authorization: str | None = Header(default=None)):\n    if not authorization or not authorization.startswith(\"Bearer \"):\n        raise HTTPException(status_code=401, detail=\"missing token\", headers={\"WWW-Authenticate\": \"Bearer\"})\n    user = USERS.get(authorization.removeprefix(\"Bearer \"))\n    if user is None:\n        raise HTTPException(status_code=401, detail=\"invalid token\")\n    return user\n\ndef require_role(role):\n    def checker(user=Depends(current_user)):\n        if user[\"role\"] != role:\n            raise HTTPException(status_code=403, detail=\"forbidden\")\n        return user\n    return checker\n\n@app.get(\"/docs/{doc_id}\")\ndef read_doc(doc_id: int, user=Depends(current_user)):\n    doc = DOCS.get(doc_id)\n    if doc is None:\n        raise HTTPException(status_code=404, detail=\"no such doc\")\n    if doc[\"owner\"] != user[\"name\"] and user[\"role\"] != \"admin\":\n        raise HTTPException(status_code=404, detail=\"no such doc\")   # don't leak existence\n    return doc\n\n@app.get(\"/admin/stats\")\ndef stats(user=Depends(require_role(\"admin\"))):\n    return {\"docs\": len(DOCS)}\n\nc = TestClient(app)\ndef show(r): print(r.status_code, r.json()[\"detail\"] if r.status_code >= 400 else r.json())\nshow(c.get(\"/docs/1\"))\nshow(c.get(\"/docs/1\", headers={\"Authorization\": \"Bearer nope\"}))\nshow(c.get(\"/docs/1\", headers={\"Authorization\": \"Bearer tok-ada\"}))\nshow(c.get(\"/docs/1\", headers={\"Authorization\": \"Bearer tok-bo\"}))\nshow(c.get(\"/docs/2\", headers={\"Authorization\": \"Bearer tok-ada\"}))\nshow(c.get(\"/admin/stats\", headers={\"Authorization\": \"Bearer tok-bo\"}))\nshow(c.get(\"/admin/stats\", headers={\"Authorization\": \"Bearer tok-ada\"}))\n",
+    "explain": "Authentication (who are you) is separate from authorization (what may you do): roles gate endpoints, ownership gates objects, and returning 404 for others' documents avoids revealing they exist. Verified by running the solution with FastAPI's TestClient."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
