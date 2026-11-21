@@ -1,0 +1,2159 @@
+{
+ "course": "go-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What is Go?",
+     "options": [
+      "JVM language",
+      "Dynamic",
+      "Interpreted",
+      "A statically typed, compiled language with garbage collection and built-in concurrency"
+     ],
+     "answer": 3,
+     "explain": "Fast compile, single binary."
+    },
+    {
+     "q": "What does `go run main.go` do?",
+     "options": [
+      "Compiles and runs the program",
+      "Tests",
+      "Installs",
+      "Formats"
+     ],
+     "answer": 0,
+     "explain": "go build produces a binary."
+    },
+    {
+     "q": "What is the entry point of a Go program?",
+     "options": [
+      "start",
+      "init",
+      "func main() in package main",
+      "Main"
+     ],
+     "answer": 2,
+     "explain": "Package main."
+    },
+    {
+     "q": "What does `go fmt` do?",
+     "options": [
+      "Tests",
+      "Compiles",
+      "Formats code to the canonical style",
+      "Vets"
+     ],
+     "answer": 2,
+     "explain": "gofmt."
+    }
+   ]
+  },
+  "level-1/02-variables-types-operators": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\nx := 7\nvar y float64 = 2\nvar z int\nfmt.Println(x/2, float64(x)/y, z)\n}\n```\n",
+     "options": [
+      "3 3 0",
+      "3 3.5 0",
+      "3.5 3.5 0",
+      "4 3.5 0"
+     ],
+     "answer": 1,
+     "explain": "Integer division truncates; zero values default to 0. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\nvar s string\nvar b bool\nvar p *int\nfmt.Println(s == \"\", b, p == nil)\n}\n```\n",
+     "options": [
+      "true false true",
+      "false false true",
+      "true false false",
+      "true true false"
+     ],
+     "answer": 0,
+     "explain": "Zero values: \"\", false, nil. Verified by compiling and running it."
+    },
+    {
+     "q": "What's the short declaration operator?",
+     "options": [
+      ":= declares and initializes (inside functions)",
+      "let",
+      "= only",
+      "var only"
+     ],
+     "answer": 0,
+     "explain": "Type is inferred."
+    },
+    {
+     "q": "Are Go's numeric types implicitly converted?",
+     "options": [
+      "Yes",
+      "Sometimes",
+      "No: you must convert explicitly (float64(x))",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "Strict typing."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\nfor i := 0; i < 5; i++ {\n if i == 1 { continue }\n if i == 4 { break }\n fmt.Print(i, \" \")\n}\n}\n```\n",
+     "options": [
+      "0 2 3 4",
+      "1 2 3",
+      "0 1 2 3",
+      "0 2 3"
+     ],
+     "answer": 3,
+     "explain": "continue skips, break exits. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\nswitch x := 5; {\ncase x > 3:\n fmt.Println(\"big\")\n fallthrough\ncase x > 10:\n fmt.Println(\"huge\")\ndefault:\n fmt.Println(\"other\")\n}\n}\n```\n",
+     "options": [
+      "big\nhuge\nother",
+      "big",
+      "huge",
+      "big\nhuge"
+     ],
+     "answer": 3,
+     "explain": "Go switch doesn't fall through unless asked. Verified by compiling and running it."
+    },
+    {
+     "q": "What's Go's only loop keyword?",
+     "options": [
+      "for",
+      "loop",
+      "do",
+      "while"
+     ],
+     "answer": 0,
+     "explain": "for covers all forms."
+    },
+    {
+     "q": "What does `for range` over a string yield?",
+     "options": [
+      "Runes (Unicode code points) with byte indexes",
+      "Bytes",
+      "Chars",
+      "Words"
+     ],
+     "answer": 0,
+     "explain": "UTF-8 aware."
+    }
+   ]
+  },
+  "level-1/04-functions-multiple-returns": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\nfunc divmod(a, b int) (int, int) { return a / b, a % b }\nfunc main() {\nfmt.Println(divmod(17, 5))\n}\n```\n",
+     "options": [
+      "3 2",
+      "3",
+      "2 3",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Multiple return values. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\nfunc sum(n ...int) int { t := 0; for _, v := range n { t += v }; return t }\nfunc main() {\nfmt.Println(sum(1, 2, 3), sum())\n}\n```\n",
+     "options": [
+      "3 0",
+      "6 0",
+      "6 6",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Variadic parameters. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\nfunc adder(base int) func(int) int { return func(x int) int { return base + x } }\nfunc main() {\nf := adder(10)\nfmt.Println(f(5), f(1))\n}\n```\n",
+     "options": [
+      "Error",
+      "15 11",
+      "15 16",
+      "5 1"
+     ],
+     "answer": 1,
+     "explain": "Closures capture variables. Verified by compiling and running it."
+    },
+    {
+     "q": "What's a named return value?",
+     "options": [
+      "A result variable declared in the signature that a bare return returns",
+      "A parameter",
+      "A constant",
+      "A global"
+     ],
+     "answer": 0,
+     "explain": "Use sparingly."
+    }
+   ]
+  },
+  "level-1/05-arrays-slices-maps": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\na := []int{1, 2, 3}\nb := a[:2]\nb = append(b, 99)\nfmt.Println(a, b, len(b), cap(b))\n}\n```\n",
+     "options": [
+      "[1 2 3] [1 2 99] 3 3",
+      "[1 2 99] [1 2 99] 3 2",
+      "Error",
+      "[1 2 99] [1 2 99] 3 3"
+     ],
+     "answer": 3,
+     "explain": "Slices share the backing array until capacity is exceeded. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\nm := map[string]int{\"a\": 1}\nm[\"b\"]++\nv, ok := m[\"z\"]\ndelete(m, \"a\")\nfmt.Println(len(m), v, ok)\n}\n```\n",
+     "options": [
+      "2 0 true",
+      "1 nil false",
+      "1 0 false",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "Missing key returns the zero value; use the comma-ok idiom. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\nvar s []int\nfmt.Println(s == nil, len(s))\ns = append(s, 1)\nfmt.Println(s)\n}\n```\n",
+     "options": [
+      "true 0\n[1]",
+      "true 1\n[1]",
+      "Error",
+      "false 0\n[1]"
+     ],
+     "answer": 0,
+     "explain": "A nil slice is usable with append. Verified by compiling and running it."
+    },
+    {
+     "q": "What's the difference between an array and a slice?",
+     "options": [
+      "Same",
+      "Arrays have a fixed size part of their type; slices are dynamic views of arrays",
+      "Reverse",
+      "Slices fixed"
+     ],
+     "answer": 1,
+     "explain": "[3]int vs []int."
+    }
+   ]
+  },
+  "level-1/06-structs": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\ntype Point struct{ X, Y int }\nfunc main() {\np := Point{1, 2}\nq := p\nq.X = 9\nfmt.Println(p, q)\n}\n```\n",
+     "options": [
+      "Error",
+      "{9 2} {9 2}",
+      "{1 2} {9 2}",
+      "{1 2} {1 2}"
+     ],
+     "answer": 2,
+     "explain": "Structs are copied on assignment. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\ntype Person struct { Name string; Age int }\nfunc main() {\np := Person{Name: \"Ada\"}\nfmt.Printf(\"%+v\\n\", p)\n}\n```\n",
+     "options": [
+      "{Name:Ada}",
+      "{Name:Ada Age:0}",
+      "{Ada 0}",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Unset fields get zero values. Verified by compiling and running it."
+    },
+    {
+     "q": "How do you embed a type in a struct?",
+     "options": [
+      "inherits",
+      "implements",
+      "List the type without a field name (composition)",
+      "extends"
+     ],
+     "answer": 2,
+     "explain": "Promotes methods."
+    },
+    {
+     "q": "What are struct tags used for?",
+     "options": [
+      "Methods",
+      "Types",
+      "Comments",
+      "Metadata like `json:\"name\"` read via reflection"
+     ],
+     "answer": 3,
+     "explain": "encoding/json."
+    }
+   ]
+  },
+  "level-1/07-pointers": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\nx := 5\np := &x\n*p = 9\nfmt.Println(x, *p, p == nil)\n}\n```\n",
+     "options": [
+      "5 9 false",
+      "9 9 false",
+      "9 9 true",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "Pointers refer to the variable. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\nfunc inc(n int) { n++ }\nfunc incP(n *int) { *n++ }\nfunc main() {\na := 1\ninc(a)\nb := 1\nincP(&b)\nfmt.Println(a, b)\n}\n```\n",
+     "options": [
+      "2 1",
+      "2 2",
+      "1 2",
+      "1 1"
+     ],
+     "answer": 2,
+     "explain": "Go passes by value; pass a pointer to modify. Verified by compiling and running it."
+    },
+    {
+     "q": "Does Go have pointer arithmetic?",
+     "options": [
+      "No",
+      "Always",
+      "Only unsafe",
+      "Yes"
+     ],
+     "answer": 0,
+     "explain": "Safer than C."
+    },
+    {
+     "q": "What happens dereferencing a nil pointer?",
+     "options": [
+      "Compile error",
+      "Returns 0",
+      "A runtime panic",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Check for nil."
+    }
+   ]
+  },
+  "level-1/08-error-handling": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\"; \"strconv\")\n\nfunc main() {\n_, err := strconv.Atoi(\"12x\")\nfmt.Println(err != nil, err)\n}\n```\n",
+     "options": [
+      "true strconv.Atoi: parsing \"12x\": invalid syntax",
+      "true nil",
+      "false <nil>",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "Errors are values returned from functions. Verified by compiling and running it."
+    },
+    {
+     "q": "What's the idiomatic error check?",
+     "options": [
+      "throw",
+      "try/catch",
+      "assert",
+      "if err != nil { return err } after each call"
+     ],
+     "answer": 3,
+     "explain": "Explicit handling."
+    },
+    {
+     "q": "When use panic?",
+     "options": [
+      "Always",
+      "Errors",
+      "For unrecoverable programmer errors, not ordinary errors",
+      "IO"
+     ],
+     "answer": 2,
+     "explain": "recover rarely."
+    },
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\ndefer fmt.Println(\"deferred\")\nfmt.Println(\"body\")\n}\n```\n",
+     "options": [
+      "body\ndeferred",
+      "deferred",
+      "deferred\nbody",
+      "body"
+     ],
+     "answer": 0,
+     "explain": "defer runs when the function returns. Verified by compiling and running it."
+    }
+   ]
+  },
+  "level-1/09-packages-modules": {
+   "questions": [
+    {
+     "q": "What's a Go module?",
+     "options": [
+      "A folder",
+      "A package only",
+      "A binary",
+      "A collection of packages with go.mod defining its path and dependencies"
+     ],
+     "answer": 3,
+     "explain": "go mod init."
+    },
+    {
+     "q": "What does `go mod tidy` do?",
+     "options": [
+      "Builds",
+      "Formats",
+      "Tests",
+      "Adds missing and removes unused dependencies in go.mod/go.sum"
+     ],
+     "answer": 3,
+     "explain": "Keep in sync."
+    },
+    {
+     "q": "What controls whether an identifier is exported?",
+     "options": [
+      "export keyword",
+      "_prefix",
+      "Capitalization: Uppercase names are exported",
+      "public"
+     ],
+     "answer": 2,
+     "explain": "Package visibility."
+    },
+    {
+     "q": "What file locks dependency hashes?",
+     "options": [
+      "go.mod",
+      "go.lock",
+      "go.sum",
+      "vendor"
+     ],
+     "answer": 2,
+     "explain": "Integrity."
+    }
+   ]
+  },
+  "level-1/10-project-todo-cli": {
+   "questions": [
+    {
+     "q": "What does the TODO CLI project combine?",
+     "options": [
+      "Structs, slices, JSON/file persistence and flag parsing",
+      "Only structs",
+      "Only HTTP",
+      "Only DB"
+     ],
+     "answer": 0,
+     "explain": "Level 1 project."
+    },
+    {
+     "q": "How do you persist tasks?",
+     "options": [
+      "Env",
+      "Print",
+      "Memory",
+      "Marshal to JSON and write to a file"
+     ],
+     "answer": 3,
+     "explain": "os.WriteFile."
+    },
+    {
+     "q": "How parse CLI args?",
+     "options": [
+      "getopt",
+      "argparse",
+      "input",
+      "os.Args or the flag package"
+     ],
+     "answer": 3,
+     "explain": "Standard library."
+    },
+    {
+     "q": "How handle a missing file?",
+     "options": [
+      "panic",
+      "Ignore",
+      "Check errors.Is(err, os.ErrNotExist) and start empty",
+      "exit"
+     ],
+     "answer": 2,
+     "explain": "Graceful."
+    }
+   ]
+  },
+  "level-2/01-interfaces": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\"; \"math\")\ntype Shape interface{ Area() float64 }\ntype Rect struct{ W, H float64 }\nfunc (r Rect) Area() float64 { return r.W * r.H }\ntype Circle struct{ R float64 }\nfunc (c Circle) Area() float64 { return math.Pi * c.R * c.R }\nfunc main() {\nvar s Shape = Rect{2, 3}\nfmt.Println(s.Area())\nvar t Shape = Circle{1}\nfmt.Printf(\"%.2f\\n\", t.Area())\n}\n```\n",
+     "options": [
+      "6\n3.14",
+      "Error",
+      "12\n3.14",
+      "6\n3"
+     ],
+     "answer": 0,
+     "explain": "Interfaces are satisfied implicitly. Verified by compiling and running it."
+    },
+    {
+     "q": "How does a type implement an interface in Go?",
+     "options": [
+      "Implicitly by having the methods; no implements keyword",
+      "declare",
+      "extends",
+      "implements"
+     ],
+     "answer": 0,
+     "explain": "Structural typing."
+    },
+    {
+     "q": "What's the empty interface?",
+     "options": [
+      "any (interface{}), satisfied by every type",
+      "nil",
+      "object",
+      "void"
+     ],
+     "answer": 0,
+     "explain": "Use sparingly."
+    },
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\nvar i any = \"hi\"\ns, ok := i.(string)\nn, ok2 := i.(int)\nfmt.Println(s, ok, n, ok2)\n}\n```\n",
+     "options": [
+      "hi 0 0 0",
+      "Error",
+      "hi true 0 true",
+      "hi true 0 false"
+     ],
+     "answer": 3,
+     "explain": "Type assertions with comma-ok. Verified by compiling and running it."
+    }
+   ]
+  },
+  "level-2/02-goroutines-channels": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\nch := make(chan int)\ngo func() { for i := 1; i <= 3; i++ { ch <- i }; close(ch) }()\nsum := 0\nfor v := range ch { sum += v }\nfmt.Println(sum)\n}\n```\n",
+     "options": [
+      "Deadlock",
+      "0",
+      "6",
+      "3"
+     ],
+     "answer": 2,
+     "explain": "Range over a channel until closed. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\"; \"sync\")\n\nfunc main() {\nvar wg sync.WaitGroup\nvar mu sync.Mutex\ncount := 0\nfor i := 0; i < 100; i++ {\n wg.Add(1)\n go func() { defer wg.Done(); mu.Lock(); count++; mu.Unlock() }()\n}\nwg.Wait()\nfmt.Println(count)\n}\n```\n",
+     "options": [
+      "0",
+      "100",
+      "Less than 100",
+      "Undefined"
+     ],
+     "answer": 1,
+     "explain": "The mutex protects the shared counter. Verified by compiling and running it."
+    },
+    {
+     "q": "What does an unbuffered channel do on send?",
+     "options": [
+      "Buffers",
+      "Blocks until a receiver is ready",
+      "Drops",
+      "Panics"
+     ],
+     "answer": 1,
+     "explain": "Synchronization."
+    },
+    {
+     "q": "What's the Go concurrency motto?",
+     "options": [
+      "Don't communicate by sharing memory; share memory by communicating",
+      "Locks everywhere",
+      "Globals",
+      "Threads"
+     ],
+     "answer": 0,
+     "explain": "Channels."
+    }
+   ]
+  },
+  "level-2/03-methods-receivers": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\ntype Counter struct{ n int }\nfunc (c *Counter) Inc() { c.n++ }\nfunc main() {\nc := &Counter{}\nc.Inc()\nc.Inc()\nfmt.Println(c.n)\nv := Counter{}\nv.Inc()\nfmt.Println(v.n)\n}\n```\n",
+     "options": [
+      "2\n2",
+      "1\n1",
+      "2\n1",
+      "0\n0"
+     ],
+     "answer": 2,
+     "explain": "Pointer receivers modify the value (addressable vars get auto &). Verified by compiling and running it."
+    },
+    {
+     "q": "When use a pointer receiver?",
+     "options": [
+      "When the method modifies the receiver or the struct is large",
+      "Immutable",
+      "Never",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Be consistent."
+    },
+    {
+     "q": "Can you define methods on built-in types?",
+     "options": [
+      "int",
+      "Yes",
+      "Always",
+      "Not directly; define a new named type first"
+     ],
+     "answer": 3,
+     "explain": "type MyInt int."
+    },
+    {
+     "q": "What's a method value?",
+     "options": [
+      "Field",
+      "Constant",
+      "Pointer",
+      "A method bound to a receiver, usable as a function"
+     ],
+     "answer": 3,
+     "explain": "f := obj.Method."
+    }
+   ]
+  },
+  "level-2/04-custom-errors-wrapping": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"errors\"; \"fmt\")\nvar ErrNotFound = errors.New(\"not found\")\nfunc main() {\ne := fmt.Errorf(\"read: %w\", ErrNotFound)\nfmt.Println(e, errors.Is(e, ErrNotFound))\n}\n```\n",
+     "options": [
+      "Error",
+      "read: %w false",
+      "read: not found true",
+      "not found true"
+     ],
+     "answer": 2,
+     "explain": "%w wraps errors for errors.Is/As. Verified by compiling and running it."
+    },
+    {
+     "q": "What does errors.As do?",
+     "options": [
+      "Prints",
+      "Compares",
+      "Wraps",
+      "Finds a specific error type in the chain and assigns it"
+     ],
+     "answer": 3,
+     "explain": "Typed errors."
+    },
+    {
+     "q": "What's a sentinel error?",
+     "options": [
+      "Wrapper",
+      "Panic",
+      "A package-level error value compared with errors.Is",
+      "Type"
+     ],
+     "answer": 2,
+     "explain": "io.EOF."
+    },
+    {
+     "q": "Why wrap errors with context?",
+     "options": [
+      "To add where/why while preserving the cause",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "%w."
+    }
+   ]
+  },
+  "level-2/05-json-encoding-decoding": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"encoding/json\"; \"fmt\")\n\nfunc main() {\ntype U struct { Name string `json:\"name\"`; Age int `json:\"age,omitempty\"`; Pass string `json:\"-\"` }\nb, _ := json.Marshal(U{\"Ada\", 0, \"x\"})\nfmt.Println(string(b))\n}\n```\n",
+     "options": [
+      "{\"name\":\"Ada\",\"age\":0}",
+      "Error",
+      "{\"name\":\"Ada\"}",
+      "{\"Name\":\"Ada\",\"Age\":0}"
+     ],
+     "answer": 2,
+     "explain": "omitempty skips zero values; \"-\" skips the field. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"encoding/json\"; \"fmt\")\n\nfunc main() {\nvar m map[string]any\njson.Unmarshal([]byte(`{\"a\":1,\"b\":[true,\"x\"]}`), &m)\nfmt.Println(m[\"a\"], m[\"b\"])\n}\n```\n",
+     "options": [
+      "1 [true,x]",
+      "1.0 [true x]",
+      "Error",
+      "1 [true x]"
+     ],
+     "answer": 3,
+     "explain": "JSON numbers decode to float64 in any (printed as 1). Verified by compiling and running it."
+    },
+    {
+     "q": "What types can't be JSON encoded?",
+     "options": [
+      "Slices",
+      "Channels, functions and complex numbers",
+      "Maps",
+      "Structs"
+     ],
+     "answer": 1,
+     "explain": "Marshal returns an error."
+    },
+    {
+     "q": "What does json.NewDecoder suit?",
+     "options": [
+      "Bytes",
+      "Files only",
+      "Streaming from an io.Reader like an HTTP body",
+      "Strings"
+     ],
+     "answer": 2,
+     "explain": "Efficient."
+    }
+   ]
+  },
+  "level-2/06-testing-package": {
+   "questions": [
+    {
+     "q": "How do you run tests in Go?",
+     "options": [
+      "go run",
+      "go test ./...",
+      "go vet",
+      "go check"
+     ],
+     "answer": 1,
+     "explain": "Files end with _test.go."
+    },
+    {
+     "q": "What's a table-driven test?",
+     "options": [
+      "Loop",
+      "Mock",
+      "Fixture",
+      "A slice of cases iterated in one test function, often with t.Run subtests"
+     ],
+     "answer": 3,
+     "explain": "Idiomatic."
+    },
+    {
+     "q": "What does t.Fatal do?",
+     "options": [
+      "Logs",
+      "Skips",
+      "Continues",
+      "Fails and stops the test immediately"
+     ],
+     "answer": 3,
+     "explain": "t.Error continues."
+    },
+    {
+     "q": "What does go test -race do?",
+     "options": [
+      "Coverage",
+      "Speeds",
+      "Detects data races at runtime",
+      "Lints"
+     ],
+     "answer": 2,
+     "explain": "Run in CI."
+    }
+   ]
+  },
+  "level-2/07-file-io": {
+   "questions": [
+    {
+     "q": "What reads a whole file in one call?",
+     "options": [
+      "ioutil",
+      "os.Open",
+      "bufio",
+      "os.ReadFile"
+     ],
+     "answer": 3,
+     "explain": "Small files."
+    },
+    {
+     "q": "What should you do after os.Open?",
+     "options": [
+      "Close later",
+      "Nothing",
+      "defer f.Close()",
+      "GC"
+     ],
+     "answer": 2,
+     "explain": "Resource cleanup."
+    },
+    {
+     "q": "What does bufio.Scanner do?",
+     "options": [
+      "Sorts",
+      "Reads input line by line (or by token) efficiently",
+      "Writes",
+      "Parses"
+     ],
+     "answer": 1,
+     "explain": "Large files."
+    },
+    {
+     "q": "What's the permission 0644?",
+     "options": [
+      "Owner read/write, others read",
+      "Private",
+      "Public write",
+      "Execute"
+     ],
+     "answer": 0,
+     "explain": "File mode."
+    }
+   ]
+  },
+  "level-2/08-net-http-client": {
+   "questions": [
+    {
+     "q": "What does http.Client need besides defaults?",
+     "options": [
+      "A timeout, since the default client has none",
+      "TLS",
+      "Proxy",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Avoid hangs."
+    },
+    {
+     "q": "What must you always do with a response body?",
+     "options": [
+      "Close it (defer resp.Body.Close())",
+      "Print",
+      "Cache",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Prevent leaks."
+    },
+    {
+     "q": "How check success?",
+     "options": [
+      "Header",
+      "Body",
+      "resp.StatusCode (non-2xx isn't an error from Get)",
+      "err only"
+     ],
+     "answer": 2,
+     "explain": "Handle codes."
+    },
+    {
+     "q": "How decode JSON from a response?",
+     "options": [
+      "Print",
+      "json.NewDecoder(resp.Body).Decode(&v)",
+      "Marshal",
+      "Atoi"
+     ],
+     "answer": 1,
+     "explain": "Stream."
+    }
+   ]
+  },
+  "level-2/09-dependency-management": {
+   "questions": [
+    {
+     "q": "What does `go get` do?",
+     "options": [
+      "Builds",
+      "Adds or updates a dependency in go.mod",
+      "Tests",
+      "Runs"
+     ],
+     "answer": 1,
+     "explain": "Module-aware."
+    },
+    {
+     "q": "What's semantic import versioning?",
+     "options": [
+      "Tags",
+      "Branches",
+      "Hashes",
+      "Major versions v2+ are part of the module path"
+     ],
+     "answer": 3,
+     "explain": "github.com/x/y/v2."
+    },
+    {
+     "q": "What does `go mod vendor` do?",
+     "options": [
+      "Copies dependencies into a vendor directory",
+      "Formats",
+      "Deletes",
+      "Tests"
+     ],
+     "answer": 0,
+     "explain": "Reproducible builds."
+    },
+    {
+     "q": "Why commit go.sum?",
+     "options": [
+      "Style",
+      "Verifies dependency integrity",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Supply chain."
+    }
+   ]
+  },
+  "level-2/10-project-weather-cli": {
+   "questions": [
+    {
+     "q": "What does the weather CLI combine?",
+     "options": [
+      "Only HTTP",
+      "Only JSON",
+      "Only flags",
+      "HTTP client, JSON decoding, error handling, flags and tests"
+     ],
+     "answer": 3,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How do you test HTTP code?",
+     "options": [
+      "Real API",
+      "Mock DB",
+      "httptest.NewServer returning canned responses",
+      "Manual"
+     ],
+     "answer": 2,
+     "explain": "Deterministic."
+    },
+    {
+     "q": "How should API keys be supplied?",
+     "options": [
+      "README",
+      "Environment variables or flags, never hard-coded",
+      "Git",
+      "Code"
+     ],
+     "answer": 1,
+     "explain": "Security."
+    },
+    {
+     "q": "How handle rate limits?",
+     "options": [
+      "Respect 429/Retry-After with backoff",
+      "Retry now",
+      "Crash",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Be polite."
+    }
+   ]
+  },
+  "level-3/01-concurrency-patterns": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\"; \"sync\")\n\nfunc main() {\njobs := make(chan int, 5)\nresults := make(chan int, 5)\nvar wg sync.WaitGroup\nfor w := 0; w < 3; w++ {\n wg.Add(1)\n go func() { defer wg.Done(); for j := range jobs { results <- j * j } }()\n}\nfor i := 1; i <= 5; i++ { jobs <- i }\nclose(jobs)\nwg.Wait()\nclose(results)\ns := 0\nfor r := range results { s += r }\nfmt.Println(s)\n}\n```\n",
+     "options": [
+      "Deadlock",
+      "55",
+      "25",
+      "15"
+     ],
+     "answer": 1,
+     "explain": "Worker pool: sum of squares 1..5. Verified by compiling and running it."
+    },
+    {
+     "q": "What's fan-out/fan-in?",
+     "options": [
+      "Locks",
+      "Distributing work to many goroutines and merging their results",
+      "Channels only",
+      "Tree"
+     ],
+     "answer": 1,
+     "explain": "Pipeline pattern."
+    },
+    {
+     "q": "What does select do?",
+     "options": [
+      "Switch",
+      "Lock",
+      "Waits on multiple channel operations, choosing a ready one",
+      "Loop"
+     ],
+     "answer": 2,
+     "explain": "Timeouts."
+    },
+    {
+     "q": "How avoid goroutine leaks?",
+     "options": [
+      "Reset",
+      "Ensure goroutines can exit (close channels, use context cancellation)",
+      "Ignore",
+      "Sleep"
+     ],
+     "answer": 1,
+     "explain": "Lifecycle."
+    }
+   ]
+  },
+  "level-3/02-building-rest-apis": {
+   "questions": [
+    {
+     "q": "Which package serves HTTP in the standard library?",
+     "options": [
+      "net/http",
+      "net",
+      "web",
+      "http"
+     ],
+     "answer": 0,
+     "explain": "ServeMux, Handler."
+    },
+    {
+     "q": "What's a Handler?",
+     "options": [
+      "An interface with ServeHTTP(w, r)",
+      "Channel",
+      "Struct",
+      "Function only"
+     ],
+     "answer": 0,
+     "explain": "HandlerFunc adapts functions."
+    },
+    {
+     "q": "What does Go 1.22+ ServeMux support?",
+     "options": [
+      "Nothing",
+      "Method and path-parameter patterns like \"GET /items/{id}\"",
+      "Regex",
+      "Only paths"
+     ],
+     "answer": 1,
+     "explain": "No router needed for simple APIs."
+    },
+    {
+     "q": "What's middleware in Go?",
+     "options": [
+      "Package",
+      "A function wrapping a Handler to add behavior",
+      "Struct",
+      "Goroutine"
+     ],
+     "answer": 1,
+     "explain": "Chain them."
+    }
+   ]
+  },
+  "level-3/03-databases-sql": {
+   "questions": [
+    {
+     "q": "What's database/sql?",
+     "options": [
+      "ORM",
+      "DB",
+      "Driver",
+      "A generic interface; you import a driver for your DB"
+     ],
+     "answer": 3,
+     "explain": "sql.Open."
+    },
+    {
+     "q": "How avoid SQL injection?",
+     "options": [
+      "Escape",
+      "Use placeholders with args (db.Query(\"... ?\", v))",
+      "Trim",
+      "Concatenate"
+     ],
+     "answer": 1,
+     "explain": "Parameterized queries."
+    },
+    {
+     "q": "What must you do with rows?",
+     "options": [
+      "Cache",
+      "Close them and check rows.Err()",
+      "Ignore",
+      "Print"
+     ],
+     "answer": 1,
+     "explain": "Resource handling."
+    },
+    {
+     "q": "What's sql.DB?",
+     "options": [
+      "A connection pool safe for concurrent use",
+      "Tx",
+      "Connection",
+      "Row"
+     ],
+     "answer": 0,
+     "explain": "Create once."
+    }
+   ]
+  },
+  "level-3/04-context-package": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"context\"; \"fmt\"; \"time\")\n\nfunc main() {\nctx, cancel := context.WithTimeout(context.Background(), 20*time.Millisecond)\ndefer cancel()\nselect {\ncase <-time.After(time.Second):\n fmt.Println(\"done\")\ncase <-ctx.Done():\n fmt.Println(ctx.Err())\n}\n}\n```\n",
+     "options": [
+      "context deadline exceeded",
+      "context canceled",
+      "Error",
+      "done"
+     ],
+     "answer": 0,
+     "explain": "Timeouts via context. Verified by compiling and running it."
+    },
+    {
+     "q": "What should context be in function signatures?",
+     "options": [
+      "Global",
+      "The first parameter, named ctx",
+      "Last",
+      "Field"
+     ],
+     "answer": 1,
+     "explain": "Convention."
+    },
+    {
+     "q": "What does cancel() do?",
+     "options": [
+      "Signals all derived contexts to stop and releases resources",
+      "Nothing",
+      "Sleep",
+      "Exit"
+     ],
+     "answer": 0,
+     "explain": "Always defer it."
+    },
+    {
+     "q": "What shouldn't go in context values?",
+     "options": [
+      "Request IDs",
+      "Optional parameters or business data; use it for request-scoped metadata",
+      "Auth",
+      "Trace IDs"
+     ],
+     "answer": 1,
+     "explain": "Misuse."
+    }
+   ]
+  },
+  "level-3/05-design-patterns": {
+   "questions": [
+    {
+     "q": "What does the functional options pattern do?",
+     "options": [
+      "Globals",
+      "Inheritance",
+      "Builder only",
+      "Configures constructors with variadic option funcs (New(opts ...Option))"
+     ],
+     "answer": 3,
+     "explain": "Flexible APIs."
+    },
+    {
+     "q": "What's idiomatic dependency injection in Go?",
+     "options": [
+      "Pass interfaces via constructors",
+      "DI framework",
+      "Reflection",
+      "Globals"
+     ],
+     "answer": 0,
+     "explain": "Simple."
+    },
+    {
+     "q": "What does the 'accept interfaces, return structs' proverb mean?",
+     "options": [
+      "Any",
+      "Always interfaces",
+      "Parameters should be small interfaces; return concrete types",
+      "Reverse"
+     ],
+     "answer": 2,
+     "explain": "Flexibility."
+    },
+    {
+     "q": "Why avoid singletons?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "Hidden global state hampers testing"
+     ],
+     "answer": 3,
+     "explain": "Inject instead."
+    }
+   ]
+  },
+  "level-3/06-testing-advanced": {
+   "questions": [
+    {
+     "q": "What's a mock/fake approach in Go?",
+     "options": [
+      "Globals",
+      "Reflection",
+      "Define small interfaces and substitute implementations in tests",
+      "Patch"
+     ],
+     "answer": 2,
+     "explain": "Interface-driven."
+    },
+    {
+     "q": "What does t.Helper do?",
+     "options": [
+      "Parallel",
+      "Log",
+      "Marks a function as a helper so failures report the caller's line",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Cleaner output."
+    },
+    {
+     "q": "What's httptest.ResponseRecorder?",
+     "options": [
+      "Router",
+      "An in-memory ResponseWriter to test handlers",
+      "Server",
+      "Client"
+     ],
+     "answer": 1,
+     "explain": "No network."
+    },
+    {
+     "q": "What does t.Parallel do?",
+     "options": [
+      "Serial",
+      "Fail",
+      "Skip",
+      "Runs the test in parallel with other parallel tests"
+     ],
+     "answer": 3,
+     "explain": "Speed."
+    }
+   ]
+  },
+  "level-3/07-profiling-benchmarking": {
+   "questions": [
+    {
+     "q": "What do Go benchmarks look like?",
+     "options": [
+      "Example",
+      "Test",
+      "Fuzz",
+      "func BenchmarkX(b *testing.B) { for i := 0; i < b.N; i++ { ... } }"
+     ],
+     "answer": 3,
+     "explain": "go test -bench."
+    },
+    {
+     "q": "What does pprof show?",
+     "options": [
+      "Lint",
+      "Races",
+      "CPU and memory profiles to find hotspots",
+      "Coverage"
+     ],
+     "answer": 2,
+     "explain": "go tool pprof."
+    },
+    {
+     "q": "What's -benchmem?",
+     "options": [
+      "Time",
+      "Races",
+      "Reports allocations per operation",
+      "Cover"
+     ],
+     "answer": 2,
+     "explain": "Reduce allocs."
+    },
+    {
+     "q": "What's first in optimization?",
+     "options": [
+      "Cache",
+      "Rewrite",
+      "Guess",
+      "Measure with benchmarks/profiles"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    }
+   ]
+  },
+  "level-3/08-building-clis": {
+   "questions": [
+    {
+     "q": "What package parses command-line flags in the stdlib?",
+     "options": [
+      "flag",
+      "args",
+      "cli",
+      "os"
+     ],
+     "answer": 0,
+     "explain": "Subcommands via FlagSet."
+    },
+    {
+     "q": "What do cobra/urfave offer?",
+     "options": [
+      "Subcommands, help and completions",
+      "HTTP",
+      "DB",
+      "JSON"
+     ],
+     "answer": 0,
+     "explain": "CLI frameworks."
+    },
+    {
+     "q": "How exit with a failure code?",
+     "options": [
+      "print",
+      "panic",
+      "os.Exit(1) after printing to stderr",
+      "return"
+     ],
+     "answer": 2,
+     "explain": "Scripts check status."
+    },
+    {
+     "q": "Where should errors print?",
+     "options": [
+      "stdout",
+      "log",
+      "none",
+      "stderr, with results on stdout"
+     ],
+     "answer": 3,
+     "explain": "Unix convention."
+    }
+   ]
+  },
+  "level-3/09-interfaces-generics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\ntype Ordered interface{ ~int | ~string }\nfunc Max[T Ordered](a, b T) T { if a > b { return a }; return b }\nfunc Map[T, U any](s []T, f func(T) U) []U { r := make([]U, 0, len(s)); for _, v := range s { r = append(r, f(v)) }; return r }\nfunc main() {\nfmt.Println(Max(3, 7), Max(\"a\", \"b\"), Map([]int{1, 2, 3}, func(x int) string { return fmt.Sprint(x * 2) }))\n}\n```\n",
+     "options": [
+      "7 b [246]",
+      "7 b [2 4 6]",
+      "Error",
+      "3 a [1 2 3]"
+     ],
+     "answer": 1,
+     "explain": "Generics with constraints. Verified by compiling and running it."
+    },
+    {
+     "q": "What does `comparable` constrain?",
+     "options": [
+      "Types usable with == and !=",
+      "Strings",
+      "Structs",
+      "Numbers"
+     ],
+     "answer": 0,
+     "explain": "Map keys."
+    },
+    {
+     "q": "When use generics?",
+     "options": [
+      "Always",
+      "Interfaces",
+      "For reusable containers/algorithms across types, not everywhere",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Prefer simple code."
+    },
+    {
+     "q": "What's type inference in generics?",
+     "options": [
+      "The compiler deduces type arguments from the call",
+      "Manual",
+      "Reflection",
+      "Runtime"
+     ],
+     "answer": 0,
+     "explain": "Max(3,7)."
+    }
+   ]
+  },
+  "level-3/10-project-rest-api-sqlite": {
+   "questions": [
+    {
+     "q": "What does the REST API + SQLite project combine?",
+     "options": [
+      "Only SQL",
+      "Only JSON",
+      "net/http handlers, database/sql, JSON and tests",
+      "Only HTTP"
+     ],
+     "answer": 2,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How should handlers get the DB?",
+     "options": [
+      "Package var",
+      "Context",
+      "Globals",
+      "Through a struct holding dependencies injected at startup"
+     ],
+     "answer": 3,
+     "explain": "Testability."
+    },
+    {
+     "q": "How test handlers?",
+     "options": [
+      "httptest with an in-memory or temp SQLite DB",
+      "Manual",
+      "Real DB",
+      "Mock"
+     ],
+     "answer": 0,
+     "explain": "Isolation."
+    },
+    {
+     "q": "How migrate schemas?",
+     "options": [
+      "Versioned SQL migrations applied at startup or by a tool",
+      "Ignore",
+      "Drop",
+      "Manual"
+     ],
+     "answer": 0,
+     "explain": "Repeatable."
+    }
+   ]
+  },
+  "level-4/01-advanced-concurrency": {
+   "questions": [
+    {
+     "q": "What's errgroup for?",
+     "options": [
+      "Pools",
+      "Channels",
+      "Locks",
+      "Running goroutines and collecting the first error, with context cancellation"
+     ],
+     "answer": 3,
+     "explain": "golang.org/x/sync."
+    },
+    {
+     "q": "What does sync.Once do?",
+     "options": [
+      "Wait",
+      "Lock",
+      "Runs an initialization exactly once, safely",
+      "Loop"
+     ],
+     "answer": 2,
+     "explain": "Lazy init."
+    },
+    {
+     "q": "What's the race detector's cost?",
+     "options": [
+      "Law",
+      "About 5-10x slower and more memory; use in tests/CI",
+      "Free",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "-race."
+    },
+    {
+     "q": "What are atomic operations for?",
+     "options": [
+      "Structs",
+      "Maps",
+      "Lock-free updates to simple shared values",
+      "Strings"
+     ],
+     "answer": 2,
+     "explain": "sync/atomic."
+    }
+   ]
+  },
+  "level-4/02-microservices-patterns": {
+   "questions": [
+    {
+     "q": "What's a circuit breaker?",
+     "options": [
+      "Stops calling a failing dependency for a period to let it recover",
+      "Queue",
+      "Cache",
+      "Retry"
+     ],
+     "answer": 0,
+     "explain": "Resilience."
+    },
+    {
+     "q": "What do timeouts and retries need?",
+     "options": [
+      "Nothing",
+      "Fixed",
+      "Jitter/backoff and budgets to avoid retry storms",
+      "More retries"
+     ],
+     "answer": 2,
+     "explain": "Careful."
+    },
+    {
+     "q": "What's idempotency for APIs?",
+     "options": [
+      "Secure",
+      "Fast",
+      "Repeating a request has the same effect as one",
+      "Cached"
+     ],
+     "answer": 2,
+     "explain": "Safe retries."
+    },
+    {
+     "q": "What's service discovery?",
+     "options": [
+      "Config",
+      "Cache",
+      "DNS only",
+      "How services find each other's addresses"
+     ],
+     "answer": 3,
+     "explain": "Registry/DNS."
+    }
+   ]
+  },
+  "level-4/03-grpc-basics": {
+   "questions": [
+    {
+     "q": "What does gRPC use?",
+     "options": [
+      "XML",
+      "JSON/HTTP1",
+      "Websockets",
+      "Protocol Buffers over HTTP/2 with generated clients/servers"
+     ],
+     "answer": 3,
+     "explain": "Typed contracts."
+    },
+    {
+     "q": "What's a .proto file?",
+     "options": [
+      "Config",
+      "Test",
+      "Code",
+      "The schema defining messages and services"
+     ],
+     "answer": 3,
+     "explain": "protoc generates code."
+    },
+    {
+     "q": "What are gRPC streaming modes?",
+     "options": [
+      "Two",
+      "Three",
+      "One",
+      "Unary, server, client and bidirectional streaming"
+     ],
+     "answer": 3,
+     "explain": "Flexibility."
+    },
+    {
+     "q": "When prefer REST over gRPC?",
+     "options": [
+      "Internal",
+      "Public/browser APIs needing simple HTTP tooling",
+      "Typed",
+      "Streaming"
+     ],
+     "answer": 1,
+     "explain": "Trade-offs."
+    }
+   ]
+  },
+  "level-4/04-production-grade-apis": {
+   "questions": [
+    {
+     "q": "What makes an API production-grade?",
+     "options": [
+      "Features",
+      "Size",
+      "Speed",
+      "Timeouts, graceful shutdown, logging, metrics, validation and tests"
+     ],
+     "answer": 3,
+     "explain": "Operational."
+    },
+    {
+     "q": "How do you shut down an HTTP server gracefully?",
+     "options": [
+      "os.Exit",
+      "Kill",
+      "server.Shutdown(ctx) on SIGTERM",
+      "Close"
+     ],
+     "answer": 2,
+     "explain": "Finish in-flight requests."
+    },
+    {
+     "q": "What should you set on http.Server?",
+     "options": [
+      "Ports",
+      "Read/Write/Idle timeouts",
+      "Nothing",
+      "TLS"
+     ],
+     "answer": 1,
+     "explain": "Prevent slowloris."
+    },
+    {
+     "q": "How validate input?",
+     "options": [
+      "Regex",
+      "Explicitly decode with limits and validate fields",
+      "Trust",
+      "Skip"
+     ],
+     "answer": 1,
+     "explain": "http.MaxBytesReader."
+    }
+   ]
+  },
+  "level-4/05-testing-at-scale-ci": {
+   "questions": [
+    {
+     "q": "What should CI run for Go?",
+     "options": [
+      "go vet, go test -race ./... and linting (golangci-lint)",
+      "Format",
+      "Nothing",
+      "Build"
+     ],
+     "answer": 0,
+     "explain": "Gate merges."
+    },
+    {
+     "q": "What does go vet do?",
+     "options": [
+      "Finds suspicious constructs",
+      "Builds",
+      "Formats",
+      "Tests"
+     ],
+     "answer": 0,
+     "explain": "Static checks."
+    },
+    {
+     "q": "How measure coverage?",
+     "options": [
+      "pprof",
+      "go test -cover / -coverprofile",
+      "go vet",
+      "go cover"
+     ],
+     "answer": 1,
+     "explain": "Not a goal."
+    },
+    {
+     "q": "How speed CI?",
+     "options": [
+      "More jobs",
+      "Skip",
+      "Retry",
+      "Cache the module and build caches"
+     ],
+     "answer": 3,
+     "explain": "GOCACHE."
+    }
+   ]
+  },
+  "level-4/06-deployment-docker": {
+   "questions": [
+    {
+     "q": "Why multi-stage Docker builds for Go?",
+     "options": [
+      "Speed",
+      "Style",
+      "Build in a Go image, copy the static binary to a minimal image",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Small images."
+    },
+    {
+     "q": "What does CGO_ENABLED=0 give?",
+     "options": [
+      "Larger",
+      "Faster",
+      "Dynamic",
+      "A static binary without C dependencies"
+     ],
+     "answer": 3,
+     "explain": "Scratch images."
+    },
+    {
+     "q": "Why run as non-root in containers?",
+     "options": [
+      "Speed",
+      "Limit damage if compromised",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "What's a health endpoint for?",
+     "options": [
+      "Docs",
+      "Auth",
+      "Cache",
+      "Orchestrator liveness/readiness checks"
+     ],
+     "answer": 3,
+     "explain": "/healthz."
+    }
+   ]
+  },
+  "level-4/07-observability": {
+   "questions": [
+    {
+     "q": "What are the observability pillars?",
+     "options": [
+      "CPU",
+      "Disk",
+      "Logs, metrics and traces",
+      "RAM"
+     ],
+     "answer": 2,
+     "explain": "Together."
+    },
+    {
+     "q": "What does log/slog provide?",
+     "options": [
+      "Structured leveled logging in the standard library",
+      "Files",
+      "Metrics",
+      "Traces"
+     ],
+     "answer": 0,
+     "explain": "JSON handlers."
+    },
+    {
+     "q": "What does OpenTelemetry offer?",
+     "options": [
+      "UI",
+      "Vendor-neutral tracing and metrics instrumentation",
+      "Logs only",
+      "DB"
+     ],
+     "answer": 1,
+     "explain": "Standard."
+    },
+    {
+     "q": "What's a request ID for?",
+     "options": [
+      "Routing",
+      "Correlating logs across services",
+      "Auth",
+      "Cache"
+     ],
+     "answer": 1,
+     "explain": "Middleware."
+    }
+   ]
+  },
+  "level-4/08-security-best-practices": {
+   "questions": [
+    {
+     "q": "How hash passwords?",
+     "options": [
+      "bcrypt/argon2 (golang.org/x/crypto), never plain or fast hashes",
+      "SHA-1",
+      "Base64",
+      "MD5"
+     ],
+     "answer": 0,
+     "explain": "Slow salted."
+    },
+    {
+     "q": "How prevent SQL injection?",
+     "options": [
+      "Trim",
+      "Parameterized queries",
+      "Escape",
+      "Regex"
+     ],
+     "answer": 1,
+     "explain": "Placeholders."
+    },
+    {
+     "q": "What does `govulncheck` do?",
+     "options": [
+      "Lint",
+      "Test",
+      "Reports known vulnerabilities in dependencies you actually call",
+      "Format"
+     ],
+     "answer": 2,
+     "explain": "Supply chain."
+    },
+    {
+     "q": "Where store secrets?",
+     "options": [
+      "Environment/secret manager, not in code or images",
+      "Image",
+      "Git",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Rotate."
+    }
+   ]
+  },
+  "level-4/09-performance-optimization": {
+   "questions": [
+    {
+     "q": "What reduces allocations?",
+     "options": [
+      "Reflection",
+      "Strings",
+      "Preallocating slices/maps and reusing buffers (sync.Pool)",
+      "More copies"
+     ],
+     "answer": 2,
+     "explain": "Escape analysis."
+    },
+    {
+     "q": "What does `strings.Builder` do?",
+     "options": [
+      "Parse",
+      "Builds strings efficiently without repeated allocation",
+      "Trim",
+      "Split"
+     ],
+     "answer": 1,
+     "explain": "Avoid +=."
+    },
+    {
+     "q": "How find allocation sources?",
+     "options": [
+      "vet",
+      "Guess",
+      "print",
+      "go build -gcflags=-m and pprof alloc profiles"
+     ],
+     "answer": 3,
+     "explain": "Tools."
+    },
+    {
+     "q": "What's escape analysis?",
+     "options": [
+      "The compiler deciding whether values live on the stack or heap",
+      "GC",
+      "Race",
+      "Vet"
+     ],
+     "answer": 0,
+     "explain": "Stack is cheaper."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only API",
+      "Only DB",
+      "Only CI",
+      "API, persistence, concurrency, observability, security and deployment"
+     ],
+     "answer": 3,
+     "explain": "Production service."
+    },
+    {
+     "q": "How prove readiness?",
+     "options": [
+      "Slides",
+      "Demo",
+      "Hope",
+      "Tests, load checks, monitoring and rollback"
+     ],
+     "answer": 3,
+     "explain": "Operate."
+    },
+    {
+     "q": "What documentation helps?",
+     "options": [
+      "README, architecture notes, API docs and runbooks",
+      "None",
+      "Slides",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Onboarding."
+    },
+    {
+     "q": "What guards regressions?",
+     "options": [
+      "Manual",
+      "CI with tests, race detector and vulnerability scan",
+      "None",
+      "Hope"
+     ],
+     "answer": 1,
+     "explain": "Automation."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\nx := 7\nfmt.Println(x/2, float64(x)/2)\n}\n```\n",
+    "options": [
+     "3 3.5",
+     "3.5 3.5",
+     "3 3",
+     "4 3.5"
+    ],
+    "answer": 0,
+    "explain": "Integer division truncates; convert explicitly. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\na := []int{1, 2, 3}\nb := a[:2]\nb = append(b, 99)\nfmt.Println(a, b)\n}\n```\n",
+    "options": [
+     "[1 2 99] [1 2 99]",
+     "[1 2 99] [1 2]",
+     "[1 2 3] [1 2 99]",
+     "Error"
+    ],
+    "answer": 0,
+    "explain": "Appending within capacity overwrites the shared array. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\nm := map[string]int{}\nv, ok := m[\"x\"]\nm[\"x\"]++\nfmt.Println(v, ok, m[\"x\"])\n}\n```\n",
+    "options": [
+     "Error",
+     "nil false 1",
+     "0 false 1",
+     "0 true 1"
+    ],
+    "answer": 2,
+    "explain": "Missing keys give zero values. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\ntype Point struct{ X, Y int }\nfunc main() {\np := Point{1, 2}\nq := p\nq.X = 9\nfmt.Println(p, q)\n}\n```\n",
+    "options": [
+     "Error",
+     "{1 2} {9 2}",
+     "{9 2} {9 2}",
+     "{1 2} {1 2}"
+    ],
+    "answer": 1,
+    "explain": "Structs copy on assignment. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\nfunc inc(n int) { n++ }\nfunc incP(n *int) { *n++ }\nfunc main() {\na := 1\ninc(a)\nb := 1\nincP(&b)\nfmt.Println(a, b)\n}\n```\n",
+    "options": [
+     "1 2",
+     "1 1",
+     "2 2",
+     "2 1"
+    ],
+    "answer": 0,
+    "explain": "Pass a pointer to modify. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```go\npackage main\nimport (\"errors\"; \"fmt\")\nvar ErrNotFound = errors.New(\"not found\")\nfunc main() {\ne := fmt.Errorf(\"load: %w\", ErrNotFound)\nfmt.Println(errors.Is(e, ErrNotFound), e)\n}\n```\n",
+    "options": [
+     "true load: not found",
+     "Error",
+     "false load: not found",
+     "true not found"
+    ],
+    "answer": 0,
+    "explain": "%w keeps the chain for errors.Is. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\ndefer fmt.Println(\"one\")\ndefer fmt.Println(\"two\")\nfmt.Println(\"body\")\n}\n```\n",
+    "options": [
+     "body\ntwo\none",
+     "body\none\ntwo",
+     "Error",
+     "one\ntwo\nbody"
+    ],
+    "answer": 0,
+    "explain": "Deferred calls run last-in first-out. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\ntype Shape interface{ Area() int }\ntype Square struct{ S int }\nfunc (q Square) Area() int { return q.S * q.S }\nfunc main() {\nvar s Shape = Square{3}\nfmt.Println(s.Area())\n}\n```\n",
+    "options": [
+     "Error",
+     "3",
+     "6",
+     "9"
+    ],
+    "answer": 3,
+    "explain": "Implicit interface satisfaction. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```go\npackage main\nimport (\"fmt\"; \"sync\")\n\nfunc main() {\nvar wg sync.WaitGroup\nvar mu sync.Mutex\nn := 0\nfor i := 0; i < 50; i++ {\n wg.Add(1)\n go func() { defer wg.Done(); mu.Lock(); n++; mu.Unlock() }()\n}\nwg.Wait()\nfmt.Println(n)\n}\n```\n",
+    "options": [
+     "50",
+     "0",
+     "Race",
+     "Less than 50"
+    ],
+    "answer": 0,
+    "explain": "A mutex protects shared state. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\n\nfunc main() {\nch := make(chan int, 2)\nch <- 1\nch <- 2\nclose(ch)\nfor v := range ch { fmt.Print(v, \" \") }\nv, ok := <-ch\nfmt.Println(v, ok)\n}\n```\n",
+    "options": [
+     "1 2 0 false",
+     "1 2",
+     "Deadlock",
+     "1 2 0 true"
+    ],
+    "answer": 0,
+    "explain": "Receiving from a closed channel yields the zero value with ok=false. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```go\npackage main\nimport (\"context\"; \"fmt\"; \"time\")\n\nfunc main() {\nctx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)\ndefer cancel()\n<-ctx.Done()\nfmt.Println(ctx.Err())\n}\n```\n",
+    "options": [
+     "nil",
+     "context deadline exceeded",
+     "Error",
+     "context canceled"
+    ],
+    "answer": 1,
+    "explain": "Contexts carry deadlines and cancellation. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```go\npackage main\nimport (\"fmt\")\ntype Ordered interface{ ~int | ~string }\nfunc Max[T Ordered](a, b T) T { if a > b { return a }; return b }\nfunc main() {\nfmt.Println(Max(3, 9), Max(\"pear\", \"apple\"))\n}\n```\n",
+    "options": [
+     "9 apple",
+     "3 apple",
+     "Error",
+     "9 pear"
+    ],
+    "answer": 3,
+    "explain": "Generic functions with a constraint. Verified by compiling and running it."
+   },
+   {
+    "q": "A `for range` loop starts goroutines that all print the final loop value in older Go. What's the standard fix?",
+    "options": [
+     "Pass the variable as an argument or copy it per iteration (Go 1.22+ scopes it per iteration)",
+     "Mutex",
+     "Channel",
+     "Sleep"
+    ],
+    "answer": 0,
+    "explain": "Loop variable capture."
+   },
+   {
+    "q": "How do you make an HTTP client call safe against hangs?",
+    "options": [
+     "Set a timeout (client Timeout or request context) and always close the response body",
+     "Nothing",
+     "Retry",
+     "Log"
+    ],
+    "answer": 0,
+    "explain": "The default client has no timeout."
+   },
+   {
+    "q": "Which tool finds data races?",
+    "options": [
+     "pprof",
+     "go vet",
+     "go fmt",
+     "go test -race"
+    ],
+    "answer": 3,
+    "explain": "Run it in CI."
+   },
+   {
+    "q": "Where should the DB handle live in a handler-based service?",
+    "options": [
+     "In a struct injected into handlers, created once at startup",
+     "Context",
+     "Global",
+     "Request"
+    ],
+    "answer": 0,
+    "explain": "sql.DB is a pool."
+   },
+   {
+    "q": "How do you shut an HTTP server down gracefully?",
+    "options": [
+     "Kill",
+     "os.Exit",
+     "Close",
+     "Call server.Shutdown(ctx) when SIGTERM arrives so in-flight requests finish"
+    ],
+    "answer": 3,
+    "explain": "Production readiness."
+   },
+   {
+    "q": "A container image for a Go service is 900 MB. What's the fix?",
+    "options": [
+     "Compress",
+     "Bigger base",
+     "Multi-stage build copying a static binary into a minimal base image",
+     "More layers"
+    ],
+    "answer": 2,
+    "explain": "CGO_ENABLED=0."
+   },
+   {
+    "q": "How do you find a performance bottleneck?",
+    "options": [
+     "Rewrite",
+     "Guess",
+     "Benchmark and profile (pprof) before optimizing",
+     "Cache"
+    ],
+    "answer": 2,
+    "explain": "Measure first."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A worker pool with errors and cancellation",
+    "prompt": "Complete squareAll: results are collected by original index, negative inputs produce per-item errors (\"item N: negative input\") combined with errors.Join in sorted order, and a cancelled context returns ctx.Err(). Three runs show success, partial failure and cancellation.",
+    "starter": "package main\n\nimport (\n\t\"context\"\n\t\"errors\"\n\t\"fmt\"\n\t\"sort\"\n\t\"sync\"\n)\n\ntype result struct {\n\tid  int\n\tval int\n\terr error\n}\n\n// squareAll squares each number using `workers` goroutines. It stops early when ctx is cancelled.\nfunc squareAll(ctx context.Context, nums []int, workers int) ([]int, error) {\n\tjobs := make(chan int)\n\tresults := make(chan result)\n\tvar wg sync.WaitGroup\n\tfor w := 0; w < workers; w++ {\n\t\twg.Add(1)\n\t\tgo func() {\n\t\t\tdefer wg.Done()\n\t\t\tfor i := range jobs {\n\t\t\t\tif nums[i] < 0 {\n\t\t\t\t\tresults <- result{id: i, err: errors.New(\"negative input\")}\n\t\t\t\t\tcontinue\n\t\t\t\t}\n\t\t\t\tresults <- result{id: i, val: nums[i] * nums[i]}\n\t\t\t}\n\t\t}()\n\t}\n\tgo func() {\n\t\tdefer close(jobs)\n\t\tfor i := range nums {\n\t\t\tselect {\n\t\t\tcase jobs <- i:\n\t\t\tcase <-ctx.Done():\n\t\t\t\treturn\n\t\t\t}\n\t\t}\n\t}()\n\tgo func() { wg.Wait(); close(results) }()\n\n\t// collect results into out (index = original position); gather per-item errors as\n\t// fmt.Errorf(\"item %d: %w\", id, err), sort them, and return errors.Join(...);\n\t// when there are no item errors, return out and ctx.Err()\n\treturn nil, nil\n}\n\nfunc main() {\n\tout, err := squareAll(context.Background(), []int{1, 2, 3, 4, 5}, 3)\n\tfmt.Println(out, err)\n\tout, err = squareAll(context.Background(), []int{2, -3, 4, -1}, 2)\n\tfmt.Println(out, err)\n\tctx, cancel := context.WithCancel(context.Background())\n\tcancel()\n\t_, err = squareAll(ctx, []int{1, 2, 3}, 2)\n\tfmt.Println(err)\n}\n",
+    "expected": "[1 4 9 16 25] <nil>\n[4 0 16 0] item 1: negative input\nitem 3: negative input\ncontext canceled",
+    "solution": "package main\n\nimport (\n\t\"context\"\n\t\"errors\"\n\t\"fmt\"\n\t\"sort\"\n\t\"sync\"\n)\n\ntype result struct {\n\tid  int\n\tval int\n\terr error\n}\n\n// squareAll squares each number using `workers` goroutines. It stops early when ctx is cancelled.\nfunc squareAll(ctx context.Context, nums []int, workers int) ([]int, error) {\n\tjobs := make(chan int)\n\tresults := make(chan result)\n\tvar wg sync.WaitGroup\n\tfor w := 0; w < workers; w++ {\n\t\twg.Add(1)\n\t\tgo func() {\n\t\t\tdefer wg.Done()\n\t\t\tfor i := range jobs {\n\t\t\t\tif nums[i] < 0 {\n\t\t\t\t\tresults <- result{id: i, err: errors.New(\"negative input\")}\n\t\t\t\t\tcontinue\n\t\t\t\t}\n\t\t\t\tresults <- result{id: i, val: nums[i] * nums[i]}\n\t\t\t}\n\t\t}()\n\t}\n\tgo func() {\n\t\tdefer close(jobs)\n\t\tfor i := range nums {\n\t\t\tselect {\n\t\t\tcase jobs <- i:\n\t\t\tcase <-ctx.Done():\n\t\t\t\treturn\n\t\t\t}\n\t\t}\n\t}()\n\tgo func() { wg.Wait(); close(results) }()\n\n\tout := make([]int, len(nums))\n\tvar errs []error\n\tfor r := range results {\n\t\tif r.err != nil {\n\t\t\terrs = append(errs, fmt.Errorf(\"item %d: %w\", r.id, r.err))\n\t\t\tcontinue\n\t\t}\n\t\tout[r.id] = r.val\n\t}\n\tif len(errs) > 0 {\n\t\tsort.Slice(errs, func(i, j int) bool { return errs[i].Error() < errs[j].Error() })\n\t\treturn out, errors.Join(errs...)\n\t}\n\treturn out, ctx.Err()\n}\n\nfunc main() {\n\tout, err := squareAll(context.Background(), []int{1, 2, 3, 4, 5}, 3)\n\tfmt.Println(out, err)\n\tout, err = squareAll(context.Background(), []int{2, -3, 4, -1}, 2)\n\tfmt.Println(out, err)\n\tctx, cancel := context.WithCancel(context.Background())\n\tcancel()\n\t_, err = squareAll(ctx, []int{1, 2, 3}, 2)\n\tfmt.Println(err)\n}\n",
+    "explain": "Workers read indexes from a jobs channel, results carry their original index so order is preserved, a goroutine closes results after the WaitGroup, and the producer stops on ctx.Done(). Verified by running the solution with go run."
+   },
+   {
+    "title": "Test an HTTP handler with httptest",
+    "prompt": "Implement the handler: POST /items (body size limit, 400 on invalid or empty name, 201 with the stored item) and GET /items/{id} (200 or 404 for unknown/non-numeric ids), guarded by a mutex. The do() helper drives it with httptest.",
+    "starter": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"net/http\"\n\t\"net/http/httptest\"\n\t\"strconv\"\n\t\"strings\"\n\t\"sync\"\n)\n\ntype Item struct {\n\tID   int    `json:\"id\"`\n\tName string `json:\"name\"`\n}\n\ntype Store struct {\n\tmu    sync.Mutex\n\titems map[int]Item\n\tnext  int\n}\n\nfunc NewStore() *Store { return &Store{items: map[int]Item{}, next: 1} }\n\nfunc (s *Store) Handler() http.Handler {\n\tmux := http.NewServeMux()\n\t// POST /items: decode {\"name\": ...} with a body size limit; 400 {\"error\":\"name is required\"} when\n\t//   decoding fails or the trimmed name is empty; otherwise store under the next id and reply 201 + JSON\n\t// GET /items/{id}: 200 + JSON, or 404 {\"error\":\"not found\"} for unknown or non-numeric ids\n\t// (use r.PathValue(\"id\") and guard the map with the mutex)\n\treturn mux\n}\n\nfunc do(h http.Handler, method, path, body string) string {\n\treq := httptest.NewRequest(method, path, strings.NewReader(body))\n\trec := httptest.NewRecorder()\n\th.ServeHTTP(rec, req)\n\treturn fmt.Sprintf(\"%d %s\", rec.Code, strings.TrimSpace(rec.Body.String()))\n}\n\nfunc main() {\n\th := NewStore().Handler()\n\tfmt.Println(do(h, \"POST\", \"/items\", `{\"name\":\"pen\"}`))\n\tfmt.Println(do(h, \"POST\", \"/items\", `{\"name\":\"  \"}`))\n\tfmt.Println(do(h, \"GET\", \"/items/1\", \"\"))\n\tfmt.Println(do(h, \"GET\", \"/items/9\", \"\"))\n\tfmt.Println(do(h, \"GET\", \"/items/abc\", \"\"))\n\tfmt.Println(do(h, \"DELETE\", \"/items/1\", \"\"))\n}\n",
+    "expected": "201 {\"id\":1,\"name\":\"pen\"}\n400 {\"error\":\"name is required\"}\n200 {\"id\":1,\"name\":\"pen\"}\n404 {\"error\":\"not found\"}\n404 {\"error\":\"not found\"}\n405 Method Not Allowed",
+    "solution": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"net/http\"\n\t\"net/http/httptest\"\n\t\"strconv\"\n\t\"strings\"\n\t\"sync\"\n)\n\ntype Item struct {\n\tID   int    `json:\"id\"`\n\tName string `json:\"name\"`\n}\n\ntype Store struct {\n\tmu    sync.Mutex\n\titems map[int]Item\n\tnext  int\n}\n\nfunc NewStore() *Store { return &Store{items: map[int]Item{}, next: 1} }\n\nfunc (s *Store) Handler() http.Handler {\n\tmux := http.NewServeMux()\n\tmux.HandleFunc(\"POST /items\", func(w http.ResponseWriter, r *http.Request) {\n\t\tvar in struct{ Name string `json:\"name\"` }\n\t\tif err := json.NewDecoder(http.MaxBytesReader(w, r.Body, 1<<10)).Decode(&in); err != nil || strings.TrimSpace(in.Name) == \"\" {\n\t\t\thttp.Error(w, `{\"error\":\"name is required\"}`, http.StatusBadRequest)\n\t\t\treturn\n\t\t}\n\t\ts.mu.Lock()\n\t\tit := Item{ID: s.next, Name: in.Name}\n\t\ts.items[it.ID] = it\n\t\ts.next++\n\t\ts.mu.Unlock()\n\t\tw.Header().Set(\"Content-Type\", \"application/json\")\n\t\tw.WriteHeader(http.StatusCreated)\n\t\tjson.NewEncoder(w).Encode(it)\n\t})\n\tmux.HandleFunc(\"GET /items/{id}\", func(w http.ResponseWriter, r *http.Request) {\n\t\tid, err := strconv.Atoi(r.PathValue(\"id\"))\n\t\ts.mu.Lock()\n\t\tit, ok := s.items[id]\n\t\ts.mu.Unlock()\n\t\tif err != nil || !ok {\n\t\t\thttp.Error(w, `{\"error\":\"not found\"}`, http.StatusNotFound)\n\t\t\treturn\n\t\t}\n\t\tw.Header().Set(\"Content-Type\", \"application/json\")\n\t\tjson.NewEncoder(w).Encode(it)\n\t})\n\treturn mux\n}\n\nfunc do(h http.Handler, method, path, body string) string {\n\treq := httptest.NewRequest(method, path, strings.NewReader(body))\n\trec := httptest.NewRecorder()\n\th.ServeHTTP(rec, req)\n\treturn fmt.Sprintf(\"%d %s\", rec.Code, strings.TrimSpace(rec.Body.String()))\n}\n\nfunc main() {\n\th := NewStore().Handler()\n\tfmt.Println(do(h, \"POST\", \"/items\", `{\"name\":\"pen\"}`))\n\tfmt.Println(do(h, \"POST\", \"/items\", `{\"name\":\"  \"}`))\n\tfmt.Println(do(h, \"GET\", \"/items/1\", \"\"))\n\tfmt.Println(do(h, \"GET\", \"/items/9\", \"\"))\n\tfmt.Println(do(h, \"GET\", \"/items/abc\", \"\"))\n\tfmt.Println(do(h, \"DELETE\", \"/items/1\", \"\"))\n}\n",
+    "explain": "httptest lets you exercise handlers in-process with no network. The Go 1.22 ServeMux patterns (\"POST /items\", \"GET /items/{id}\") route by method and path, and unmatched methods get 405 automatically. Verified by running the solution with go run."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
