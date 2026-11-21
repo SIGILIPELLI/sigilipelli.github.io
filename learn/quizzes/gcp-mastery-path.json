@@ -1,0 +1,2159 @@
+{
+ "course": "gcp-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What are the top-level containers for GCP resources?",
+     "options": [
+      "Organization, folders and projects (resources live in projects)",
+      "Regions",
+      "Billing only",
+      "VPCs"
+     ],
+     "answer": 0,
+     "explain": "Projects hold resources and billing links."
+    },
+    {
+     "q": "What does `gcloud auth login` do?",
+     "options": [
+      "Creates a project",
+      "Installs",
+      "Authenticates the CLI with your Google account",
+      "Sets region"
+     ],
+     "answer": 2,
+     "explain": "Then set the project."
+    },
+    {
+     "q": "Why set a default project and region?",
+     "options": [
+      "Law",
+      "So commands target the right place without repeating flags",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "gcloud config set."
+    },
+    {
+     "q": "What's the free-tier caution?",
+     "options": [
+      "Auto stops",
+      "No bills",
+      "Free forever",
+      "Resources billed while they exist; delete practice resources"
+     ],
+     "answer": 3,
+     "explain": "Budgets and alerts help."
+    }
+   ]
+  },
+  "level-1/02-iam-security": {
+   "questions": [
+    {
+     "q": "What does IAM answer?",
+     "options": [
+      "When",
+      "Who can do what on which resource",
+      "Where",
+      "How much"
+     ],
+     "answer": 1,
+     "explain": "Principal + role + resource."
+    },
+    {
+     "q": "What's a service account for?",
+     "options": [
+      "An identity for applications/workloads rather than people",
+      "Billing",
+      "Humans",
+      "DNS"
+     ],
+     "answer": 0,
+     "explain": "Attach to VMs or Cloud Run."
+    },
+    {
+     "q": "What's the principle of least privilege?",
+     "options": [
+      "Owner for all",
+      "Viewer",
+      "Grant only the roles needed at the narrowest scope",
+      "Editor"
+     ],
+     "answer": 2,
+     "explain": "Avoid primitive roles."
+    },
+    {
+     "q": "Why avoid service account keys?",
+     "options": [
+      "Long-lived keys leak; use attached identities/Workload Identity",
+      "Style",
+      "Slow",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Keyless auth."
+    }
+   ]
+  },
+  "level-1/03-compute-engine": {
+   "questions": [
+    {
+     "q": "What does Compute Engine offer?",
+     "options": [
+      "Storage",
+      "Containers only",
+      "Virtual machines billed per second with full OS control",
+      "Serverless"
+     ],
+     "answer": 2,
+     "explain": "IaaS."
+    },
+    {
+     "q": "What's a managed instance group?",
+     "options": [
+      "A network",
+      "Identical VMs from a template with autoscaling and auto-healing",
+      "A disk",
+      "One VM"
+     ],
+     "answer": 1,
+     "explain": "Resilience."
+    },
+    {
+     "q": "What's a preemptible/Spot VM?",
+     "options": [
+      "Larger",
+      "Reserved",
+      "Cheaper VMs that can be reclaimed at any time, for fault-tolerant jobs",
+      "Faster"
+     ],
+     "answer": 2,
+     "explain": "Cost saving."
+    },
+    {
+     "q": "How do you give a VM access to APIs?",
+     "options": [
+      "Share keys",
+      "Attach a service account with minimal roles",
+      "Embed keys",
+      "Open"
+     ],
+     "answer": 1,
+     "explain": "Metadata server."
+    }
+   ]
+  },
+  "level-1/04-cloud-storage": {
+   "questions": [
+    {
+     "q": "What are Cloud Storage classes?",
+     "options": [
+      "A, B",
+      "Standard, Nearline, Coldline and Archive (by access frequency)",
+      "Small, medium",
+      "Hot, cold"
+     ],
+     "answer": 1,
+     "explain": "Cost vs retrieval."
+    },
+    {
+     "q": "What do lifecycle rules do?",
+     "options": [
+      "Encrypt",
+      "Replicate",
+      "Automatically transition or delete objects by age/conditions",
+      "Lock"
+     ],
+     "answer": 2,
+     "explain": "Cost control."
+    },
+    {
+     "q": "What does uniform bucket-level access do?",
+     "options": [
+      "Public",
+      "Uses IAM only, disabling object ACLs",
+      "Private",
+      "Backup"
+     ],
+     "answer": 1,
+     "explain": "Simpler security."
+    },
+    {
+     "q": "How share an object temporarily?",
+     "options": [
+      "Email",
+      "ACL",
+      "Public bucket",
+      "Signed URLs"
+     ],
+     "answer": 3,
+     "explain": "Time-limited."
+    }
+   ]
+  },
+  "level-1/05-vpc-networking": {
+   "questions": [
+    {
+     "q": "What is a GCP VPC's scope?",
+     "options": [
+      "Zonal",
+      "Per project only",
+      "Global, with regional subnets",
+      "Regional"
+     ],
+     "answer": 2,
+     "explain": "Unlike some clouds."
+    },
+    {
+     "q": "What do firewall rules control?",
+     "options": [
+      "DNS",
+      "Allowed/denied traffic by direction, ports and targets",
+      "IAM",
+      "Billing"
+     ],
+     "answer": 1,
+     "explain": "Implied deny ingress."
+    },
+    {
+     "q": "How many addresses in a /24 subnet, and how many are usable in GCP (4 reserved)?\n```python\nprint(256, 256-4)\n```\n",
+     "options": [
+      "254 252",
+      "256 254",
+      "256 252",
+      "128 124"
+     ],
+     "answer": 2,
+     "explain": "GCP reserves the first two and last two addresses. Verified by running it."
+    },
+    {
+     "q": "What does Private Google Access do?",
+     "options": [
+      "NAT",
+      "VPN",
+      "Peering",
+      "Lets VMs without external IPs reach Google APIs"
+     ],
+     "answer": 3,
+     "explain": "Reduce exposure."
+    }
+   ]
+  },
+  "level-1/06-cloud-sql": {
+   "questions": [
+    {
+     "q": "What does Cloud SQL manage?",
+     "options": [
+      "Networking",
+      "Patching, backups, replication and failover for MySQL/PostgreSQL/SQL Server",
+      "Apps",
+      "Billing"
+     ],
+     "answer": 1,
+     "explain": "Managed relational DB."
+    },
+    {
+     "q": "What does high availability mean for Cloud SQL?",
+     "options": [
+      "Backups",
+      "Read replica",
+      "Snapshots",
+      "A standby in another zone with automatic failover"
+     ],
+     "answer": 3,
+     "explain": "Zonal redundancy."
+    },
+    {
+     "q": "What's a read replica for?",
+     "options": [
+      "Backups",
+      "Failover only",
+      "Writes",
+      "Scaling reads and offloading analytics"
+     ],
+     "answer": 3,
+     "explain": "Eventually consistent."
+    },
+    {
+     "q": "How should apps connect securely?",
+     "options": [
+      "Passwords in code",
+      "Cloud SQL Auth Proxy or private IP with IAM",
+      "Any",
+      "Public IP open"
+     ],
+     "answer": 1,
+     "explain": "Encrypted."
+    }
+   ]
+  },
+  "level-1/07-serverless-run-functions": {
+   "questions": [
+    {
+     "q": "When choose Cloud Run over Cloud Functions?",
+     "options": [
+      "For containerized HTTP services with more control and concurrency",
+      "VMs",
+      "Single events",
+      "Tiny snippets"
+     ],
+     "answer": 0,
+     "explain": "Both serverless."
+    },
+    {
+     "q": "What does Cloud Run scale to?",
+     "options": [
+      "Fixed",
+      "Down only",
+      "Zero when idle and up with traffic",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Pay per use."
+    },
+    {
+     "q": "What triggers Cloud Functions?",
+     "options": [
+      "Manual",
+      "SSH",
+      "Events (Pub/Sub, Storage, HTTP, etc.)",
+      "Cron only"
+     ],
+     "answer": 2,
+     "explain": "Event-driven."
+    },
+    {
+     "q": "What's a cold start?",
+     "options": [
+      "Crash",
+      "Error",
+      "Latency when a new instance starts after idle",
+      "Retry"
+     ],
+     "answer": 2,
+     "explain": "Min instances reduce it."
+    }
+   ]
+  },
+  "level-1/08-monitoring-logging": {
+   "questions": [
+    {
+     "q": "What does Cloud Logging collect?",
+     "options": [
+      "Bills",
+      "Logs from GCP services and applications",
+      "Metrics only",
+      "Keys"
+     ],
+     "answer": 1,
+     "explain": "Log Explorer."
+    },
+    {
+     "q": "What do Cloud Monitoring alerts use?",
+     "options": [
+      "IAM",
+      "Bills",
+      "Logs only",
+      "Metrics with conditions and notification channels"
+     ],
+     "answer": 3,
+     "explain": "SLO-based."
+    },
+    {
+     "q": "What's a log-based metric?",
+     "options": [
+      "A metric computed from log entries",
+      "Alert",
+      "Dashboard",
+      "Sink"
+     ],
+     "answer": 0,
+     "explain": "Count errors."
+    },
+    {
+     "q": "Why define alerting policies on symptoms?",
+     "options": [
+      "Law",
+      "Users feel symptoms; alert on actionable impact",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Avoid noise."
+    }
+   ]
+  },
+  "level-1/09-terraform-intro": {
+   "questions": [
+    {
+     "q": "Why use Terraform over console clicks?",
+     "options": [
+      "Declarative, versioned, repeatable infrastructure as code",
+      "Law",
+      "Faster once",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Review changes."
+    },
+    {
+     "q": "What does `terraform plan` show?",
+     "options": [
+      "Applies",
+      "Destroys",
+      "The changes that would be applied",
+      "State"
+     ],
+     "answer": 2,
+     "explain": "Always review."
+    },
+    {
+     "q": "Where should state live for teams?",
+     "options": [
+      "Email",
+      "Laptop",
+      "A remote backend like a GCS bucket with locking",
+      "Git"
+     ],
+     "answer": 2,
+     "explain": "Shared safe state."
+    },
+    {
+     "q": "What's drift?",
+     "options": [
+      "Latency",
+      "Cost",
+      "Real infrastructure differing from the declared code",
+      "Bug"
+     ],
+     "answer": 2,
+     "explain": "Detect with plan."
+    }
+   ]
+  },
+  "level-1/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only SQL",
+      "Only VM",
+      "Static frontend on Cloud Storage, Cloud Run API and Cloud SQL with IAM and monitoring",
+      "Only DNS"
+     ],
+     "answer": 2,
+     "explain": "End to end."
+    },
+    {
+     "q": "How do you protect the database?",
+     "options": [
+      "Any",
+      "Private IP, least-privilege service account and no public exposure",
+      "Share key",
+      "Public"
+     ],
+     "answer": 1,
+     "explain": "Defense."
+    },
+    {
+     "q": "How verify the deployment?",
+     "options": [
+      "Assume",
+      "Guess",
+      "Smoke tests, logs and monitoring dashboards",
+      "Hope"
+     ],
+     "answer": 2,
+     "explain": "Observe."
+    },
+    {
+     "q": "What should you do after?",
+     "options": [
+      "Keep",
+      "Destroy resources to avoid charges",
+      "Nothing",
+      "Share"
+     ],
+     "answer": 1,
+     "explain": "terraform destroy."
+    }
+   ]
+  },
+  "level-2/01-gke-containers": {
+   "questions": [
+    {
+     "q": "What does GKE Autopilot do?",
+     "options": [
+      "No Kubernetes",
+      "VMs only",
+      "You manage nodes",
+      "Manages nodes for you and bills per pod resource requests"
+     ],
+     "answer": 3,
+     "explain": "Less ops."
+    },
+    {
+     "q": "What's a Deployment?",
+     "options": [
+      "A service",
+      "A controller maintaining desired replicas of a pod template",
+      "A node",
+      "A volume"
+     ],
+     "answer": 1,
+     "explain": "Rolling updates."
+    },
+    {
+     "q": "What does a Service of type LoadBalancer create?",
+     "options": [
+      "A Google Cloud load balancer in front of pods",
+      "Ingress",
+      "Pod",
+      "Node"
+     ],
+     "answer": 0,
+     "explain": "External access."
+    },
+    {
+     "q": "Why set resource requests/limits?",
+     "options": [
+      "Speed",
+      "Scheduling, autoscaling and cost (Autopilot bills requests)",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Right-size."
+    }
+   ]
+  },
+  "level-2/02-autoscaling-load-balancing": {
+   "questions": [
+    {
+     "q": "What does a global HTTP(S) load balancer give you?",
+     "options": [
+      "TCP only",
+      "One anycast IP routing to the nearest healthy backend, with TLS and CDN options",
+      "VPN",
+      "Regional only"
+     ],
+     "answer": 1,
+     "explain": "Layer 7."
+    },
+    {
+     "q": "What drives managed instance group autoscaling?",
+     "options": [
+      "Colors",
+      "Names",
+      "CPU utilization, load balancing capacity or custom metrics",
+      "Users"
+     ],
+     "answer": 2,
+     "explain": "Target utilization."
+    },
+    {
+     "q": "What do health checks do?",
+     "options": [
+      "Remove unhealthy backends from rotation (and trigger auto-healing)",
+      "Scale",
+      "Bill",
+      "Log"
+     ],
+     "answer": 0,
+     "explain": "Correct paths and ports."
+    },
+    {
+     "q": "What's connection draining?",
+     "options": [
+      "Letting in-flight requests finish before an instance is removed",
+      "Kill",
+      "Cache",
+      "Retry"
+     ],
+     "answer": 0,
+     "explain": "Graceful."
+    }
+   ]
+  },
+  "level-2/03-cloud-dns": {
+   "questions": [
+    {
+     "q": "What is Cloud DNS?",
+     "options": [
+      "Registrar",
+      "CDN",
+      "Managed authoritative DNS with global anycast",
+      "Resolver only"
+     ],
+     "answer": 2,
+     "explain": "Zones and records."
+    },
+    {
+     "q": "What's a private zone?",
+     "options": [
+      "DNS visible only inside selected VPC networks",
+      "Cached",
+      "Hidden",
+      "Public"
+     ],
+     "answer": 0,
+     "explain": "Internal names."
+    },
+    {
+     "q": "What does TTL control?",
+     "options": [
+      "Region",
+      "How long resolvers cache a record",
+      "Cost",
+      "Priority"
+     ],
+     "answer": 1,
+     "explain": "Lower before migrations."
+    },
+    {
+     "q": "Which record maps a name to an IPv4 address?",
+     "options": [
+      "CNAME",
+      "A record",
+      "TXT",
+      "MX"
+     ],
+     "answer": 1,
+     "explain": "AAAA for IPv6."
+    }
+   ]
+  },
+  "level-2/04-pubsub-messaging": {
+   "questions": [
+    {
+     "q": "What does Pub/Sub decouple?",
+     "options": [
+      "Storage",
+      "DNS",
+      "Compute",
+      "Publishers from subscribers via topics and subscriptions"
+     ],
+     "answer": 3,
+     "explain": "Async messaging."
+    },
+    {
+     "q": "What delivery guarantee does Pub/Sub provide by default?",
+     "options": [
+      "Exactly once",
+      "At most once",
+      "At-least-once, so subscribers must be idempotent",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Exactly-once is opt-in with limits."
+    },
+    {
+     "q": "What's a dead-letter topic?",
+     "options": [
+      "Where messages go after repeated delivery failures",
+      "Cache",
+      "Archive",
+      "Backup"
+     ],
+     "answer": 0,
+     "explain": "Inspect and replay."
+    },
+    {
+     "q": "What does ack deadline mean?",
+     "options": [
+      "TTL",
+      "Latency",
+      "Retention",
+      "Time to acknowledge before redelivery"
+     ],
+     "answer": 3,
+     "explain": "Extend for slow work."
+    }
+   ]
+  },
+  "level-2/05-firestore-bigtable": {
+   "questions": [
+    {
+     "q": "When choose Firestore?",
+     "options": [
+      "Files",
+      "Analytics",
+      "Document data with real-time sync and flexible schema",
+      "Relational"
+     ],
+     "answer": 2,
+     "explain": "Mobile/web apps."
+    },
+    {
+     "q": "When choose Bigtable?",
+     "options": [
+      "Small docs",
+      "SQL joins",
+      "Transactions",
+      "Massive low-latency key-value/wide-column time-series workloads"
+     ],
+     "answer": 3,
+     "explain": "Row key design matters."
+    },
+    {
+     "q": "What's the risk of a sequential Bigtable row key?",
+     "options": [
+      "Hotspotting on one node",
+      "Law",
+      "Cost",
+      "Slow"
+     ],
+     "answer": 0,
+     "explain": "Design keys to spread load."
+    },
+    {
+     "q": "What does Firestore charge for?",
+     "options": [
+      "Document reads, writes and deletes plus storage",
+      "Nodes",
+      "Hours",
+      "Users"
+     ],
+     "answer": 0,
+     "explain": "Optimize queries."
+    }
+   ]
+  },
+  "level-2/06-app-engine": {
+   "questions": [
+    {
+     "q": "What is App Engine?",
+     "options": [
+      "DB",
+      "Container only",
+      "A fully managed PaaS for web apps with automatic scaling",
+      "VM"
+     ],
+     "answer": 2,
+     "explain": "Standard and flexible."
+    },
+    {
+     "q": "What's the difference between standard and flexible?",
+     "options": [
+      "Reverse",
+      "None",
+      "Same",
+      "Standard runs in sandboxes scaling to zero; flexible runs containers on VMs"
+     ],
+     "answer": 3,
+     "explain": "Choose by needs."
+    },
+    {
+     "q": "What does traffic splitting enable?",
+     "options": [
+      "Logging",
+      "IAM",
+      "Backups",
+      "Gradual rollouts across versions"
+     ],
+     "answer": 3,
+     "explain": "Canary."
+    },
+    {
+     "q": "When prefer Cloud Run now?",
+     "options": [
+      "Always",
+      "Legacy",
+      "For container-based services with more flexibility",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Modern default."
+    }
+   ]
+  },
+  "level-2/07-secret-manager": {
+   "questions": [
+    {
+     "q": "What does Secret Manager store?",
+     "options": [
+      "Images",
+      "Secrets like API keys and passwords with versions and IAM",
+      "Files",
+      "Logs"
+     ],
+     "answer": 1,
+     "explain": "Rotate and audit."
+    },
+    {
+     "q": "How do apps access secrets?",
+     "options": [
+      "Env baked",
+      "Email",
+      "Code",
+      "Via their service account with secretAccessor role"
+     ],
+     "answer": 3,
+     "explain": "No hardcoding."
+    },
+    {
+     "q": "Why use secret versions?",
+     "options": [
+      "Style",
+      "Rotate without code changes and roll back",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Pin or use latest."
+    },
+    {
+     "q": "What's logged?",
+     "options": [
+      "Access to secrets in audit logs",
+      "Values",
+      "Keys",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Accountability."
+    }
+   ]
+  },
+  "level-2/08-cloud-cdn-armor": {
+   "questions": [
+    {
+     "q": "What does Cloud CDN do?",
+     "options": [
+      "Compute",
+      "DNS",
+      "DB",
+      "Caches content at Google's edge to reduce latency and origin load"
+     ],
+     "answer": 3,
+     "explain": "Attach to the HTTP(S) LB."
+    },
+    {
+     "q": "What does Cloud Armor provide?",
+     "options": [
+      "CDN",
+      "IAM",
+      "DNS",
+      "WAF and DDoS protection with security policies"
+     ],
+     "answer": 3,
+     "explain": "Edge defense."
+    },
+    {
+     "q": "What does a Cache-Control header affect?",
+     "options": [
+      "Auth",
+      "Billing",
+      "How long content is cached at the edge",
+      "DNS"
+     ],
+     "answer": 2,
+     "explain": "TTL."
+    },
+    {
+     "q": "What do rate-limiting rules protect against?",
+     "options": [
+      "Latency",
+      "DNS",
+      "Cost",
+      "Abuse and brute force"
+     ],
+     "answer": 3,
+     "explain": "Armor rule."
+    }
+   ]
+  },
+  "level-2/09-cost-management-billing": {
+   "questions": [
+    {
+     "q": "What drives GCP cost visibility?",
+     "options": [
+      "Invoices",
+      "Guess",
+      "Labels, budgets and billing export to BigQuery",
+      "Names"
+     ],
+     "answer": 2,
+     "explain": "Allocate cost."
+    },
+    {
+     "q": "What do budgets and alerts do?",
+     "options": [
+      "Notify when spend thresholds are reached (they don't stop spend by default)",
+      "Cap",
+      "Refund",
+      "Stop spend"
+     ],
+     "answer": 0,
+     "explain": "Automate responses if needed."
+    },
+    {
+     "q": "What are committed use discounts?",
+     "options": [
+      "Credits",
+      "Free",
+      "Refund",
+      "Lower prices for committing to usage for 1 or 3 years"
+     ],
+     "answer": 3,
+     "explain": "Steady workloads."
+    },
+    {
+     "q": "What's the first cleanup step?",
+     "options": [
+      "Resize",
+      "Ignore",
+      "Tag",
+      "Delete unused resources (idle VMs, disks, IPs, buckets)"
+     ],
+     "answer": 3,
+     "explain": "Billed while they exist."
+    }
+   ]
+  },
+  "level-2/10-project-scalable-web-app": {
+   "questions": [
+    {
+     "q": "What does the scalable web app project combine?",
+     "options": [
+      "One bucket",
+      "One DB",
+      "One VM",
+      "Load balancer, autoscaling backends, CDN, DNS and monitoring"
+     ],
+     "answer": 3,
+     "explain": "Level 2 project."
+    },
+    {
+     "q": "How do you prove scalability?",
+     "options": [
+      "Assume",
+      "Guess",
+      "Load test and watch autoscaling and latency",
+      "Print"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What makes it resilient?",
+     "options": [
+      "None",
+      "One zone",
+      "Manual",
+      "Multiple zones, health checks and graceful draining"
+     ],
+     "answer": 3,
+     "explain": "HA."
+    },
+    {
+     "q": "What should you monitor?",
+     "options": [
+      "Fonts",
+      "Latency, errors, saturation and cost",
+      "Names",
+      "Colors"
+     ],
+     "answer": 1,
+     "explain": "Golden signals."
+    }
+   ]
+  },
+  "level-3/01-advanced-vpc": {
+   "questions": [
+    {
+     "q": "What's Shared VPC?",
+     "options": [
+      "VPN",
+      "A host project's network shared with service projects",
+      "Copy",
+      "Peering"
+     ],
+     "answer": 1,
+     "explain": "Central network control."
+    },
+    {
+     "q": "What's VPC peering limitation?",
+     "options": [
+      "Limited",
+      "Slow",
+      "Not transitive between peered networks",
+      "Paid"
+     ],
+     "answer": 2,
+     "explain": "Use hub designs or NCC."
+    },
+    {
+     "q": "What does Cloud NAT provide?",
+     "options": [
+      "Outbound internet for private instances without external IPs",
+      "Inbound",
+      "VPN",
+      "DNS"
+     ],
+     "answer": 0,
+     "explain": "Egress control."
+    },
+    {
+     "q": "What's a hybrid connectivity option?",
+     "options": [
+      "Peering",
+      "CDN",
+      "DNS",
+      "Cloud VPN or Interconnect"
+     ],
+     "answer": 3,
+     "explain": "On-prem links."
+    }
+   ]
+  },
+  "level-3/02-gke-advanced": {
+   "questions": [
+    {
+     "q": "What does Workload Identity do?",
+     "options": [
+      "Network",
+      "Store",
+      "Lets pods act as Google service accounts without keys",
+      "Scale"
+     ],
+     "answer": 2,
+     "explain": "Pod-level auth."
+    },
+    {
+     "q": "What's a node pool for?",
+     "options": [
+      "Secret",
+      "Pod",
+      "Service",
+      "Group nodes with a common configuration (machine type, labels, taints)"
+     ],
+     "answer": 3,
+     "explain": "Workload placement."
+    },
+    {
+     "q": "What do PodDisruptionBudgets do?",
+     "options": [
+      "Limit voluntary disruptions to keep availability during maintenance",
+      "Log",
+      "Backup",
+      "Scale"
+     ],
+     "answer": 0,
+     "explain": "Safe upgrades."
+    },
+    {
+     "q": "What's a release channel?",
+     "options": [
+      "Pool",
+      "Managed upgrade cadence (Rapid/Regular/Stable)",
+      "Network",
+      "Zone"
+     ],
+     "answer": 1,
+     "explain": "Reduce ops."
+    }
+   ]
+  },
+  "level-3/03-workflows-orchestration": {
+   "questions": [
+    {
+     "q": "What do Workflows orchestrate?",
+     "options": [
+      "Pods",
+      "Disks",
+      "DNS",
+      "Steps across services with branching, retries and error handling"
+     ],
+     "answer": 3,
+     "explain": "Serverless orchestration."
+    },
+    {
+     "q": "When use Workflows over Pub/Sub?",
+     "options": [
+      "When you need explicit ordered steps and error handling",
+      "Storage",
+      "Fan-out",
+      "Streaming"
+     ],
+     "answer": 0,
+     "explain": "Control flow."
+    },
+    {
+     "q": "What can a workflow step call?",
+     "options": [
+      "Pods",
+      "Nothing",
+      "HTTP endpoints and Google Cloud APIs",
+      "VMs"
+     ],
+     "answer": 2,
+     "explain": "Connectors."
+    },
+    {
+     "q": "How handle failures?",
+     "options": [
+      "Loop",
+      "try/except with retry policies and compensation steps",
+      "Crash",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Resilience."
+    }
+   ]
+  },
+  "level-3/04-advanced-iam": {
+   "questions": [
+    {
+     "q": "What's a custom IAM role for?",
+     "options": [
+      "Billing",
+      "Least-privilege permission sets not covered by predefined roles",
+      "Region",
+      "Quota"
+     ],
+     "answer": 1,
+     "explain": "Organization scale."
+    },
+    {
+     "q": "What are IAM conditions?",
+     "options": [
+      "Groups",
+      "Restrictions like time or resource attributes on a binding",
+      "Policies",
+      "Roles"
+     ],
+     "answer": 1,
+     "explain": "Fine-grained."
+    },
+    {
+     "q": "What does the Organization Policy service do?",
+     "options": [
+      "Logs",
+      "Bills",
+      "Grants roles",
+      "Enforces constraints like disallowing external IPs across the org"
+     ],
+     "answer": 3,
+     "explain": "Guardrails."
+    },
+    {
+     "q": "Why use groups for role grants?",
+     "options": [
+      "Speed",
+      "Law",
+      "Easier management than individual users",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Scale."
+    }
+   ]
+  },
+  "level-3/05-terraform-on-gcp": {
+   "questions": [
+    {
+     "q": "Why use remote state with locking?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "Prevent concurrent applies corrupting state"
+     ],
+     "answer": 3,
+     "explain": "GCS backend."
+    },
+    {
+     "q": "What are modules for?",
+     "options": [
+      "Variables",
+      "State",
+      "Reusable parameterized infrastructure building blocks",
+      "Providers"
+     ],
+     "answer": 2,
+     "explain": "DRY."
+    },
+    {
+     "q": "What does `terraform import` do?",
+     "options": [
+      "Plan",
+      "Destroy",
+      "Brings existing resources under Terraform management",
+      "Create"
+     ],
+     "answer": 2,
+     "explain": "Adopt."
+    },
+    {
+     "q": "Why separate environments with workspaces/dirs?",
+     "options": [
+      "Isolate state and blast radius",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Prod vs dev."
+    }
+   ]
+  },
+  "level-3/06-cicd-cloud-build": {
+   "questions": [
+    {
+     "q": "What triggers Cloud Build?",
+     "options": [
+      "DNS",
+      "Git pushes/PRs via triggers or manual submits",
+      "IAM",
+      "Cron only"
+     ],
+     "answer": 1,
+     "explain": "cloudbuild.yaml."
+    },
+    {
+     "q": "What are build steps?",
+     "options": [
+      "Containers executed in sequence sharing a workspace",
+      "VMs",
+      "Pods",
+      "Disks"
+     ],
+     "answer": 0,
+     "explain": "Cloud builders."
+    },
+    {
+     "q": "Where store built images?",
+     "options": [
+      "Git",
+      "GCS",
+      "Docker Hub only",
+      "Artifact Registry"
+     ],
+     "answer": 3,
+     "explain": "Scan for vulnerabilities."
+    },
+    {
+     "q": "What controls deploy safety?",
+     "options": [
+      "Hope",
+      "Approvals, staged rollouts and automated tests",
+      "Manual",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Cloud Deploy."
+    }
+   ]
+  },
+  "level-3/07-multi-region-disaster-recovery": {
+   "questions": [
+    {
+     "q": "What's the max monthly downtime for 99.95% availability in minutes (30-day month)?\n```python\nprint(round(30*24*60*(1-0.9995),1))\n```\n",
+     "options": [
+      "216",
+      "43.2",
+      "21.6",
+      "4.3"
+     ],
+     "answer": 2,
+     "explain": "Error budget. Verified by running it."
+    },
+    {
+     "q": "What do RTO and RPO mean?",
+     "options": [
+      "Region",
+      "Cost",
+      "Speed",
+      "Recovery time and recovery point objectives (time to restore, data loss window)"
+     ],
+     "answer": 3,
+     "explain": "Drive DR design."
+    },
+    {
+     "q": "Which pattern gives lowest RTO?",
+     "options": [
+      "Manual",
+      "Backup restore",
+      "Active-active across regions",
+      "Cold standby"
+     ],
+     "answer": 2,
+     "explain": "Cost trade-off."
+    },
+    {
+     "q": "How test DR?",
+     "options": [
+      "Assume",
+      "Regular failover drills",
+      "Never",
+      "Docs"
+     ],
+     "answer": 1,
+     "explain": "Prove it."
+    }
+   ]
+  },
+  "level-3/08-advanced-monitoring-trace": {
+   "questions": [
+    {
+     "q": "What does Cloud Trace show?",
+     "options": [
+      "Costs",
+      "Latency breakdown of requests across services",
+      "Logs",
+      "IAM"
+     ],
+     "answer": 1,
+     "explain": "Distributed tracing."
+    },
+    {
+     "q": "What's an SLO?",
+     "options": [
+      "A target for a service-level indicator (e.g. 99.9% requests < 300 ms)",
+      "Bill",
+      "Policy",
+      "Alert"
+     ],
+     "answer": 0,
+     "explain": "Reliability goals."
+    },
+    {
+     "q": "What's burn rate alerting?",
+     "options": [
+      "CPU",
+      "Latency",
+      "Cost",
+      "Alerting on how fast the error budget is consumed"
+     ],
+     "answer": 3,
+     "explain": "Better than thresholds."
+    },
+    {
+     "q": "What do uptime checks do?",
+     "options": [
+      "Probe public endpoints from multiple regions",
+      "Scan",
+      "Build",
+      "Patch"
+     ],
+     "answer": 0,
+     "explain": "External view."
+    }
+   ]
+  },
+  "level-3/09-security-deep-dive": {
+   "questions": [
+    {
+     "q": "What does VPC Service Controls do?",
+     "options": [
+      "DNS",
+      "Firewall",
+      "VPN",
+      "Creates perimeters limiting data exfiltration from Google APIs"
+     ],
+     "answer": 3,
+     "explain": "Defense in depth."
+    },
+    {
+     "q": "What does CMEK provide?",
+     "options": [
+      "Hashing",
+      "Google-managed",
+      "Customer-managed encryption keys in Cloud KMS",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Control and audit."
+    },
+    {
+     "q": "What does Security Command Center do?",
+     "options": [
+      "Build",
+      "Aggregates findings and security posture across the org",
+      "Cost",
+      "Deploy"
+     ],
+     "answer": 1,
+     "explain": "Detection."
+    },
+    {
+     "q": "What's Binary Authorization?",
+     "options": [
+      "Auth",
+      "DNS",
+      "Logging",
+      "Only allowing signed/approved container images to deploy"
+     ],
+     "answer": 3,
+     "explain": "Supply chain."
+    }
+   ]
+  },
+  "level-3/10-project-cicd-pipeline": {
+   "questions": [
+    {
+     "q": "What does the CI/CD pipeline project combine?",
+     "options": [
+      "Only build",
+      "Only test",
+      "Cloud Build, Artifact Registry, automated tests and a deploy step",
+      "Only deploy"
+     ],
+     "answer": 2,
+     "explain": "Level 3 project."
+    },
+    {
+     "q": "How prevent bad images from deploying?",
+     "options": [
+      "Manual",
+      "Hope",
+      "Vulnerability scanning and Binary Authorization policy",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Gates."
+    },
+    {
+     "q": "How roll back?",
+     "options": [
+      "Delete",
+      "Edit",
+      "Redeploy the previous immutable image/revision",
+      "Rebuild"
+     ],
+     "answer": 2,
+     "explain": "Cloud Run revisions."
+    },
+    {
+     "q": "What do you log?",
+     "options": [
+      "Nothing",
+      "Secrets",
+      "Build and deploy events for audit",
+      "Passwords"
+     ],
+     "answer": 2,
+     "explain": "Traceability."
+    }
+   ]
+  },
+  "level-4/01-architecture-framework": {
+   "questions": [
+    {
+     "q": "What's the Google Cloud Architecture Framework's focus?",
+     "options": [
+      "Pillars like operational excellence, security, reliability, cost and performance",
+      "Only cost",
+      "Only speed",
+      "Only security"
+     ],
+     "answer": 0,
+     "explain": "Design principles."
+    },
+    {
+     "q": "What's a well-architected review for?",
+     "options": [
+      "Deploy",
+      "Logs",
+      "Billing",
+      "Identify risks and improvements against pillars"
+     ],
+     "answer": 3,
+     "explain": "Continuous."
+    },
+    {
+     "q": "What does 'design for failure' mean?",
+     "options": [
+      "Speed",
+      "No failures",
+      "Cost",
+      "Assume components fail and build redundancy and recovery"
+     ],
+     "answer": 3,
+     "explain": "Resilience."
+    },
+    {
+     "q": "How balance cost and reliability?",
+     "options": [
+      "Match SLOs to business need rather than maximum",
+      "Max",
+      "Random",
+      "Min"
+     ],
+     "answer": 0,
+     "explain": "Trade-offs."
+    }
+   ]
+  },
+  "level-4/02-advanced-serverless-eventarc": {
+   "questions": [
+    {
+     "q": "What is Eventarc?",
+     "options": [
+      "DB",
+      "Routes events from Google services/SaaS to Cloud Run, Functions or Workflows",
+      "Storage",
+      "DNS"
+     ],
+     "answer": 1,
+     "explain": "Event-driven."
+    },
+    {
+     "q": "What does idempotent event handling need?",
+     "options": [
+      "Locks",
+      "Sleep",
+      "Handling duplicates safely",
+      "Retries"
+     ],
+     "answer": 2,
+     "explain": "At-least-once."
+    },
+    {
+     "q": "When use Cloud Tasks?",
+     "options": [
+      "DNS",
+      "Storage",
+      "Streaming",
+      "Controlled asynchronous HTTP task dispatch with rate limits and retries"
+     ],
+     "answer": 3,
+     "explain": "Queues."
+    },
+    {
+     "q": "What does min instances do?",
+     "options": [
+      "Kill",
+      "Keeps instances warm to reduce cold starts (at a cost)",
+      "Limit",
+      "Scale down"
+     ],
+     "answer": 1,
+     "explain": "Trade-off."
+    }
+   ]
+  },
+  "level-4/03-data-analytics-bigquery": {
+   "questions": [
+    {
+     "q": "What is BigQuery?",
+     "options": [
+      "OLTP",
+      "A serverless data warehouse billed by data processed (or slots)",
+      "Queue",
+      "VM"
+     ],
+     "answer": 1,
+     "explain": "Analytics."
+    },
+    {
+     "q": "How reduce BigQuery cost?",
+     "options": [
+      "More joins",
+      "Shards",
+      "Partition/cluster tables and select only needed columns",
+      "SELECT *"
+     ],
+     "answer": 2,
+     "explain": "Bytes scanned."
+    },
+    {
+     "q": "What does partitioning achieve?",
+     "options": [
+      "Queries scan only relevant partitions",
+      "Encrypt",
+      "Sort",
+      "Compress"
+     ],
+     "answer": 0,
+     "explain": "By date."
+    },
+    {
+     "q": "What are slots?",
+     "options": [
+      "Network",
+      "Storage",
+      "Units of compute capacity for BigQuery queries",
+      "Memory"
+     ],
+     "answer": 2,
+     "explain": "Reservations."
+    }
+   ]
+  },
+  "level-4/04-gke-at-scale": {
+   "questions": [
+    {
+     "q": "How scale GKE reliably?",
+     "options": [
+      "One node",
+      "Autoscaling (HPA, cluster autoscaler), PDBs and multiple zones",
+      "Manual",
+      "Static"
+     ],
+     "answer": 1,
+     "explain": "Right-size."
+    },
+    {
+     "q": "What's a multi-tenant risk?",
+     "options": [
+      "Speed",
+      "Noisy neighbors and security isolation; use namespaces, quotas and policies",
+      "Cost",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Governance."
+    },
+    {
+     "q": "What does Config Sync/GitOps provide?",
+     "options": [
+      "Auth",
+      "Declarative cluster config from Git",
+      "Logs",
+      "Build"
+     ],
+     "answer": 1,
+     "explain": "Consistency."
+    },
+    {
+     "q": "How limit blast radius?",
+     "options": [
+      "All",
+      "None",
+      "Separate clusters/projects per environment or tenant tier",
+      "One cluster"
+     ],
+     "answer": 2,
+     "explain": "Isolation."
+    }
+   ]
+  },
+  "level-4/05-multi-project-strategy": {
+   "questions": [
+    {
+     "q": "Why multiple projects?",
+     "options": [
+      "Style",
+      "Isolation of billing, IAM and quotas by environment/team",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Landing zones."
+    },
+    {
+     "q": "What does the resource hierarchy enable?",
+     "options": [
+      "Speed",
+      "Costs",
+      "Logs",
+      "Inherited policies and IAM from org to folder to project"
+     ],
+     "answer": 3,
+     "explain": "Governance."
+    },
+    {
+     "q": "What's a landing zone?",
+     "options": [
+      "VM",
+      "A prepared multi-project foundation with networking, IAM and policies",
+      "Bucket",
+      "Subnet"
+     ],
+     "answer": 1,
+     "explain": "Secure by default."
+    },
+    {
+     "q": "How centralize logging?",
+     "options": [
+      "Aggregated log sinks to a central project/bucket",
+      "None",
+      "Local",
+      "Email"
+     ],
+     "answer": 0,
+     "explain": "Audit."
+    }
+   ]
+  },
+  "level-4/06-cost-optimization-at-scale": {
+   "questions": [
+    {
+     "q": "What's the first step in cost optimization at scale?",
+     "options": [
+      "Commit",
+      "Guess",
+      "Visibility: labels, billing export and per-team reports",
+      "Cut"
+     ],
+     "answer": 2,
+     "explain": "FinOps."
+    },
+    {
+     "q": "What do rightsizing recommendations do?",
+     "options": [
+      "Scale up",
+      "Move",
+      "Suggest smaller machine types based on utilization",
+      "Delete"
+     ],
+     "answer": 2,
+     "explain": "Recommender."
+    },
+    {
+     "q": "What's a sustained use discount?",
+     "options": [
+      "Credits",
+      "Automatic discount for running VMs a large part of the month (some families)",
+      "Commit",
+      "Manual"
+     ],
+     "answer": 1,
+     "explain": "Automatic."
+    },
+    {
+     "q": "How avoid idle waste?",
+     "options": [
+      "Nothing",
+      "Schedule shutdowns, delete unattached disks/IPs and use autoscaling",
+      "Grow",
+      "Keep"
+     ],
+     "answer": 1,
+     "explain": "Hygiene."
+    }
+   ]
+  },
+  "level-4/07-advanced-networking": {
+   "questions": [
+    {
+     "q": "What does Network Connectivity Center do?",
+     "options": [
+      "CDN",
+      "DNS",
+      "LB",
+      "Hub-and-spoke connectivity management across VPCs and on-prem"
+     ],
+     "answer": 3,
+     "explain": "Transitive routing."
+    },
+    {
+     "q": "What's Private Service Connect?",
+     "options": [
+      "Private endpoints to Google or partner services in your VPC",
+      "VPN",
+      "Peering",
+      "NAT"
+     ],
+     "answer": 0,
+     "explain": "Service consumption."
+    },
+    {
+     "q": "What's Premium vs Standard network tier?",
+     "options": [
+      "None",
+      "Same",
+      "Premium uses Google's backbone; Standard uses the public internet",
+      "Reverse"
+     ],
+     "answer": 2,
+     "explain": "Latency vs cost."
+    },
+    {
+     "q": "How secure egress?",
+     "options": [
+      "DNS",
+      "Open",
+      "None",
+      "Firewall rules, Cloud NAT and egress policies"
+     ],
+     "answer": 3,
+     "explain": "Control."
+    }
+   ]
+  },
+  "level-4/08-compliance-governance": {
+   "questions": [
+    {
+     "q": "What do audit logs record?",
+     "options": [
+      "Billing",
+      "Costs",
+      "Metrics",
+      "Admin activity, data access and system events"
+     ],
+     "answer": 3,
+     "explain": "Compliance."
+    },
+    {
+     "q": "What does Assured Workloads do?",
+     "options": [
+      "Bill",
+      "Scale",
+      "Applies compliance controls for regulated programs",
+      "Log"
+     ],
+     "answer": 2,
+     "explain": "Regions and controls."
+    },
+    {
+     "q": "How enforce guardrails continuously?",
+     "options": [
+      "Organization Policy constraints and policy-as-code",
+      "Manual",
+      "Emails",
+      "Review"
+     ],
+     "answer": 0,
+     "explain": "Prevent drift."
+    },
+    {
+     "q": "What proves compliance?",
+     "options": [
+      "Evidence from logs, configs and automated checks",
+      "Trust",
+      "Claims",
+      "Slides"
+     ],
+     "answer": 0,
+     "explain": "Audit-ready."
+    }
+   ]
+  },
+  "level-4/09-chaos-engineering-resilience": {
+   "questions": [
+    {
+     "q": "What is chaos engineering?",
+     "options": [
+      "Random",
+      "Load",
+      "Bug fixing",
+      "Injecting controlled failures to verify resilience"
+     ],
+     "answer": 3,
+     "explain": "Hypothesis-driven."
+    },
+    {
+     "q": "What must precede chaos tests?",
+     "options": [
+      "Production",
+      "Monitoring, rollback and a limited blast radius",
+      "Hope",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Safety."
+    },
+    {
+     "q": "What do game days practice?",
+     "options": [
+      "Coding",
+      "Billing",
+      "Responding to failures as a team",
+      "Docs"
+     ],
+     "answer": 2,
+     "explain": "Muscle memory."
+    },
+    {
+     "q": "What do you learn from experiments?",
+     "options": [
+      "Speed",
+      "Style",
+      "Weaknesses to fix before real incidents",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Improve."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone integrate?",
+     "options": [
+      "Only BQ",
+      "Only VM",
+      "Only GKE",
+      "Architecture, governance, networking, reliability and cost controls on GCP"
+     ],
+     "answer": 3,
+     "explain": "Production platform."
+    },
+    {
+     "q": "How justify design choices?",
+     "options": [
+      "Trade-offs against requirements and the framework pillars",
+      "Hype",
+      "Brand",
+      "Price"
+     ],
+     "answer": 0,
+     "explain": "ADRs."
+    },
+    {
+     "q": "What proves readiness?",
+     "options": [
+      "DR drills, load tests, security review and cost reports",
+      "Slides",
+      "Hope",
+      "Demo"
+     ],
+     "answer": 0,
+     "explain": "Operate."
+    },
+    {
+     "q": "What sustains the platform?",
+     "options": [
+      "Luck",
+      "Ownership, automation and continuous improvement",
+      "Tools",
+      "Silence"
+     ],
+     "answer": 1,
+     "explain": "Culture."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A VM must call Cloud Storage without any key files. What's the right approach?",
+    "options": [
+     "Download a JSON key",
+     "Use your user",
+     "Attach a least-privilege service account to the VM (keyless via the metadata server)",
+     "Make bucket public"
+    ],
+    "answer": 2,
+    "explain": "Avoid long-lived keys."
+   },
+   {
+    "q": "A developer has roles/owner on production 'to be safe'. What's the fix?",
+    "options": [
+     "Keep owner",
+     "Grant narrow predefined/custom roles at the smallest scope (least privilege)",
+     "Use editor",
+     "Share account"
+    ],
+    "answer": 1,
+    "explain": "Primitive roles are too broad."
+   },
+   {
+    "q": "How many usable addresses does a GCP /24 subnet have (4 reserved)?\n```python\nprint(2**8-4)\n```\n",
+    "options": [
+     "256",
+     "254",
+     "252",
+     "250"
+    ],
+    "answer": 2,
+    "explain": "The first two and last two are reserved. Verified by running it."
+   },
+   {
+    "q": "Private VMs need to reach the internet for updates but not be reachable. What do you add?",
+    "options": [
+     "External IPs",
+     "VPC peering",
+     "Cloud VPN",
+     "Cloud NAT"
+    ],
+    "answer": 3,
+    "explain": "Outbound-only access."
+   },
+   {
+    "q": "Static assets are slow for users worldwide. What do you add in front of the load balancer?",
+    "options": [
+     "Cloud NAT",
+     "Cloud CDN (and appropriate Cache-Control headers)",
+     "More VMs",
+     "Cloud DNS"
+    ],
+    "answer": 1,
+    "explain": "Edge caching."
+   },
+   {
+    "q": "A Pub/Sub subscriber crashes mid-processing and the message is redelivered. What must the handler be?",
+    "options": [
+     "Fast",
+     "Stateless only",
+     "Single-threaded",
+     "Idempotent: processing the same message twice must be safe"
+    ],
+    "answer": 3,
+    "explain": "At-least-once delivery."
+   },
+   {
+    "q": "Messages keep failing and blocking the subscription. What do you configure?",
+    "options": [
+     "Delete topic",
+     "More subscribers",
+     "Longer ack deadline",
+     "A dead-letter topic with a max delivery attempts policy"
+    ],
+    "answer": 3,
+    "explain": "Inspect and replay."
+   },
+   {
+    "q": "Which store fits a time-series workload with millions of writes per second?",
+    "options": [
+     "Cloud SQL",
+     "Memorystore",
+     "Firestore",
+     "Bigtable (design the row key to avoid hotspots)"
+    ],
+    "answer": 3,
+    "explain": "Wide-column."
+   },
+   {
+    "q": "Where should database passwords and API keys live?",
+    "options": [
+     "In env baked in image",
+     "In code",
+     "Secret Manager, accessed through the workload's service account",
+     "In Git"
+    ],
+    "answer": 2,
+    "explain": "Rotate and audit."
+   },
+   {
+    "q": "A Cloud Run service has multi-second latency on the first request after idle. What reduces it?",
+    "options": [
+     "More CPU",
+     "Set min instances (accepting the cost)",
+     "VPC",
+     "Bigger image"
+    ],
+    "answer": 1,
+    "explain": "Cold starts."
+   },
+   {
+    "q": "You need ordered steps with retries and branching across several APIs. Which service?",
+    "options": [
+     "Workflows",
+     "Pub/Sub",
+     "Eventarc",
+     "Cloud Tasks"
+    ],
+    "answer": 0,
+    "explain": "Serverless orchestration."
+   },
+   {
+    "q": "A team's Terraform runs overwrite each other's changes. What fixes it?",
+    "options": [
+     "Remote state in a GCS bucket with locking",
+     "Local state",
+     "Manual",
+     "Git state"
+    ],
+    "answer": 0,
+    "explain": "Shared safe state."
+   },
+   {
+    "q": "How do you let pods in GKE call Google APIs without keys?",
+    "options": [
+     "Node SA",
+     "Workload Identity binding a Kubernetes service account to a Google service account",
+     "Mount key",
+     "Public"
+    ],
+    "answer": 1,
+    "explain": "Pod-level auth."
+   },
+   {
+    "q": "What is the maximum monthly downtime for 99.9% availability in minutes (30-day month)?\n```python\nprint(round(30*24*60*0.001,1))\n```\n",
+    "options": [
+     "43.2",
+     "432",
+     "21.6",
+     "4.3"
+    ],
+    "answer": 0,
+    "explain": "Error budget. Verified by running it."
+   },
+   {
+    "q": "The business needs RPO of 5 minutes and RTO of 15 minutes across regions. Which design fits?",
+    "options": [
+     "Nightly backups",
+     "Cross-region replication with automated failover (warm/active standby), tested regularly",
+     "Single region",
+     "Manual rebuild"
+    ],
+    "answer": 1,
+    "explain": "Match design to objectives."
+   },
+   {
+    "q": "Analysts' BigQuery bill is huge. What do you do first?",
+    "options": [
+     "Partition/cluster tables, avoid SELECT * and check bytes processed before running",
+     "Buy slots",
+     "More users",
+     "Export"
+    ],
+    "answer": 0,
+    "explain": "Cost follows bytes scanned."
+   },
+   {
+    "q": "A budget alert fires but spend continues. Why?",
+    "options": [
+     "Bug",
+     "Quota",
+     "Budgets notify by default; they don't stop spending unless you automate a response",
+     "Billing"
+    ],
+    "answer": 2,
+    "explain": "Add automation."
+   },
+   {
+    "q": "How do you stop data exfiltration from Google-managed APIs even with stolen credentials?",
+    "options": [
+     "Firewall",
+     "Cloud Armor",
+     "NAT",
+     "VPC Service Controls perimeters"
+    ],
+    "answer": 3,
+    "explain": "API-level perimeter."
+   },
+   {
+    "q": "Only approved, signed images must run in GKE. What do you use?",
+    "options": [
+     "Binary Authorization",
+     "Secret Manager",
+     "Cloud NAT",
+     "IAM"
+    ],
+    "answer": 0,
+    "explain": "Supply chain control."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Plan non-overlapping VPC subnets",
+    "prompt": "Implement plan_subnets(vpc_cidr, wanted): each subnet needs hosts + 4 reserved addresses; allocate the largest first, in the smallest aligned power-of-two block, from the VPC range, and verify there are no overlaps.",
+    "starter": "import ipaddress\n\nRESERVED = 4        # GCP reserves 4 addresses per primary subnet range\n\ndef plan_subnets(vpc_cidr, wanted):\n    # wanted = [(name, hosts_needed)]; each subnet needs hosts + RESERVED addresses. Allocate the\n    # largest first, in the smallest power-of-two block that fits, aligned and non-overlapping,\n    # from vpc_cidr. Return {name: (cidr_string, usable_addresses)}; raise ValueError if no room.\n    return {}\n\nplan = plan_subnets(\"10.10.0.0/20\", [(\"gke-nodes\", 500), (\"web\", 120), (\"db\", 20), (\"batch\", 1000)])\nfor name, (cidr, usable) in sorted(plan.items(), key=lambda kv: ipaddress.ip_network(kv[1][0])):\n    print(f\"{name:9s} {cidr:16s} usable={usable}\")\nnets = [ipaddress.ip_network(c) for c, _ in plan.values()]\nprint(\"overlaps:\", any(a.overlaps(b) for i, a in enumerate(nets) for b in nets[i + 1:]))\n",
+    "expected": "batch     10.10.0.0/22     usable=1020\ngke-nodes 10.10.4.0/23     usable=508\nweb       10.10.6.0/25     usable=124\ndb        10.10.6.128/27   usable=28\noverlaps: False",
+    "solution": "import ipaddress\n\nRESERVED = 4        # GCP reserves 4 addresses per primary subnet range\n\ndef plan_subnets(vpc_cidr, wanted):\n    \"\"\"wanted = [(name, hosts_needed)]. Largest first, smallest power-of-two block that fits\n    hosts + RESERVED, aligned, never overlapping. Returns {name: (cidr, usable)}.\"\"\"\n    vpc = ipaddress.ip_network(vpc_cidr)\n    free = [vpc]\n    plan = {}\n    for name, hosts in sorted(wanted, key=lambda w: -w[1]):\n        need = hosts + RESERVED\n        prefix = 32\n        while 2 ** (32 - prefix) < need:\n            prefix -= 1\n        for i, block in enumerate(free):\n            if block.prefixlen <= prefix:\n                subnet = next(block.subnets(new_prefix=prefix))\n                rest = [n for n in block.address_exclude(subnet)] if subnet != block else []\n                free[i:i + 1] = sorted(rest)\n                plan[name] = (str(subnet), subnet.num_addresses - RESERVED)\n                break\n        else:\n            raise ValueError(f\"no room for {name}\")\n    return plan\n\nplan = plan_subnets(\"10.10.0.0/20\", [(\"gke-nodes\", 500), (\"web\", 120), (\"db\", 20), (\"batch\", 1000)])\nfor name, (cidr, usable) in sorted(plan.items(), key=lambda kv: ipaddress.ip_network(kv[1][0])):\n    print(f\"{name:9s} {cidr:16s} usable={usable}\")\nnets = [ipaddress.ip_network(c) for c, _ in plan.values()]\nprint(\"overlaps:\", any(a.overlaps(b) for i, a in enumerate(nets) for b in nets[i + 1:]))\n",
+    "explain": "GCP reserves four addresses per primary range, so a /24 gives 252 usable. Planning address space up front (largest first, aligned) avoids overlaps that later block peering or hybrid connectivity. Verified by running the solution."
+   },
+   {
+    "title": "At-least-once delivery with dead-lettering",
+    "prompt": "Implement Subscription.pull_and_handle: acknowledge handled messages, nack failures for redelivery, dead-letter after max attempts, and ignore duplicates by message id (an idempotent consumer). Simulate a poison message and a redelivered duplicate.",
+    "starter": "class Subscription:\n    \"\"\"Pub/Sub-like at-least-once delivery with ack deadline, redelivery and a dead-letter topic.\"\"\"\n    def __init__(self, max_attempts=3):\n        self.max_attempts = max_attempts\n        self.queue = []          # (message_id, payload, attempts)\n        self.dead = []\n        self.processed = set()   # handler-side idempotency (dedupe by message id)\n\n    def publish(self, mid, payload):\n        self.queue.append((mid, payload, 0))\n\n    def pull_and_handle(self, handler):\n        # one delivery round over the queued messages. For each: increment attempts; if its id was\n        # already processed log \"<id>: duplicate ignored\" (idempotent consumer); else call handler(payload)\n        # and on success add the id to processed and log \"<id>: acked\"; on exception, if attempts >=\n        # max_attempts dead-letter it and log \"<id>: dead-lettered after N attempts\", else requeue it\n        # (nack) and log \"<id>: nack (<error>) -> redeliver\". Return the list of log lines.\n        return []\n\ntotals = []\ndef handler(p):\n    if p == \"bad\":\n        raise ValueError(\"cannot parse\")\n    totals.append(p)\n\ns = Subscription()\nfor mid, p in [(\"m1\", 10), (\"m2\", \"bad\"), (\"m3\", 5)]:\n    s.publish(mid, p)\nfor round_no in range(1, 4):\n    print(f\"round {round_no}:\", s.pull_and_handle(handler))\ns.publish(\"m1\", 10)                    # the same message delivered again (at-least-once)\nprint(\"redelivery:\", s.pull_and_handle(handler))\nprint(\"sum:\", sum(totals), \"dead:\", s.dead)\n",
+    "expected": "round 1: ['m1: acked', 'm2: nack (cannot parse) -> redeliver', 'm3: acked']\nround 2: ['m2: nack (cannot parse) -> redeliver']\nround 3: ['m2: dead-lettered after 3 attempts']\nredelivery: ['m1: duplicate ignored']\nsum: 15 dead: [('m2', 'bad')]",
+    "solution": "class Subscription:\n    \"\"\"Pub/Sub-like at-least-once delivery with ack deadline, redelivery and a dead-letter topic.\"\"\"\n    def __init__(self, max_attempts=3):\n        self.max_attempts = max_attempts\n        self.queue = []          # (message_id, payload, attempts)\n        self.dead = []\n        self.processed = set()   # handler-side idempotency (dedupe by message id)\n\n    def publish(self, mid, payload):\n        self.queue.append((mid, payload, 0))\n\n    def pull_and_handle(self, handler):\n        log = []\n        pending, self.queue = self.queue, []\n        for mid, payload, attempts in pending:\n            attempts += 1\n            try:\n                if mid in self.processed:\n                    log.append(f\"{mid}: duplicate ignored\")        # idempotent consumer\n                else:\n                    handler(payload)\n                    self.processed.add(mid)\n                    log.append(f\"{mid}: acked\")\n            except Exception as e:\n                if attempts >= self.max_attempts:\n                    self.dead.append((mid, payload))\n                    log.append(f\"{mid}: dead-lettered after {attempts} attempts\")\n                else:\n                    self.queue.append((mid, payload, attempts))   # nack -> redeliver\n                    log.append(f\"{mid}: nack ({e}) -> redeliver\")\n        return log\n\ntotals = []\ndef handler(p):\n    if p == \"bad\":\n        raise ValueError(\"cannot parse\")\n    totals.append(p)\n\ns = Subscription()\nfor mid, p in [(\"m1\", 10), (\"m2\", \"bad\"), (\"m3\", 5)]:\n    s.publish(mid, p)\nfor round_no in range(1, 4):\n    print(f\"round {round_no}:\", s.pull_and_handle(handler))\ns.publish(\"m1\", 10)                    # the same message delivered again (at-least-once)\nprint(\"redelivery:\", s.pull_and_handle(handler))\nprint(\"sum:\", sum(totals), \"dead:\", s.dead)\n",
+    "explain": "Pub/Sub guarantees at-least-once delivery, so the same message can arrive twice and a poison message would loop forever without a dead-letter policy. Idempotent handlers plus a max-attempts policy make that safe. This is a teaching model, not the Pub/Sub API. Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
