@@ -1,0 +1,2159 @@
+{
+ "course": "swift-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "Which tool manages Swift packages and builds from the command line?",
+     "options": [
+      "CocoaPods only",
+      "Swift Package Manager (swift build, swift run, swift test)",
+      "npm",
+      "Make"
+     ],
+     "answer": 1,
+     "explain": "SwiftPM ships with the toolchain."
+    },
+    {
+     "q": "What is the Swift REPL or playground used for?",
+     "options": [
+      "Trying code interactively without creating a project",
+      "Deploying",
+      "Linting",
+      "Signing"
+     ],
+     "answer": 0,
+     "explain": "Great for learning."
+    },
+    {
+     "q": "Which platforms can run Swift today?",
+     "options": [
+      "Browser only",
+      "macOS, iOS and other Apple platforms, Linux and Windows",
+      "Apple only",
+      "Linux only"
+     ],
+     "answer": 1,
+     "explain": "Server-side Swift runs on Linux."
+    },
+    {
+     "q": "What does swift run do in a package?",
+     "options": [
+      "Builds and runs the executable target",
+      "Tests",
+      "Formats",
+      "Deploys"
+     ],
+     "answer": 0,
+     "explain": "swift test runs tests."
+    }
+   ]
+  },
+  "level-1/02-variables-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```swift\nlet name = \"Ana\"\nvar age = 30\nage += 1\nlet pi: Double = 3.14\nlet n = Int(pi)\nlet s = \"\\(name) is \\(age), n=\\(n)\"\nprint(s)\nprint(type(of: age), type(of: pi), s.count)\n```\n",
+     "options": [
+      "Ana is 30, n=3\nInt Double 14",
+      "Ana is 31, n=3\nInt Double 14",
+      "Ana is 31, n=3\nInt Double 15",
+      "Ana is 31, n=3.14\nInt Double 14"
+     ],
+     "answer": 1,
+     "explain": "let is constant, var is mutable; Int(Double) truncates; interpolation uses \\(...). Verified by compiling and running it."
+    },
+    {
+     "q": "What does type inference do?",
+     "options": [
+      "Runs code",
+      "Casts",
+      "The compiler deduces a variable's type from its initial value",
+      "Boxes"
+     ],
+     "answer": 2,
+     "explain": "Annotate when needed."
+    },
+    {
+     "q": "What happens when you assign a value of the wrong type?",
+     "options": [
+      "A compile-time error: Swift is statically and strongly typed",
+      "Runtime",
+      "Converts",
+      "Ignored"
+     ],
+     "answer": 0,
+     "explain": "No implicit conversions between numeric types."
+    },
+    {
+     "q": "What is a tuple?",
+     "options": [
+      "Array",
+      "Dictionary",
+      "Set",
+      "A fixed group of values, possibly of different types, such as (Int, String)"
+     ],
+     "answer": 3,
+     "explain": "Access by index or label."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```swift\nlet score = 78\nlet grade: String\nswitch score {\ncase 90...: grade = \"A\"\ncase 70..<90: grade = \"B\"\ndefault: grade = \"C\"\n}\nvar total = 0\nfor i in 1...4 where i % 2 == 0 { total += i }\nvar n = 0\nwhile n < 3 { n += 1 }\nrepeat { n -= 1 } while n > 5\nprint(grade, total, n)\n```\n",
+     "options": [
+      "B 6 3",
+      "B 6 2",
+      "B 10 2",
+      "A 6 2"
+     ],
+     "answer": 1,
+     "explain": "Ranges in switch, a where clause on for, and repeat-while running at least once. Verified by compiling and running it."
+    },
+    {
+     "q": "What must a Swift switch statement be?",
+     "options": [
+      "Optional",
+      "Exhaustive: every possible value must be handled",
+      "Short",
+      "Sorted"
+     ],
+     "answer": 1,
+     "explain": "Use default when needed."
+    },
+    {
+     "q": "Does a Swift switch case fall through by default?",
+     "options": [
+      "Only strings",
+      "Only ints",
+      "Yes",
+      "No; each case exits the switch unless you use fallthrough"
+     ],
+     "answer": 3,
+     "explain": "Unlike C."
+    },
+    {
+     "q": "What does guard do?",
+     "options": [
+      "Imports",
+      "Loops",
+      "Catches",
+      "Exits early when a condition fails, keeping the happy path unindented"
+     ],
+     "answer": 3,
+     "explain": "The else block must leave the scope."
+    }
+   ]
+  },
+  "level-1/04-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```swift\nfunc area(w: Double, h: Double = 2) -> Double { w * h }\nfunc greet(_ name: String, from city: String) -> String { \"Hi \\(name) from \\(city)\" }\nfunc sum(_ nums: Int...) -> Int { nums.reduce(0, +) }\nfunc swapIt(_ a: inout Int, _ b: inout Int) { let t = a; a = b; b = t }\nvar x = 1, y = 2\nswapIt(&x, &y)\nprint(area(w: 3), greet(\"Bo\", from: \"Paris\"), sum(1, 2, 3), x, y)\n```\n",
+     "options": [
+      "6.0 Hi Bo from Paris 3 1 2",
+      "6.0 Hi Bo Paris 6 2 1",
+      "6.0 Hi Bo from Paris 6 2 1",
+      "6 Hi Bo from Paris 6 2 1"
+     ],
+     "answer": 2,
+     "explain": "Argument labels, defaults, variadics and inout. Verified by compiling and running it."
+    },
+    {
+     "q": "What are argument labels for?",
+     "options": [
+      "Generics",
+      "Make call sites read like sentences (and can be omitted with _)",
+      "Typing",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "external versus internal names."
+    },
+    {
+     "q": "What does a function with a single expression body do?",
+     "options": [
+      "Nothing",
+      "Prints",
+      "Errors",
+      "Implicitly returns that expression"
+     ],
+     "answer": 3,
+     "explain": "No return keyword needed."
+    },
+    {
+     "q": "What does inout allow?",
+     "options": [
+      "Closures",
+      "A function to modify the caller's variable (passed with &)",
+      "Output only",
+      "Import"
+     ],
+     "answer": 1,
+     "explain": "Copy-in copy-out semantics."
+    }
+   ]
+  },
+  "level-1/05-optionals-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```swift\nvar maybe: String? = \"hi\"\nprint(maybe ?? \"none\", maybe?.count ?? 0)\nmaybe = nil\nprint(maybe ?? \"none\", maybe?.count ?? 0)\nif let m = maybe { print(m) } else { print(\"nil\") }\nlet n: Int? = Int(\"42\")\nlet bad: Int? = Int(\"x\")\nprint(n!, bad == nil)\n```\n",
+     "options": [
+      "hi 2\nnone 0\nnil\n42 true",
+      "hi 2\nnil 0\nnil\n42 true",
+      "hi 2\nnone 0\nnone\n42 true",
+      "hi 2\nnone 0\nnil\n42 false"
+     ],
+     "answer": 0,
+     "explain": "?? supplies defaults; optional chaining returns nil; failable initialisers return optionals. Verified by compiling and running it."
+    },
+    {
+     "q": "What does the force-unwrap operator ! do on nil?",
+     "options": [
+      "Crashes at runtime",
+      "Returns nil",
+      "Returns 0",
+      "Throws"
+     ],
+     "answer": 0,
+     "explain": "Prefer if let, guard let or ??."
+    },
+    {
+     "q": "What does if let do?",
+     "options": [
+      "Loops",
+      "Declares",
+      "Casts",
+      "Unwraps an optional into a constant when it has a value"
+     ],
+     "answer": 3,
+     "explain": "Shorthand: if let x { ... } in modern Swift."
+    },
+    {
+     "q": "Why do optionals exist?",
+     "options": [
+      "Law",
+      "They make the possible absence of a value explicit in the type system",
+      "Colour",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "No null pointer surprises."
+    }
+   ]
+  },
+  "level-1/06-collections": {
+   "questions": [
+    {
+     "q": "What does this print?\n```swift\nvar a = [3, 1, 2]\na.append(4)\na.sort()\nlet d = [\"x\": 1, \"y\": 2]\nlet s: Set = [1, 2, 2, 3]\nprint(a, a.map { $0 * 2 }.filter { $0 > 4 }, d[\"z\"] as Any, d[\"x\", default: 0], s.count)\nprint(a.reduce(0, +), a.firstIndex(of: 3) ?? -1, Array(a[1...2]))\n```\n",
+     "options": [
+      "[1, 2, 3, 4] [6, 8] nil 1 3\n10 2 [2, 3]",
+      "[1, 2, 3, 4] [6, 8] 0 1 3\n10 2 [2, 3]",
+      "[1, 2, 3, 4] [6, 8] nil 1 4\n10 2 [2, 3]",
+      "[3, 1, 2, 4] [6, 8] nil 1 3\n10 2 [2, 3]"
+     ],
+     "answer": 0,
+     "explain": "Dictionary subscripts return optionals; sets drop duplicates. Verified by compiling and running it."
+    },
+    {
+     "q": "Are Swift arrays value or reference types?",
+     "options": [
+      "Pointers",
+      "Value types with copy-on-write",
+      "Reference",
+      "Classes"
+     ],
+     "answer": 1,
+     "explain": "Copies are cheap until mutated."
+    },
+    {
+     "q": "What does let do for an array?",
+     "options": [
+      "Makes it immutable (no append or element changes)",
+      "Locks threads",
+      "Copies",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "var allows mutation."
+    },
+    {
+     "q": "Which collection has unique unordered elements?",
+     "options": [
+      "Dictionary",
+      "Tuple",
+      "Array",
+      "Set"
+     ],
+     "answer": 3,
+     "explain": "Elements must be Hashable."
+    }
+   ]
+  },
+  "level-1/07-structs-classes": {
+   "questions": [
+    {
+     "q": "What does this print?\n```swift\nstruct P { var x: Int }\nclass C { var x: Int; init(_ x: Int) { self.x = x } }\nvar p1 = P(x: 1); var p2 = p1; p2.x = 9\nlet c1 = C(1); let c2 = c1; c2.x = 9\nprint(p1.x, p2.x, c1.x, c2.x, c1 === c2)\n```\n",
+     "options": [
+      "1 9 9 9 true",
+      "1 9 1 9 false",
+      "1 9 9 9 false",
+      "9 9 9 9 true"
+     ],
+     "answer": 0,
+     "explain": "Structs are copied; classes share one instance. Verified by compiling and running it."
+    },
+    {
+     "q": "When should you prefer a struct?",
+     "options": [
+      "Never",
+      "Inheritance",
+      "Always class",
+      "For simple data values that should be copied, which is the Swift default"
+     ],
+     "answer": 3,
+     "explain": "Use classes for identity or inheritance."
+    },
+    {
+     "q": "What does a mutating method do?",
+     "options": [
+      "Deletes",
+      "Locks",
+      "Allows a struct method to modify the struct's properties",
+      "Copies"
+     ],
+     "answer": 2,
+     "explain": "Required for value types."
+    },
+    {
+     "q": "What is a computed property?",
+     "options": [
+      "Stored",
+      "Lazy",
+      "Static",
+      "A property that calculates its value on access instead of storing it"
+     ],
+     "answer": 3,
+     "explain": "Has get and optionally set."
+    }
+   ]
+  },
+  "level-1/08-enums": {
+   "questions": [
+    {
+     "q": "What does this print?\n```swift\nenum Shape { case circle(r: Double), rect(w: Double, h: Double), point }\nfunc area(_ s: Shape) -> Double {\n  switch s { case .circle(let r): return 3 * r * r\n  case .rect(let w, let h): return w * h\n  case .point: return 0 }\n}\nenum Level: Int, CaseIterable { case low = 1, mid, high }\nprint(area(.circle(r: 2)), area(.rect(w: 2, h: 3)), area(.point))\nprint(Level.allCases.map(\\.rawValue), Level(rawValue: 2) as Any, Level(rawValue: 9) as Any)\n```\n",
+     "options": [
+      "12.0 6.0 0.0\n[1, 2, 3] Optional(main.Level.mid) nil",
+      "12.0 6.0 0.0\n[1, 2, 3] mid nil",
+      "12 6 0\n[1, 2, 3] Optional(mid) nil",
+      "12.0 6.0 0.0\n[0, 1, 2] Optional(main.Level.mid) nil"
+     ],
+     "answer": 0,
+     "explain": "Associated values carry data; raw values continue counting; rawValue init is failable. Verified by compiling and running it."
+    },
+    {
+     "q": "What are associated values?",
+     "options": [
+      "Data attached to enum cases, different per case",
+      "Constants",
+      "Raw values",
+      "Imports"
+     ],
+     "answer": 0,
+     "explain": "Model alternatives precisely."
+    },
+    {
+     "q": "What does CaseIterable provide?",
+     "options": [
+      "Codable",
+      "Raw values",
+      "allCases, a collection of every case",
+      "Hashing"
+     ],
+     "answer": 2,
+     "explain": "Synthesised automatically."
+    },
+    {
+     "q": "Why are enums good for state?",
+     "options": [
+      "Illegal states can be made unrepresentable",
+      "Law",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Switch must be exhaustive."
+    }
+   ]
+  },
+  "level-1/09-closures-intro": {
+   "questions": [
+    {
+     "q": "What does this print?\n```swift\nlet nums = [1, 2, 3, 4]\nlet doubled = nums.map { $0 * 2 }\nlet sorted = nums.sorted { $0 > $1 }\nvar counter = 0\nlet inc = { counter += 1; return counter }\n_ = inc(); _ = inc()\nfunc makeAdder(_ n: Int) -> (Int) -> Int { { $0 + n } }\nprint(doubled, sorted, counter, makeAdder(5)(3))\n```\n",
+     "options": [
+      "[2, 4, 6, 8] [4, 3, 2, 1] 2 5",
+      "[2, 4, 6, 8] [4, 3, 2, 1] 2 8",
+      "[2, 4, 6, 8] [4, 3, 2, 1] 0 8",
+      "[2, 4, 6, 8] [1, 2, 3, 4] 2 8"
+     ],
+     "answer": 1,
+     "explain": "Closures capture variables by reference. Verified by compiling and running it."
+    },
+    {
+     "q": "What is trailing closure syntax?",
+     "options": [
+      "Writing the final closure argument after the parentheses",
+      "Closing braces",
+      "Generic",
+      "Error"
+     ],
+     "answer": 0,
+     "explain": "names.sorted { $0 < $1 }."
+    },
+    {
+     "q": "What do $0 and $1 mean?",
+     "options": [
+      "Pointers",
+      "Env",
+      "Zeros",
+      "Shorthand for the first and second closure arguments"
+     ],
+     "answer": 3,
+     "explain": "Use names when clearer."
+    },
+    {
+     "q": "What does @escaping mean?",
+     "options": [
+      "Fast",
+      "Error",
+      "The closure may be called after the function returns",
+      "Unsafe"
+     ],
+     "answer": 2,
+     "explain": "Needed for stored or async closures."
+    }
+   ]
+  },
+  "level-1/10-project-todo-cli": {
+   "questions": [
+    {
+     "q": "What does this todo model print?\n```swift\nstruct Todo { let id: Int; var title: String; var done = false }\nvar todos: [Todo] = []\nfunc add(_ t: String) { todos.append(Todo(id: todos.count + 1, title: t)) }\nfunc complete(_ id: Int) -> Bool { guard let i = todos.firstIndex(where: { $0.id == id }) else { return false }; todos[i].done = true; return true }\nadd(\"milk\"); add(\"report\")\nprint(complete(2), complete(9))\nprint(todos.map { \"\\($0.done ? \"x\" : \" \") \\($0.title)\" })\n```\n",
+     "options": [
+      "true true\n[\"  milk\", \"x report\"]",
+      "true false\n[\"x milk\", \"  report\"]",
+      "false false\n[\"  milk\", \"  report\"]",
+      "true false\n[\"  milk\", \"x report\"]"
+     ],
+     "answer": 3,
+     "explain": "firstIndex(where:) with guard handles a missing id. Verified by compiling and running it."
+    },
+    {
+     "q": "How would you persist todos between runs of the CLI?",
+     "options": [
+      "Encode them to JSON with Codable and write to a file",
+      "Memory",
+      "Global",
+      "Env"
+     ],
+     "answer": 0,
+     "explain": "Handle missing or corrupt files."
+    },
+    {
+     "q": "How do you read command-line arguments?",
+     "options": [
+      "scan",
+      "argv()",
+      "CommandLine.arguments (or swift-argument-parser)",
+      "args"
+     ],
+     "answer": 2,
+     "explain": "The first element is the program path."
+    },
+    {
+     "q": "Why keep logic in functions separate from main?",
+     "options": [
+      "So it can be unit tested",
+      "Swift needs it",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Thin entry point."
+    }
+   ]
+  },
+  "level-2/01-oop-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```swift\nclass Animal { var name: String; init(_ n: String) { name = n }; func speak() -> String { \"...\" } }\nclass Dog: Animal { override func speak() -> String { \"\\(name): woof\" } }\nprotocol Describable { var summary: String { get } }\nextension Animal: Describable { var summary: String { \"Animal \\(name)\" } }\nlet pets: [Animal] = [Animal(\"Generic\"), Dog(\"Rex\")]\nprint(pets.map { $0.speak() }, pets[1].summary, pets[1] is Dog)\n```\n",
+     "options": [
+      "[\"Generic\", \"Rex\"] Animal Rex true",
+      "[\"...\", \"Rex: woof\"] Animal Rex false",
+      "[\"...\", \"Rex: woof\"] Animal Rex true",
+      "[\"...\", \"...\"] Animal Rex true"
+     ],
+     "answer": 2,
+     "explain": "Dynamic dispatch picks the subclass override; extensions add protocol conformance. Verified by compiling and running it."
+    },
+    {
+     "q": "What does final do on a class?",
+     "options": [
+      "Prevents subclassing (or overriding)",
+      "Seals",
+      "Locks",
+      "Frees"
+     ],
+     "answer": 0,
+     "explain": "Enables optimisations."
+    },
+    {
+     "q": "What is the difference between a designated and a convenience initialiser?",
+     "options": [
+      "Designated is optional",
+      "Convenience is faster",
+      "Designated initialisers fully initialise; convenience ones delegate to them",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Two-phase initialisation."
+    },
+    {
+     "q": "What does access control (private, internal, public) do?",
+     "options": [
+      "Security",
+      "Limits where declarations can be used",
+      "Speed",
+      "Types"
+     ],
+     "answer": 1,
+     "explain": "fileprivate and open also exist."
+    }
+   ]
+  },
+  "level-2/02-optionals-advanced": {
+   "questions": [
+    {
+     "q": "What does this print?\n```swift\nlet a: Int? = 5, b: Int? = nil\nprint(a.map { $0 * 2 } as Any, b.map { $0 * 2 } as Any)\nprint(a.flatMap { $0 > 3 ? $0 : nil } as Any)\nlet words = [\"1\", \"x\", \"3\"]\nprint(words.compactMap { Int($0) })\nstruct U { var addr: Addr?; struct Addr { var city: String? } }\nlet u = U(addr: .init(city: \"Oslo\"))\nprint(u.addr?.city ?? \"none\", U().addr?.city ?? \"none\")\n```\n",
+     "options": [
+      "Optional(10) nil\nOptional(5)\n[1, nil, 3]\nOslo none",
+      "Optional(10) nil\n5\n[1, 3]\nOslo none",
+      "10 nil\nOptional(5)\n[1, 3]\nOslo none",
+      "Optional(10) nil\nOptional(5)\n[1, 3]\nOslo none"
+     ],
+     "answer": 3,
+     "explain": "map and flatMap transform optionals; compactMap drops nils. Verified by compiling and running it."
+    },
+    {
+     "q": "What does the nil-coalescing operator ?? do?",
+     "options": [
+      "Compares",
+      "Casts",
+      "Provides a default when the left side is nil",
+      "Unwraps forcibly"
+     ],
+     "answer": 2,
+     "explain": "Chain with other defaults."
+    },
+    {
+     "q": "When is an implicitly unwrapped optional (Int!) acceptable?",
+     "options": [
+      "Never",
+      "Always",
+      "For arrays",
+      "Rarely, for values set right after initialisation such as outlets"
+     ],
+     "answer": 3,
+     "explain": "Prefer regular optionals."
+    },
+    {
+     "q": "What does optional chaining return?",
+     "options": [
+      "Crash",
+      "Error",
+      "An optional result, nil if any link in the chain is nil",
+      "Value"
+     ],
+     "answer": 2,
+     "explain": "a?.b?.c."
+    }
+   ]
+  },
+  "level-2/03-error-handling": {
+   "questions": [
+    {
+     "q": "What does this print?\n```swift\nenum E: Error { case empty, tooShort(Int) }\nfunc validate(_ s: String) throws -> String {\n  guard !s.isEmpty else { throw E.empty }\n  guard s.count >= 3 else { throw E.tooShort(s.count) }\n  return s.uppercased()\n}\nfor s in [\"abc\", \"\", \"ab\"] {\n  do { print(try validate(s)) }\n  catch E.empty { print(\"empty\") }\n  catch E.tooShort(let n) { print(\"short \\(n)\") }\n}\nprint((try? validate(\"ab\")) as Any, (try? validate(\"abcd\")) as Any)\n```\n",
+     "options": [
+      "ABC\nempty\nshort 3\nnil Optional(\"ABCD\")",
+      "ABC\nempty\nshort 2\nnil Optional(\"ABCD\")",
+      "ABC\nempty\nshort 2\nnil \"ABCD\"",
+      "ABC\nempty\nshort 2\nOptional(nil) Optional(\"ABCD\")"
+     ],
+     "answer": 1,
+     "explain": "try? converts errors to nil; catch patterns match specific errors. Verified by compiling and running it."
+    },
+    {
+     "q": "What does try! do when the call throws?",
+     "options": [
+      "Returns nil",
+      "Rethrows",
+      "Crashes at runtime",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Avoid except for truly impossible failures."
+    },
+    {
+     "q": "What does rethrows mean?",
+     "options": [
+      "Never",
+      "Async",
+      "Always throws",
+      "A function throws only if a closure argument throws"
+     ],
+     "answer": 3,
+     "explain": "map is rethrows."
+    },
+    {
+     "q": "What does defer do?",
+     "options": [
+      "Delays threads",
+      "Runs code when the scope exits, however it exits",
+      "Catches",
+      "Skips"
+     ],
+     "answer": 1,
+     "explain": "Good for cleanup."
+    }
+   ]
+  },
+  "level-2/04-closures-advanced": {
+   "questions": [
+    {
+     "q": "What does this print?\n```swift\nfunc makeCounter() -> () -> Int { var c = 0; return { c += 1; return c } }\nlet a = makeCounter(), b = makeCounter()\n_ = a(); _ = a()\nprint(a(), b())\nclass Owner { var name = \"o\"; var cb: (() -> String)?; func setup() { cb = { [weak self] in self?.name ?? \"gone\" } } }\nvar o: Owner? = Owner(); o!.setup()\nlet cb = o!.cb!\nprint(cb())\no = nil\nprint(cb())\n```\n",
+     "options": [
+      "3 1\no\no",
+      "3 1\no\ngone",
+      "1 1\no\ngone",
+      "3 3\no\ngone"
+     ],
+     "answer": 1,
+     "explain": "Each closure captures its own variable; [weak self] avoids retain cycles and becomes nil. Verified by compiling and running it."
+    },
+    {
+     "q": "What causes a retain cycle with closures?",
+     "options": [
+      "A closure that strongly captures self while self stores the closure",
+      "Enums",
+      "Speed",
+      "Generics"
+     ],
+     "answer": 0,
+     "explain": "Use [weak self] or [unowned self]."
+    },
+    {
+     "q": "What is the difference between weak and unowned?",
+     "options": [
+      "weak is optional and becomes nil; unowned assumes the object outlives the closure and crashes if not",
+      "weak strong",
+      "unowned optional",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "Choose carefully."
+    },
+    {
+     "q": "What does a closure capture list [x] do?",
+     "options": [
+      "Captures x by value at the time the closure is created",
+      "Nothing",
+      "Weak",
+      "Reference"
+     ],
+     "answer": 0,
+     "explain": "Without it, variables are captured by reference."
+    }
+   ]
+  },
+  "level-2/05-generics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```swift\nfunc largest<T: Comparable>(_ xs: [T]) -> T? { xs.max() }\nstruct Stack<Element> { private var items: [Element] = []; mutating func push(_ e: Element) { items.append(e) }; mutating func pop() -> Element? { items.popLast() }; var count: Int { items.count } }\nvar s = Stack<String>(); s.push(\"a\"); s.push(\"b\")\nprint(largest([3, 9, 2]) as Any, largest([\"b\", \"a\"]) as Any, largest([Int]()) as Any)\nprint(s.pop() as Any, s.count)\nextension Array where Element: Numeric { func total() -> Element { reduce(0, +) } }\nprint([1.5, 2.5].total())\n```\n",
+     "options": [
+      "Optional(9) Optional(\"b\") nil\nOptional(\"b\") 2\n4.0",
+      "Optional(9) Optional(\"b\") nil\nOptional(\"b\") 1\n4",
+      "9 b nil\nb 1\n4.0",
+      "Optional(9) Optional(\"b\") nil\nOptional(\"b\") 1\n4.0"
+     ],
+     "answer": 3,
+     "explain": "Generic functions use constraints; generic types hold any Element; constrained extensions add methods. Verified by compiling and running it."
+    },
+    {
+     "q": "What does <T: Comparable> mean?",
+     "options": [
+      "T must conform to Comparable",
+      "T is a protocol",
+      "T is optional",
+      "T is a Comparable class"
+     ],
+     "answer": 0,
+     "explain": "Constraints enable operations."
+    },
+    {
+     "q": "What does an associated type do in a protocol?",
+     "options": [
+      "Declares a placeholder type that conforming types specify",
+      "Generic class",
+      "Enum",
+      "Alias only"
+     ],
+     "answer": 0,
+     "explain": "Sequence has Element."
+    },
+    {
+     "q": "What does some Protocol (opaque type) mean?",
+     "options": [
+      "dyn",
+      "Optional",
+      "A specific but hidden concrete type conforming to the protocol",
+      "Any type"
+     ],
+     "answer": 2,
+     "explain": "any Protocol is an existential."
+    }
+   ]
+  },
+  "level-2/06-testing-xctest": {
+   "questions": [
+    {
+     "q": "Which framework does modern Swift use for tests?",
+     "options": [
+      "JUnit",
+      "pytest",
+      "Swift Testing (with XCTest still supported)",
+      "Mocha"
+     ],
+     "answer": 2,
+     "explain": "@Test and #expect macros."
+    },
+    {
+     "q": "What does XCTAssertEqual check?",
+     "options": [
+      "Nothing",
+      "Identity",
+      "That two values are equal, failing the test otherwise",
+      "Type"
+     ],
+     "answer": 2,
+     "explain": "Provide messages for clarity."
+    },
+    {
+     "q": "What makes a good unit test?",
+     "options": [
+      "Fast, isolated and deterministic",
+      "Slow",
+      "Shared",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Avoid real network and clocks."
+    },
+    {
+     "q": "How do you test code that depends on the network?",
+     "options": [
+      "Hit prod",
+      "Skip",
+      "Mock Swift",
+      "Inject a protocol-based client and use a fake in tests"
+     ],
+     "answer": 3,
+     "explain": "Dependency injection."
+    }
+   ]
+  },
+  "level-2/07-json-codable": {
+   "questions": [
+    {
+     "q": "What does this Codable round trip print?\n```swift\nimport Foundation\nstruct User: Codable { let id: Int; var name: String; var tags: [String] = []; enum CodingKeys: String, CodingKey { case id, name, tags = \"labels\" } }\nlet json = #\"{\"id\":1,\"name\":\"Ana\",\"labels\":[\"a\",\"b\"]}\"#.data(using: .utf8)!\nlet u = try JSONDecoder().decode(User.self, from: json)\nprint(u.id, u.name, u.tags)\nlet enc = JSONEncoder(); enc.outputFormatting = .sortedKeys\nprint(String(data: try enc.encode(u), encoding: .utf8)!)\nprint((try? JSONDecoder().decode(User.self, from: Data(\"{}\".utf8))) == nil)\n```\n",
+     "options": [
+      "1 Ana [\"a\", \"b\"]\n{\"id\":1,\"tags\":[\"a\",\"b\"],\"name\":\"Ana\"}\ntrue",
+      "1 Ana [\"a\", \"b\"]\n{\"id\":1,\"labels\":[\"a\",\"b\"],\"name\":\"Ana\"}\nfalse",
+      "1 Ana [\"a\", \"b\"]\n{\"id\":1,\"labels\":[\"a\",\"b\"],\"name\":\"Ana\"}\ntrue",
+      "1 Ana []\n{\"id\":1,\"labels\":[\"a\",\"b\"],\"name\":\"Ana\"}\ntrue"
+     ],
+     "answer": 2,
+     "explain": "CodingKeys rename fields; missing required keys make decoding throw. Verified by compiling and running it."
+    },
+    {
+     "q": "What does Codable combine?",
+     "options": [
+      "Encodable and Decodable",
+      "Hashable",
+      "Sendable",
+      "Equatable"
+     ],
+     "answer": 0,
+     "explain": "Compiler synthesises it."
+    },
+    {
+     "q": "How do you handle date formats in JSON?",
+     "options": [
+      "Strings only",
+      "Set dateDecodingStrategy (for example .iso8601)",
+      "Ignore",
+      "Regex"
+     ],
+     "answer": 1,
+     "explain": "Be explicit."
+    },
+    {
+     "q": "What should you do with untrusted JSON?",
+     "options": [
+      "Decode into typed models and handle errors, never force-try",
+      "Trust",
+      "Eval",
+      "try!"
+     ],
+     "answer": 0,
+     "explain": "Validate semantics too."
+    }
+   ]
+  },
+  "level-2/08-swift-package-manager": {
+   "questions": [
+    {
+     "q": "What does Package.swift define?",
+     "options": [
+      "The package's name, products, dependencies and targets",
+      "Docs",
+      "The UI",
+      "The tests"
+     ],
+     "answer": 0,
+     "explain": "Written in Swift."
+    },
+    {
+     "q": "How do you add a dependency?",
+     "options": [
+      "CocoaPods",
+      "In Package.swift dependencies with a URL and version requirement",
+      "Copy",
+      "Download"
+     ],
+     "answer": 1,
+     "explain": "swift package resolve fetches it."
+    },
+    {
+     "q": "What does Package.resolved record?",
+     "options": [
+      "The exact versions used (commit for reproducible builds)",
+      "Docs",
+      "Targets",
+      "Notes"
+     ],
+     "answer": 0,
+     "explain": "Commit it for apps."
+    },
+    {
+     "q": "What are targets and products?",
+     "options": [
+      "Tests",
+      "Files",
+      "Same",
+      "Targets are modules you build; products are what other packages can use (libraries, executables)"
+     ],
+     "answer": 3,
+     "explain": "Test targets depend on library targets."
+    }
+   ]
+  },
+  "level-2/09-property-wrappers": {
+   "questions": [
+    {
+     "q": "What does this property wrapper print?\n```swift\n@propertyWrapper struct Clamped { private var v: Int; let r: ClosedRange<Int>; var wrappedValue: Int { get { v } set { v = min(max(newValue, r.lowerBound), r.upperBound) } }; init(wrappedValue: Int, _ r: ClosedRange<Int>) { self.r = r; self.v = min(max(wrappedValue, r.lowerBound), r.upperBound) } }\nstruct Vol { @Clamped(0...10) var level = 5 }\nvar v = Vol()\nv.level = 42\nprint(v.level)\nv.level = -3\nprint(v.level)\n```\n",
+     "options": [
+      "42\n-3",
+      "10\n-3",
+      "5\n5",
+      "10\n0"
+     ],
+     "answer": 3,
+     "explain": "The wrapper intercepts reads and writes to enforce a range. Verified by compiling and running it."
+    },
+    {
+     "q": "What does @State do in SwiftUI?",
+     "options": [
+      "Network",
+      "Stores local view state and re-renders the view when it changes",
+      "Threads",
+      "Disk"
+     ],
+     "answer": 1,
+     "explain": "A property wrapper."
+    },
+    {
+     "q": "What do property wrappers reduce?",
+     "options": [
+      "Colour",
+      "Law",
+      "Speed",
+      "Repeated getter/setter boilerplate"
+     ],
+     "answer": 3,
+     "explain": "Reusable behaviour."
+    },
+    {
+     "q": "What is projectedValue ($name)?",
+     "options": [
+      "Stored",
+      "An extra value a wrapper exposes, like a Binding with @State",
+      "Private",
+      "Alias"
+     ],
+     "answer": 1,
+     "explain": "Accessed with $."
+    }
+   ]
+  },
+  "level-2/10-project-weather-cli": {
+   "questions": [
+    {
+     "q": "What does the weather CLI project combine?",
+     "options": [
+      "Only DB",
+      "Only UI",
+      "Only tests",
+      "Networking with URLSession, Codable, error handling and argument parsing"
+     ],
+     "answer": 3,
+     "explain": "Level 2 capstone."
+    },
+    {
+     "q": "How do you make an HTTP request in modern Swift?",
+     "options": [
+      "fetch()",
+      "try await URLSession.shared.data(from: url)",
+      "curl",
+      "requests"
+     ],
+     "answer": 1,
+     "explain": "Check the HTTP status."
+    },
+    {
+     "q": "How do you test the API layer without the network?",
+     "options": [
+      "Mock",
+      "Skip",
+      "Real API",
+      "Protocol-based client plus a fake returning sample JSON"
+     ],
+     "answer": 3,
+     "explain": "Deterministic tests."
+    },
+    {
+     "q": "Where should the API key come from?",
+     "options": [
+      "Git",
+      "Code",
+      "Environment or configuration, not source code",
+      "Comments"
+     ],
+     "answer": 2,
+     "explain": "Never commit keys."
+    }
+   ]
+  },
+  "level-3/01-concurrency": {
+   "questions": [
+    {
+     "q": "What does this structured-concurrency example print?\n```swift\nfunc square(_ n: Int) async -> Int { n * n }\nactor Counter { var n = 0; func inc() -> Int { n += 1; return n } }\nlet c = Counter()\nlet results = await withTaskGroup(of: Int.self) { g in\n  for i in 1...4 { g.addTask { await square(i) } }\n  var all: [Int] = []\n  for await r in g { all.append(r) }\n  return all.sorted()\n}\nprint(results)\nawait c.inc(); await c.inc()\nprint(await c.inc())\nasync let x = square(3)\nasync let y = square(4)\nprint(await x + y)\n```\n",
+     "options": [
+      "[16, 9, 4, 1]\n3\n25",
+      "[1, 4, 9, 16]\n3\n25",
+      "[1, 4, 9, 16]\n3\n7",
+      "[1, 4, 9, 16]\n1\n25"
+     ],
+     "answer": 1,
+     "explain": "Task groups run children concurrently; actors serialise access; async let starts parallel work. Verified by compiling and running it."
+    },
+    {
+     "q": "What does await mean?",
+     "options": [
+      "A potential suspension point where other work can run",
+      "Block thread",
+      "Lock",
+      "Sleep"
+     ],
+     "answer": 0,
+     "explain": "The thread is not blocked."
+    },
+    {
+     "q": "What is an actor?",
+     "options": [
+      "A queue",
+      "A class",
+      "A thread",
+      "A reference type that protects its mutable state by serialising access"
+     ],
+     "answer": 3,
+     "explain": "Access across actors needs await."
+    },
+    {
+     "q": "What does Sendable indicate?",
+     "options": [
+      "A type is safe to pass between concurrency domains",
+      "Codable",
+      "Equatable",
+      "Hashable"
+     ],
+     "answer": 0,
+     "explain": "Swift 6 enforces it."
+    }
+   ]
+  },
+  "level-3/02-server-side-apis-vapor": {
+   "questions": [
+    {
+     "q": "Which framework is the leading server-side Swift web framework?",
+     "options": [
+      "Django",
+      "Vapor (and Hummingbird)",
+      "Rails",
+      "Flask"
+     ],
+     "answer": 1,
+     "explain": "Built on SwiftNIO."
+    },
+    {
+     "q": "What does SwiftNIO provide?",
+     "options": [
+      "DB",
+      "UI",
+      "Tests",
+      "An event-driven networking foundation"
+     ],
+     "answer": 3,
+     "explain": "Non-blocking I/O."
+    },
+    {
+     "q": "How does Vapor map routes?",
+     "options": [
+      "XML",
+      "app.get(\"path\") { req in ... } closures returning Content",
+      "Files",
+      "Annotations"
+     ],
+     "answer": 1,
+     "explain": "Typed routing with async handlers."
+    },
+    {
+     "q": "Why avoid blocking calls in async handlers?",
+     "options": [
+      "They tie up event-loop or cooperative threads and hurt throughput",
+      "Colour",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Use async APIs."
+    }
+   ]
+  },
+  "level-3/03-databases": {
+   "questions": [
+    {
+     "q": "What does Fluent provide in Vapor?",
+     "options": [
+      "UI",
+      "An ORM with models, migrations and query building",
+      "Logs",
+      "HTTP"
+     ],
+     "answer": 1,
+     "explain": "Supports Postgres, MySQL, SQLite."
+    },
+    {
+     "q": "Why use migrations?",
+     "options": [
+      "Versioned, repeatable schema changes",
+      "Law",
+      "Colour",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Run on deploy."
+    },
+    {
+     "q": "How do you avoid SQL injection with a Swift database library?",
+     "options": [
+      "Regex",
+      "Escape",
+      "Use parameter binding or the query builder, never string interpolation",
+      "Trust"
+     ],
+     "answer": 2,
+     "explain": "Bind values."
+    },
+    {
+     "q": "What does a connection pool do?",
+     "options": [
+      "Closes",
+      "Caches rows",
+      "Reuses a limited number of connections across requests",
+      "Encrypts"
+     ],
+     "answer": 2,
+     "explain": "Size it to the database."
+    }
+   ]
+  },
+  "level-3/04-design-patterns": {
+   "questions": [
+    {
+     "q": "What does this Strategy and Observer model print?\n```swift\nprotocol Pricing { func price(_ base: Double) -> Double }\nstruct Regular: Pricing { func price(_ b: Double) -> Double { b } }\nstruct Sale: Pricing { let pct: Double; func price(_ b: Double) -> Double { b * (1 - pct) } }\nfinal class Cart { var strategy: Pricing; var subs: [(Double) -> Void] = []; init(_ s: Pricing) { strategy = s }\n  func checkout(_ base: Double) { let p = strategy.price(base); subs.forEach { $0(p) } } }\nlet cart = Cart(Regular())\nvar seen: [Double] = []\ncart.subs.append { seen.append($0) }\ncart.checkout(100)\ncart.strategy = Sale(pct: 0.25)\ncart.checkout(100)\nprint(seen)\n```\n",
+     "options": [
+      "[100.0]",
+      "[75.0, 100.0]",
+      "[100.0, 100.0]",
+      "[100.0, 75.0]"
+     ],
+     "answer": 3,
+     "explain": "Swapping the strategy changes behaviour; closures act as observers. Verified by compiling and running it."
+    },
+    {
+     "q": "What is dependency injection in Swift?",
+     "options": [
+      "Passing collaborators in (often as protocols) instead of creating them inside",
+      "Reflection",
+      "Globals",
+      "Singletons"
+     ],
+     "answer": 0,
+     "explain": "Improves testability."
+    },
+    {
+     "q": "What is a downside of singletons?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Hidden global state that makes tests and reasoning harder",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Inject instead."
+    },
+    {
+     "q": "What does the Factory pattern do?",
+     "options": [
+      "Observes",
+      "Encapsulates object creation behind a function or type",
+      "Sorts",
+      "Destroys"
+     ],
+     "answer": 1,
+     "explain": "Use enums or static funcs."
+    }
+   ]
+  },
+  "level-3/05-ios-fundamentals": {
+   "questions": [
+    {
+     "q": "What does SwiftUI use to describe interfaces?",
+     "options": [
+      "HTML",
+      "Storyboards only",
+      "XML",
+      "Declarative View structs composed in a body"
+     ],
+     "answer": 3,
+     "explain": "State drives the UI."
+    },
+    {
+     "q": "What is the iOS app lifecycle entry in SwiftUI?",
+     "options": [
+      "index",
+      "A type marked @main conforming to App",
+      "main.m",
+      "AppDelegate only"
+     ],
+     "answer": 1,
+     "explain": "Scenes contain windows."
+    },
+    {
+     "q": "What is Auto Layout / SwiftUI stacks for?",
+     "options": [
+      "Network",
+      "Speed",
+      "Adapting layout to different screen sizes and orientations",
+      "Colours"
+     ],
+     "answer": 2,
+     "explain": "HStack, VStack, ZStack."
+    },
+    {
+     "q": "Why test on devices and not only simulators?",
+     "options": [
+      "Colour",
+      "Law",
+      "Hardware, performance and sensors differ",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Also check different iOS versions."
+    }
+   ]
+  },
+  "level-3/06-testing-advanced": {
+   "questions": [
+    {
+     "q": "What does a UI test do?",
+     "options": [
+      "Unit logic",
+      "Compiles",
+      "Drives the app's interface like a user (XCUITest)",
+      "Deploys"
+     ],
+     "answer": 2,
+     "explain": "Slower, so use sparingly."
+    },
+    {
+     "q": "What is a test double?",
+     "options": [
+      "A fake, stub or mock standing in for a real dependency",
+      "A duplicate",
+      "Two tests",
+      "A copy"
+     ],
+     "answer": 0,
+     "explain": "Use protocol-based fakes."
+    },
+    {
+     "q": "What is code coverage a signal of?",
+     "options": [
+      "Quality",
+      "Which code the tests execute, not whether behaviour is correct",
+      "Speed",
+      "Correctness"
+     ],
+     "answer": 1,
+     "explain": "Use it to find untested areas."
+    },
+    {
+     "q": "Why keep tests deterministic?",
+     "options": [
+      "Colour",
+      "Style",
+      "Law",
+      "Flaky tests erode trust"
+     ],
+     "answer": 3,
+     "explain": "Control time and randomness."
+    }
+   ]
+  },
+  "level-3/07-memory-management": {
+   "questions": [
+    {
+     "q": "What does this ARC demo print?\n```swift\nfinal class Node { let name: String; weak var friend: Node?; init(_ n: String) { name = n }; deinit { print(\"deinit \\(name)\") } }\nvar a: Node? = Node(\"a\")\nvar b: Node? = Node(\"b\")\na?.friend = b; b?.friend = a\na = nil\nprint(\"a released\")\nb = nil\nprint(\"done\")\n```\n",
+     "options": [
+      "a released\ndeinit a\ndeinit b\ndone",
+      "a released\ndone",
+      "deinit a\ndeinit b\na released\ndone",
+      "deinit a\na released\ndeinit b\ndone"
+     ],
+     "answer": 3,
+     "explain": "weak references break cycles, so both objects are released as soon as the strong references go. Verified by compiling and running it."
+    },
+    {
+     "q": "What does ARC do?",
+     "options": [
+      "Pools",
+      "Garbage collects",
+      "Manual free",
+      "Automatically counts references and frees objects when the count reaches zero"
+     ],
+     "answer": 3,
+     "explain": "No GC pauses."
+    },
+    {
+     "q": "What causes a memory leak in Swift?",
+     "options": [
+      "Optionals",
+      "Structs",
+      "A retain cycle where objects keep each other alive",
+      "Closures alone"
+     ],
+     "answer": 2,
+     "explain": "Use weak or unowned."
+    },
+    {
+     "q": "Which tool finds leaks?",
+     "options": [
+      "The Memory Graph Debugger and Instruments",
+      "Console",
+      "Git",
+      "Linter"
+     ],
+     "answer": 0,
+     "explain": "Check deinit logging."
+    }
+   ]
+  },
+  "level-3/08-performance-profiling": {
+   "questions": [
+    {
+     "q": "What should you do first when an app is slow?",
+     "options": [
+      "Profile with Instruments (Time Profiler) to find the hot path",
+      "Guess",
+      "Add threads",
+      "Rewrite"
+     ],
+     "answer": 0,
+     "explain": "Measure before optimising."
+    },
+    {
+     "q": "What is a common main-thread mistake in iOS?",
+     "options": [
+      "Doing heavy work or blocking I/O on the main thread, freezing the UI",
+      "Using enums",
+      "Using structs",
+      "Using let"
+     ],
+     "answer": 0,
+     "explain": "Move work to background tasks."
+    },
+    {
+     "q": "Why prefer structs and value semantics for performance?",
+     "options": [
+      "Law",
+      "Style",
+      "Often allocated on the stack and no reference counting overhead",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Not always, so measure."
+    },
+    {
+     "q": "What does lazy do for a property or collection?",
+     "options": [
+      "Parallelises",
+      "Freezes",
+      "Defers computation until needed",
+      "Caches"
+     ],
+     "answer": 2,
+     "explain": "lazy var and lazy sequences."
+    }
+   ]
+  },
+  "level-3/09-protocol-oriented-programming": {
+   "questions": [
+    {
+     "q": "What does this protocol-oriented example print?\n```swift\nprotocol Named { var name: String { get } }\nprotocol Greeter: Named { func greet() -> String }\nextension Greeter { func greet() -> String { \"Hello, \\(name)\" } }\nstruct Person: Greeter { let name: String }\nstruct Robot: Greeter { let name: String; func greet() -> String { \"BEEP \\(name)\" } }\nlet gs: [any Greeter] = [Person(name: \"Ana\"), Robot(name: \"R2\")]\nprint(gs.map { $0.greet() })\nfunc loud<G: Greeter>(_ g: G) -> String { g.greet().uppercased() }\nprint(loud(Person(name: \"bo\")))\n```\n",
+     "options": [
+      "[\"Hello, Ana\", \"Hello, R2\"]\nHELLO, BO",
+      "[\"Hello, Ana\", \"BEEP R2\"]\nHELLO, bo",
+      "[\"Hello, Ana\", \"BEEP R2\"]\nHELLO, BO",
+      "[\"Hello, Ana\", \"BEEP R2\"]\nHello, bo"
+     ],
+     "answer": 2,
+     "explain": "Protocol extensions supply defaults that conforming types may override. Verified by compiling and running it."
+    },
+    {
+     "q": "What is protocol-oriented programming?",
+     "options": [
+      "Designing around protocols and composition with default implementations instead of class inheritance",
+      "Inheritance",
+      "Enums",
+      "Macros"
+     ],
+     "answer": 0,
+     "explain": "Value types participate."
+    },
+    {
+     "q": "What is the difference between any P and some P?",
+     "options": [
+      "some is dynamic",
+      "Same",
+      "any is generic",
+      "any is a type-erased existential; some hides one fixed concrete type"
+     ],
+     "answer": 3,
+     "explain": "Prefer some or generics when possible."
+    },
+    {
+     "q": "Why prefer composition over inheritance?",
+     "options": [
+      "Law",
+      "Colour",
+      "Flexible, avoids deep hierarchies and works with structs",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Small protocols."
+    }
+   ]
+  },
+  "level-3/10-project-rest-api-db": {
+   "questions": [
+    {
+     "q": "What does the REST API + DB project combine?",
+     "options": [
+      "Only Docker",
+      "Vapor routes, Fluent models, migrations, validation and tests",
+      "Only SQL",
+      "Only UI"
+     ],
+     "answer": 1,
+     "explain": "Level 3 capstone."
+    },
+    {
+     "q": "How do you validate request input in Vapor?",
+     "options": [
+      "Validatable with rules, returning 400 with details",
+      "None",
+      "Trust",
+      "Regex"
+     ],
+     "answer": 0,
+     "explain": "Never trust clients."
+    },
+    {
+     "q": "Which status for a duplicate unique key?",
+     "options": [
+      "500",
+      "404",
+      "409 Conflict",
+      "200"
+     ],
+     "answer": 2,
+     "explain": "Map database errors."
+    },
+    {
+     "q": "How do you test routes?",
+     "options": [
+      "XCTVapor to send in-memory requests",
+      "Real server",
+      "Skip",
+      "Browser"
+     ],
+     "answer": 0,
+     "explain": "Fast and isolated."
+    }
+   ]
+  },
+  "level-4/01-advanced-concurrency": {
+   "questions": [
+    {
+     "q": "What is structured concurrency?",
+     "options": [
+      "Child tasks have a defined scope and lifetime tied to their parent, so cancellation and errors propagate",
+      "Locks",
+      "Threads",
+      "Queues"
+     ],
+     "answer": 0,
+     "explain": "Task groups and async let."
+    },
+    {
+     "q": "How does cancellation work in Swift concurrency?",
+     "options": [
+      "Cooperative: tasks check Task.isCancelled or call try Task.checkCancellation()",
+      "Kill",
+      "None",
+      "Forced"
+     ],
+     "answer": 0,
+     "explain": "Respect it in long loops."
+    },
+    {
+     "q": "What does @MainActor guarantee?",
+     "options": [
+      "Background",
+      "Parallel",
+      "Code runs on the main thread",
+      "Async only"
+     ],
+     "answer": 2,
+     "explain": "Use for UI updates."
+    },
+    {
+     "q": "What is a data race and how does Swift 6 help?",
+     "options": [
+      "Unsynchronised concurrent access to mutable state; strict concurrency checks catch many at compile time",
+      "Nothing",
+      "Types",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Sendable and actors."
+    }
+   ]
+  },
+  "level-4/02-production-server-side-swift": {
+   "questions": [
+    {
+     "q": "What belongs in a production server-side service?",
+     "options": [
+      "Structured logging, metrics, health checks, timeouts and graceful shutdown",
+      "Colours",
+      "Print",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "swift-log and swift-metrics."
+    },
+    {
+     "q": "What does graceful shutdown do?",
+     "options": [
+      "Ignores",
+      "Restarts",
+      "Finishes in-flight requests before stopping",
+      "Kills"
+     ],
+     "answer": 2,
+     "explain": "Handle SIGTERM."
+    },
+    {
+     "q": "Why configure timeouts for outgoing requests?",
+     "options": [
+      "Hung dependencies would otherwise exhaust resources",
+      "Style",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Plus retries with backoff."
+    },
+    {
+     "q": "How should secrets be provided?",
+     "options": [
+      "Git",
+      "Logs",
+      "Code",
+      "Environment or secret store"
+     ],
+     "answer": 3,
+     "explain": "Rotate."
+    }
+   ]
+  },
+  "level-4/03-swiftui-fundamentals": {
+   "questions": [
+    {
+     "q": "What does this SwiftUI-style state model print?\n```swift\nstruct Counter { private(set) var count = 0; mutating func inc() { count += 1 }; var label: String { \"Count: \\(count)\" } }\nvar c = Counter()\nvar renders: [String] = []\nfunc render() { renders.append(c.label) }\nrender(); c.inc(); render(); c.inc(); render()\nprint(renders)\n```\n",
+     "options": [
+      "[\"Count: 0\"]",
+      "[\"Count: 0\", \"Count: 0\", \"Count: 0\"]",
+      "[\"Count: 1\", \"Count: 2\"]",
+      "[\"Count: 0\", \"Count: 1\", \"Count: 2\"]"
+     ],
+     "answer": 3,
+     "explain": "SwiftUI re-evaluates body when @State changes; this model re-renders manually to show the idea (SwiftUI itself was not run). Verified by compiling and running it."
+    },
+    {
+     "q": "What does @Binding do?",
+     "options": [
+      "Network",
+      "Local state",
+      "Disk",
+      "Creates a two-way reference to state owned elsewhere"
+     ],
+     "answer": 3,
+     "explain": "Pass with $."
+    },
+    {
+     "q": "When use @Observable (or ObservableObject)?",
+     "options": [
+      "Network",
+      "Math",
+      "For shared model objects whose changes should refresh views",
+      "Constants"
+     ],
+     "answer": 2,
+     "explain": "Keep views simple."
+    },
+    {
+     "q": "What does the body of a View return?",
+     "options": [
+      "An array",
+      "A window",
+      "Some View describing the UI for the current state",
+      "A string"
+     ],
+     "answer": 2,
+     "explain": "Views are cheap value types."
+    }
+   ]
+  },
+  "level-4/04-security-best-practices": {
+   "questions": [
+    {
+     "q": "Where should sensitive data such as tokens be stored on iOS?",
+     "options": [
+      "Plist",
+      "Files",
+      "UserDefaults",
+      "The Keychain"
+     ],
+     "answer": 3,
+     "explain": "Use appropriate accessibility options."
+    },
+    {
+     "q": "What does App Transport Security enforce?",
+     "options": [
+      "Caching",
+      "Speed",
+      "HTTPS by default for network connections",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Add exceptions only when necessary."
+    },
+    {
+     "q": "Why validate certificates and avoid disabling TLS checks?",
+     "options": [
+      "Disabling them enables man-in-the-middle attacks",
+      "Law",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Pinning adds more safety."
+    },
+    {
+     "q": "What should you never log?",
+     "options": [
+      "Times",
+      "Tokens, passwords and personal data",
+      "IDs",
+      "Errors"
+     ],
+     "answer": 1,
+     "explain": "Redact."
+    }
+   ]
+  },
+  "level-4/05-testing-at-scale-ci": {
+   "questions": [
+    {
+     "q": "What does swift test do in CI?",
+     "options": [
+      "Formats",
+      "Lints",
+      "Deploys",
+      "Builds and runs all test targets"
+     ],
+     "answer": 3,
+     "explain": "Run on every push."
+    },
+    {
+     "q": "Why cache SwiftPM dependencies in CI?",
+     "options": [
+      "Law",
+      "Style",
+      "Colour",
+      "Faster builds"
+     ],
+     "answer": 3,
+     "explain": "Key on Package.resolved."
+    },
+    {
+     "q": "What does a matrix build cover?",
+     "options": [
+      "One",
+      "None",
+      "Several OS or Swift versions in one workflow",
+      "Docs"
+     ],
+     "answer": 2,
+     "explain": "Catch portability issues."
+    },
+    {
+     "q": "What should gate merges?",
+     "options": [
+      "Speed",
+      "Passing tests, lint and review",
+      "Luck",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Branch protection."
+    }
+   ]
+  },
+  "level-4/06-deployment-docker": {
+   "questions": [
+    {
+     "q": "Why use a multi-stage Dockerfile for server-side Swift?",
+     "options": [
+      "Style",
+      "Law",
+      "Colour",
+      "Build with the full toolchain and ship only the binary on a slim runtime image"
+     ],
+     "answer": 3,
+     "explain": "Smaller attack surface."
+    },
+    {
+     "q": "Why run as non-root in the container?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Limits damage if compromised",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Create a user."
+    },
+    {
+     "q": "What does static linking of the Swift stdlib help with?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Law",
+      "Fewer runtime dependencies in the image"
+     ],
+     "answer": 3,
+     "explain": "--static-swift-stdlib."
+    },
+    {
+     "q": "How do you configure the app per environment?",
+     "options": [
+      "Git branches",
+      "Environment variables read at startup",
+      "Rebuild",
+      "Edit code"
+     ],
+     "answer": 1,
+     "explain": "Same image everywhere."
+    }
+   ]
+  },
+  "level-4/07-performance-at-scale": {
+   "questions": [
+    {
+     "q": "What is a safe optimisation workflow?",
+     "options": [
+      "Measure, change one thing, measure again",
+      "Rewrite all",
+      "Guess",
+      "Add caches"
+     ],
+     "answer": 0,
+     "explain": "Instruments and benchmarks."
+    },
+    {
+     "q": "What causes excessive memory growth in long-running services?",
+     "options": [
+      "Lets",
+      "Structs",
+      "Enums",
+      "Unbounded caches, retain cycles or accumulated tasks"
+     ],
+     "answer": 3,
+     "explain": "Monitor memory."
+    },
+    {
+     "q": "Why batch database queries?",
+     "options": [
+      "Reduce round trips and latency",
+      "Law",
+      "Style",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Avoid N+1."
+    },
+    {
+     "q": "What does load testing reveal?",
+     "options": [
+      "Typos",
+      "Style",
+      "Where throughput and latency degrade under realistic traffic",
+      "Colours"
+     ],
+     "answer": 2,
+     "explain": "Test before launch."
+    }
+   ]
+  },
+  "level-4/08-interop-c-objc": {
+   "questions": [
+    {
+     "q": "How does Swift call C code?",
+     "options": [
+      "Through module maps or by importing C headers directly into a Swift package",
+      "Impossible",
+      "JNI",
+      "Wrappers only"
+     ],
+     "answer": 0,
+     "explain": "System library targets."
+    },
+    {
+     "q": "What does @objc do?",
+     "options": [
+      "Exposes a Swift declaration to the Objective-C runtime",
+      "Hide",
+      "Compile",
+      "Test"
+     ],
+     "answer": 0,
+     "explain": "Needed for selectors and interop."
+    },
+    {
+     "q": "What is an UnsafePointer?",
+     "options": [
+      "A pointer without safety guarantees, needed for some C APIs",
+      "String",
+      "Array",
+      "Safe pointer"
+     ],
+     "answer": 0,
+     "explain": "Keep unsafe code small."
+    },
+    {
+     "q": "Why wrap C APIs in safe Swift types?",
+     "options": [
+      "Contain unsafety, manage lifetimes and give idiomatic APIs",
+      "Colour",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Own and free resources."
+    }
+   ]
+  },
+  "level-4/09-app-architecture-patterns": {
+   "questions": [
+    {
+     "q": "What is MVVM?",
+     "options": [
+      "A language",
+      "A database",
+      "Model-View-ViewModel: views display state exposed by a view model that wraps models and logic",
+      "A pattern for C"
+     ],
+     "answer": 2,
+     "explain": "Common with SwiftUI."
+    },
+    {
+     "q": "What problem does unidirectional data flow (TCA, Redux-style) solve?",
+     "options": [
+      "Speed",
+      "Law",
+      "Predictable state changes through actions and reducers",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Easier testing."
+    },
+    {
+     "q": "Why separate networking, domain and UI layers?",
+     "options": [
+      "Speed",
+      "Law",
+      "Colour",
+      "Testability and replaceable components"
+     ],
+     "answer": 3,
+     "explain": "Dependency inversion."
+    },
+    {
+     "q": "What is a Coordinator pattern for?",
+     "options": [
+      "Network",
+      "Data",
+      "Logs",
+      "Managing navigation flow outside view controllers or views"
+     ],
+     "answer": 3,
+     "explain": "Decouples screens."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What is the capstone's aim?",
+     "options": [
+      "A UI",
+      "A production-style Swift project with architecture, tests, CI and deployment or distribution",
+      "A toy",
+      "A script"
+     ],
+     "answer": 1,
+     "explain": "Bring Level 4 together."
+    },
+    {
+     "q": "What proves it is production-ready?",
+     "options": [
+      "It runs",
+      "Looks good",
+      "Few lines",
+      "CI with tests, linting, performance checks and operational readiness"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What belongs in the README?",
+     "options": [
+      "Nothing",
+      "Setup, run, test, architecture and decisions",
+      "Slogan",
+      "Logo"
+     ],
+     "answer": 1,
+     "explain": "Handover."
+    },
+    {
+     "q": "How do you handle residual risks?",
+     "options": [
+      "Delay",
+      "Document them and accept, mitigate or transfer",
+      "Ignore",
+      "Hide"
+     ],
+     "answer": 1,
+     "explain": "Risk register."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```swift\nstruct Box { var items: [Int] }\nvar a = Box(items: [1])\nvar b = a\nb.items.append(2)\nfinal class Ref { var items: [Int] = [1] }\nlet r1 = Ref(); let r2 = r1; r2.items.append(2)\nprint(a.items, b.items, r1.items, r1 === r2)\n```\n",
+    "options": [
+     "[1] [1, 2] [1, 2] true",
+     "[1, 2] [1, 2] [1, 2] true",
+     "[1] [1, 2] [1] false",
+     "[1] [1] [1, 2] true"
+    ],
+    "answer": 0,
+    "explain": "Structs copy on assignment; class instances are shared references. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```swift\nfunc parse(_ s: String) -> Int? { Int(s) }\nlet inputs = [\"4\", \"x\", \"7\"]\nlet nums = inputs.compactMap(parse)\nlet total = inputs.compactMap(parse).reduce(0, +)\nlet firstBad = inputs.first { parse($0) == nil } ?? \"none\"\nprint(nums, total, firstBad)\nlet d: [String: Int] = [\"a\": 1]\nprint(d[\"a\"] ?? -1, d[\"b\"] ?? -1)\n```\n",
+    "options": [
+     "[4, nil, 7] 11 x\n1 -1",
+     "[4, 7] 11 x\n1 nil",
+     "[4, 7] 11 none\n1 -1",
+     "[4, 7] 11 x\n1 -1"
+    ],
+    "answer": 3,
+    "explain": "compactMap drops nils and ?? gives defaults for missing keys. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```swift\nenum Cmd { case add(Int), mul(Int), reset }\nfunc apply(_ c: Cmd, to v: Int) -> Int {\n  switch c { case .add(let n): return v + n\n  case .mul(let n): return v * n\n  case .reset: return 0 }\n}\nlet result = [Cmd.add(3), .mul(4), .add(-2), .reset, .add(5)].reduce(0) { apply($1, to: $0) }\nprint(result)\n```\n",
+    "options": [
+     "15",
+     "10",
+     "5",
+     "0"
+    ],
+    "answer": 2,
+    "explain": "The reducer applies each command in order; reset discards everything before it. Verified by compiling and running it."
+   },
+   {
+    "q": "Why is force-unwrapping (!) discouraged outside tests and truly impossible cases?",
+    "options": [
+     "It copies the value",
+     "It is deprecated",
+     "It crashes at runtime when the optional is nil",
+     "It is slow"
+    ],
+    "answer": 2,
+    "explain": "Use guard let, if let or ??."
+   },
+   {
+    "q": "What does guard let do for readability?",
+    "options": [
+     "Catches",
+     "Handles the failure case early and exits, so the main logic stays unindented",
+     "Loops",
+     "Casts"
+    ],
+    "answer": 1,
+    "explain": "The else branch must leave the scope."
+   },
+   {
+    "q": "What does a Swift switch require?",
+    "options": [
+     "Integer subjects",
+     "To be exhaustive: every case handled or a default",
+     "A default always",
+     "Fallthrough"
+    ],
+    "answer": 1,
+    "explain": "Adding an enum case then flags every switch."
+   },
+   {
+    "q": "When do you reach for a class instead of a struct?",
+    "options": [
+     "Never",
+     "For all data",
+     "Always",
+     "When you need shared identity, inheritance or reference semantics"
+    ],
+    "answer": 3,
+    "explain": "Structs are the default."
+   },
+   {
+    "q": "What creates a retain cycle with closures?",
+    "options": [
+     "Structs",
+     "A closure stored by an object strongly capturing that object (self)",
+     "Optionals",
+     "Enums"
+    ],
+    "answer": 1,
+    "explain": "Use [weak self] or [unowned self]."
+   },
+   {
+    "q": "What does throws plus do/catch give you over returning nil?",
+    "options": [
+     "Nothing",
+     "Speed",
+     "Less code",
+     "Specific error information the caller can handle differently"
+    ],
+    "answer": 3,
+    "explain": "Optionals lose the reason."
+   },
+   {
+    "q": "What does Codable synthesis give you?",
+    "options": [
+     "Persistence",
+     "Automatic JSON (and other format) encoding and decoding for conforming types",
+     "Validation",
+     "Networking"
+    ],
+    "answer": 1,
+    "explain": "Custom CodingKeys rename fields."
+   },
+   {
+    "q": "What does await mark?",
+    "options": [
+     "A lock",
+     "Blocking",
+     "A possible suspension point where the task may yield its thread to other work",
+     "A thread"
+    ],
+    "answer": 2,
+    "explain": "Not a blocking call."
+   },
+   {
+    "q": "What does an actor protect?",
+    "options": [
+     "Files",
+     "Its mutable state, by serialising access to it",
+     "Threads",
+     "Network"
+    ],
+    "answer": 1,
+    "explain": "Beware reentrancy at await points."
+   },
+   {
+    "q": "What does structured concurrency guarantee about child tasks?",
+    "options": [
+     "They finish (or are cancelled) before their scope exits, and errors and cancellation propagate",
+     "They are daemons",
+     "They never fail",
+     "They run forever"
+    ],
+    "answer": 0,
+    "explain": "Task groups and async let."
+   },
+   {
+    "q": "Where do you store tokens on iOS?",
+    "options": [
+     "A plist",
+     "Files",
+     "The Keychain, not UserDefaults",
+     "UserDefaults"
+    ],
+    "answer": 2,
+    "explain": "Choose an appropriate accessibility level."
+   },
+   {
+    "q": "Why prefer protocols and dependency injection for network code?",
+    "options": [
+     "Speed",
+     "Colour",
+     "Law",
+     "Tests can inject fakes and avoid real network calls"
+    ],
+    "answer": 3,
+    "explain": "Deterministic tests."
+   },
+   {
+    "q": "What does ARC do?",
+    "options": [
+     "Pools",
+     "Garbage collects later",
+     "Frees objects deterministically when their reference count reaches zero",
+     "Manual free"
+    ],
+    "answer": 2,
+    "explain": "Cycles need weak references."
+   },
+   {
+    "q": "Why should heavy work stay off the main thread in an app?",
+    "options": [
+     "Law",
+     "The main thread draws the UI, so blocking it freezes the interface",
+     "Style",
+     "Memory"
+    ],
+    "answer": 1,
+    "explain": "Use Task or background actors."
+   },
+   {
+    "q": "What does a multi-stage Dockerfile do for a server-side Swift service?",
+    "options": [
+     "Law",
+     "Style",
+     "Builds with the full toolchain and ships only the binary in a slim runtime image",
+     "Speed only"
+    ],
+    "answer": 2,
+    "explain": "Smaller attack surface."
+   },
+   {
+    "q": "What proves a Swift project is production-ready?",
+    "options": [
+     "Looks good",
+     "It runs",
+     "CI with tests, linting, performance checks and operational readiness",
+     "Few lines"
+    ],
+    "answer": 2,
+    "explain": "Evidence over claims."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "An inventory with typed errors and Codable",
+    "prompt": "Build an Inventory value type that receives and ships stock, throws a typed error for bad quantities, unknown items and insufficient stock, reports sorted lines and round-trips through JSON with Codable. It runs as an ordinary Swift script on your machine (swift main.swift); no UI is involved.",
+    "starter": "import Foundation\n\n// A tiny inventory domain: value types, enums with associated values, Result-style errors and Codable.\nenum InventoryError: Error, Equatable {\n    case invalidQuantity(Int)\n    case unknownItem(String)\n    case insufficientStock(item: String, have: Int, want: Int)\n}\n\nstruct Item: Codable, Equatable {\n    let sku: String\n    var quantity: Int\n}\n\n// TODO: struct Inventory with private(set) var items: [String: Item]\n//   mutating receive(_ sku:, _ quantity:) throws   quantity must be > 0 (else invalidQuantity); adds stock, creating the item if needed\n//   mutating ship(_ sku:, _ quantity:) throws      quantity > 0, item must exist (unknownItem), enough stock (insufficientStock(item:have:want:))\n//   var report: [String]                           \"sku: quantity\" lines sorted by sku\n\nvar inv = Inventory()\nlet steps: [(String, () throws -> Void)] = [\n    (\"receive apple 10\", { try inv.receive(\"apple\", 10) }),\n    (\"receive pear 4\", { try inv.receive(\"pear\", 4) }),\n    (\"ship apple 3\", { try inv.ship(\"apple\", 3) }),\n    (\"ship pear 9\", { try inv.ship(\"pear\", 9) }),\n    (\"ship kiwi 1\", { try inv.ship(\"kiwi\", 1) }),\n    (\"receive fig 0\", { try inv.receive(\"fig\", 0) }),\n]\nfor (label, step) in steps {\n    do { try step(); print(\"ok   \\(label)\") }\n    catch let e as InventoryError { print(\"fail \\(label): \\(e)\") }\n}\nprint(inv.report)\n\nlet encoder = JSONEncoder()\nencoder.outputFormatting = .sortedKeys\nlet data = try encoder.encode(inv.items.values.sorted { $0.sku < $1.sku })\nlet json = String(data: data, encoding: .utf8)!\nprint(json)\nlet back = try JSONDecoder().decode([Item].self, from: data)\nprint(back == inv.items.values.sorted { $0.sku < $1.sku })\n",
+    "expected": "ok   receive apple 10\nok   receive pear 4\nok   ship apple 3\nfail ship pear 9: insufficientStock(item: \"pear\", have: 4, want: 9)\nfail ship kiwi 1: unknownItem(\"kiwi\")\nfail receive fig 0: invalidQuantity(0)\n[\"apple: 7\", \"pear: 4\"]\n[{\"quantity\":7,\"sku\":\"apple\"},{\"quantity\":4,\"sku\":\"pear\"}]\ntrue",
+    "solution": "import Foundation\n\n// A tiny inventory domain: value types, enums with associated values, Result-style errors and Codable.\nenum InventoryError: Error, Equatable {\n    case invalidQuantity(Int)\n    case unknownItem(String)\n    case insufficientStock(item: String, have: Int, want: Int)\n}\n\nstruct Item: Codable, Equatable {\n    let sku: String\n    var quantity: Int\n}\n\nstruct Inventory {\n    private(set) var items: [String: Item] = [:]\n\n    mutating func receive(_ sku: String, _ quantity: Int) throws {\n        guard quantity > 0 else { throw InventoryError.invalidQuantity(quantity) }\n        items[sku, default: Item(sku: sku, quantity: 0)].quantity += quantity\n    }\n\n    mutating func ship(_ sku: String, _ quantity: Int) throws {\n        guard quantity > 0 else { throw InventoryError.invalidQuantity(quantity) }\n        guard let item = items[sku] else { throw InventoryError.unknownItem(sku) }\n        guard item.quantity >= quantity else {\n            throw InventoryError.insufficientStock(item: sku, have: item.quantity, want: quantity)\n        }\n        items[sku]?.quantity -= quantity\n    }\n\n    var report: [String] {\n        items.values.sorted { $0.sku < $1.sku }.map { \"\\($0.sku): \\($0.quantity)\" }\n    }\n}\n\nvar inv = Inventory()\nlet steps: [(String, () throws -> Void)] = [\n    (\"receive apple 10\", { try inv.receive(\"apple\", 10) }),\n    (\"receive pear 4\", { try inv.receive(\"pear\", 4) }),\n    (\"ship apple 3\", { try inv.ship(\"apple\", 3) }),\n    (\"ship pear 9\", { try inv.ship(\"pear\", 9) }),\n    (\"ship kiwi 1\", { try inv.ship(\"kiwi\", 1) }),\n    (\"receive fig 0\", { try inv.receive(\"fig\", 0) }),\n]\nfor (label, step) in steps {\n    do { try step(); print(\"ok   \\(label)\") }\n    catch let e as InventoryError { print(\"fail \\(label): \\(e)\") }\n}\nprint(inv.report)\n\nlet encoder = JSONEncoder()\nencoder.outputFormatting = .sortedKeys\nlet data = try encoder.encode(inv.items.values.sorted { $0.sku < $1.sku })\nlet json = String(data: data, encoding: .utf8)!\nprint(json)\nlet back = try JSONDecoder().decode([Item].self, from: data)\nprint(back == inv.items.values.sorted { $0.sku < $1.sku })\n",
+    "explain": "The guard statements validate in order, an enum with associated values carries the details, items[sku, default:] creates entries on demand and private(set) protects the invariant. Verified by running it with Swift 6.4 on macOS."
+   },
+   {
+    "title": "Parallel work with a task group, an actor cache and cancellation",
+    "prompt": "Square a list of numbers concurrently with a task group, share an actor-protected cache between the child tasks, show that a long task stops when cancelled and combine two async let results. Timings are tiny sleeps so it finishes in under a second; only deterministic facts are printed.",
+    "starter": "// Structured concurrency: parallel work with a task group, an actor-protected cache and cancellation.\n// TODO: actor ResultCache with value(for:compute:) that returns a cached value or awaits compute(n) and stores it,\n//       counting hits and misses (private(set))\n// Note: an actor method that awaits inside can be re-entered, so two concurrent lookups of the same key may both miss.\n\nfunc slowSquare(_ n: Int) async -> Int {\n    try? await Task.sleep(nanoseconds: 20_000_000)\n    return n * n\n}\n\nlet cache = ResultCache()\nlet inputs = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]\n\nlet squares = await withTaskGroup(of: (Int, Int).self) { group -> [Int: Int] in\n    for n in inputs {\n        group.addTask { (n, await cache.value(for: n, compute: slowSquare)) }\n    }\n    var out: [Int: Int] = [:]\n    for await (n, sq) in group { out[n] = sq }\n    return out\n}\nprint(squares.keys.sorted().map { \"\\($0)->\\(squares[$0]!)\" }.joined(separator: \" \"))\nlet total = await cache.hits + cache.misses\nprint(\"lookups:\", total, \"unique results:\", squares.count)\n\n// cancellation: a long task observes Task.isCancelled and stops early\nlet worker = Task { () -> Int in\n    var done = 0\n    while !Task.isCancelled && done < 1_000_000 {\n        done += 1\n        if done % 1000 == 0 { await Task.yield() }\n    }\n    return done\n}\nworker.cancel()\nlet finished = await worker.value\nprint(\"cancelled early:\", finished < 1_000_000)\n\n// async let: two independent computations awaited together\nasync let a = slowSquare(7)\nasync let b = slowSquare(8)\nprint(await a + b)\n",
+    "expected": "1->1 2->4 3->9 4->16 5->25 6->36 9->81\nlookups: 10 unique results: 7\ncancelled early: true\n113",
+    "solution": "// Structured concurrency: parallel work with a task group, an actor-protected cache and cancellation.\nactor ResultCache {\n    private var store: [Int: Int] = [:]\n    private(set) var hits = 0\n    private(set) var misses = 0\n\n    func value(for n: Int, compute: @Sendable (Int) async -> Int) async -> Int {\n        if let v = store[n] { hits += 1; return v }\n        misses += 1\n        let v = await compute(n)\n        store[n] = v\n        return v\n    }\n}\n\nfunc slowSquare(_ n: Int) async -> Int {\n    try? await Task.sleep(nanoseconds: 20_000_000)\n    return n * n\n}\n\nlet cache = ResultCache()\nlet inputs = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]\n\nlet squares = await withTaskGroup(of: (Int, Int).self) { group -> [Int: Int] in\n    for n in inputs {\n        group.addTask { (n, await cache.value(for: n, compute: slowSquare)) }\n    }\n    var out: [Int: Int] = [:]\n    for await (n, sq) in group { out[n] = sq }\n    return out\n}\nprint(squares.keys.sorted().map { \"\\($0)->\\(squares[$0]!)\" }.joined(separator: \" \"))\nlet total = await cache.hits + cache.misses\nprint(\"lookups:\", total, \"unique results:\", squares.count)\n\n// cancellation: a long task observes Task.isCancelled and stops early\nlet worker = Task { () -> Int in\n    var done = 0\n    while !Task.isCancelled && done < 1_000_000 {\n        done += 1\n        if done % 1000 == 0 { await Task.yield() }\n    }\n    return done\n}\nworker.cancel()\nlet finished = await worker.value\nprint(\"cancelled early:\", finished < 1_000_000)\n\n// async let: two independent computations awaited together\nasync let a = slowSquare(7)\nasync let b = slowSquare(8)\nprint(await a + b)\n",
+    "explain": "Each child task awaits the actor, so results are collected safely; hits plus misses always equals the lookups, while the split between them can vary because an awaiting actor method can be re-entered. Cancellation is cooperative: the worker checks Task.isCancelled. Verified by running it with Swift 6.4 on macOS."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
