@@ -1,0 +1,2159 @@
+{
+ "course": "rust-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What tool installs and updates Rust toolchains?",
+     "options": [
+      "npm",
+      "cargo install",
+      "rustup",
+      "brew only"
+     ],
+     "answer": 2,
+     "explain": "rustup manages rustc, cargo and targets."
+    },
+    {
+     "q": "What does cargo new hello create?",
+     "options": [
+      "A web server",
+      "A single file",
+      "A package with Cargo.toml and src/main.rs",
+      "A Docker image"
+     ],
+     "answer": 2,
+     "explain": "cargo run builds and runs it."
+    },
+    {
+     "q": "What is the difference between cargo build and cargo check?",
+     "options": [
+      "check type-checks without producing a binary, so it is faster",
+      "check runs tests",
+      "build is faster",
+      "They are the same"
+     ],
+     "answer": 0,
+     "explain": "Use check for a quick feedback loop."
+    },
+    {
+     "q": "Where does cargo put compiled output by default?",
+     "options": [
+      "bin/",
+      "target/ (debug in target/debug)",
+      "src/",
+      "dist/"
+     ],
+     "answer": 1,
+     "explain": "Use --release for optimised builds in target/release."
+    }
+   ]
+  },
+  "level-1/02-variables-types-ownership": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\nfn main() {\n    let x = 5;\n    let x = x * 2;\n    {\n        let x = x + 1;\n        println!(\"{x}\");\n    }\n    println!(\"{x}\");\n    let mut y = 1;\n    y += 1;\n    println!(\"{y}\");\n}\n```\n",
+     "options": [
+      "11\n11\n2",
+      "10\n10\n2",
+      "6\n10\n2",
+      "11\n10\n2"
+     ],
+     "answer": 3,
+     "explain": "Shadowing creates a new binding in the current scope; the inner x ends with the block. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```rust\nfn main() {\n    let s1 = String::from(\"hi\");\n    let s2 = s1.clone();\n    let n = 5;\n    let m = n;\n    println!(\"{s1} {s2} {n} {m}\");\n    let t = (1, 2.5, 'c');\n    println!(\"{} {} {}\", t.0, t.1, t.2);\n    println!(\"{}\", u8::MAX);\n}\n```\n",
+     "options": [
+      "hi  5 5\n1 2.5 c\n255",
+      "hi hi 5 5\n1 2.5 c\n255",
+      "hi hi 5 5\n1 2.5 c\n256",
+      "hi hi 5 5\n1 2 c\n255"
+     ],
+     "answer": 1,
+     "explain": "clone copies heap data; integers are Copy. Verified by compiling and running it."
+    },
+    {
+     "q": "What happens when you assign let b = a; where a is a String?",
+     "options": [
+      "It is borrowed",
+      "Both can be used",
+      "It is copied",
+      "The String is moved to b and a can no longer be used"
+     ],
+     "answer": 3,
+     "explain": "Ownership transfers on move."
+    },
+    {
+     "q": "What does integer overflow do in a debug build?",
+     "options": [
+      "Is a compile error always",
+      "Becomes a float",
+      "Wraps silently always",
+      "Panics (in release it wraps unless you use checked/wrapping methods)"
+     ],
+     "answer": 3,
+     "explain": "Use checked_add and friends when it matters."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\nfn main() {\n    let n = 7;\n    let kind = if n % 2 == 0 { \"even\" } else { \"odd\" };\n    let mut i = 0;\n    let r = loop {\n        i += 3;\n        if i > 10 { break i; }\n    };\n    let mut total = 0;\n    for k in (1..=4).rev() { total = total * 10 + k; }\n    println!(\"{kind} {r} {total}\");\n}\n```\n",
+     "options": [
+      "odd 12 1234",
+      "even 12 4321",
+      "odd 9 4321",
+      "odd 12 4321"
+     ],
+     "answer": 3,
+     "explain": "if and loop are expressions; (1..=4).rev() counts down. Verified by compiling and running it."
+    },
+    {
+     "q": "What type must an if condition have?",
+     "options": [
+      "Any integer",
+      "Any value",
+      "bool (no implicit truthiness)",
+      "Option"
+     ],
+     "answer": 2,
+     "explain": "if x {} with an integer is a compile error."
+    },
+    {
+     "q": "What does break value inside loop do?",
+     "options": [
+      "Ends the loop and makes the loop expression evaluate to that value",
+      "Panics",
+      "Nothing",
+      "Continues"
+     ],
+     "answer": 0,
+     "explain": "Only loop (not while/for) can return a value."
+    },
+    {
+     "q": "What does 1..5 include?",
+     "options": [
+      "0 to 5",
+      "1 to 5",
+      "1 to 4 (the end is exclusive); use 1..=5 to include 5",
+      "2 to 5"
+     ],
+     "answer": 2,
+     "explain": "Ranges are half-open by default."
+    }
+   ]
+  },
+  "level-1/04-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\nfn add(a: i32, b: i32) -> i32 { a + b }\nfn describe(n: i32) -> &'static str {\n    if n < 0 { return \"neg\"; }\n    \"non-neg\"\n}\nfn main() {\n    let v = { let t = add(2, 3); t * 2 };\n    println!(\"{v} {} {}\", describe(-1), describe(4));\n}\n```\n",
+     "options": [
+      "10 neg non-neg",
+      "10 non-neg neg",
+      "5 neg non-neg",
+      "10 neg neg"
+     ],
+     "answer": 0,
+     "explain": "A block's final expression without a semicolon is its value. Verified by compiling and running it."
+    },
+    {
+     "q": "What happens if you add a semicolon after the last expression of a function returning i32?",
+     "options": [
+      "It returns () and fails to compile with a type mismatch",
+      "Returns the value",
+      "Nothing",
+      "Returns 0"
+     ],
+     "answer": 0,
+     "explain": "The semicolon turns the expression into a statement."
+    },
+    {
+     "q": "How do you return multiple values?",
+     "options": [
+      "A tuple such as (i32, i32)",
+      "Not possible",
+      "An array only",
+      "Multiple return keywords"
+     ],
+     "answer": 0,
+     "explain": "Destructure with let (a, b) = f();"
+    },
+    {
+     "q": "What are function parameters' types required to be?",
+     "options": [
+      "Optional",
+      "Annotated explicitly",
+      "Dynamic",
+      "Inferred"
+     ],
+     "answer": 1,
+     "explain": "Rust infers locals, not signatures."
+    }
+   ]
+  },
+  "level-1/05-structs-enums": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\n#[derive(Debug)]\nenum Shape { Circle(f64), Rect { w: f64, h: f64 } }\nimpl Shape {\n    fn area(&self) -> f64 {\n        match self { Shape::Circle(r) => 3.0 * r * r, Shape::Rect { w, h } => w * h }\n    }\n}\nstruct Point { x: i32, y: i32 }\nfn main() {\n    let shapes = [Shape::Circle(2.0), Shape::Rect { w: 2.0, h: 4.5 }];\n    for s in &shapes { println!(\"{:?} {}\", s, s.area()); }\n    let p = Point { x: 1, y: 2 };\n    let q = Point { x: 5, ..p };\n    println!(\"{} {}\", q.x, q.y);\n}\n```\n",
+     "options": [
+      "Circle(2.0) 12.0\nRect { w: 2.0, h: 4.5 } 9.0\n5 2",
+      "Circle(2) 12\nRect { w: 2, h: 4.5 } 9\n5 2",
+      "Circle(2.0) 12\nRect { w: 2.0, h: 4.5 } 9\n1 2",
+      "Circle(2.0) 12\nRect { w: 2.0, h: 4.5 } 9\n5 2"
+     ],
+     "answer": 3,
+     "explain": "f64 Display prints 12 for 12.0; struct update syntax copies the remaining fields. Verified by compiling and running it."
+    },
+    {
+     "q": "What is an enum variant with data like Circle(f64) useful for?",
+     "options": [
+      "Modelling alternatives that carry different data",
+      "Macros",
+      "Loops",
+      "Constants"
+     ],
+     "answer": 0,
+     "explain": "match must handle every variant."
+    },
+    {
+     "q": "What does #[derive(Debug)] provide?",
+     "options": [
+      "An automatic implementation of the Debug trait for {:?} printing",
+      "Optimisation",
+      "Serialisation",
+      "Compilation"
+     ],
+     "answer": 0,
+     "explain": "Also Clone, PartialEq and others."
+    },
+    {
+     "q": "What are impl blocks for?",
+     "options": [
+      "Imports",
+      "Defining methods and associated functions for a type",
+      "Tests",
+      "Macros"
+     ],
+     "answer": 1,
+     "explain": "self, &self or &mut self choose access."
+    }
+   ]
+  },
+  "level-1/06-collections": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\nuse std::collections::HashMap;\nfn main() {\n    let mut v = vec![3, 1, 2];\n    v.push(4);\n    v.sort();\n    let total: i32 = v.iter().sum();\n    let mut m: HashMap<&str, i32> = HashMap::new();\n    *m.entry(\"a\").or_insert(0) += 2;\n    *m.entry(\"a\").or_insert(0) += 3;\n    println!(\"{:?} {} {:?} {:?}\", v, total, m.get(\"a\"), m.get(\"z\"));\n}\n```\n",
+     "options": [
+      "[1, 2, 3, 4] 10 5 None",
+      "[1, 2, 3, 4] 10 Some(2) None",
+      "[3, 1, 2, 4] 10 Some(5) None",
+      "[1, 2, 3, 4] 10 Some(5) None"
+     ],
+     "answer": 3,
+     "explain": "entry().or_insert() inserts a default; get returns an Option. Verified by compiling and running it."
+    },
+    {
+     "q": "What does v[10] do on a Vec with 3 items?",
+     "options": [
+      "Returns 0",
+      "Returns None",
+      "Panics at runtime; v.get(10) returns None instead",
+      "Is a compile error"
+     ],
+     "answer": 2,
+     "explain": "Indexing is checked."
+    },
+    {
+     "q": "What is the difference between String and &str?",
+     "options": [
+      "String is stack-only",
+      "No difference",
+      "String is an owned, growable buffer; &str is a borrowed view into UTF-8 text",
+      "&str is mutable"
+     ],
+     "answer": 2,
+     "explain": "Prefer &str parameters."
+    },
+    {
+     "q": "Why can't you index a String with s[0]?",
+     "options": [
+      "Strings are UTF-8, so a byte index may not be a valid character boundary",
+      "They are arrays",
+      "Speed",
+      "Syntax"
+     ],
+     "answer": 0,
+     "explain": "Use chars() or slices at known boundaries."
+    }
+   ]
+  },
+  "level-1/07-error-handling-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\nfn parse(s: &str) -> Result<i32, std::num::ParseIntError> { s.trim().parse::<i32>() }\nfn double(s: &str) -> Result<i32, std::num::ParseIntError> {\n    let n = parse(s)?;\n    Ok(n * 2)\n}\nfn main() {\n    println!(\"{:?}\", double(\" 21 \"));\n    println!(\"{}\", double(\"x\").is_err());\n    let o: Option<i32> = None;\n    println!(\"{} {}\", o.unwrap_or(7), Some(3).map(|n| n + 1).unwrap());\n}\n```\n",
+     "options": [
+      "Ok(42)\nfalse\n7 4",
+      "42\ntrue\n7 4",
+      "Ok(42)\ntrue\n0 4",
+      "Ok(42)\ntrue\n7 4"
+     ],
+     "answer": 3,
+     "explain": "The ? operator returns early with the error. Verified by compiling and running it."
+    },
+    {
+     "q": "What does unwrap() do on an Err?",
+     "options": [
+      "Ignores",
+      "Returns default",
+      "Returns None",
+      "Panics"
+     ],
+     "answer": 3,
+     "explain": "Use it only when failure is a bug."
+    },
+    {
+     "q": "What does ? require about the function's return type?",
+     "options": [
+      "It must be a compatible Result or Option (or something that can convert the error)",
+      "i32",
+      "()",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "main can return Result too."
+    },
+    {
+     "q": "When should you use panic!?",
+     "options": [
+      "For input errors",
+      "For unrecoverable bugs or violated invariants, not for expected errors",
+      "Never",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "Return Result for recoverable errors."
+    }
+   ]
+  },
+  "level-1/08-pattern-matching": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\nfn classify(n: i32) -> &'static str {\n    match n {\n        i32::MIN..=-1 => \"neg\",\n        0 => \"zero\",\n        x if x % 2 == 0 => \"even\",\n        1 | 3 | 5 | 7 | 9 => \"small odd\",\n        _ => \"big odd\",\n    }\n}\nfn main() {\n    for n in [-4, 0, 6, 7, 11] { print!(\"{} \", classify(n)); }\n    println!();\n    let pair = (3, -3);\n    if let (a, b) = pair { println!(\"{}\", a + b); }\n    let opt = Some(5);\n    if let Some(n @ 1..=9) = opt { println!(\"digit {n}\"); }\n}\n```\n",
+     "options": [
+      "neg zero even big odd big odd \n0\ndigit 5",
+      "neg zero even small odd big odd \n6\ndigit 5",
+      "neg zero even small odd big odd\n0\ndigit 5",
+      "neg zero even small odd big odd \n0\ndigit 5"
+     ],
+     "answer": 3,
+     "explain": "match arms are checked top to bottom and guards add conditions. Verified by compiling and running it."
+    },
+    {
+     "q": "What does the compiler require of a match?",
+     "options": [
+      "That it is exhaustive: every possible value is covered",
+      "A default arm always",
+      "Nothing",
+      "Only enums"
+     ],
+     "answer": 0,
+     "explain": "Use _ as a catch-all."
+    },
+    {
+     "q": "When is if let better than match?",
+     "options": [
+      "With loops",
+      "Never",
+      "When you care about one pattern and ignore the rest",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "while let loops similarly."
+    },
+    {
+     "q": "What does the @ binding in n @ 1..=9 do?",
+     "options": [
+      "Imports",
+      "Casts",
+      "Compares",
+      "Binds the matched value to n while testing the pattern"
+     ],
+     "answer": 3,
+     "explain": "Handy for ranges."
+    }
+   ]
+  },
+  "level-1/09-modules-cargo": {
+   "questions": [
+    {
+     "q": "What is a crate?",
+     "options": [
+      "A folder",
+      "A macro",
+      "A test",
+      "A compilation unit: a library or binary"
+     ],
+     "answer": 3,
+     "explain": "A package can contain several."
+    },
+    {
+     "q": "What does pub do?",
+     "options": [
+      "Makes it mutable",
+      "Publishes to crates.io",
+      "Makes an item visible outside its module",
+      "Inlines"
+     ],
+     "answer": 2,
+     "explain": "Items are private by default."
+    },
+    {
+     "q": "What does Cargo.lock record?",
+     "options": [
+      "Source",
+      "The exact dependency versions that were resolved",
+      "Tests",
+      "Docs"
+     ],
+     "answer": 1,
+     "explain": "Commit it for binaries."
+    },
+    {
+     "q": "What does use std::collections::HashMap; do?",
+     "options": [
+      "Locks",
+      "Brings the path into scope so you can write HashMap",
+      "Downloads",
+      "Compiles"
+     ],
+     "answer": 1,
+     "explain": "It does not load anything at runtime."
+    }
+   ]
+  },
+  "level-1/10-project-todo-cli": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\n#[derive(Debug, Clone, PartialEq)]\nstruct Todo { id: u32, title: String, done: bool }\nfn complete(todos: &mut Vec<Todo>, id: u32) -> bool {\n    match todos.iter_mut().find(|t| t.id == id) {\n        Some(t) => { t.done = true; true }\n        None => false,\n    }\n}\nfn main() {\n    let mut todos = vec![\n        Todo { id: 1, title: \"a\".into(), done: false },\n        Todo { id: 2, title: \"b\".into(), done: false },\n    ];\n    println!(\"{} {}\", complete(&mut todos, 2), complete(&mut todos, 9));\n    let open: Vec<_> = todos.iter().filter(|t| !t.done).map(|t| t.title.as_str()).collect();\n    println!(\"{:?}\", open);\n}\n```\n",
+     "options": [
+      "true false\n[\"b\"]",
+      "false false\n[\"a\"]",
+      "true false\n[\"a\"]",
+      "true true\n[\"a\"]"
+     ],
+     "answer": 2,
+     "explain": "iter_mut yields mutable references; filter/map/collect builds the open list. Verified by compiling and running it."
+    },
+    {
+     "q": "Why does the todo CLI take &mut Vec<Todo> instead of Vec<Todo>?",
+     "options": [
+      "Speed",
+      "To modify the caller's list without taking ownership",
+      "Required",
+      "Syntax"
+     ],
+     "answer": 1,
+     "explain": "Borrow, don't move."
+    },
+    {
+     "q": "How would you persist todos between runs?",
+     "options": [
+      "Serialise to a file (for example JSON with serde) and load at start",
+      "Env var",
+      "Global static",
+      "It persists"
+     ],
+     "answer": 0,
+     "explain": "Handle missing or corrupt files."
+    },
+    {
+     "q": "Why keep the logic in functions separate from main?",
+     "options": [
+      "Faster",
+      "Smaller binary",
+      "Rust demands it",
+      "So it can be unit-tested"
+     ],
+     "answer": 3,
+     "explain": "main stays thin."
+    }
+   ]
+  },
+  "level-2/01-ownership-borrowing": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\nfn longest_len(a: &String, b: &String) -> usize { a.len().max(b.len()) }\nfn append(s: &mut String) { s.push_str(\"!\"); }\nfn main() {\n    let mut s = String::from(\"hey\");\n    let t = String::from(\"hello\");\n    println!(\"{}\", longest_len(&s, &t));\n    append(&mut s);\n    {\n        let r1 = &s;\n        let r2 = &s;\n        println!(\"{r1} {r2}\");\n    }\n    let moved = s;\n    println!(\"{moved} {}\", t.len());\n}\n```\n",
+     "options": [
+      "3\nhey! hey!\nhey! 5",
+      "5\nhey! hey!\nhey! 3",
+      "5\nhey! hey!\nhey! 5",
+      "5\nhey hey\nhey 5"
+     ],
+     "answer": 2,
+     "explain": "Many shared borrows or one mutable borrow at a time; s is moved at the end. Verified by compiling and running it."
+    },
+    {
+     "q": "What are Rust's borrowing rules?",
+     "options": [
+      "No rules",
+      "Unlimited mutable refs",
+      "Only one reference total",
+      "Any number of shared references or exactly one mutable reference at a time, and references must not outlive the data"
+     ],
+     "answer": 3,
+     "explain": "Enforced at compile time."
+    },
+    {
+     "q": "Why does this fail: let r; { let x = 5; r = &x; } println!(\"{r}\");?",
+     "options": [
+      "x is dropped at the end of the inner block, so r would dangle",
+      "Syntax",
+      "Type error",
+      "Overflow"
+     ],
+     "answer": 0,
+     "explain": "The borrow checker prevents dangling references."
+    },
+    {
+     "q": "What does Copy mean for a type?",
+     "options": [
+      "Heap copy",
+      "Assignment duplicates the bits instead of moving, so the original stays usable",
+      "Clone on demand",
+      "Borrow"
+     ],
+     "answer": 1,
+     "explain": "Integers, bool and char are Copy."
+    }
+   ]
+  },
+  "level-2/02-lifetimes": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\nfn longest<'a>(a: &'a str, b: &'a str) -> &'a str { if a.len() >= b.len() { a } else { b } }\nstruct Excerpt<'a> { part: &'a str }\nimpl<'a> Excerpt<'a> { fn first_word(&self) -> &str { self.part.split(' ').next().unwrap_or(\"\") } }\nfn main() {\n    let novel = String::from(\"Call me Ishmael. Some years ago\");\n    let e = Excerpt { part: novel.split('.').next().unwrap() };\n    println!(\"{} | {}\", longest(\"abc\", \"de\"), e.first_word());\n}\n```\n",
+     "options": [
+      "abc | Call",
+      "de | Call",
+      "abc | Ishmael",
+      "abc | Call me Ishmael"
+     ],
+     "answer": 0,
+     "explain": "The lifetime annotation ties the result to both inputs. Verified by compiling and running it."
+    },
+    {
+     "q": "What does the lifetime 'a in fn f<'a>(x: &'a str) -> &'a str say?",
+     "options": [
+      "The function is slow",
+      "Nothing",
+      "The returned reference is valid for no longer than the input reference",
+      "Memory is freed"
+     ],
+     "answer": 2,
+     "explain": "It does not change how long data lives; it describes relationships."
+    },
+    {
+     "q": "What is 'static?",
+     "options": [
+      "Stack data",
+      "A lifetime lasting the whole program, such as string literals",
+      "A keyword for globals",
+      "Static typing"
+     ],
+     "answer": 1,
+     "explain": "Don't use it to silence errors."
+    },
+    {
+     "q": "When can lifetime elision omit annotations?",
+     "options": [
+      "Only for structs",
+      "Always",
+      "Never",
+      "In common cases, such as one input reference, per the elision rules"
+     ],
+     "answer": 3,
+     "explain": "Otherwise the compiler asks."
+    }
+   ]
+  },
+  "level-2/03-traits-generics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\ntrait Shape { fn area(&self) -> f64; fn name(&self) -> String { \"shape\".into() } }\nstruct Sq(f64);\nstruct Circle(f64);\nimpl Shape for Sq { fn area(&self) -> f64 { self.0 * self.0 } fn name(&self) -> String { \"sq\".into() } }\nimpl Shape for Circle { fn area(&self) -> f64 { 3.0 * self.0 * self.0 } }\nfn total<T: Shape>(items: &[T]) -> f64 { items.iter().map(|s| s.area()).sum() }\nfn describe(s: &dyn Shape) -> String { format!(\"{}:{}\", s.name(), s.area()) }\nfn main() {\n    println!(\"{}\", total(&[Sq(2.0), Sq(3.0)]));\n    println!(\"{} {}\", describe(&Sq(2.0)), describe(&Circle(1.0)));\n}\n```\n",
+     "options": [
+      "5\nsq:4 shape:3",
+      "13\nsq:4 circle:3",
+      "13\nshape:4 shape:3",
+      "13\nsq:4 shape:3"
+     ],
+     "answer": 3,
+     "explain": "Default methods are used unless overridden; generics are monomorphised, dyn uses dynamic dispatch. Verified by compiling and running it."
+    },
+    {
+     "q": "What is the difference between generics with trait bounds and dyn Trait?",
+     "options": [
+      "Generics are runtime",
+      "dyn is faster",
+      "No difference",
+      "Generics are resolved at compile time (monomorphisation); dyn uses a vtable at runtime"
+     ],
+     "answer": 3,
+     "explain": "dyn allows heterogeneous collections."
+    },
+    {
+     "q": "What does impl<T: Display> mean?",
+     "options": [
+      "T is a string",
+      "T is a display",
+      "The implementation applies to any T that implements Display",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "A trait bound."
+    },
+    {
+     "q": "What is the orphan rule?",
+     "options": [
+      "You can implement a trait for a type only if the trait or the type is local to your crate",
+      "No impls",
+      "Only std",
+      "Any impl"
+     ],
+     "answer": 0,
+     "explain": "Prevents conflicting impls."
+    }
+   ]
+  },
+  "level-2/04-closures-iterators": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\nfn main() {\n    let v = vec![1, 2, 3, 4, 5, 6];\n    let evens: Vec<i32> = v.iter().filter(|&&x| x % 2 == 0).cloned().collect();\n    let sum_sq: i32 = v.iter().map(|x| x * x).sum();\n    let (small, big): (Vec<i32>, Vec<i32>) = v.iter().partition(|&&x| x < 3);\n    let mut offset = 10;\n    let mut add = |x: i32| { offset += x; offset };\n    println!(\"{:?} {} {:?} {:?}\", evens, sum_sq, small, big);\n    println!(\"{} {}\", add(1), add(2));\n    println!(\"{:?}\", v.iter().zip(\"abc\".chars()).collect::<Vec<_>>());\n}\n```\n",
+     "options": [
+      "[2, 4, 6] 91 [1, 2] [3, 4, 5, 6]\n11 13\n[(1, 'a'), (2, 'b'), (3, 'c')]",
+      "[2, 4, 6] 21 [1, 2] [3, 4, 5, 6]\n11 13\n[(1, 'a'), (2, 'b'), (3, 'c')]",
+      "[2, 4, 6] 91 [1, 2] [3, 4, 5, 6]\n11 12\n[(1, 'a'), (2, 'b'), (3, 'c')]",
+      "[2, 4, 6] 91 [1, 2] [3, 4, 5, 6]\n11 13\n[(1, a), (2, b), (3, c)]"
+     ],
+     "answer": 0,
+     "explain": "Iterators are lazy until consumed; a closure that mutates captured state is FnMut. Verified by compiling and running it."
+    },
+    {
+     "q": "Why are iterator chains lazy?",
+     "options": [
+      "Memory",
+      "Adaptors like map and filter do nothing until a consumer like collect or sum drives them",
+      "Bug",
+      "Syntax"
+     ],
+     "answer": 1,
+     "explain": "Zero-cost abstractions."
+    },
+    {
+     "q": "What is the difference between Fn, FnMut and FnOnce?",
+     "options": [
+      "Return type",
+      "Speed",
+      "Fn only reads captures, FnMut mutates them, FnOnce consumes them",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "The compiler picks the least restrictive trait."
+    },
+    {
+     "q": "What does move do before a closure?",
+     "options": [
+      "Forces the closure to take ownership of captured variables",
+      "Moves code",
+      "Nothing",
+      "Copies the stack"
+     ],
+     "answer": 0,
+     "explain": "Required for threads."
+    }
+   ]
+  },
+  "level-2/05-error-handling-advanced": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\nuse std::fmt;\n#[derive(Debug)]\nenum AppError { Parse(std::num::ParseIntError), Neg(i64) }\nimpl fmt::Display for AppError {\n    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {\n        match self { AppError::Parse(e) => write!(f, \"parse: {e}\"), AppError::Neg(n) => write!(f, \"negative: {n}\") }\n    }\n}\nimpl std::error::Error for AppError {}\nimpl From<std::num::ParseIntError> for AppError { fn from(e: std::num::ParseIntError) -> Self { AppError::Parse(e) } }\nfn read(s: &str) -> Result<i64, AppError> {\n    let n: i64 = s.parse()?;\n    if n < 0 { return Err(AppError::Neg(n)); }\n    Ok(n)\n}\nfn main() {\n    for s in [\"5\", \"-3\", \"x\"] {\n        match read(s) { Ok(n) => println!(\"ok {n}\"), Err(e) => println!(\"{e}\") }\n    }\n}\n```\n",
+     "options": [
+      "ok 5\nnegative: -3\nparse: x",
+      "ok 5\nNeg(-3)\nParse(InvalidDigit)",
+      "ok 5\nnegative: -3\nparse: invalid digit found in string",
+      "ok 5\nnegative: 3\nparse: invalid digit found in string"
+     ],
+     "answer": 2,
+     "explain": "A From impl lets ? convert errors automatically. Verified by compiling and running it."
+    },
+    {
+     "q": "What do the thiserror and anyhow crates do?",
+     "options": [
+      "Both are macros only",
+      "Both are tests",
+      "thiserror derives error types for libraries; anyhow gives a flexible error type for applications",
+      "Same"
+     ],
+     "answer": 2,
+     "explain": "Libraries want typed errors; apps want context."
+    },
+    {
+     "q": "What does Box<dyn Error> allow?",
+     "options": [
+      "Nothing",
+      "Panics",
+      "Returning any error type from a function",
+      "Faster errors"
+     ],
+     "answer": 2,
+     "explain": "At the cost of losing the concrete type."
+    },
+    {
+     "q": "What does map_err do?",
+     "options": [
+      "Logs",
+      "Panics",
+      "Transforms the error of a Result",
+      "Maps Ok"
+     ],
+     "answer": 2,
+     "explain": "Often used with ?."
+    }
+   ]
+  },
+  "level-2/06-testing": {
+   "questions": [
+    {
+     "q": "What does this test module do? (Run via main for this exercise.)\n```rust\nfn add(a: i32, b: i32) -> i32 { a + b }\n#[cfg(test)]\nmod tests {\n    use super::*;\n    #[test]\n    fn adds() { assert_eq!(add(2, 3), 5); }\n    #[test]\n    #[should_panic(expected = \"boom\")]\n    fn panics() { panic!(\"boom\"); }\n}\nfn main() {\n    println!(\"{}\", add(2, 3));\n    println!(\"{}\", cfg!(test));\n}\n```\n",
+     "options": [
+      "5\ntrue",
+      "adds\nfalse",
+      "Ok\nfalse",
+      "5\nfalse"
+     ],
+     "answer": 3,
+     "explain": "Test modules are compiled only under cargo test. Verified by compiling and running it."
+    },
+    {
+     "q": "Where do integration tests live?",
+     "options": [
+      "benches/",
+      "src/",
+      "docs/",
+      "In the tests/ directory, each file a separate crate using only the public API"
+     ],
+     "answer": 3,
+     "explain": "Unit tests sit beside the code in #[cfg(test)]."
+    },
+    {
+     "q": "What does assert_eq! print on failure?",
+     "options": [
+      "Both left and right values",
+      "Only left",
+      "A stack trace only",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Types need Debug and PartialEq."
+    },
+    {
+     "q": "What does cargo test -- --nocapture show?",
+     "options": [
+      "Benchmarks",
+      "Nothing",
+      "println! output from passing tests",
+      "Failures only"
+     ],
+     "answer": 2,
+     "explain": "By default output of passing tests is hidden."
+    }
+   ]
+  },
+  "level-2/07-smart-pointers": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\nuse std::rc::Rc;\nuse std::cell::RefCell;\nfn main() {\n    let shared = Rc::new(RefCell::new(vec![1]));\n    let a = Rc::clone(&shared);\n    let b = Rc::clone(&shared);\n    a.borrow_mut().push(2);\n    b.borrow_mut().push(3);\n    println!(\"{:?} {}\", shared.borrow(), Rc::strong_count(&shared));\n    let bx: Box<i32> = Box::new(5);\n    println!(\"{}\", *bx + 1);\n    drop(a);\n    println!(\"{}\", Rc::strong_count(&shared));\n}\n```\n",
+     "options": [
+      "[1, 2, 3] 3\n5\n3",
+      "[1] 3\n6\n2",
+      "[1, 2, 3] 1\n6\n2",
+      "[1, 2, 3] 3\n6\n2"
+     ],
+     "answer": 3,
+     "explain": "Rc counts owners; RefCell checks borrow rules at runtime. Verified by compiling and running it."
+    },
+    {
+     "q": "When does Rc<RefCell<T>> panic?",
+     "options": [
+      "On drop",
+      "When you violate borrow rules at runtime, for example two borrow_mut at once",
+      "On clone",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "It moves checking from compile time to runtime."
+    },
+    {
+     "q": "What is Box<T> for?",
+     "options": [
+      "Putting a value on the heap with single ownership, such as for recursive types or trait objects",
+      "Interning",
+      "Shared ownership",
+      "Threading"
+     ],
+     "answer": 0,
+     "explain": "Box<dyn Trait>."
+    },
+    {
+     "q": "Can Rc be sent across threads?",
+     "options": [
+      "Only with Mutex",
+      "Only in tests",
+      "Yes",
+      "No: use Arc, which uses atomic reference counts"
+     ],
+     "answer": 3,
+     "explain": "Rc is not Send."
+    }
+   ]
+  },
+  "level-2/08-files-stdlib": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\nuse std::fs;\nuse std::io::{BufRead, BufReader, Write};\nfn main() -> std::io::Result<()> {\n    let dir = std::env::temp_dir().join(\"rs_quiz_demo.txt\");\n    let mut f = fs::File::create(&dir)?;\n    writeln!(f, \"one\")?;\n    writeln!(f, \"two\")?;\n    let lines: Vec<String> = BufReader::new(fs::File::open(&dir)?).lines().collect::<Result<_, _>>()?;\n    println!(\"{:?} {}\", lines, fs::read_to_string(&dir)?.len());\n    fs::remove_file(&dir)?;\n    println!(\"{}\", fs::metadata(&dir).is_err());\n    Ok(())\n}\n```\n",
+     "options": [
+      "[\"one\", \"two\"] 8\ntrue",
+      "[\"one\", \"two\"] 8\nfalse",
+      "[\"one\", \"two\"] 6\ntrue",
+      "[\"one\\n\", \"two\\n\"] 8\ntrue"
+     ],
+     "answer": 0,
+     "explain": "lines() strips newlines; the file holds 8 bytes. Verified by compiling and running it."
+    },
+    {
+     "q": "What does std::env::args() return?",
+     "options": [
+      "Nothing",
+      "An iterator over the command-line arguments (the first is the program name)",
+      "A string",
+      "A Vec"
+     ],
+     "answer": 1,
+     "explain": "Use clap for real CLIs."
+    },
+    {
+     "q": "Why use BufReader for line-by-line reads?",
+     "options": [
+      "It buffers reads to avoid a syscall per small read",
+      "Encoding",
+      "Syntax",
+      "Safety"
+     ],
+     "answer": 0,
+     "explain": "Also BufWriter for writes."
+    },
+    {
+     "q": "How do you handle a missing file?",
+     "options": [
+      "unwrap",
+      "Match on the io::Error kind (NotFound) or propagate with ?",
+      "Ignore",
+      "Panic"
+     ],
+     "answer": 1,
+     "explain": "Give a helpful message."
+    }
+   ]
+  },
+  "level-2/09-crates-dependencies": {
+   "questions": [
+    {
+     "q": "What does cargo add serde do?",
+     "options": [
+      "Compiles",
+      "Runs",
+      "Adds the dependency to Cargo.toml",
+      "Installs globally"
+     ],
+     "answer": 2,
+     "explain": "Version requirements follow semver."
+    },
+    {
+     "q": "What does ^1.2 mean in Cargo.toml?",
+     "options": [
+      "Anything",
+      "Exactly 1.2",
+      "< 1.2",
+      "Any version >= 1.2.0 and < 2.0.0"
+     ],
+     "answer": 3,
+     "explain": "Caret is the default."
+    },
+    {
+     "q": "What do Cargo features do?",
+     "options": [
+      "Tests",
+      "Docs",
+      "Enable optional parts of a crate and its dependencies",
+      "Compile flags only"
+     ],
+     "answer": 2,
+     "explain": "Disable default features to slim builds."
+    },
+    {
+     "q": "How can you check dependencies for known vulnerabilities?",
+     "options": [
+      "cargo fmt",
+      "cargo audit",
+      "cargo doc",
+      "cargo check"
+     ],
+     "answer": 1,
+     "explain": "Run in CI."
+    }
+   ]
+  },
+  "level-2/10-project-weather-cli": {
+   "questions": [
+    {
+     "q": "Why model API responses as serde structs?",
+     "options": [
+      "Logging",
+      "Typed deserialisation catches missing or malformed fields as errors",
+      "Syntax",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "#[derive(Deserialize)]."
+    },
+    {
+     "q": "How should the CLI react to network errors?",
+     "options": [
+      "Loop",
+      "Ignore",
+      "Show a clear message and a non-zero exit code",
+      "Panic"
+     ],
+     "answer": 2,
+     "explain": "Use Result and ? with context."
+    },
+    {
+     "q": "How do you test code that calls an API?",
+     "options": [
+      "Call the real API",
+      "Separate parsing from fetching and test parsing with sample JSON",
+      "Skip",
+      "Mock Rust"
+     ],
+     "answer": 1,
+     "explain": "Deterministic tests."
+    },
+    {
+     "q": "What belongs in environment variables for the CLI?",
+     "options": [
+      "Tests",
+      "Logic",
+      "Colours",
+      "API keys and secrets, not source code"
+     ],
+     "answer": 3,
+     "explain": "Never commit keys."
+    }
+   ]
+  },
+  "level-3/01-concurrency": {
+   "questions": [
+    {
+     "q": "What does this print?\n```rust\nuse std::sync::{Arc, Mutex, mpsc};\nuse std::thread;\nfn main() {\n    let counter = Arc::new(Mutex::new(0));\n    let mut hs = vec![];\n    for _ in 0..4 {\n        let c = Arc::clone(&counter);\n        hs.push(thread::spawn(move || { for _ in 0..1000 { *c.lock().unwrap() += 1; } }));\n    }\n    for h in hs { h.join().unwrap(); }\n    println!(\"{}\", *counter.lock().unwrap());\n    let (tx, rx) = mpsc::channel();\n    for id in 0..3 { let tx = tx.clone(); thread::spawn(move || tx.send(id * 10).unwrap()); }\n    drop(tx);\n    let mut got: Vec<i32> = rx.iter().collect();\n    got.sort();\n    println!(\"{:?}\", got);\n}\n```\n",
+     "options": [
+      "4000\n[20, 10, 0]",
+      "1000\n[0, 10, 20]",
+      "4000\n[0, 10, 20]",
+      "4000\n[0, 10, 20, 30]"
+     ],
+     "answer": 2,
+     "explain": "Arc shares ownership; Mutex guards mutation; the channel closes when all senders are dropped. Verified by compiling and running it."
+    },
+    {
+     "q": "What do Send and Sync mean?",
+     "options": [
+      "Macros",
+      "Send: a value can move to another thread; Sync: shared references can be used from many threads",
+      "Async",
+      "Network traits"
+     ],
+     "answer": 1,
+     "explain": "The compiler checks them automatically."
+    },
+    {
+     "q": "What Rust guarantee does the type system provide for threads?",
+     "options": [
+      "Nothing",
+      "No races ever in unsafe",
+      "Deadlocks prevented",
+      "Data races are prevented at compile time (safe Rust)"
+     ],
+     "answer": 3,
+     "explain": "Deadlocks and logic races are still possible."
+    },
+    {
+     "q": "Why is mpsc a good choice sometimes instead of shared state?",
+     "options": [
+      "Simpler syntax",
+      "Required",
+      "Faster always",
+      "Message passing avoids locks by transferring ownership of data"
+     ],
+     "answer": 3,
+     "explain": "Share memory by communicating."
+    }
+   ]
+  },
+  "level-3/02-async-await-basics": {
+   "questions": [
+    {
+     "q": "What does an async fn return?",
+     "options": [
+      "A Result",
+      "A Future that does nothing until it is polled (awaited)",
+      "A thread",
+      "The value"
+     ],
+     "answer": 1,
+     "explain": "Futures are lazy."
+    },
+    {
+     "q": "Why does async Rust need a runtime such as Tokio?",
+     "options": [
+      "Syntax",
+      "Speed",
+      "Tests",
+      "The standard library defines Future but not an executor to run them"
+     ],
+     "answer": 3,
+     "explain": "Tokio provides the scheduler, I/O and timers."
+    },
+    {
+     "q": "What blocks an async executor thread?",
+     "options": [
+      "Channels",
+      "Long CPU work or blocking calls without await; use spawn_blocking",
+      "Futures",
+      "await"
+     ],
+     "answer": 1,
+     "explain": "Keep tasks cooperative."
+    },
+    {
+     "q": "What does tokio::spawn do?",
+     "options": [
+      "Awaits",
+      "Starts OS process",
+      "Runs a future as a concurrent task",
+      "Blocks"
+     ],
+     "answer": 2,
+     "explain": "It returns a JoinHandle."
+    }
+   ]
+  },
+  "level-3/03-clap-cli": {
+   "questions": [
+    {
+     "q": "What does clap's derive API let you do?",
+     "options": [
+      "Write HTTP",
+      "Define CLI arguments as a struct with attributes and get parsing, help and errors",
+      "Hash",
+      "Run tests"
+     ],
+     "answer": 1,
+     "explain": "#[derive(Parser)]."
+    },
+    {
+     "q": "What exit behaviour does clap provide for bad arguments?",
+     "options": [
+      "Prints a usage error and exits with a non-zero code",
+      "Loops",
+      "Panics",
+      "Ignores"
+     ],
+     "answer": 0,
+     "explain": "--help is automatic."
+    },
+    {
+     "q": "How do you define subcommands?",
+     "options": [
+      "Macros",
+      "Strings",
+      "Files",
+      "An enum with #[derive(Subcommand)]"
+     ],
+     "answer": 3,
+     "explain": "Like git add / commit."
+    },
+    {
+     "q": "Why validate arguments with value parsers?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Reject bad input early with clear messages"
+     ],
+     "answer": 3,
+     "explain": "For example ranges."
+    }
+   ]
+  },
+  "level-3/04-databases-rusqlite": {
+   "questions": [
+    {
+     "q": "What does rusqlite provide?",
+     "options": [
+      "An ORM only",
+      "A server",
+      "A migration tool only",
+      "A safe Rust interface to SQLite"
+     ],
+     "answer": 3,
+     "explain": "Use parameters, not string formatting."
+    },
+    {
+     "q": "How do you avoid SQL injection with rusqlite?",
+     "options": [
+      "Escape",
+      "Regex",
+      "Trust",
+      "Use parameterised queries (params!) not format!"
+     ],
+     "answer": 3,
+     "explain": "Bind values."
+    },
+    {
+     "q": "What does a transaction give you?",
+     "options": [
+      "Caching",
+      "Speed",
+      "All-or-nothing changes across several statements",
+      "Encryption"
+     ],
+     "answer": 2,
+     "explain": "commit or roll back."
+    },
+    {
+     "q": "What index helps WHERE email = ?",
+     "options": [
+      "An index on email",
+      "None",
+      "On id",
+      "On all"
+     ],
+     "answer": 0,
+     "explain": "Indexes trade write cost for read speed."
+    }
+   ]
+  },
+  "level-3/05-web-services-axum": {
+   "questions": [
+    {
+     "q": "What does an Axum handler return?",
+     "options": [
+      "A Future only",
+      "An int",
+      "A String only",
+      "Something that implements IntoResponse, such as Json<T> or a status code tuple"
+     ],
+     "answer": 3,
+     "explain": "Extractors parse the request."
+    },
+    {
+     "q": "What is an extractor in Axum?",
+     "options": [
+      "A DB",
+      "A handler argument type (Path, Query, Json, State) that pulls data from the request",
+      "A macro",
+      "A thread"
+     ],
+     "answer": 1,
+     "explain": "Order matters for body extractors."
+    },
+    {
+     "q": "How do you share a database pool across handlers?",
+     "options": [
+      "Env",
+      "Thread local",
+      "Global mut",
+      "With State<AppState> holding a cloneable handle"
+     ],
+     "answer": 3,
+     "explain": "Arc-based."
+    },
+    {
+     "q": "What status code means 'not found'?",
+     "options": [
+      "204",
+      "200",
+      "500",
+      "404"
+     ],
+     "answer": 3,
+     "explain": "Use proper codes."
+    }
+   ]
+  },
+  "level-3/06-unsafe-rust": {
+   "questions": [
+    {
+     "q": "What does unsafe allow?",
+     "options": [
+      "Run faster",
+      "Skip types",
+      "Turn off the borrow checker",
+      "Operations the compiler can't verify, such as dereferencing raw pointers and calling unsafe functions"
+     ],
+     "answer": 3,
+     "explain": "Everything else still applies."
+    },
+    {
+     "q": "What is your responsibility inside an unsafe block?",
+     "options": [
+      "Upholding the invariants the compiler can't check",
+      "None",
+      "Test only",
+      "Compile"
+     ],
+     "answer": 0,
+     "explain": "Document them in a SAFETY comment."
+    },
+    {
+     "q": "What should you do to limit unsafe code?",
+     "options": [
+      "Wrap it in a small, tested, safe abstraction",
+      "Avoid tests",
+      "Spread it",
+      "Use everywhere"
+     ],
+     "answer": 0,
+     "explain": "Minimise the surface."
+    },
+    {
+     "q": "Which tool detects undefined behaviour in unsafe code?",
+     "options": [
+      "Miri",
+      "cargo doc",
+      "rustfmt",
+      "clippy only"
+     ],
+     "answer": 0,
+     "explain": "cargo +nightly miri test."
+    }
+   ]
+  },
+  "level-3/07-design-patterns": {
+   "questions": [
+    {
+     "q": "What is the builder pattern for?",
+     "options": [
+      "Constructing complex values step by step with optional parts",
+      "Logging",
+      "Testing",
+      "Compiling"
+     ],
+     "answer": 0,
+     "explain": "Method chaining returning self."
+    },
+    {
+     "q": "What does the newtype pattern give you?",
+     "options": [
+      "Speed",
+      "Macros",
+      "Nothing",
+      "A distinct type wrapping another for type safety (e.g. UserId(u64))"
+     ],
+     "answer": 3,
+     "explain": "Prevents mixing IDs."
+    },
+    {
+     "q": "What is RAII in Rust?",
+     "options": [
+      "Threads",
+      "Resources are released when the owning value is dropped (Drop)",
+      "Manual free",
+      "Garbage collection"
+     ],
+     "answer": 1,
+     "explain": "Guards unlock on drop."
+    },
+    {
+     "q": "What is the typestate pattern?",
+     "options": [
+      "Macros",
+      "Tests",
+      "Encoding states in types so invalid transitions don't compile",
+      "Runtime checks"
+     ],
+     "answer": 2,
+     "explain": "Compile-time protocol checks."
+    }
+   ]
+  },
+  "level-3/08-testing-benchmarking": {
+   "questions": [
+    {
+     "q": "What does cargo bench or criterion measure?",
+     "options": [
+      "Docs",
+      "Style",
+      "Performance of code under repeated runs",
+      "Correctness"
+     ],
+     "answer": 2,
+     "explain": "Use release mode."
+    },
+    {
+     "q": "What does #[ignore] do on a test?",
+     "options": [
+      "Nothing",
+      "Runs twice",
+      "Deletes",
+      "Skips it unless run with --ignored"
+     ],
+     "answer": 3,
+     "explain": "For slow tests."
+    },
+    {
+     "q": "What is property-based testing?",
+     "options": [
+      "Manual",
+      "Generating many random inputs to check that properties always hold (proptest)",
+      "Unit tests",
+      "Benchmarks"
+     ],
+     "answer": 1,
+     "explain": "Shrinks failures."
+    },
+    {
+     "q": "Why run tests with cargo test --release sometimes?",
+     "options": [
+      "Never",
+      "Optimised builds can expose overflow and timing differences",
+      "Faster only",
+      "Docs"
+     ],
+     "answer": 1,
+     "explain": "Debug panics on overflow; release wraps."
+    }
+   ]
+  },
+  "level-3/09-generics-trait-objects": {
+   "questions": [
+    {
+     "q": "What is a trait object?",
+     "options": [
+      "Closure",
+      "Macro",
+      "Generic",
+      "A value behind a pointer used through dyn Trait with dynamic dispatch"
+     ],
+     "answer": 3,
+     "explain": "Box<dyn Trait>."
+    },
+    {
+     "q": "What is object safety?",
+     "options": [
+      "Only certain traits can be made into dyn (no generic methods or Self returns)",
+      "Memory",
+      "Lifetimes",
+      "Threads"
+     ],
+     "answer": 0,
+     "explain": "The compiler tells you."
+    },
+    {
+     "q": "When would you pick generics over dyn?",
+     "options": [
+      "Runtime choice",
+      "Heterogeneous lists",
+      "Plugins",
+      "For performance and when types are known at compile time"
+     ],
+     "answer": 3,
+     "explain": "Monomorphisation can bloat code."
+    },
+    {
+     "q": "What does impl Trait in argument position mean?",
+     "options": [
+      "Macro",
+      "dyn",
+      "Syntactic sugar for a generic parameter with that bound",
+      "Box"
+     ],
+     "answer": 2,
+     "explain": "fn f(x: impl Display)."
+    }
+   ]
+  },
+  "level-3/10-project-rest-api-sqlite": {
+   "questions": [
+    {
+     "q": "In the REST API project, where should SQL live?",
+     "options": [
+      "In main",
+      "In a repository/data layer separate from the HTTP handlers",
+      "In macros",
+      "In handlers"
+     ],
+     "answer": 1,
+     "explain": "Easier to test."
+    },
+    {
+     "q": "Why map database errors to HTTP statuses explicitly?",
+     "options": [
+      "Law",
+      "Style",
+      "So clients get meaningful responses instead of generic 500s",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "For example 404 and 409."
+    },
+    {
+     "q": "What does a 201 response include?",
+     "options": [
+      "Redirect",
+      "Nothing",
+      "The created resource and often a Location header",
+      "Error"
+     ],
+     "answer": 2,
+     "explain": "POST creates."
+    },
+    {
+     "q": "How do you test handlers without a network?",
+     "options": [
+      "Mock Rust",
+      "Real server",
+      "Call the router with a request in tests (tower::ServiceExt::oneshot)",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Fast, in-process."
+    }
+   ]
+  },
+  "level-4/01-advanced-async-patterns": {
+   "questions": [
+    {
+     "q": "What does tokio::select! do?",
+     "options": [
+      "Waits on several futures and acts on the first that completes",
+      "Sleeps",
+      "Joins all",
+      "Spawns"
+     ],
+     "answer": 0,
+     "explain": "Cancels the others."
+    },
+    {
+     "q": "What is backpressure?",
+     "options": [
+      "Memory",
+      "Slowing producers when consumers can't keep up, for example with bounded channels",
+      "Pressure",
+      "CPU"
+     ],
+     "answer": 1,
+     "explain": "Avoid unbounded queues."
+    },
+    {
+     "q": "What is cancellation safety?",
+     "options": [
+      "Linking",
+      "Panics",
+      "Stopping tests",
+      "Dropping a future mid-way must not lose data or leave inconsistent state"
+     ],
+     "answer": 3,
+     "explain": "Check the docs of what you select on."
+    },
+    {
+     "q": "How do you limit concurrency?",
+     "options": [
+      "Threads only",
+      "Mutex only",
+      "Sleep",
+      "A Semaphore or buffer_unordered(n)"
+     ],
+     "answer": 3,
+     "explain": "Protect downstreams."
+    }
+   ]
+  },
+  "level-4/02-performance-optimization": {
+   "questions": [
+    {
+     "q": "What is the first step in optimising Rust code?",
+     "options": [
+      "Add unsafe",
+      "Rewrite",
+      "Measure with a profiler or benchmarks in release mode",
+      "Guess"
+     ],
+     "answer": 2,
+     "explain": "Optimise hot paths only."
+    },
+    {
+     "q": "Why prefer iterators over indexing in loops?",
+     "options": [
+      "Style",
+      "Nothing",
+      "Law",
+      "They avoid bounds checks and often optimise as well or better"
+     ],
+     "answer": 3,
+     "explain": "Zero-cost abstractions."
+    },
+    {
+     "q": "What does Vec::with_capacity do?",
+     "options": [
+      "Sorts",
+      "Preallocates space to avoid repeated reallocation",
+      "Locks",
+      "Limits size"
+     ],
+     "answer": 1,
+     "explain": "Use when the size is known."
+    },
+    {
+     "q": "What does lto = true in release profile do?",
+     "options": [
+      "Linting",
+      "Testing",
+      "Enables link-time optimisation across crates for smaller/faster code at longer build time",
+      "Docs"
+     ],
+     "answer": 2,
+     "explain": "Also codegen-units = 1."
+    }
+   ]
+  },
+  "level-4/03-macros": {
+   "questions": [
+    {
+     "q": "What is a declarative macro?",
+     "options": [
+      "A function",
+      "A proc macro",
+      "A trait",
+      "macro_rules! pattern-based code generation"
+     ],
+     "answer": 3,
+     "explain": "Matches token patterns."
+    },
+    {
+     "q": "What are procedural macros?",
+     "options": [
+      "Tests",
+      "Scripts",
+      "Docs",
+      "Rust functions that transform token streams, used for derives and attributes"
+     ],
+     "answer": 3,
+     "explain": "For example #[derive(Serialize)]."
+    },
+    {
+     "q": "When should you prefer a function over a macro?",
+     "options": [
+      "Always macro",
+      "Speed",
+      "Almost always; use macros only when you need syntax or code generation a function cannot do",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Macros are harder to debug."
+    },
+    {
+     "q": "How can you inspect macro expansion?",
+     "options": [
+      "cargo fmt",
+      "cargo bench",
+      "cargo expand",
+      "cargo doc"
+     ],
+     "answer": 2,
+     "explain": "Shows generated code."
+    }
+   ]
+  },
+  "level-4/04-production-services": {
+   "questions": [
+    {
+     "q": "What do tracing and log crates provide?",
+     "options": [
+      "Structured, leveled logging and spans for diagnostics",
+      "Compilers",
+      "Tests",
+      "DB"
+     ],
+     "answer": 0,
+     "explain": "Instrument async code with spans."
+    },
+    {
+     "q": "What does graceful shutdown mean for a service?",
+     "options": [
+      "Restart",
+      "Ignore",
+      "Stop accepting new work, finish in-flight requests, then exit on a signal",
+      "Kill"
+     ],
+     "answer": 2,
+     "explain": "Handle SIGTERM."
+    },
+    {
+     "q": "Why add timeouts to outgoing calls?",
+     "options": [
+      "A hung dependency would otherwise tie up your tasks indefinitely",
+      "Style",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Also retries with backoff."
+    },
+    {
+     "q": "What should /health report?",
+     "options": [
+      "Time",
+      "Nothing",
+      "Version only",
+      "Whether the service and its critical dependencies are working"
+     ],
+     "answer": 3,
+     "explain": "Separate liveness from readiness."
+    }
+   ]
+  },
+  "level-4/05-security-memory-safety": {
+   "questions": [
+    {
+     "q": "What kinds of bugs does safe Rust prevent?",
+     "options": [
+      "All bugs",
+      "Use-after-free, double free, buffer overflows and data races",
+      "Deadlocks",
+      "Logic bugs"
+     ],
+     "answer": 1,
+     "explain": "Logic and security flaws remain."
+    },
+    {
+     "q": "Why audit dependencies?",
+     "options": [
+      "Law",
+      "Supply-chain vulnerabilities live in crates you pull in",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "cargo audit and cargo deny."
+    },
+    {
+     "q": "What can still go wrong in unsafe code?",
+     "options": [
+      "Undefined behaviour from violated invariants",
+      "Typos only",
+      "Nothing",
+      "Compile errors"
+     ],
+     "answer": 0,
+     "explain": "Review carefully."
+    },
+    {
+     "q": "Why zeroize secrets in memory?",
+     "options": [
+      "To reduce exposure of keys after use",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "The zeroize crate."
+    }
+   ]
+  },
+  "level-4/06-testing-at-scale-ci": {
+   "questions": [
+    {
+     "q": "What does cargo clippy do?",
+     "options": [
+      "Lints for common mistakes and non-idiomatic code",
+      "Formats",
+      "Runs tests",
+      "Builds docs"
+     ],
+     "answer": 0,
+     "explain": "Run in CI with -D warnings."
+    },
+    {
+     "q": "What does cargo fmt --check do in CI?",
+     "options": [
+      "Fails if code isn't formatted",
+      "Tests",
+      "Formats",
+      "Compiles"
+     ],
+     "answer": 0,
+     "explain": "Consistency."
+    },
+    {
+     "q": "How can you speed up CI builds?",
+     "options": [
+      "Nothing",
+      "Cache target and registry (sccache or Swatinem/rust-cache)",
+      "Skip tests",
+      "Disable"
+     ],
+     "answer": 1,
+     "explain": "Compile times add up."
+    },
+    {
+     "q": "Why test on multiple Rust versions?",
+     "options": [
+      "Speed",
+      "Style",
+      "To verify your minimum supported version (MSRV) and the latest",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Declare rust-version."
+    }
+   ]
+  },
+  "level-4/07-deployment-docker": {
+   "questions": [
+    {
+     "q": "Why use a multi-stage Docker build for Rust?",
+     "options": [
+      "Compile in a big image and copy only the binary into a small runtime image",
+      "Speed only",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Smaller attack surface."
+    },
+    {
+     "q": "What does cargo-chef help with?",
+     "options": [
+      "Linting",
+      "Docs",
+      "Caching dependency compilation in Docker layers",
+      "Tests"
+     ],
+     "answer": 2,
+     "explain": "Faster rebuilds."
+    },
+    {
+     "q": "Why run the container as non-root?",
+     "options": [
+      "Limits damage if compromised",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "What is a static musl build for?",
+     "options": [
+      "Docs",
+      "A mostly self-contained binary that runs in minimal images",
+      "Tests",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Watch for DNS and OpenSSL caveats."
+    }
+   ]
+  },
+  "level-4/08-ffi-basics": {
+   "questions": [
+    {
+     "q": "What does extern \"C\" do?",
+     "options": [
+      "Declares functions using the C ABI for interop",
+      "Links Rust",
+      "Imports C",
+      "Compiles C"
+     ],
+     "answer": 0,
+     "explain": "Pair with #[no_mangle] to export."
+    },
+    {
+     "q": "Why is calling C from Rust unsafe?",
+     "options": [
+      "Syntax",
+      "The compiler can't verify the foreign code's guarantees",
+      "Law",
+      "Slow"
+     ],
+     "answer": 1,
+     "explain": "Wrap in a safe API."
+    },
+    {
+     "q": "What does bindgen do?",
+     "options": [
+      "Tests",
+      "Builds Rust",
+      "Generates Rust bindings from C headers",
+      "Formats"
+     ],
+     "answer": 2,
+     "explain": "Common in -sys crates."
+    },
+    {
+     "q": "What must you ensure for strings crossing FFI?",
+     "options": [
+      "Base64",
+      "Null termination and ownership rules (CString/CStr)",
+      "UTF-16",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Document who frees memory."
+    }
+   ]
+  },
+  "level-4/09-workspace-organization": {
+   "questions": [
+    {
+     "q": "What is a Cargo workspace?",
+     "options": [
+      "A test",
+      "A folder",
+      "A feature",
+      "Several crates sharing one Cargo.lock and target directory"
+     ],
+     "answer": 3,
+     "explain": "Defined in the root Cargo.toml."
+    },
+    {
+     "q": "Why split a project into a workspace?",
+     "options": [
+      "Law",
+      "Clear boundaries, faster incremental builds and reuse",
+      "None",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "For example core, api and cli crates."
+    },
+    {
+     "q": "How can members share dependency versions?",
+     "options": [
+      "Copy",
+      "Not possible",
+      "[workspace.dependencies] and dep.workspace = true",
+      "Environment"
+     ],
+     "answer": 2,
+     "explain": "Keeps versions aligned."
+    },
+    {
+     "q": "What should a core library crate avoid depending on?",
+     "options": [
+      "tests",
+      "serde",
+      "Application or framework specifics such as HTTP servers",
+      "std"
+     ],
+     "answer": 2,
+     "explain": "Keep it portable and testable."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What is the capstone's aim?",
+     "options": [
+      "A script",
+      "A production-style Rust service with tests, CI, observability, security and a container image",
+      "A toy",
+      "A macro"
+     ],
+     "answer": 1,
+     "explain": "Show readiness."
+    },
+    {
+     "q": "What belongs in the README?",
+     "options": [
+      "Logo",
+      "How to build, run, test and deploy, plus design decisions",
+      "Licence only",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Reviewers start there."
+    },
+    {
+     "q": "What proves the service is production-ready?",
+     "options": [
+      "It compiles",
+      "Works locally",
+      "Passing CI, clippy and fmt clean, load and failure testing, and a documented runbook",
+      "Looks ok"
+     ],
+     "answer": 2,
+     "explain": "Evidence over claims."
+    },
+    {
+     "q": "Why include metrics and structured logs?",
+     "options": [
+      "So you can see failures and latency in production",
+      "Style",
+      "Nothing",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Observability."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```rust\nfn first_word(s: &str) -> &str { s.split(' ').next().unwrap_or(\"\") }\nfn main() {\n    let owned = String::from(\"hello world\");\n    let w = first_word(&owned);\n    println!(\"{w} {}\", owned.len());\n    let v: Vec<i32> = Vec::new();\n    println!(\"{:?} {}\", v.first(), v.is_empty());\n}\n```\n",
+    "options": [
+     "hello 5\nNone true",
+     "hello 11\nSome(0) true",
+     "hello world 11\nNone true",
+     "hello 11\nNone true"
+    ],
+    "answer": 3,
+    "explain": "Borrowed slices share the owner's data; first() on an empty Vec is None. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```rust\nuse std::collections::HashMap;\nfn main() {\n    let words = [\"a\", \"b\", \"a\", \"c\", \"a\", \"b\"];\n    let mut m: HashMap<&str, usize> = HashMap::new();\n    for w in words { *m.entry(w).or_default() += 1; }\n    let mut pairs: Vec<_> = m.into_iter().collect();\n    pairs.sort_by(|x, y| y.1.cmp(&x.1).then(x.0.cmp(y.0)));\n    println!(\"{:?}\", pairs);\n}\n```\n",
+    "options": [
+     "[(\"a\", 3), (\"c\", 1), (\"b\", 2)]",
+     "[(\"c\", 1), (\"b\", 2), (\"a\", 3)]",
+     "{\"a\": 3, \"b\": 2, \"c\": 1}",
+     "[(\"a\", 3), (\"b\", 2), (\"c\", 1)]"
+    ],
+    "answer": 3,
+    "explain": "HashMap iteration order is unspecified, so sort before printing. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```rust\nfn apply<F: Fn(i32) -> i32>(f: F, n: i32) -> i32 { f(f(n)) }\nfn make_adder(k: i32) -> impl Fn(i32) -> i32 { move |x| x + k }\nfn boxed(k: i32) -> Box<dyn Fn(i32) -> i32> { Box::new(move |x| x * k) }\nfn main() {\n    println!(\"{} {} {}\", apply(make_adder(3), 1), boxed(4)(5), apply(|x| x * x, 3));\n}\n```\n",
+    "options": [
+     "7 20 9",
+     "7 20 81",
+     "7 9 81",
+     "5 20 81"
+    ],
+    "answer": 1,
+    "explain": "impl Fn returns one concrete closure type; Box<dyn Fn> allows different closures at runtime. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```rust\n#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]\nenum Level { Low = 1, Mid, High }\nfn main() {\n    let mut v = vec![Level::High, Level::Low, Level::Mid];\n    v.sort();\n    println!(\"{:?} {} {}\", v, Level::Mid as i32, Level::Low < Level::High);\n}\n```\n",
+    "options": [
+     "[High, Mid, Low] 2 true",
+     "[Low, Mid, High] 2 false",
+     "[Low, Mid, High] 2 true",
+     "[Low, Mid, High] 1 true"
+    ],
+    "answer": 2,
+    "explain": "Derived Ord follows declaration order; discriminants continue counting. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```rust\nfn main() {\n    let data = vec![String::from(\"a\"), String::from(\"bb\")];\n    let lens: Vec<usize> = data.iter().map(|s| s.len()).collect();\n    let joined = data.join(\"-\");\n    let moved = data;\n    println!(\"{:?} {} {}\", lens, joined, moved.len());\n    let r: Result<u8, _> = \"300\".parse::<u8>();\n    println!(\"{}\", r.is_err());\n}\n```\n",
+    "options": [
+     "[1, 2] a-bb 0\ntrue",
+     "[1, 2] a-bb 2\nfalse",
+     "[2, 1] a-bb 2\ntrue",
+     "[1, 2] a-bb 2\ntrue"
+    ],
+    "answer": 3,
+    "explain": "Borrowing for iter() ends before the move; 300 does not fit in u8. Verified by compiling and running it."
+   },
+   {
+    "q": "What does the borrow checker prevent in this code: let r; { let x = 1; r = &x; } use(r)?",
+    "options": [
+     "Type errors",
+     "Overflow",
+     "A dangling reference to x after its scope ends",
+     "Slow code"
+    ],
+    "answer": 2,
+    "explain": "References cannot outlive their referent."
+   },
+   {
+    "q": "A function takes &mut Vec<T> while you hold an immutable reference to the vec. Why does it fail to compile?",
+    "options": [
+     "Lifetime of T",
+     "A mutable borrow cannot coexist with a shared borrow",
+     "Syntax",
+     "Move"
+    ],
+    "answer": 1,
+    "explain": "Aliasing XOR mutability."
+   },
+   {
+    "q": "When should a library return Result instead of panicking?",
+    "options": [
+     "For any failure a caller might reasonably handle",
+     "Always panic",
+     "Only IO",
+     "Never"
+    ],
+    "answer": 0,
+    "explain": "Panic for bugs and broken invariants."
+   },
+   {
+    "q": "What does the ? operator do on an Err?",
+    "options": [
+     "Ignores",
+     "Returns early from the function, converting the error with From",
+     "Panics",
+     "Retries"
+    ],
+    "answer": 1,
+    "explain": "It works on Option too."
+   },
+   {
+    "q": "What is the difference between Rc<T> and Arc<T>?",
+    "options": [
+     "Arc is stack-only",
+     "No difference",
+     "Arc uses atomic counts and can be shared across threads; Rc cannot",
+     "Rc is thread-safe"
+    ],
+    "answer": 2,
+    "explain": "Rc is cheaper in single-threaded code."
+   },
+   {
+    "q": "Why wrap shared mutable data in Arc<Mutex<T>>?",
+    "options": [
+     "Speed",
+     "Arc shares ownership across threads and Mutex ensures exclusive mutable access",
+     "Lifetimes",
+     "Syntax"
+    ],
+    "answer": 1,
+    "explain": "Lock scope should be short."
+   },
+   {
+    "q": "What does an async fn do when called without .await?",
+    "options": [
+     "Blocks",
+     "Creates a Future that does nothing until polled",
+     "Panics",
+     "Runs immediately"
+    ],
+    "answer": 1,
+    "explain": "Futures are lazy."
+   },
+   {
+    "q": "What is the safest way to run blocking work inside Tokio?",
+    "options": [
+     "Sleep",
+     "tokio::task::spawn_blocking",
+     "std::thread only",
+     "Await it"
+    ],
+    "answer": 1,
+    "explain": "Keep async threads free."
+   },
+   {
+    "q": "What does #[derive(Deserialize)] with serde give you?",
+    "options": [
+     "Tests",
+     "A server",
+     "Generated code to parse formats such as JSON into your struct",
+     "A database"
+    ],
+    "answer": 2,
+    "explain": "Errors for missing or wrong-typed fields."
+   },
+   {
+    "q": "What does cargo clippy -- -D warnings do in CI?",
+    "options": [
+     "Fails the build on lint warnings",
+     "Formats",
+     "Tests",
+     "Docs"
+    ],
+    "answer": 0,
+    "explain": "Keeps quality steady."
+   },
+   {
+    "q": "What is the purpose of a SAFETY comment on an unsafe block?",
+    "options": [
+     "Compile",
+     "To document why the invariants hold",
+     "Law",
+     "Style"
+    ],
+    "answer": 1,
+    "explain": "Reviewers rely on it."
+   },
+   {
+    "q": "Why prefer a multi-stage Docker build?",
+    "options": [
+     "Law",
+     "Speed",
+     "Style",
+     "Ship only the compiled binary in a small image"
+    ],
+    "answer": 3,
+    "explain": "Smaller attack surface."
+   },
+   {
+    "q": "What does a Cargo workspace share between crates?",
+    "options": [
+     "Tests",
+     "Source",
+     "Docs",
+     "The Cargo.lock and target directory"
+    ],
+    "answer": 3,
+    "explain": "Consistent versions and faster builds."
+   },
+   {
+    "q": "Which evidence best shows a Rust service is ready for production?",
+    "options": [
+     "Few lines",
+     "Works locally",
+     "It compiles",
+     "Tests, clippy and fmt in CI, security audit, logs and metrics and a runbook"
+    ],
+    "answer": 3,
+    "explain": "Operational readiness."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A ledger with typed errors",
+    "prompt": "Implement apply for a small ledger: parse each line, update balances in a BTreeMap and report failures with a custom error enum, a Display impl and a From conversion so the ? operator works. Valid lines must still be applied when others fail.",
+    "starter": "use std::collections::BTreeMap;\nuse std::fmt;\nuse std::num::ParseIntError;\n\n#[derive(Debug, PartialEq)]\nenum LedgerError {\n    BadLine(String),\n    BadAmount(ParseIntError),\n    Overdraft { account: String, balance: i64 },\n}\n\nimpl fmt::Display for LedgerError {\n    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {\n        match self {\n            LedgerError::BadLine(l) => write!(f, \"bad line: {l}\"),\n            LedgerError::BadAmount(e) => write!(f, \"bad amount: {e}\"),\n            LedgerError::Overdraft { account, balance } => write!(f, \"overdraft on {account}: {balance}\"),\n        }\n    }\n}\n\nimpl From<ParseIntError> for LedgerError {\n    fn from(e: ParseIntError) -> Self { LedgerError::BadAmount(e) }\n}\n\n// TODO: fn apply(balances: &mut BTreeMap<String, i64>, line: &str) -> Result<(), LedgerError>\n//  - a line is \"<account> <deposit|withdraw> <amount>\"\n//  - wrong number of parts or an unknown verb -> BadLine(line)\n//  - amount parse failure -> BadAmount via the ? operator and the From impl\n//  - a withdraw that would make the balance negative -> Overdraft { account, balance } (balance before the attempt), and the balance is unchanged\n\nfn main() {\n    let lines = [\"ana deposit 100\", \"bo deposit 50\", \"ana withdraw 30\", \"bo withdraw 80\", \"cy deposit x1\", \"ana transfer 5\", \"ana deposit\", \"bo withdraw 50\"];\n    let mut balances = BTreeMap::new();\n    let mut errors = 0;\n    for l in lines {\n        if let Err(e) = apply(&mut balances, l) {\n            errors += 1;\n            println!(\"error: {e}\");\n        }\n    }\n    for (name, b) in &balances { println!(\"{name}: {b}\"); }\n    println!(\"errors: {errors}\");\n}\n",
+    "expected": "error: overdraft on bo: 50\nerror: bad amount: invalid digit found in string\nerror: bad line: ana transfer 5\nerror: bad line: ana deposit\nana: 70\nbo: 0\nerrors: 4",
+    "solution": "use std::collections::BTreeMap;\nuse std::fmt;\nuse std::num::ParseIntError;\n\n#[derive(Debug, PartialEq)]\nenum LedgerError {\n    BadLine(String),\n    BadAmount(ParseIntError),\n    Overdraft { account: String, balance: i64 },\n}\n\nimpl fmt::Display for LedgerError {\n    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {\n        match self {\n            LedgerError::BadLine(l) => write!(f, \"bad line: {l}\"),\n            LedgerError::BadAmount(e) => write!(f, \"bad amount: {e}\"),\n            LedgerError::Overdraft { account, balance } => write!(f, \"overdraft on {account}: {balance}\"),\n        }\n    }\n}\n\nimpl From<ParseIntError> for LedgerError {\n    fn from(e: ParseIntError) -> Self { LedgerError::BadAmount(e) }\n}\n\nfn apply(balances: &mut BTreeMap<String, i64>, line: &str) -> Result<(), LedgerError> {\n    let parts: Vec<&str> = line.split_whitespace().collect();\n    if parts.len() != 3 { return Err(LedgerError::BadLine(line.to_string())); }\n    let amount: i64 = parts[2].parse()?;\n    let delta = match parts[1] {\n        \"deposit\" => amount,\n        \"withdraw\" => -amount,\n        _ => return Err(LedgerError::BadLine(line.to_string())),\n    };\n    let bal = balances.entry(parts[0].to_string()).or_insert(0);\n    if *bal + delta < 0 {\n        return Err(LedgerError::Overdraft { account: parts[0].to_string(), balance: *bal });\n    }\n    *bal += delta;\n    Ok(())\n}\n\nfn main() {\n    let lines = [\"ana deposit 100\", \"bo deposit 50\", \"ana withdraw 30\", \"bo withdraw 80\", \"cy deposit x1\", \"ana transfer 5\", \"ana deposit\", \"bo withdraw 50\"];\n    let mut balances = BTreeMap::new();\n    let mut errors = 0;\n    for l in lines {\n        if let Err(e) = apply(&mut balances, l) {\n            errors += 1;\n            println!(\"error: {e}\");\n        }\n    }\n    for (name, b) in &balances { println!(\"{name}: {b}\"); }\n    println!(\"errors: {errors}\");\n}\n",
+    "explain": "The match on the verb gives a signed delta, entry().or_insert(0) creates accounts on demand and the overdraft check happens before the balance changes. The From<ParseIntError> impl is what lets ? convert the parse error. Verified by compiling and running with Rust 1.97."
+   },
+   {
+    "title": "Count primes with worker threads",
+    "prompt": "Share a counter in an Arc<Mutex<u32>> so worker threads claim chunks of 1000 numbers, count primes in each chunk and send results over an mpsc channel. The totals must match a single-worker run.",
+    "starter": "use std::sync::mpsc;\nuse std::sync::{Arc, Mutex};\nuse std::thread;\n\nfn is_prime(n: u32) -> bool {\n    if n < 2 { return false; }\n    let mut d = 2;\n    while d * d <= n {\n        if n % d == 0 { return false; }\n        d += 1;\n    }\n    true\n}\n\n// TODO: fn count_primes(limit: u32, workers: u32) -> (u32, Vec<(u32, u32)>)\n//  - workers threads repeatedly claim the next chunk of 1000 numbers from a shared Arc<Mutex<u32>>\n//  - each worker counts primes in its chunk and sends (chunk_start, count) over an mpsc channel\n//  - return the total and the chunk results sorted by chunk start\n\nfn main() {\n    let (total, parts) = count_primes(10_000, 4);\n    println!(\"primes below 10000: {total}\");\n    println!(\"chunks: {}\", parts.len());\n    println!(\"first three: {:?}\", &parts[..3]);\n    let (t1, _) = count_primes(10_000, 1);\n    println!(\"same with one worker: {}\", t1 == total);\n}\n",
+    "expected": "primes below 10000: 1229\nchunks: 10\nfirst three: [(0, 168), (1000, 135), (2000, 127)]\nsame with one worker: true",
+    "solution": "use std::sync::mpsc;\nuse std::sync::{Arc, Mutex};\nuse std::thread;\n\nfn is_prime(n: u32) -> bool {\n    if n < 2 { return false; }\n    let mut d = 2;\n    while d * d <= n {\n        if n % d == 0 { return false; }\n        d += 1;\n    }\n    true\n}\n\nfn count_primes(limit: u32, workers: u32) -> (u32, Vec<(u32, u32)>) {\n    let next = Arc::new(Mutex::new(0u32));\n    let chunk = 1000;\n    let (tx, rx) = mpsc::channel();\n    let mut handles = Vec::new();\n    for id in 0..workers {\n        let next = Arc::clone(&next);\n        let tx = tx.clone();\n        handles.push(thread::spawn(move || {\n            loop {\n                let start = {\n                    let mut g = next.lock().unwrap();\n                    let s = *g;\n                    *g += chunk;\n                    s\n                };\n                if start >= limit { break; }\n                let end = (start + chunk).min(limit);\n                let c = (start..end).filter(|&n| is_prime(n)).count() as u32;\n                tx.send((start, c)).unwrap();\n            }\n            id\n        }));\n    }\n    drop(tx);\n    let mut parts: Vec<(u32, u32)> = rx.iter().collect();\n    for h in handles { h.join().unwrap(); }\n    parts.sort();\n    (parts.iter().map(|p| p.1).sum(), parts)\n}\n\nfn main() {\n    let (total, parts) = count_primes(10_000, 4);\n    println!(\"primes below 10000: {total}\");\n    println!(\"chunks: {}\", parts.len());\n    println!(\"first three: {:?}\", &parts[..3]);\n    let (t1, _) = count_primes(10_000, 1);\n    println!(\"same with one worker: {}\", t1 == total);\n}\n",
+    "explain": "The lock is held only while claiming the next chunk, the channel closes when every sender is dropped (the original tx is dropped explicitly) and sorting the results makes the output deterministic even though threads finish in any order. 1229 is the number of primes below 10,000. Verified by compiling and running with Rust 1.97."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
