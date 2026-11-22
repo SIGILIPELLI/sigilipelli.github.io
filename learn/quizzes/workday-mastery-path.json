@@ -1,0 +1,2170 @@
+{
+ "course": "workday-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-workday": {
+   "questions": [
+    {
+     "q": "What kind of system is Workday?",
+     "options": [
+      "A CRM",
+      "A cloud-based enterprise suite covering HCM (workforce) and Financials, on a single shared data model",
+      "A desktop HR app",
+      "A payroll-only tool"
+     ],
+     "answer": 1,
+     "explain": "One tenant, one data model across HCM and Financials."
+    },
+    {
+     "q": "Which two pillars does the course describe?",
+     "options": [
+      "HCM (human capital management) and Financials",
+      "HR and IT",
+      "Sales and Marketing",
+      "CRM and ERP"
+     ],
+     "answer": 0,
+     "explain": "Many companies run both on one tenant."
+    },
+    {
+     "q": "How is Workday mostly changed?",
+     "options": [
+      "Writing Java",
+      "By configuration in the application (business processes, security, reports), not by programming",
+      "Editing databases",
+      "Compiling code"
+     ],
+     "answer": 1,
+     "explain": "Extend and integrations add coding for special cases."
+    },
+    {
+     "q": "What is a tenant?",
+     "options": [
+      "A user",
+      "A server room",
+      "Your organisation's own logically separate instance of Workday with its own data and configuration",
+      "A report"
+     ],
+     "answer": 2,
+     "explain": "Sandbox, implementation and production tenants are common."
+    }
+   ]
+  },
+  "level-1/02-navigating-the-workday-ui": {
+   "questions": [
+    {
+     "q": "Where do you find tasks and reports quickly in Workday?",
+     "options": [
+      "Email",
+      "The menu only",
+      "A bookmark",
+      "The global search bar, which searches tasks, reports, workers and more"
+     ],
+     "answer": 3,
+     "explain": "Prefixes such as task: and report: narrow results."
+    },
+    {
+     "q": "What are related actions?",
+     "options": [
+      "Reports",
+      "Emails",
+      "Context menus (the ellipsis next to an object) listing actions available for that object",
+      "Tabs"
+     ],
+     "answer": 2,
+     "explain": "Security controls what you see."
+    },
+    {
+     "q": "What does the Inbox contain?",
+     "options": [
+      "Reports",
+      "Emails",
+      "Schedules",
+      "Approvals, to-dos and notifications routed to you by business processes"
+     ],
+     "answer": 3,
+     "explain": "Act on items from here."
+    },
+    {
+     "q": "Why might a colleague see different tasks from you?",
+     "options": [
+      "Different browsers",
+      "Security groups control which tasks and data each user can access",
+      "Colours",
+      "Luck"
+     ],
+     "answer": 1,
+     "explain": "Security is role-based."
+    }
+   ]
+  },
+  "level-1/03-core-hcm-concepts": {
+   "questions": [
+    {
+     "q": "What is a worker's relationship to a position in Workday?",
+     "options": [
+      "Jobs are reports",
+      "A worker holds a job (position) in a supervisory organisation, with effective-dated history",
+      "Workers have no jobs",
+      "A worker is a position"
+     ],
+     "answer": 1,
+     "explain": "Workers and positions are separate objects."
+    },
+    {
+     "q": "What is a supervisory organisation?",
+     "options": [
+      "A company",
+      "A location",
+      "A cost centre",
+      "The management hierarchy used for staffing, approvals and reporting lines"
+     ],
+     "answer": 3,
+     "explain": "It is how workers are grouped under managers."
+    },
+    {
+     "q": "What is the difference between a company and a cost centre?",
+     "options": [
+      "Same",
+      "A company is a legal entity for accounting; a cost centre is a worktag used to track costs within it",
+      "Cost centre is bigger",
+      "Company is a worktag"
+     ],
+     "answer": 1,
+     "explain": "Worktags categorise transactions."
+    },
+    {
+     "q": "What is effective dating?",
+     "options": [
+      "Timestamps only",
+      "Backups",
+      "Storing data changes with the date they take effect so history and future changes are preserved",
+      "Archiving"
+     ],
+     "answer": 2,
+     "explain": "Entry date records when it was entered; effective date when it applies."
+    }
+   ]
+  },
+  "level-1/04-business-processes-basics": {
+   "questions": [
+    {
+     "q": "What is a business process (BP) in Workday?",
+     "options": [
+      "A report",
+      "A security group",
+      "A calculated field",
+      "A configurable sequence of steps (initiation, approvals, to-dos, notifications) that carries out a transaction"
+     ],
+     "answer": 3,
+     "explain": "Hire, Change Job and Request Time Off are examples."
+    },
+    {
+     "q": "A BP has steps: initiate, manager approval, HR partner approval, complete. A transaction is initiated and then every approval is granted. How many steps ran?\n```python\nsteps=['initiate','manager approval','HR partner approval','complete']\nprint(len(steps))\n```\n",
+     "options": [
+      "2",
+      "3",
+      "5",
+      "4"
+     ],
+     "answer": 3,
+     "explain": "Each configured step runs in order unless a condition skips it. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What can a condition on a BP step do?",
+     "options": [
+      "Change security",
+      "Include or skip a step depending on the transaction data (for example salary above a limit)",
+      "Create users",
+      "Delete the BP"
+     ],
+     "answer": 1,
+     "explain": "Conditions make routing dynamic."
+    },
+    {
+     "q": "Why are some steps sent back or cancelled rather than just denied?",
+     "options": [
+      "Law",
+      "Different actions control whether the whole transaction is undone, resent or only that step fails",
+      "Cost",
+      "Bug"
+     ],
+     "answer": 1,
+     "explain": "Send back, deny and cancel behave differently."
+    }
+   ]
+  },
+  "level-1/05-staffing-fundamentals": {
+   "questions": [
+    {
+     "q": "What is the difference between position management and job management staffing?",
+     "options": [
+      "No difference",
+      "Position is for contractors",
+      "Position management creates positions first and fills them; job management creates worker jobs directly",
+      "Job management is older"
+     ],
+     "answer": 2,
+     "explain": "A tenant uses one model per supervisory org."
+    },
+    {
+     "q": "What is a job requisition?",
+     "options": [
+      "A contract",
+      "A report",
+      "A hire",
+      "A request to fill a position or headcount, which drives recruiting"
+     ],
+     "answer": 3,
+     "explain": "Approvals precede posting."
+    },
+    {
+     "q": "Which transaction brings a new employee into Workday?",
+     "options": [
+      "Hire",
+      "Change Job",
+      "Request Time Off",
+      "Add Worker Alias"
+     ],
+     "answer": 0,
+     "explain": "The Hire BP creates the worker, position and job."
+    },
+    {
+     "q": "What distinguishes an employee from a contingent worker?",
+     "options": [
+      "Pay only",
+      "Employees are on payroll; contingent workers are contractors or consultants managed without payroll",
+      "Title",
+      "Location"
+     ],
+     "answer": 1,
+     "explain": "They are different worker types."
+    }
+   ]
+  },
+  "level-1/06-compensation-basics": {
+   "questions": [
+    {
+     "q": "A grade range is 60,000 to 100,000 (midpoint 80,000). What are compa-ratio and range penetration for a salary of 70,000? (2 decimals)\n```python\nlo,hi=60000,100000\nmid=(lo+hi)/2\nsal=70000\nprint(round(sal/mid,2), round((sal-lo)/(hi-lo),2))\n```\n",
+     "options": [
+      "0.7 0.25",
+      "1.14 0.25",
+      "0.88 0.25",
+      "0.88 0.88"
+     ],
+     "answer": 2,
+     "explain": "Compa-ratio = salary / midpoint; range penetration = position within min-to-max. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What is a grade profile?",
+     "options": [
+      "A job",
+      "A worker",
+      "The pay range (minimum, midpoint, maximum) attached to a grade for compensation planning",
+      "A report"
+     ],
+     "answer": 2,
+     "explain": "Grades group jobs by pay level."
+    },
+    {
+     "q": "What does a compensation plan type include?",
+     "options": [
+      "Security",
+      "Salary, hourly, allowance, bonus or merit plans with eligibility rules",
+      "Reports",
+      "Calendars"
+     ],
+     "answer": 1,
+     "explain": "Eligibility rules decide who is covered."
+    },
+    {
+     "q": "A 4% merit increase on 70,000, then prorated for 9 of 12 months in the first year. What is the first-year payout increase? (2 decimals)\n```python\nsal=70000\nbump=sal*0.04\nprint(round(bump*9/12,2))\n```\n",
+     "options": [
+      "3150.0",
+      "2800.0",
+      "2100.0",
+      "210.0"
+     ],
+     "answer": 2,
+     "explain": "Proration is a simple fraction of the annual change. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+    }
+   ]
+  },
+  "level-1/07-reporting-basics": {
+   "questions": [
+    {
+     "q": "What is a report in Workday used for?",
+     "options": [
+      "Querying and presenting data from business objects, secured by the user's access",
+      "Integrations only",
+      "Security",
+      "Changing data"
+     ],
+     "answer": 0,
+     "explain": "Reports respect domain security."
+    },
+    {
+     "q": "What is an advanced report?",
+     "options": [
+      "A trending",
+      "A composite",
+      "The standard flexible report type for listing data from a data source with fields, filters and prompts",
+      "A matrix"
+     ],
+     "answer": 2,
+     "explain": "Other types include matrix, composite and simple."
+    },
+    {
+     "q": "What does a prompt do?",
+     "options": [
+      "Filters rows",
+      "Secures it",
+      "Schedules",
+      "Lets the user supply values (such as an effective date) when running a report"
+     ],
+     "answer": 3,
+     "explain": "Runtime parameters."
+    },
+    {
+     "q": "What does a data source determine?",
+     "options": [
+      "Which business object instances the report starts from",
+      "Security only",
+      "Rows only",
+      "Colours"
+     ],
+     "answer": 0,
+     "explain": "Choose the narrowest suitable data source for performance."
+    }
+   ]
+  },
+  "level-1/08-security-basics": {
+   "questions": [
+    {
+     "q": "What is a security group?",
+     "options": [
+      "A BP",
+      "A worktag",
+      "A set of users (or positions) who share permissions to domains and business processes",
+      "A report"
+     ],
+     "answer": 2,
+     "explain": "Examples: user-based, role-based, job-based."
+    },
+    {
+     "q": "What is a domain security policy?",
+     "options": [
+      "A BP",
+      "A report",
+      "A prompt",
+      "A rule defining which security groups can view or modify the data and tasks in a functional area"
+     ],
+     "answer": 3,
+     "explain": "Permissions are granted at domain level."
+    },
+    {
+     "q": "Why activate pending security policy changes?",
+     "options": [
+      "Cost",
+      "Law",
+      "Bug",
+      "Security edits don't take effect until the Activate Pending Security Policy Changes task runs"
+     ],
+     "answer": 3,
+     "explain": "A common beginner pitfall."
+    },
+    {
+     "q": "What is a role-based security group?",
+     "options": [
+      "Membership based on who holds an assignable role (for example HR Partner) for an organisation",
+      "Job profiles",
+      "Locations",
+      "Individual users"
+     ],
+     "answer": 0,
+     "explain": "Roles are assigned to positions."
+    }
+   ]
+  },
+  "level-1/09-integration-basics-overview": {
+   "questions": [
+    {
+     "q": "What does EIB stand for and do?",
+     "options": [
+      "Employee Info Base",
+      "External Interface Bus",
+      "Entity Integration Board",
+      "Enterprise Interface Builder: loads (inbound) and extracts (outbound) data with spreadsheet or XML templates"
+     ],
+     "answer": 3,
+     "explain": "No coding required."
+    },
+    {
+     "q": "What is a core connector?",
+     "options": [
+      "A prebuilt integration for a common scenario such as worker data to a benefits provider",
+      "A report",
+      "A tenant",
+      "A BP"
+     ],
+     "answer": 0,
+     "explain": "Configurable rather than coded."
+    },
+    {
+     "q": "What is RaaS?",
+     "options": [
+      "Reports and security",
+      "Report as a Service: exposing a Workday custom report as a web service",
+      "Records",
+      "Roles and sources"
+     ],
+     "answer": 1,
+     "explain": "Integrations can consume report output."
+    },
+    {
+     "q": "Why test an integration in a sandbox first?",
+     "options": [
+      "Law",
+      "Speed",
+      "Wrong data loaded into production can affect many records and payroll",
+      "Cost"
+     ],
+     "answer": 2,
+     "explain": "Always rehearse."
+    }
+   ]
+  },
+  "level-1/10-project-org-structure-hire-bp": {
+   "questions": [
+    {
+     "q": "What does the Hire capstone project combine?",
+     "options": [
+      "Only payroll",
+      "Only security",
+      "Only reports",
+      "Organisation structure, staffing, security and a Hire business process"
+     ],
+     "answer": 3,
+     "explain": "Level 1 capstone."
+    },
+    {
+     "q": "What should you test after configuring a BP?",
+     "options": [
+      "Colours",
+      "Initiate it as different users and confirm routing, approvals and notifications",
+      "Nothing",
+      "Compile"
+     ],
+     "answer": 1,
+     "explain": "Use test cases and different security groups."
+    },
+    {
+     "q": "Why document configuration decisions?",
+     "options": [
+      "Law",
+      "Style",
+      "Colour",
+      "Others must maintain and audit the setup"
+     ],
+     "answer": 3,
+     "explain": "Keep a design document."
+    },
+    {
+     "q": "What is a typical risk in a Hire BP?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Routing to the wrong approver or missing a required step because of condition logic",
+      "Fonts"
+     ],
+     "answer": 2,
+     "explain": "Test edge cases."
+    }
+   ]
+  },
+  "level-2/01-advanced-bp-configuration": {
+   "questions": [
+    {
+     "q": "A BP routes to a VP only when salary change exceeds 10%. For changes of [4, 12, 9.5, 20] percent, which get VP approval?\n```python\nprint([c for c in [4,12,9.5,20] if c>10])\n```\n",
+     "options": [
+      "[12]",
+      "[4, 9.5]",
+      "[4, 12, 9.5, 20]",
+      "[12, 20]"
+     ],
+     "answer": 3,
+     "explain": "Conditions evaluate transaction data at runtime. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What is delegation in BPs?",
+     "options": [
+      "A user assigns another to act on their tasks for a period",
+      "Reporting",
+      "Security",
+      "Deleting"
+     ],
+     "answer": 0,
+     "explain": "Useful for vacations."
+    },
+    {
+     "q": "What is an advanced condition?",
+     "options": [
+      "A tenant",
+      "A prompt",
+      "A report",
+      "A condition built from calculated fields or complex logic for routing"
+     ],
+     "answer": 3,
+     "explain": "Used when simple conditions are not enough."
+    },
+    {
+     "q": "How do you avoid duplicated BP definitions?",
+     "options": [
+      "Delete",
+      "Copy",
+      "Use condition rules and sub-processes instead of copies per organisation",
+      "Ignore"
+     ],
+     "answer": 2,
+     "explain": "Maintain one version."
+    }
+   ]
+  },
+  "level-2/02-organization-management-deep-dive": {
+   "questions": [
+    {
+     "q": "What is the difference between a supervisory organisation and a cost-centre hierarchy?",
+     "options": [
+      "Supervisory orgs organise management of people; cost centres organise financial tracking",
+      "None",
+      "Reverse",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "Both are organisation types."
+    },
+    {
+     "q": "What is a matrix organisation used for?",
+     "options": [
+      "Cost",
+      "Payroll",
+      "Security",
+      "Secondary reporting relationships such as project or functional lines"
+     ],
+     "answer": 3,
+     "explain": "Doesn't replace the supervisory org."
+    },
+    {
+     "q": "Why is an organisation's inactivation dangerous without checks?",
+     "options": [
+      "Colour",
+      "Law",
+      "Speed",
+      "Workers or positions may still belong to it"
+     ],
+     "answer": 3,
+     "explain": "Move members first."
+    },
+    {
+     "q": "What are organisation roles?",
+     "options": [
+      "Jobs",
+      "Reports",
+      "Workers",
+      "Named roles (such as Manager or HR Partner) assigned in an organisation, used for security and routing"
+     ],
+     "answer": 3,
+     "explain": "Role-based groups use them."
+    }
+   ]
+  },
+  "level-2/03-advanced-staffing": {
+   "questions": [
+    {
+     "q": "What is a transfer within staffing?",
+     "options": [
+      "Rehire",
+      "Termination",
+      "Moving a worker to a different supervisory organisation, position or location",
+      "Hire"
+     ],
+     "answer": 2,
+     "explain": "Change Job covers transfers, promotions and demotions."
+    },
+    {
+     "q": "What is a rehire?",
+     "options": [
+      "A new hire",
+      "A transfer",
+      "Bringing back a former employee, preserving their prior history",
+      "A promotion"
+     ],
+     "answer": 2,
+     "explain": "Uses the Rehire business process."
+    },
+    {
+     "q": "What is a leave of absence?",
+     "options": [
+      "Hire",
+      "Vacation",
+      "Termination",
+      "A temporary status where the worker remains employed but is not working, with its own BP"
+     ],
+     "answer": 3,
+     "explain": "Impacts pay and benefits."
+    },
+    {
+     "q": "Why validate effective dates in staffing transactions?",
+     "options": [
+      "Colour",
+      "Law",
+      "Speed",
+      "Back-dated or future-dated changes can affect payroll and require corrections"
+     ],
+     "answer": 3,
+     "explain": "Check the retro impact."
+    }
+   ]
+  },
+  "level-2/04-compensation-benefits-deep-dive": {
+   "questions": [
+    {
+     "q": "What do benefit plans typically include?",
+     "options": [
+      "Salary",
+      "Reports",
+      "Roles",
+      "Health, dental, vision, retirement and other coverages with eligibility and enrolment events"
+     ],
+     "answer": 3,
+     "explain": "Open enrolment and life events trigger changes."
+    },
+    {
+     "q": "What is a life event?",
+     "options": [
+      "A report",
+      "A qualifying change (marriage, birth) that lets employees modify benefits outside open enrolment",
+      "A holiday",
+      "A review"
+     ],
+     "answer": 1,
+     "explain": "Has deadlines."
+    },
+    {
+     "q": "An employee elects a plan costing 300 per month with the employer paying 70%. What is the annual employee cost?\n```python\nmonthly=300; employee=monthly*0.30\nprint(employee*12)\n```\n",
+     "options": [
+      "3600.0",
+      "900.0",
+      "2520.0",
+      "1080.0"
+     ],
+     "answer": 3,
+     "explain": "Employee share is 30%. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What is a compensation review?",
+     "options": [
+      "A planned cycle where managers propose merit and bonus changes within budget",
+      "A query",
+      "A report",
+      "A BP"
+     ],
+     "answer": 0,
+     "explain": "Budgets constrain allocations."
+    }
+   ]
+  },
+  "level-2/05-advanced-reporting": {
+   "questions": [
+    {
+     "q": "What is a calculated field?",
+     "options": [
+      "A BP",
+      "A report",
+      "A group",
+      "A configured formula that derives a value from other fields for reports, conditions and integrations"
+     ],
+     "answer": 3,
+     "explain": "Used heavily across Workday."
+    },
+    {
+     "q": "A calculated field computes tenure in years from hire 2018-06-01 to 2026-03-05 (completed years).\n```python\nfrom datetime import date\nh,t=date(2018,6,1),date(2026,3,5)\nprint(t.year-h.year-((t.month,t.day)<(h.month,h.day)))\n```\n",
+     "options": [
+      "8",
+      "7",
+      "7.75",
+      "6"
+     ],
+     "answer": 1,
+     "explain": "Completed years subtract one if the anniversary has not occurred yet. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What is a matrix report good for?",
+     "options": [
+      "Security",
+      "Integrations",
+      "Lists",
+      "Summarising counts or sums across two dimensions, such as headcount by department and gender"
+     ],
+     "answer": 3,
+     "explain": "Pivot-style output."
+    },
+    {
+     "q": "What are report prompts and filters difference?",
+     "options": [
+      "Filters are runtime",
+      "Prompts are asked at runtime; filters are fixed in the definition",
+      "Same",
+      "Prompts are fixed"
+     ],
+     "answer": 1,
+     "explain": "Both restrict data."
+    }
+   ]
+  },
+  "level-2/06-workday-studio-eib-basics": {
+   "questions": [
+    {
+     "q": "What does Workday Studio do?",
+     "options": [
+      "Hiring",
+      "Security",
+      "Builds complex integrations using an Eclipse-based IDE with assemblies and web services",
+      "Reports"
+     ],
+     "answer": 2,
+     "explain": "Used when EIB or connectors are not enough."
+    },
+    {
+     "q": "When is EIB enough?",
+     "options": [
+      "Always",
+      "For straightforward bulk loads and scheduled extracts without complex logic",
+      "Never",
+      "For payroll"
+     ],
+     "answer": 1,
+     "explain": "Prefer the simplest tool."
+    },
+    {
+     "q": "What file format does an inbound EIB typically use?",
+     "options": [
+      "A spreadsheet template (Excel) or XML",
+      "JPG",
+      "PDF",
+      "DOC"
+     ],
+     "answer": 0,
+     "explain": "Generated from the web service."
+    },
+    {
+     "q": "What do you check before loading data with EIB?",
+     "options": [
+      "Validate the data file, run a test load in sandbox and review error messages",
+      "Nothing",
+      "Load all",
+      "Delete"
+     ],
+     "answer": 0,
+     "explain": "Errors list rows."
+    }
+   ]
+  },
+  "level-2/07-security-groups-deep-dive": {
+   "questions": [
+    {
+     "q": "What is a constrained role-based security group?",
+     "options": [
+      "Everything",
+      "Own record",
+      "No access",
+      "Access limited to the organisations where the user holds the role"
+     ],
+     "answer": 3,
+     "explain": "Unconstrained groups see all organisations."
+    },
+    {
+     "q": "What is an intersection security group?",
+     "options": [
+      "Any group",
+      "No group",
+      "Membership only for users who are in all of the included groups",
+      "One group"
+     ],
+     "answer": 2,
+     "explain": "AND logic."
+    },
+    {
+     "q": "A user is in groups A and B. An intersection group requires A and C; an aggregation group includes A or C. Is the user in each?\n```python\nu={'A','B'}\nprint(({'A','C'}<=u), bool({'A','C'}&u))\n```\n",
+     "options": [
+      "False True",
+      "True False",
+      "True True",
+      "False False"
+     ],
+     "answer": 0,
+     "explain": "Intersection is AND; aggregation is OR. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What is segment-based security used for?",
+     "options": [
+      "Roles",
+      "Authentication",
+      "Hiring",
+      "Restricting access to specific subsets of data such as particular task or report fields"
+     ],
+     "answer": 3,
+     "explain": "A finer-grained control."
+    }
+   ]
+  },
+  "level-2/08-talent-performance-management": {
+   "questions": [
+    {
+     "q": "What does goal and performance management cover?",
+     "options": [
+      "Goals, development plans, check-ins and review cycles",
+      "Payroll",
+      "Procurement",
+      "Banking"
+     ],
+     "answer": 0,
+     "explain": "Talent module."
+    },
+    {
+     "q": "What is a calibration?",
+     "options": [
+      "Payroll",
+      "A review where managers compare ratings across the team to make them consistent",
+      "Survey",
+      "Report"
+     ],
+     "answer": 1,
+     "explain": "Reduces bias."
+    },
+    {
+     "q": "What does a talent review (9-box) assess?",
+     "options": [
+      "Time",
+      "Skills",
+      "Pay",
+      "Performance against potential to guide development and succession"
+     ],
+     "answer": 3,
+     "explain": "Inputs to succession planning."
+    },
+    {
+     "q": "Why link goals to company objectives?",
+     "options": [
+      "Employees see how their work contributes to outcomes",
+      "Style",
+      "Law",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Alignment."
+    }
+   ]
+  },
+  "level-2/09-absence-time-tracking": {
+   "questions": [
+    {
+     "q": "What is a time off plan?",
+     "options": [
+      "Rules for accruing and using leave such as vacation or sick leave",
+      "Report",
+      "Task",
+      "Org"
+     ],
+     "answer": 0,
+     "explain": "Balance and accrual rules."
+    },
+    {
+     "q": "Accrual of 1.5 days/month for 8 months with 4 days taken: what is the balance?\n```python\nprint(1.5*8-4)\n```\n",
+     "options": [
+      "6.0",
+      "4.0",
+      "8.0",
+      "12.0"
+     ],
+     "answer": 2,
+     "explain": "Accrued minus used. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What is a time entry code?",
+     "options": [
+      "Categorises time worked or paid (regular, overtime, holiday)",
+      "Role",
+      "Report",
+      "Org"
+     ],
+     "answer": 0,
+     "explain": "Feeds payroll."
+    },
+    {
+     "q": "What is a common issue with absence?",
+     "options": [
+      "Cost",
+      "Colour",
+      "Unapproved retro changes affecting payroll and balances",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Control with BPs."
+    }
+   ]
+  },
+  "level-2/10-project-compensation-package": {
+   "questions": [
+    {
+     "q": "What does the compensation package project combine?",
+     "options": [
+      "Grades, plans, eligibility and a change process for a realistic package",
+      "Only BPs",
+      "Only security",
+      "Only reports"
+     ],
+     "answer": 0,
+     "explain": "Level 2 capstone."
+    },
+    {
+     "q": "How do you test a compensation package?",
+     "options": [
+      "Assume",
+      "Create test workers across grades and confirm eligibility and calculations",
+      "Skip",
+      "Print"
+     ],
+     "answer": 1,
+     "explain": "Include edge cases."
+    },
+    {
+     "q": "What belongs in the compensation design doc?",
+     "options": [
+      "Names",
+      "Colours",
+      "Plans, eligibility rules, ranges, approvals and test results",
+      "Logos"
+     ],
+     "answer": 2,
+     "explain": "Maintain it."
+    },
+    {
+     "q": "What is a risk in comp design?",
+     "options": [
+      "Overlapping eligibility rules giving workers duplicate plans",
+      "Speed",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Review rules."
+    }
+   ]
+  },
+  "level-3/01-advanced-integrations": {
+   "questions": [
+    {
+     "q": "What are web services in Workday?",
+     "options": [
+      "Security",
+      "Reports",
+      "BPs",
+      "SOAP and REST APIs for reading and writing Workday data"
+     ],
+     "answer": 3,
+     "explain": "Used by integrations."
+    },
+    {
+     "q": "What is an integration system user (ISU)?",
+     "options": [
+      "A role",
+      "A person",
+      "A report",
+      "A non-human user with its own security for running integrations"
+     ],
+     "answer": 3,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "Why schedule integrations with monitoring?",
+     "options": [
+      "Colour",
+      "Law",
+      "Style",
+      "Failures should alert owners rather than being discovered later"
+     ],
+     "answer": 3,
+     "explain": "Use notifications."
+    },
+    {
+     "q": "What does idempotent mean for an integration?",
+     "options": [
+      "Secure",
+      "Cached",
+      "Fast",
+      "Re-running it does not duplicate or corrupt data"
+     ],
+     "answer": 3,
+     "explain": "Matter for retries."
+    }
+   ]
+  },
+  "level-3/02-advanced-security-configuration": {
+   "questions": [
+    {
+     "q": "What does domain security cover that BP security does not?",
+     "options": [
+      "Same",
+      "Reports",
+      "Nothing",
+      "Who can view or modify data and run tasks, whereas BP security covers initiating and acting on process steps"
+     ],
+     "answer": 3,
+     "explain": "Both are needed."
+    },
+    {
+     "q": "What is a tenanted role in testing?",
+     "options": [
+      "Report",
+      "Task",
+      "A security configuration verified with test users in each group",
+      "BP"
+     ],
+     "answer": 2,
+     "explain": "Test every group."
+    },
+    {
+     "q": "What does Security Analyzer or similar tooling help with?",
+     "options": [
+      "Hiring",
+      "Reviewing who has access to what and spotting excessive access",
+      "Reports",
+      "Payroll"
+     ],
+     "answer": 1,
+     "explain": "Run periodic audits."
+    },
+    {
+     "q": "What is segregation of duties?",
+     "options": [
+      "Shifts",
+      "Ensuring no one person can both initiate and approve sensitive transactions",
+      "Teams",
+      "Tools"
+     ],
+     "answer": 1,
+     "explain": "Control for fraud."
+    }
+   ]
+  },
+  "level-3/03-workday-financials-basics": {
+   "questions": [
+    {
+     "q": "What are worktags?",
+     "options": [
+      "Jobs",
+      "Roles",
+      "Reports",
+      "Tags such as cost centre or region attached to transactions for reporting and control"
+     ],
+     "answer": 3,
+     "explain": "Core to Financials."
+    },
+    {
+     "q": "What is the general ledger?",
+     "options": [
+      "A tag",
+      "A role",
+      "The master record of financial transactions organised by ledger accounts",
+      "A report"
+     ],
+     "answer": 2,
+     "explain": "Journals post to it."
+    },
+    {
+     "q": "A journal has debits 1200 and credits 500+700. Is it balanced?\n```python\nd=1200; c=500+700\nprint(d==c)\n```\n",
+     "options": [
+      "True",
+      "None",
+      "1200",
+      "False"
+     ],
+     "answer": 0,
+     "explain": "Debits must equal credits. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What is accounts payable?",
+     "options": [
+      "Tax",
+      "Payroll",
+      "Customers owe",
+      "Money the company owes suppliers, processed through supplier invoices"
+     ],
+     "answer": 3,
+     "explain": "AP workflows route approvals."
+    }
+   ]
+  },
+  "level-3/04-payroll-fundamentals": {
+   "questions": [
+    {
+     "q": "What is payroll's key output?",
+     "options": [
+      "Hires",
+      "Net pay computed from gross earnings less deductions and taxes",
+      "Skills",
+      "Reports"
+     ],
+     "answer": 1,
+     "explain": "Plus payments and filings."
+    },
+    {
+     "q": "Gross 5,000; pre-tax deduction 400; tax at 20% on taxable income; post-tax deduction 100. What is net pay?\n```python\ngross=5000; pre=400; taxable=gross-pre\ntax=taxable*0.20\nprint(gross-pre-tax-100)\n```\n",
+     "options": [
+      "3500.0",
+      "4000.0",
+      "3620.0",
+      "3580.0"
+     ],
+     "answer": 3,
+     "explain": "Taxable income excludes pre-tax deductions. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+    },
+    {
+     "q": "Why run parallel payroll before go-live?",
+     "options": [
+      "Colour",
+      "Compare results with the old system to find configuration differences",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Reconcile variances."
+    },
+    {
+     "q": "What drives payroll accuracy most?",
+     "options": [
+      "Speed",
+      "Luck",
+      "Colour",
+      "Clean, correct worker and pay data and well-tested configuration"
+     ],
+     "answer": 3,
+     "explain": "Garbage in, garbage out."
+    }
+   ]
+  },
+  "level-3/05-advanced-calculated-fields": {
+   "questions": [
+    {
+     "q": "What can calculated fields do for reports?",
+     "options": [
+      "Combine, transform and compare field values, such as concatenation or date differences",
+      "Secure",
+      "Install",
+      "Route"
+     ],
+     "answer": 0,
+     "explain": "Functions by category."
+    },
+    {
+     "q": "A calculated field returns 'Senior' if tenure >= 5 else 'Junior'. For tenures [2, 5, 7.5], what are the labels?\n```python\nprint(['Senior' if t>=5 else 'Junior' for t in [2,5,7.5]])\n```\n",
+     "options": [
+      "['Junior', 'Senior', 'Junior']",
+      "['Junior', 'Senior', 'Senior']",
+      "['Senior', 'Senior', 'Senior']",
+      "['Junior', 'Junior', 'Senior']"
+     ],
+     "answer": 1,
+     "explain": "Conditional logic uses true/false conditions. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+    },
+    {
+     "q": "What is a good practice for calculated field names?",
+     "options": [
+      "Random",
+      "Clear, consistent naming with a prefix or owner for easy discovery",
+      "Cute",
+      "Short"
+     ],
+     "answer": 1,
+     "explain": "Document purpose."
+    },
+    {
+     "q": "What is a risk of deeply nested calculated fields?",
+     "options": [
+      "Law",
+      "Speed",
+      "Hard to debug and slow reports",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Keep logic simple."
+    }
+   ]
+  },
+  "level-3/06-recruiting-module-deep-dive": {
+   "questions": [
+    {
+     "q": "What is the recruiting flow?",
+     "options": [
+      "Hire only",
+      "Requisition, posting, candidates, interviews, offer and hire",
+      "Payroll",
+      "Report"
+     ],
+     "answer": 1,
+     "explain": "Hire BP follows acceptance."
+    },
+    {
+     "q": "What is a candidate pool?",
+     "options": [
+      "A tag",
+      "A BP",
+      "A report",
+      "A saved group of candidates for future openings"
+     ],
+     "answer": 3,
+     "explain": "Talent pools."
+    },
+    {
+     "q": "A funnel has 200 applicants, 40 interviews, 8 offers, 6 accepted. What is the offer acceptance rate?\n```python\nprint(round(6/8*100))\n```\n",
+     "options": [
+      "75",
+      "20",
+      "3",
+      "15"
+     ],
+     "answer": 0,
+     "explain": "Accepted divided by offers. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+    },
+    {
+     "q": "Why track source of hire?",
+     "options": [
+      "Colour",
+      "To invest in the channels that produce good hires",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Recruiting analytics."
+    }
+   ]
+  },
+  "level-3/07-learning-module-basics": {
+   "questions": [
+    {
+     "q": "What does Workday Learning provide?",
+     "options": [
+      "Payroll",
+      "Hiring",
+      "Reports",
+      "Courses, learning paths, assignments and tracking for employee development"
+     ],
+     "answer": 3,
+     "explain": "Supports compliance training."
+    },
+    {
+     "q": "What is a learning campaign?",
+     "options": [
+      "A report",
+      "A role",
+      "A group of assignments for a population with a due date",
+      "A course"
+     ],
+     "answer": 2,
+     "explain": "Compliance rollouts."
+    },
+    {
+     "q": "Why track completion?",
+     "options": [
+      "Colour",
+      "Evidence for compliance and development reporting",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Dashboards."
+    },
+    {
+     "q": "What is a learning path?",
+     "options": [
+      "A BP",
+      "A group",
+      "A report",
+      "A sequence of courses toward a skill or role"
+     ],
+     "answer": 3,
+     "explain": "Guided development."
+    }
+   ]
+  },
+  "level-3/08-workday-extend-basics": {
+   "questions": [
+    {
+     "q": "What is Workday Extend?",
+     "options": [
+      "A platform for building custom apps on top of Workday data and security",
+      "A report",
+      "A tenant",
+      "A connector"
+     ],
+     "answer": 0,
+     "explain": "Low-code."
+    },
+    {
+     "q": "Why use Extend rather than an external app?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Reuses Workday security, data and UI components",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Less integration."
+    },
+    {
+     "q": "What belongs in an Extend app design?",
+     "options": [
+      "Data model, security, UI flows and integration points",
+      "Names",
+      "Logos",
+      "Colours"
+     ],
+     "answer": 0,
+     "explain": "Plan before build."
+    },
+    {
+     "q": "What is a good Extend use case?",
+     "options": [
+      "Replace Workday",
+      "Payroll",
+      "A small purpose-built process that Workday doesn't offer out of the box",
+      "Hiring"
+     ],
+     "answer": 2,
+     "explain": "Scope narrowly."
+    }
+   ]
+  },
+  "level-3/09-testing-change-management": {
+   "questions": [
+    {
+     "q": "What are the main test types in an implementation?",
+     "options": [
+      "Unit only",
+      "None",
+      "Unit, integration, security, parallel payroll and user acceptance testing",
+      "UAT only"
+     ],
+     "answer": 2,
+     "explain": "Each finds different defects."
+    },
+    {
+     "q": "What is a regression test?",
+     "options": [
+      "Re-testing existing functionality after a change to ensure nothing broke",
+      "Load",
+      "New feature",
+      "Security"
+     ],
+     "answer": 0,
+     "explain": "Workday releases twice a year."
+    },
+    {
+     "q": "What is change management?",
+     "options": [
+      "Security",
+      "Preparing people for change through communication, training and support",
+      "Software",
+      "Testing"
+     ],
+     "answer": 1,
+     "explain": "Adoption drives value."
+    },
+    {
+     "q": "What is UAT?",
+     "options": [
+      "Load",
+      "User acceptance testing where business users validate the system against requirements",
+      "Security",
+      "Unit"
+     ],
+     "answer": 1,
+     "explain": "Sign-off."
+    }
+   ]
+  },
+  "level-3/10-project-integration-spec": {
+   "questions": [
+    {
+     "q": "What does an integration specification contain?",
+     "options": [
+      "Names",
+      "Purpose, data flow, fields and mapping, schedule, security, error handling and test cases",
+      "Logos",
+      "Colours"
+     ],
+     "answer": 1,
+     "explain": "Developers and testers rely on it."
+    },
+    {
+     "q": "Why define error handling in the spec?",
+     "options": [
+      "Law",
+      "Colour",
+      "Failures need owners and responses",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Notifications and retry."
+    },
+    {
+     "q": "What is field mapping?",
+     "options": [
+      "Logos",
+      "Colours",
+      "Matching each source field to a target field with transformations",
+      "Names"
+     ],
+     "answer": 2,
+     "explain": "Include formats."
+    },
+    {
+     "q": "What is a data dictionary for integrations?",
+     "options": [
+      "Role",
+      "Tenant",
+      "Definitions of fields, formats and allowed values",
+      "Report"
+     ],
+     "answer": 2,
+     "explain": "Prevent misinterpretation."
+    }
+   ]
+  },
+  "level-4/01-enterprise-workday-architecture": {
+   "questions": [
+    {
+     "q": "What is a common enterprise tenant strategy?",
+     "options": [
+      "Sandbox, implementation and production tenants with a controlled promotion process",
+      "One tenant",
+      "Two prod",
+      "Production only"
+     ],
+     "answer": 0,
+     "explain": "Test before production."
+    },
+    {
+     "q": "Why plan the data and integration architecture early?",
+     "options": [
+      "Style",
+      "Integrations and reporting depend on consistent organisational and security design",
+      "Colour",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Rework is expensive."
+    },
+    {
+     "q": "What is a centre of excellence for Workday?",
+     "options": [
+      "A team governing configuration standards, releases and enhancements",
+      "A role",
+      "A report",
+      "A tenant"
+     ],
+     "answer": 0,
+     "explain": "Reduces drift."
+    },
+    {
+     "q": "Why govern releases?",
+     "options": [
+      "Law",
+      "Workday ships updates twice a year plus weekly updates, so organisations plan testing and adoption",
+      "Colour",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Release management."
+    }
+   ]
+  },
+  "level-4/02-multi-country-global-deployments": {
+   "questions": [
+    {
+     "q": "What must multi-country deployments handle?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Local legal requirements, payroll, languages, currencies and data privacy",
+      "Fonts"
+     ],
+     "answer": 2,
+     "explain": "Localisation."
+    },
+    {
+     "q": "What is data residency?",
+     "options": [
+      "Rules about where personal data may be stored and processed",
+      "Colour",
+      "Cost",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Affects architecture."
+    },
+    {
+     "q": "What is a country-specific configuration example?",
+     "options": [
+      "Titles",
+      "Colours",
+      "Statutory leave, tax and reporting rules",
+      "Fonts"
+     ],
+     "answer": 2,
+     "explain": "Each country differs."
+    },
+    {
+     "q": "How do you manage global and local needs?",
+     "options": [
+      "Random",
+      "Everything global",
+      "Global templates with local extensions governed centrally",
+      "Everything local"
+     ],
+     "answer": 2,
+     "explain": "Balance consistency."
+    }
+   ]
+  },
+  "level-4/03-advanced-workday-financials": {
+   "questions": [
+    {
+     "q": "What is a Workday Financials ledger structure driven by?",
+     "options": [
+      "Colours",
+      "Chart of accounts and worktags",
+      "Names",
+      "Fonts"
+     ],
+     "answer": 1,
+     "explain": "Design carefully."
+    },
+    {
+     "q": "What does month-end close involve?",
+     "options": [
+      "Payroll",
+      "Hiring",
+      "Reconciliations, accruals, journals and review before locking the period",
+      "Reports only"
+     ],
+     "answer": 2,
+     "explain": "Controls matter."
+    },
+    {
+     "q": "What are intercompany transactions?",
+     "options": [
+      "Hiring",
+      "Transactions between legal entities within the same group",
+      "Reports",
+      "Payroll"
+     ],
+     "answer": 1,
+     "explain": "Need elimination."
+    },
+    {
+     "q": "What supports audit in Financials?",
+     "options": [
+      "Approvals, audit trails and segregation of duties",
+      "Speed",
+      "Fonts",
+      "Colours"
+     ],
+     "answer": 0,
+     "explain": "Controls."
+    }
+   ]
+  },
+  "level-4/04-workday-prism-analytics": {
+   "questions": [
+    {
+     "q": "What is Workday Prism Analytics?",
+     "options": [
+      "A capability to bring external data into Workday and combine it with Workday data for reporting",
+      "Hiring",
+      "Security",
+      "Payroll"
+     ],
+     "answer": 0,
+     "explain": "Pipelines and datasets."
+    },
+    {
+     "q": "Why use Prism?",
+     "options": [
+      "Law",
+      "Colour",
+      "Style",
+      "Analyse Workday data with other sources under Workday security"
+     ],
+     "answer": 3,
+     "explain": "Single place."
+    },
+    {
+     "q": "What is a data pipeline?",
+     "options": [
+      "Role",
+      "Steps that ingest, transform and publish data to a dataset",
+      "Group",
+      "Report"
+     ],
+     "answer": 1,
+     "explain": "Schedule and monitor."
+    },
+    {
+     "q": "What governance matters with Prism?",
+     "options": [
+      "Colours",
+      "Logos",
+      "Names",
+      "Data quality, security and refresh monitoring"
+     ],
+     "answer": 3,
+     "explain": "Trust."
+    }
+   ]
+  },
+  "level-4/05-advanced-extend-development": {
+   "questions": [
+    {
+     "q": "What advanced Extend skills matter?",
+     "options": [
+      "Data modelling, security, orchestration and integration patterns",
+      "Names",
+      "Colours",
+      "Logos"
+     ],
+     "answer": 0,
+     "explain": "Beyond screens."
+    },
+    {
+     "q": "Why version Extend apps?",
+     "options": [
+      "Colour",
+      "Controlled releases and rollback",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Treat as software."
+    },
+    {
+     "q": "What testing applies to Extend?",
+     "options": [
+      "Manual",
+      "Functional, security and integration tests in lower tenants",
+      "Prod only",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Same rigour."
+    },
+    {
+     "q": "What is a risk of too many custom apps?",
+     "options": [
+      "Maintenance and security burden outweighing benefits",
+      "Speed",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Govern them."
+    }
+   ]
+  },
+  "level-4/06-workday-certification-prep": {
+   "questions": [
+    {
+     "q": "What helps with Workday certification?",
+     "options": [
+      "Nothing",
+      "Cramming",
+      "Guessing",
+      "Hands-on practice, study of the official learning paths and practice questions"
+     ],
+     "answer": 3,
+     "explain": "Certifications exist by module."
+    },
+    {
+     "q": "What is the best way to learn configuration?",
+     "options": [
+      "Build and test in a sandbox with realistic scenarios",
+      "Watch",
+      "Read only",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "Hands-on."
+    },
+    {
+     "q": "How do you retain what you study?",
+     "options": [
+      "Re-read",
+      "Cram",
+      "Skip",
+      "Teach it, write notes and revisit with exercises"
+     ],
+     "answer": 3,
+     "explain": "Active recall."
+    },
+    {
+     "q": "Why know release notes?",
+     "options": [
+      "Style",
+      "Colour",
+      "Law",
+      "Workday changes twice yearly, and certification and practice follow current features"
+     ],
+     "answer": 3,
+     "explain": "Stay current."
+    }
+   ]
+  },
+  "level-4/07-change-management-rollouts": {
+   "questions": [
+    {
+     "q": "What drives change adoption?",
+     "options": [
+      "Sponsorship, communication, training and support for the people affected",
+      "Colour",
+      "Reports",
+      "Software"
+     ],
+     "answer": 0,
+     "explain": "Technology alone fails."
+    },
+    {
+     "q": "What is a change impact assessment?",
+     "options": [
+      "Role",
+      "Report",
+      "Task",
+      "Identifying who is affected, how and how much"
+     ],
+     "answer": 3,
+     "explain": "Plan training accordingly."
+    },
+    {
+     "q": "What are change champions?",
+     "options": [
+      "Bosses",
+      "Admins",
+      "Vendors",
+      "Local advocates who support peers during rollout"
+     ],
+     "answer": 3,
+     "explain": "Scale support."
+    },
+    {
+     "q": "How do you measure adoption?",
+     "options": [
+      "Guess",
+      "Usage metrics, support tickets and user feedback",
+      "Colours",
+      "Hours"
+     ],
+     "answer": 1,
+     "explain": "Iterate."
+    }
+   ]
+  },
+  "level-4/08-implementation-lifecycle-pm": {
+   "questions": [
+    {
+     "q": "What phases does an implementation lifecycle include?",
+     "options": [
+      "Plan, architect, configure and prototype, test, deploy and support",
+      "Deploy only",
+      "Test only",
+      "Build only"
+     ],
+     "answer": 0,
+     "explain": "Workday uses a phased approach."
+    },
+    {
+     "q": "What is a critical success factor?",
+     "options": [
+      "Speed",
+      "Luck",
+      "Colour",
+      "Executive sponsorship and clear scope with strong data conversion"
+     ],
+     "answer": 3,
+     "explain": "Common failure points."
+    },
+    {
+     "q": "What is data conversion?",
+     "options": [
+      "Loading legacy data into Workday with cleansing and validation",
+      "Role",
+      "Task",
+      "Report"
+     ],
+     "answer": 0,
+     "explain": "Plan cycles."
+    },
+    {
+     "q": "What is a go-live cutover plan?",
+     "options": [
+      "A task",
+      "A report",
+      "A role",
+      "Step-by-step plan with owners, timing and rollback criteria"
+     ],
+     "answer": 3,
+     "explain": "Rehearse."
+    }
+   ]
+  },
+  "level-4/09-career-growth-analyst-consultant": {
+   "questions": [
+    {
+     "q": "What skills move you from analyst to consultant?",
+     "options": [
+      "Typing",
+      "Speed",
+      "Configuration depth, solution design, communication and project leadership",
+      "Memorisation"
+     ],
+     "answer": 2,
+     "explain": "Soft skills matter."
+    },
+    {
+     "q": "How do you build credibility?",
+     "options": [
+      "Claim",
+      "Hours",
+      "Titles",
+      "Deliver quality, document well and learn the business processes you configure"
+     ],
+     "answer": 3,
+     "explain": "Reputation."
+    },
+    {
+     "q": "What is a sound way to specialise?",
+     "options": [
+      "Nothing",
+      "Random",
+      "Everything",
+      "Pick a module, gain certification and apply it on real projects"
+     ],
+     "answer": 3,
+     "explain": "Depth then breadth."
+    },
+    {
+     "q": "Why mentor others?",
+     "options": [
+      "Style",
+      "Law",
+      "Colour",
+      "It deepens your own knowledge and builds team capacity"
+     ],
+     "answer": 3,
+     "explain": "Leaders teach."
+    }
+   ]
+  },
+  "level-4/10-capstone-implementation-plan": {
+   "questions": [
+    {
+     "q": "What does the implementation plan capstone include?",
+     "options": [
+      "Only reports",
+      "Only security",
+      "Scope, phases, workstreams, risks, testing, change management and cutover",
+      "Only BPs"
+     ],
+     "answer": 2,
+     "explain": "A complete plan."
+    },
+    {
+     "q": "How do you handle risks?",
+     "options": [
+      "Identify, assess and mitigate with owners and review points",
+      "Ignore",
+      "Hide",
+      "Delay"
+     ],
+     "answer": 0,
+     "explain": "Risk register."
+    },
+    {
+     "q": "What makes a plan credible?",
+     "options": [
+      "Format",
+      "Colours",
+      "Length",
+      "Realistic estimates, dependencies and clear acceptance criteria"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    },
+    {
+     "q": "How do you track progress?",
+     "options": [
+      "Milestones, burn-down and regular status reviews with stakeholders",
+      "Hours",
+      "Emails",
+      "Guess"
+     ],
+     "answer": 0,
+     "explain": "Transparency."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A compensation grade has min 60,000, midpoint 80,000 and max 100,000. What are compa-ratio and range penetration for 92,000 (2 decimals)?\n```python\nlo,mid,hi=60000,80000,100000\nsal=92000\nprint(round(sal/mid,2), round((sal-lo)/(hi-lo),2))\n```\n",
+    "options": [
+     "0.87 0.8",
+     "1.15 0.8",
+     "1.15 1.15",
+     "0.8 1.15"
+    ],
+    "answer": 1,
+    "explain": "Compa-ratio compares to the midpoint; penetration places the salary within the range. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+   },
+   {
+    "q": "A 5% merit increase takes effect 1 July on a 60,000 salary. What is the in-year (6 of 12 months) cost? \n```python\nprint(60000*0.05*6/12)\n```\n",
+    "options": [
+     "2500.0",
+     "1500.0",
+     "3000.0",
+     "750.0"
+    ],
+    "answer": 1,
+    "explain": "Prorate the annual increase for the months remaining. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+   },
+   {
+    "q": "Gross 6,000; pre-tax deduction 500; tax 18% of taxable pay; post-tax deduction 200. What is net pay?\n```python\ngross=6000; pre=500\ntax=(gross-pre)*0.18\nprint(round(gross-pre-tax-200,2))\n```\n",
+    "options": [
+     "4500.0",
+     "4410.0",
+     "4800.0",
+     "4310.0"
+    ],
+    "answer": 3,
+    "explain": "Pre-tax deductions reduce taxable income; post-tax come out afterwards. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+   },
+   {
+    "q": "A user is in groups {A, B}. Is an intersection group of (A, C) satisfied, and an aggregation group of (A, C)?\n```python\nu={'A','B'}\nprint({'A','C'}<=u, bool({'A','C'}&u))\n```\n",
+    "options": [
+     "False True",
+     "True True",
+     "True False",
+     "False False"
+    ],
+    "answer": 0,
+    "explain": "Intersection is AND; aggregation is OR. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+   },
+   {
+    "q": "A journal has debits 1,500 and credits 900 + 600. Is it balanced?\n```python\nprint(1500==900+600)\n```\n",
+    "options": [
+     "False",
+     "None",
+     "1500",
+     "True"
+    ],
+    "answer": 3,
+    "explain": "Debits must equal credits. (A Python model of the concept using made-up data; Workday itself was not available.) Verified by running it."
+   },
+   {
+    "q": "What is effective dating?",
+    "options": [
+     "Audit logs only",
+     "Storing changes with the date they take effect, preserving history and allowing future-dated changes",
+     "Backups",
+     "Timestamps only"
+    ],
+    "answer": 1,
+    "explain": "Entry date records when it was entered; effective date when it applies."
+   },
+   {
+    "q": "What is the difference between a supervisory organisation and a cost centre?",
+    "options": [
+     "Reverse",
+     "None",
+     "Same",
+     "Supervisory orgs organise management of people; cost centres are financial worktags"
+    ],
+    "answer": 3,
+    "explain": "Both are organisation types."
+   },
+   {
+    "q": "A BP step should run only for raises over 10%. What do you configure?",
+    "options": [
+     "A report",
+     "A prompt",
+     "A new tenant",
+     "A condition on that step (possibly using a calculated field)"
+    ],
+    "answer": 3,
+    "explain": "Conditions make routing dynamic."
+   },
+   {
+    "q": "Why do security edits sometimes seem to have no effect?",
+    "options": [
+     "Colour",
+     "Cache",
+     "Pending security policy changes must be activated with the Activate Pending Security Policy Changes task",
+     "Bug"
+    ],
+    "answer": 2,
+    "explain": "A very common pitfall."
+   },
+   {
+    "q": "What does domain security control compared with BP security?",
+    "options": [
+     "Nothing",
+     "Same",
+     "Reports",
+     "Access to data and tasks in a functional area, whereas BP security controls who initiates and acts on process steps"
+    ],
+    "answer": 3,
+    "explain": "Both must be right."
+   },
+   {
+    "q": "When is EIB the right tool?",
+    "options": [
+     "Never",
+     "Straightforward bulk loads or extracts without complex logic",
+     "Always",
+     "Payroll only"
+    ],
+    "answer": 1,
+    "explain": "Studio is for complex integrations."
+   },
+   {
+    "q": "Why test an integration in a sandbox first?",
+    "options": [
+     "Style",
+     "Colour",
+     "A wrong load into production can affect many records and payroll",
+     "Law"
+    ],
+    "answer": 2,
+    "explain": "Rehearse and validate."
+   },
+   {
+    "q": "What is an integration system user?",
+    "options": [
+     "A role",
+     "A report",
+     "A non-human account with least-privilege security used to run integrations",
+     "A person"
+    ],
+    "answer": 2,
+    "explain": "Keep it scoped."
+   },
+   {
+    "q": "What is the purpose of parallel payroll testing?",
+    "options": [
+     "Law",
+     "Colour",
+     "Compare new results with the existing payroll to find configuration differences before go-live",
+     "Speed"
+    ],
+    "answer": 2,
+    "explain": "Reconcile variances."
+   },
+   {
+    "q": "What are worktags?",
+    "options": [
+     "Reports",
+     "Roles",
+     "Jobs",
+     "Tags such as cost centre and region attached to transactions for reporting and control"
+    ],
+    "answer": 3,
+    "explain": "Central to Financials."
+   },
+   {
+    "q": "What does regression testing mean around Workday releases?",
+    "options": [
+     "New features",
+     "Security audit",
+     "Load testing",
+     "Re-testing existing behaviour after an update to ensure nothing broke"
+    ],
+    "answer": 3,
+    "explain": "Workday updates twice a year."
+   },
+   {
+    "q": "What drives successful adoption of a Workday rollout?",
+    "options": [
+     "Software only",
+     "Colours",
+     "Reports",
+     "Sponsorship, communication, training and support for affected people"
+    ],
+    "answer": 3,
+    "explain": "Technology alone is not enough."
+   },
+   {
+    "q": "What belongs in an integration specification?",
+    "options": [
+     "Logos",
+     "Colours",
+     "Names",
+     "Purpose, data flow, field mapping, schedule, security, error handling and test cases"
+    ],
+    "answer": 3,
+    "explain": "Developers and testers depend on it."
+   },
+   {
+    "q": "What is the best way to build configuration skill?",
+    "options": [
+     "Hands-on practice in a sandbox with realistic scenarios",
+     "Watching",
+     "Skipping",
+     "Reading only"
+    ],
+    "answer": 0,
+    "explain": "Practice beats passive study."
+   },
+   {
+    "q": "What shows an implementation plan is credible?",
+    "options": [
+     "Colours",
+     "Realistic estimates, dependencies, risks with owners and clear acceptance criteria",
+     "Length",
+     "Format"
+    ],
+    "answer": 1,
+    "explain": "Evidence over claims."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A business-process router with conditions, delegation and send-back",
+    "prompt": "Model a Change Job business process: steps with conditions (HR Partner only for raises or grade changes, VP Finance only above 10%), delegation of one approver to another, a 'send back' decision that stops the process and a final effective date. This is a Python teaching model with made-up people and rules; Workday itself was not available, and in Workday you configure this in the Business Process definition.",
+    "starter": "# A Workday-style business process router (a teaching model, not Workday)\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass Step:\n    name: str\n    role: str\n    condition: object = None          # callable(txn) -> bool; None means always\n\n@dataclass\nclass Txn:\n    kind: str\n    worker: str\n    data: dict\n    log: list = field(default_factory=list)\n\nDELEGATES = {\"vp_finance\": \"cfo\"}        # vp_finance is on leave, the cfo acts for them\nAPPROVERS = {\"manager\": \"ana\", \"hr_partner\": \"bo\", \"vp_finance\": \"cy\", \"cfo\": \"di\"}\n\nCHANGE_JOB = [\n    Step(\"Manager approval\", \"manager\"),\n    Step(\"HR Partner approval\", \"hr_partner\", lambda t: t.data.get(\"change_pct\", 0) > 0 or t.data.get(\"new_grade\")),\n    Step(\"VP Finance approval\", \"vp_finance\", lambda t: t.data.get(\"change_pct\", 0) > 10),\n]\n\n# TODO: route(txn, steps, decisions) -> \"complete\" | \"sent back\" | \"denied\"\n#   for each step: if it has a condition that is false, log \"skip <step name>\" and continue\n#   otherwise find the approver (apply DELEGATES to the role first, then look up APPROVERS), take the decision for that role\n#   (default \"approve\"), log \"<step name>: <who> <decision>\"; \"send back\" logs \"-> sent back to initiator\" and stops,\n#   \"deny\" logs \"-> denied, transaction cancelled\" and stops\n#   after the last step log \"-> complete, effective <date>\"\n\ncases = [\n    Txn(\"Change Job\", \"Eli\", {\"change_pct\": 4, \"effective\": \"2026-04-01\"}),\n    Txn(\"Change Job\", \"Flo\", {\"change_pct\": 12, \"effective\": \"2026-04-01\"}),\n    Txn(\"Change Job\", \"Gus\", {\"change_pct\": 0, \"effective\": \"2026-05-01\"}),\n    Txn(\"Change Job\", \"Hal\", {\"change_pct\": 20, \"new_grade\": \"G7\", \"effective\": \"2026-06-01\"}),\n]\ndecisions = [{}, {}, {}, {\"hr_partner\": \"send back\"}]\nfor t, d in zip(cases, decisions):\n    result = route(t, CHANGE_JOB, d)\n    print(f\"{t.worker}: {result}\")\n    for line in t.log:\n        print(\"   \", line)\n",
+    "expected": "Eli: complete\n    Manager approval: ana approve\n    HR Partner approval: bo approve\n    skip VP Finance approval\n    -> complete, effective 2026-04-01\nFlo: complete\n    Manager approval: ana approve\n    HR Partner approval: bo approve\n    VP Finance approval: di approve\n    -> complete, effective 2026-04-01\nGus: complete\n    Manager approval: ana approve\n    skip HR Partner approval\n    skip VP Finance approval\n    -> complete, effective 2026-05-01\nHal: sent back\n    Manager approval: ana approve\n    HR Partner approval: bo send back\n    -> sent back to initiator",
+    "solution": "# A Workday-style business process router (a teaching model, not Workday)\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass Step:\n    name: str\n    role: str\n    condition: object = None          # callable(txn) -> bool; None means always\n\n@dataclass\nclass Txn:\n    kind: str\n    worker: str\n    data: dict\n    log: list = field(default_factory=list)\n\nDELEGATES = {\"vp_finance\": \"cfo\"}        # vp_finance is on leave, the cfo acts for them\nAPPROVERS = {\"manager\": \"ana\", \"hr_partner\": \"bo\", \"vp_finance\": \"cy\", \"cfo\": \"di\"}\n\nCHANGE_JOB = [\n    Step(\"Manager approval\", \"manager\"),\n    Step(\"HR Partner approval\", \"hr_partner\", lambda t: t.data.get(\"change_pct\", 0) > 0 or t.data.get(\"new_grade\")),\n    Step(\"VP Finance approval\", \"vp_finance\", lambda t: t.data.get(\"change_pct\", 0) > 10),\n]\n\ndef route(txn, steps, decisions):\n    for step in steps:\n        if step.condition and not step.condition(txn):\n            txn.log.append(f\"skip {step.name}\")\n            continue\n        who = APPROVERS[DELEGATES.get(step.role, step.role)]\n        decision = decisions.get(step.role, \"approve\")\n        txn.log.append(f\"{step.name}: {who} {decision}\")\n        if decision == \"send back\":\n            txn.log.append(\"-> sent back to initiator\")\n            return \"sent back\"\n        if decision == \"deny\":\n            txn.log.append(\"-> denied, transaction cancelled\")\n            return \"denied\"\n    txn.log.append(\"-> complete, effective \" + txn.data[\"effective\"])\n    return \"complete\"\n\ncases = [\n    Txn(\"Change Job\", \"Eli\", {\"change_pct\": 4, \"effective\": \"2026-04-01\"}),\n    Txn(\"Change Job\", \"Flo\", {\"change_pct\": 12, \"effective\": \"2026-04-01\"}),\n    Txn(\"Change Job\", \"Gus\", {\"change_pct\": 0, \"effective\": \"2026-05-01\"}),\n    Txn(\"Change Job\", \"Hal\", {\"change_pct\": 20, \"new_grade\": \"G7\", \"effective\": \"2026-06-01\"}),\n]\ndecisions = [{}, {}, {}, {\"hr_partner\": \"send back\"}]\nfor t, d in zip(cases, decisions):\n    result = route(t, CHANGE_JOB, d)\n    print(f\"{t.worker}: {result}\")\n    for line in t.log:\n        print(\"   \", line)\n",
+    "explain": "Each step is evaluated in order: false conditions skip, delegation changes who acts, and decisions can stop the transaction. Hal's 20% raise with a grade change triggers HR Partner approval, who sends it back, so the VP step never runs. Verified by running the Python solution."
+   },
+   {
+    "title": "Compensation analytics and security-group evaluation",
+    "prompt": "Compute compa-ratio and range penetration, apply a merit matrix (performance band by compa band), report the merit budget used, build a headcount matrix and evaluate intersection and aggregation security groups. Everything is made-up illustrative data in a Python model; real merit matrices, grades and security design are organisation-specific and configured in Workday.",
+    "starter": "# Compensation analytics and security-group evaluation (a teaching model, not Workday)\nGRADES = {\"G4\": (50000, 70000, 90000), \"G5\": (65000, 85000, 105000), \"G6\": (80000, 100000, 120000)}\nWORKERS = [\n    (\"Ana\", \"Sales\", \"G4\", 62000, 4.0), (\"Bo\", \"Sales\", \"G5\", 90000, 3.0), (\"Cy\", \"Eng\", \"G5\", 78000, 4.5),\n    (\"Di\", \"Eng\", \"G6\", 118000, 3.5), (\"Eli\", \"Eng\", \"G4\", 52000, 2.0), (\"Flo\", \"Ops\", \"G6\", 95000, 5.0),\n]\nMERIT = {  # (performance band, compa band) -> percent\n    (\"high\", \"low\"): 6.0, (\"high\", \"mid\"): 4.5, (\"high\", \"high\"): 3.0,\n    (\"mid\", \"low\"): 4.0, (\"mid\", \"mid\"): 3.0, (\"mid\", \"high\"): 2.0,\n    (\"low\", \"low\"): 1.5, (\"low\", \"mid\"): 0.0, (\"low\", \"high\"): 0.0,\n}\n\n# TODO: compa(sal, grade) = salary / midpoint;  penetration(sal, grade) = (sal - min) / (max - min);  band(value, cuts) -> low / mid / high\n# TODO: for each worker print name, grade, compa, penetration, merit % from MERIT[(performance band with cuts 3.0/4.5, compa band with cuts 0.9/1.1)]\n#       and the new salary (rounded); then the merit budget used (percent and amount)\n# TODO: a headcount matrix by department and grade\n# TODO: security groups: intersection(*groups) = users in ALL groups, aggregation(*groups) = users in ANY group;\n#       can_view_comp = Comp Admins OR (HR Partner AND Sales Org members); show that pat is denied\nusers = {\"mia\": {\"HR Partner\", \"Sales Org\"}, \"ned\": {\"HR Partner\"}, \"oli\": {\"Sales Org\", \"Comp Admin\"}, \"pat\": set()}\n",
+    "expected": "name  grade compa  pen   merit%  new salary\nAna   G4     0.89  0.30    4.0  64480\nBo    G5     1.06  0.62    3.0  92700\nCy    G5     0.92  0.33    4.5  81510\nDi    G6     1.18  0.95    2.0  120360\nEli   G4     0.74  0.05    1.5  52780\nFlo   G6     0.95  0.38    4.5  99275\nmerit budget used: 3.25% (16105)\nEng    {'G4': 1, 'G5': 1, 'G6': 1}\nOps    {'G6': 1}\nSales  {'G4': 1, 'G5': 1}\nintersection(HR Partner, Sales Org): ['mia']\naggregation(HR Partner, Comp Admin): ['mia', 'ned', 'oli']\ncan view compensation: ['mia', 'oli'] | pat denied: True",
+    "solution": "# Compensation analytics and security-group evaluation (a teaching model, not Workday)\nGRADES = {\"G4\": (50000, 70000, 90000), \"G5\": (65000, 85000, 105000), \"G6\": (80000, 100000, 120000)}\nWORKERS = [\n    (\"Ana\", \"Sales\", \"G4\", 62000, 4.0), (\"Bo\", \"Sales\", \"G5\", 90000, 3.0), (\"Cy\", \"Eng\", \"G5\", 78000, 4.5),\n    (\"Di\", \"Eng\", \"G6\", 118000, 3.5), (\"Eli\", \"Eng\", \"G4\", 52000, 2.0), (\"Flo\", \"Ops\", \"G6\", 95000, 5.0),\n]\nMERIT = {  # (performance band, compa band) -> percent\n    (\"high\", \"low\"): 6.0, (\"high\", \"mid\"): 4.5, (\"high\", \"high\"): 3.0,\n    (\"mid\", \"low\"): 4.0, (\"mid\", \"mid\"): 3.0, (\"mid\", \"high\"): 2.0,\n    (\"low\", \"low\"): 1.5, (\"low\", \"mid\"): 0.0, (\"low\", \"high\"): 0.0,\n}\n\ndef compa(sal, grade):\n    return sal / GRADES[grade][1]\n\ndef penetration(sal, grade):\n    lo, mid, hi = GRADES[grade]\n    return (sal - lo) / (hi - lo)\n\ndef band(value, cuts):\n    return \"low\" if value < cuts[0] else \"high\" if value >= cuts[1] else \"mid\"\n\nprint(\"name  grade compa  pen   merit%  new salary\")\ntotal_before = total_after = 0\nfor name, dept, grade, sal, perf in WORKERS:\n    c = compa(sal, grade)\n    pct = MERIT[(band(perf, (3.0, 4.5)), band(c, (0.9, 1.1)))]\n    new = round(sal * (1 + pct / 100))\n    total_before += sal; total_after += new\n    print(f\"{name:5} {grade:5} {c:5.2f} {penetration(sal, grade):5.2f} {pct:6.1f}  {new}\")\nprint(f\"merit budget used: {100 * (total_after - total_before) / total_before:.2f}% ({total_after - total_before})\")\n\n# headcount matrix report: department x grade\nmatrix = {}\nfor _, dept, grade, _, _ in WORKERS:\n    matrix.setdefault(dept, {}).setdefault(grade, 0)\n    matrix[dept][grade] += 1\nfor dept in sorted(matrix):\n    print(f\"{dept:6}\", {g: matrix[dept][g] for g in sorted(matrix[dept])})\n\n# security groups: users belong to role-based groups; intersection = AND, aggregation = OR\nusers = {\"mia\": {\"HR Partner\", \"Sales Org\"}, \"ned\": {\"HR Partner\"}, \"oli\": {\"Sales Org\", \"Comp Admin\"}, \"pat\": set()}\nintersection = lambda *gs: {u for u, g in users.items() if set(gs) <= g}\naggregation = lambda *gs: {u for u, g in users.items() if set(gs) & g}\nprint(\"intersection(HR Partner, Sales Org):\", sorted(intersection(\"HR Partner\", \"Sales Org\")))\nprint(\"aggregation(HR Partner, Comp Admin):\", sorted(aggregation(\"HR Partner\", \"Comp Admin\")))\ncan_view_comp = aggregation(\"Comp Admin\") | intersection(\"HR Partner\", \"Sales Org\")\nprint(\"can view compensation:\", sorted(can_view_comp), \"| pat denied:\", \"pat\" not in can_view_comp)\n",
+    "explain": "The matrix rewards high performers low in range and holds back those already high in range, and the budget check shows the total cost. Intersection groups are set-subset (AND) tests and aggregation groups are overlaps (OR). Verified by running the Python solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
