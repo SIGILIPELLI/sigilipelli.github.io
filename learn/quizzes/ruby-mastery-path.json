@@ -1,0 +1,2159 @@
+{
+ "course": "ruby-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What is Ruby's design emphasis?",
+     "options": [
+      "Manual memory management",
+      "Static typing only",
+      "Maximum raw speed",
+      "Programmer happiness and readable, expressive code where everything is an object"
+     ],
+     "answer": 3,
+     "explain": "Ruby was designed by Yukihiro Matsumoto with developer happiness in mind."
+    },
+    {
+     "q": "What does irb give you?",
+     "options": [
+      "A linter",
+      "A web server",
+      "A package manager",
+      "An interactive Ruby shell to try code line by line"
+     ],
+     "answer": 3,
+     "explain": "It is handy for experiments."
+    },
+    {
+     "q": "How do you run a script named hello.rb?",
+     "options": [
+      "gem hello.rb",
+      "irb run hello",
+      "bundle hello",
+      "ruby hello.rb"
+     ],
+     "answer": 3,
+     "explain": "The ruby command runs a file."
+    },
+    {
+     "q": "Why use a version manager such as rbenv or asdf?",
+     "options": [
+      "To install and switch between Ruby versions per project",
+      "To deploy",
+      "To compile gems",
+      "To lint code"
+     ],
+     "answer": 0,
+     "explain": "Projects often need different versions."
+    }
+   ]
+  },
+  "level-1/02-variables-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\na = 'hi'\nb = a\nb << ' there'\nputs a\nputs a.equal?(b)\nputs 5.class, 5.5.class, nil.class, :sym.class\n```\n",
+     "options": [
+      "hi there\ntrue\nInteger\nFloat\nNilClass\nSymbol",
+      "hi\nfalse\nInteger\nFloat\nNilClass\nSymbol",
+      "hi there\ntrue\nFixnum\nFloat\nNilClass\nSymbol",
+      "hi\ntrue\nInteger\nFloat\nNil\nSymbol"
+     ],
+     "answer": 0,
+     "explain": "Variables reference objects; << mutates the shared string in place. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```ruby\nputs 7 / 2\nputs 7 % 3\nputs 7.0 / 2\nputs 2 ** 10\nputs 10.divmod(3).inspect\n```\n",
+     "options": [
+      "3\n1\n3.5\n1024\n[3, 1]",
+      "3\n1\n3\n1024\n[3, 1]",
+      "3\n1\n3.5\n20\n[3, 1]",
+      "3.5\n1\n3.5\n1024\n[3, 1]"
+     ],
+     "answer": 0,
+     "explain": "Integer division truncates. Verified by compiling and running it."
+    },
+    {
+     "q": "Which values are falsy in Ruby?",
+     "options": [
+      "0 and empty string",
+      "Only nil and false",
+      "nil, false and 0",
+      "Empty arrays"
+     ],
+     "answer": 1,
+     "explain": "Everything else, including 0 and '', is truthy."
+    },
+    {
+     "q": "What does this print?\n```ruby\ns = :a\nputs s.object_id == :a.object_id\nputs 'a'.object_id == 'a'.object_id\nputs s.to_proc.call('x') rescue puts 'err'\n```\n",
+     "options": [
+      "true\ntrue\nerr",
+      "true\nfalse\nx",
+      "true\nfalse\nerr",
+      "false\nfalse\nerr"
+     ],
+     "answer": 2,
+     "explain": "Symbols are unique per name; separate string literals are separate objects (unless frozen literals are enabled). Verified by compiling and running it."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\nx = 15\nr = if x > 10 then 'big' elsif x > 5 then 'mid' else 'small' end\nputs r\nputs (x.even? ? 'even' : 'odd')\ncase x\nwhen 1..9 then puts 'single'\nwhen 10..99 then puts 'double'\nend\n```\n",
+     "options": [
+      "mid\nodd\ndouble",
+      "big\nodd\nsingle",
+      "big\neven\nsingle",
+      "big\nodd\ndouble"
+     ],
+     "answer": 3,
+     "explain": "if is an expression and returns a value; case uses ===, so ranges match. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```ruby\nputs (1..5).select(&:even?).inspect\ni = 0\ni += 1 while i < 5\nputs i\n3.times { |n| print n }\nputs\nputs (1..Float::INFINITY).lazy.map { |n| n * 2 }.first(3).inspect\n```\n",
+     "options": [
+      "[2, 4]\n5\n012\n[2, 4, 6]",
+      "[1, 3, 5]\n5\n012\n[2, 4, 6]",
+      "[2, 4]\n4\n012\n[2, 4, 6]",
+      "[2, 4]\n5\n123\n[2, 4, 6]"
+     ],
+     "answer": 0,
+     "explain": "Modifier while, times and lazy enumerators. Verified by compiling and running it."
+    },
+    {
+     "q": "What does unless do?",
+     "options": [
+      "Runs when true",
+      "Defines a method",
+      "Runs the code when the condition is false",
+      "Loops"
+     ],
+     "answer": 2,
+     "explain": "It reads as 'if not'."
+    },
+    {
+     "q": "What does the safe navigation operator &. do?",
+     "options": [
+      "Raises",
+      "Casts to string",
+      "Loops",
+      "Returns nil instead of raising when the receiver is nil"
+     ],
+     "answer": 3,
+     "explain": "user&.name."
+    }
+   ]
+  },
+  "level-1/04-methods": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\ndef greet(name, greeting: 'Hello', punct: '!') = \"#{greeting}, #{name}#{punct}\"\nputs greet('Ana')\nputs greet('Bo', greeting: 'Hi')\ndef sum(*nums) = nums.sum\nputs sum(1, 2, 3)\ndef opts(a, b = a * 2) = [a, b]\nputs opts(4).inspect\n```\n",
+     "options": [
+      "Hello, Ana\nHi, Bo\n6\n[4, 4]",
+      "Hello, Ana!\nHello, Bo!\n6\n[4, 8]",
+      "Hello, Ana!\nHi, Bo!\n6\n[4, 8]",
+      "Hello, Ana!\nHi, Bo!\n3\n[4, 8]"
+     ],
+     "answer": 2,
+     "explain": "Keyword arguments, splats and defaults referring to earlier parameters. Verified by compiling and running it."
+    },
+    {
+     "q": "What does a Ruby method return when there is no explicit return?",
+     "options": [
+      "The first argument",
+      "The value of the last expression evaluated",
+      "Nothing",
+      "nil always"
+     ],
+     "answer": 1,
+     "explain": "Explicit return is rarely needed."
+    },
+    {
+     "q": "By convention, what does a method name ending in ? do?",
+     "options": [
+      "Mutates",
+      "Is private",
+      "It returns a boolean (predicate)",
+      "Is a class method"
+     ],
+     "answer": 2,
+     "explain": "A trailing ! often signals a mutating or dangerous variant."
+    },
+    {
+     "q": "Which is true about method arguments and object mutation?",
+     "options": [
+      "Ruby passes object references by value, so a method can mutate a passed-in array or string",
+      "Only numbers are mutable",
+      "Arguments are immutable",
+      "Everything is deep-copied"
+     ],
+     "answer": 0,
+     "explain": "Use dup to avoid surprising callers."
+    }
+   ]
+  },
+  "level-1/05-arrays-hashes": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\na = [3, 1, 2]\nputs a.sort.inspect, a.map { |x| x * 2 }.inspect, a.inject(:+)\nh = { a: 1, 'b' => 2 }\nputs h[:a], h['b'], h[:c].inspect\nputs h.fetch(:c, 0)\nputs a.each_slice(2).to_a.inspect\n```\n",
+     "options": [
+      "[3, 1, 2]\n[6, 2, 4]\n6\n1\n2\nnil\n0\n[[3, 1], [2]]",
+      "[1, 2, 3]\n[6, 2, 4]\n6\n1\nnil\nnil\n0\n[[3, 1], [2]]",
+      "[1, 2, 3]\n[6, 2, 4]\n6\n1\n2\nnil\n0\n[[3, 1], [2]]",
+      "[1, 2, 3]\n[6, 2, 4]\n6\n1\n2\n0\n0\n[[3, 1], [2]]"
+     ],
+     "answer": 2,
+     "explain": "sort returns a new array; missing hash keys give nil; fetch takes a default. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```ruby\nh = Hash.new { |hash, k| hash[k] = [] }\nh[:x] << 1\nh[:x] << 2\nh[:y] << 3\nputs h.inspect\nputs h.sum { |_, v| v.size }\nputs h.transform_values(&:sum).inspect\n```\n",
+     "options": [
+      "{x: [1, 2], y: [3]}\n2\n{x: 3, y: 3}",
+      "{x: [1], y: [3]}\n3\n{x: 3, y: 3}",
+      "{x: [1, 2], y: [3]}\n3\n{x: 3, y: 3}",
+      "{:x=>[1, 2]}\n3\n{x: 3}"
+     ],
+     "answer": 2,
+     "explain": "A default block can create missing entries. Verified by compiling and running it."
+    },
+    {
+     "q": "What is the difference between map and each?",
+     "options": [
+      "map mutates",
+      "map returns a new array of block results; each returns the receiver and is used for side effects",
+      "each is faster only",
+      "No difference"
+     ],
+     "answer": 1,
+     "explain": "Choose by intent."
+    },
+    {
+     "q": "Which method returns only the unique elements of an array?",
+     "options": [
+      "uniq",
+      "unique",
+      "dedupe",
+      "distinct"
+     ],
+     "answer": 0,
+     "explain": "uniq! mutates."
+    }
+   ]
+  },
+  "level-1/06-strings": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\ns = 'Ruby'\nputs s.upcase, s.reverse, s * 2, s[1..2], s.length\nputs \"#{s} has #{s.chars.count { |c| 'aeiou'.include?(c.downcase) }} vowel(s)\"\nputs 'a-b-c'.split('-').inspect\nputs 'hello world'.capitalize\n```\n",
+     "options": [
+      "RUBY\nybuR\nRuby2\nub\n4\nRuby has 1 vowel(s)\n[\"a\", \"b\", \"c\"]\nHello world",
+      "RUBY\nybuR\nRubyRuby\nub\n4\nRuby has 2 vowel(s)\n[\"a\", \"b\", \"c\"]\nHello World",
+      "RUBY\nybuR\nRubyRuby\nub\n4\nRuby has 1 vowel(s)\n[\"a\", \"b\", \"c\"]\nHello world",
+      "Ruby\nybuR\nRubyRuby\nub\n4\nRuby has 1 vowel(s)\n[\"a\", \"b\", \"c\"]\nHello world"
+     ],
+     "answer": 2,
+     "explain": "Only u is a vowel in Ruby (y is not counted). Verified by compiling and running it."
+    },
+    {
+     "q": "What is the difference between single and double quoted strings?",
+     "options": [
+      "None",
+      "Single quotes interpolate",
+      "Double quotes are faster",
+      "Only double quotes interpolate #{} and process escapes like \\n"
+     ],
+     "answer": 3,
+     "explain": "Use single quotes for plain text."
+    },
+    {
+     "q": "What does this print?\n```ruby\na = 'x'.dup\nb = a\nb << 'y'\nc = a + 'z'\nputs a, c\nputs a.frozen?\nd = 'lit'.freeze\nbegin; d << 'x'; rescue => e; puts e.class; end\n```\n",
+     "options": [
+      "xy\nxyz\ntrue\nFrozenError",
+      "xy\nxyz\nfalse\nNoMethodError",
+      "x\nxyz\nfalse\nFrozenError",
+      "xy\nxyz\nfalse\nFrozenError"
+     ],
+     "answer": 3,
+     "explain": "<< mutates, + builds a new string, frozen strings raise FrozenError. Verified by compiling and running it."
+    },
+    {
+     "q": "Which method formats a number as a padded string?",
+     "options": [
+      "printf only",
+      "to_pad",
+      "pad()",
+      "format or sprintf, for example format('%05.1f', 3.14159)"
+     ],
+     "answer": 3,
+     "explain": "String#% also works."
+    }
+   ]
+  },
+  "level-1/07-classes-objects": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\nclass Dog\n  attr_reader :name\n  @@count = 0\n  def initialize(name); @name = name; @@count += 1; end\n  def self.count = @@count\n  def to_s = \"Dog(#{@name})\"\nend\nd = Dog.new('Rex'); Dog.new('Fido')\nputs d, Dog.count\nputs d.respond_to?(:name=)\nputs d.instance_variables.inspect\n```\n",
+     "options": [
+      "Dog(Rex)\n1\nfalse\n[:@name]",
+      "#<Dog>\n2\nfalse\n[:name]",
+      "Dog(Rex)\n2\ntrue\n[:@name]",
+      "Dog(Rex)\n2\nfalse\n[:@name]"
+     ],
+     "answer": 3,
+     "explain": "attr_reader defines only a getter; class variables are shared. Verified by compiling and running it."
+    },
+    {
+     "q": "What does attr_accessor define?",
+     "options": [
+      "Only a getter",
+      "A getter and a setter for an instance variable",
+      "A constant",
+      "A class method"
+     ],
+     "answer": 1,
+     "explain": "attr_reader and attr_writer define one each."
+    },
+    {
+     "q": "What do public, private and protected control?",
+     "options": [
+      "File access",
+      "Threads",
+      "Memory",
+      "Who may call a method: anyone, only the object itself, or instances of the same class family"
+     ],
+     "answer": 3,
+     "explain": "private methods are called without an explicit receiver."
+    },
+    {
+     "q": "What is self inside an instance method?",
+     "options": [
+      "The object receiving the call",
+      "nil",
+      "main",
+      "The class"
+     ],
+     "answer": 0,
+     "explain": "Inside a class body self is the class."
+    }
+   ]
+  },
+  "level-1/08-blocks-procs-lambdas": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\nadd = ->(a, b) { a + b }\ndouble = proc { |x| (x || 0) * 2 }\nputs add.call(1, 2), double.call(4), double.call, double.lambda?\nputs add.curry[1][2]\ndef twice; yield; yield; end\nn = 0\ntwice { n += 5 }\nputs n\n```\n",
+     "options": [
+      "3\n8\n0\ntrue\n3\n10",
+      "3\n8\n0\nfalse\n3\n10",
+      "3\n8\nnil\nfalse\n3\n10",
+      "3\n8\n0\nfalse\n3\n5"
+     ],
+     "answer": 1,
+     "explain": "Procs are lenient about arguments; lambdas are strict. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```ruby\ndef run\n  [1, 2, 3].each { |x| return x * 10 if x == 2 }\n  :done\nend\nputs run\nl = lambda { return 1; 2 }\nputs l.call\nputs [1, 2, 3].map(&:to_s).inspect\n```\n",
+     "options": [
+      "20\n2\n[\"1\", \"2\", \"3\"]",
+      "done\n1\n[\"1\", \"2\", \"3\"]",
+      "20\n1\n[1, 2, 3]",
+      "20\n1\n[\"1\", \"2\", \"3\"]"
+     ],
+     "answer": 3,
+     "explain": "return in a block returns from the enclosing method; in a lambda it returns from the lambda. Verified by compiling and running it."
+    },
+    {
+     "q": "What does the & in &:upcase do?",
+     "options": [
+      "Bitwise and",
+      "Makes it lazy",
+      "Converts the symbol to a block via Symbol#to_proc",
+      "Passes by reference"
+     ],
+     "answer": 2,
+     "explain": "%w[a b].map(&:upcase)."
+    },
+    {
+     "q": "How does a method receive a block?",
+     "options": [
+      "Implicitly with yield, or explicitly as &block",
+      "With require",
+      "Only as an argument",
+      "With lambda"
+     ],
+     "answer": 0,
+     "explain": "block_given? checks."
+    }
+   ]
+  },
+  "level-1/09-gems-bundler": {
+   "questions": [
+    {
+     "q": "What does Bundler do?",
+     "options": [
+      "Runs tests",
+      "Deploys",
+      "Installs and locks the gem versions listed in a Gemfile",
+      "Compiles C"
+     ],
+     "answer": 2,
+     "explain": "Gemfile.lock pins exact versions."
+    },
+    {
+     "q": "Which command runs a script using the Gemfile's gems?",
+     "options": [
+      "gem exec",
+      "bundle exec ruby script.rb",
+      "ruby -b",
+      "bundle compile"
+     ],
+     "answer": 1,
+     "explain": "It ensures the locked versions load."
+    },
+    {
+     "q": "What should you commit to version control for an application?",
+     "options": [
+      "vendor gems always",
+      "Gemfile and Gemfile.lock",
+      "Only Gemfile",
+      "Neither"
+     ],
+     "answer": 1,
+     "explain": "The lockfile makes builds reproducible."
+    },
+    {
+     "q": "What does gem 'rack', '~> 3.0' allow?",
+     "options": [
+      "Any version",
+      "Below 3.0",
+      "Any 3.x version at or above 3.0 but below 4.0",
+      "Exactly 3.0"
+     ],
+     "answer": 2,
+     "explain": "The pessimistic operator."
+    }
+   ]
+  },
+  "level-1/10-project-todo-app": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\nTodo = Struct.new(:title, :done) do\n  def to_s = \"[#{done ? 'x' : ' '}] #{title}\"\nend\nlist = [Todo.new('a', false), Todo.new('b', true)]\nlist[0].done = true\nputs list\nputs list.count(&:done)\nputs list.reject(&:done).size\n```\n",
+     "options": [
+      "[x] a\n[ ] b\n1\n1",
+      "[x] a\n[x] b\n2\n0",
+      "[x] a\n[x] b\n2\n2",
+      "[ ] a\n[x] b\n1\n1"
+     ],
+     "answer": 1,
+     "explain": "Struct gives accessors and equality for free. Verified by compiling and running it."
+    },
+    {
+     "q": "How would you persist the todo list between runs?",
+     "options": [
+      "It persists automatically",
+      "Environment variable",
+      "Global variable",
+      "Write it as JSON (or YAML) to a file and load it at startup"
+     ],
+     "answer": 3,
+     "explain": "The project saves to a file."
+    },
+    {
+     "q": "How do you read a line from the user in a CLI?",
+     "options": [
+      "read",
+      "scan",
+      "gets",
+      "input"
+     ],
+     "answer": 2,
+     "explain": "gets.chomp removes the newline."
+    },
+    {
+     "q": "Why keep the todo logic in a class separate from the CLI loop?",
+     "options": [
+      "So the logic can be tested without input and output",
+      "Speed",
+      "Ruby requires it",
+      "Style only"
+     ],
+     "answer": 0,
+     "explain": "Separate concerns."
+    }
+   ]
+  },
+  "level-2/01-oop-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\nmodule Greet\n  def hi = \"hi from #{self.class}\"\nend\nclass A\n  include Greet\nend\nclass B < A\n  def hi = super + '!'\nend\nputs A.new.hi, B.new.hi\nputs B.ancestors.first(3).inspect\nputs B.instance_method(:hi).owner\n```\n",
+     "options": [
+      "hi from A\nhi from B!\n[B, A, Greet]\nA",
+      "hi from A\nhi from B!\n[B, A, Greet]\nB",
+      "hi from A\nhi from B!\n[B, Greet, A]\nB",
+      "hi from A\nhi from A!\n[B, A, Greet]\nB"
+     ],
+     "answer": 1,
+     "explain": "include inserts the module after the class in the ancestor chain; super calls the next method up. Verified by compiling and running it."
+    },
+    {
+     "q": "What is the difference between include and extend?",
+     "options": [
+      "include is for files",
+      "No difference",
+      "extend is for gems",
+      "include adds module methods as instance methods; extend adds them as singleton (class-level) methods"
+     ],
+     "answer": 3,
+     "explain": "Both mix in behaviour."
+    },
+    {
+     "q": "What does Comparable need to work?",
+     "options": [
+      "hash",
+      "==",
+      "A <=> method that returns -1, 0 or 1",
+      "sort"
+     ],
+     "answer": 2,
+     "explain": "Then <, >, between? and clamp work."
+    },
+    {
+     "q": "Why prefer composition over inheritance?",
+     "options": [
+      "Faster",
+      "Shorter",
+      "It is more flexible and avoids deep, rigid hierarchies",
+      "Required"
+     ],
+     "answer": 2,
+     "explain": "Use modules and collaborating objects."
+    }
+   ]
+  },
+  "level-2/02-blocks-procs-lambdas-advanced": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\ncounter = 0\ninc = -> { counter += 1 }\n3.times(&inc) rescue 3.times { inc.call }\nputs counter\ndef make_counter\n  n = 0\n  -> { n += 1 }\nend\nc = make_counter\nc.call; c.call\nputs c.call\nputs c.binding.local_variable_get(:n)\n```\n",
+     "options": [
+      "3\n3\n3",
+      "0\n3\n3",
+      "3\n1\n1",
+      "3\n3\n0"
+     ],
+     "answer": 0,
+     "explain": "Closures capture and keep the variable alive. Verified by compiling and running it."
+    },
+    {
+     "q": "What does this print?\n```ruby\ncompose = ->(f, g) { ->(x) { g.(f.(x)) } }\ninc = ->(x) { x + 1 }\ndbl = ->(x) { x * 2 }\nputs compose.(inc, dbl).(5)\nputs (inc >> dbl).call(5), (inc << dbl).call(5)\nputs %w[a b].each_with_index.map { |s, i| \"#{i}#{s}\" }.inspect\n```\n",
+     "options": [
+      "12\n12\n11\n[\"0a\", \"1b\"]",
+      "11\n11\n12\n[\"0a\", \"1b\"]",
+      "12\n11\n12\n[\"0a\", \"1b\"]",
+      "12\n12\n11\n[\"a0\", \"b1\"]"
+     ],
+     "answer": 0,
+     "explain": ">> applies left then right; << applies right then left. Verified by compiling and running it."
+    },
+    {
+     "q": "What does method(:puts) return?",
+     "options": [
+      "nil",
+      "A Method object that can be passed around and called",
+      "The output",
+      "A string"
+     ],
+     "answer": 1,
+     "explain": "Use it with map(&method(:name))."
+    },
+    {
+     "q": "What does yield do inside a method?",
+     "options": [
+      "Returns",
+      "Calls the block passed to that method",
+      "Defines",
+      "Raises"
+     ],
+     "answer": 1,
+     "explain": "Use block_given? first when the block is optional."
+    }
+   ]
+  },
+  "level-2/03-exception-handling": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\ndef risky(n)\n  raise ArgumentError, 'neg' if n < 0\n  raise IOError, 'io' if n == 0\n  n\nrescue ArgumentError => e\n  \"arg: #{e.message}\"\nelse\n  'fine'\nensure\n  print 'E '\nend\nputs risky(-1)\nputs risky(1)\nbegin\n  risky(0)\nrescue => e\n  puts e.class\nend\n```\n",
+     "options": [
+      "E arg: neg\nE fine\nE IOError",
+      "E arg: neg\nE fine\nE ArgumentError",
+      "E arg: neg\nE 1\nE IOError",
+      "arg: neg\nfine\nIOError"
+     ],
+     "answer": 0,
+     "explain": "ensure always runs; else runs only when nothing raised; the IOError is not rescued by the ArgumentError clause so it propagates after ensure runs. Verified by compiling and running it."
+    },
+    {
+     "q": "What is the right way to define a custom error?",
+     "options": [
+      "raise 'MyError'",
+      "def MyError",
+      "class MyError < Exception",
+      "class MyError < StandardError; end"
+     ],
+     "answer": 3,
+     "explain": "Rescuing Exception is too broad."
+    },
+    {
+     "q": "What does retry do inside a rescue?",
+     "options": [
+      "Logs",
+      "Ignores",
+      "Re-runs the begin block",
+      "Exits"
+     ],
+     "answer": 2,
+     "explain": "Limit attempts to avoid infinite loops."
+    },
+    {
+     "q": "Why rescue specific errors instead of bare rescue?",
+     "options": [
+      "Speed",
+      "Bare rescue hides unrelated bugs",
+      "Style",
+      "Required"
+     ],
+     "answer": 1,
+     "explain": "Rescue only what you can handle."
+    }
+   ]
+  },
+  "level-2/04-file-io": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\nrequire 'tmpdir'\nDir.mktmpdir do |d|\n  path = File.join(d, 'a.txt')\n  File.write(path, \"one\\ntwo\\n\")\n  File.open(path, 'a') { |f| f.puts 'three' }\n  puts File.readlines(path, chomp: true).inspect\n  puts File.foreach(path).count\n  puts File.exist?(path), File.basename(path, '.txt')\nend\n```\n",
+     "options": [
+      "[\"one\", \"two\", \"three\"]\n3\ntrue\na",
+      "[\"one\\n\", \"two\\n\", \"three\\n\"]\n3\ntrue\na",
+      "[\"three\"]\n1\ntrue\na",
+      "[\"one\", \"two\", \"three\"]\n3\ntrue\na.txt"
+     ],
+     "answer": 0,
+     "explain": "Mode 'a' appends; File.open with a block closes the file. Verified by compiling and running it."
+    },
+    {
+     "q": "Why use File.open with a block?",
+     "options": [
+      "Required",
+      "Faster",
+      "Encrypts",
+      "It closes the file automatically, even on error"
+     ],
+     "answer": 3,
+     "explain": "Avoid leaking file handles."
+    },
+    {
+     "q": "Which reads a huge file without loading it all?",
+     "options": [
+      "File.foreach(path) { |line| ... }",
+      "File.read",
+      "File.load",
+      "File.readlines"
+     ],
+     "answer": 0,
+     "explain": "Streaming line by line."
+    },
+    {
+     "q": "What does File.join('a', 'b') do?",
+     "options": [
+      "Builds a path using the right separator",
+      "Deletes",
+      "Concatenates files",
+      "Copies"
+     ],
+     "answer": 0,
+     "explain": "Portable paths."
+    }
+   ]
+  },
+  "level-2/05-testing-rspec": {
+   "questions": [
+    {
+     "q": "What does RSpec's expect(x).to eq(3) check?",
+     "options": [
+      "Identity",
+      "That x == 3",
+      "Type",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Use be for identity."
+    },
+    {
+     "q": "What does let do?",
+     "options": [
+      "Defines a lazily evaluated, memoised helper for each example",
+      "Global",
+      "Constant",
+      "Hook"
+     ],
+     "answer": 0,
+     "explain": "let! evaluates eagerly."
+    },
+    {
+     "q": "What is a test double?",
+     "options": [
+      "A copy",
+      "A mock database always",
+      "A fake object that stands in for a collaborator",
+      "Two tests"
+     ],
+     "answer": 2,
+     "explain": "Use doubles to isolate the unit."
+    },
+    {
+     "q": "Which is a good example name?",
+     "options": [
+      "'test 1'",
+      "'x'",
+      "'works'",
+      "'returns an empty list when there are no todos'"
+     ],
+     "answer": 3,
+     "explain": "Examples should read as documentation."
+    }
+   ]
+  },
+  "level-2/06-json-apis": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\nrequire 'json'\ns = '{\"name\":\"Ana\",\"tags\":[\"a\",\"b\"],\"n\":1.5}'\nh = JSON.parse(s)\nputs h['name'], h['tags'].size, h['n'].class\nputs JSON.parse(s, symbolize_names: true)[:tags].inspect\nputs({ a: 1, b: [1, 2] }.to_json)\nputs JSON.pretty_generate({ k: 1 })\n```\n",
+     "options": [
+      "Ana\n2\nFloat\n[\"a\", \"b\"]\n{:a=>1, :b=>[1, 2]}\n{\n  \"k\": 1\n}",
+      "Ana\n2\nInteger\n[\"a\", \"b\"]\n{\"a\":1,\"b\":[1,2]}\n{\n  \"k\": 1\n}",
+      "Ana\n2\nFloat\n[\"a\", \"b\"]\n{\"a\":1,\"b\":[1,2]}\n{\n  \"k\": 1\n}",
+      "Ana\n3\nFloat\n[\"a\", \"b\"]\n{\"a\":1,\"b\":[1,2]}\n{\"k\": 1}"
+     ],
+     "answer": 2,
+     "explain": "JSON.parse returns string keys unless symbolize_names is set. Verified by compiling and running it."
+    },
+    {
+     "q": "What exception does JSON.parse raise on malformed input?",
+     "options": [
+      "IOError",
+      "JSON::ParserError",
+      "TypeError",
+      "SyntaxError"
+     ],
+     "answer": 1,
+     "explain": "Rescue it when parsing untrusted data."
+    },
+    {
+     "q": "Which standard library class makes HTTP requests?",
+     "options": [
+      "URL",
+      "Fetch",
+      "Net::HTTP",
+      "Http.get"
+     ],
+     "answer": 2,
+     "explain": "Add timeouts."
+    },
+    {
+     "q": "Why set timeouts on HTTP calls?",
+     "options": [
+      "Style",
+      "Speed",
+      "A hung server would otherwise block your program indefinitely",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "open_timeout and read_timeout."
+    }
+   ]
+  },
+  "level-2/07-metaprogramming-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\nclass Tag\n  %w[a b].each { |n| define_method(\"#{n}?\") { @v == n } }\n  def initialize(v) = @v = v\n  def method_missing(name, *args)\n    name.to_s.start_with?('get_') ? name.to_s.sub('get_', '') : super\n  end\n  def respond_to_missing?(name, priv = false) = name.to_s.start_with?('get_') || super\nend\nt = Tag.new('a')\nputs t.a?, t.b?, t.get_color, t.respond_to?(:get_x)\nbegin; t.zzz; rescue NoMethodError => e; puts 'NoMethodError'; end\nputs t.send(:a?)\n```\n",
+     "options": [
+      "true\nfalse\ncolor\nfalse\nNoMethodError\ntrue",
+      "true\ntrue\ncolor\ntrue\nNoMethodError\ntrue",
+      "true\nfalse\nget_color\ntrue\nNoMethodError\ntrue",
+      "true\nfalse\ncolor\ntrue\nNoMethodError\ntrue"
+     ],
+     "answer": 3,
+     "explain": "define_method creates methods dynamically; always pair method_missing with respond_to_missing?. Verified by compiling and running it."
+    },
+    {
+     "q": "What does send do?",
+     "options": [
+      "Pipes",
+      "Logs",
+      "Sends HTTP",
+      "Calls a method by name, even a private one"
+     ],
+     "answer": 3,
+     "explain": "public_send respects visibility."
+    },
+    {
+     "q": "What is a risk of overusing metaprogramming?",
+     "options": [
+      "Slower startup only",
+      "Code becomes hard to read, search and debug",
+      "Nothing",
+      "Syntax errors"
+     ],
+     "answer": 1,
+     "explain": "Use it where it removes real duplication."
+    },
+    {
+     "q": "What does instance_variable_get(:@x) do?",
+     "options": [
+      "Sets",
+      "Reads an instance variable by name",
+      "Defines",
+      "Deletes"
+     ],
+     "answer": 1,
+     "explain": "Mostly for frameworks and tests."
+    }
+   ]
+  },
+  "level-2/08-gem-development": {
+   "questions": [
+    {
+     "q": "What is the conventional gem layout?",
+     "options": [
+      "lib/ for code, spec/ or test/ for tests, a .gemspec file and a version constant",
+      "Only bin/",
+      "Everything in root",
+      "No tests"
+     ],
+     "answer": 0,
+     "explain": "bundle gem scaffolds it."
+    },
+    {
+     "q": "What does the .gemspec file contain?",
+     "options": [
+      "Source only",
+      "The gem's name, version, authors, files and dependencies",
+      "Secrets",
+      "Tests only"
+     ],
+     "answer": 1,
+     "explain": "Build with gem build."
+    },
+    {
+     "q": "What does semantic versioning say about 2.0.0 to 3.0.0?",
+     "options": [
+      "A major bump signals breaking changes",
+      "Docs",
+      "Bug fix",
+      "New feature"
+     ],
+     "answer": 0,
+     "explain": "Patch is fixes, minor is compatible features."
+    },
+    {
+     "q": "Why add dependencies sparingly to a gem?",
+     "options": [
+      "Every dependency burdens users with conflicts and updates",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Prefer the standard library."
+    }
+   ]
+  },
+  "level-2/09-enumerable-comparable": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\nclass Bag\n  include Enumerable\n  def initialize(*x) = @x = x\n  def each(&b) = @x.each(&b)\nend\nb = Bag.new(3, 1, 2, 2)\nputs b.sort.inspect, b.min, b.include?(2), b.tally.inspect\nputs b.each_cons(2).map { |p, q| q - p }.inspect\nputs b.group_by(&:odd?).inspect\nputs b.partition { |n| n > 1 }.inspect\n```\n",
+     "options": [
+      "[1, 2, 2, 3]\n1\ntrue\n{3=>1, 1=>1, 2=>2}\n[-2, 1, 0]\n{true=>[3, 1], false=>[2, 2]}\n[[3, 2, 2], [1]]",
+      "[1, 2, 3]\n1\ntrue\n{3 => 1, 1 => 1, 2 => 2}\n[-2, 1, 0]\n{true => [3, 1], false => [2, 2]}\n[[3, 2, 2], [1]]",
+      "[1, 2, 2, 3]\n1\ntrue\n{3 => 1, 1 => 1, 2 => 2}\n[-2, 1, 0]\n{true => [3, 1], false => [2, 2]}\n[[3, 2, 2], [1]]",
+      "[1, 2, 2, 3]\n1\ntrue\n{3 => 1, 1 => 1, 2 => 2}\n[2, -1, 0]\n{true => [3, 1], false => [2, 2]}\n[[3, 2, 2], [1]]"
+     ],
+     "answer": 2,
+     "explain": "Define each and include Enumerable to get map, sort, min, tally and more. Verified by compiling and running it."
+    },
+    {
+     "q": "What does sort_by { |x| -x.size } do?",
+     "options": [
+      "Random",
+      "In place",
+      "Sorts descending by size using the computed key",
+      "Ascending"
+     ],
+     "answer": 2,
+     "explain": "sort_by is efficient because it computes each key once."
+    },
+    {
+     "q": "What is the difference between select and find?",
+     "options": [
+      "select returns all matches; find returns the first or nil",
+      "select returns one",
+      "find returns all",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "detect is an alias of find."
+    },
+    {
+     "q": "What does each_with_object do?",
+     "options": [
+      "Iterates while passing a memo object you build up, returning it",
+      "Maps",
+      "Counts",
+      "Sorts"
+     ],
+     "answer": 0,
+     "explain": "A clean alternative to inject for hashes."
+    }
+   ]
+  },
+  "level-2/10-project-weather-cli": {
+   "questions": [
+    {
+     "q": "In a weather CLI, where should parsing and formatting logic live?",
+     "options": [
+      "In small classes or methods separate from the HTTP call",
+      "In Gemfile",
+      "In the shell",
+      "In one script"
+     ],
+     "answer": 0,
+     "explain": "So you can test without the network."
+    },
+    {
+     "q": "How would you test the CLI's API layer without hitting the real API?",
+     "options": [
+      "Skip tests",
+      "Mock Ruby",
+      "Call the real API",
+      "Stub or inject the HTTP client and return canned JSON"
+     ],
+     "answer": 3,
+     "explain": "Deterministic tests."
+    },
+    {
+     "q": "What should the CLI do on a network failure?",
+     "options": [
+      "Crash with a stack trace",
+      "Print a clear message and exit with a non-zero status",
+      "Ignore",
+      "Loop forever"
+     ],
+     "answer": 1,
+     "explain": "exit 1."
+    },
+    {
+     "q": "Why cache API responses briefly?",
+     "options": [
+      "Style",
+      "To reduce calls, rate-limit risk and latency",
+      "Law",
+      "Required"
+     ],
+     "answer": 1,
+     "explain": "Respect API terms."
+    }
+   ]
+  },
+  "level-3/01-sinatra": {
+   "questions": [
+    {
+     "q": "What is Sinatra?",
+     "options": [
+      "A template language",
+      "A database",
+      "A lightweight Ruby web framework built on Rack",
+      "A gem manager"
+     ],
+     "answer": 2,
+     "explain": "get '/' do ... end."
+    },
+    {
+     "q": "What does Rack provide?",
+     "options": [
+      "A database",
+      "A cache",
+      "A common interface between Ruby web servers and applications",
+      "A compiler"
+     ],
+     "answer": 2,
+     "explain": "An app is an object responding to call(env)."
+    },
+    {
+     "q": "In Sinatra, what does params contain?",
+     "options": [
+      "Only headers",
+      "Query string, form and route parameters (as strings)",
+      "Nothing",
+      "Only JSON"
+     ],
+     "answer": 1,
+     "explain": "Validate and convert them."
+    },
+    {
+     "q": "How do you return JSON?",
+     "options": [
+      "puts",
+      "Set content_type :json and return a JSON string",
+      "return hash",
+      "render"
+     ],
+     "answer": 1,
+     "explain": "to_json."
+    }
+   ]
+  },
+  "level-3/02-activerecord": {
+   "questions": [
+    {
+     "q": "What does ActiveRecord implement?",
+     "options": [
+      "Templating",
+      "The pattern that maps a database table to a class and rows to objects",
+      "Routing",
+      "Caching"
+     ],
+     "answer": 1,
+     "explain": "Active Record pattern."
+    },
+    {
+     "q": "What is the N+1 query problem?",
+     "options": [
+      "Loading a list then querying again per item; fix with includes (eager loading)",
+      "Big tables",
+      "Syntax",
+      "Slow indexes"
+     ],
+     "answer": 0,
+     "explain": "Use includes or preload."
+    },
+    {
+     "q": "What does a migration do?",
+     "options": [
+      "Moves servers",
+      "Describes a versioned change to the database schema",
+      "Backs up",
+      "Tests"
+     ],
+     "answer": 1,
+     "explain": "Run with db:migrate."
+    },
+    {
+     "q": "Why use validations and constraints together?",
+     "options": [
+      "Either is enough",
+      "Speed",
+      "Law",
+      "Model validations give friendly errors; database constraints guarantee integrity"
+     ],
+     "answer": 3,
+     "explain": "Races can bypass validations."
+    }
+   ]
+  },
+  "level-3/03-testing-advanced": {
+   "questions": [
+    {
+     "q": "What is a test factory (e.g. FactoryBot)?",
+     "options": [
+      "A mock",
+      "A helper that builds valid test records with overridable attributes",
+      "A database",
+      "A CI tool"
+     ],
+     "answer": 1,
+     "explain": "Avoid brittle fixtures."
+    },
+    {
+     "q": "Why keep tests independent?",
+     "options": [
+      "Speed",
+      "Order and shared state must not affect results",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Reset state between examples."
+    },
+    {
+     "q": "What does stubbing Time or the clock help with?",
+     "options": [
+      "Coverage",
+      "Syntax",
+      "Faster tests",
+      "Making time-dependent tests deterministic"
+     ],
+     "answer": 3,
+     "explain": "Freeze time."
+    },
+    {
+     "q": "What is code coverage not?",
+     "options": [
+      "Reportable",
+      "A metric",
+      "Proof that behaviour is correct",
+      "Useful"
+     ],
+     "answer": 2,
+     "explain": "100% coverage can still miss bugs."
+    }
+   ]
+  },
+  "level-3/04-metaprogramming-advanced": {
+   "questions": [
+    {
+     "q": "What does this print?\n```ruby\nclass Model\n  def self.fields(*names)\n    names.each do |n|\n      define_method(n) { @data[n] }\n      define_method(\"#{n}=\") { |v| @data[n] = v }\n    end\n  end\n  def initialize = @data = {}\nend\nclass User < Model\n  fields :name, :age\nend\nu = User.new\nu.name = 'Ana'; u.age = 30\nputs u.name, u.age\nputs User.instance_methods(false).sort.inspect\n```\n",
+     "options": [
+      "Ana\n30\n[:name, :age]",
+      "Ana\n30\n[:age, :age=, :name, :name=]",
+      "Ana\n30\n[]",
+      "Ana\n30\n[:age, :name]"
+     ],
+     "answer": 1,
+     "explain": "A class macro defines methods at load time. Verified by compiling and running it."
+    },
+    {
+     "q": "What does instance_eval do?",
+     "options": [
+      "Evaluates string only",
+      "Evals file",
+      "Compiles",
+      "Evaluates a block with self set to the receiver, the basis of many DSLs"
+     ],
+     "answer": 3,
+     "explain": "It enables clean configuration blocks."
+    },
+    {
+     "q": "What does Module#prepend do?",
+     "options": [
+      "Deletes",
+      "After",
+      "Puts the module before the class in the method lookup so it can wrap methods",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Useful for decorators and instrumentation."
+    },
+    {
+     "q": "What is a safer alternative to monkey patching core classes?",
+     "options": [
+      "eval",
+      "Global patches",
+      "Redefine Object",
+      "Refinements or wrapper objects"
+     ],
+     "answer": 3,
+     "explain": "Limit the scope of change."
+    }
+   ]
+  },
+  "level-3/05-design-patterns": {
+   "questions": [
+    {
+     "q": "Which pattern lets you swap algorithms at runtime?",
+     "options": [
+      "Factory only",
+      "Singleton",
+      "Observer",
+      "Strategy"
+     ],
+     "answer": 3,
+     "explain": "Ruby often uses blocks or duck typing."
+    },
+    {
+     "q": "What does the Observer pattern do?",
+     "options": [
+      "Creates",
+      "Notifies subscribers when an object changes",
+      "Sorts",
+      "Caches"
+     ],
+     "answer": 1,
+     "explain": "Ruby ships an Observable module in older versions."
+    },
+    {
+     "q": "What does duck typing mean?",
+     "options": [
+      "Inheritance only",
+      "Care about what an object can do (respond to), not its class",
+      "Types are required",
+      "Static"
+     ],
+     "answer": 1,
+     "explain": "If it quacks."
+    },
+    {
+     "q": "When is a Singleton a smell?",
+     "options": [
+      "Always",
+      "When it hides global mutable state that makes testing hard",
+      "Speed",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Pass dependencies instead."
+    }
+   ]
+  },
+  "level-3/06-performance-profiling": {
+   "questions": [
+    {
+     "q": "Which is the first step to speed up slow Ruby code?",
+     "options": [
+      "Add threads",
+      "Profile or benchmark to find the real bottleneck",
+      "Guess",
+      "Rewrite in C"
+     ],
+     "answer": 1,
+     "explain": "Measure first."
+    },
+    {
+     "q": "What does this print?\n```ruby\nrequire 'benchmark'\nr = Benchmark.realtime { 100_000.times.map { |i| i * 2 } }\nputs r.class\nputs (1..5).sum == 15\nputs %w[a b c].each_with_index.to_a.flatten.size\n```\n",
+     "options": [
+      "Float\nfalse\n6",
+      "Float\ntrue\n6",
+      "Integer\ntrue\n6",
+      "Float\ntrue\n3"
+     ],
+     "answer": 1,
+     "explain": "Benchmark.realtime returns seconds as a Float. Verified by compiling and running it."
+    },
+    {
+     "q": "Why does building a string with += in a loop cost more than << ?",
+     "options": [
+      "+= is faster",
+      "<< copies",
+      "Same",
+      "+= creates a new string each time; << appends in place"
+     ],
+     "answer": 3,
+     "explain": "Use << or an array and join."
+    },
+    {
+     "q": "What reduces memory use in large collections?",
+     "options": [
+      "More arrays",
+      "eval",
+      "Caching all",
+      "Lazy enumerators and streaming instead of building big arrays"
+     ],
+     "answer": 3,
+     "explain": "(1..Float::INFINITY).lazy."
+    }
+   ]
+  },
+  "level-3/07-concurrency": {
+   "questions": [
+    {
+     "q": "Which Ruby implementation has a Global VM Lock (GVL) limiting parallel Ruby code in threads?",
+     "options": [
+      "JRuby always",
+      "None",
+      "MRI (CRuby)",
+      "TruffleRuby only"
+     ],
+     "answer": 2,
+     "explain": "Threads still help with I/O waits."
+    },
+    {
+     "q": "What does this print?\n```ruby\nm = Mutex.new\ncount = 0\nts = 5.times.map { Thread.new { 1000.times { m.synchronize { count += 1 } } } }\nts.each(&:join)\nputs count\nq = Queue.new\nTh = Thread.new { 3.times { |i| q << i }; q << :done }\nout = []\nwhile (v = q.pop) != :done; out << v; end\nputs out.inspect\n```\n",
+     "options": [
+      "5000\n[2, 1, 0]",
+      "5\n[0, 1, 2]",
+      "5000\n[0, 1, 2]",
+      "4999\n[0, 1, 2]"
+     ],
+     "answer": 2,
+     "explain": "A Mutex protects the shared counter; Queue is thread-safe. Verified by compiling and running it."
+    },
+    {
+     "q": "What do Ractors (or processes) offer over threads?",
+     "options": [
+      "Same as threads",
+      "True parallelism for CPU-bound work without sharing mutable state",
+      "Slower",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Choose by workload."
+    },
+    {
+     "q": "What is a race condition?",
+     "options": [
+      "A bug where the result depends on unpredictable timing of concurrent access",
+      "Slow code",
+      "Syntax",
+      "Typo"
+     ],
+     "answer": 0,
+     "explain": "Protect shared state."
+    }
+   ]
+  },
+  "level-3/08-rake-tasks": {
+   "questions": [
+    {
+     "q": "What is Rake?",
+     "options": [
+      "A gem",
+      "A web server",
+      "A test",
+      "A Ruby build and task runner defined in a Rakefile"
+     ],
+     "answer": 3,
+     "explain": "rake -T lists tasks."
+    },
+    {
+     "q": "How do you declare a task dependency?",
+     "options": [
+      "require",
+      "task deploy: [:test] do ... end",
+      "include",
+      "task deploy depends test"
+     ],
+     "answer": 1,
+     "explain": "Prerequisites run first."
+    },
+    {
+     "q": "What does a namespace do in Rake?",
+     "options": [
+      "Sorts",
+      "Isolates memory",
+      "Encrypts",
+      "Groups tasks, for example db:migrate"
+     ],
+     "answer": 3,
+     "explain": "Keeps names tidy."
+    },
+    {
+     "q": "How do you pass arguments to a task?",
+     "options": [
+      "ARGV only",
+      "Env only",
+      "Not possible",
+      "task :greet, [:name] do |t, args| ... end"
+     ],
+     "answer": 3,
+     "explain": "rake greet[Ana]."
+    }
+   ]
+  },
+  "level-3/09-cli-thor-optparse": {
+   "questions": [
+    {
+     "q": "What does OptionParser do?",
+     "options": [
+      "Formats JSON",
+      "Runs tests",
+      "Loads gems",
+      "Parses command-line flags and generates help"
+     ],
+     "answer": 3,
+     "explain": "Part of the standard library."
+    },
+    {
+     "q": "What does Thor add over OptionParser?",
+     "options": [
+      "HTTP",
+      "Subcommands, descriptions and a class-based CLI structure",
+      "Encryption",
+      "Tests"
+     ],
+     "answer": 1,
+     "explain": "Like git add / git commit."
+    },
+    {
+     "q": "What exit code signals failure?",
+     "options": [
+      "Non-zero",
+      "0",
+      "Always 1",
+      "nil"
+     ],
+     "answer": 0,
+     "explain": "exit 1."
+    },
+    {
+     "q": "Where should error messages go?",
+     "options": [
+      "Standard error ($stderr)",
+      "A file only",
+      "Standard output",
+      "Nowhere"
+     ],
+     "answer": 0,
+     "explain": "So pipes of stdout stay clean."
+    }
+   ]
+  },
+  "level-3/10-project-rest-api": {
+   "questions": [
+    {
+     "q": "In the REST API project, which HTTP status means 'created'?",
+     "options": [
+      "201",
+      "404",
+      "204",
+      "200"
+     ],
+     "answer": 0,
+     "explain": "Return Location header too."
+    },
+    {
+     "q": "Which status for invalid input?",
+     "options": [
+      "404",
+      "200",
+      "500",
+      "422 (or 400)"
+     ],
+     "answer": 3,
+     "explain": "Return error details."
+    },
+    {
+     "q": "What does idempotent mean for PUT and DELETE?",
+     "options": [
+      "Repeating the request has the same effect as doing it once",
+      "Fast",
+      "Cached",
+      "Secure"
+     ],
+     "answer": 0,
+     "explain": "Design retries around it."
+    },
+    {
+     "q": "Why version your API?",
+     "options": [
+      "Law",
+      "Cache",
+      "So breaking changes do not break existing clients",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "/v1 or headers."
+    }
+   ]
+  },
+  "level-4/01-production-patterns": {
+   "questions": [
+    {
+     "q": "What belongs in environment variables rather than code?",
+     "options": [
+      "Secrets and environment-specific configuration",
+      "Business logic",
+      "Tests",
+      "Docs"
+     ],
+     "answer": 0,
+     "explain": "Twelve-factor style."
+    },
+    {
+     "q": "What is structured logging?",
+     "options": [
+      "Printing prose",
+      "Silent",
+      "Binary",
+      "Writing machine-readable (JSON) log lines with fields"
+     ],
+     "answer": 3,
+     "explain": "Easier to search."
+    },
+    {
+     "q": "Why add health-check endpoints?",
+     "options": [
+      "Law",
+      "SEO",
+      "Orchestrators and load balancers can tell if the app is up",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Separate liveness and readiness."
+    },
+    {
+     "q": "What is graceful shutdown?",
+     "options": [
+      "Ignore",
+      "Kill -9",
+      "Finishing in-flight work on SIGTERM before exiting",
+      "Restart"
+     ],
+     "answer": 2,
+     "explain": "Avoid dropped requests."
+    }
+   ]
+  },
+  "level-4/02-background-jobs": {
+   "questions": [
+    {
+     "q": "Why run work in background jobs?",
+     "options": [
+      "Cache",
+      "Slow work (emails, reports) should not block web requests",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Sidekiq and similar."
+    },
+    {
+     "q": "Why must jobs be idempotent?",
+     "options": [
+      "Retries and duplicate deliveries mean a job can run more than once",
+      "Style",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Use unique keys."
+    },
+    {
+     "q": "What should jobs receive as arguments?",
+     "options": [
+      "Small serialisable IDs, not whole objects",
+      "Procs",
+      "Whole objects",
+      "Connections"
+     ],
+     "answer": 0,
+     "explain": "Reload fresh data inside."
+    },
+    {
+     "q": "What does a retry with backoff do?",
+     "options": [
+      "Waits longer between attempts to avoid hammering a failing service",
+      "Never retry",
+      "Retry instantly",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Cap retries and dead-letter."
+    }
+   ]
+  },
+  "level-4/03-security-best-practices": {
+   "questions": [
+    {
+     "q": "What does SQL injection exploit?",
+     "options": [
+      "Big tables",
+      "Untrusted input concatenated into SQL; use parameters instead",
+      "Slow queries",
+      "Indexes"
+     ],
+     "answer": 1,
+     "explain": "Use placeholders."
+    },
+    {
+     "q": "What is mass assignment risk?",
+     "options": [
+      "Letting users set attributes they should not, such as admin; use strong parameters",
+      "Speed",
+      "Style",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Whitelist fields."
+    },
+    {
+     "q": "How should you store passwords?",
+     "options": [
+      "Hashed with a slow salted algorithm such as bcrypt",
+      "Base64",
+      "MD5",
+      "Plain"
+     ],
+     "answer": 0,
+     "explain": "Never encrypt reversibly."
+    },
+    {
+     "q": "What do you do about vulnerable gems?",
+     "options": [
+      "Run bundler-audit or similar and update",
+      "Pin forever",
+      "Ignore",
+      "Delete Gemfile"
+     ],
+     "answer": 0,
+     "explain": "Automate in CI."
+    }
+   ]
+  },
+  "level-4/04-testing-at-scale-ci": {
+   "questions": [
+    {
+     "q": "What makes CI test runs reliable?",
+     "options": [
+      "Random order only",
+      "Isolated, deterministic tests run in a clean environment",
+      "Shared DB",
+      "Manual runs"
+     ],
+     "answer": 1,
+     "explain": "Flaky tests erode trust."
+    },
+    {
+     "q": "How can you speed up a large test suite?",
+     "options": [
+      "Parallelise, cache dependencies and run affected tests first",
+      "Skip tests",
+      "Add sleeps",
+      "Disable CI"
+     ],
+     "answer": 0,
+     "explain": "Keep feedback fast."
+    },
+    {
+     "q": "What should you do with a flaky test?",
+     "options": [
+      "Fix or quarantine it and track the root cause",
+      "Ignore",
+      "Delete silently",
+      "Rerun forever"
+     ],
+     "answer": 0,
+     "explain": "Time, ordering and external services are common causes."
+    },
+    {
+     "q": "What does a test pyramid recommend?",
+     "options": [
+      "All e2e",
+      "Equal",
+      "Many fast unit tests, fewer integration tests, few end-to-end tests",
+      "No unit"
+     ],
+     "answer": 2,
+     "explain": "Balance cost and confidence."
+    }
+   ]
+  },
+  "level-4/05-deployment-docker": {
+   "questions": [
+    {
+     "q": "Why use a multi-stage Docker build for a Ruby app?",
+     "options": [
+      "Law",
+      "To keep build tools out of the final, smaller image",
+      "Speed only",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Smaller attack surface."
+    },
+    {
+     "q": "Why copy the Gemfile before the rest of the code in a Dockerfile?",
+     "options": [
+      "Style",
+      "Required",
+      "So the bundle install layer is cached until dependencies change",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Layer caching."
+    },
+    {
+     "q": "Which user should the container run as?",
+     "options": [
+      "root",
+      "any",
+      "A non-root user",
+      "admin"
+     ],
+     "answer": 2,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "Where do secrets go for a container?",
+     "options": [
+      "Injected at runtime via environment or secret store, not baked into the image",
+      "In the Dockerfile",
+      "In git",
+      "In the image"
+     ],
+     "answer": 0,
+     "explain": "Images are shareable artefacts."
+    }
+   ]
+  },
+  "level-4/06-performance-at-scale": {
+   "questions": [
+    {
+     "q": "What is usually the first scaling bottleneck of a Rails/Ruby app?",
+     "options": [
+      "Gems",
+      "Logging",
+      "Ruby syntax",
+      "The database (queries and N+1)"
+     ],
+     "answer": 3,
+     "explain": "Fix queries first."
+    },
+    {
+     "q": "What does HTTP caching (ETag) save?",
+     "options": [
+      "CPU only",
+      "Nothing",
+      "Bandwidth and work when the resource has not changed",
+      "Memory"
+     ],
+     "answer": 2,
+     "explain": "304 Not Modified."
+    },
+    {
+     "q": "Why use connection pooling?",
+     "options": [
+      "Style",
+      "Opening database connections is expensive and limited",
+      "Law",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Size the pool to threads."
+    },
+    {
+     "q": "Why measure p95/p99 latency, not just the average?",
+     "options": [
+      "Tail latency is what unhappy users experience",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Averages hide outliers."
+    }
+   ]
+  },
+  "level-4/07-api-design-versioning": {
+   "questions": [
+    {
+     "q": "How should an API communicate breaking changes?",
+     "options": [
+      "Delete old",
+      "Silent change",
+      "New version (path or header) with a deprecation period",
+      "Random"
+     ],
+     "answer": 2,
+     "explain": "Give clients time."
+    },
+    {
+     "q": "What is pagination for?",
+     "options": [
+      "Style",
+      "Returning large collections in pages to limit size and cost",
+      "Cache",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Cursor pagination is stable."
+    },
+    {
+     "q": "What is a good error response?",
+     "options": [
+      "HTML stack trace",
+      "Empty",
+      "200 with error",
+      "A consistent structure with a code, message and details, and the right status"
+     ],
+     "answer": 3,
+     "explain": "Never leak internals."
+    },
+    {
+     "q": "Why rate-limit an API?",
+     "options": [
+      "To protect against abuse and overload",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Return 429 with Retry-After."
+    }
+   ]
+  },
+  "level-4/08-message-queues": {
+   "questions": [
+    {
+     "q": "What do message queues decouple?",
+     "options": [
+      "Gems",
+      "Producers from consumers in time and rate",
+      "Code from tests",
+      "Memory"
+     ],
+     "answer": 1,
+     "explain": "Work buffers when consumers are slow."
+    },
+    {
+     "q": "What does at-least-once delivery imply?",
+     "options": [
+      "Consumers must handle duplicates",
+      "No duplicates",
+      "Exactly once",
+      "Never retry"
+     ],
+     "answer": 0,
+     "explain": "Idempotency again."
+    },
+    {
+     "q": "What is a dead-letter queue?",
+     "options": [
+      "Where messages go after repeated failures for inspection",
+      "Trash",
+      "Log",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "Alert on it."
+    },
+    {
+     "q": "Why ack a message only after processing succeeds?",
+     "options": [
+      "Law",
+      "Style",
+      "So a crash redelivers it instead of losing it",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Ack late."
+    }
+   ]
+  },
+  "level-4/09-code-quality-rubocop": {
+   "questions": [
+    {
+     "q": "What does RuboCop do?",
+     "options": [
+      "Compiles",
+      "Runs tests",
+      "Deploys",
+      "Checks style and common mistakes against configurable cops"
+     ],
+     "answer": 3,
+     "explain": "Run in CI."
+    },
+    {
+     "q": "What is auto-correct (-a) good for?",
+     "options": [
+      "Nothing",
+      "Deploys",
+      "Safe style fixes; review the diff",
+      "Everything"
+     ],
+     "answer": 2,
+     "explain": "-A includes unsafe cops."
+    },
+    {
+     "q": "Why agree a team style config?",
+     "options": [
+      "Style only",
+      "Law",
+      "Speed",
+      "Consistent code reduces review noise"
+     ],
+     "answer": 3,
+     "explain": "Commit .rubocop.yml."
+    },
+    {
+     "q": "Should you disable cops everywhere that annoy you?",
+     "options": [
+      "Never",
+      "Randomly",
+      "Disable narrowly with a reason, preferably in config",
+      "Yes all"
+     ],
+     "answer": 2,
+     "explain": "Avoid blanket rubocop:disable."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What is the capstone's aim?",
+     "options": [
+      "A gem only",
+      "Combine API, persistence, tests, jobs, security and deployment into one production-style project",
+      "A toy",
+      "A script"
+     ],
+     "answer": 1,
+     "explain": "Prove readiness."
+    },
+    {
+     "q": "What should the README include?",
+     "options": [
+      "Setup, run, test, deploy steps and design decisions",
+      "Nothing",
+      "Only licence",
+      "Only logo"
+     ],
+     "answer": 0,
+     "explain": "Reviewers start there."
+    },
+    {
+     "q": "What is a good definition of done?",
+     "options": [
+      "Looks fine",
+      "It runs on my machine",
+      "Compiles",
+      "Tests pass in CI, lint is clean and it deploys from a clean checkout"
+     ],
+     "answer": 3,
+     "explain": "Reproducible."
+    },
+    {
+     "q": "Why add monitoring and logs to the capstone?",
+     "options": [
+      "Style",
+      "Law",
+      "To see failures and performance in production",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "You cannot fix what you cannot see."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```ruby\nh = Hash.new(0)\n'banana'.each_char { |c| h[c] += 1 }\nputs h.inspect\nputs h.max_by { |_, v| v }.first\n```\n",
+    "options": [
+     "{\"b\" => 1, \"a\" => 3, \"n\" => 2}\na",
+     "{\"b\" => 1, \"a\" => 3, \"n\" => 2}\nn",
+     "{b: 1, a: 3, n: 2}\na",
+     "{\"a\" => 3, \"n\" => 2, \"b\" => 1}\na"
+    ],
+    "answer": 0,
+    "explain": "Hash.new(0) supplies a default of 0 for missing keys; insertion order is kept. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```ruby\nputs [1, 2, 3].each_with_object([]) { |x, memo| memo << x * x }.inspect\nputs (1..4).inject(:*)\nputs [[1, 2], [3, 4]].to_h { |a, b| [a, b * 2] }.inspect\n```\n",
+    "options": [
+     "[1, 4, 9]\n24\n[[1, 4], [3, 8]]",
+     "[1, 2, 3]\n24\n{1 => 2, 3 => 4}",
+     "[1, 4, 9]\n24\n{1 => 4, 3 => 8}",
+     "[1, 4, 9]\n10\n{1 => 4, 3 => 8}"
+    ],
+    "answer": 2,
+    "explain": "each_with_object returns the memo; inject(:*) multiplies; to_h with a block builds a hash. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```ruby\ndef f\n  yield 1, 2\nend\nf { |a| puts a.inspect }\nf { |a, b| puts [a, b].inspect }\nf { |*all| puts all.inspect }\npr = proc { |a, b| [a, b] }\nputs pr.call([5, 6]).inspect\n```\n",
+    "options": [
+     "[1, 2]\n[1, 2]\n[1, 2]\n[5, 6]",
+     "1\n[1, 2]\n[1, 2]\n[[5, 6], nil]",
+     "1\n[1, 2]\n[1, 2]\n[5, 6]",
+     "1\n[1, 2]\n[[1, 2]]\n[5, 6]"
+    ],
+    "answer": 2,
+    "explain": "Blocks and procs are lenient: extra args are dropped and a single array is destructured. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```ruby\nmodule Loud\n  def speak = super.upcase\nend\nclass Animal\n  def speak = 'hi'\nend\nclass Dog < Animal\n  prepend Loud\n  def speak = 'woof'\nend\nputs Dog.new.speak\nputs Dog.ancestors.first(3).inspect\n```\n",
+    "options": [
+     "HI\n[Loud, Dog, Animal]",
+     "WOOF\n[Loud, Dog, Animal]",
+     "woof\n[Dog, Loud, Animal]",
+     "WOOF\n[Dog, Loud, Animal]"
+    ],
+    "answer": 1,
+    "explain": "prepend puts the module in front of the class so it wraps the class's own method. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```ruby\nclass Money\n  include Comparable\n  attr_reader :cents\n  def initialize(c) = @cents = c\n  def <=>(o) = cents <=> o.cents\n  def to_s = format('$%.2f', cents / 100.0)\nend\na, b = Money.new(500), Money.new(1250)\nputs a < b, [b, a].min, a.clamp(b, b), a == Money.new(500)\n```\n",
+    "options": [
+     "true\n$5.00\n$12.50\ntrue",
+     "true\n$12.50\n$12.50\ntrue",
+     "true\n$5.00\n$5.00\nfalse",
+     "false\n$5.00\n$12.50\ntrue"
+    ],
+    "answer": 0,
+    "explain": "Comparable derives <, min, clamp and == from <=>. Verified by compiling and running it."
+   },
+   {
+    "q": "A method has a bare `rescue` and a typo inside the begin block. What goes wrong?",
+    "options": [
+     "It is faster",
+     "The NameError or NoMethodError is swallowed and hidden; rescue specific errors",
+     "Nothing",
+     "Ruby warns"
+    ],
+    "answer": 1,
+    "explain": "A bare rescue catches StandardError, which includes typos."
+   },
+   {
+    "q": "Why should a custom error inherit from StandardError, not Exception?",
+    "options": [
+     "Law",
+     "Style",
+     "A bare rescue only catches StandardError; Exception also covers exit and interrupts",
+     "Speed"
+    ],
+    "answer": 2,
+    "explain": "Rescuing Exception can trap Ctrl-C."
+   },
+   {
+    "q": "What does Bundler's Gemfile.lock guarantee?",
+    "options": [
+     "Faster Ruby",
+     "Every machine installs the same gem versions",
+     "Newest versions",
+     "No dependencies"
+    ],
+    "answer": 1,
+    "explain": "Commit it for applications."
+   },
+   {
+    "q": "What is the N+1 query problem and its Rails fix?",
+    "options": [
+     "Deadlock; lock",
+     "Slow index; add one",
+     "Big payload; paginate",
+     "One query for a list plus one per item; use includes/preload"
+    ],
+    "answer": 3,
+    "explain": "Eager loading."
+   },
+   {
+    "q": "How do you store passwords in a Ruby app?",
+    "options": [
+     "Plain text",
+     "bcrypt (or argon2) hashes with salt, never reversible encryption",
+     "Base64",
+     "MD5"
+    ],
+    "answer": 1,
+    "explain": "has_secure_password uses bcrypt."
+   },
+   {
+    "q": "What is the safe way to put user input in an SQL query?",
+    "options": [
+     "Trust it",
+     "Interpolate",
+     "Bind parameters or the ORM's placeholders, never string interpolation",
+     "Escape manually"
+    ],
+    "answer": 2,
+    "explain": "Prevents SQL injection."
+   },
+   {
+    "q": "Why make background jobs idempotent?",
+    "options": [
+     "Retries and duplicates mean a job may run more than once",
+     "Speed",
+     "Law",
+     "Style"
+    ],
+    "answer": 0,
+    "explain": "Use unique keys or check state first."
+   },
+   {
+    "q": "What does GVL mean for CRuby threads?",
+    "options": [
+     "All parallel",
+     "Threads crash",
+     "No threads",
+     "Only one thread runs Ruby code at a time, though threads can overlap I/O waits"
+    ],
+    "answer": 3,
+    "explain": "Use processes or Ractors for CPU parallelism."
+   },
+   {
+    "q": "Which structure protects a shared counter from a race condition?",
+    "options": [
+     "Nothing",
+     "A Mutex around the read-modify-write",
+     "sleep",
+     "A string"
+    ],
+    "answer": 1,
+    "explain": "synchronize."
+   },
+   {
+    "q": "Why run containers as a non-root user?",
+    "options": [
+     "It limits damage if the app is compromised",
+     "Speed",
+     "Style",
+     "Law"
+    ],
+    "answer": 0,
+    "explain": "Least privilege."
+   },
+   {
+    "q": "What HTTP status fits 'validation failed' in an API?",
+    "options": [
+     "200",
+     "500",
+     "404",
+     "422 (or 400) with error details"
+    ],
+    "answer": 3,
+    "explain": "Be consistent."
+   },
+   {
+    "q": "What does RuboCop do in CI?",
+    "options": [
+     "Runs tests",
+     "Fails the build on style and common-mistake violations",
+     "Deploys",
+     "Compiles"
+    ],
+    "answer": 1,
+    "explain": "Keeps reviews about design."
+   },
+   {
+    "q": "What does at-least-once message delivery require of a consumer?",
+    "options": [
+     "Single thread",
+     "Idempotent handling of duplicates",
+     "Nothing",
+     "No acks"
+    ],
+    "answer": 1,
+    "explain": "Ack after processing."
+   },
+   {
+    "q": "Which is a good definition of done for the capstone?",
+    "options": [
+     "Pushed",
+     "Compiles",
+     "Works locally",
+     "Tests pass in CI, lint is clean and it deploys from a clean checkout"
+    ],
+    "answer": 3,
+    "explain": "Reproducibility is the proof."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Word frequency report",
+    "prompt": "Implement words, top and report so the script prints a stop-word-filtered frequency chart. Ties are broken alphabetically and an empty text must not crash.",
+    "starter": "TEXT = <<~T\n  The quick brown fox jumps over the lazy dog. The dog barks; the fox runs!\n  A quick reply: the fox is quick, the dog is lazy.\nT\nSTOP = %w[the a is over].freeze\n\n# TODO: words(text)   -> lowercase words (letters and apostrophes only), stop words removed\n# TODO: top(text, n)  -> the n most frequent [word, count] pairs, ties broken alphabetically\n# TODO: report(text, n) -> lines like \"dog   ### 3\": word padded to the widest word, one # per count, then the count\n\nputs \"words: #{words(TEXT).size}, unique: #{words(TEXT).uniq.size}\"\nputs report(TEXT, 4)\nputs top('', 3).inspect\n",
+    "expected": "words: 16, unique: 9\ndog   ### 3\nfox   ### 3\nquick ### 3\nlazy  ## 2\n[]",
+    "solution": "TEXT = <<~T\n  The quick brown fox jumps over the lazy dog. The dog barks; the fox runs!\n  A quick reply: the fox is quick, the dog is lazy.\nT\nSTOP = %w[the a is over].freeze\n\ndef words(text)\n  text.downcase.scan(/[a-z']+/).reject { |w| STOP.include?(w) }\nend\n\ndef top(text, n)\n  words(text).tally.sort_by { |w, c| [-c, w] }.first(n)\nend\n\ndef report(text, n)\n  rows = top(text, n)\n  width = rows.map { |w, _| w.length }.max\n  rows.map { |w, c| format(\"%-#{width}s %s %d\", w, '#' * c, c) }\nend\n\nputs \"words: #{words(TEXT).size}, unique: #{words(TEXT).uniq.size}\"\nputs report(TEXT, 4)\nputs top('', 3).inspect\n",
+    "explain": "scan with a regex extracts words, tally counts them and sort_by with [-count, word] gives a stable ranking. Verified by running the solution with Ruby 4."
+   },
+   {
+    "title": "A Retrier with exponential backoff",
+    "prompt": "Implement Retrier so transient failures are retried with exponentially growing waits, permanent failures are not retried and the log always records the number of attempts. The sleeper is injected so no real time passes.",
+    "starter": "class TransientError < StandardError; end\nclass PermanentError < StandardError; end\n\n# TODO: class Retrier with attr_reader :log\n#   initialize(max: 4, base: 0.5, sleeper: lambda that logs \"sleep <seconds>\")\n#   run { |attempt| ... } retries only TransientError, waiting base * 2**(attempt-1) between tries,\n#   re-raises after max attempts, logs PermanentError (\"permanent: msg\") without retrying,\n#   and always logs \"done after <attempts>\" in ensure. Logs \"attempt N failed: msg\" and \"ok on attempt N\".\n\nr = Retrier.new\nv = r.run { |n| n < 3 ? raise(TransientError, \"boom#{n}\") : \"value\" }\nputs v, r.log\nr2 = Retrier.new(max: 2)\nbegin\n  r2.run { |n| raise TransientError, \"down\" }\nrescue TransientError => e\n  puts \"gave up: #{e.message}\"\nend\nputs r2.log\nr3 = Retrier.new\nbegin\n  r3.run { raise PermanentError, \"bad input\" }\nrescue PermanentError\n  puts r3.log\nend\n",
+    "expected": "value\nattempt 1 failed: boom1\nsleep 0.5\nattempt 2 failed: boom2\nsleep 1.0\nok on attempt 3\ndone after 3\ngave up: down\nattempt 1 failed: down\nsleep 0.5\nattempt 2 failed: down\ndone after 2\npermanent: bad input\ndone after 1",
+    "solution": "class TransientError < StandardError; end\nclass PermanentError < StandardError; end\n\nclass Retrier\n  attr_reader :log\n\n  def initialize(max: 4, base: 0.5, sleeper: ->(s) { @log << \"sleep #{s}\" })\n    @max, @base, @sleeper, @log = max, base, sleeper, []\n  end\n\n  def run\n    attempt = 0\n    begin\n      attempt += 1\n      result = yield attempt\n      @log << \"ok on attempt #{attempt}\"\n      result\n    rescue TransientError => e\n      @log << \"attempt #{attempt} failed: #{e.message}\"\n      raise if attempt >= @max\n      @sleeper.call(@base * 2**(attempt - 1))\n      retry\n    rescue PermanentError => e\n      @log << \"permanent: #{e.message}\"\n      raise\n    ensure\n      @log << \"done after #{attempt}\"\n    end\n  end\nend\n\nr = Retrier.new\nv = r.run { |n| n < 3 ? raise(TransientError, \"boom#{n}\") : \"value\" }\nputs v, r.log\nr2 = Retrier.new(max: 2)\nbegin\n  r2.run { |n| raise TransientError, \"down\" }\nrescue TransientError => e\n  puts \"gave up: #{e.message}\"\nend\nputs r2.log\nr3 = Retrier.new\nbegin\n  r3.run { raise PermanentError, \"bad input\" }\nrescue PermanentError\n  puts r3.log\nend\n",
+    "explain": "retry re-runs the begin block, the injected sleeper keeps the test deterministic, and ensure records the final attempt count once. Verified by running the solution with Ruby 4."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
