@@ -1,0 +1,2159 @@
+{
+ "course": "server-ops-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-server-basics-ssh-access": {
+   "questions": [
+    {
+     "q": "Which SSH authentication method is preferred over passwords on servers?",
+     "options": [
+      "A shared password",
+      "Public-key authentication with a protected private key",
+      "Telnet",
+      "Anonymous login"
+     ],
+     "answer": 1,
+     "explain": "Keys resist guessing and can be revoked per user."
+    },
+    {
+     "q": "What does ssh-copy-id do?",
+     "options": [
+      "Opens a tunnel",
+      "Appends your public key to the remote user's ~/.ssh/authorized_keys",
+      "Generates a key",
+      "Copies your private key"
+     ],
+     "answer": 1,
+     "explain": "Never share the private key."
+    },
+    {
+     "q": "What permission bits (octal) do these produce?\n```bash\ntouch f; chmod 600 f; stat -c %a f 2>/dev/null || stat -f %Lp f\nchmod u+x,g-r f; stat -c %a f 2>/dev/null || stat -f %Lp f\n```\n",
+     "options": [
+      "600\n600",
+      "600\n700",
+      "644\n744",
+      "400\n500"
+     ],
+     "answer": 1,
+     "explain": "chmod 600 leaves rw for the owner only; adding u+x gives 700 and removing group read changes nothing. Verified by running it in bash."
+    },
+    {
+     "q": "Which file must have strict permissions or ssh refuses to use it?",
+     "options": [
+      "The private key (for example mode 600)",
+      "motd",
+      "known_hosts",
+      "hosts"
+     ],
+     "answer": 0,
+     "explain": "Keep ~/.ssh at 700."
+    }
+   ]
+  },
+  "level-1/02-initial-hardening-checklist": {
+   "questions": [
+    {
+     "q": "Which sshd setting stops direct root login?",
+     "options": [
+      "PermitRootLogin no",
+      "PermitEmptyPasswords yes",
+      "Port 22",
+      "X11Forwarding yes"
+     ],
+     "answer": 0,
+     "explain": "Use a normal user with sudo."
+    },
+    {
+     "q": "Why disable password authentication after keys work?",
+     "options": [
+      "It removes the brute-force password attack surface",
+      "Law",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Test key login in a second session before closing the first."
+    },
+    {
+     "q": "What is the first thing to do on a fresh server?",
+     "options": [
+      "Open all ports",
+      "Apply updates, create a non-root admin user and secure SSH",
+      "Disable logs",
+      "Install games"
+     ],
+     "answer": 1,
+     "explain": "Harden before exposing services."
+    },
+    {
+     "q": "What does a host firewall such as ufw or nftables do?",
+     "options": [
+      "Encrypts data",
+      "Allows only the needed inbound ports and blocks the rest",
+      "Backs up",
+      "Updates packages"
+     ],
+     "answer": 1,
+     "explain": "Default deny."
+    }
+   ]
+  },
+  "level-1/03-package-management": {
+   "questions": [
+    {
+     "q": "What does apt update do compared with apt upgrade?",
+     "options": [
+      "upgrade refreshes lists",
+      "update refreshes package lists; upgrade installs newer versions",
+      "Same",
+      "update installs"
+     ],
+     "answer": 1,
+     "explain": "Run update first."
+    },
+    {
+     "q": "Why pin or hold critical package versions in production?",
+     "options": [
+      "To avoid unplanned behaviour changes during automatic upgrades",
+      "Law",
+      "Colour",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Upgrade deliberately, tested in staging."
+    },
+    {
+     "q": "What does a package manager verify when installing?",
+     "options": [
+      "Signatures of packages from configured repositories",
+      "Nothing",
+      "Prices",
+      "Names"
+     ],
+     "answer": 0,
+     "explain": "Only add trusted repos."
+    },
+    {
+     "q": "What is the safest way to install software on a server?",
+     "options": [
+      "Pastebin",
+      "Any zip",
+      "Random scripts",
+      "From the distribution or a vendor's signed repository, not curl | sh from unknown sources"
+     ],
+     "answer": 3,
+     "explain": "Verify what you run as root."
+    }
+   ]
+  },
+  "level-1/04-process-management-systemd": {
+   "questions": [
+    {
+     "q": "What does systemctl enable myapp do?",
+     "options": [
+      "Configures the service to start at boot",
+      "Reloads",
+      "Stops it",
+      "Starts now"
+     ],
+     "answer": 0,
+     "explain": "Use --now to also start it."
+    },
+    {
+     "q": "What does Restart=on-failure in a unit file do?",
+     "options": [
+      "Never restarts",
+      "Restarts the service if it exits with an error",
+      "Reboots",
+      "Restarts always"
+     ],
+     "answer": 1,
+     "explain": "Add RestartSec to avoid tight loops."
+    },
+    {
+     "q": "Which commands show why a service failed?",
+     "options": [
+      "systemctl status myapp and journalctl -u myapp",
+      "ls",
+      "top",
+      "ps"
+     ],
+     "answer": 0,
+     "explain": "Logs live in the journal."
+    },
+    {
+     "q": "Why run a service as a dedicated non-root user?",
+     "options": [
+      "Speed",
+      "Law",
+      "Colour",
+      "Limits damage if the process is compromised"
+     ],
+     "answer": 3,
+     "explain": "User= in the unit file."
+    }
+   ]
+  },
+  "level-1/05-basic-networking-concepts": {
+   "questions": [
+    {
+     "q": "What is the difference between TCP and UDP?",
+     "options": [
+      "TCP is reliable and connection-oriented; UDP is connectionless without delivery guarantees",
+      "TCP is faster always",
+      "UDP is reliable",
+      "No difference"
+     ],
+     "answer": 0,
+     "explain": "DNS often uses UDP; HTTP uses TCP."
+    },
+    {
+     "q": "How many usable host addresses does a /24 IPv4 network have?\n```python\nprint(2**(32-24)-2)\n```\n",
+     "options": [
+      "254",
+      "255",
+      "24",
+      "256"
+     ],
+     "answer": 0,
+     "explain": "256 addresses minus network and broadcast. Verified by running it."
+    },
+    {
+     "q": "What port does HTTPS use by default?",
+     "options": [
+      "443",
+      "8080",
+      "22",
+      "80"
+     ],
+     "answer": 0,
+     "explain": "HTTP is 80, SSH is 22."
+    },
+    {
+     "q": "What does DNS do?",
+     "options": [
+      "Caches pages",
+      "Translates names to IP addresses",
+      "Routes",
+      "Encrypts"
+     ],
+     "answer": 1,
+     "explain": "A, AAAA and CNAME records."
+    }
+   ]
+  },
+  "level-1/06-build-deploy-script": {
+   "questions": [
+    {
+     "q": "What does this deploy-script fragment print?\n```bash\nset -eu\nrelease=app-v1\nfor step in build test ship; do echo \"step: $step\"; done\nname=${1:-world}\necho \"hello ${name} ${release#app-}\"\n```\n",
+     "options": [
+      "step: build\nstep: test\nstep: ship\nhello  v1",
+      "hello world app-v1",
+      "step: build\nhello world v1",
+      "step: build\nstep: test\nstep: ship\nhello world v1"
+     ],
+     "answer": 3,
+     "explain": "${1:-world} supplies a default; ${var#prefix} strips a prefix. Verified by running it in bash."
+    },
+    {
+     "q": "What does set -e do here?\n```bash\nset -e\necho one\nfalse\necho two\necho three\n```\n",
+     "options": [
+      "one\ntwo\nthree",
+      "three",
+      "one\ntwo",
+      "one"
+     ],
+     "answer": 3,
+     "explain": "set -e exits at the first failing command, so two and three never print. Verified by running it in bash."
+    },
+    {
+     "q": "Why make deploy scripts idempotent?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Law",
+      "Re-running them after a partial failure must leave the system in the same correct state"
+     ],
+     "answer": 3,
+     "explain": "Check before create; use mkdir -p, ln -sfn."
+    },
+    {
+     "q": "Why use set -euo pipefail at the top of a script?",
+     "options": [
+      "Colour",
+      "Law",
+      "Speed",
+      "Stop on errors, undefined variables and failed pipeline stages instead of continuing silently"
+     ],
+     "answer": 3,
+     "explain": "Fail fast."
+    }
+   ]
+  },
+  "level-1/07-environment-variables-config": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\nexport APP_PORT=8080\nenv_file=$(mktemp)\nprintf 'DB_HOST=db1\\nDB_PORT=5432\\n' > $env_file\nset -a; . $env_file; set +a\necho \"$DB_HOST:$DB_PORT $APP_PORT\"\necho \"${MISSING:-default}\"\n```\n",
+     "options": [
+      "db1:5432 8080\ndefault",
+      "db1 8080\ndefault",
+      "db1:5432\ndefault",
+      "db1:5432 8080\nMISSING"
+     ],
+     "answer": 0,
+     "explain": "set -a exports sourced variables; ${VAR:-x} supplies a fallback. Verified by running it in bash."
+    },
+    {
+     "q": "Where should secrets never be stored?",
+     "options": [
+      "Root-only files",
+      "In version control",
+      "An env file with strict permissions",
+      "A secrets manager"
+     ],
+     "answer": 1,
+     "explain": "Use secret stores or protected files."
+    },
+    {
+     "q": "What is the twelve-factor guidance on config?",
+     "options": [
+      "Store config in the environment, separate from code",
+      "In the image",
+      "In code",
+      "In git"
+     ],
+     "answer": 0,
+     "explain": "Same artifact for every environment."
+    },
+    {
+     "q": "Why not print environment variables in logs?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Law",
+      "They may contain secrets"
+     ],
+     "answer": 3,
+     "explain": "Log keys, not values."
+    }
+   ]
+  },
+  "level-1/08-log-basics": {
+   "questions": [
+    {
+     "q": "Where do systemd services typically log?",
+     "options": [
+      "To the journal, viewed with journalctl",
+      "Nowhere",
+      "Email",
+      "Only /dev/null"
+     ],
+     "answer": 0,
+     "explain": "Some also write to /var/log."
+    },
+    {
+     "q": "Which command follows a service's logs live?",
+     "options": [
+      "journalctl -u myapp -f",
+      "tail -d",
+      "cat",
+      "logs --live"
+     ],
+     "answer": 0,
+     "explain": "Like tail -f."
+    },
+    {
+     "q": "What does log rotation do?",
+     "options": [
+      "Sorts",
+      "Archives and compresses old logs and starts new ones so disks do not fill",
+      "Deletes all",
+      "Encrypts"
+     ],
+     "answer": 1,
+     "explain": "logrotate."
+    },
+    {
+     "q": "What does this print?\n```bash\nprintf 'INFO ok\\nERROR bad\\nINFO ok\\nERROR worse\\n' | grep -c ERROR\nprintf 'a\\nb\\na\\n' | sort | uniq -c | sort -rn | head -1 | awk '{print $1, $2}'\n```\n",
+     "options": [
+      "2\n2 a",
+      "2\n1 b",
+      "2\n3 a",
+      "4\n1 a"
+     ],
+     "answer": 0,
+     "explain": "grep -c counts matching lines; uniq -c prefixes counts. Verified by running it in bash."
+    }
+   ]
+  },
+  "level-1/09-cron-scheduled-tasks": {
+   "questions": [
+    {
+     "q": "Which of these five-field schedules means 'at 02:30 every day'? (prints the matching hour:minute fields)\n```bash\necho '30 2 * * *' | awk '{printf \"minute=%s hour=%s\\n\", $1, $2}'\n```\n",
+     "options": [
+      "minute=2 hour=30",
+      "minute=30 hour=2",
+      "minute=30 hour=*",
+      "minute=* hour=*"
+     ],
+     "answer": 1,
+     "explain": "The fields are minute, hour, day of month, month, day of week. Verified by running it in bash."
+    },
+    {
+     "q": "What does */15 in the minute field mean?",
+     "options": [
+      "At minute 15",
+      "15 times",
+      "Every hour",
+      "Every 15 minutes"
+     ],
+     "answer": 3,
+     "explain": "Step values."
+    },
+    {
+     "q": "Why do cron jobs often fail when copied from a terminal?",
+     "options": [
+      "Cron runs with a minimal environment, so use absolute paths and set variables",
+      "Cron is buggy",
+      "Cron is slow",
+      "Cron needs root"
+     ],
+     "answer": 0,
+     "explain": "Redirect output to a log."
+    },
+    {
+     "q": "How do you prevent overlapping runs of a long cron job?",
+     "options": [
+      "Reboot",
+      "Run more often",
+      "Ignore",
+      "Use a lock (flock) so a new run exits if the old one is still running"
+     ],
+     "answer": 3,
+     "explain": "Avoid pile-ups."
+    }
+   ]
+  },
+  "level-1/10-capstone-bootstrap-script": {
+   "questions": [
+    {
+     "q": "What is the purpose of the bootstrap capstone script?",
+     "options": [
+      "Harden a fresh server and stand up a web stack repeatably and idempotently",
+      "Demo",
+      "One-off hack",
+      "Backup"
+     ],
+     "answer": 0,
+     "explain": "Automation beats hand typing."
+    },
+    {
+     "q": "Which command is idempotent when run twice?\n```bash\nd=$(mktemp -d)\nmkdir -p $d/a/b\nmkdir -p $d/a/b && echo ok1\nln -sfn $d/a $d/cur && ln -sfn $d/a $d/cur && echo ok2\n```\n",
+     "options": [
+      "ok2",
+      "ok1\nok2",
+      "ok1",
+      "Error"
+     ],
+     "answer": 1,
+     "explain": "mkdir -p and ln -sfn can be run repeatedly. Verified by running it in bash."
+    },
+    {
+     "q": "Why validate SSH config before restarting sshd?",
+     "options": [
+      "Speed",
+      "Law",
+      "Colour",
+      "A broken config can lock you out; use sshd -t"
+     ],
+     "answer": 3,
+     "explain": "Keep a second session open."
+    },
+    {
+     "q": "What belongs in the script output?",
+     "options": [
+      "Secrets",
+      "Clear steps and failures, never secrets",
+      "Everything",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Helps debugging."
+    }
+   ]
+  },
+  "level-2/01-reverse-proxies-nginx": {
+   "questions": [
+    {
+     "q": "What does a reverse proxy do?",
+     "options": [
+      "Accepts client requests and forwards them to backend servers",
+      "Caches DNS",
+      "Hides clients",
+      "Encrypts disks"
+     ],
+     "answer": 0,
+     "explain": "nginx in front of an app."
+    },
+    {
+     "q": "Why put nginx in front of an application server?",
+     "options": [
+      "Law",
+      "Colour",
+      "Speed only",
+      "TLS termination, static files, buffering and load balancing"
+     ],
+     "answer": 3,
+     "explain": "Offloads work."
+    },
+    {
+     "q": "What does proxy_set_header X-Forwarded-For $remote_addr do?",
+     "options": [
+      "Encrypts",
+      "Blocks",
+      "Passes the original client address to the backend",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Otherwise the backend sees the proxy's IP."
+    },
+    {
+     "q": "What command checks an nginx config before reload?",
+     "options": [
+      "nginx -r",
+      "nginx test",
+      "nginx -t",
+      "nginx check"
+     ],
+     "answer": 2,
+     "explain": "Then reload without dropping connections."
+    }
+   ]
+  },
+  "level-2/02-tls-ssl-certs": {
+   "questions": [
+    {
+     "q": "What does a TLS certificate prove?",
+     "options": [
+      "Data is private",
+      "Server is safe",
+      "That the server controls the domain, as vouched for by a trusted CA",
+      "Code is good"
+     ],
+     "answer": 2,
+     "explain": "It authenticates identity, with encryption."
+    },
+    {
+     "q": "What does certbot do?",
+     "options": [
+      "Backs up",
+      "Obtains and renews Let's Encrypt certificates",
+      "Monitors",
+      "Writes code"
+     ],
+     "answer": 1,
+     "explain": "Automate renewal."
+    },
+    {
+     "q": "Why must you test certificate renewal?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Expired certificates cause outages",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "certbot renew --dry-run."
+    },
+    {
+     "q": "How long do Let's Encrypt certificates last?",
+     "options": [
+      "10 years",
+      "About 90 days, so renewal must be automatic",
+      "1 day",
+      "1 year"
+     ],
+     "answer": 1,
+     "explain": "Short lifetimes limit exposure."
+    }
+   ]
+  },
+  "level-2/03-load-balancing-basics": {
+   "questions": [
+    {
+     "q": "What is the aim of a load balancer?",
+     "options": [
+      "Hide IPs",
+      "Cache DNS",
+      "Distribute requests across healthy backends",
+      "Compress"
+     ],
+     "answer": 2,
+     "explain": "Improves capacity and availability."
+    },
+    {
+     "q": "Round-robin across 3 backends: which backend index (0-based) serves request number 10 (starting at request 0)?\n```python\nprint(10 % 3)\n```\n",
+     "options": [
+      "2",
+      "3",
+      "0",
+      "1"
+     ],
+     "answer": 3,
+     "explain": "Index = request number modulo backend count. Verified by running it."
+    },
+    {
+     "q": "What do health checks do?",
+     "options": [
+      "Remove failing backends from rotation",
+      "Encrypt",
+      "Add servers",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "Active or passive."
+    },
+    {
+     "q": "What is sticky sessions risk?",
+     "options": [
+      "Speed",
+      "None",
+      "Law",
+      "Uneven load and lost sessions when a backend dies"
+     ],
+     "answer": 3,
+     "explain": "Prefer stateless apps or shared session stores."
+    }
+   ]
+  },
+  "level-2/04-environment-based-deployment": {
+   "questions": [
+    {
+     "q": "What does 'build once, deploy many' mean?",
+     "options": [
+      "Copy files",
+      "The same artifact is promoted from staging to production; only configuration differs",
+      "Rebuild each time",
+      "Different code"
+     ],
+     "answer": 1,
+     "explain": "Avoid 'works in staging' surprises."
+    },
+    {
+     "q": "Where should environment differences live?",
+     "options": [
+      "Tests",
+      "In configuration (environment variables or files), not in code",
+      "Code branches",
+      "Binaries"
+     ],
+     "answer": 1,
+     "explain": "Same artifact everywhere."
+    },
+    {
+     "q": "What should staging resemble?",
+     "options": [
+      "Production in topology and configuration, with safe data",
+      "A laptop",
+      "Another app",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Realism finds problems."
+    },
+    {
+     "q": "Why tag artifacts with the git SHA?",
+     "options": [
+      "Law",
+      "Speed",
+      "Traceability: know exactly what is running",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Rollback by SHA."
+    }
+   ]
+  },
+  "level-2/05-zero-downtime-deploy": {
+   "questions": [
+    {
+     "q": "What is a zero-downtime deploy?",
+     "options": [
+      "Silent deploy",
+      "Fast deploy",
+      "Replacing the running version without dropping requests",
+      "Night deploy"
+     ],
+     "answer": 2,
+     "explain": "Start new, check health, switch, drain old."
+    },
+    {
+     "q": "Why drain connections before stopping the old process?",
+     "options": [
+      "Colour",
+      "In-flight requests can finish",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Graceful shutdown."
+    },
+    {
+     "q": "What breaks zero-downtime database changes?",
+     "options": [
+      "Logs",
+      "Backups",
+      "Indexes",
+      "Non-backward-compatible schema changes"
+     ],
+     "answer": 3,
+     "explain": "Use expand/contract migrations."
+    },
+    {
+     "q": "What is a rolling deploy?",
+     "options": [
+      "Blue-green",
+      "All at once",
+      "Updating instances in small batches behind a load balancer",
+      "One only"
+     ],
+     "answer": 2,
+     "explain": "Capacity must cover the batch."
+    }
+   ]
+  },
+  "level-2/06-secrets-config-management": {
+   "questions": [
+    {
+     "q": "Where do secrets belong?",
+     "options": [
+      "In images",
+      "In git",
+      "In code",
+      "In a secrets manager or protected file deployed out of band, never in git"
+     ],
+     "answer": 3,
+     "explain": "Rotate regularly."
+    },
+    {
+     "q": "What should you do if a secret leaks to git?",
+     "options": [
+      "Ignore",
+      "Force push",
+      "Rotate it immediately; removing the commit is not enough",
+      "Delete the commit"
+     ],
+     "answer": 2,
+     "explain": "Assume it is compromised."
+    },
+    {
+     "q": "What does least privilege mean for secrets?",
+     "options": [
+      "Each service gets only the credentials it needs",
+      "Root",
+      "None",
+      "One shared key"
+     ],
+     "answer": 0,
+     "explain": "Limits blast radius."
+    },
+    {
+     "q": "Why rotate secrets?",
+     "options": [
+      "Limits the window an exposed secret is useful",
+      "Speed",
+      "Law",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Automate where possible."
+    }
+   ]
+  },
+  "level-2/07-cicd-pipeline-basics": {
+   "questions": [
+    {
+     "q": "What is continuous integration?",
+     "options": [
+      "Merging changes frequently with automated build and tests",
+      "Planning",
+      "Deploying",
+      "Monitoring"
+     ],
+     "answer": 0,
+     "explain": "Fast feedback."
+    },
+    {
+     "q": "What does a pipeline stage failing do?",
+     "options": [
+      "Stops the pipeline so broken builds do not progress",
+      "Skips",
+      "Continues",
+      "Deploys"
+     ],
+     "answer": 0,
+     "explain": "Gates protect production."
+    },
+    {
+     "q": "Why keep secrets out of pipeline logs?",
+     "options": [
+      "Law",
+      "Colour",
+      "Speed",
+      "Logs are widely readable"
+     ],
+     "answer": 3,
+     "explain": "Use masked secrets."
+    },
+    {
+     "q": "What should production deploys require?",
+     "options": [
+      "Nothing",
+      "Luck",
+      "Speed",
+      "Passing tests and, for sensitive systems, an approval step"
+     ],
+     "answer": 3,
+     "explain": "Protect with environments."
+    }
+   ]
+  },
+  "level-2/08-basic-monitoring": {
+   "questions": [
+    {
+     "q": "Which three resources are the classic ones to watch?",
+     "options": [
+      "Colour",
+      "Fonts",
+      "CPU, memory and disk (plus network)",
+      "Titles"
+     ],
+     "answer": 2,
+     "explain": "Disk filling silently kills servers."
+    },
+    {
+     "q": "A disk is 400 GB, uses 300 GB and grows 5 GB/day. How many days until it is full?\n```python\nprint((400-300)/5)\n```\n",
+     "options": [
+      "5.0",
+      "60.0",
+      "80.0",
+      "20.0"
+     ],
+     "answer": 3,
+     "explain": "Alert on fill-rate, not just percent used. Verified by running it."
+    },
+    {
+     "q": "What does an uptime check measure?",
+     "options": [
+      "Memory",
+      "Logs",
+      "CPU",
+      "Whether the service responds correctly from outside"
+     ],
+     "answer": 3,
+     "explain": "Run it from a separate location."
+    },
+    {
+     "q": "Why alert on symptoms rather than every metric?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Fewer false alarms and focus on user impact",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Page for real problems."
+    }
+   ]
+  },
+  "level-2/09-centralized-logging-basics": {
+   "questions": [
+    {
+     "q": "Why centralise logs?",
+     "options": [
+      "Speed",
+      "Law",
+      "So you can search across hosts and keep them after a server dies",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Ship to a central store."
+    },
+    {
+     "q": "What does a log shipper such as Vector do?",
+     "options": [
+      "Backs up",
+      "Collects, transforms and forwards logs to a destination",
+      "Writes code",
+      "Monitors"
+     ],
+     "answer": 1,
+     "explain": "Agent on each host."
+    },
+    {
+     "q": "What helps correlate a request across services?",
+     "options": [
+      "Colours",
+      "Timestamps",
+      "A request or correlation ID in every log line",
+      "Hostnames"
+     ],
+     "answer": 2,
+     "explain": "Generate at the edge."
+    },
+    {
+     "q": "What should logs never contain?",
+     "options": [
+      "Passwords, tokens and sensitive personal data",
+      "Timestamps",
+      "IDs",
+      "Levels"
+     ],
+     "answer": 0,
+     "explain": "Scrub them."
+    }
+   ]
+  },
+  "level-2/10-capstone-blue-green-deploy": {
+   "questions": [
+    {
+     "q": "What is blue-green deployment?",
+     "options": [
+      "Two colours",
+      "Rolling",
+      "Canary",
+      "Two identical environments; deploy to the idle one, test, then switch traffic"
+     ],
+     "answer": 3,
+     "explain": "Instant rollback by switching back."
+    },
+    {
+     "q": "Why health-check the idle environment before switching?",
+     "options": [
+      "Law",
+      "Speed",
+      "Colour",
+      "Prevent sending users to a broken release"
+     ],
+     "answer": 3,
+     "explain": "Smoke tests too."
+    },
+    {
+     "q": "What is the main cost of blue-green?",
+     "options": [
+      "Law",
+      "Speed",
+      "Complexity none",
+      "Running duplicate capacity"
+     ],
+     "answer": 3,
+     "explain": "Trade cost for safety."
+    },
+    {
+     "q": "What makes rollback easy in blue-green?",
+     "options": [
+      "The previous environment is still intact; switch back",
+      "Redeploy",
+      "Rebuild",
+      "Restore"
+     ],
+     "answer": 0,
+     "explain": "Keep it until confident."
+    }
+   ]
+  },
+  "level-3/01-ha-concepts": {
+   "questions": [
+    {
+     "q": "What is high availability?",
+     "options": [
+      "Big service",
+      "Fast service",
+      "Cheap service",
+      "Designing so the service survives component failures with little or no downtime"
+     ],
+     "answer": 3,
+     "explain": "Redundancy plus failover."
+    },
+    {
+     "q": "What is a single point of failure?",
+     "options": [
+      "A log",
+      "A component whose failure stops the whole service",
+      "A user",
+      "A server"
+     ],
+     "answer": 1,
+     "explain": "Remove or replicate it."
+    },
+    {
+     "q": "Two independent components each 99.9% available in series give what availability?\n```python\nprint(round(0.999*0.999*100,4))\n```\n",
+     "options": [
+      "99.9",
+      "99.8001",
+      "99.99",
+      "100.0"
+     ],
+     "answer": 1,
+     "explain": "Serial availabilities multiply; redundancy in parallel improves it. Verified by running it."
+    },
+    {
+     "q": "Two independent 99% replicas in parallel give what availability?\n```python\nprint(round((1-0.01*0.01)*100,2))\n```\n",
+     "options": [
+      "100.0",
+      "98.0",
+      "99.99",
+      "99.0"
+     ],
+     "answer": 2,
+     "explain": "Fail only if both fail: 1 - 0.01^2. Verified by running it."
+    }
+   ]
+  },
+  "level-3/02-dns-lb-ha-patterns": {
+   "questions": [
+    {
+     "q": "What do DNS health-checked records provide?",
+     "options": [
+      "Encryption",
+      "Caching",
+      "Failover by removing unhealthy endpoints from answers",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "TTL affects failover time."
+    },
+    {
+     "q": "Why is low TTL important for failover?",
+     "options": [
+      "Speed",
+      "Clients re-resolve sooner, but it increases query load",
+      "Law",
+      "Colour"
+     ],
+     "answer": 1,
+     "explain": "Balance."
+    },
+    {
+     "q": "What is active-passive?",
+     "options": [
+      "Both serve",
+      "One serves traffic; the standby takes over on failure",
+      "Neither",
+      "One server"
+     ],
+     "answer": 1,
+     "explain": "Active-active uses both."
+    },
+    {
+     "q": "What is the risk of split brain?",
+     "options": [
+      "Two nodes both believe they are primary and diverge",
+      "Speed",
+      "Law",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Use quorum or fencing."
+    }
+   ]
+  },
+  "level-3/03-backup-disaster-recovery": {
+   "questions": [
+    {
+     "q": "What are RPO and RTO?",
+     "options": [
+      "Speeds",
+      "Sizes",
+      "RPO is acceptable data loss in time; RTO is acceptable time to restore service",
+      "Costs"
+     ],
+     "answer": 2,
+     "explain": "Set by the business."
+    },
+    {
+     "q": "What is the 3-2-1 backup rule?",
+     "options": [
+      "1 backup",
+      "3 copies, 2 media types, 1 offsite",
+      "2 servers",
+      "3 days"
+     ],
+     "answer": 1,
+     "explain": "Resilience to different failures."
+    },
+    {
+     "q": "What proves a backup is good?",
+     "options": [
+      "File exists",
+      "Size",
+      "A successful restore test",
+      "A green status"
+     ],
+     "answer": 2,
+     "explain": "Test regularly."
+    },
+    {
+     "q": "If backups run every 6 hours, what is the worst-case RPO in hours?\n```python\nprint(6)\n```\n",
+     "options": [
+      "1",
+      "6",
+      "12",
+      "3"
+     ],
+     "answer": 1,
+     "explain": "You can lose up to one interval of data. Verified by running it."
+    }
+   ]
+  },
+  "level-3/04-containerization-basics-docker": {
+   "questions": [
+    {
+     "q": "Why containerise an application?",
+     "options": [
+      "Security",
+      "Faster CPU",
+      "Package code and dependencies for consistent runs across environments",
+      "Free"
+     ],
+     "answer": 2,
+     "explain": "Same image everywhere."
+    },
+    {
+     "q": "Why run containers as non-root?",
+     "options": [
+      "Law",
+      "Colour",
+      "Speed",
+      "Limits damage if the container is compromised"
+     ],
+     "answer": 3,
+     "explain": "USER in the Dockerfile."
+    },
+    {
+     "q": "Why copy dependency manifests before source in a Dockerfile?",
+     "options": [
+      "Law",
+      "Layer caching: dependencies rebuild only when they change",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 1,
+     "explain": "Faster builds."
+    },
+    {
+     "q": "Where does state live for containers?",
+     "options": [
+      "In the tag",
+      "In the image",
+      "Outside them, in volumes or external services",
+      "In the container"
+     ],
+     "answer": 2,
+     "explain": "Containers are disposable."
+    }
+   ]
+  },
+  "level-3/05-infrastructure-as-code-overview": {
+   "questions": [
+    {
+     "q": "What is infrastructure as code?",
+     "options": [
+      "Scripts",
+      "Manual clicking",
+      "Defining infrastructure in version-controlled files that tools apply",
+      "Servers"
+     ],
+     "answer": 2,
+     "explain": "Reviewable and repeatable."
+    },
+    {
+     "q": "What is a benefit of declarative IaC?",
+     "options": [
+      "Steps",
+      "Law",
+      "You describe the desired state and the tool computes the changes",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Plan before apply."
+    },
+    {
+     "q": "Why review a plan before applying?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Law",
+      "See what will change, preventing surprises"
+     ],
+     "answer": 3,
+     "explain": "Treat apply as production change."
+    },
+    {
+     "q": "Where should IaC state be stored?",
+     "options": [
+      "In git",
+      "In a shared, locked, backed-up remote backend",
+      "Nowhere",
+      "On a laptop"
+     ],
+     "answer": 1,
+     "explain": "Avoid conflicts."
+    }
+   ]
+  },
+  "level-3/06-configuration-drift-idempotency": {
+   "questions": [
+    {
+     "q": "What is configuration drift?",
+     "options": [
+      "A bug",
+      "A cost",
+      "Real systems diverging from their declared configuration over time",
+      "A tool"
+     ],
+     "answer": 2,
+     "explain": "Detect and reconcile."
+    },
+    {
+     "q": "What does idempotent mean for configuration tools?",
+     "options": [
+      "Secure",
+      "Cheap",
+      "Fast",
+      "Applying twice has the same result as once"
+     ],
+     "answer": 3,
+     "explain": "Safe to re-run."
+    },
+    {
+     "q": "What does this idempotent step print on two runs?\n```bash\nd=$(mktemp -d); f=$d/conf\nfor i in 1 2; do grep -q 'port=80' $f 2>/dev/null || echo 'port=80' >> $f; done\ncat $f | wc -l | tr -d ' '\n```\n",
+     "options": [
+      "1",
+      "3",
+      "2",
+      "0"
+     ],
+     "answer": 0,
+     "explain": "Check-then-append keeps one line however many times it runs. Verified by running it in bash."
+    },
+    {
+     "q": "How do you detect drift?",
+     "options": [
+      "Delete",
+      "Hope",
+      "terraform plan or Ansible --check --diff regularly",
+      "Reboot"
+     ],
+     "answer": 2,
+     "explain": "Alert on differences."
+    }
+   ]
+  },
+  "level-3/07-service-mesh-internal-networking": {
+   "questions": [
+    {
+     "q": "What is service discovery?",
+     "options": [
+      "Search",
+      "How services find each other's addresses dynamically",
+      "Backups",
+      "Logging"
+     ],
+     "answer": 1,
+     "explain": "DNS or a registry."
+    },
+    {
+     "q": "What does a service mesh add?",
+     "options": [
+      "Billing",
+      "Storage",
+      "Compute",
+      "Consistent mTLS, retries, routing and telemetry between services"
+     ],
+     "answer": 3,
+     "explain": "At the cost of complexity."
+    },
+    {
+     "q": "Why is mTLS useful internally?",
+     "options": [
+      "Colour",
+      "Law",
+      "Services authenticate each other and traffic is encrypted",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Zero-trust networking."
+    },
+    {
+     "q": "When might you not need a mesh?",
+     "options": [
+      "Rarely",
+      "Always",
+      "With few services, where simple DNS and libraries suffice",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Start simple."
+    }
+   ]
+  },
+  "level-3/08-chaos-engineering-basics": {
+   "questions": [
+    {
+     "q": "What is chaos engineering?",
+     "options": [
+      "Random changes",
+      "Load testing",
+      "Deliberately injecting controlled failures to test resilience",
+      "Sabotage"
+     ],
+     "answer": 2,
+     "explain": "Learn before real incidents."
+    },
+    {
+     "q": "What should precede a chaos experiment?",
+     "options": [
+      "Secrecy",
+      "A hypothesis, a small blast radius and an abort plan",
+      "Nothing",
+      "Production-wide"
+     ],
+     "answer": 1,
+     "explain": "Start in staging."
+    },
+    {
+     "q": "What does stopping one backend verify?",
+     "options": [
+      "Law",
+      "Speed",
+      "Cost",
+      "That health checks and the load balancer route around it"
+     ],
+     "answer": 3,
+     "explain": "Redundancy must be proven."
+    },
+    {
+     "q": "What do you do with the findings?",
+     "options": [
+      "Fix weaknesses and rerun the experiment",
+      "Blame",
+      "Ignore",
+      "Hide"
+     ],
+     "answer": 0,
+     "explain": "Improve."
+    }
+   ]
+  },
+  "level-3/09-observability-at-scale": {
+   "questions": [
+    {
+     "q": "What are the three pillars of observability?",
+     "options": [
+      "Metrics, logs and traces",
+      "Dev, test, prod",
+      "Alerts, pages, tickets",
+      "CPU, RAM, disk"
+     ],
+     "answer": 0,
+     "explain": "Each answers different questions."
+    },
+    {
+     "q": "What does a trace show?",
+     "options": [
+      "Disk",
+      "CPU",
+      "Cost",
+      "The path and timing of a single request across services"
+     ],
+     "answer": 3,
+     "explain": "Find slow hops."
+    },
+    {
+     "q": "What is high-cardinality risk in metrics?",
+     "options": [
+      "None",
+      "Too many label values explode storage and cost",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Avoid user IDs as labels."
+    },
+    {
+     "q": "What makes alerts actionable?",
+     "options": [
+      "Colour",
+      "They indicate user impact and link to a runbook",
+      "Volume",
+      "Noise"
+     ],
+     "answer": 1,
+     "explain": "Page on symptoms."
+    }
+   ]
+  },
+  "level-3/10-capstone-ha-web-service-design": {
+   "questions": [
+    {
+     "q": "What is a readiness check?",
+     "options": [
+      "Is disk full",
+      "Is CPU high",
+      "Whether an instance can serve traffic, including dependencies",
+      "Is process up"
+     ],
+     "answer": 2,
+     "explain": "Liveness differs."
+    },
+    {
+     "q": "Which design removes a single point of failure for a web tier?",
+     "options": [
+      "One DB",
+      "Multiple instances behind a load balancer across zones",
+      "One big server",
+      "One zone"
+     ],
+     "answer": 1,
+     "explain": "Plus a replicated database."
+    },
+    {
+     "q": "If one of 4 web servers can fail while still serving peak load of 300 req/s and each handles 100 req/s, are 4 enough?\n```python\nprint(3*100>=300)\n```\n",
+     "options": [
+      "None",
+      "False",
+      "True",
+      "4"
+     ],
+     "answer": 2,
+     "explain": "N-1 capacity: three remaining servers still handle 300. Verified by running it."
+    },
+    {
+     "q": "What belongs in the HA design doc?",
+     "options": [
+      "Names",
+      "Logos",
+      "Colour",
+      "Failure modes, recovery steps and tested assumptions"
+     ],
+     "answer": 3,
+     "explain": "Prove by testing."
+    }
+   ]
+  },
+  "level-4/01-multi-region-multi-az-concepts": {
+   "questions": [
+    {
+     "q": "What does multi-AZ protect against?",
+     "options": [
+      "Failure of a single data centre (availability zone)",
+      "Bugs",
+      "Region outage",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "Latency stays low."
+    },
+    {
+     "q": "What does multi-region protect against?",
+     "options": [
+      "Bugs",
+      "Costs",
+      "Regional outages, at higher cost and complexity",
+      "Slow code"
+     ],
+     "answer": 2,
+     "explain": "Needs data replication strategy."
+    },
+    {
+     "q": "What is the hardest part of multi-region?",
+     "options": [
+      "Data consistency and failover of state",
+      "Colours",
+      "DNS",
+      "CPU"
+     ],
+     "answer": 0,
+     "explain": "Choose consistency model deliberately."
+    },
+    {
+     "q": "When is multi-region justified?",
+     "options": [
+      "When the business impact of a regional outage exceeds the cost",
+      "Always",
+      "Never",
+      "Rarely"
+     ],
+     "answer": 0,
+     "explain": "Match architecture to SLA."
+    }
+   ]
+  },
+  "level-4/02-capacity-planning": {
+   "questions": [
+    {
+     "q": "Each instance safely handles 25 concurrent requests and peak is 400. With N+1 redundancy and 20% headroom, how many instances? (round up)\n```python\nimport math\nneeded=math.ceil(400/25)\nwith_headroom=math.ceil(needed*1.2)\nprint(with_headroom+1)\n```\n",
+     "options": [
+      "16",
+      "21",
+      "20",
+      "19"
+     ],
+     "answer": 1,
+     "explain": "16 for peak, 20 with headroom (19.2 rounds up), plus one for N+1. Verified by running it."
+    },
+    {
+     "q": "What is the purpose of capacity planning?",
+     "options": [
+      "Provision enough resources ahead of demand without overspending",
+      "Marketing",
+      "Hiring",
+      "Billing"
+     ],
+     "answer": 0,
+     "explain": "Use trends and tests."
+    },
+    {
+     "q": "Why use percentiles rather than averages for latency?",
+     "options": [
+      "Law",
+      "Averages hide the slow tail users experience",
+      "Colour",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "p95 and p99."
+    },
+    {
+     "q": "What does load testing give you?",
+     "options": [
+      "Guesses",
+      "Colour",
+      "Evidence of where the system breaks, to ground capacity numbers",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Test before launch."
+    }
+   ]
+  },
+  "level-4/03-incident-response-runbooks": {
+   "questions": [
+    {
+     "q": "What is a runbook?",
+     "options": [
+      "A log",
+      "A bug",
+      "A documented procedure for diagnosing and fixing a known problem",
+      "A report"
+     ],
+     "answer": 2,
+     "explain": "Reduces time to recovery."
+    },
+    {
+     "q": "What is the first priority in an incident?",
+     "options": [
+      "Root cause",
+      "Report",
+      "Mitigate user impact, then find the root cause",
+      "Blame"
+     ],
+     "answer": 2,
+     "explain": "Stop the bleeding."
+    },
+    {
+     "q": "What is a blameless postmortem?",
+     "options": [
+      "No review",
+      "A review focused on systems and learning, not individual fault",
+      "Blaming",
+      "Secret"
+     ],
+     "answer": 1,
+     "explain": "Improves safety."
+    },
+    {
+     "q": "What should an incident have?",
+     "options": [
+      "One person",
+      "Silence",
+      "A clear incident commander and communication channel",
+      "Everyone shouting"
+     ],
+     "answer": 2,
+     "explain": "Coordination."
+    }
+   ]
+  },
+  "level-4/04-security-patching-at-scale": {
+   "questions": [
+    {
+     "q": "Why patch security issues promptly?",
+     "options": [
+      "Colour",
+      "Known vulnerabilities are quickly exploited",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Prioritise by severity and exposure."
+    },
+    {
+     "q": "What does staged patching mean?",
+     "options": [
+      "All at once",
+      "One",
+      "None",
+      "Patch a small group first, watch, then roll out widely"
+     ],
+     "answer": 3,
+     "explain": "Limit blast radius."
+    },
+    {
+     "q": "What does a tool like Dependabot do?",
+     "options": [
+      "Merges",
+      "Deploys",
+      "Monitors",
+      "Opens automated pull requests for dependency updates"
+     ],
+     "answer": 3,
+     "explain": "Review and test them."
+    },
+    {
+     "q": "What do you do when you cannot patch immediately?",
+     "options": [
+      "Hope",
+      "Ignore",
+      "Apply compensating controls such as isolation or WAF rules",
+      "Delay"
+     ],
+     "answer": 2,
+     "explain": "Document the exception."
+    }
+   ]
+  },
+  "level-4/05-choosing-ha-architecture-for-sla": {
+   "questions": [
+    {
+     "q": "A 99.9% SLA allows how many minutes of downtime in a 30-day month? (rounded)\n```python\nprint(round(30*24*60*0.001))\n```\n",
+     "options": [
+      "432",
+      "43",
+      "526",
+      "4"
+     ],
+     "answer": 1,
+     "explain": "43,200 minutes x 0.1% = 43.2. Verified by running it."
+    },
+    {
+     "q": "A 99.99% SLA allows about how many minutes of downtime per 30-day month? (1 decimal)\n```python\nprint(round(30*24*60*0.0001,1))\n```\n",
+     "options": [
+      "432.0",
+      "43.2",
+      "0.4",
+      "4.3"
+     ],
+     "answer": 3,
+     "explain": "Each extra nine cuts allowed downtime tenfold. Verified by running it."
+    },
+    {
+     "q": "Why not always choose the highest-availability architecture?",
+     "options": [
+      "Colour",
+      "Law",
+      "Each extra nine costs disproportionately more; match it to business need",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Cost versus risk."
+    },
+    {
+     "q": "What is an error budget?",
+     "options": [
+      "Staff",
+      "The allowed unreliability implied by the SLO, spent on changes and incidents",
+      "Money",
+      "Time"
+     ],
+     "answer": 1,
+     "explain": "Balance velocity and reliability."
+    }
+   ]
+  },
+  "level-4/06-cost-aware-infrastructure-design": {
+   "questions": [
+    {
+     "q": "What is rightsizing?",
+     "options": [
+      "Naming",
+      "Upsizing",
+      "Downsizing only",
+      "Matching instance sizes to actual utilisation"
+     ],
+     "answer": 3,
+     "explain": "Review sustained usage."
+    },
+    {
+     "q": "What are reserved or committed-use discounts for?",
+     "options": [
+      "Experiments",
+      "Predictable baseline workloads",
+      "Spiky",
+      "Dev"
+     ],
+     "answer": 1,
+     "explain": "Use on-demand for spikes."
+    },
+    {
+     "q": "What is a hidden cost in cloud architectures?",
+     "options": [
+      "Data transfer between zones and regions",
+      "Disk",
+      "CPU",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Design for locality."
+    },
+    {
+     "q": "What should you tag resources with?",
+     "options": [
+      "Fun",
+      "Nothing",
+      "Colour",
+      "Owner, environment and cost centre"
+     ],
+     "answer": 3,
+     "explain": "Cost allocation."
+    }
+   ]
+  },
+  "level-4/07-compliance-audit-considerations": {
+   "questions": [
+    {
+     "q": "What is the principle of least privilege in IAM?",
+     "options": [
+      "None",
+      "Grant only the permissions needed for the task",
+      "Admin for all",
+      "Read-only always"
+     ],
+     "answer": 1,
+     "explain": "Scope deploy roles narrowly."
+    },
+    {
+     "q": "Why keep audit logs?",
+     "options": [
+      "Colour",
+      "Law only",
+      "To show who did what and when, for compliance and forensics",
+      "Space"
+     ],
+     "answer": 2,
+     "explain": "Protect them from tampering."
+    },
+    {
+     "q": "What is separation of duties?",
+     "options": [
+      "Teams",
+      "Tools",
+      "Shifts",
+      "No single person can complete a sensitive process alone"
+     ],
+     "answer": 3,
+     "explain": "Reduces fraud and error."
+    },
+    {
+     "q": "What is evidence-as-code?",
+     "options": [
+      "Manual",
+      "Screenshots",
+      "Automated, repeatable collection of compliance evidence",
+      "Documents"
+     ],
+     "answer": 2,
+     "explain": "Cheaper audits."
+    }
+   ]
+  },
+  "level-4/08-oncall-culture-escalation-design": {
+   "questions": [
+    {
+     "q": "What makes a good alert?",
+     "options": [
+      "Any metric",
+      "Loud",
+      "Frequent",
+      "Actionable, tied to user impact and with an owner"
+     ],
+     "answer": 3,
+     "explain": "Avoid alert fatigue."
+    },
+    {
+     "q": "Why page on sustained error rates, not every 5xx?",
+     "options": [
+      "Speed",
+      "Isolated errors are noise; sustained ones indicate ongoing impact",
+      "Law",
+      "Colour"
+     ],
+     "answer": 1,
+     "explain": "Threshold plus duration."
+    },
+    {
+     "q": "What is a healthy on-call practice?",
+     "options": [
+      "Secret",
+      "No sleep",
+      "One hero",
+      "Rotation, escalation paths, handoffs and retros to reduce toil"
+     ],
+     "answer": 3,
+     "explain": "Sustainable."
+    },
+    {
+     "q": "What does an escalation policy define?",
+     "options": [
+      "Roles",
+      "Salary",
+      "Who is paged next if the first person does not respond",
+      "Skills"
+     ],
+     "answer": 2,
+     "explain": "Avoid unacknowledged pages."
+    }
+   ]
+  },
+  "level-4/09-platform-engineering-devex": {
+   "questions": [
+    {
+     "q": "What does platform engineering provide?",
+     "options": [
+      "Tickets",
+      "Hardware",
+      "Self-service paved roads for developers (templates, pipelines, environments)",
+      "Reports"
+     ],
+     "answer": 2,
+     "explain": "Reduce cognitive load."
+    },
+    {
+     "q": "What does a service template give new services?",
+     "options": [
+      "Chaos",
+      "Nothing",
+      "Good defaults: CI, logging, health checks and security",
+      "Freedom"
+     ],
+     "answer": 2,
+     "explain": "Golden paths."
+    },
+    {
+     "q": "How do you measure platform success?",
+     "options": [
+      "Costs",
+      "Lines",
+      "Tickets",
+      "Developer adoption, lead time and satisfaction"
+     ],
+     "answer": 3,
+     "explain": "Treat devs as customers."
+    },
+    {
+     "q": "What is a risk of a platform team?",
+     "options": [
+      "Speed",
+      "Law",
+      "Building what developers do not need without feedback",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Product mindset."
+    }
+   ]
+  },
+  "level-4/10-capstone-resilient-global-platform": {
+   "questions": [
+    {
+     "q": "What is the capstone's goal?",
+     "options": [
+      "A toy",
+      "One server",
+      "Design a resilient global platform meeting stated SLOs, cost and compliance needs",
+      "A script"
+     ],
+     "answer": 2,
+     "explain": "Trade-offs explicit."
+    },
+    {
+     "q": "What belongs in the design doc?",
+     "options": [
+      "Requirements, architecture, failure modes, runbooks and costs",
+      "Logos",
+      "Colours",
+      "Slogans"
+     ],
+     "answer": 0,
+     "explain": "Defend the decisions."
+    },
+    {
+     "q": "What evidence shows resilience?",
+     "options": [
+      "Hope",
+      "Diagrams only",
+      "Claims",
+      "Failure tests, restore drills and measured recovery times"
+     ],
+     "answer": 3,
+     "explain": "Prove it."
+    },
+    {
+     "q": "What should you do about residual risks?",
+     "options": [
+      "Document them and decide explicitly to accept, mitigate or transfer",
+      "Delay",
+      "Hide",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Risk register."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```bash\nset -eu\nx=5\n[ \"$x\" -gt 3 ] && echo big || echo small\nname=\"\"\necho \"${name:-anon}\"\nn=0; for i in 1 2 3; do n=$((n + i)); done; echo $n\n```\n",
+    "options": [
+     "small\nanon\n6",
+     "big\nanon\n6",
+     "big\n\n6",
+     "big\nanon\n3"
+    ],
+    "answer": 1,
+    "explain": "${var:-default} substitutes when empty; arithmetic expansion sums the loop. Verified by running it in bash."
+   },
+   {
+    "q": "What does this print?\n```bash\nprintf 'a 1\\nb 2\\na 3\\n' | awk '{s[$1]+=$2} END {for (k in s) print k, s[k]}' | sort\n```\n",
+    "options": [
+     "a 4\nb 4",
+     "a 3\nb 2",
+     "a 1\nb 2",
+     "a 4\nb 2"
+    ],
+    "answer": 3,
+    "explain": "awk accumulates per key. Verified by running it in bash."
+   },
+   {
+    "q": "What does this print?\n```bash\nset -e\nf() { echo start; false; echo not-reached; }\nf || echo handled\necho after\n```\n",
+    "options": [
+     "start\nafter",
+     "handled\nafter",
+     "start\nhandled\nafter",
+     "start\nnot-reached\nafter"
+    ],
+    "answer": 3,
+    "explain": "A well-known gotcha: set -e is ignored inside a function that is called as part of an || list, so false does not stop f, f returns the status of its last command (0) and handled never prints. Verified by running it in bash."
+   },
+   {
+    "q": "How many minutes of downtime does a 99.95% monthly SLA allow in 30 days? (1 decimal)\n```python\nprint(round(30*24*60*(1-0.9995),1))\n```\n",
+    "options": [
+     "2.2",
+     "43.2",
+     "4.3",
+     "21.6"
+    ],
+    "answer": 3,
+    "explain": "43,200 minutes x 0.05% = 21.6. Verified by running it."
+   },
+   {
+    "q": "A service needs 450 req/s peak; each instance handles 60 req/s. With N+1 how many instances? (round up for peak, then add one)\n```python\nimport math\nprint(math.ceil(450/60)+1)\n```\n",
+    "options": [
+     "9",
+     "8",
+     "7",
+     "10"
+    ],
+    "answer": 0,
+    "explain": "8 for peak (7.5 rounded up) plus one spare. Verified by running it."
+   },
+   {
+    "q": "You disable SSH password login and close your only session; key login then fails. What should you have done?",
+    "options": [
+     "Nothing, it cannot happen",
+     "Restart the server",
+     "Test key login in a second session first, validate with sshd -t and keep the first session open",
+     "Use telnet"
+    ],
+    "answer": 2,
+    "explain": "Lock-out is the classic hardening mistake."
+   },
+   {
+    "q": "A deploy script fails halfway and is re-run. What property makes that safe?",
+    "options": [
+     "Comments",
+     "Speed",
+     "Idempotency: every step checks state first so re-running reaches the same end state",
+     "Using sudo"
+    ],
+    "answer": 2,
+    "explain": "mkdir -p, ln -sfn, check-then-append."
+   },
+   {
+    "q": "Why is renaming a symlink over 'current' used for deploys?",
+    "options": [
+     "It compresses files",
+     "It encrypts releases",
+     "It is faster to type",
+     "It switches releases atomically, so requests never see a half-deployed directory"
+    ],
+    "answer": 3,
+    "explain": "Rollback is the same swap in reverse."
+   },
+   {
+    "q": "Your secrets file was committed to git by mistake. What is the correct response?",
+    "options": [
+     "Make the repo private",
+     "Delete the commit only",
+     "Rotate the exposed secrets immediately; removing the commit is not enough",
+     "Force-push and carry on"
+    ],
+    "answer": 2,
+    "explain": "Assume exposure."
+   },
+   {
+    "q": "Why should the same build artifact go to staging and production?",
+    "options": [
+     "Faster CI",
+     "Law",
+     "Saves disk",
+     "What was tested is exactly what ships; only configuration differs"
+    ],
+    "answer": 3,
+    "explain": "Build once, promote."
+   },
+   {
+    "q": "What does a blue-green deploy let you do that an in-place deploy does not?",
+    "options": [
+     "Skip tests",
+     "Avoid load balancers",
+     "Test the new version fully before real traffic and roll back instantly by switching back",
+     "Use less capacity"
+    ],
+    "answer": 2,
+    "explain": "Cost: duplicate capacity."
+   },
+   {
+    "q": "Which alert is better: 'any 5xx' or 'error rate above 5% for 5 minutes'?",
+    "options": [
+     "Any 5xx",
+     "Both equally",
+     "The sustained rate: it indicates ongoing user impact and avoids paging on noise",
+     "Neither"
+    ],
+    "answer": 2,
+    "explain": "Alert fatigue hides real incidents."
+   },
+   {
+    "q": "What is the RPO of a nightly backup at best?",
+    "options": [
+     "1 hour",
+     "1 minute",
+     "Up to 24 hours of data loss",
+     "Zero"
+    ],
+    "answer": 2,
+    "explain": "RPO is bounded by backup frequency."
+   },
+   {
+    "q": "Why test restores rather than only checking that backups ran?",
+    "options": [
+     "Cost",
+     "Law",
+     "A backup that was never restored is unproven",
+     "Speed"
+    ],
+    "answer": 2,
+    "explain": "Restore drills find broken backups."
+   },
+   {
+    "q": "Two independent web servers sit behind one load balancer and one database. What is the single point of failure?",
+    "options": [
+     "The web servers",
+     "The load balancer and the database (unless they are redundant too)",
+     "Nothing",
+     "The network cable only"
+    ],
+    "answer": 1,
+    "explain": "Redundancy must exist at every layer."
+   },
+   {
+    "q": "What is configuration drift and how do you detect it?",
+    "options": [
+     "Reality diverging from declared config; detect with terraform plan or Ansible --check --diff on a schedule",
+     "Clock skew",
+     "A bug in cron",
+     "Disk fragmentation"
+    ],
+    "answer": 0,
+    "explain": "Alert on unexpected diffs."
+   },
+   {
+    "q": "What is the first priority during an incident?",
+    "options": [
+     "Find who to blame",
+     "Write the report",
+     "Mitigate user impact, then diagnose the root cause",
+     "Restart everything"
+    ],
+    "answer": 2,
+    "explain": "Stop the bleeding first."
+   },
+   {
+    "q": "Why run containers as non-root and keep state outside them?",
+    "options": [
+     "Disk space",
+     "Limits compromise impact and keeps containers disposable and replaceable",
+     "Colour",
+     "Speed"
+    ],
+    "answer": 1,
+    "explain": "Volumes or external services hold state."
+   },
+   {
+    "q": "What belongs in a runbook?",
+    "options": [
+     "Blame assignments",
+     "Org charts",
+     "Meeting notes",
+     "Symptoms, checks, safe fix steps, escalation contacts and how to verify recovery"
+    ],
+    "answer": 3,
+    "explain": "Written before the incident."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Atomic releases with health check and rollback",
+    "prompt": "Write a bash release manager: each release is a directory, 'current' is a symlink swapped atomically, a failed health check rolls back automatically, and old releases are pruned. It runs in a temp directory so it needs no root and touches no real server; real deployments also need service restarts and drained connections.",
+    "starter": "#!/usr/bin/env bash\n# Atomic release switching with health check and automatic rollback (runs in a temp dir, no root needed)\nset -euo pipefail\nROOT=$(mktemp -d)\nmkdir -p \"$ROOT/releases\"\n\n# TODO: switch_to <version>   point \"$ROOT/current\" at the release by creating a fresh symlink and renaming it over \"current\"\n#       (rename is atomic; BSD mv uses -h, GNU mv uses -T)\n# TODO: deploy <version> <healthy|broken>   create the release (write the mode to STATUS), remember the previous release,\n#       switch, then \"health check\" by reading current/STATUS; if it is not \"healthy\" print \"deploy <v>: health check FAILED\",\n#       switch back to the previous release and print \"rolled back to <prev>\", and return 1; otherwise print \"deploy <v>: ok\"\n# TODO: prune <n>   keep the newest n releases (sorted by name), printing \"pruned <name>\" for each one removed (portable: no head -n -N)\n\ndeploy v1 healthy\ndeploy v2 healthy\ndeploy v3 broken || true\necho \"current -> $(basename \"$(readlink \"$ROOT/current\")\")\"\ndeploy v4 healthy\nprune 2\necho \"releases: $(ls -1 \"$ROOT/releases\" | tr '\\n' ' ')\"\necho \"current -> $(basename \"$(readlink \"$ROOT/current\")\")\"\n",
+    "expected": "deploy v1: ok\ndeploy v2: ok\ndeploy v3: health check FAILED\nrolled back to v2\ncurrent -> v2\ndeploy v4: ok\npruned v1\npruned v2\nreleases: v3 v4 \ncurrent -> v4",
+    "solution": "#!/usr/bin/env bash\n# Atomic release switching with health check and automatic rollback (runs in a temp dir, no root needed)\nset -euo pipefail\nROOT=$(mktemp -d)\nmkdir -p \"$ROOT/releases\"\n\nswitch_to() {                    # point \"current\" at a release by renaming a fresh symlink over it\n  ln -sfn \"$ROOT/releases/$1\" \"$ROOT/current.tmp\"\n  mv -fh \"$ROOT/current.tmp\" \"$ROOT/current\" 2>/dev/null || mv -fT \"$ROOT/current.tmp\" \"$ROOT/current\"   # BSD -h, GNU -T\n}\n\ndeploy() {                       # deploy <version> <healthy|broken>\n  local ver=$1 mode=$2 prev=\"\"\n  mkdir -p \"$ROOT/releases/$ver\"\n  echo \"$mode\" > \"$ROOT/releases/$ver/STATUS\"\n  [ -L \"$ROOT/current\" ] && prev=$(basename \"$(readlink \"$ROOT/current\")\")\n  switch_to \"$ver\"\n  if [ \"$(cat \"$ROOT/current/STATUS\")\" != healthy ]; then\n    echo \"deploy $ver: health check FAILED\"\n    if [ -n \"$prev\" ]; then switch_to \"$prev\"; echo \"rolled back to $prev\"; fi\n    return 1\n  fi\n  echo \"deploy $ver: ok\"\n}\n\nprune() {                        # keep the newest $1 releases (portable: no head -n -N)\n  ls -1 \"$ROOT/releases\" | sort | awk -v keep=\"$1\" '{a[NR]=$0} END {for (i = 1; i <= NR - keep; i++) print a[i]}' |\n  while read -r old; do rm -rf \"$ROOT/releases/$old\"; echo \"pruned $old\"; done\n}\n\ndeploy v1 healthy\ndeploy v2 healthy\ndeploy v3 broken || true\necho \"current -> $(basename \"$(readlink \"$ROOT/current\")\")\"\ndeploy v4 healthy\nprune 2\necho \"releases: $(ls -1 \"$ROOT/releases\" | tr '\\n' ' ')\"\necho \"current -> $(basename \"$(readlink \"$ROOT/current\")\")\"\n",
+    "explain": "Creating the new symlink beside 'current' and renaming it over the old one is atomic, so readers never see a half-switched state; rollback is the same swap. Note that pruning by name keeps the broken v3 here, which is why real pipelines also delete or mark failed releases. Verified by running the script in bash on macOS."
+   },
+   {
+    "title": "An access-log health report",
+    "prompt": "Parse a small access log with awk: count statuses, compute the server-error rate, find the slowest path by average latency and decide whether to raise an alert. The log is generated inside the script, so no real server logs are used.",
+    "starter": "#!/usr/bin/env bash\n# Access-log health report: status counts, error rate, slowest path and an alert decision\nset -euo pipefail\nLOG=$(mktemp)\ncat > \"$LOG\" <<'LOGS'\n10.0.0.1 GET /home 200 35\n10.0.0.2 GET /api/items 200 120\n10.0.0.3 POST /api/pay 500 910\n10.0.0.1 GET /home 200 40\n10.0.0.4 GET /api/items 503 30\n10.0.0.2 POST /api/pay 500 880\n10.0.0.5 GET /missing 404 12\n10.0.0.3 GET /api/items 200 150\n10.0.0.9 GET /home 200 33\n10.0.0.6 POST /api/pay 200 420\nLOGS\n\n# TODO: print the status counts (sorted), then the totals line, the slowest path by average latency and the alert decision:\n#   status counts:\n#   <status> <count> ...\n#   requests=<n> server_errors=<5xx count> rate=<percent with 1 decimal>%\n#   slowest=<path> avg=<rounded>ms\n#   ALERT: error rate above 15%   (or OK when the rate is 15% or less)\n# Columns are: client method path status milliseconds\n",
+    "expected": "status counts:\n200 6\n404 1\n500 2\n503 1\nrequests=10 server_errors=3 rate=30.0%\nslowest=/api/pay avg=737ms\nALERT: error rate above 15%",
+    "solution": "#!/usr/bin/env bash\n# Access-log health report: status counts, error rate, slowest path and an alert decision\nset -euo pipefail\nLOG=$(mktemp)\ncat > \"$LOG\" <<'LOGS'\n10.0.0.1 GET /home 200 35\n10.0.0.2 GET /api/items 200 120\n10.0.0.3 POST /api/pay 500 910\n10.0.0.1 GET /home 200 40\n10.0.0.4 GET /api/items 503 30\n10.0.0.2 POST /api/pay 500 880\n10.0.0.5 GET /missing 404 12\n10.0.0.3 GET /api/items 200 150\n10.0.0.9 GET /home 200 33\n10.0.0.6 POST /api/pay 200 420\nLOGS\n\necho \"status counts:\"\nawk '{c[$4]++} END {for (s in c) print s, c[s]}' \"$LOG\" | sort\n\nawk -v limit=15 '\n  {total++; if ($4 >= 500) err++; sum[$3] += $5; n[$3]++}\n  END {\n    rate = 100 * err / total\n    printf \"requests=%d server_errors=%d rate=%.1f%%\\n\", total, err, rate\n    worst = \"\"; wavg = 0\n    for (p in sum) { avg = sum[p] / n[p]; if (avg > wavg) { wavg = avg; worst = p } }\n    printf \"slowest=%s avg=%.0fms\\n\", worst, wavg\n    print (rate > limit ? \"ALERT: error rate above \" limit \"%\" : \"OK\")\n  }' \"$LOG\"\n",
+    "explain": "One awk pass accumulates totals and per-path sums, then END computes the rate and picks the path with the highest average. Alerting on a rate over a threshold is the same idea as the sustained-error alert in the monitoring lessons. Verified by running the script in bash on macOS."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
