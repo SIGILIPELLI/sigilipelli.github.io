@@ -626,6 +626,1545 @@
      "explain": "OpenType features are built into the font file, and small system fonts often lack them."
     }
    ]
+  },
+  "level-2/04-illustrator-gradients-meshes": {
+   "questions": [
+    {
+     "q": "Which Illustrator tool lets you place colour points freely to create smooth organic blends?",
+     "options": [
+      "Pen tool",
+      "Blend tool only",
+      "Eyedropper",
+      "The Gradient tool's freeform gradient mode"
+     ],
+     "answer": 3,
+     "explain": "Freeform gradients use colour points and lines."
+    },
+    {
+     "q": "What does a gradient mesh give you that a linear gradient cannot?",
+     "options": [
+      "Faster files",
+      "Vector export",
+      "Text effects",
+      "Multi-directional colour transitions controlled by mesh points, useful for realistic shading"
+     ],
+     "answer": 3,
+     "explain": "Meshes can become heavy; keep the point count modest."
+    },
+    {
+     "q": "A 3-stop linear gradient goes red (255,0,0) at 0%, yellow (255,255,0) at 50% and blue (0,0,255) at 100%. What is the colour at 25% (linear RGB interpolation)?\n```python\nc0=(255,0,0); c1=(255,255,0)\nt=0.25/0.5\nprint(tuple(round(a+(b-a)*t) for a,b in zip(c0,c1)))\n```\n",
+     "options": [
+      "(255, 128, 0)",
+      "(255, 255, 0)",
+      "(128, 0, 0)",
+      "(255, 64, 0)"
+     ],
+     "answer": 0,
+     "explain": "Between two stops the colour is a linear blend by the fractional position. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    },
+    {
+     "q": "Why can heavy raster effects look different when a document is scaled or exported?",
+     "options": [
+      "Vectors scale",
+      "Raster effects use the document raster effects resolution (typically 300 ppi for print), so low settings look soft",
+      "They are live",
+      "They are free"
+     ],
+     "answer": 1,
+     "explain": "Set Effect > Document Raster Effects Settings before finalising."
+    }
+   ]
+  },
+  "level-2/05-premiere-multicam-editing": {
+   "questions": [
+    {
+     "q": "How do you most reliably sync multiple cameras that recorded the same event?",
+     "options": [
+      "By audio waveform (or shared timecode / a clapper marker) when creating the multi-camera source sequence",
+      "By file name",
+      "By colour",
+      "By size"
+     ],
+     "answer": 0,
+     "explain": "Audio sync works when each camera captured scratch audio."
+    },
+    {
+     "q": "What do you use to cut between angles live in the Program Monitor?",
+     "options": [
+      "Ripple delete",
+      "Razor tool only",
+      "Nested sequences",
+      "Multi-camera view, with 'multi-camera record on/off' to log cuts while the sequence plays"
+     ],
+     "answer": 3,
+     "explain": "Cuts can be refined later in the timeline."
+    },
+    {
+     "q": "Why 'flatten' a multi-camera sequence at the end?",
+     "options": [
+      "It converts the multicam clip into ordinary clips so you can grade, trim and export without the multicam wrapper",
+      "Save space",
+      "Compress",
+      "Delete angles"
+     ],
+     "answer": 0,
+     "explain": "It keeps the final cut simple for finishing."
+    },
+    {
+     "q": "Two cameras start recording 2.5 seconds apart at 25 fps. How many frames offset is that?\n```python\nprint(int(2.5*25))\n```\n",
+     "options": [
+      "2",
+      "62",
+      "25",
+      "125"
+     ],
+     "answer": 1,
+     "explain": "Frames = seconds x fps; use whole frames. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    }
+   ]
+  },
+  "level-2/06-premiere-audio-mixing": {
+   "questions": [
+    {
+     "q": "Convert a gain change to a linear amplitude ratio: what ratio is +6 dB and -6 dB?\n```python\nprint(round(10**(6/20),3), round(10**(-6/20),3))\n```\n",
+     "options": [
+      "1.995 0.501",
+      "1.5 0.5",
+      "3.981 0.251",
+      "6.0 -6.0"
+     ],
+     "answer": 0,
+     "explain": "Amplitude ratio = 10^(dB/20); about 2x for +6 dB. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    },
+    {
+     "q": "What is a common loudness target for online video?",
+     "options": [
+      "About -14 to -16 LUFS integrated, with true peaks below -1 dBTP (broadcast often -23 LUFS)",
+      "+3 LUFS",
+      "-60 LUFS",
+      "0 LUFS"
+     ],
+     "answer": 0,
+     "explain": "Check each platform's specification."
+    },
+    {
+     "q": "What does the Essential Sound panel help with?",
+     "options": [
+      "Tagging clips as Dialogue, Music, SFX or Ambience and applying fast presets such as loudness matching and ducking",
+      "Export",
+      "Titles",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Auto-ducking lowers music under dialogue."
+    },
+    {
+     "q": "Why keep peaks below 0 dBFS?",
+     "options": [
+      "Digital audio clips (distorts) above 0 dBFS",
+      "Speed",
+      "Cost",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Leave headroom for conversion."
+    }
+   ]
+  },
+  "level-2/07-photoshop-automation-actions": {
+   "questions": [
+    {
+     "q": "What is a Photoshop Action?",
+     "options": [
+      "A brush",
+      "A plug-in",
+      "A layer",
+      "A recorded sequence of commands that can be replayed on other images"
+     ],
+     "answer": 3,
+     "explain": "Record in the Actions panel."
+    },
+    {
+     "q": "How do you apply an action to a whole folder?",
+     "options": [
+      "Paste",
+      "Import",
+      "Copy files",
+      "File > Automate > Batch (or save it as a Droplet)"
+     ],
+     "answer": 3,
+     "explain": "Choose the source, destination and naming."
+    },
+    {
+     "q": "Why add an 'Insert Stop' to an action?",
+     "options": [
+      "To pause for a manual step or a message before continuing",
+      "Colour",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Useful when a human decision is needed."
+    },
+    {
+     "q": "A batch of 240 photos takes 3 seconds each. How many minutes does the batch run?\n```python\nprint(240*3/60)\n```\n",
+     "options": [
+      "12.0",
+      "7.2",
+      "1.2",
+      "72.0"
+     ],
+     "answer": 0,
+     "explain": "Automation turns repetitive hours into minutes. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    }
+   ]
+  },
+  "level-2/08-illustrator-pattern-libraries": {
+   "questions": [
+    {
+     "q": "How do you create a seamless pattern in Illustrator?",
+     "options": [
+      "Copy and paste",
+      "Blend tool",
+      "Effects",
+      "Select artwork then Object > Pattern > Make, edit the tile in Pattern Options mode and Done"
+     ],
+     "answer": 3,
+     "explain": "The Pattern Options panel controls tile type and overlap."
+    },
+    {
+     "q": "What does the tile type 'Brick by Row' do?",
+     "options": [
+      "Rotates",
+      "Scales",
+      "Offsets alternate rows like bricks for a more organic repeat",
+      "Blurs"
+     ],
+     "answer": 2,
+     "explain": "Grid, brick and hex types exist."
+    },
+    {
+     "q": "Why store reusable patterns and assets in a Creative Cloud Library?",
+     "options": [
+      "They stay synced across documents, apps and teammates",
+      "Colour",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Libraries support colours, graphics and styles."
+    },
+    {
+     "q": "A pattern tile is 2 in wide and must cover a 17 in wide area. How many tiles across are needed (round up)?\n```python\nimport math\nprint(math.ceil(17/2))\n```\n",
+     "options": [
+      "17",
+      "2",
+      "9",
+      "8"
+     ],
+     "answer": 2,
+     "explain": "Count tiles needed to cover the width. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    }
+   ]
+  },
+  "level-2/09-premiere-titles-essential-graphics": {
+   "questions": [
+    {
+     "q": "Where do you design titles and lower thirds in Premiere?",
+     "options": [
+      "Audio",
+      "With the Type tool and the Essential Graphics panel (Edit tab)",
+      "Project",
+      "Lumetri"
+     ],
+     "answer": 1,
+     "explain": "Layers keep text editable."
+    },
+    {
+     "q": "What does Responsive Design - Position do?",
+     "options": [
+      "Pins a graphic layer relative to another so it moves with a changing text box",
+      "Colour",
+      "Audio",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Good for lower thirds."
+    },
+    {
+     "q": "What are title-safe margins for?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "Keeping text inside the area viewers will reliably see on all displays"
+     ],
+     "answer": 3,
+     "explain": "Show with the Safe Margins overlay."
+    },
+    {
+     "q": "What is a Master Style?",
+     "options": [
+      "A saved text or shape style applied across multiple graphics so changes update everywhere",
+      "A template",
+      "A LUT",
+      "A preset"
+     ],
+     "answer": 0,
+     "explain": "Keeps branding consistent."
+    }
+   ]
+  },
+  "level-2/10-project-marketing-campaign": {
+   "questions": [
+    {
+     "q": "What does the multi-app marketing campaign project combine?",
+     "options": [
+      "Only video",
+      "Only print",
+      "Only logos",
+      "Photoshop imagery, Illustrator vector branding and Premiere video assets in one consistent campaign"
+     ],
+     "answer": 3,
+     "explain": "Cross-app consistency."
+    },
+    {
+     "q": "A campaign needs 1080x1080, 1080x1920 and 1920x1080 deliverables from one master. How many total pixels does each have, and which is the largest?\n```python\ns={'square':1080*1080,'story':1080*1920,'wide':1920*1080}\nprint(s,max(s,key=s.get))\n```\n",
+     "options": [
+      "{'square': 1166400, 'story': 2073600, 'wide': 2073600} wide",
+      "{'square': 1080} square",
+      "error",
+      "{'square': 1166400, 'story': 2073600, 'wide': 2073600} story"
+     ],
+     "answer": 3,
+     "explain": "Plan crops and safe areas for each format. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    },
+    {
+     "q": "How do you keep brand colours consistent across apps?",
+     "options": [
+      "Screenshots",
+      "Memory",
+      "Eyeball",
+      "Shared swatches or a Creative Cloud Library, and a consistent colour-managed workflow"
+     ],
+     "answer": 3,
+     "explain": "Document hex and CMYK values."
+    },
+    {
+     "q": "What should a campaign hand-off include?",
+     "options": [
+      "Screenshots",
+      "Final exports, source files, fonts or links and a brief with specifications",
+      "Only finals",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Make it reproducible."
+    }
+   ]
+  },
+  "level-3/01-ae-motion-graphics-fundamentals": {
+   "questions": [
+    {
+     "q": "What is a composition in After Effects?",
+     "options": [
+      "A layer",
+      "A file",
+      "A container with its own size, frame rate and duration that holds layers",
+      "A render"
+     ],
+     "answer": 2,
+     "explain": "Comps can nest inside each other."
+    },
+    {
+     "q": "Which shortcuts reveal Position, Scale, Rotation and Opacity?",
+     "options": [
+      "P, S, R and T",
+      "1, 2, 3, 4",
+      "F1 to F4",
+      "A, B, C, D"
+     ],
+     "answer": 0,
+     "explain": "Shift adds to the visible properties."
+    },
+    {
+     "q": "What does parenting do?",
+     "options": [
+      "Merges",
+      "Links a child layer's transform to a parent so it follows the parent's movement",
+      "Renders",
+      "Blends"
+     ],
+     "answer": 1,
+     "explain": "Use a null object as a control layer."
+    },
+    {
+     "q": "What does precomposing do?",
+     "options": [
+      "Locks",
+      "Groups layers into a nested composition to organise or apply effects to the group",
+      "Renders",
+      "Deletes"
+     ],
+     "answer": 1,
+     "explain": "Keep comps tidy."
+    }
+   ]
+  },
+  "level-3/02-ae-keyframing-easing": {
+   "questions": [
+    {
+     "q": "What does Easy Ease (F9) do to a keyframe?",
+     "options": [
+      "Colours",
+      "Deletes",
+      "Locks",
+      "Applies smooth acceleration and deceleration instead of linear speed"
+     ],
+     "answer": 3,
+     "explain": "Fine-tune in the Graph Editor."
+    },
+    {
+     "q": "A property moves from 0 to 100 over 1 second with a linear ease. What value at t=0.25 and with a smoothstep ease (3t^2 - 2t^3)?\n```python\nt=0.25\nprint(100*t, round(100*(3*t**2-2*t**3),2))\n```\n",
+     "options": [
+      "50.0 15.62",
+      "25.0 15.62",
+      "25.0 25.0",
+      "15.62 25.0"
+     ],
+     "answer": 1,
+     "explain": "Easing slows the start, so the value lags the linear path early on. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    },
+    {
+     "q": "In the Graph Editor, what does the speed graph show?",
+     "options": [
+      "Audio",
+      "Colours",
+      "The value",
+      "How fast a value changes over time (steeper means faster)"
+     ],
+     "answer": 3,
+     "explain": "The value graph shows the property value."
+    },
+    {
+     "q": "What does the Value graph's steep section mean?",
+     "options": [
+      "Error",
+      "The property changes quickly there",
+      "Stopped",
+      "Slow"
+     ],
+     "answer": 1,
+     "explain": "The slope indicates speed."
+    }
+   ]
+  },
+  "level-3/03-ae-compositing-effects": {
+   "questions": [
+    {
+     "q": "What does a track matte do?",
+     "options": [
+      "Blurs",
+      "Uses the alpha or luma of one layer to define the visibility of the layer below",
+      "Blends",
+      "Colours"
+     ],
+     "answer": 1,
+     "explain": "Alpha matte, inverted alpha, luma matte."
+    },
+    {
+     "q": "What is keying?",
+     "options": [
+      "Precomposing",
+      "Keyframing",
+      "Removing a solid-colour background (such as green) to make it transparent",
+      "Masking"
+     ],
+     "answer": 2,
+     "explain": "Keylight is a common effect."
+    },
+    {
+     "q": "Why work with adjustment layers?",
+     "options": [
+      "Speed",
+      "Law",
+      "Colour",
+      "Apply an effect to everything below without altering each layer"
+     ],
+     "answer": 3,
+     "explain": "Non-destructive and easy to change."
+    },
+    {
+     "q": "What do blend modes like Screen and Multiply do?",
+     "options": [
+      "Move",
+      "Combine layer colours with those below by different mathematical rules (lighten and darken)",
+      "Delete",
+      "Rename"
+     ],
+     "answer": 1,
+     "explain": "Screen lightens, Multiply darkens."
+    }
+   ]
+  },
+  "level-3/04-ae-expressions-basics": {
+   "questions": [
+    {
+     "q": "What language do After Effects expressions use?",
+     "options": [
+      "JavaScript (the Adobe expression engine)",
+      "Swift",
+      "Lua",
+      "Python"
+     ],
+     "answer": 0,
+     "explain": "Written in the property's expression field."
+    },
+    {
+     "q": "What does wiggle(2, 30) do?",
+     "options": [
+      "Delays",
+      "Inverts",
+      "Loops",
+      "Randomly varies the property about twice per second by up to roughly 30 units"
+     ],
+     "answer": 3,
+     "explain": "Frequency then amplitude."
+    },
+    {
+     "q": "Model linear(t, 0, 2, 0, 100) from AE's expression library: what are the values at t = -1, 0.5, 1 and 3?\n```python\ndef linear(t,a,b,c,d):\n    t=min(max(t,a),b)\n    return c+(d-c)*(t-a)/(b-a)\nprint([linear(t,0,2,0,100) for t in (-1,0.5,1,3)])\n```\n",
+     "options": [
+      "[0.0, 50.0, 100.0, 100.0]",
+      "[0.0, 25.0, 50.0, 150.0]",
+      "[-50.0, 25.0, 50.0, 150.0]",
+      "[0.0, 25.0, 50.0, 100.0]"
+     ],
+     "answer": 3,
+     "explain": "linear() clamps outside the input range. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    },
+    {
+     "q": "What is the pick whip used for?",
+     "options": [
+      "Render",
+      "Linking one property to another by generating the expression automatically",
+      "Colour",
+      "Audio"
+     ],
+     "answer": 1,
+     "explain": "Drag from the swirl icon."
+    }
+   ]
+  },
+  "level-3/05-lightroom-import-organization": {
+   "questions": [
+    {
+     "q": "What does Lightroom Classic's catalog store?",
+     "options": [
+      "Exports",
+      "Presets only",
+      "The photos",
+      "Metadata, edits and organisation (the .lrcat database) pointing to your photo files"
+     ],
+     "answer": 3,
+     "explain": "Back up the catalog and the photos."
+    },
+    {
+     "q": "What is the difference between Copy as DNG and Copy on import?",
+     "options": [
+      "Copy converts",
+      "Same",
+      "DNG converts raw files to Adobe's open raw format; Copy keeps the originals unchanged",
+      "DNG deletes"
+     ],
+     "answer": 2,
+     "explain": "Both copy to a new location."
+    },
+    {
+     "q": "What are smart collections?",
+     "options": [
+      "Collections that update automatically based on rules such as rating or keyword",
+      "Exports",
+      "Albums",
+      "Folders"
+     ],
+     "answer": 0,
+     "explain": "Rules-driven."
+    },
+    {
+     "q": "Why apply keywords and flags early?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Searching and culling large shoots becomes fast and consistent",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Develop a workflow."
+    }
+   ]
+  },
+  "level-3/06-lightroom-develop-color-grading": {
+   "questions": [
+    {
+     "q": "Which Lightroom panel gives separate colour control for shadows, midtones and highlights?",
+     "options": [
+      "Basic",
+      "HSL",
+      "Detail",
+      "Color Grading (three wheels plus global)"
+     ],
+     "answer": 3,
+     "explain": "Blend and balance sliders refine overlap."
+    },
+    {
+     "q": "What does HSL/Color control?",
+     "options": [
+      "Sharpening",
+      "Noise",
+      "Hue, saturation and luminance of specific colour ranges",
+      "Exposure"
+     ],
+     "answer": 2,
+     "explain": "Targeted adjustments."
+    },
+    {
+     "q": "What does a virtual copy let you do?",
+     "options": [
+      "Try different edits of the same photo without duplicating the file",
+      "Copy files",
+      "Delete",
+      "Export"
+     ],
+     "answer": 0,
+     "explain": "Metadata-only copy."
+    },
+    {
+     "q": "Exposure +1 stop doubles the linear light. How much brighter is +2.5 stops?\n```python\nprint(round(2**2.5,2))\n```\n",
+     "options": [
+      "6.25",
+      "2.5",
+      "5.0",
+      "5.66"
+     ],
+     "answer": 3,
+     "explain": "Each stop is a factor of two in linear light. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    }
+   ]
+  },
+  "level-3/07-indesign-layout-grids": {
+   "questions": [
+    {
+     "q": "What are parent pages (master pages) for?",
+     "options": [
+      "Holding repeating elements such as page numbers, margins and grids that apply to many pages",
+      "Fonts",
+      "Colours",
+      "Printing"
+     ],
+     "answer": 0,
+     "explain": "Edit once, update everywhere."
+    },
+    {
+     "q": "What does the baseline grid do?",
+     "options": [
+      "Margins",
+      "Colours",
+      "Aligns lines of text across columns to a consistent vertical rhythm",
+      "Frames"
+     ],
+     "answer": 2,
+     "explain": "Set leading to match."
+    },
+    {
+     "q": "A page is 210 mm wide with 15 mm margins and 3 columns separated by 5 mm gutters. How wide is each column?\n```python\nprint((210-2*15-2*5)/3)\n```\n",
+     "options": [
+      "57.5",
+      "70.0",
+      "60.0",
+      "56.666666666666664"
+     ],
+     "answer": 3,
+     "explain": "Column width = (text width - gutters) / columns. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    },
+    {
+     "q": "What does a document grid differ from a baseline grid by?",
+     "options": [
+      "Same",
+      "Opposite",
+      "The document grid is a square grid for object placement; the baseline grid is for text lines",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Use each for its job."
+    }
+   ]
+  },
+  "level-3/08-indesign-styles-long-documents": {
+   "questions": [
+    {
+     "q": "What is the benefit of paragraph styles?",
+     "options": [
+      "Consistent formatting that updates everywhere when you change the style",
+      "Law",
+      "Colour",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Never format by hand."
+    },
+    {
+     "q": "What does 'Based On' do in a style?",
+     "options": [
+      "Prints",
+      "Locks",
+      "Deletes",
+      "Makes a style inherit from another so changes cascade"
+     ],
+     "answer": 3,
+     "explain": "Build a hierarchy."
+    },
+    {
+     "q": "What does 'Next Style' do?",
+     "options": [
+      "Links",
+      "Sets which paragraph style is applied to the following paragraph when you press Enter",
+      "Applies to all",
+      "Copies"
+     ],
+     "answer": 1,
+     "explain": "Speeds up typing."
+    },
+    {
+     "q": "How is a table of contents generated?",
+     "options": [
+      "Manually",
+      "From paragraph styles marked as headings, via Layout > Table of Contents",
+      "Via pasting",
+      "Via export"
+     ],
+     "answer": 1,
+     "explain": "Update after edits."
+    }
+   ]
+  },
+  "level-3/09-ae-motion-tracking-basics": {
+   "questions": [
+    {
+     "q": "What does a feature region define in a track point?",
+     "options": [
+      "The pattern the tracker tries to follow from frame to frame",
+      "Colour",
+      "Output",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Choose high-contrast detail."
+    },
+    {
+     "q": "What does the search region do?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Limits where the tracker looks for the feature in the next frame",
+      "Output"
+     ],
+     "answer": 2,
+     "explain": "Bigger for fast motion."
+    },
+    {
+     "q": "What can you apply tracking data to?",
+     "options": [
+      "Colour",
+      "Audio",
+      "Fonts",
+      "A null object or another layer's position, rotation or scale, or a corner pin"
+     ],
+     "answer": 3,
+     "explain": "Attach elements to moving footage."
+    },
+    {
+     "q": "A tracked point moves from (100,100) to (130,90) over 1 second. What offset should be applied to an attached layer (dx,dy)?\n```python\nprint((130-100, 90-100))\n```\n",
+     "options": [
+      "(130, 90)",
+      "(10, 30)",
+      "(-30, 10)",
+      "(30, -10)"
+     ],
+     "answer": 3,
+     "explain": "Apply the difference between tracked positions. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    }
+   ]
+  },
+  "level-3/10-project-explainer-video": {
+   "questions": [
+    {
+     "q": "What is a good first step for an explainer video?",
+     "options": [
+      "Animate",
+      "Write a script and plan a storyboard before animating",
+      "Render",
+      "Pick music"
+     ],
+     "answer": 1,
+     "explain": "Structure first."
+    },
+    {
+     "q": "An explainer is 90 seconds at 30 fps. How many frames?\n```python\nprint(90*30)\n```\n",
+     "options": [
+      "3000",
+      "2700",
+      "900",
+      "270"
+     ],
+     "answer": 1,
+     "explain": "Frames = seconds x fps. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    },
+    {
+     "q": "How do you keep animation consistent across scenes?",
+     "options": [
+      "Use a style guide for colours, fonts, easing and timing, and reusable precomps",
+      "Ignore",
+      "Copy",
+      "Randomly"
+     ],
+     "answer": 0,
+     "explain": "Consistency builds polish."
+    },
+    {
+     "q": "What should you export for review?",
+     "options": [
+      "A compressed H.264 preview for approvals, keeping the master for finishing",
+      "Source",
+      "The master",
+      "A screenshot"
+     ],
+     "answer": 0,
+     "explain": "Control file size."
+    }
+   ]
+  },
+  "level-4/01-multi-app-pipelines-overview": {
+   "questions": [
+    {
+     "q": "Why plan a multi-app pipeline before starting?",
+     "options": [
+      "To define formats, colour spaces, naming and hand-offs so files move between apps without rework",
+      "Speed",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "A pipeline is agreements, not only software."
+    },
+    {
+     "q": "What is a non-destructive workflow?",
+     "options": [
+      "Fast",
+      "Cheap",
+      "Rasterised",
+      "Keeping edits reversible, with smart objects, adjustment layers and linked assets"
+     ],
+     "answer": 3,
+     "explain": "Allows late changes."
+    },
+    {
+     "q": "What belongs in a folder structure convention?",
+     "options": [
+      "Desktop",
+      "One folder",
+      "Random",
+      "Clear locations for source, working files, exports and delivery with consistent naming"
+     ],
+     "answer": 3,
+     "explain": "Teams find files quickly."
+    },
+    {
+     "q": "Why version files rather than overwriting?",
+     "options": [
+      "Law",
+      "Space",
+      "Colour",
+      "You can return to earlier states and compare changes"
+     ],
+     "answer": 3,
+     "explain": "Use v01, v02 or version history."
+    }
+   ]
+  },
+  "level-4/02-dynamic-link-premiere-ae": {
+   "questions": [
+    {
+     "q": "What does Dynamic Link do?",
+     "options": [
+      "Syncs audio",
+      "Renders",
+      "Exports",
+      "Links Premiere and After Effects compositions so changes update without intermediate renders"
+     ],
+     "answer": 3,
+     "explain": "Replace with After Effects composition."
+    },
+    {
+     "q": "What is a trade-off of Dynamic Link?",
+     "options": [
+      "Heavy compositions can slow playback; pre-render or use proxies for editing",
+      "Quality",
+      "Speed",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Render and replace to finalise."
+    },
+    {
+     "q": "How do you send a Premiere clip to After Effects?",
+     "options": [
+      "Right-click and Replace With After Effects Composition",
+      "Export",
+      "Import",
+      "Copy"
+     ],
+     "answer": 0,
+     "explain": "Keeps the link."
+    },
+    {
+     "q": "What should you verify before archiving a project?",
+     "options": [
+      "Audio",
+      "Nothing",
+      "That linked comps and media are collected or rendered so nothing is missing later",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Dynamic links break if projects move."
+    }
+   ]
+  },
+  "level-4/03-advanced-color-management": {
+   "questions": [
+    {
+     "q": "What is a working colour space?",
+     "options": [
+      "A layer",
+      "A file",
+      "A tool",
+      "The defined range of colours in which an application edits and displays your content (for example sRGB or Adobe RGB)"
+     ],
+     "answer": 3,
+     "explain": "Pick one per project."
+    },
+    {
+     "q": "What is the difference between Assign Profile and Convert to Profile?",
+     "options": [
+      "Assign reinterprets the numbers without changing them; Convert changes the numbers to preserve appearance in another space",
+      "Opposite",
+      "Same",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Use Convert when moving between spaces."
+    },
+    {
+     "q": "Why soft proof before print?",
+     "options": [
+      "Cost",
+      "Law",
+      "Speed",
+      "To preview how colours will look in the printer's CMYK profile and paper"
+     ],
+     "answer": 3,
+     "explain": "View > Proof Setup."
+    },
+    {
+     "q": "Compute the relative luminance of sRGB (255,128,0) (linearised) and the contrast ratio against black.\n```python\ndef lin(c):\n    c/=255\n    return c/12.92 if c<=0.04045 else ((c+0.055)/1.055)**2.4\nr,g,b=255,128,0\nL=0.2126*lin(r)+0.7152*lin(g)+0.0722*lin(b)\nprint(round(L,3), round((L+0.05)/0.05,1))\n```\n",
+     "options": [
+      "0.367 4.2",
+      "0.2 3.0",
+      "0.367 8.3",
+      "0.5 10.0"
+     ],
+     "answer": 2,
+     "explain": "Contrast ratio = (L1 + 0.05)/(L2 + 0.05). (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    }
+   ]
+  },
+  "level-4/04-team-libraries-collaboration": {
+   "questions": [
+    {
+     "q": "What do Creative Cloud Libraries share?",
+     "options": [
+      "Colours, character styles, graphics and other assets across apps and team members",
+      "Renders",
+      "Projects",
+      "Fonts only"
+     ],
+     "answer": 0,
+     "explain": "Updates propagate to linked assets."
+    },
+    {
+     "q": "Why use shared libraries for brand assets?",
+     "options": [
+      "Colour",
+      "Everyone uses the current approved versions",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "One source of truth."
+    },
+    {
+     "q": "What is a risk of collaboration at scale?",
+     "options": [
+      "Speed",
+      "None",
+      "Conflicting edits and unclear ownership; define roles, naming and review steps",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Process matters."
+    },
+    {
+     "q": "How should access be managed?",
+     "options": [
+      "Grant edit rights narrowly and view access broadly",
+      "Everyone edit",
+      "Nobody",
+      "Admin"
+     ],
+     "answer": 0,
+     "explain": "Least privilege."
+    }
+   ]
+  },
+  "level-4/05-automating-workflows-scripts": {
+   "questions": [
+    {
+     "q": "What language do Adobe ExtendScript scripts use?",
+     "options": [
+      "Python",
+      "C",
+      "Java",
+      "JavaScript (.jsx)"
+     ],
+     "answer": 3,
+     "explain": "Newer UXP plug-ins also use JavaScript."
+    },
+    {
+     "q": "When should you script instead of record an action?",
+     "options": [
+      "When you need logic, loops or conditions that actions cannot express",
+      "Never",
+      "Always",
+      "Simple tasks"
+     ],
+     "answer": 0,
+     "explain": "Scripts are more flexible."
+    },
+    {
+     "q": "What is a droplet?",
+     "options": [
+      "A font",
+      "A layer",
+      "A small application created from an action that processes files dropped onto it",
+      "A brush"
+     ],
+     "answer": 2,
+     "explain": "Photoshop feature."
+    },
+    {
+     "q": "What should you do before running automation on client work?",
+     "options": [
+      "Test on copies and verify results on a sample",
+      "Run",
+      "Hope",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "Back up first."
+    }
+   ]
+  },
+  "level-4/06-ae-motion-graphics-templates": {
+   "questions": [
+    {
+     "q": "What is a Motion Graphics Template (.mogrt)?",
+     "options": [
+      "An After Effects composition exported with editable controls for use in Premiere's Essential Graphics",
+      "A preset",
+      "A video",
+      "A font"
+     ],
+     "answer": 0,
+     "explain": "Editors change text and colours without opening AE."
+    },
+    {
+     "q": "What do Master Properties expose?",
+     "options": [
+      "Selected layer properties as controls in the Essential Graphics panel",
+      "Layers",
+      "Audio",
+      "Effects"
+     ],
+     "answer": 0,
+     "explain": "Choose what editors can change."
+    },
+    {
+     "q": "Why keep mogrts simple?",
+     "options": [
+      "Style",
+      "Complex expressions and effects may not be supported or may render slowly in Premiere",
+      "Colour",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Test in Premiere."
+    },
+    {
+     "q": "How do you handle fonts in mogrts?",
+     "options": [
+      "Ignore",
+      "Skip",
+      "Embed",
+      "Use Adobe Fonts or ensure the font is installed on every machine"
+     ],
+     "answer": 3,
+     "explain": "Missing fonts substitute."
+    }
+   ]
+  },
+  "level-4/07-premiere-advanced-color-grading": {
+   "questions": [
+    {
+     "q": "What does the waveform scope show?",
+     "options": [
+      "Audio",
+      "Colour",
+      "Time",
+      "Brightness (luma) distribution across the image from left to right"
+     ],
+     "answer": 3,
+     "explain": "Aim for 0 to 100 IRE in standard dynamic range."
+    },
+    {
+     "q": "What does the vectorscope show?",
+     "options": [
+      "Brightness",
+      "Audio",
+      "Time",
+      "Hue and saturation; skin tones should fall near the skin-tone line"
+     ],
+     "answer": 3,
+     "explain": "Check colour balance."
+    },
+    {
+     "q": "What is a LUT?",
+     "options": [
+      "A lookup table that maps input colours to output colours, used for creative looks or conversions",
+      "A layer",
+      "A filter",
+      "A preset only"
+     ],
+     "answer": 0,
+     "explain": "Apply on top of corrected footage."
+    },
+    {
+     "q": "Under Rec.709 video levels, 8-bit luma 16 is black and 235 is white. What fraction of the 0 to 255 range is used by legal video levels?\n```python\nprint(round((235-16)/255,3))\n```\n",
+     "options": [
+      "1.0",
+      "0.859",
+      "0.92",
+      "0.5"
+     ],
+     "answer": 1,
+     "explain": "Legal range leaves headroom and footroom. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    }
+   ]
+  },
+  "level-4/08-indesign-print-production": {
+   "questions": [
+    {
+     "q": "What is bleed?",
+     "options": [
+      "Slug",
+      "Margin",
+      "Artwork extended past the trim edge (typically 3 mm / 0.125 in) so no white shows after cutting",
+      "Gutter"
+     ],
+     "answer": 2,
+     "explain": "Set in Document Setup."
+    },
+    {
+     "q": "A trim size of 210x297 mm needs 3 mm bleed on all sides. What is the file size to prepare?\n```python\nprint((210+2*3, 297+2*3))\n```\n",
+     "options": [
+      "(216, 303)",
+      "(210, 297)",
+      "(213, 300)",
+      "(219, 306)"
+     ],
+     "answer": 0,
+     "explain": "Add bleed on each side. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    },
+    {
+     "q": "A CMYK ink mix is C80 M70 Y60 K90. What is the total ink coverage, and does it exceed a 300% limit?\n```python\ntac=80+70+60+90\nprint(tac, tac>300)\n```\n",
+     "options": [
+      "300 False",
+      "400 True",
+      "250 False",
+      "300 True"
+     ],
+     "answer": 0,
+     "explain": "Total area coverage limits depend on the paper and press. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    },
+    {
+     "q": "What does Preflight check?",
+     "options": [
+      "Colour",
+      "Problems such as missing fonts, low-resolution images, RGB images or overset text",
+      "Speed",
+      "Spelling"
+     ],
+     "answer": 1,
+     "explain": "Define a profile for your printer."
+    }
+   ]
+  },
+  "level-4/09-portfolio-client-delivery": {
+   "questions": [
+    {
+     "q": "What makes a portfolio effective?",
+     "options": [
+      "Only logos",
+      "A focused selection of your best work with context: the brief, your role and the result",
+      "Screenshots",
+      "Everything"
+     ],
+     "answer": 1,
+     "explain": "Quality over quantity."
+    },
+    {
+     "q": "What should a client delivery package include?",
+     "options": [
+      "Nothing",
+      "Final files in agreed formats, source or working files if contracted, and clear naming and specifications",
+      "Screenshots",
+      "Only finals"
+     ],
+     "answer": 1,
+     "explain": "Agree deliverables in advance."
+    },
+    {
+     "q": "A video bitrate of 12 Mbps for a 4-minute video. What is the approximate file size in MB (excluding audio)?\n```python\nprint(12*240/8)\n```\n",
+     "options": [
+      "36.0",
+      "48.0",
+      "2880.0",
+      "360.0"
+     ],
+     "answer": 3,
+     "explain": "Size = bitrate x duration / 8. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    },
+    {
+     "q": "How do you handle revisions professionally?",
+     "options": [
+      "Verbal",
+      "Unlimited",
+      "Ad hoc",
+      "Define the number of revision rounds in the contract and track feedback in one place"
+     ],
+     "answer": 3,
+     "explain": "Prevents scope creep."
+    }
+   ]
+  },
+  "level-4/10-capstone-campaign-production": {
+   "questions": [
+    {
+     "q": "What does the capstone campaign production demonstrate?",
+     "options": [
+      "One video",
+      "One app",
+      "One image",
+      "An end-to-end multi-app pipeline: planning, asset production, motion, delivery and documentation"
+     ],
+     "answer": 3,
+     "explain": "Professional workflow."
+    },
+    {
+     "q": "What belongs in the production brief?",
+     "options": [
+      "Colours",
+      "Names",
+      "Goals, audience, deliverables with specs, timeline, brand rules and approvals",
+      "Logos"
+     ],
+     "answer": 2,
+     "explain": "Shared understanding."
+    },
+    {
+     "q": "A campaign needs 5 deliverables each taking 6 hours plus 20% review time. How many total hours?\n```python\nprint(5*6*1.2)\n```\n",
+     "options": [
+      "30.0",
+      "6.0",
+      "36.0",
+      "26.0"
+     ],
+     "answer": 2,
+     "explain": "Include review in estimates. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+    },
+    {
+     "q": "How do you demonstrate quality in the capstone?",
+     "options": [
+      "Fast",
+      "Looks fine",
+      "Large",
+      "Consistent branding, correct specs, colour-managed exports and organised handover files"
+     ],
+     "answer": 3,
+     "explain": "Evidence."
+    }
+   ]
   }
- }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What timecode is frame 2,160 at 24 fps?\n```python\nf=2160;fps=24\ns=f//fps\nprint(f'{s//3600:02d}:{s//60%60:02d}:{s%60:02d}:{f%fps:02d}')\n```\n",
+    "options": [
+     "01:30:00:00",
+     "00:02:00:00",
+     "00:00:90:00",
+     "00:01:30:00"
+    ],
+    "answer": 3,
+    "explain": "Divide frames by the frame rate to get seconds. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+   },
+   {
+    "q": "How much does +6 dB change amplitude, and how many dB is a halving of amplitude?\n```python\nimport math\nprint(round(10**(6/20),2), round(20*math.log10(0.5),2))\n```\n",
+    "options": [
+     "2.0 -6.02",
+     "1.5 -6.02",
+     "6.0 -3.0",
+     "2.0 -3.01"
+    ],
+    "answer": 0,
+    "explain": "Amplitude ratio = 10^(dB/20); halving is about -6 dB. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+   },
+   {
+    "q": "What is the effective resolution of a 2,400 px wide photo placed 100 mm wide, and at 150% scale?\n```python\nprint(round(2400/(100/25.4)), round(2400/(150/25.4)))\n```\n",
+    "options": [
+     "240 160",
+     "254 254",
+     "610 406",
+     "61 41"
+    ],
+    "answer": 2,
+    "explain": "Enlarging an image lowers its effective ppi. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+   },
+   {
+    "q": "A 210x297 mm page with 3 mm bleed needs what document size, and an 8 Mbps video lasting 60 s is roughly how large (MB)?\n```python\nprint((210+6,297+6), 8*60/8)\n```\n",
+    "options": [
+     "(216, 303) 480.0",
+     "(213, 300) 60.0",
+     "(216, 303) 60.0",
+     "(210, 297) 7.5"
+    ],
+    "answer": 2,
+    "explain": "Add bleed on both sides; size = bitrate x time / 8. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+   },
+   {
+    "q": "What is the contrast ratio of mid grey (119) on white, and does it reach the WCAG AA threshold of 4.5?\n```python\ndef lin(c):\n    c/=255\n    return c/12.92 if c<=0.04045 else ((c+0.055)/1.055)**2.4\nL=lambda v: lin(v)\nr=(1+0.05)/(L(119)+0.05)\nprint(round(r,2), r>=4.5)\n```\n",
+    "options": [
+     "2.0 False",
+     "4.48 False",
+     "4.48 True",
+     "7.0 True"
+    ],
+    "answer": 1,
+    "explain": "Mid grey #777 is a famous near-miss for AA on white. (A Python check of the arithmetic behind the technique; the Adobe applications themselves were not run.) Verified by running it."
+   },
+   {
+    "q": "Which setting extends artwork beyond the trim edge so no white slivers show after cutting?",
+    "options": [
+     "Slug",
+     "Margin",
+     "Gutter",
+     "Bleed (typically 3 mm or 0.125 in)"
+    ],
+    "answer": 3,
+    "explain": "Set it in the document setup."
+   },
+   {
+    "q": "What is the difference between Assign Profile and Convert to Profile?",
+    "options": [
+     "Assign reinterprets numbers without changing them; Convert changes the numbers to preserve appearance in a new space",
+     "Convert only labels",
+     "Assign converts",
+     "Same"
+    ],
+    "answer": 0,
+    "explain": "Choose deliberately."
+   },
+   {
+    "q": "What do parent (master) pages do in InDesign?",
+    "options": [
+     "Export",
+     "Print",
+     "Colour",
+     "Hold repeating elements such as grids, margins and page numbers for many pages"
+    ],
+    "answer": 3,
+    "explain": "Edit once, update everywhere."
+   },
+   {
+    "q": "Why use paragraph styles with 'Based On' relationships?",
+    "options": [
+     "Speed",
+     "Colour",
+     "Changes cascade through a hierarchy so documents stay consistent",
+     "Law"
+    ],
+    "answer": 2,
+    "explain": "Never format by hand."
+   },
+   {
+    "q": "What does Easy Ease do to a keyframe?",
+    "options": [
+     "Locks it",
+     "Smooths acceleration and deceleration instead of constant speed",
+     "Deletes it",
+     "Colours it"
+    ],
+    "answer": 1,
+    "explain": "Edit in the Graph Editor."
+   },
+   {
+    "q": "What does the speed graph show compared with the value graph in After Effects?",
+    "options": [
+     "Time",
+     "How quickly the value changes, whereas the value graph shows the value itself",
+     "Colours",
+     "Audio"
+    ],
+    "answer": 1,
+    "explain": "Steep speed means fast change."
+   },
+   {
+    "q": "What is an After Effects expression?",
+    "options": [
+     "A JavaScript snippet on a property that computes its value, for example wiggle() or loopOut()",
+     "A plug-in",
+     "A mask",
+     "A preset"
+    ],
+    "answer": 0,
+    "explain": "Pick-whip links properties."
+   },
+   {
+    "q": "What is the right way to attach a graphic to a moving subject?",
+    "options": [
+     "Precompose",
+     "Track the motion and apply the data to a null or the layer's position, rotation or scale (or a corner pin)",
+     "Keyframe by eye",
+     "Blend"
+    ],
+    "answer": 1,
+    "explain": "Tracking automates the matching."
+   },
+   {
+    "q": "What does Dynamic Link let you do?",
+    "options": [
+     "Sync audio",
+     "Import fonts",
+     "Update Premiere and After Effects compositions without intermediate renders",
+     "Export"
+    ],
+    "answer": 2,
+    "explain": "Replace With After Effects Composition."
+   },
+   {
+    "q": "What is a Motion Graphics Template for?",
+    "options": [
+     "Editable animated titles that editors adjust in Premiere's Essential Graphics panel without opening After Effects",
+     "A video",
+     "A LUT",
+     "A preset"
+    ],
+    "answer": 0,
+    "explain": "Master Properties control what is editable."
+   },
+   {
+    "q": "What does the vectorscope help you judge?",
+    "options": [
+     "Timecode",
+     "Brightness",
+     "Hue and saturation, including whether skin tones sit near the skin-tone line",
+     "Audio"
+    ],
+    "answer": 2,
+    "explain": "The waveform judges luma."
+   },
+   {
+    "q": "Why use Creative Cloud Libraries in a team?",
+    "options": [
+     "Shared brand colours, styles and assets stay current across apps and people",
+     "Colour",
+     "Law",
+     "Speed"
+    ],
+    "answer": 0,
+    "explain": "One source of truth."
+   },
+   {
+    "q": "When should you script rather than record an action?",
+    "options": [
+     "When you need loops, conditions or logic that a recorded action cannot express",
+     "Always",
+     "Never",
+     "Simple tasks"
+    ],
+    "answer": 0,
+    "explain": "Test on copies first."
+   },
+   {
+    "q": "What should a client delivery package contain?",
+    "options": [
+     "Nothing",
+     "Final files in the agreed formats, specifications and, if contracted, organised source files",
+     "Only source",
+     "Only a screenshot"
+    ],
+    "answer": 1,
+    "explain": "Agree deliverables upfront."
+   },
+   {
+    "q": "What makes a pipeline robust across apps?",
+    "options": [
+     "Fancy plug-ins",
+     "Agreed colour spaces, formats, naming and hand-offs documented before production starts",
+     "Luck",
+     "Speed"
+    ],
+    "answer": 1,
+    "explain": "A pipeline is agreements as much as software."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Timecode, easing curves and expression-style motion",
+    "prompt": "Model the maths behind keyframed motion in plain Python: frame-to-timecode (including 29.97 drop-frame), linear / ease-in-out / ease-out / cubic-bezier easing between keyframes, a loopOut('cycle') style repeat and a seeded, bounded wiggle. This reproduces the arithmetic After Effects performs; it does not run After Effects or Premiere.",
+    "starter": "import math, random\n\n# TODO: to_timecode(frames, fps=24) -> \"HH:MM:SS:FF\"\n# TODO: to_dropframe(frames) -> NTSC 29.97 drop-frame \"HH:MM:SS;FF\" (skip frame numbers 00 and 01 each minute except every 10th minute)\n# TODO: easing functions linear, ease_in_out (3t^2 - 2t^3), ease_out (1 - (1-t)^3), and bezier(x1,y1,x2,y2) solved by bisection on x\n# TODO: animate(keys, t, ease) interpolating between (time, value) keyframes, clamped outside the range\n# TODO: loop_cycle(keys, t) - like loopOut(\"cycle\"); wiggle(freq, amp, t, seed) - smooth, seeded, bounded by amp\n# Print, in order: timecodes, the four easing rows at t = 0.25, 0.5, 1.0, 1.5 for keys [(0,0),(1,100),(2,40)], the loop cycle values,\n# the wiggle samples and two checks (bounded by amp, repeatable with the same seed)\nkeys = [(0, 0), (1, 100), (2, 40)]\n",
+    "expected": "00:01:30:00 01:00:05:07 00:01:00;02 00:10:00;00\nlinear               [25.0, 50.0, 100.0, 70.0]\nease in/out          [15.6, 50.0, 100.0, 70.0]\nease out             [57.8, 87.5, 100.0, 47.5]\nbezier(.42,0,.58,1)  [12.9, 50.0, 100.0, 70.0]\nloopOut cycle: [50.0, 50.0, 50.0, 100.0]\nwiggle(2,30): [-10.7, -14.9, -21.8, -20.4, -5.6, 3.6, 5.6, 9.0, 6.6, -10.4, -21.0] | stays within amp: True\nsame seed repeats: True",
+    "solution": "import math, random\n\n# --- timecode -------------------------------------------------------------\ndef to_timecode(frames, fps=24):\n    f = frames % fps\n    s = frames // fps\n    return f\"{s // 3600:02d}:{s // 60 % 60:02d}:{s % 60:02d}:{f:02d}\"\n\ndef to_dropframe(frames):\n    \"\"\"29.97 fps drop-frame: skip frame numbers 00 and 01 at the start of every minute except every tenth minute.\"\"\"\n    d, m = divmod(frames, 17982)              # frames per 10 minutes\n    frames += 18 * d + (2 * ((m - 2) // 1798) if m > 2 else 0)\n    f = frames % 30\n    s = frames // 30\n    return f\"{s // 3600:02d}:{s // 60 % 60:02d}:{s % 60:02d};{f:02d}\"\n\nprint(to_timecode(90 * 24), to_timecode(24 * 3600 + 5 * 24 + 7), to_dropframe(1800), to_dropframe(17982))\n\n# --- keyframe interpolation and easing ------------------------------------\ndef linear(t): return t\ndef ease_in_out(t): return 3 * t ** 2 - 2 * t ** 3            # smoothstep, like Easy Ease\ndef ease_out(t): return 1 - (1 - t) ** 3\n\ndef bezier(x1, y1, x2, y2):\n    \"\"\"CSS-style cubic-bezier easing solved with bisection on x.\"\"\"\n    def curve(a, b, t): return 3 * a * (1 - t) ** 2 * t + 3 * b * (1 - t) * t ** 2 + t ** 3\n    def ease(x):\n        lo, hi = 0.0, 1.0\n        for _ in range(40):\n            mid = (lo + hi) / 2\n            if curve(x1, x2, mid) < x: lo = mid\n            else: hi = mid\n        return curve(y1, y2, (lo + hi) / 2)\n    return ease\n\ndef animate(keys, t, ease=linear):\n    \"\"\"keys: [(time, value), ...] sorted by time; ease applies between keys.\"\"\"\n    if t <= keys[0][0]: return keys[0][1]\n    if t >= keys[-1][0]: return keys[-1][1]\n    for (t0, v0), (t1, v1) in zip(keys, keys[1:]):\n        if t0 <= t <= t1:\n            return v0 + (v1 - v0) * ease((t - t0) / (t1 - t0))\n\nkeys = [(0, 0), (1, 100), (2, 40)]\nfor name, e in [(\"linear\", linear), (\"ease in/out\", ease_in_out), (\"ease out\", ease_out), (\"bezier(.42,0,.58,1)\", bezier(.42, 0, .58, 1))]:\n    print(f\"{name:20}\", [round(animate(keys, t, e), 1) for t in (0.25, 0.5, 1.0, 1.5)])\n\n# --- expressions: loopOut(\"cycle\") and a seeded wiggle ----------------------\ndef loop_cycle(keys, t, ease=ease_in_out):\n    start, end = keys[0][0], keys[-1][0]\n    return animate(keys, start + (t - start) % (end - start), ease)\n\nprint(\"loopOut cycle:\", [round(loop_cycle(keys, t), 1) for t in (0.5, 2.5, 4.5, 5.0)])\n\ndef wiggle(freq, amp, t, seed=7):\n    \"\"\"smooth value noise: random values at 1/freq intervals, cosine-interpolated\"\"\"\n    def at(i):\n        return random.Random(seed * 1000 + i).uniform(-1, 1)\n    x = t * freq\n    i = math.floor(x); f = x - i\n    f = (1 - math.cos(f * math.pi)) / 2\n    return amp * (at(i) * (1 - f) + at(i + 1) * f)\n\nvals = [round(wiggle(2, 30, t / 10), 1) for t in range(0, 21, 2)]\nprint(\"wiggle(2,30):\", vals, \"| stays within amp:\", all(abs(v) <= 30 for v in vals))\nprint(\"same seed repeats:\", wiggle(2, 30, 0.37) == wiggle(2, 30, 0.37))\n",
+    "explain": "Easing remaps normalised time before interpolation, so the same keyframes give different in-between values. Drop-frame timecode skips frame numbers (not real frames) to stay in step with 29.97 fps video. The wiggle uses seeded noise so it repeats, which is why After Effects' wiggle is deterministic per property. Verified by running the Python solution."
+   },
+   {
+    "title": "Print, colour and delivery calculators",
+    "prompt": "Write the calculators a designer or editor keeps reaching for: bleed sizes, effective resolution of placed images, total ink coverage against a 300% limit, a naive RGB-to-CMYK conversion, WCAG contrast, loudness gain and delivery file sizes. The naive CMYK conversion ignores ICC profiles, which real prepress uses; this models the arithmetic only, not InDesign, Photoshop or Premiere.",
+    "starter": "import math\n\n# TODO: with_bleed(w, h, bleed=3); effective_ppi(pixels_w, placed_mm_w, scale_percent=100); tac(c, m, y, k); naive_cmyk(r, g, b)\n# TODO: lin(c), lum(rgb), contrast(a, b) (WCAG relative luminance); gain_to_target(measured_lufs, target_lufs) -> (dB, amplitude ratio);\n#       file_size_mb(video_mbps, audio_kbps, seconds)\n# Print: bleed sizes for A5 (148x210) and A4, effective ppi verdicts (>= 250 print, >= 150 soft, else screen) for three placements,\n#        TAC verdicts against a 300% limit for rich black (60,40,40,100), a heavy mix (80,70,60,90) and plain K,\n#        a naive CMYK for orange/black/grey, two contrast ratios, the loudness gain and two delivery file sizes\n",
+    "expected": "A5 trim with bleed: (154, 216) | A4: (216, 303)\nhero 3000px on 210mm: 363 ppi -> ok for print\nlogo 600px on 60mm: 254 ppi -> ok for print\nphoto enlarged 150%: 406 ppi -> ok for print\nrich black TAC 240% within 300% limit\nheavy mix  TAC 300% within 300% limit\nplain K    TAC 100% within 300% limit\norange RGB(255,128,0) -> CMYK (0, 50, 100, 0) | black (0, 0, 0, 100) | mid grey (0, 0, 0, 50)\ncontrast white/#1a1a2e: 17.1 | yellow on white: 1.35\ngain to reach -14 LUFS from -20.5: +6.5 dB (x2.11 amplitude)\n90 s social cut at 8 Mbps + 192 kbps audio: 92.2 MB\n4 min master at 50 Mbps + 320 kbps audio: 1510 MB",
+    "solution": "import math\n\n# --- print production ------------------------------------------------------\ndef with_bleed(w, h, bleed=3):\n    return (w + 2 * bleed, h + 2 * bleed)\n\ndef effective_ppi(pixels_w, placed_mm_w, scale_percent=100):\n    return pixels_w / (placed_mm_w * scale_percent / 100 / 25.4)\n\ndef tac(c, m, y, k):\n    return c + m + y + k\n\ndef naive_cmyk(r, g, b):\n    \"\"\"textbook RGB -> CMYK (no ICC profile); real conversions use profiles and rendering intents\"\"\"\n    r, g, b = r / 255, g / 255, b / 255\n    k = 1 - max(r, g, b)\n    if k == 1: return (0, 0, 0, 100)\n    return tuple(round(100 * v) for v in ((1 - r - k) / (1 - k), (1 - g - k) / (1 - k), (1 - b - k) / (1 - k), k))\n\nprint(\"A5 trim with bleed:\", with_bleed(148, 210), \"| A4:\", with_bleed(210, 297))\nfor label, px, mm, sc in [(\"hero 3000px on 210mm\", 3000, 210, 100), (\"logo 600px on 60mm\", 600, 60, 100), (\"photo enlarged 150%\", 2400, 100, 150)]:\n    ppi = effective_ppi(px, mm, sc)\n    print(f\"{label}: {ppi:.0f} ppi -> {'ok for print' if ppi >= 250 else 'too soft for print' if ppi >= 150 else 'screen only'}\")\nfor name, ink in [(\"rich black\", (60, 40, 40, 100)), (\"heavy mix\", (80, 70, 60, 90)), (\"plain K\", (0, 0, 0, 100))]:\n    t = tac(*ink)\n    print(f\"{name:10} TAC {t}% {'over 300% limit' if t > 300 else 'within 300% limit'}\")\nprint(\"orange RGB(255,128,0) -> CMYK\", naive_cmyk(255, 128, 0), \"| black\", naive_cmyk(0, 0, 0), \"| mid grey\", naive_cmyk(128, 128, 128))\n\n# --- colour contrast, audio gain and delivery size --------------------------\ndef lin(c):\n    c /= 255\n    return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4\n\ndef lum(rgb):\n    r, g, b = map(lin, rgb)\n    return 0.2126 * r + 0.7152 * g + 0.0722 * b\n\ndef contrast(a, b):\n    la, lb = sorted((lum(a), lum(b)), reverse=True)\n    return (la + 0.05) / (lb + 0.05)\n\nprint(\"contrast white/#1a1a2e:\", round(contrast((255, 255, 255), (0x1a, 0x1a, 0x2e)), 1), \"| yellow on white:\", round(contrast((255, 221, 0), (255, 255, 255)), 2))\n\ndef gain_to_target(measured_lufs, target_lufs):\n    db = target_lufs - measured_lufs\n    return db, 10 ** (db / 20)\n\ndb, ratio = gain_to_target(-20.5, -14)\nprint(f\"gain to reach -14 LUFS from -20.5: +{db:.1f} dB (x{ratio:.2f} amplitude)\")\n\ndef file_size_mb(video_mbps, audio_kbps, seconds):\n    return (video_mbps * 1000 + audio_kbps) * seconds / 8 / 1000\n\nprint(\"90 s social cut at 8 Mbps + 192 kbps audio:\", round(file_size_mb(8, 192, 90), 1), \"MB\")\nprint(\"4 min master at 50 Mbps + 320 kbps audio:\", round(file_size_mb(50, 320, 240)), \"MB\")\n",
+    "explain": "Effective ppi falls as an image is enlarged; TAC adds the four ink percentages; contrast uses relative luminance from linearised sRGB; a gain of +6.5 dB is an amplitude factor of about 2.1. File size is bitrate times duration divided by eight. Verified by running the Python solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
 }
