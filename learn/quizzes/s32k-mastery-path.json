@@ -1,0 +1,2159 @@
+{
+ "course": "s32k-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-automotive-landscape-s32k": {
+   "questions": [
+    {
+     "q": "What most distinguishes an automotive MCU from a hobby Cortex-M board?",
+     "options": [
+      "A faster clock only",
+      "Support for Arduino",
+      "Qualification for harsh temperature, long life and functional safety, plus automotive peripherals such as CAN and LIN",
+      "A bigger screen"
+     ],
+     "answer": 2,
+     "explain": "Both may be Cortex-M cores; the ecosystem, qualification and safety features differ."
+    },
+    {
+     "q": "Which peripheral is the backbone of in-vehicle networking on S32K parts?",
+     "options": [
+      "FlexCAN",
+      "USB host",
+      "HDMI",
+      "I2S only"
+     ],
+     "answer": 0,
+     "explain": "CAN connects ECUs in the vehicle; LIN serves cheap sub-networks."
+    },
+    {
+     "q": "What does ISO 26262 define?",
+     "options": [
+      "Tyre standards",
+      "Battery chemistry",
+      "Wi-Fi security",
+      "Functional safety for road-vehicle electrical and electronic systems, including ASIL levels"
+     ],
+     "answer": 3,
+     "explain": "ASIL A to D rate risk, with D the most demanding."
+    },
+    {
+     "q": "What is AUTOSAR?",
+     "options": [
+      "A bus",
+      "A standardised software architecture for automotive ECUs (Classic and Adaptive)",
+      "A debugger",
+      "A chip"
+     ],
+     "answer": 1,
+     "explain": "It standardises layers like MCAL, BSW and RTE."
+    }
+   ]
+  },
+  "level-1/02-toolchain-s32-design-studio": {
+   "questions": [
+    {
+     "q": "What does S32 Design Studio provide?",
+     "options": [
+      "A simulator only",
+      "A bootloader",
+      "A CAN bus",
+      "An Eclipse-based IDE with GCC toolchain, SDK and debugging for S32K"
+     ],
+     "answer": 3,
+     "explain": "It bundles project creation, configuration tools and debug support."
+    },
+    {
+     "q": "Why use an SDK or RTD instead of writing register code everywhere?",
+     "options": [
+      "Tested drivers speed development and reduce bugs, while register-level knowledge still matters for debugging",
+      "Required by ISO",
+      "Registers are not allowed",
+      "They are faster to read"
+     ],
+     "answer": 0,
+     "explain": "Know what the driver does under the hood."
+    },
+    {
+     "q": "What does a debugger probe such as P&E or J-Link allow?",
+     "options": [
+      "Wireless updates only",
+      "CAN logging only",
+      "Compilation",
+      "Flashing, halting, stepping and inspecting registers over SWD"
+     ],
+     "answer": 3,
+     "explain": "SWD uses two pins plus ground."
+    },
+    {
+     "q": "Why commit the generated configuration files with the project?",
+     "options": [
+      "Style",
+      "So the build is reproducible and others get the same pin and clock setup",
+      "To hide code",
+      "They are tiny"
+     ],
+     "answer": 1,
+     "explain": "Configuration is part of the source."
+    }
+   ]
+  },
+  "level-1/03-clocks-power-boot": {
+   "questions": [
+    {
+     "q": "Which clock source does the S32K1 boot on?",
+     "options": [
+      "SOSC crystal",
+      "FIRC, the 48 MHz fast internal RC oscillator",
+      "SIRC",
+      "SPLL at 80 MHz"
+     ],
+     "answer": 1,
+     "explain": "Software then enables the crystal and PLL for full speed."
+    },
+    {
+     "q": "What clock rates result from this S32K1 divider chain?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){int sosc=8; int vco=sosc*40; int spll=vco/2; printf(\"%d %d %d %.2f\\n\",spll,spll/2,spll/4,(double)spll/6);}\n```\n",
+     "options": [
+      "160 80 40 26.67",
+      "320 160 80 26.67",
+      "160 40 80 26.67",
+      "160 80 40 26.00"
+     ],
+     "answer": 0,
+     "explain": "8 MHz x 40 = 320 MHz VCO, /2 = 160 MHz SPLL output; the course divides by 2 for the 80 MHz core, 4 for the 40 MHz bus and 6 for the roughly 26.67 MHz flash clock. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    },
+    {
+     "q": "Why does CAN need a crystal-grade clock rather than an internal RC oscillator?",
+     "options": [
+      "Voltage",
+      "Speed",
+      "Bit timing tolerance is tight, so an inaccurate clock causes errors",
+      "Power"
+     ],
+     "answer": 2,
+     "explain": "Internal RC drifts with temperature."
+    },
+    {
+     "q": "What is the purpose of the PCC (peripheral clock controller)?",
+     "options": [
+      "Power regulation",
+      "Gate and select the clock for each peripheral before using it",
+      "Pin muxing",
+      "Flash"
+     ],
+     "answer": 1,
+     "explain": "A peripheral without a clock ignores register writes."
+    }
+   ]
+  },
+  "level-1/04-gpio-pin-muxing": {
+   "questions": [
+    {
+     "q": "Why must a pin be muxed before use?",
+     "options": [
+      "Voltage",
+      "Colour",
+      "Each pin can serve several functions and the PORT module selects which one is connected",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "PORTx->PCR[n] MUX field."
+    },
+    {
+     "q": "What happens if you write a GPIO output but the pin is muxed to another function?",
+     "options": [
+      "It resets",
+      "The pin does not change because GPIO is not connected to it",
+      "It overheats",
+      "It toggles"
+     ],
+     "answer": 1,
+     "explain": "Check the mux first."
+    },
+    {
+     "q": "Which register typically sets bits atomically without read-modify-write?",
+     "options": [
+      "PSOR/PCOR/PTOR (set, clear, toggle)",
+      "PCR",
+      "PDIR",
+      "PDOR only"
+     ],
+     "answer": 0,
+     "explain": "Atomic bit operations avoid race conditions with interrupts."
+    },
+    {
+     "q": "What does this bit manipulation print?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){uint32_t r=0; r|=(1u<<3)|(1u<<5); r&=~(1u<<3); r^=(1u<<0); printf(\"0x%02X\\n\",r);}\n```\n",
+     "options": [
+      "0x2B",
+      "0x20",
+      "0x21",
+      "0x29"
+     ],
+     "answer": 2,
+     "explain": "Set bits 3 and 5, clear bit 3, toggle bit 0. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    }
+   ]
+  },
+  "level-1/05-uart-communication": {
+   "questions": [
+    {
+     "q": "What baud rate results from SBR = 26 with a 48 MHz clock and OSR+1 = 16?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){double b=48e6/(16.0*26); double e=(b-115200)/115200*100; printf(\"%.0f %.2f\\n\",b,e);}\n```\n",
+     "options": [
+      "115385 0.16",
+      "115200 0.00",
+      "115385 1.60",
+      "112500 2.34"
+     ],
+     "answer": 0,
+     "explain": "Baud = clock / (OSR x SBR); the 0.16% error is well within UART tolerance. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    },
+    {
+     "q": "What does 8N1 mean?",
+     "options": [
+      "8 parity",
+      "8 data bits, no parity, 1 stop bit",
+      "8 stop bits",
+      "1 data bit"
+     ],
+     "answer": 1,
+     "explain": "Ten bits per byte on the wire including start."
+    },
+    {
+     "q": "Why prefer interrupt or DMA driven UART RX over polling?",
+     "options": [
+      "Style",
+      "So bytes are not lost while the CPU does other work",
+      "Law",
+      "Syntax"
+     ],
+     "answer": 1,
+     "explain": "Overrun errors occur if the data register is not read in time."
+    },
+    {
+     "q": "How long does it take to send 100 bytes at 115200 baud (8N1)?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){double t=100*10/115200.0*1000; printf(\"%.2f ms\\n\",t);}\n```\n",
+     "options": [
+      "6.94 ms",
+      "86.8 ms",
+      "0.87 ms",
+      "8.68 ms"
+     ],
+     "answer": 3,
+     "explain": "Each byte is 10 bits including start and stop. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    }
+   ]
+  },
+  "level-1/06-adc-sensor-inputs": {
+   "questions": [
+    {
+     "q": "What voltage does an ADC count of 2048 represent (12-bit, 5 V reference)?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){printf(\"%.3f\\n\",2048*5.0/4095);}\n```\n",
+     "options": [
+      "5.000",
+      "2.501",
+      "1.250",
+      "2.500"
+     ],
+     "answer": 1,
+     "explain": "Counts = V/Vref x 4095, so V = counts x Vref / 4095. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    },
+    {
+     "q": "Why average several ADC samples?",
+     "options": [
+      "Resolution",
+      "Colour",
+      "To reduce random noise",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Oversampling trades time for accuracy."
+    },
+    {
+     "q": "What limits ADC accuracy when measuring a high-impedance source?",
+     "options": [
+      "UART",
+      "Clock",
+      "Flash",
+      "Insufficient sampling time to charge the sample capacitor"
+     ],
+     "answer": 3,
+     "explain": "Increase the sample time or buffer the input."
+    },
+    {
+     "q": "What integer temperature (tenths of C) comes from this linear sensor formula?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){int mv=1500; int t10=(mv-500)*10/10; printf(\"%d\\n\",t10);}\n```\n",
+     "options": [
+      "100",
+      "1000",
+      "1500",
+      "10000"
+     ],
+     "answer": 1,
+     "explain": "A 10 mV/degC sensor with a 500 mV offset gives 100.0 C at 1500 mV, i.e. 1000 tenths. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    }
+   ]
+  },
+  "level-1/07-can-fundamentals": {
+   "questions": [
+    {
+     "q": "Which CAN frame wins arbitration?",
+     "options": [
+      "The highest ID",
+      "The one with the lowest identifier (dominant bits override recessive)",
+      "The first sent",
+      "The longest"
+     ],
+     "answer": 1,
+     "explain": "Lower ID means higher priority."
+    },
+    {
+     "q": "What is bit stuffing?",
+     "options": [
+      "Inserting an opposite-polarity bit after five identical bits to keep edges for synchronisation",
+      "Adding data",
+      "Compressing",
+      "Parity"
+     ],
+     "answer": 0,
+     "explain": "The receiver removes stuffed bits."
+    },
+    {
+     "q": "How many bits does a classic CAN base frame need on the wire at most for 8 data bytes before stuffing?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){int bits=1+11+1+1+1+4+64+15+1+1+1+7+3; printf(\"%d\\n\",bits);}\n```\n",
+     "options": [
+      "111",
+      "130",
+      "64",
+      "108"
+     ],
+     "answer": 0,
+     "explain": "SOF, ID, RTR, IDE, r0, DLC, data, CRC, delimiters, ACK, EOF and interframe space add up to 111 before stuffing. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    },
+    {
+     "q": "What does the ACK slot mean?",
+     "options": [
+      "At least one node received the frame without error (receivers drive it dominant)",
+      "Sender confirmed",
+      "Gateway",
+      "All nodes got it"
+     ],
+     "answer": 0,
+     "explain": "The transmitter only knows someone acknowledged."
+    }
+   ]
+  },
+  "level-1/08-timers-pwm": {
+   "questions": [
+    {
+     "q": "What PWM compare value gives a 25% duty with a 1000-tick period?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){uint32_t mod=999, duty=25; uint32_t cv=(mod+1)*duty/100; printf(\"%u\\n\",cv);}\n```\n",
+     "options": [
+      "25",
+      "250",
+      "249",
+      "999"
+     ],
+     "answer": 1,
+     "explain": "CnV = (MOD+1) x duty. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    },
+    {
+     "q": "What is the PWM frequency for a 48 MHz timer clock, prescaler 1 and MOD 999?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){printf(\"%.0f\\n\",48e6/1000);}\n```\n",
+     "options": [
+      "48000",
+      "48",
+      "480000",
+      "4800"
+     ],
+     "answer": 0,
+     "explain": "f = clock / (MOD+1). (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    },
+    {
+     "q": "What does an input-capture channel measure?",
+     "options": [
+      "The time of an edge, for pulse width or frequency",
+      "Voltage",
+      "Current",
+      "Temperature"
+     ],
+     "answer": 0,
+     "explain": "The difference between captures gives period."
+    },
+    {
+     "q": "Why use a hardware timer for periodic tasks instead of a delay loop?",
+     "options": [
+      "Simplicity",
+      "Law",
+      "Style",
+      "It is precise, frees the CPU and works with interrupts or DMA"
+     ],
+     "answer": 3,
+     "explain": "LPIT 10 ms tick example."
+    }
+   ]
+  },
+  "level-1/09-safety-robustness": {
+   "questions": [
+    {
+     "q": "What does a watchdog do?",
+     "options": [
+      "Encrypts",
+      "Logs",
+      "Boots",
+      "Resets the MCU if software fails to refresh it in time"
+     ],
+     "answer": 3,
+     "explain": "Refresh only when the system is verifiably healthy."
+    },
+    {
+     "q": "Why is petting the watchdog from a timer ISR a bad idea?",
+     "options": [
+      "Law",
+      "It can keep the system 'alive' while the main loop is dead",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Refresh from the supervised task logic."
+    },
+    {
+     "q": "What does a CRC over flash at startup detect?",
+     "options": [
+      "Pin faults",
+      "Corruption of the program image",
+      "CAN errors",
+      "Slow clocks"
+     ],
+     "answer": 1,
+     "explain": "A basic safety mechanism."
+    },
+    {
+     "q": "Why validate sensor readings for plausibility?",
+     "options": [
+      "Style",
+      "Speed",
+      "A shorted or open sensor can produce out-of-range values that must trigger a safe state",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Check range and rate of change."
+    }
+   ]
+  },
+  "level-1/10-capstone-can-sensor-node": {
+   "questions": [
+    {
+     "q": "What is the capstone goal?",
+     "options": [
+      "Design a CAN sensor node: sample, scale, frame, transmit and handle faults",
+      "A PLC",
+      "A bootloader",
+      "A GUI"
+     ],
+     "answer": 0,
+     "explain": "Bring the level together."
+    },
+    {
+     "q": "How often should the node transmit its sensor message?",
+     "options": [
+      "Randomly",
+      "Never",
+      "Once",
+      "At a fixed, documented period so receivers can detect loss"
+     ],
+     "answer": 3,
+     "explain": "Periodic messages make timeouts meaningful."
+    },
+    {
+     "q": "How many bytes does a message with a 16-bit signal, a 4-bit counter and a 4-bit status need?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){int bits=16+4+4; printf(\"%d\\n\",(bits+7)/8);}\n```\n",
+     "options": [
+      "4",
+      "3",
+      "8",
+      "2"
+     ],
+     "answer": 1,
+     "explain": "24 bits is exactly 3 bytes. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    },
+    {
+     "q": "What should the node do if the ADC fails self-check?",
+     "options": [
+      "Ignore",
+      "Send a defined fault status and avoid transmitting stale valid-looking data",
+      "Silence the bus",
+      "Reset forever"
+     ],
+     "answer": 1,
+     "explain": "Fail safe and visibly."
+    }
+   ]
+  },
+  "level-2/01-flexcan-deep-dive": {
+   "questions": [
+    {
+     "q": "What is a FlexCAN message buffer (mailbox)?",
+     "options": [
+      "A queue in RAM only",
+      "A hardware slot holding one CAN frame for transmit or receive",
+      "A DMA",
+      "A bus"
+     ],
+     "answer": 1,
+     "explain": "Rx FIFO can aggregate several."
+    },
+    {
+     "q": "What do acceptance filters and masks do?",
+     "options": [
+      "Sort",
+      "Select which received IDs are stored, reducing CPU load",
+      "Delay",
+      "Encrypt"
+     ],
+     "answer": 1,
+     "explain": "Mask bits set to 1 must match."
+    },
+    {
+     "q": "Does ID 0x123 pass filter 0x120 with mask 0x7F0?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){uint32_t id=0x123, f=0x120, m=0x7F0; printf(\"%d %d\\n\",(id&m)==(f&m),(0x133&m)==(f&m));}\n```\n",
+     "options": [
+      "0 1",
+      "1 1",
+      "0 0",
+      "1 0"
+     ],
+     "answer": 3,
+     "explain": "Only masked bits are compared. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    },
+    {
+     "q": "What does the error passive state mean?",
+     "options": [
+      "Bus off",
+      "Powered off",
+      "The node has seen many errors and is restricted in how it signals errors",
+      "Idle"
+     ],
+     "answer": 2,
+     "explain": "Bus-off disconnects the node until recovery."
+    }
+   ]
+  },
+  "level-2/02-edma": {
+   "questions": [
+    {
+     "q": "What does eDMA do?",
+     "options": [
+      "Encrypts",
+      "Clocks",
+      "Moves data between memory and peripherals without CPU involvement",
+      "Compiles"
+     ],
+     "answer": 2,
+     "explain": "Triggered by peripheral requests."
+    },
+    {
+     "q": "What is a TCD?",
+     "options": [
+      "A tool",
+      "A task",
+      "A timer",
+      "Transfer control descriptor holding source, destination, sizes and counts for a DMA channel"
+     ],
+     "answer": 3,
+     "explain": "Chained TCDs form scatter-gather."
+    },
+    {
+     "q": "Why use DMA for ADC sampling into a buffer?",
+     "options": [
+      "Style",
+      "Safety",
+      "Law",
+      "Samples arrive at fixed rates and the CPU can sleep or compute"
+     ],
+     "answer": 3,
+     "explain": "Use half/complete interrupts."
+    },
+    {
+     "q": "What hazard exists with DMA and caches or shared memory?",
+     "options": [
+      "Speed",
+      "Colour",
+      "None",
+      "The CPU can read stale data unless synchronised or buffers are placed correctly"
+     ],
+     "answer": 3,
+     "explain": "More relevant on cached cores like S32K3."
+    }
+   ]
+  },
+  "level-2/03-lpspi-lpi2c": {
+   "questions": [
+    {
+     "q": "Which bus fits a short-range, multi-device sensor chain using chip selects?",
+     "options": [
+      "LIN",
+      "SPI (LPSPI)",
+      "Ethernet",
+      "CAN"
+     ],
+     "answer": 1,
+     "explain": "Full-duplex, clocked by the master."
+    },
+    {
+     "q": "What addressing does I2C use?",
+     "options": [
+      "MAC",
+      "CAN ID",
+      "Chip select",
+      "A 7-bit (or 10-bit) device address on a two-wire bus"
+     ],
+     "answer": 3,
+     "explain": "LPI2C is the peripheral."
+    },
+    {
+     "q": "Why do I2C lines need pull-up resistors?",
+     "options": [
+      "Speed",
+      "Devices only pull low (open-drain)",
+      "Colour",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Pull-up value affects rise time."
+    },
+    {
+     "q": "What does SPI mode (CPOL/CPHA) define?",
+     "options": [
+      "Speed",
+      "Pins",
+      "Clock idle level and which edge samples data",
+      "Parity"
+     ],
+     "answer": 2,
+     "explain": "Master and slave must match."
+    }
+   ]
+  },
+  "level-2/04-freertos-s32k": {
+   "questions": [
+    {
+     "q": "What does an RTOS scheduler give embedded firmware?",
+     "options": [
+      "Speed",
+      "Deterministic task scheduling by priority with timing services",
+      "A GUI",
+      "Memory"
+     ],
+     "answer": 1,
+     "explain": "FreeRTOS is common."
+    },
+    {
+     "q": "What is priority inversion?",
+     "options": [
+      "A high-priority task waits for a lock held by a low-priority one that a medium task preempts",
+      "A bug in ISR",
+      "DMA",
+      "CAN"
+     ],
+     "answer": 0,
+     "explain": "Priority inheritance mutexes help."
+    },
+    {
+     "q": "Why must ISRs use the FromISR API variants?",
+     "options": [
+      "Law",
+      "Normal calls may block, which is illegal in interrupt context",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Also respect priority limits."
+    },
+    {
+     "q": "How do you size a task stack?",
+     "options": [
+      "Guess",
+      "Max",
+      "Measure high-water mark during worst-case tests and add margin",
+      "Zero"
+     ],
+     "answer": 2,
+     "explain": "uxTaskGetStackHighWaterMark."
+    }
+   ]
+  },
+  "level-2/05-low-power-modes": {
+   "questions": [
+    {
+     "q": "What does a low-power mode trade?",
+     "options": [
+      "Safety",
+      "Nothing",
+      "Current consumption against wake-up latency and available peripherals",
+      "Speed only"
+     ],
+     "answer": 2,
+     "explain": "Pick the deepest mode that meets timing."
+    },
+    {
+     "q": "Which is a typical wake-up source from deep sleep?",
+     "options": [
+      "Compile",
+      "UART TX",
+      "Debugger only",
+      "CAN activity, LPTMR or a GPIO edge"
+     ],
+     "answer": 3,
+     "explain": "Check the mode's allowed sources."
+    },
+    {
+     "q": "What must be done before entering a low-power mode?",
+     "options": [
+      "Erase flash",
+      "Finish or drain pending transfers and configure wake sources",
+      "Disable clocks blindly",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Otherwise data may be lost."
+    },
+    {
+     "q": "Average current of an ECU awake 10 ms per second (20 mA) and asleep otherwise (50 uA)?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){double a=(0.010*20+0.990*0.05); printf(\"%.4f mA\\n\",a);}\n```\n",
+     "options": [
+      "2.500 mA",
+      "20.000 mA",
+      "0.2495 mA",
+      "0.050 mA"
+     ],
+     "answer": 2,
+     "explain": "Duty-weighted average. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    }
+   ]
+  },
+  "level-2/06-flash-flexnvm-eeprom": {
+   "questions": [
+    {
+     "q": "Why must flash be erased before programming?",
+     "options": [
+      "Programming can only change bits from 1 to 0",
+      "Speed",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Erase works on whole sectors."
+    },
+    {
+     "q": "What does EEPROM emulation on FlexNVM provide?",
+     "options": [
+      "A clock",
+      "More RAM",
+      "CAN",
+      "Byte-wise non-volatile storage with wear levelling on top of flash"
+     ],
+     "answer": 3,
+     "explain": "Endurance is much better than raw flash."
+    },
+    {
+     "q": "Why must code writing flash not run from the same flash block on some parts?",
+     "options": [
+      "Speed",
+      "Law",
+      "The flash is busy during program/erase and cannot supply instructions",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Run from RAM or another block."
+    },
+    {
+     "q": "How many sectors of 4 KiB are needed for 100 KiB?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){int n=(100*1024+4095)/4096; printf(\"%d\\n\",n);}\n```\n",
+     "options": [
+      "24",
+      "26",
+      "100",
+      "25"
+     ],
+     "answer": 3,
+     "explain": "Round up. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    }
+   ]
+  },
+  "level-2/07-s32k1-to-s32k3": {
+   "questions": [
+    {
+     "q": "What is a big difference between S32K1 and S32K3 cores?",
+     "options": [
+      "Same",
+      "S32K3 is 8-bit",
+      "S32K3 uses Cortex-M7 (higher performance, caches) while S32K1 uses Cortex-M4F or M0+",
+      "S32K1 is M7"
+     ],
+     "answer": 2,
+     "explain": "Check the reference manual for the exact part."
+    },
+    {
+     "q": "What do migrations from S32K1 to S32K3 typically require?",
+     "options": [
+      "New drivers/RTD, different clock and pin tools and attention to caches and memory map",
+      "Nothing",
+      "Only recompile",
+      "Only new debugger"
+     ],
+     "answer": 0,
+     "explain": "Plan time for peripherals."
+    },
+    {
+     "q": "Why not rely on register-level code when migrating?",
+     "options": [
+      "Peripheral register layouts differ, so abstraction layers ease the move",
+      "Speed",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "HAL/RTD helps."
+    },
+    {
+     "q": "What new feature appears on many S32K3 parts?",
+     "options": [
+      "Floppy",
+      "GPU",
+      "Hardware security engine (HSE) and multicore options",
+      "Bluetooth only"
+     ],
+     "answer": 2,
+     "explain": "Depends on the variant."
+    }
+   ]
+  },
+  "level-2/08-bootloader-basics": {
+   "questions": [
+    {
+     "q": "What is a bootloader's job?",
+     "options": [
+      "Schedule",
+      "Run first, check and program the application image, then jump to it",
+      "Encrypt",
+      "Compile"
+     ],
+     "answer": 1,
+     "explain": "Needs a protected region."
+    },
+    {
+     "q": "How does a bootloader hand over to the application?",
+     "options": [
+      "Loop",
+      "Set the vector table (VTOR) and stack pointer from the app image and branch to reset handler",
+      "Delete",
+      "Reset"
+     ],
+     "answer": 1,
+     "explain": "Disable interrupts first."
+    },
+    {
+     "q": "Why verify an image before jumping?",
+     "options": [
+      "Style",
+      "Law",
+      "A partially programmed or corrupted image could crash or behave unsafely",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "CRC or signature."
+    },
+    {
+     "q": "What is a CRC-8 (poly 0x07) of bytes 0x31 0x32 0x33?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){uint8_t d[]={0x31,0x32,0x33}; uint8_t c=0; for(int i=0;i<3;i++){c^=d[i]; for(int b=0;b<8;b++) c=(c&0x80)?(c<<1)^0x07:(c<<1);} printf(\"0x%02X\\n\",c);}\n```\n",
+     "options": [
+      "0xC0",
+      "0x00",
+      "0xFF",
+      "0x31"
+     ],
+     "answer": 0,
+     "explain": "A bit-by-bit CRC-8 as used for image or message checks. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    }
+   ]
+  },
+  "level-2/09-uds-diagnostics": {
+   "questions": [
+    {
+     "q": "What is the positive response SID for UDS service 0x22?",
+     "options": [
+      "0x7F",
+      "0x22",
+      "0x62 (request SID + 0x40)",
+      "0x72"
+     ],
+     "answer": 2,
+     "explain": "Negative responses use 0x7F, SID, NRC."
+    },
+    {
+     "q": "What does NRC 0x78 mean?",
+     "options": [
+      "Request correctly received, response pending",
+      "Wrong length",
+      "Denied",
+      "Not supported"
+     ],
+     "answer": 0,
+     "explain": "The ECU needs more time."
+    },
+    {
+     "q": "Which UDS service switches diagnostic sessions?",
+     "options": [
+      "0x10 DiagnosticSessionControl",
+      "0x3E",
+      "0x22",
+      "0x11"
+     ],
+     "answer": 0,
+     "explain": "Default, programming and extended sessions."
+    },
+    {
+     "q": "What frame does the server send for a 0x22 request of DID 0xF190 returning 'ABC'?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){uint8_t r[]={0x62,0xF1,0x90,'A','B','C'}; for(int i=0;i<6;i++) printf(\"%02X \",r[i]); printf(\"\\n\");}\n```\n",
+     "options": [
+      "62 F1 90 41 42 43",
+      "22 F1 90 41 42 43 ",
+      "62 90 F1 41 42 43 ",
+      "7F 22 90 41 42 43 "
+     ],
+     "answer": 0,
+     "explain": "Positive response = SID+0x40, DID echo, then data. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    }
+   ]
+  },
+  "level-2/10-project-multi-node-can": {
+   "questions": [
+    {
+     "q": "In a multi-node CAN network what keeps message IDs manageable?",
+     "options": [
+      "Randomness",
+      "A shared database such as a DBC file describing messages and signals",
+      "Guessing",
+      "Chat"
+     ],
+     "answer": 1,
+     "explain": "One source of truth."
+    },
+    {
+     "q": "How can a receiver detect a missing sender?",
+     "options": [
+      "Nothing",
+      "A timeout on the expected periodic message",
+      "Luck",
+      "Voltage"
+     ],
+     "answer": 1,
+     "explain": "Plus alive counters."
+    },
+    {
+     "q": "What is an alive counter for?",
+     "options": [
+      "Speed",
+      "Encryption",
+      "Detecting stale or repeated frames",
+      "Priority"
+     ],
+     "answer": 2,
+     "explain": "Increment each transmission and wrap."
+    },
+    {
+     "q": "Why leave bus load headroom (for example below 50%)?",
+     "options": [
+      "Style",
+      "Law",
+      "To keep latency bounded and allow diagnostics and growth",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Measure worst case."
+    }
+   ]
+  },
+  "level-3/01-autosar-classic": {
+   "questions": [
+    {
+     "q": "What does MCAL do in AUTOSAR Classic?",
+     "options": [
+      "Provides hardware-specific drivers for the microcontroller peripherals",
+      "RTE",
+      "Application logic",
+      "Network"
+     ],
+     "answer": 0,
+     "explain": "Lowest BSW layer."
+    },
+    {
+     "q": "What is the RTE?",
+     "options": [
+      "Debugger",
+      "The runtime environment connecting software components to each other and to the BSW",
+      "Driver",
+      "Timer"
+     ],
+     "answer": 1,
+     "explain": "It is generated from the configuration."
+    },
+    {
+     "q": "Why is the AUTOSAR layered model useful?",
+     "options": [
+      "Application software can be reused across ECUs and microcontrollers",
+      "Speed",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Hardware is abstracted."
+    },
+    {
+     "q": "Where do you configure AUTOSAR modules?",
+     "options": [
+      "In git",
+      "In configuration tools producing generated C code",
+      "In Excel",
+      "By hand only"
+     ],
+     "answer": 1,
+     "explain": "Configuration is part of the product."
+    }
+   ]
+  },
+  "level-3/02-rtd-mcal-config": {
+   "questions": [
+    {
+     "q": "What are RTD drivers?",
+     "options": [
+      "Scripts",
+      "Libraries only",
+      "Debug",
+      "NXP's real-time drivers (MCAL-style) for S32K3, configured in the S32 Config Tools"
+     ],
+     "answer": 3,
+     "explain": "Generated configuration plus driver code."
+    },
+    {
+     "q": "Why keep the configuration under version control?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "Generated code must be reproducible and reviewable"
+     ],
+     "answer": 3,
+     "explain": "Tool versions matter too."
+    },
+    {
+     "q": "What is a common mistake with MCAL clock configs?",
+     "options": [
+      "Typos only",
+      "Enabling a peripheral without its clock or with the wrong source",
+      "None",
+      "Too fast"
+     ],
+     "answer": 1,
+     "explain": "Symptoms look like dead hardware."
+    },
+    {
+     "q": "What does the MCAL initialisation order matter for?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Law",
+      "Dependencies such as clock and port must be ready before CAN or ADC"
+     ],
+     "answer": 3,
+     "explain": "Follow the vendor's sequence."
+    }
+   ]
+  },
+  "level-3/03-can-fd-dbc": {
+   "questions": [
+    {
+     "q": "What can CAN FD do that classic CAN cannot?",
+     "options": [
+      "Longer wires",
+      "Wireless",
+      "Lower ID",
+      "Send up to 64 data bytes and switch to a faster bit rate in the data phase"
+     ],
+     "answer": 3,
+     "explain": "BRS bit switches rate."
+    },
+    {
+     "q": "How many data bytes does CAN FD DLC code 13 represent?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){int m[16]={0,1,2,3,4,5,6,7,8,12,16,20,24,32,48,64}; printf(\"%d\\n\",m[13]);}\n```\n",
+     "options": [
+      "24",
+      "64",
+      "32",
+      "13"
+     ],
+     "answer": 2,
+     "explain": "DLC 9 to 15 map to 12, 16, 20, 24, 32, 48, 64. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    },
+    {
+     "q": "What is a DBC file?",
+     "options": [
+      "A driver",
+      "A binary",
+      "A database describing CAN messages, signals, scaling and nodes",
+      "A debugger"
+     ],
+     "answer": 2,
+     "explain": "Used by tools and code generators."
+    },
+    {
+     "q": "Extract a 12-bit little-endian signal starting at bit 4 from bytes {0xA5,0x3C}.\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){uint8_t d[2]={0xA5,0x3C}; uint16_t raw=d[0]|(d[1]<<8); uint16_t s=(raw>>4)&0xFFF; printf(\"0x%03X %u\\n\",s,s);}\n```\n",
+     "options": [
+      "0xC3A 3130",
+      "0xA53 2643",
+      "0x3CA 971",
+      "0x3CA 970"
+     ],
+     "answer": 3,
+     "explain": "Little-endian assembling then shift and mask. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    }
+   ]
+  },
+  "level-3/04-lin-flexio": {
+   "questions": [
+    {
+     "q": "What is LIN?",
+     "options": [
+      "Ethernet",
+      "USB",
+      "CAN FD",
+      "A low-cost, single-master serial bus for sub-networks like windows and seats"
+     ],
+     "answer": 3,
+     "explain": "Up to 20 kbit/s."
+    },
+    {
+     "q": "What does FlexIO provide?",
+     "options": [
+      "Flash",
+      "ADC",
+      "CAN",
+      "Flexible configurable I/O that can emulate UART, SPI, I2C and custom protocols"
+     ],
+     "answer": 3,
+     "explain": "Hardware-timed pin sequences."
+    },
+    {
+     "q": "Which node schedules frames on a LIN bus?",
+     "options": [
+      "The master, using a schedule table",
+      "Slave",
+      "Any",
+      "Gateway"
+     ],
+     "answer": 0,
+     "explain": "Slaves respond to headers."
+    },
+    {
+     "q": "What does the LIN enhanced checksum include?",
+     "options": [
+      "Nothing",
+      "Data only",
+      "ID only",
+      "The protected ID plus the data bytes"
+     ],
+     "answer": 3,
+     "explain": "Classic checksum covers data only."
+    }
+   ]
+  },
+  "level-3/05-sbc-external-watchdog": {
+   "questions": [
+    {
+     "q": "What does an SBC (system basis chip) provide?",
+     "options": [
+      "GPU",
+      "Power supplies, watchdog and CAN/LIN transceivers in one safety-oriented device",
+      "Flash",
+      "Debugger"
+     ],
+     "answer": 1,
+     "explain": "Often includes an external watchdog."
+    },
+    {
+     "q": "Why use an external watchdog in addition to the MCU's own?",
+     "options": [
+      "Law",
+      "Colour",
+      "It stays independent if the MCU clock or core fails",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Independent monitoring is a safety mechanism."
+    },
+    {
+     "q": "What is a challenge/response (Q&A) watchdog?",
+     "options": [
+      "Chat",
+      "The monitor asks questions the software must answer correctly within time",
+      "Bootloader",
+      "Timer only"
+     ],
+     "answer": 1,
+     "explain": "It checks program flow, not just aliveness."
+    },
+    {
+     "q": "What should happen if the watchdog expires?",
+     "options": [
+      "Continue",
+      "Ignore",
+      "Format",
+      "Enter a safe state, record the cause and reset"
+     ],
+     "answer": 3,
+     "explain": "Log for diagnostics."
+    }
+   ]
+  },
+  "level-3/06-mpu-freedom-from-interference": {
+   "questions": [
+    {
+     "q": "What does the MPU enforce?",
+     "options": [
+      "Power",
+      "Access permissions for memory regions per task or core",
+      "Clock",
+      "Timing"
+     ],
+     "answer": 1,
+     "explain": "Faults on violations."
+    },
+    {
+     "q": "What is freedom from interference?",
+     "options": [
+      "Lower-ASIL software cannot corrupt higher-ASIL software",
+      "Colour",
+      "Speed",
+      "Wireless"
+     ],
+     "answer": 0,
+     "explain": "A key ISO 26262 concept."
+    },
+    {
+     "q": "Why give each task its own stack region?",
+     "options": [
+      "Style",
+      "Law",
+      "A stack overflow in one task is caught instead of silently corrupting another",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "MPU or guard regions."
+    },
+    {
+     "q": "What should the MPU fault handler do?",
+     "options": [
+      "Log, enter a safe state and recover or reset according to safety goals",
+      "Ignore",
+      "Print",
+      "Loop"
+     ],
+     "answer": 0,
+     "explain": "Define the reaction."
+    }
+   ]
+  },
+  "level-3/07-secure-boot-hse": {
+   "questions": [
+    {
+     "q": "What does secure boot do?",
+     "options": [
+      "Compiles",
+      "Verifies the signature of the firmware before running it",
+      "Encrypts",
+      "Debugs"
+     ],
+     "answer": 1,
+     "explain": "A root of trust anchors the chain."
+    },
+    {
+     "q": "What is the HSE?",
+     "options": [
+      "The hardware security engine providing key storage and crypto operations",
+      "A clock",
+      "A bus",
+      "A task"
+     ],
+     "answer": 0,
+     "explain": "Keys never leave the HSE."
+    },
+    {
+     "q": "Why not store signing keys in application flash?",
+     "options": [
+      "They could be read and used to forge firmware",
+      "Speed",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Use a secure keystore."
+    },
+    {
+     "q": "What does a signature prove?",
+     "options": [
+      "Speed",
+      "Authenticity and integrity of the image from the key holder",
+      "Version",
+      "Secrecy"
+     ],
+     "answer": 1,
+     "explain": "Not encryption."
+    }
+   ]
+  },
+  "level-3/08-automotive-ethernet-gateways": {
+   "questions": [
+    {
+     "q": "What does an automotive Ethernet gateway do?",
+     "options": [
+      "Charges",
+      "Routes frames between networks such as CAN and Ethernet",
+      "Heats",
+      "Logs only"
+     ],
+     "answer": 1,
+     "explain": "Mind latency and filtering."
+    },
+    {
+     "q": "What is 100BASE-T1?",
+     "options": [
+      "LIN",
+      "USB",
+      "Automotive 100 Mbit/s Ethernet over a single twisted pair",
+      "CAN"
+     ],
+     "answer": 2,
+     "explain": "Lower weight cabling."
+    },
+    {
+     "q": "Why filter traffic at a gateway?",
+     "options": [
+      "Law",
+      "Speed",
+      "Style",
+      "To stop faulty or malicious messages crossing domains"
+     ],
+     "answer": 3,
+     "explain": "Security and robustness."
+    },
+    {
+     "q": "What is a risk in gateway routing?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Added latency and bus overload if signals are forwarded blindly",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Shape and prioritise."
+    }
+   ]
+  },
+  "level-3/09-xcp-measurement-calibration": {
+   "questions": [
+    {
+     "q": "What is XCP used for?",
+     "options": [
+      "Charging",
+      "Measuring and calibrating ECU variables over CAN, Ethernet and other transports",
+      "Audio",
+      "Flash only"
+     ],
+     "answer": 1,
+     "explain": "Uses an A2L description."
+    },
+    {
+     "q": "What is an A2L file?",
+     "options": [
+      "A description of ECU variables, addresses and calibration parameters",
+      "Log",
+      "Driver",
+      "Binary"
+     ],
+     "answer": 0,
+     "explain": "Generated from the ELF/map."
+    },
+    {
+     "q": "Why disable XCP in production firmware?",
+     "options": [
+      "Law",
+      "Colour",
+      "It exposes memory read/write and is a security risk",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Or protect it with seed and key."
+    },
+    {
+     "q": "What is calibration?",
+     "options": [
+      "Debugging",
+      "Wiring",
+      "Compiling",
+      "Tuning parameters in a running ECU without reflashing"
+     ],
+     "answer": 3,
+     "explain": "Page switching helps."
+    }
+   ]
+  },
+  "level-3/10-project-body-controller": {
+   "questions": [
+    {
+     "q": "What does a diagnostic-capable body controller add over a simple node?",
+     "options": [
+      "Wi-Fi",
+      "UDS services, DTC storage and session/security handling",
+      "GUI",
+      "Audio"
+     ],
+     "answer": 1,
+     "explain": "Workshop and end-of-line use."
+    },
+    {
+     "q": "What is a DTC?",
+     "options": [
+      "A driver",
+      "A timer",
+      "A diagnostic trouble code identifying a detected fault",
+      "A task"
+     ],
+     "answer": 2,
+     "explain": "Stored with status and freeze frame."
+    },
+    {
+     "q": "Why debounce faults before setting a DTC?",
+     "options": [
+      "Speed",
+      "To avoid logging transient glitches",
+      "Colour",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Counter-based debouncing."
+    },
+    {
+     "q": "What does service 0x14 do?",
+     "options": [
+      "Clears diagnostic information",
+      "Session",
+      "Reads DTC",
+      "Reset"
+     ],
+     "answer": 0,
+     "explain": "0x19 reads DTCs."
+    }
+   ]
+  },
+  "level-4/01-multicore-lockstep": {
+   "questions": [
+    {
+     "q": "What is lockstep?",
+     "options": [
+      "Overclock",
+      "Two apps",
+      "Cache",
+      "Two cores execute the same instructions and a checker compares outputs to detect faults"
+     ],
+     "answer": 3,
+     "explain": "Used for ASIL-D."
+    },
+    {
+     "q": "What happens when lockstep detects a mismatch?",
+     "options": [
+      "The fault reaction occurs, typically reset or safe state",
+      "Slow",
+      "Ignore",
+      "Log only"
+     ],
+     "answer": 0,
+     "explain": "Defined by the safety concept."
+    },
+    {
+     "q": "What is asymmetric multicore for?",
+     "options": [
+      "Law",
+      "Running different workloads, such as safety and non-safety, on separate cores",
+      "Colour",
+      "Speed only"
+     ],
+     "answer": 1,
+     "explain": "With protected shared memory."
+    },
+    {
+     "q": "Why need inter-core communication care?",
+     "options": [
+      "Shared memory needs synchronisation and protection against corruption",
+      "Style",
+      "Speed",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Use mailbox or semaphores."
+    }
+   ]
+  },
+  "level-4/02-asil-d-workflow": {
+   "questions": [
+    {
+     "q": "What does ASIL D require compared with ASIL A?",
+     "options": [
+      "Less",
+      "Faster",
+      "Same",
+      "More rigorous development, verification and diagnostic coverage"
+     ],
+     "answer": 3,
+     "explain": "Per ISO 26262."
+    },
+    {
+     "q": "What does a safety goal describe?",
+     "options": [
+      "A file",
+      "A bug",
+      "A tool",
+      "A top-level safety requirement derived from hazard analysis"
+     ],
+     "answer": 3,
+     "explain": "Decomposed into requirements."
+    },
+    {
+     "q": "What is traceability?",
+     "options": [
+      "Timing",
+      "Logging",
+      "Linking requirements to design, code and tests",
+      "Wiring"
+     ],
+     "answer": 2,
+     "explain": "Needed for audits."
+    },
+    {
+     "q": "What does FMEA analyse?",
+     "options": [
+      "Cost",
+      "How components can fail and the effects",
+      "Pins",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Part of safety analysis."
+    }
+   ]
+  },
+  "level-4/03-misra-static-analysis": {
+   "questions": [
+    {
+     "q": "What is MISRA C?",
+     "options": [
+      "A bus",
+      "An RTOS",
+      "A coding guideline subset of C for safety- and reliability-critical systems",
+      "A compiler"
+     ],
+     "answer": 2,
+     "explain": "Rules and directives."
+    },
+    {
+     "q": "Why run static analysis?",
+     "options": [
+      "Law",
+      "Speed",
+      "Colour",
+      "Find defects and rule violations without executing the code"
+     ],
+     "answer": 3,
+     "explain": "Run in CI."
+    },
+    {
+     "q": "What should you do with a justified rule violation?",
+     "options": [
+      "Ignore",
+      "Delete rule",
+      "Hide",
+      "Document a deviation with rationale and review it"
+     ],
+     "answer": 3,
+     "explain": "Formal deviation process."
+    },
+    {
+     "q": "What does this MISRA-style unsigned wraparound print?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){uint8_t a=250; a=(uint8_t)(a+10); printf(\"%u\\n\",a);}\n```\n",
+     "options": [
+      "0",
+      "260",
+      "255",
+      "4"
+     ],
+     "answer": 3,
+     "explain": "Unsigned arithmetic wraps modulo 256; MISRA asks you to make intent explicit. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    }
+   ]
+  },
+  "level-4/04-ota-reprogramming": {
+   "questions": [
+    {
+     "q": "Why do OTA updates need rollback?",
+     "options": [
+      "Speed",
+      "A failed update must not brick the ECU",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Dual banks help."
+    },
+    {
+     "q": "What is an A/B (dual-bank) layout?",
+     "options": [
+      "Two image slots so the new image is verified before switching",
+      "Two buses",
+      "Two chips",
+      "Two tests"
+     ],
+     "answer": 0,
+     "explain": "Swap atomically."
+    },
+    {
+     "q": "What should an update package contain?",
+     "options": [
+      "Nothing",
+      "Source",
+      "Keys",
+      "The image, version, compatibility info and a signature"
+     ],
+     "answer": 3,
+     "explain": "Verify before install."
+    },
+    {
+     "q": "Why check battery and vehicle state before updating?",
+     "options": [
+      "Style",
+      "Power loss or driving mid-update is unsafe",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Policy conditions."
+    }
+   ]
+  },
+  "level-4/05-cybersecurity-secoc": {
+   "questions": [
+    {
+     "q": "What does SecOC add to a CAN message?",
+     "options": [
+      "Priority",
+      "A truncated MAC and freshness value so receivers can authenticate it",
+      "Encryption",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Protects integrity and replay."
+    },
+    {
+     "q": "What is a freshness value?",
+     "options": [
+      "Colour",
+      "CRC",
+      "A counter or timestamp preventing replay of old messages",
+      "ID"
+     ],
+     "answer": 2,
+     "explain": "Synchronised between nodes."
+    },
+    {
+     "q": "What is ISO/SAE 21434?",
+     "options": [
+      "EMC",
+      "Safety",
+      "Fuel",
+      "Cybersecurity engineering for road vehicles"
+     ],
+     "answer": 3,
+     "explain": "Threat analysis and risk assessment."
+    },
+    {
+     "q": "Why is CRC not security?",
+     "options": [
+      "Anyone can recompute it; a MAC needs a secret key",
+      "Law",
+      "Colour",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "CRC detects accidents, not attacks."
+    }
+   ]
+  },
+  "level-4/06-autosar-os-timing": {
+   "questions": [
+    {
+     "q": "What does a schedule table or alarm do in AUTOSAR OS?",
+     "options": [
+      "Compiles",
+      "Activates tasks at defined times",
+      "Wires",
+      "Logs"
+     ],
+     "answer": 1,
+     "explain": "Statically configured."
+    },
+    {
+     "q": "What is WCET?",
+     "options": [
+      "Worst-case execution time of a task",
+      "Clock",
+      "Wire",
+      "Power"
+     ],
+     "answer": 0,
+     "explain": "Needed for schedulability."
+    },
+    {
+     "q": "Why is response-time analysis used?",
+     "options": [
+      "Style",
+      "To prove tasks meet deadlines under worst-case interference",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Rate monotonic etc."
+    },
+    {
+     "q": "Is a task set with utilisations 0.3, 0.2, 0.2 under the 3-task RM bound (0.78)?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){double u=0.3+0.2+0.2; printf(\"%.2f %s\\n\",u,u<=0.7798?\"ok\":\"check\");}\n```\n",
+     "options": [
+      "1.00 ok",
+      "0.70 check",
+      "0.77 ok",
+      "0.70 ok"
+     ],
+     "answer": 3,
+     "explain": "Liu and Layland: n(2^(1/n)-1) is about 0.78 for three tasks. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    }
+   ]
+  },
+  "level-4/07-hil-testing-ci": {
+   "questions": [
+    {
+     "q": "What is HIL testing?",
+     "options": [
+      "Running the real ECU against simulated vehicle signals in a lab rig",
+      "Chat",
+      "Compile",
+      "Paper"
+     ],
+     "answer": 0,
+     "explain": "Hardware-in-the-loop."
+    },
+    {
+     "q": "What does CI add for ECU firmware?",
+     "options": [
+      "Every commit is built, statically analysed and tested automatically",
+      "Law",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Catch regressions early."
+    },
+    {
+     "q": "Why include unit tests on the host?",
+     "options": [
+      "Colour",
+      "Law",
+      "Fast feedback without hardware",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Abstract hardware access."
+    },
+    {
+     "q": "What should HIL results be tied to?",
+     "options": [
+      "Nothing",
+      "Colour",
+      "Requirements, for traceability",
+      "Time"
+     ],
+     "answer": 2,
+     "explain": "Evidence for safety cases."
+    }
+   ]
+  },
+  "level-4/08-production-ecu-architecture": {
+   "questions": [
+    {
+     "q": "What belongs on a production ECU besides the MCU?",
+     "options": [
+      "Monitor",
+      "Power supply, SBC, transceivers, protection and connectors",
+      "Keyboard",
+      "GPU"
+     ],
+     "answer": 1,
+     "explain": "Plus EMC design."
+    },
+    {
+     "q": "Why add reverse-polarity and load-dump protection?",
+     "options": [
+      "Vehicle supply can be wired wrong or spike dramatically",
+      "Law",
+      "Speed",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Automotive electrical environment."
+    },
+    {
+     "q": "What is EMC concern with fast edges?",
+     "options": [
+      "Emissions and immunity, so layout and filtering matter",
+      "Law",
+      "Colour",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Test early."
+    },
+    {
+     "q": "Why pick parts with automotive qualification (AEC-Q)?",
+     "options": [
+      "Style",
+      "Speed",
+      "Colour",
+      "Proven reliability over temperature and life"
+     ],
+     "answer": 3,
+     "explain": "Document in the BOM."
+    }
+   ]
+  },
+  "level-4/09-manufacturing-eol-test": {
+   "questions": [
+    {
+     "q": "What is EOL (end-of-line) testing?",
+     "options": [
+      "Final functional tests and programming at the factory",
+      "Design",
+      "Debug",
+      "Update"
+     ],
+     "answer": 0,
+     "explain": "Use diagnostics."
+    },
+    {
+     "q": "Why store traceability data (serial, versions) per unit?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed",
+      "To trace field issues back to production batches"
+     ],
+     "answer": 3,
+     "explain": "Recall scope."
+    },
+    {
+     "q": "What does the factory typically write to each ECU?",
+     "options": [
+      "Nothing",
+      "Software, calibration, keys/serial and test results",
+      "Source",
+      "CAD"
+     ],
+     "answer": 1,
+     "explain": "Secure the keys."
+    },
+    {
+     "q": "Why make EOL tests fast and automated?",
+     "options": [
+      "Throughput and repeatability",
+      "Style",
+      "Law",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Cycle time costs money."
+    }
+   ]
+  },
+  "level-4/10-capstone-zone-ecu": {
+   "questions": [
+    {
+     "q": "What is a zone ECU?",
+     "options": [
+      "A GPU",
+      "A regional controller aggregating I/O and gateway functions for part of the vehicle",
+      "A battery",
+      "A tyre"
+     ],
+     "answer": 1,
+     "explain": "Reduces wiring."
+    },
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only GPIO",
+      "Only UART",
+      "Multicore safety, secure boot, diagnostics, OTA and networking",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "A production-grade design."
+    },
+    {
+     "q": "What evidence shows readiness?",
+     "options": [
+      "Demo only",
+      "It compiles",
+      "Looks good",
+      "Requirements trace, tests, static analysis, safety analysis and security review"
+     ],
+     "answer": 3,
+     "explain": "Document it."
+    },
+    {
+     "q": "What should you do with open safety assumptions?",
+     "options": [
+      "Delete",
+      "Ignore",
+      "Hide",
+      "Record them and verify them as requirements on integration"
+     ],
+     "answer": 3,
+     "explain": "Assumptions of use."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){uint8_t a=200,b=100; uint8_t s=a+b; uint16_t w=(uint16_t)a+b; int8_t n=(int8_t)200; printf(\"%u %u %d\\n\",s,w,n);}\n```\n",
+    "options": [
+     "44 300 -56",
+     "44 44 200",
+     "300 300 -56",
+     "44 300 200"
+    ],
+    "answer": 0,
+    "explain": "uint8_t arithmetic wraps modulo 256; casting 200 to int8_t gives -56 on two's complement targets. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```c\n#include <stdio.h>\n#include <stdint.h>\n#define BIT(n) (1u<<(n))\nint main(void){uint32_t reg=0xF0; reg&=~(BIT(7)|BIT(4)); reg|=BIT(1); printf(\"0x%02X %d\\n\",reg,(reg&BIT(5))!=0);}\n```\n",
+    "options": [
+     "0xF2 1",
+     "0x72 1",
+     "0x62 0",
+     "0x62 1"
+    ],
+    "answer": 3,
+    "explain": "Clear bits 7 and 4, set bit 1; bit 5 remains set. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+   },
+   {
+    "q": "What is the CAN bus load for this schedule at 500 kbit/s? (frames are 111 bits, 10 per 10 ms)\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){double bits=111*10; double cap=500000*0.010; printf(\"%.1f%%\\n\",100*bits/cap);}\n```\n",
+    "options": [
+     "222%",
+     "2.2%",
+     "11.1%",
+     "22.2%"
+    ],
+    "answer": 3,
+    "explain": "1110 bits in a 10 ms window with 5000 bits of capacity. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+   },
+   {
+    "q": "How many bits is the CAN bit time for 500 kbit/s, and how many time quanta at an 8 MHz time-quantum clock?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){double t=1e6/500000.0; printf(\"%.0f us %.0f tq\\n\",t,t*8);}\n```\n",
+    "options": [
+     "4 us 32 tq",
+     "2 us 16 tq",
+     "2 us 8 tq",
+     "1 us 8 tq"
+    ],
+    "answer": 1,
+    "explain": "Bit time = 1/baud; tq count = bit time x tq clock. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+   },
+   {
+    "q": "What is the sample point for 16 tq with sync 1, PROP+PS1 = 12 and PS2 = 3?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){printf(\"%.1f%%\\n\",100.0*(1+12)/16);}\n```\n",
+    "options": [
+     "75.0%",
+     "93.8%",
+     "12.0%",
+     "81.2%"
+    ],
+    "answer": 3,
+    "explain": "Sample point = (sync + seg1) / total, here 13/16 (81.25%, printed as 81.2% by round-half-even). (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+   },
+   {
+    "q": "Why is a CRC alone not enough to secure a CAN message?",
+    "options": [
+     "Anyone can recompute it; authentication needs a keyed MAC with freshness (SecOC)",
+     "CAN forbids it",
+     "It is too long",
+     "It is slow"
+    ],
+    "answer": 0,
+    "explain": "CRC detects accidental errors only."
+   },
+   {
+    "q": "What is lowest-ID-wins arbitration an example of?",
+    "options": [
+     "Collision loss",
+     "Random backoff",
+     "Token passing",
+     "Non-destructive bitwise arbitration, with dominant bits overriding recessive"
+    ],
+    "answer": 3,
+    "explain": "The winner's frame is not corrupted."
+   },
+   {
+    "q": "What do you need to enable before using a peripheral on S32K1?",
+    "options": [
+     "A debugger",
+     "Nothing",
+     "Its PCC clock (and the right clock source), then pin muxing if it uses pins",
+     "Only interrupts"
+    ],
+    "answer": 2,
+    "explain": "Writes to an unclocked peripheral are ignored or fault."
+   },
+   {
+    "q": "What is the main reason to use DMA for a fast ADC stream?",
+    "options": [
+     "Fewer bits",
+     "Less flash",
+     "Better accuracy",
+     "Move samples without CPU per-sample interrupts"
+    ],
+    "answer": 3,
+    "explain": "CPU stays free."
+   },
+   {
+    "q": "What is wrong with refreshing the watchdog in a periodic timer ISR?",
+    "options": [
+     "Too fast",
+     "The main loop can be dead while the ISR keeps feeding it",
+     "Nothing",
+     "Too slow"
+    ],
+    "answer": 1,
+    "explain": "Supervise real task progress."
+   },
+   {
+    "q": "Which UDS response means 'service not supported in the active session'?",
+    "options": [
+     "0x13",
+     "0x31",
+     "0x78",
+     "NRC 0x7F"
+    ],
+    "answer": 3,
+    "explain": "0x11 is service not supported at all."
+   },
+   {
+    "q": "Why do bootloaders verify the image before jumping to it?",
+    "options": [
+     "A partial or corrupted image could crash or behave unsafely",
+     "Style",
+     "Speed",
+     "Law"
+    ],
+    "answer": 0,
+    "explain": "Use CRC at minimum, a signature for authenticity."
+   },
+   {
+    "q": "What does freedom from interference require?",
+    "options": [
+     "One big task",
+     "No RTOS",
+     "Lower-integrity software cannot corrupt higher-ASIL software (MPU, partitioning, timing protection)",
+     "Wireless"
+    ],
+    "answer": 2,
+    "explain": "A key ISO 26262 concept."
+   },
+   {
+    "q": "What does SecOC add to a PDU?",
+    "options": [
+     "A truncated MAC computed over data and a freshness value",
+     "Priority",
+     "A CRC",
+     "Encryption"
+    ],
+    "answer": 0,
+    "explain": "Authenticity and replay protection."
+   },
+   {
+    "q": "What does lockstep detect?",
+    "options": [
+     "Software bugs",
+     "Bad CAN",
+     "Random hardware faults in the core, by comparing two cores' outputs",
+     "Stack overflow"
+    ],
+    "answer": 2,
+    "explain": "Software bugs execute identically on both cores."
+   },
+   {
+    "q": "Why disable or protect XCP in production firmware?",
+    "options": [
+     "Law",
+     "Speed",
+     "It allows memory read/write, which is a security risk",
+     "Colour"
+    ],
+    "answer": 2,
+    "explain": "Seed-and-key or removal."
+   },
+   {
+    "q": "What makes an A/B OTA layout safer?",
+    "options": [
+     "Faster",
+     "The new image is verified in the inactive bank before switching, with rollback",
+     "Smaller",
+     "Cheaper"
+    ],
+    "answer": 1,
+    "explain": "Avoids bricking."
+   },
+   {
+    "q": "What is a typical production ECU evidence set for ASIL claims?",
+    "options": [
+     "Requirements trace, reviews, static analysis, tests with coverage and safety analysis",
+     "A demo",
+     "Screenshots",
+     "Source only"
+    ],
+    "answer": 0,
+    "explain": "Evidence, not assertion."
+   },
+   {
+    "q": "What is the right reaction to a failed ADC plausibility check?",
+    "options": [
+     "Send zeros silently",
+     "Report a defined fault status, avoid sending stale values as valid, and enter the safe state",
+     "Ignore",
+     "Reset only"
+    ],
+    "answer": 1,
+    "explain": "Fail safe and visibly."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Pack and unpack a CAN message with CRC and alive counter",
+    "prompt": "Implement crc8, encode and decode for a sensor message: a signed 0.1 C temperature, an rpm value, a 4-bit alive counter and a CRC-8 in byte 7. Decode must reject corrupted frames and wrong counters. This runs on your computer as ordinary C; it models the signal packing you would do on an S32K node, but uses no hardware.",
+    "starter": "#include <stdio.h>\n#include <stdint.h>\n#include <string.h>\n\ntypedef struct { int16_t temp_c10; uint16_t rpm; uint8_t counter; } Sample;\n\n// TODO: static uint8_t crc8(const uint8_t *d, int n)            CRC-8, polynomial 0x07, initial value 0\n// TODO: static void encode(const Sample *s, uint8_t f[8])        bytes 0-1 temp (LE, 0.1 C), 2-3 rpm (LE),\n//       byte 4 low nibble = alive counter, byte 7 = CRC-8 over bytes 0..6, unused bytes 0\n// TODO: static int decode(const uint8_t f[8], Sample *s, uint8_t expected_counter)\n//       returns -1 on CRC mismatch, -2 on counter mismatch, 0 on success (check CRC first)\n\nint main(void) {\n    Sample in = { -125, 3000, 15 }, out;\n    uint8_t f[8];\n    encode(&in, f);\n    for (int i = 0; i < 8; i++) printf(\"%02X \", f[i]);\n    printf(\"\\n\");\n    printf(\"decode: %d temp=%.1f rpm=%u ctr=%u\\n\", decode(f, &out, 15), out.temp_c10 / 10.0, out.rpm, out.counter);\n    printf(\"wrong counter: %d\\n\", decode(f, &out, 0));\n    f[2] ^= 0x01;\n    printf(\"corrupted: %d\\n\", decode(f, &out, 15));\n    return 0;\n}\n",
+    "expected": "83 FF B8 0B 0F 00 00 56 \ndecode: 0 temp=-12.5 rpm=3000 ctr=15\nwrong counter: -2\ncorrupted: -1",
+    "solution": "#include <stdio.h>\n#include <stdint.h>\n#include <string.h>\n\ntypedef struct { int16_t temp_c10; uint16_t rpm; uint8_t counter; } Sample;\n\nstatic uint8_t crc8(const uint8_t *d, int n) {\n    uint8_t c = 0;\n    for (int i = 0; i < n; i++) {\n        c ^= d[i];\n        for (int b = 0; b < 8; b++) c = (c & 0x80) ? (uint8_t)((c << 1) ^ 0x07) : (uint8_t)(c << 1);\n    }\n    return c;\n}\n\n/* byte0-1 temp (little endian, signed, 0.1 C), byte2-3 rpm, byte4 low nibble counter, byte7 crc over 0..6 */\nstatic void encode(const Sample *s, uint8_t f[8]) {\n    memset(f, 0, 8);\n    f[0] = (uint8_t)(s->temp_c10 & 0xFF);\n    f[1] = (uint8_t)((s->temp_c10 >> 8) & 0xFF);\n    f[2] = (uint8_t)(s->rpm & 0xFF);\n    f[3] = (uint8_t)(s->rpm >> 8);\n    f[4] = s->counter & 0x0F;\n    f[7] = crc8(f, 7);\n}\n\nstatic int decode(const uint8_t f[8], Sample *s, uint8_t expected_counter) {\n    if (crc8(f, 7) != f[7]) return -1;\n    if ((f[4] & 0x0F) != expected_counter) return -2;\n    s->temp_c10 = (int16_t)(f[0] | (f[1] << 8));\n    s->rpm = (uint16_t)(f[2] | (f[3] << 8));\n    s->counter = f[4] & 0x0F;\n    return 0;\n}\n\nint main(void) {\n    Sample in = { -125, 3000, 15 }, out;\n    uint8_t f[8];\n    encode(&in, f);\n    for (int i = 0; i < 8; i++) printf(\"%02X \", f[i]);\n    printf(\"\\n\");\n    printf(\"decode: %d temp=%.1f rpm=%u ctr=%u\\n\", decode(f, &out, 15), out.temp_c10 / 10.0, out.rpm, out.counter);\n    printf(\"wrong counter: %d\\n\", decode(f, &out, 0));\n    f[2] ^= 0x01;\n    printf(\"corrupted: %d\\n\", decode(f, &out, 15));\n    return 0;\n}\n",
+    "explain": "Little-endian signals are assembled byte by byte, the counter uses the low nibble, and the CRC covers bytes 0 to 6. Decode checks the CRC before trusting any field, then the counter. Verified by compiling and running with gcc on the host."
+   },
+   {
+    "title": "A UDS request handler",
+    "prompt": "Implement respond for services 0x10, 0x22 and 0x3E with the specified negative response codes, including a DID that is only readable in the extended session. This is a host-side model of the service logic; real UDS also needs ISO-TP transport, timing (P2) and security access.",
+    "starter": "#include <stdio.h>\n#include <stdint.h>\n#include <string.h>\n\nenum { SESSION_DEFAULT = 1, SESSION_EXTENDED = 3 };\nstatic int session = SESSION_DEFAULT;\n\n// TODO: static int respond(const uint8_t *req, int len, uint8_t *resp) -> response length\n//   0x10 DiagnosticSessionControl: len must be 2 (else NRC 0x13), sub-function 1 or 3 (else NRC 0x12);\n//        positive response 50 <sub> 00 32 01 F4\n//   0x22 ReadDataByIdentifier: len must be 3 (NRC 0x13); DID F190 -> 62 F1 90 'V' 'I' 'N';\n//        DID 0100 only in the extended session (otherwise NRC 0x7F), returns 62 01 00 2A; any other DID NRC 0x31\n//   0x3E TesterPresent: 3E 00 -> 7E 00 (else NRC 0x13)\n//   anything else: NRC 0x11 (service not supported). Negative response = 7F <sid> <nrc>\n\nstatic void run(const char *label, const uint8_t *req, int len) {\n    uint8_t resp[16];\n    int n = respond(req, len, resp);\n    printf(\"%-14s ->\", label);\n    for (int i = 0; i < n; i++) printf(\" %02X\", resp[i]);\n    printf(\"\\n\");\n}\n\nint main(void) {\n    run(\"read VIN\", (uint8_t[]){0x22, 0xF1, 0x90}, 3);\n    run(\"read 0100 dflt\", (uint8_t[]){0x22, 0x01, 0x00}, 3);\n    run(\"ext session\", (uint8_t[]){0x10, 0x03}, 2);\n    run(\"read 0100 ext\", (uint8_t[]){0x22, 0x01, 0x00}, 3);\n    run(\"bad subfunc\", (uint8_t[]){0x10, 0x02}, 2);\n    run(\"tester present\", (uint8_t[]){0x3E, 0x00}, 2);\n    run(\"short read\", (uint8_t[]){0x22, 0xF1}, 2);\n    run(\"unknown DID\", (uint8_t[]){0x22, 0x12, 0x34}, 3);\n    run(\"unknown svc\", (uint8_t[]){0x85, 0x01}, 2);\n    return 0;\n}\n",
+    "expected": "read VIN       -> 62 F1 90 56 49 4E\nread 0100 dflt -> 7F 22 7F\next session    -> 50 03 00 32 01 F4\nread 0100 ext  -> 62 01 00 2A\nbad subfunc    -> 7F 10 12\ntester present -> 7E 00\nshort read     -> 7F 22 13\nunknown DID    -> 7F 22 31\nunknown svc    -> 7F 85 11",
+    "solution": "#include <stdio.h>\n#include <stdint.h>\n#include <string.h>\n\nenum { SESSION_DEFAULT = 1, SESSION_EXTENDED = 3 };\nstatic int session = SESSION_DEFAULT;\n\nstatic int respond(const uint8_t *req, int len, uint8_t *resp) {\n    if (len < 1) return 0;\n    uint8_t sid = req[0];\n    switch (sid) {\n    case 0x10:\n        if (len != 2) { resp[0] = 0x7F; resp[1] = sid; resp[2] = 0x13; return 3; }\n        if (req[1] != 1 && req[1] != 3) { resp[0] = 0x7F; resp[1] = sid; resp[2] = 0x12; return 3; }\n        session = req[1];\n        resp[0] = 0x50; resp[1] = req[1]; resp[2] = 0x00; resp[3] = 0x32; resp[4] = 0x01; resp[5] = 0xF4;\n        return 6;\n    case 0x22:\n        if (len != 3) { resp[0] = 0x7F; resp[1] = sid; resp[2] = 0x13; return 3; }\n        if (req[1] == 0xF1 && req[2] == 0x90) {\n            memcpy(resp, (uint8_t[]){0x62, 0xF1, 0x90, 'V', 'I', 'N'}, 6);\n            return 6;\n        }\n        if (req[1] == 0x01 && req[2] == 0x00) {\n            if (session != SESSION_EXTENDED) { resp[0] = 0x7F; resp[1] = sid; resp[2] = 0x7F; return 3; }\n            memcpy(resp, (uint8_t[]){0x62, 0x01, 0x00, 0x2A}, 4);\n            return 4;\n        }\n        resp[0] = 0x7F; resp[1] = sid; resp[2] = 0x31; return 3;\n    case 0x3E:\n        if (len == 2 && req[1] == 0x00) { resp[0] = 0x7E; resp[1] = 0x00; return 2; }\n        resp[0] = 0x7F; resp[1] = sid; resp[2] = 0x13; return 3;\n    default:\n        resp[0] = 0x7F; resp[1] = sid; resp[2] = 0x11; return 3;\n    }\n}\n\nstatic void run(const char *label, const uint8_t *req, int len) {\n    uint8_t resp[16];\n    int n = respond(req, len, resp);\n    printf(\"%-14s ->\", label);\n    for (int i = 0; i < n; i++) printf(\" %02X\", resp[i]);\n    printf(\"\\n\");\n}\n\nint main(void) {\n    run(\"read VIN\", (uint8_t[]){0x22, 0xF1, 0x90}, 3);\n    run(\"read 0100 dflt\", (uint8_t[]){0x22, 0x01, 0x00}, 3);\n    run(\"ext session\", (uint8_t[]){0x10, 0x03}, 2);\n    run(\"read 0100 ext\", (uint8_t[]){0x22, 0x01, 0x00}, 3);\n    run(\"bad subfunc\", (uint8_t[]){0x10, 0x02}, 2);\n    run(\"tester present\", (uint8_t[]){0x3E, 0x00}, 2);\n    run(\"short read\", (uint8_t[]){0x22, 0xF1}, 2);\n    run(\"unknown DID\", (uint8_t[]){0x22, 0x12, 0x34}, 3);\n    run(\"unknown svc\", (uint8_t[]){0x85, 0x01}, 2);\n    return 0;\n}\n",
+    "explain": "Validate length first, then sub-function or identifier, then session state, returning 7F SID NRC on failure. Positive responses add 0x40 to the service ID. Verified by compiling and running with gcc on the host; no ECU or CAN hardware was used."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
