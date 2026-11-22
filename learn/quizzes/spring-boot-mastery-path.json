@@ -1,0 +1,2170 @@
+{
+ "course": "spring-boot-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-spring-boot": {
+   "questions": [
+    {
+     "q": "What does Spring Boot add on top of the Spring Framework?",
+     "options": [
+      "A database",
+      "A GUI",
+      "A new language",
+      "Opinionated auto-configuration, starter dependencies and an embedded server so you can run an app with minimal setup"
+     ],
+     "answer": 3,
+     "explain": "Boot builds on Spring; it does not replace it."
+    },
+    {
+     "q": "What does the @SpringBootApplication annotation combine?",
+     "options": [
+      "@Bean and @Value only",
+      "@Entity and @Table",
+      "@Configuration, @EnableAutoConfiguration and @ComponentScan",
+      "@Test and @Mock"
+     ],
+     "answer": 2,
+     "explain": "It marks the main configuration class."
+    },
+    {
+     "q": "How do you run a Boot app during development?",
+     "options": [
+      "docker pull",
+      "./mvnw spring-boot:run or ./gradlew bootRun (or run the main class)",
+      "java -jar docs",
+      "npm start"
+     ],
+     "answer": 1,
+     "explain": "The fat jar is run with java -jar."
+    },
+    {
+     "q": "What is a Spring Boot starter?",
+     "options": [
+      "A test",
+      "A plugin",
+      "A template",
+      "A dependency descriptor that pulls in a curated set of libraries, such as spring-boot-starter-web"
+     ],
+     "answer": 3,
+     "explain": "It reduces dependency management."
+    }
+   ]
+  },
+  "level-1/02-initializr-project-structure": {
+   "questions": [
+    {
+     "q": "What is the main purpose of start.spring.io?",
+     "options": [
+      "Deploy",
+      "Generate a project skeleton with chosen build tool, Java version and dependencies",
+      "Run tests",
+      "Host apps"
+     ],
+     "answer": 1,
+     "explain": "The Initializr."
+    },
+    {
+     "q": "Where does Spring Boot look for application.properties or application.yml by default?",
+     "options": [
+      "The desktop",
+      "On the classpath, typically src/main/resources",
+      "The database",
+      "/etc"
+     ],
+     "answer": 1,
+     "explain": "Externalised config can override it."
+    },
+    {
+     "q": "Where should the main class live relative to other packages?",
+     "options": [
+      "Anywhere",
+      "In a root package so component scanning covers sub-packages",
+      "In a sub-package",
+      "In tests"
+     ],
+     "answer": 1,
+     "explain": "Scanning starts at its package."
+    },
+    {
+     "q": "What does the Maven/Gradle wrapper provide?",
+     "options": [
+      "Docker",
+      "A pinned build tool version so everyone builds the same way",
+      "A GUI",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "mvnw and gradlew."
+    }
+   ]
+  },
+  "level-1/03-dependency-injection-ioc": {
+   "questions": [
+    {
+     "q": "This container-free model shows constructor injection; what does it print?\n```java\npublic class Main { public static void main(String[] a) { System.out.println(new Service(new FixedClock(42)).stamp()); System.out.println(new Service(() -> 7).stamp()); } }\ninterface Clock { long now(); }\nrecord FixedClock(long t) implements Clock { public long now() { return t; } }\nclass Service { private final Clock clock; Service(Clock c) { this.clock = c; } String stamp() { return \"t=\" + clock.now(); } }\n```\n",
+     "options": [
+      "t=42\nt=7",
+      "Error",
+      "t=42\nt=42",
+      "t=0\nt=7"
+     ],
+     "answer": 0,
+     "explain": "Depending on an interface lets you inject a fake in tests; Spring does the wiring. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+    },
+    {
+     "q": "What is Inversion of Control?",
+     "options": [
+      "A database",
+      "The framework creates and wires objects instead of your code constructing them directly",
+      "Reversing loops",
+      "An exception"
+     ],
+     "answer": 1,
+     "explain": "Dependencies are injected."
+    },
+    {
+     "q": "Which injection style is preferred in modern Spring?",
+     "options": [
+      "Field injection",
+      "Setter only",
+      "Constructor injection (allows final fields and easy testing)",
+      "Static"
+     ],
+     "answer": 2,
+     "explain": "A single constructor needs no @Autowired."
+    },
+    {
+     "q": "What happens if two beans match an injection point?",
+     "options": [
+      "Spring fails with NoUniqueBeanDefinitionException unless you qualify or mark one @Primary",
+      "Uses first",
+      "Picks randomly",
+      "Ignores"
+     ],
+     "answer": 0,
+     "explain": "Use @Qualifier."
+    }
+   ]
+  },
+  "level-1/04-beans-component-scanning": {
+   "questions": [
+    {
+     "q": "Which annotations make a class a candidate bean via component scanning?",
+     "options": [
+      "@Test",
+      "@Entity",
+      "@Component and its specialisations @Service, @Repository and @Controller",
+      "@Value"
+     ],
+     "answer": 2,
+     "explain": "@Configuration classes with @Bean methods also define beans."
+    },
+    {
+     "q": "What is the default bean scope?",
+     "options": [
+      "Singleton: one shared instance per application context",
+      "Session",
+      "Request",
+      "Prototype"
+     ],
+     "answer": 0,
+     "explain": "Beans must be thread-safe."
+    },
+    {
+     "q": "Why shouldn't singleton beans hold per-request mutable state?",
+     "options": [
+      "The same instance serves all threads, causing race conditions",
+      "Law",
+      "Colour",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Keep them stateless."
+    },
+    {
+     "q": "What does @Bean do on a method in a @Configuration class?",
+     "options": [
+      "Adds a route",
+      "Registers the returned object as a bean, useful for third-party classes",
+      "Starts a server",
+      "Creates a test"
+     ],
+     "answer": 1,
+     "explain": "Method name is the bean name."
+    }
+   ]
+  },
+  "level-1/05-configuration-profiles": {
+   "questions": [
+    {
+     "q": "How do you bind configuration to a typed object?",
+     "options": [
+      "@Entity",
+      "@ConfigurationProperties with a prefix",
+      "@Value only",
+      "@Bean"
+     ],
+     "answer": 1,
+     "explain": "Validates and groups properties."
+    },
+    {
+     "q": "How do you activate a profile?",
+     "options": [
+      "--prod",
+      "@Test",
+      "spring.profiles.active=prod (or SPRING_PROFILES_ACTIVE)",
+      "pom.xml only"
+     ],
+     "answer": 2,
+     "explain": "application-prod.yml overrides."
+    },
+    {
+     "q": "What is the property precedence idea in Boot?",
+     "options": [
+      "Files win",
+      "Random",
+      "Defaults win",
+      "Command-line and environment values override files, which override defaults"
+     ],
+     "answer": 3,
+     "explain": "Externalised configuration."
+    },
+    {
+     "q": "Where should secrets such as DB passwords be supplied in production?",
+     "options": [
+      "README",
+      "Code",
+      "application.yml in git",
+      "Via environment variables or a secrets manager, not committed files"
+     ],
+     "answer": 3,
+     "explain": "Never commit secrets."
+    }
+   ]
+  },
+  "level-1/06-rest-controllers": {
+   "questions": [
+    {
+     "q": "What does @RestController do?",
+     "options": [
+      "Adds security",
+      "Combines @Controller and @ResponseBody so return values are written as the response body (JSON)",
+      "Defines a bean only",
+      "Starts a server"
+     ],
+     "answer": 1,
+     "explain": "Jackson converts objects."
+    },
+    {
+     "q": "Which annotation maps an HTTP GET to a method?",
+     "options": [
+      "@Get",
+      "@Route",
+      "@Fetch",
+      "@GetMapping"
+     ],
+     "answer": 3,
+     "explain": "@PostMapping, @PutMapping, @DeleteMapping."
+    },
+    {
+     "q": "How do you read a path variable?",
+     "options": [
+      "@Query",
+      "@Param",
+      "@PathVariable on a method parameter",
+      "@Body"
+     ],
+     "answer": 2,
+     "explain": "/tasks/{id}."
+    },
+    {
+     "q": "What status should a successful creation return?",
+     "options": [
+      "200",
+      "404",
+      "201 Created, ideally with a Location header",
+      "204"
+     ],
+     "answer": 2,
+     "explain": "ResponseEntity.created(uri)."
+    }
+   ]
+  },
+  "level-1/07-request-response-validation": {
+   "questions": [
+    {
+     "q": "This model of Bean Validation checks a request; what does it print?\n```java\nimport java.util.*;\npublic class Main { public static void main(String[] a) { System.out.println(V.check(new Req(\"x\", 3))); System.out.println(V.check(new Req(\" \", 9))); } }\nrecord Req(String title, int priority) {}\nclass V { static List<String> check(Req r) { var e = new ArrayList<String>(); if (r.title() == null || r.title().isBlank()) e.add(\"title must not be blank\"); if (r.priority() < 1 || r.priority() > 5) e.add(\"priority must be 1-5\"); return e; } }\n```\n",
+     "options": [
+      "[]\n[title must not be blank]",
+      "[]\n[]",
+      "[ok]\n[priority must be 1-5]",
+      "[]\n[title must not be blank, priority must be 1-5]"
+     ],
+     "answer": 3,
+     "explain": "Spring does this with @NotBlank and @Min/@Max plus @Valid; failures become 400 responses. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+    },
+    {
+     "q": "Which annotation triggers validation of a request body?",
+     "options": [
+      "@Check",
+      "@Body",
+      "@Test",
+      "@Valid (or @Validated) on the parameter"
+     ],
+     "answer": 3,
+     "explain": "Violations raise MethodArgumentNotValidException."
+    },
+    {
+     "q": "Why use DTOs instead of exposing entities in the API?",
+     "options": [
+      "To control the contract, avoid leaking internals and prevent mass assignment",
+      "Colour",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Map between entity and DTO."
+    },
+    {
+     "q": "Which HTTP status does a failed validation map to?",
+     "options": [
+      "404",
+      "500",
+      "200",
+      "400 Bad Request (or 422)"
+     ],
+     "answer": 3,
+     "explain": "Return field-level errors."
+    }
+   ]
+  },
+  "level-1/08-exception-handling": {
+   "questions": [
+    {
+     "q": "What does @RestControllerAdvice with @ExceptionHandler do?",
+     "options": [
+      "Routes",
+      "Logs",
+      "Handles exceptions globally and turns them into consistent error responses",
+      "Caches"
+     ],
+     "answer": 2,
+     "explain": "Centralise error handling."
+    },
+    {
+     "q": "What is Problem Details (RFC 9457/7807)?",
+     "options": [
+      "A test",
+      "A DB",
+      "A logger",
+      "A standard JSON format for HTTP API errors"
+     ],
+     "answer": 3,
+     "explain": "Spring supports ProblemDetail."
+    },
+    {
+     "q": "Why not return stack traces to clients?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Law",
+      "They leak internals and help attackers"
+     ],
+     "answer": 3,
+     "explain": "Log them server-side."
+    },
+    {
+     "q": "Which exception typically maps to 404?",
+     "options": [
+      "NPE",
+      "IOException",
+      "Error",
+      "A custom not-found exception handled to return 404"
+     ],
+     "answer": 3,
+     "explain": "ResponseStatusException is an option."
+    }
+   ]
+  },
+  "level-1/09-logging": {
+   "questions": [
+    {
+     "q": "Which logging facade does Spring Boot use by default?",
+     "options": [
+      "Log4j only",
+      "SLF4J with Logback",
+      "JUL only",
+      "System.out"
+     ],
+     "answer": 1,
+     "explain": "Configure levels via logging.level.*."
+    },
+    {
+     "q": "Why avoid string concatenation in log calls?",
+     "options": [
+      "Use parameterised messages like log.info(\"x {}\", v) to skip work when the level is off",
+      "Style",
+      "None",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Cheaper and cleaner."
+    },
+    {
+     "q": "What should logs never contain?",
+     "options": [
+      "Timestamps",
+      "Passwords, tokens and sensitive personal data",
+      "IDs",
+      "Levels"
+     ],
+     "answer": 1,
+     "explain": "Mask them."
+    },
+    {
+     "q": "What helps trace a request across log lines?",
+     "options": [
+      "A correlation ID in the MDC",
+      "Colour",
+      "Thread name",
+      "Class name"
+     ],
+     "answer": 0,
+     "explain": "Add it via a filter."
+    }
+   ]
+  },
+  "level-1/10-project-task-api": {
+   "questions": [
+    {
+     "q": "What does the Task API project combine?",
+     "options": [
+      "Only tests",
+      "Only security",
+      "Controllers, validation, error handling, configuration and logging for a CRUD API",
+      "Only a DB"
+     ],
+     "answer": 2,
+     "explain": "Level 1 capstone."
+    },
+    {
+     "q": "What does this in-memory repository model print for the CRUD flow?\n```java\nimport java.util.*;\npublic class Main { public static void main(String[] a) { var r = new Repo(); r.add(\"a\"); r.add(\"b\"); r.complete(2); System.out.println(r.m.values()); System.out.println(r.find(9).isPresent()); } }\nrecord Task(int id, String title, boolean done) {}\nclass Repo { Map<Integer,Task> m = new TreeMap<>(); int next = 1; Task add(String t) { var x = new Task(next++, t, false); m.put(x.id(), x); return x; } Optional<Task> find(int id) { return Optional.ofNullable(m.get(id)); } Task complete(int id) { var t = m.get(id); var d = new Task(t.id(), t.title(), true); m.put(id, d); return d; } }\n```\n",
+     "options": [
+      "[Task[id=2, title=b, done=true]]\nfalse",
+      "[Task[id=1, title=a, done=false], Task[id=2, title=b, done=true]]\nfalse",
+      "[Task[id=1, title=a, done=true], Task[id=2, title=b, done=true]]\ntrue",
+      "[Task[id=1, title=a, done=false]]\nfalse"
+     ],
+     "answer": 1,
+     "explain": "Optional models a missing task; a controller would map the empty case to 404. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+    },
+    {
+     "q": "Which HTTP verb replaces a whole resource idempotently?",
+     "options": [
+      "PUT",
+      "PATCH",
+      "POST",
+      "GET"
+     ],
+     "answer": 0,
+     "explain": "PATCH is a partial update."
+    },
+    {
+     "q": "What should the API return when a task does not exist?",
+     "options": [
+      "204",
+      "200 empty",
+      "500",
+      "404 with an error body"
+     ],
+     "answer": 3,
+     "explain": "Be consistent."
+    }
+   ]
+  },
+  "level-2/01-spring-data-jpa-basics": {
+   "questions": [
+    {
+     "q": "What is Spring Data JPA?",
+     "options": [
+      "A logger",
+      "A layer that generates repository implementations on top of JPA (Hibernate) from interfaces",
+      "A web framework",
+      "A DB"
+     ],
+     "answer": 1,
+     "explain": "extends JpaRepository."
+    },
+    {
+     "q": "What does JpaRepository<T, ID> give you?",
+     "options": [
+      "Controllers",
+      "Security",
+      "Caching",
+      "CRUD, paging, sorting and derived query methods"
+     ],
+     "answer": 3,
+     "explain": "Declare an interface; no implementation needed."
+    },
+    {
+     "q": "What does spring.jpa.hibernate.ddl-auto=update risk in production?",
+     "options": [
+      "Unreviewed schema changes; use migrations (Flyway) instead",
+      "Speed",
+      "Nothing",
+      "Cost"
+     ],
+     "answer": 0,
+     "explain": "Use validate in production."
+    },
+    {
+     "q": "What does a DataSource configure?",
+     "options": [
+      "The connection (and pool) to the database",
+      "Routing",
+      "Logs",
+      "Security"
+     ],
+     "answer": 0,
+     "explain": "HikariCP is the default pool."
+    }
+   ]
+  },
+  "level-2/02-entities-relationships": {
+   "questions": [
+    {
+     "q": "Which annotation marks a class as a JPA entity?",
+     "options": [
+      "@Bean",
+      "@Component",
+      "@Table only",
+      "@Entity (with an @Id field)"
+     ],
+     "answer": 3,
+     "explain": "Needs a no-arg constructor."
+    },
+    {
+     "q": "What does @OneToMany(mappedBy = \"order\") express?",
+     "options": [
+      "A column",
+      "A join table",
+      "An index",
+      "The inverse side of a bidirectional relationship owned by the 'order' field on the other entity"
+     ],
+     "answer": 3,
+     "explain": "The owning side holds the foreign key."
+    },
+    {
+     "q": "What is the default fetch type for @ManyToOne?",
+     "options": [
+      "None",
+      "LAZY",
+      "BATCH",
+      "EAGER"
+     ],
+     "answer": 3,
+     "explain": "Collections (@OneToMany) default to LAZY."
+    },
+    {
+     "q": "Why override equals and hashCode carefully on entities?",
+     "options": [
+      "Law",
+      "Speed",
+      "Colour",
+      "Identity and proxies can break naive implementations; base them on a stable business or id key"
+     ],
+     "answer": 3,
+     "explain": "Be careful with generated ids."
+    }
+   ]
+  },
+  "level-2/03-repositories-queries": {
+   "questions": [
+    {
+     "q": "What does a derived query findByStatusAndPriorityGreaterThan do?",
+     "options": [
+      "Spring Data parses the method name into a query",
+      "Throws",
+      "Calls stored proc",
+      "Is ignored"
+     ],
+     "answer": 0,
+     "explain": "Keep names readable."
+    },
+    {
+     "q": "When use @Query?",
+     "options": [
+      "For complex or explicit JPQL/native queries",
+      "Always",
+      "For beans",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Use named parameters."
+    },
+    {
+     "q": "What does Pageable add to a repository method?",
+     "options": [
+      "Joins",
+      "Security",
+      "Caching",
+      "Pagination and sorting for large result sets"
+     ],
+     "answer": 3,
+     "explain": "Return Page<T>."
+    },
+    {
+     "q": "Why prefer projections for read-heavy endpoints?",
+     "options": [
+      "Style",
+      "Fetch only needed columns instead of whole entities",
+      "Law",
+      "Colour"
+     ],
+     "answer": 1,
+     "explain": "Interface or record projections."
+    }
+   ]
+  },
+  "level-2/04-transactions": {
+   "questions": [
+    {
+     "q": "What does @Transactional do?",
+     "options": [
+      "Locks tables",
+      "Logs",
+      "Caches",
+      "Wraps the method in a transaction that commits on success and rolls back on unchecked exceptions by default"
+     ],
+     "answer": 3,
+     "explain": "Checked exceptions do not roll back by default."
+    },
+    {
+     "q": "Why does calling a @Transactional method from within the same class often not start a transaction?",
+     "options": [
+      "The call bypasses the proxy that applies the transaction advice (self-invocation)",
+      "Eager",
+      "Lazy",
+      "Bug"
+     ],
+     "answer": 0,
+     "explain": "Call through another bean."
+    },
+    {
+     "q": "What isolation problem does optimistic locking (@Version) address?",
+     "options": [
+      "N+1",
+      "Lost updates from concurrent modification, detected at write time",
+      "Deadlock",
+      "Dirty read"
+     ],
+     "answer": 1,
+     "explain": "An OptimisticLockException is thrown."
+    },
+    {
+     "q": "Where should @Transactional normally go?",
+     "options": [
+      "Entities",
+      "On service methods representing a business operation",
+      "Config",
+      "Controllers"
+     ],
+     "answer": 1,
+     "explain": "Keep transactions short."
+    }
+   ]
+  },
+  "level-2/05-flyway-migrations": {
+   "questions": [
+    {
+     "q": "What is Flyway?",
+     "options": [
+      "A database migration tool that applies versioned SQL scripts in order",
+      "A pool",
+      "A cache",
+      "An ORM"
+     ],
+     "answer": 0,
+     "explain": "V1__init.sql."
+    },
+    {
+     "q": "Why never edit an applied migration?",
+     "options": [
+      "Law",
+      "Speed",
+      "Flyway's checksum would fail; add a new migration instead",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Migrations are immutable history."
+    },
+    {
+     "q": "What should ddl-auto be in production with Flyway?",
+     "options": [
+      "create-drop",
+      "update",
+      "create",
+      "validate or none"
+     ],
+     "answer": 3,
+     "explain": "Let migrations own the schema."
+    },
+    {
+     "q": "How do you handle risky migrations?",
+     "options": [
+      "Skip",
+      "Big bang",
+      "Expand/contract in small steps, tested against production-like data",
+      "Manual"
+     ],
+     "answer": 2,
+     "explain": "Backward compatible changes."
+    }
+   ]
+  },
+  "level-2/06-testing": {
+   "questions": [
+    {
+     "q": "What does @SpringBootTest do?",
+     "options": [
+      "A mock",
+      "A unit test",
+      "A pipeline",
+      "Loads the full application context for an integration test"
+     ],
+     "answer": 3,
+     "explain": "Slower than slices."
+    },
+    {
+     "q": "What does @WebMvcTest do?",
+     "options": [
+      "Security only",
+      "Only JPA",
+      "The full app",
+      "Loads only the web layer for controller tests with MockMvc"
+     ],
+     "answer": 3,
+     "explain": "Use @MockBean for collaborators."
+    },
+    {
+     "q": "What does @DataJpaTest provide?",
+     "options": [
+      "A slice with JPA and an embedded or container database, rolling back after each test",
+      "Security",
+      "Kafka",
+      "Controllers"
+     ],
+     "answer": 0,
+     "explain": "Testcontainers match production better."
+    },
+    {
+     "q": "Why prefer Testcontainers over H2 for DB tests?",
+     "options": [
+      "The same database engine as production avoids dialect surprises",
+      "Law",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Needs Docker."
+    }
+   ]
+  },
+  "level-2/07-spring-security-basics": {
+   "questions": [
+    {
+     "q": "What does adding spring-boot-starter-security do by default?",
+     "options": [
+      "Nothing",
+      "Disables",
+      "Secures all endpoints with basic authentication and a generated password",
+      "Allows all"
+     ],
+     "answer": 2,
+     "explain": "Customise with a SecurityFilterChain bean."
+    },
+    {
+     "q": "What does the SecurityFilterChain define?",
+     "options": [
+      "Which requests need which authentication and authorisation, plus CSRF, CORS and sessions",
+      "Routes",
+      "Jobs",
+      "Beans"
+     ],
+     "answer": 0,
+     "explain": "Replaces WebSecurityConfigurerAdapter."
+    },
+    {
+     "q": "How should passwords be stored?",
+     "options": [
+      "MD5",
+      "Plain",
+      "Hashed with a strong adaptive algorithm via PasswordEncoder (BCrypt or Argon2)",
+      "Base64"
+     ],
+     "answer": 2,
+     "explain": "DelegatingPasswordEncoder is the default."
+    },
+    {
+     "q": "Why is CSRF protection usually disabled only for stateless token APIs?",
+     "options": [
+      "Colour",
+      "Law",
+      "Browsers do not send tokens automatically, so cookie-based CSRF attacks do not apply",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Keep it for session cookies."
+    }
+   ]
+  },
+  "level-2/08-jwt-resource-server": {
+   "questions": [
+    {
+     "q": "This JDK-only check verifies an HS256 JWT signature (the core of what a resource server does). What does it print?\n```java\nimport javax.crypto.*; import javax.crypto.spec.*; import java.util.*; import java.nio.charset.StandardCharsets;\npublic class Main {\n static String b64(byte[] b){ return Base64.getUrlEncoder().withoutPadding().encodeToString(b); }\n static String sign(String data, String key) throws Exception { Mac m = Mac.getInstance(\"HmacSHA256\"); m.init(new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), \"HmacSHA256\")); return b64(m.doFinal(data.getBytes(StandardCharsets.UTF_8))); }\n static boolean verify(String jwt, String key) throws Exception { var p = jwt.split(\"\\\\.\"); return p.length == 3 && java.security.MessageDigest.isEqual(sign(p[0] + \".\" + p[1], key).getBytes(), p[2].getBytes()); }\n public static void main(String[] a) throws Exception {\n  String h = b64(\"{\\\"alg\\\":\\\"HS256\\\",\\\"typ\\\":\\\"JWT\\\"}\".getBytes()), p = b64(\"{\\\"sub\\\":\\\"ana\\\"}\".getBytes());\n  String jwt = h + \".\" + p + \".\" + sign(h + \".\" + p, \"secret-key\");\n  System.out.println(verify(jwt, \"secret-key\") + \" \" + verify(jwt, \"other\") + \" \" + verify(h + \".\" + b64(\"{\\\"sub\\\":\\\"root\\\"}\".getBytes()) + \".\" + jwt.split(\"\\\\.\")[2], \"secret-key\"));\n }\n}\n```\n",
+     "options": [
+      "true true false",
+      "true false true",
+      "true false false",
+      "false false false"
+     ],
+     "answer": 2,
+     "explain": "A valid signature verifies only with the right key and untampered payload. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+    },
+    {
+     "q": "What does an OAuth2 resource server do with a bearer JWT?",
+     "options": [
+      "Renders pages",
+      "Issues tokens",
+      "Stores passwords",
+      "Validates its signature, issuer, audience and expiry, then maps claims to authorities"
+     ],
+     "answer": 3,
+     "explain": "spring-boot-starter-oauth2-resource-server."
+    },
+    {
+     "q": "Why is a JWT payload not secret?",
+     "options": [
+      "It is encrypted",
+      "It is hashed",
+      "It is hidden",
+      "It is only base64url-encoded and signed, not encrypted; anyone can read it"
+     ],
+     "answer": 3,
+     "explain": "Do not put sensitive data in claims."
+    },
+    {
+     "q": "Which claims should always be validated?",
+     "options": [
+      "exp, iss and aud (plus signature and algorithm)",
+      "size",
+      "name",
+      "colour"
+     ],
+     "answer": 0,
+     "explain": "Reject alg=none and unexpected algorithms."
+    }
+   ]
+  },
+  "level-2/09-openapi-springdoc": {
+   "questions": [
+    {
+     "q": "What is springdoc-openapi for?",
+     "options": [
+      "Caching",
+      "Generating OpenAPI documentation and Swagger UI from your controllers",
+      "Security",
+      "Metrics"
+     ],
+     "answer": 1,
+     "explain": "Annotate for descriptions."
+    },
+    {
+     "q": "Why publish an OpenAPI spec?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Clients can generate code and tests, and the contract is explicit",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Keep it accurate in CI."
+    },
+    {
+     "q": "Where should the OpenAPI UI be exposed in production?",
+     "options": [
+      "Always public",
+      "Everywhere",
+      "Restricted or disabled unless intended to be public",
+      "Nowhere"
+     ],
+     "answer": 2,
+     "explain": "Reduce attack surface."
+    },
+    {
+     "q": "What keeps docs and code in sync?",
+     "options": [
+      "Emails",
+      "Manual",
+      "Generate from code and verify in CI (contract tests)",
+      "Hope"
+     ],
+     "answer": 2,
+     "explain": "Avoid drift."
+    }
+   ]
+  },
+  "level-2/10-project-secured-library-api": {
+   "questions": [
+    {
+     "q": "What does the secured library API project combine?",
+     "options": [
+      "CRUD, JPA, Flyway, security with JWT roles, tests and OpenAPI",
+      "Only JPA",
+      "Only docs",
+      "Only security"
+     ],
+     "answer": 0,
+     "explain": "Level 2 capstone."
+    },
+    {
+     "q": "How do you restrict an endpoint to admins?",
+     "options": [
+      "Property",
+      "hasRole('ADMIN') in the filter chain or @PreAuthorize",
+      "if statement",
+      "Config"
+     ],
+     "answer": 1,
+     "explain": "Method security needs enabling."
+    },
+    {
+     "q": "What should tests verify for secured endpoints?",
+     "options": [
+      "Only 401",
+      "Only 200",
+      "401 without a token, 403 with insufficient role, 200 with the right role",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Test all three."
+    },
+    {
+     "q": "What belongs in the migration for a library schema?",
+     "options": [
+      "Logs",
+      "Secrets",
+      "Code",
+      "Tables, constraints and indexes for the access patterns"
+     ],
+     "answer": 3,
+     "explain": "Version them."
+    }
+   ]
+  },
+  "level-3/01-auto-configuration-internals": {
+   "questions": [
+    {
+     "q": "What does auto-configuration do?",
+     "options": [
+      "Generates code",
+      "Registers beans conditionally based on the classpath and properties",
+      "Compiles",
+      "Runs tests"
+     ],
+     "answer": 1,
+     "explain": "@ConditionalOnClass and friends."
+    },
+    {
+     "q": "How can you see what was auto-configured?",
+     "options": [
+      "Reading source",
+      "Profiler",
+      "Run with --debug to print the conditions evaluation report (or actuator conditions)",
+      "Logs only"
+     ],
+     "answer": 2,
+     "explain": "Helps debug surprises."
+    },
+    {
+     "q": "How do you exclude an auto-configuration?",
+     "options": [
+      "Delete jar",
+      "Comment",
+      "Rename",
+      "@SpringBootApplication(exclude = ...) or spring.autoconfigure.exclude"
+     ],
+     "answer": 3,
+     "explain": "Prefer properties."
+    },
+    {
+     "q": "What do your own beans do to a conditional default?",
+     "options": [
+      "Conflict",
+      "Ignored",
+      "They usually win: @ConditionalOnMissingBean backs off",
+      "Duplicate"
+     ],
+     "answer": 2,
+     "explain": "Override by defining the bean."
+    }
+   ]
+  },
+  "level-3/02-aop-proxies": {
+   "questions": [
+    {
+     "q": "A Spring AOP-style proxy wraps a call. What does this JDK dynamic-proxy model print?\n```java\nimport java.lang.reflect.*;\npublic class Main { public static void main(String[] a) { Svc target = x -> \"ran \" + x; Svc proxy = (Svc) Proxy.newProxyInstance(Svc.class.getClassLoader(), new Class<?>[]{Svc.class}, (p, m, args) -> { System.out.println(\"before\"); Object r = m.invoke(target, args); System.out.println(\"after\"); return r; }); System.out.println(proxy.run(\"job\")); } }\ninterface Svc { String run(String x); }\n```\n",
+     "options": [
+      "before\nafter",
+      "before\nafter\nran job",
+      "ran job\nbefore\nafter",
+      "before\nran job\nafter"
+     ],
+     "answer": 1,
+     "explain": "Spring wraps beans in proxies so advice (transactions, caching) runs around calls. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+    },
+    {
+     "q": "Why does self-invocation bypass AOP advice?",
+     "options": [
+      "The call goes directly to this, not through the proxy that applies the advice",
+      "Order",
+      "Cache",
+      "Bug"
+     ],
+     "answer": 0,
+     "explain": "Extract to another bean."
+    },
+    {
+     "q": "Which kinds of proxies does Spring use?",
+     "options": [
+      "JDK dynamic proxies (interfaces) and CGLIB subclass proxies",
+      "None",
+      "Bytecode only",
+      "Reflection"
+     ],
+     "answer": 0,
+     "explain": "Boot defaults to CGLIB."
+    },
+    {
+     "q": "What is cross-cutting logic suited to AOP?",
+     "options": [
+      "Transactions, security checks, logging and caching",
+      "UI",
+      "Business rules",
+      "Validation only"
+     ],
+     "answer": 0,
+     "explain": "Keep aspects small."
+    }
+   ]
+  },
+  "level-3/03-n-plus-one-fetching": {
+   "questions": [
+    {
+     "q": "This model counts queries for N+1 versus a join. What does it print?\n```java\nimport java.util.*;\npublic class Main { public static void main(String[] x) { var d = new Db(); for (int a : d.authors()) d.books(a); System.out.println(\"n+1: \" + d.queries); var e = new Db(); e.booksFor(e.authors()); System.out.println(\"batched: \" + e.queries); } }\nclass Db { int queries = 0; List<Integer> authors() { queries++; return List.of(1,2,3,4); } List<String> books(int a) { queries++; return List.of(\"b\" + a); } Map<Integer,List<String>> booksFor(List<Integer> ids) { queries++; var m = new TreeMap<Integer,List<String>>(); for (int i : ids) m.put(i, List.of(\"b\" + i)); return m; } }\n```\n",
+     "options": [
+      "n+1: 5\nbatched: 2",
+      "n+1: 5\nbatched: 5",
+      "n+1: 2\nbatched: 2",
+      "n+1: 4\nbatched: 2"
+     ],
+     "answer": 0,
+     "explain": "One query for authors plus one per author versus two queries total. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+    },
+    {
+     "q": "What is the N+1 problem?",
+     "options": [
+      "Deadlock",
+      "One query to load a list plus one extra query per item to load its associations",
+      "Too many beans",
+      "Slow index"
+     ],
+     "answer": 1,
+     "explain": "Fix with fetch joins, entity graphs or batch fetching."
+    },
+    {
+     "q": "How do you spot N+1 in development?",
+     "options": [
+      "Guess",
+      "Docs",
+      "Profiler only",
+      "Enable SQL logging or use a query counter in tests"
+     ],
+     "answer": 3,
+     "explain": "Assert query counts."
+    },
+    {
+     "q": "What is a pitfall of eager fetching everywhere?",
+     "options": [
+      "Loads data you do not need and can create cartesian products",
+      "Law",
+      "Speed",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Fetch per use case."
+    }
+   ]
+  },
+  "level-3/04-caching": {
+   "questions": [
+    {
+     "q": "What does @Cacheable do?",
+     "options": [
+      "Stores a method's result keyed by its arguments and returns it on later calls",
+      "Schedules",
+      "Logs",
+      "Retries"
+     ],
+     "answer": 0,
+     "explain": "Needs @EnableCaching."
+    },
+    {
+     "q": "What is cache invalidation's rule of thumb?",
+     "options": [
+      "Never",
+      "Randomly",
+      "Always",
+      "Evict or update when the underlying data changes (@CacheEvict, TTLs)"
+     ],
+     "answer": 3,
+     "explain": "Prefer TTLs as a safety net."
+    },
+    {
+     "q": "Why is caching mutable objects risky?",
+     "options": [
+      "Law",
+      "Callers can modify the cached instance; cache immutable values",
+      "Memory",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "DTOs or records."
+    },
+    {
+     "q": "Which provider suits a distributed cache?",
+     "options": [
+      "Redis (versus in-process Caffeine for single-instance)",
+      "Caffeine",
+      "H2",
+      "Logback"
+     ],
+     "answer": 0,
+     "explain": "Shared across instances."
+    }
+   ]
+  },
+  "level-3/05-async-scheduling": {
+   "questions": [
+    {
+     "q": "What does @Async do?",
+     "options": [
+      "Retries",
+      "Caches",
+      "Runs a method on a separate executor thread, returning immediately",
+      "Waits"
+     ],
+     "answer": 2,
+     "explain": "Needs @EnableAsync; self-invocation bypasses it."
+    },
+    {
+     "q": "What does @Scheduled(fixedRate = 5000) do?",
+     "options": [
+      "Once",
+      "Runs the method every 5 seconds from the start of the previous run",
+      "Daily",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "fixedDelay waits after completion."
+    },
+    {
+     "q": "What is a problem with @Scheduled across multiple instances?",
+     "options": [
+      "It runs on every instance unless you use a lock (such as ShedLock)",
+      "Nothing",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Avoid duplicates."
+    },
+    {
+     "q": "Why configure a bounded executor for async work?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Unbounded threads or queues can exhaust memory",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Set pool and queue sizes."
+    }
+   ]
+  },
+  "level-3/06-messaging-kafka": {
+   "questions": [
+    {
+     "q": "What is Kafka's key guarantee per partition?",
+     "options": [
+      "Global order",
+      "No order",
+      "Random",
+      "Records in a partition are ordered"
+     ],
+     "answer": 3,
+     "explain": "Use keys to route related events."
+    },
+    {
+     "q": "What delivery semantics should consumers assume by default?",
+     "options": [
+      "At most once",
+      "Never",
+      "At-least-once, so handlers must be idempotent",
+      "Exactly once"
+     ],
+     "answer": 2,
+     "explain": "Deduplicate by key."
+    },
+    {
+     "q": "What does @KafkaListener do?",
+     "options": [
+      "Logs",
+      "Creates topic",
+      "Consumes records from a topic and invokes the method",
+      "Produces"
+     ],
+     "answer": 2,
+     "explain": "Configure group id."
+    },
+    {
+     "q": "What should happen to messages that keep failing?",
+     "options": [
+      "Drop",
+      "Retry with backoff, then send to a dead-letter topic",
+      "Block",
+      "Retry forever"
+     ],
+     "answer": 1,
+     "explain": "Alert on DLT."
+    }
+   ]
+  },
+  "level-3/07-http-clients-resilience": {
+   "questions": [
+    {
+     "q": "What is a circuit breaker?",
+     "options": [
+      "Stops calling a failing dependency for a while to protect the caller and let it recover",
+      "A cache",
+      "A fuse",
+      "A retry"
+     ],
+     "answer": 0,
+     "explain": "Resilience4j."
+    },
+    {
+     "q": "What must you set on every outgoing HTTP call?",
+     "options": [
+      "Cache",
+      "Nothing",
+      "Colour",
+      "Connect and read timeouts"
+     ],
+     "answer": 3,
+     "explain": "Hung calls block threads."
+    },
+    {
+     "q": "Why combine retries with backoff and jitter?",
+     "options": [
+      "Law",
+      "To avoid retry storms hammering a recovering service",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 1,
+     "explain": "Limit attempts."
+    },
+    {
+     "q": "Which Spring client is current for blocking HTTP?",
+     "options": [
+      "Telnet",
+      "HttpURLConnection",
+      "RestTemplate only",
+      "RestClient (or WebClient for reactive)"
+     ],
+     "answer": 3,
+     "explain": "RestTemplate is in maintenance."
+    }
+   ]
+  },
+  "level-3/08-actuator-metrics": {
+   "questions": [
+    {
+     "q": "What do Actuator endpoints provide?",
+     "options": [
+      "DB",
+      "UI",
+      "Auth",
+      "Health, metrics, info, environment and more for monitoring"
+     ],
+     "answer": 3,
+     "explain": "Expose selectively."
+    },
+    {
+     "q": "Why secure Actuator endpoints?",
+     "options": [
+      "They can leak configuration and allow dangerous operations",
+      "Law",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Expose only health and info publicly."
+    },
+    {
+     "q": "What does Micrometer do?",
+     "options": [
+      "Provides a vendor-neutral metrics facade (Prometheus, etc.)",
+      "Logs",
+      "Auth",
+      "Cache"
+     ],
+     "answer": 0,
+     "explain": "Timers, counters, gauges."
+    },
+    {
+     "q": "What are liveness and readiness probes?",
+     "options": [
+      "CPU",
+      "Disk",
+      "Whether the app is alive and whether it can serve traffic",
+      "Memory"
+     ],
+     "answer": 2,
+     "explain": "Kubernetes uses them."
+    }
+   ]
+  },
+  "level-3/09-bean-lifecycle-events": {
+   "questions": [
+    {
+     "q": "This model of bean lifecycle callbacks prints what order?\n```java\nimport java.util.*;\npublic class Main { public static void main(String[] a) { var b = new Bean(); b.inject(); b.postConstruct(); b.preDestroy(); System.out.println(b.log); } }\nclass Bean { List<String> log = new ArrayList<>(); Bean() { log.add(\"construct\"); } void inject() { log.add(\"inject\"); } void postConstruct() { log.add(\"init\"); } void preDestroy() { log.add(\"destroy\"); } }\n```\n",
+     "options": [
+      "[construct, inject, destroy, init]",
+      "[construct, init, inject, destroy]",
+      "[inject, construct, init, destroy]",
+      "[construct, inject, init, destroy]"
+     ],
+     "answer": 3,
+     "explain": "Instantiate, inject dependencies, run @PostConstruct, later @PreDestroy. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+    },
+    {
+     "q": "Which annotation runs initialisation after dependencies are injected?",
+     "options": [
+      "@Start",
+      "@Init",
+      "@PostConstruct",
+      "@Bean"
+     ],
+     "answer": 2,
+     "explain": "Or InitializingBean."
+    },
+    {
+     "q": "What do application events enable?",
+     "options": [
+      "Decoupled communication between components via ApplicationEventPublisher and @EventListener",
+      "Logging",
+      "HTTP",
+      "DB"
+     ],
+     "answer": 0,
+     "explain": "@TransactionalEventListener runs after commit."
+    },
+    {
+     "q": "What is ApplicationReadyEvent for?",
+     "options": [
+      "Build",
+      "Work that should run once the application is fully started",
+      "Tests",
+      "Shutdown"
+     ],
+     "answer": 1,
+     "explain": "Avoid heavy startup work."
+    }
+   ]
+  },
+  "level-3/10-project-order-service": {
+   "questions": [
+    {
+     "q": "What does the order service project combine?",
+     "options": [
+      "JPA, transactions, messaging, caching, resilience and metrics in a realistic service",
+      "Only CRUD",
+      "Only tests",
+      "Only docs"
+     ],
+     "answer": 0,
+     "explain": "Level 3 capstone."
+    },
+    {
+     "q": "How do you avoid double-processing an order event?",
+     "options": [
+      "Idempotency keys and unique constraints",
+      "Hope",
+      "Retry",
+      "Locks only"
+     ],
+     "answer": 0,
+     "explain": "At-least-once delivery."
+    },
+    {
+     "q": "What belongs in a transaction boundary for placing an order?",
+     "options": [
+      "HTTP call",
+      "Persisting the order and the outbox record together",
+      "Email",
+      "Metrics"
+     ],
+     "answer": 1,
+     "explain": "Outbox pattern."
+    },
+    {
+     "q": "What does the outbox pattern solve?",
+     "options": [
+      "Auth",
+      "Cache",
+      "Atomically saving state and the event to publish, avoiding lost or phantom messages",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "A relay publishes later."
+    }
+   ]
+  },
+  "level-4/01-spring-cloud-microservices": {
+   "questions": [
+    {
+     "q": "What does Spring Cloud provide?",
+     "options": [
+      "A JDK",
+      "A cloud",
+      "Building blocks for distributed systems such as config, discovery, gateway and resilience",
+      "A DB"
+     ],
+     "answer": 2,
+     "explain": "Many are optional with Kubernetes."
+    },
+    {
+     "q": "What does an API gateway do?",
+     "options": [
+      "A single entry point handling routing, auth, rate limiting and cross-cutting concerns",
+      "Stores data",
+      "Tests",
+      "Compiles"
+     ],
+     "answer": 0,
+     "explain": "Spring Cloud Gateway."
+    },
+    {
+     "q": "What is externalised config in microservices?",
+     "options": [
+      "Central config (config server or Kubernetes) so services read environment-specific settings",
+      "Local only",
+      "Hard-coded",
+      "Static"
+     ],
+     "answer": 0,
+     "explain": "Refreshable."
+    },
+    {
+     "q": "Why do microservices need distributed tracing?",
+     "options": [
+      "To follow one request across services and find where time goes",
+      "Colour",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Trace IDs propagate."
+    }
+   ]
+  },
+  "level-4/02-webflux-vs-virtual-threads": {
+   "questions": [
+    {
+     "q": "What do virtual threads (Java 21) simplify?",
+     "options": [
+      "Blocking-style code that scales to many concurrent requests without reactive complexity",
+      "Syntax",
+      "GPU",
+      "Memory"
+     ],
+     "answer": 0,
+     "explain": "spring.threads.virtual.enabled=true."
+    },
+    {
+     "q": "When does WebFlux still make sense?",
+     "options": [
+      "CRUD",
+      "Always",
+      "For streaming, backpressure and fully non-blocking pipelines end to end",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Mixed blocking calls defeat it."
+    },
+    {
+     "q": "What is the danger of blocking calls on an event-loop thread?",
+     "options": [
+      "Memory",
+      "It stalls other requests on that thread",
+      "Nothing",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Use bounded elastic schedulers."
+    },
+    {
+     "q": "What should drive the choice between the models?",
+     "options": [
+      "Workload shape and team skills, measured rather than assumed",
+      "Fashion",
+      "Price",
+      "Logo"
+     ],
+     "answer": 0,
+     "explain": "Benchmark."
+    }
+   ]
+  },
+  "level-4/03-performance-tuning": {
+   "questions": [
+    {
+     "q": "What should you do first when an endpoint is slow?",
+     "options": [
+      "Guess",
+      "Add threads",
+      "Measure with metrics, traces and profiling to find the bottleneck",
+      "Rewrite"
+     ],
+     "answer": 2,
+     "explain": "Database is the usual suspect."
+    },
+    {
+     "q": "What does connection pool exhaustion look like?",
+     "options": [
+      "Nothing",
+      "Errors",
+      "Requests waiting for connections and timing out under load",
+      "Fast"
+     ],
+     "answer": 2,
+     "explain": "Size pools to the database."
+    },
+    {
+     "q": "Why enable response compression and HTTP caching carefully?",
+     "options": [
+      "They trade CPU for bandwidth and need correct cache headers",
+      "None",
+      "Law",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Measure benefits."
+    },
+    {
+     "q": "What does JVM warm-up affect?",
+     "options": [
+      "Initial request latency while the JIT compiles hot code",
+      "Memory only",
+      "Disk",
+      "Network"
+     ],
+     "answer": 0,
+     "explain": "Test with realistic load."
+    }
+   ]
+  },
+  "level-4/04-graalvm-native": {
+   "questions": [
+    {
+     "q": "What does GraalVM native image offer?",
+     "options": [
+      "No limits",
+      "Faster peak",
+      "Fast startup and low memory by ahead-of-time compilation, with build-time constraints",
+      "Dynamic classes"
+     ],
+     "answer": 2,
+     "explain": "Reflection needs hints."
+    },
+    {
+     "q": "What is the trade-off of native images?",
+     "options": [
+      "Slower startup",
+      "None",
+      "More memory",
+      "Longer builds and restrictions on reflection and dynamic features"
+     ],
+     "answer": 3,
+     "explain": "Test thoroughly."
+    },
+    {
+     "q": "What do AOT processing and runtime hints do?",
+     "options": [
+      "Deploy",
+      "Generate configuration so reflection and resources work in a native build",
+      "Test",
+      "Log"
+     ],
+     "answer": 1,
+     "explain": "Boot 3 supports it."
+    },
+    {
+     "q": "When are native images most valuable?",
+     "options": [
+      "Never",
+      "Always",
+      "Serverless and scale-to-zero where startup time matters",
+      "Batch"
+     ],
+     "answer": 2,
+     "explain": "Measure."
+    }
+   ]
+  },
+  "level-4/05-containerization": {
+   "questions": [
+    {
+     "q": "What do Cloud Native Buildpacks (spring-boot:build-image) produce?",
+     "options": [
+      "A VM",
+      "A layered OCI image without writing a Dockerfile",
+      "A jar",
+      "A zip"
+     ],
+     "answer": 1,
+     "explain": "Reproducible builds."
+    },
+    {
+     "q": "Why use layered jars in Dockerfiles?",
+     "options": [
+      "Colour",
+      "Style",
+      "Dependencies change rarely, so layers cache and rebuilds are fast",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Better image pushes."
+    },
+    {
+     "q": "Why run as non-root in containers?",
+     "options": [
+      "Speed",
+      "Limits damage if the app is compromised",
+      "Colour",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Set a USER."
+    },
+    {
+     "q": "What should container memory settings account for?",
+     "options": [
+      "Disk",
+      "JVM heap plus non-heap, with container-aware flags",
+      "Heap only",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Avoid OOM kills."
+    }
+   ]
+  },
+  "level-4/06-observability-tracing": {
+   "questions": [
+    {
+     "q": "What are the three pillars of observability?",
+     "options": [
+      "CPU, RAM, disk",
+      "Alerts, pages, tickets",
+      "Metrics, logs and traces",
+      "Dev, test, prod"
+     ],
+     "answer": 2,
+     "explain": "Micrometer Observation unifies them."
+    },
+    {
+     "q": "What does trace context propagation do?",
+     "options": [
+      "Caches",
+      "Encrypts",
+      "Passes trace IDs between services so spans link into one trace",
+      "Routes"
+     ],
+     "answer": 2,
+     "explain": "W3C traceparent."
+    },
+    {
+     "q": "What makes alerts actionable?",
+     "options": [
+      "Colour",
+      "They signal user impact and link to a runbook",
+      "Volume",
+      "Noise"
+     ],
+     "answer": 1,
+     "explain": "Alert on symptoms."
+    },
+    {
+     "q": "How do you keep cardinality in check?",
+     "options": [
+      "Add tags",
+      "Avoid unbounded values such as user IDs as metric tags",
+      "More labels",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Prevents cost blow-ups."
+    }
+   ]
+  },
+  "level-4/07-security-hardening": {
+   "questions": [
+    {
+     "q": "Which is a hardening step for Spring Boot apps?",
+     "options": [
+      "Update dependencies promptly, minimise exposed actuators and validate all inputs",
+      "Disable HTTPS",
+      "Expose all",
+      "Skip updates"
+     ],
+     "answer": 0,
+     "explain": "Scan with tools."
+    },
+    {
+     "q": "What does the Content-Security-Policy and security headers set help with?",
+     "options": [
+      "Mitigating XSS and clickjacking for browser-facing apps",
+      "SQL",
+      "CPU",
+      "DB"
+     ],
+     "answer": 0,
+     "explain": "Spring Security adds many defaults."
+    },
+    {
+     "q": "How do you handle CORS safely?",
+     "options": [
+      "Ignore",
+      "Allow *",
+      "Disable",
+      "Allow only specific origins, methods and headers"
+     ],
+     "answer": 3,
+     "explain": "Credentials with * is forbidden."
+    },
+    {
+     "q": "Why use dependency scanning?",
+     "options": [
+      "Libraries carry known CVEs",
+      "Style",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Automate in CI."
+    }
+   ]
+  },
+  "level-4/08-deployment": {
+   "questions": [
+    {
+     "q": "What is a safe deployment strategy?",
+     "options": [
+      "Skip",
+      "Rolling or blue-green with health checks and quick rollback",
+      "Big bang",
+      "Manual"
+     ],
+     "answer": 1,
+     "explain": "Readiness gates traffic."
+    },
+    {
+     "q": "What do liveness and readiness probes protect against?",
+     "options": [
+      "Memory",
+      "Sending traffic to unready instances and keeping stuck ones running",
+      "Cost",
+      "Logs"
+     ],
+     "answer": 1,
+     "explain": "Tune thresholds."
+    },
+    {
+     "q": "What should graceful shutdown do?",
+     "options": [
+      "Restart",
+      "Kill",
+      "Ignore",
+      "Finish in-flight requests before stopping (server.shutdown=graceful)"
+     ],
+     "answer": 3,
+     "explain": "Avoid dropped requests."
+    },
+    {
+     "q": "How are schema changes coordinated with deploys?",
+     "options": [
+      "Break",
+      "Backward-compatible migrations applied before or alongside the new version",
+      "Skip",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Expand then contract."
+    }
+   ]
+  },
+  "level-4/09-modular-architecture": {
+   "questions": [
+    {
+     "q": "What is Spring Modulith?",
+     "options": [
+      "A DB",
+      "A toolkit for building well-structured modular monoliths with verified module boundaries",
+      "A UI",
+      "A cloud"
+     ],
+     "answer": 1,
+     "explain": "Tests verify dependencies."
+    },
+    {
+     "q": "Why start with a modular monolith?",
+     "options": [
+      "Clear boundaries without distributed-system cost, easing later extraction",
+      "Colour",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Split only when needed."
+    },
+    {
+     "q": "How should modules communicate?",
+     "options": [
+      "Globals",
+      "Shared tables",
+      "Through public APIs or events, not by reaching into each other's internals",
+      "Reflection"
+     ],
+     "answer": 2,
+     "explain": "Keep coupling low."
+    },
+    {
+     "q": "What does ArchUnit-style testing enforce?",
+     "options": [
+      "Architectural rules such as allowed package dependencies",
+      "Style",
+      "Speed",
+      "Security"
+     ],
+     "answer": 0,
+     "explain": "Fail the build on violations."
+    }
+   ]
+  },
+  "level-4/10-capstone": {
+   "questions": [
+    {
+     "q": "What is the capstone's goal?",
+     "options": [
+      "A script",
+      "A UI",
+      "A production-ready Spring Boot service with security, persistence, tests, observability and deployment",
+      "A toy"
+     ],
+     "answer": 2,
+     "explain": "Bring it together."
+    },
+    {
+     "q": "What proves the service is production-ready?",
+     "options": [
+      "Few lines",
+      "It runs",
+      "CI with tests and scans, load results, dashboards, alerts and a runbook",
+      "Looks good"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What belongs in the README?",
+     "options": [
+      "Setup, configuration, run, test, deploy and design decisions",
+      "Logo",
+      "Nothing",
+      "Slogan"
+     ],
+     "answer": 0,
+     "explain": "Handover."
+    },
+    {
+     "q": "How do you handle residual risk?",
+     "options": [
+      "Delay",
+      "Document it and decide to accept, mitigate or transfer",
+      "Hide",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Risk register."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this model of Bean Validation print?\n```java\nimport java.util.*;\npublic class Main { public static void main(String[] a) { System.out.println(V.check(new Order(\"A1\", 2, \"x@y\"))); System.out.println(V.check(new Order(\"\", 0, \"nope\"))); } }\nrecord Order(String sku, int qty, String email) {}\nclass V { static List<String> check(Order o) { var e = new ArrayList<String>(); if (o.sku() == null || o.sku().isBlank()) e.add(\"sku required\"); if (o.qty() < 1) e.add(\"qty must be >= 1\"); if (o.email() == null || !o.email().matches(\"[^@]+@[^@]+\")) e.add(\"email invalid\"); return e; } }\n```\n",
+    "options": [
+     "[]\n[sku required, qty must be >= 1, email invalid]",
+     "[ok]\n[email invalid]",
+     "[]\n[sku required]",
+     "[]\n[]"
+    ],
+    "answer": 0,
+    "explain": "Spring runs equivalent checks from @NotBlank, @Min and @Email when a parameter is @Valid and answers 400 on violations. (Plain-Java model; Spring itself was not run here.) Verified by compiling and running it."
+   },
+   {
+    "q": "What does this idempotent-handler model print when the same event is delivered twice?\n```java\nimport java.util.*;\npublic class Main { static Set<String> seen = new HashSet<>(); static int total = 0; static void handle(String id, int amt) { if (!seen.add(id)) { System.out.println(\"duplicate \" + id); return; } total += amt; } public static void main(String[] a) { handle(\"e1\", 10); handle(\"e2\", 5); handle(\"e1\", 10); System.out.println(total); } }\n```\n",
+    "options": [
+     "duplicate e1\n25",
+     "15\n25",
+     "duplicate e1\n10",
+     "duplicate e1\n15"
+    ],
+    "answer": 3,
+    "explain": "At-least-once delivery means handlers must tolerate duplicates, for example by recording processed IDs. (Plain-Java model; Spring itself was not run here.) Verified by compiling and running it."
+   },
+   {
+    "q": "What does this JDK dynamic-proxy model of AOP print?\n```java\nimport java.lang.reflect.*;\npublic class Main { public static void main(String[] x) { Svc t = (a, b) -> a + b; Svc p = (Svc) Proxy.newProxyInstance(Svc.class.getClassLoader(), new Class<?>[]{Svc.class}, (pr, m, args) -> { System.out.println(\"tx begin\"); try { Object r = m.invoke(t, args); System.out.println(\"tx commit\"); return r; } catch (InvocationTargetException e) { System.out.println(\"tx rollback\"); throw e.getCause(); } }); System.out.println(p.add(2, 3)); } }\ninterface Svc { int add(int a, int b); }\n```\n",
+    "options": [
+     "tx begin\ntx rollback\n5",
+     "tx begin\n5\ntx commit",
+     "tx begin\ntx commit\n5",
+     "5\ntx begin\ntx commit"
+    ],
+    "answer": 2,
+    "explain": "Transaction advice wraps the call: begin, invoke, commit (or rollback on an exception). (Plain-Java model; Spring itself was not run here.) Verified by compiling and running it."
+   },
+   {
+    "q": "How many queries does the N+1 problem issue for a list of 100 authors with lazy books?",
+    "options": [
+     "2",
+     "100",
+     "101: one for the list plus one per author",
+     "1"
+    ],
+    "answer": 2,
+    "explain": "Fix with a fetch join, an entity graph or batch fetching to get it down to 1 or 2."
+   },
+   {
+    "q": "What does this cache model print?\n```java\nimport java.util.*;\npublic class Main { static Map<Integer,Integer> cache = new HashMap<>(); static int calls = 0; static int slow(int n) { calls++; return n * n; } static int cached(int n) { return cache.computeIfAbsent(n, Main::slow); } public static void main(String[] a) { System.out.println(cached(4) + cached(4) + cached(5)); System.out.println(\"calls=\" + calls); } }\n```\n",
+    "options": [
+     "57\ncalls=3",
+     "57\ncalls=2",
+     "41\ncalls=2",
+     "48\ncalls=2"
+    ],
+    "answer": 1,
+    "explain": "The second lookup of 4 is served from the cache; @Cacheable does this keyed by arguments. (Plain-Java model; Spring itself was not run here.) Verified by compiling and running it."
+   },
+   {
+    "q": "What is the right layer for @Transactional?",
+    "options": [
+     "Repositories only",
+     "Controllers",
+     "Entities",
+     "The service method that represents one business operation"
+    ],
+    "answer": 3,
+    "explain": "Keep transactions short and at the use-case boundary."
+   },
+   {
+    "q": "Why can a @Transactional method called from another method in the same class run without a transaction?",
+    "options": [
+     "It is async",
+     "It is cached",
+     "The call bypasses the proxy that applies the advice (self-invocation)",
+     "Spring bug"
+    ],
+    "answer": 2,
+    "explain": "Move the method to another bean."
+   },
+   {
+    "q": "Which fetch strategy is the default for @OneToMany?",
+    "options": [
+     "EAGER",
+     "LAZY",
+     "BATCH",
+     "None"
+    ],
+    "answer": 1,
+    "explain": "@ManyToOne defaults to EAGER."
+   },
+   {
+    "q": "Why should production use Flyway or Liquibase instead of ddl-auto=update?",
+    "options": [
+     "Required by JPA",
+     "Faster startup",
+     "Smaller jars",
+     "Schema changes become versioned, reviewed and repeatable"
+    ],
+    "answer": 3,
+    "explain": "Set ddl-auto to validate or none."
+   },
+   {
+    "q": "Which test annotation loads only the web layer for a controller test?",
+    "options": [
+     "@WebMvcTest",
+     "@DataJpaTest",
+     "@SpringBootTest",
+     "@JsonTest"
+    ],
+    "answer": 0,
+    "explain": "Combine with @MockBean."
+   },
+   {
+    "q": "Why prefer Testcontainers to an in-memory H2 database for repository tests?",
+    "options": [
+     "Speed",
+     "The real engine exposes dialect, constraint and locking behaviour that H2 hides",
+     "Law",
+     "Colour"
+    ],
+    "answer": 1,
+    "explain": "Requires Docker."
+   },
+   {
+    "q": "How should passwords be stored?",
+    "options": [
+     "MD5",
+     "Hashed with BCrypt or Argon2 through a PasswordEncoder",
+     "Plain text",
+     "Reversible encryption"
+    ],
+    "answer": 1,
+    "explain": "Use per-password salts."
+   },
+   {
+    "q": "What must a resource server check on a JWT besides the signature?",
+    "options": [
+     "Length",
+     "Colour",
+     "Expiry, issuer and audience (and the algorithm)",
+     "Nothing"
+    ],
+    "answer": 2,
+    "explain": "A valid signature on an expired token is still invalid."
+   },
+   {
+    "q": "What does a circuit breaker do?",
+    "options": [
+     "Retries forever",
+     "Encrypts traffic",
+     "Stops calling a failing dependency for a period so it can recover and callers fail fast",
+     "Caches results"
+    ],
+    "answer": 2,
+    "explain": "Combine with timeouts and backoff."
+   },
+   {
+    "q": "Why add jitter to retry backoff?",
+    "options": [
+     "So many clients do not retry in lockstep and overwhelm a recovering service",
+     "Law",
+     "Speed",
+     "Colour"
+    ],
+    "answer": 0,
+    "explain": "Cap the attempts."
+   },
+   {
+    "q": "What is the outbox pattern for?",
+    "options": [
+     "Compression",
+     "Caching",
+     "Saving the state change and the event in one transaction, then publishing the event reliably",
+     "Auth"
+    ],
+    "answer": 2,
+    "explain": "Avoids lost or phantom messages."
+   },
+   {
+    "q": "When do virtual threads help?",
+    "options": [
+     "Blocking-style request handling at high concurrency without reactive code",
+     "CPU-bound work",
+     "Only batch",
+     "GPU work"
+    ],
+    "answer": 0,
+    "explain": "Enable with spring.threads.virtual.enabled=true on Java 21+."
+   },
+   {
+    "q": "Which Actuator exposure is safest by default?",
+    "options": [
+     "All endpoints",
+     "env and heapdump public",
+     "None needed",
+     "Only health (and info), with the rest secured or disabled"
+    ],
+    "answer": 3,
+    "explain": "Endpoints can leak configuration."
+   },
+   {
+    "q": "What is the main trade-off of GraalVM native images?",
+    "options": [
+     "Very fast startup and low memory, but longer builds and limits on reflection and dynamic features",
+     "No limits",
+     "Slower startup",
+     "Bigger memory"
+    ],
+    "answer": 0,
+    "explain": "Needs AOT hints."
+   },
+   {
+    "q": "What proves a Spring Boot service is production-ready?",
+    "options": [
+     "It compiles",
+     "CI with tests and scans, load results, dashboards, alerts and a runbook",
+     "It starts",
+     "It looks fine"
+    ],
+    "answer": 1,
+    "explain": "Evidence over claims."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A tiny IoC container with constructor injection",
+    "prompt": "Write a mini dependency-injection container in plain Java: map interfaces to implementations, create beans by resolving constructor parameters recursively, cache singletons and detect missing beans and circular dependencies with clear messages. This models what Spring's ApplicationContext does; it uses only the JDK, and Spring itself was not run.",
+    "starter": "import java.lang.reflect.Constructor;\nimport java.util.*;\n\npublic class Main {\n    interface Greeter { String greet(String name); }\n    static class EnglishGreeter implements Greeter { public String greet(String n) { return \"Hello, \" + n; } }\n    static class Audit { final List<String> log = new ArrayList<>(); void add(String s) { log.add(s); } }\n    static class Service {\n        final Greeter greeter; final Audit audit;\n        Service(Greeter g, Audit a) { this.greeter = g; this.audit = a; }\n        String run(String n) { audit.add(\"run \" + n); return greeter.greet(n); }\n    }\n    static class A { A(B b) {} }\n    static class B { B(A a) {} }\n\n    // TODO: static class Container\n    //   register(Class<?> type, Class<?> impl)            map an interface to its implementation\n    //   <T> T get(Class<T> type)                           create the bean with constructor injection (resolve each constructor parameter recursively),\n    //                                                      cache it as a singleton, throw IllegalStateException(\"no bean for X\") for an unmapped interface,\n    //                                                      and IllegalStateException(\"circular dependency: A -> B -> A\") when resolution loops\n\n    public static void main(String[] args) {\n        Container ctx = new Container();\n        ctx.register(Greeter.class, EnglishGreeter.class);\n        Service s1 = ctx.get(Service.class);\n        Service s2 = ctx.get(Service.class);\n        System.out.println(s1.run(\"Ana\"));\n        System.out.println(\"same instance: \" + (s1 == s2) + \", shared audit: \" + (s1.audit == ctx.get(Audit.class)));\n        System.out.println(ctx.get(Audit.class).log);\n        try { new Container().get(Service.class); } catch (IllegalStateException e) { System.out.println(e.getMessage()); }\n        try { new Container().get(A.class); } catch (IllegalStateException e) { System.out.println(e.getMessage()); }\n    }\n}\n",
+    "expected": "Hello, Ana\nsame instance: true, shared audit: true\n[run Ana]\nno bean for Greeter\ncircular dependency: A -> B -> A",
+    "solution": "import java.lang.reflect.Constructor;\nimport java.util.*;\n\npublic class Main {\n    interface Greeter { String greet(String name); }\n    static class EnglishGreeter implements Greeter { public String greet(String n) { return \"Hello, \" + n; } }\n    static class Audit { final List<String> log = new ArrayList<>(); void add(String s) { log.add(s); } }\n    static class Service {\n        final Greeter greeter; final Audit audit;\n        Service(Greeter g, Audit a) { this.greeter = g; this.audit = a; }\n        String run(String n) { audit.add(\"run \" + n); return greeter.greet(n); }\n    }\n    static class A { A(B b) {} }\n    static class B { B(A a) {} }\n\n    /** A tiny IoC container: register implementations for types, resolve by constructor injection, singletons by default. */\n    static class Container {\n        private final Map<Class<?>, Class<?>> impls = new HashMap<>();\n        private final Map<Class<?>, Object> singletons = new HashMap<>();\n        private final Deque<Class<?>> resolving = new ArrayDeque<>();\n\n        void register(Class<?> type, Class<?> impl) { impls.put(type, impl); }\n\n        @SuppressWarnings(\"unchecked\")\n        <T> T get(Class<T> type) {\n            if (singletons.containsKey(type)) return (T) singletons.get(type);\n            if (resolving.contains(type)) throw new IllegalStateException(\"circular dependency: \" + path(type));\n            resolving.push(type);\n            try {\n                Class<?> impl = impls.getOrDefault(type, type);\n                if (impl.isInterface()) throw new IllegalStateException(\"no bean for \" + type.getSimpleName());\n                Constructor<?> c = impl.getDeclaredConstructors()[0];\n                c.setAccessible(true);\n                Object[] args = Arrays.stream(c.getParameterTypes()).map(this::get).toArray();\n                Object bean = c.newInstance(args);\n                singletons.put(type, bean);\n                return (T) bean;\n            } catch (ReflectiveOperationException e) {\n                throw new RuntimeException(e);\n            } finally {\n                resolving.pop();\n            }\n        }\n\n        private String path(Class<?> again) {\n            List<String> names = new ArrayList<>();\n            for (Class<?> c : resolving) names.add(c.getSimpleName());\n            Collections.reverse(names);\n            names.add(again.getSimpleName());\n            return String.join(\" -> \", names);\n        }\n    }\n\n    public static void main(String[] args) {\n        Container ctx = new Container();\n        ctx.register(Greeter.class, EnglishGreeter.class);\n        Service s1 = ctx.get(Service.class);\n        Service s2 = ctx.get(Service.class);\n        System.out.println(s1.run(\"Ana\"));\n        System.out.println(\"same instance: \" + (s1 == s2) + \", shared audit: \" + (s1.audit == ctx.get(Audit.class)));\n        System.out.println(ctx.get(Audit.class).log);\n        try { new Container().get(Service.class); } catch (IllegalStateException e) { System.out.println(e.getMessage()); }\n        try { new Container().get(A.class); } catch (IllegalStateException e) { System.out.println(e.getMessage()); }\n    }\n}\n",
+    "explain": "Reflection reads each constructor's parameter types and get() resolves them recursively. A stack of types being resolved reveals cycles, and the singleton map gives Spring's default scope. Verified by compiling and running with Java 20; real Spring adds scopes, lifecycle callbacks and proxies."
+   },
+   {
+    "title": "Retry with backoff and a circuit breaker",
+    "prompt": "Combine retries (exponential backoff) with a circuit breaker that opens after repeated failures, allows one half-open probe after a cool-down and closes again on success. A fake clock makes the run deterministic. This is a plain-Java model of what Resilience4j provides in a Spring Boot service; no real service or Spring was involved.",
+    "starter": "import java.util.*;\nimport java.util.function.Supplier;\n\npublic class Main {\n    // TODO: enum State { CLOSED, OPEN, HALF_OPEN } and a Clock with now/advance(ms)\n    // TODO: Breaker(threshold, openMs, clock).call(Supplier<T>)\n    //   OPEN: throw IllegalStateException(\"circuit open\") until openMs has passed, then allow one HALF_OPEN probe\n    //   success: reset failures and CLOSE; failure: count it, and OPEN (recording openedAt) when the threshold is reached or the probe failed\n    // TODO: retry(attempts, baseMs, clock, log, action): on failure log \"attempt N failed (msg), waiting Wms\", advance the clock by baseMs << (N-1),\n    //   but rethrow immediately when the breaker is open\n\n    public static void main(String[] args) {\n        Clock clock = new Clock();\n        Breaker breaker = new Breaker(3, 1000, clock);\n        List<String> log = new ArrayList<>();\n        int[] calls = {0};\n        Supplier<String> flaky = () -> { calls[0]++; if (calls[0] <= 4) throw new RuntimeException(\"boom\" + calls[0]); return \"ok\"; };\n\n        try { System.out.println(retry(5, 100, clock, log, () -> breaker.call(flaky))); }\n        catch (RuntimeException e) { System.out.println(\"gave up: \" + e.getMessage()); }\n        log.forEach(System.out::println);\n        System.out.println(\"state=\" + breaker.state + \" calls=\" + calls[0] + \" t=\" + clock.now);\n\n        clock.advance(1000);\n        try { System.out.println(retry(2, 100, clock, log, () -> breaker.call(flaky))); }\n        catch (RuntimeException e) { System.out.println(\"half-open probe failed: \" + e.getMessage() + \", state=\" + breaker.state); }\n        clock.advance(1000);\n        System.out.println(retry(2, 100, clock, log, () -> breaker.call(flaky)));\n        System.out.println(\"state=\" + breaker.state + \" calls=\" + calls[0] + \" t=\" + clock.now);\n    }\n}\n",
+    "expected": "gave up: circuit open\nattempt 1 failed (boom1), waiting 100ms\nattempt 2 failed (boom2), waiting 200ms\nattempt 3 failed (boom3), waiting 400ms\nstate=OPEN calls=3 t=700\nhalf-open probe failed: circuit open, state=OPEN\nok\nstate=CLOSED calls=5 t=2800",
+    "solution": "import java.util.*;\nimport java.util.function.Supplier;\n\npublic class Main {\n    /** Circuit breaker with retries and backoff, driven by a fake clock so output is deterministic. */\n    enum State { CLOSED, OPEN, HALF_OPEN }\n\n    static class Clock { long now = 0; void advance(long ms) { now += ms; } }\n\n    static class Breaker {\n        final int threshold; final long openMs; final Clock clock;\n        State state = State.CLOSED; int failures = 0; long openedAt = 0;\n        Breaker(int threshold, long openMs, Clock clock) { this.threshold = threshold; this.openMs = openMs; this.clock = clock; }\n\n        <T> T call(Supplier<T> action) {\n            if (state == State.OPEN) {\n                if (clock.now - openedAt >= openMs) state = State.HALF_OPEN;\n                else throw new IllegalStateException(\"circuit open\");\n            }\n            try {\n                T result = action.get();\n                failures = 0; state = State.CLOSED;\n                return result;\n            } catch (RuntimeException e) {\n                failures++;\n                if (state == State.HALF_OPEN || failures >= threshold) { state = State.OPEN; openedAt = clock.now; }\n                throw e;\n            }\n        }\n    }\n\n    static <T> T retry(int attempts, long baseMs, Clock clock, List<String> log, Supplier<T> action) {\n        RuntimeException last = null;\n        for (int i = 0; i < attempts; i++) {\n            try { return action.get(); }\n            catch (RuntimeException e) {\n                last = e;\n                if (e.getMessage().equals(\"circuit open\")) throw e;\n                long wait = baseMs << i;\n                log.add(\"attempt \" + (i + 1) + \" failed (\" + e.getMessage() + \"), waiting \" + wait + \"ms\");\n                clock.advance(wait);\n            }\n        }\n        throw last;\n    }\n\n    public static void main(String[] args) {\n        Clock clock = new Clock();\n        Breaker breaker = new Breaker(3, 1000, clock);\n        List<String> log = new ArrayList<>();\n        int[] calls = {0};\n        Supplier<String> flaky = () -> { calls[0]++; if (calls[0] <= 4) throw new RuntimeException(\"boom\" + calls[0]); return \"ok\"; };\n\n        try { System.out.println(retry(5, 100, clock, log, () -> breaker.call(flaky))); }\n        catch (RuntimeException e) { System.out.println(\"gave up: \" + e.getMessage()); }\n        log.forEach(System.out::println);\n        System.out.println(\"state=\" + breaker.state + \" calls=\" + calls[0] + \" t=\" + clock.now);\n\n        clock.advance(1000);\n        try { System.out.println(retry(2, 100, clock, log, () -> breaker.call(flaky))); }\n        catch (RuntimeException e) { System.out.println(\"half-open probe failed: \" + e.getMessage() + \", state=\" + breaker.state); }\n        clock.advance(1000);\n        System.out.println(retry(2, 100, clock, log, () -> breaker.call(flaky)));\n        System.out.println(\"state=\" + breaker.state + \" calls=\" + calls[0] + \" t=\" + clock.now);\n    }\n}\n",
+    "explain": "The breaker counts consecutive failures, opens, and after openMs lets a single probe through; a failed probe re-opens it while a success closes it. retry() stops immediately when the circuit is open instead of waiting. Verified by compiling and running with Java 20."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
