@@ -1,0 +1,2170 @@
+{
+ "course": "tailwind-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-tailwind-is": {
+   "questions": [
+    {
+     "q": "What is Tailwind CSS?",
+     "options": [
+      "A utility-first CSS framework: you style elements by composing small single-purpose classes in your markup",
+      "A CSS preprocessor like Sass",
+      "A JavaScript framework",
+      "A component library with prebuilt widgets"
+     ],
+     "answer": 0,
+     "explain": "Utilities such as p-4 and flex replace hand-written class rules."
+    },
+    {
+     "q": "What does Tailwind v4 generate in your final CSS?",
+     "options": [
+      "Only the utilities your source files actually use, found by scanning your templates",
+      "Every utility always",
+      "Nothing until runtime",
+      "Only variables"
+     ],
+     "answer": 0,
+     "explain": "Unused classes are not emitted."
+    },
+    {
+     "q": "What is the main trade-off of utility-first CSS?",
+     "options": [
+      "No responsive design",
+      "Slower pages",
+      "Longer class lists in markup in exchange for no naming, no dead CSS and styles co-located with structure",
+      "No hover states"
+     ],
+     "answer": 2,
+     "explain": "Components and partials keep repetition manageable."
+    },
+    {
+     "q": "Why isn't Tailwind the same as inline styles?",
+     "options": [
+      "Utilities support states, breakpoints, themes and design tokens, which inline styles cannot",
+      "Inline styles are banned",
+      "It is faster",
+      "It uses a different language"
+     ],
+     "answer": 0,
+     "explain": "hover:, md: and dark: variants are the key difference."
+    }
+   ]
+  },
+  "level-1/02-installation": {
+   "questions": [
+    {
+     "q": "What is the entire CSS entry file for Tailwind v4 in the simplest case?",
+     "options": [
+      "@tailwind base; @tailwind components; @tailwind utilities;",
+      "<link> only",
+      "@use \"tailwind\";",
+      "@import \"tailwindcss\";"
+     ],
+     "answer": 3,
+     "explain": "v4 replaced the three @tailwind directives with a single import."
+    },
+    {
+     "q": "Which package provides the Vite plugin in v4?",
+     "options": [
+      "tailwind-vite",
+      "@tailwind/vite",
+      "vite-tailwind",
+      "@tailwindcss/vite"
+     ],
+     "answer": 3,
+     "explain": "Add it to vite.config and import tailwindcss in your CSS."
+    },
+    {
+     "q": "How does v4 decide which files to scan for class names?",
+     "options": [
+      "Automatic source detection that respects .gitignore, plus @source to add or exclude paths",
+      "It scans node_modules",
+      "It never scans",
+      "Only a content array"
+     ],
+     "answer": 0,
+     "explain": "No tailwind.config.js is required."
+    },
+    {
+     "q": "Which command builds CSS with the standalone CLI package?",
+     "options": [
+      "npx @tailwindcss/cli -i input.css -o output.css",
+      "tailwindcss --compile",
+      "npx tailwind build",
+      "npm run css"
+     ],
+     "answer": 0,
+     "explain": "Add --watch during development."
+    }
+   ]
+  },
+  "level-1/03-utilities-spacing-sizing": {
+   "questions": [
+    {
+     "q": "What does p-4 compile to in v4?\n```html\n<div class=\"p-4\">\n```\n",
+     "options": [
+      "padding: 1rem always",
+      "padding: calc(var(--spacing) * 4)",
+      "padding: 4px",
+      "padding: 4rem"
+     ],
+     "answer": 1,
+     "explain": "Spacing utilities multiply the --spacing theme variable (0.25rem by default), so p-4 is 1rem. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does mx-auto compile to?\n```html\n<div class=\"mx-auto\">\n```\n",
+     "options": [
+      "margin: auto 0",
+      "margin: 0 auto",
+      "margin-inline: auto",
+      "margin-left: auto"
+     ],
+     "answer": 2,
+     "explain": "v4 emits logical margin-inline, centring block elements with a width. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What do w-1/2 and h-screen compile to?\n```html\n<div class=\"w-1/2 h-screen\">\n```\n",
+     "options": [
+      "width: calc(1 / 2 * 100%); height: 100vh",
+      "width: 0.5rem; height: 100vw",
+      "width: 50vw; height: 100%",
+      "width: 50px; height: 100%"
+     ],
+     "answer": 0,
+     "explain": "Fractions become percentages; screen units use the viewport. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does size-8 compile to?\n```html\n<div class=\"size-8\">\n```\n",
+     "options": [
+      "height: 8rem only",
+      "width: 8px",
+      "font-size: 8px",
+      "width: calc(var(--spacing) * 8); height: calc(var(--spacing) * 8)"
+     ],
+     "answer": 3,
+     "explain": "size-* sets width and height together. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    }
+   ]
+  },
+  "level-1/04-typography": {
+   "questions": [
+    {
+     "q": "What does text-xl font-bold compile to (v4 default theme)?\n```html\n<div class=\"text-xl font-bold\">\n```\n",
+     "options": [
+      "font-family: bold",
+      "text-size: xl",
+      "font-size: 20px; font-weight: 700 literally",
+      "font-size: var(--text-xl); font-weight: var(--font-weight-bold)"
+     ],
+     "answer": 3,
+     "explain": "Utilities reference theme variables, which carry the real values. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does leading-tight do?\n```html\n<div class=\"leading-tight\">\n```\n",
+     "options": [
+      "letter-spacing: tight",
+      "line-height: 1",
+      "font-size: tight",
+      "line-height: var(--leading-tight)"
+     ],
+     "answer": 3,
+     "explain": "Line height is separate from font size (unless using text-xl/6 shorthand). Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does truncate do?\n```html\n<div class=\"truncate\">\n```\n",
+     "options": [
+      "overflow: scroll",
+      "white-space: pre",
+      "text-decoration: line-through",
+      "text-overflow: ellipsis; white-space: nowrap; overflow: hidden"
+     ],
+     "answer": 3,
+     "explain": "A common one-class single-line ellipsis. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "How do you set font size and line height together?",
+     "options": [
+      "text-(lg,7)",
+      "With a slash modifier such as text-lg/7",
+      "text-lg leading",
+      "text-lg-7"
+     ],
+     "answer": 1,
+     "explain": "The modifier sets line-height."
+    }
+   ]
+  },
+  "level-1/05-color-backgrounds-borders": {
+   "questions": [
+    {
+     "q": "What does bg-blue-500 compile to?\n```html\n<div class=\"bg-blue-500\">\n```\n",
+     "options": [
+      "background: #3b82f6 literally",
+      "background-color: var(--color-blue-500)",
+      "background-image: blue",
+      "color: blue"
+     ],
+     "answer": 1,
+     "explain": "Colours are theme variables (OKLCH in v4). Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does bg-black/50 produce in v4?\n```html\n<div class=\"bg-black/50\">\n```\n",
+     "options": [
+      "background-color: color-mix(in oklab, var(--color-black) 50%, transparent)",
+      "rgba(0,0,0,.5) only",
+      "opacity: 0.5",
+      "background-opacity: 50"
+     ],
+     "answer": 0,
+     "explain": "The slash sets colour alpha without a separate opacity utility. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does rounded-lg border border-gray-300 compile to?\n```html\n<div class=\"rounded-lg border border-gray-300\">\n```\n",
+     "options": [
+      "border-color: gray only",
+      "border: 1px",
+      "border-radius: var(--radius-lg); border-style: var(--tw-border-style); border-width: 1px; border-color: var(--color-gray-300)",
+      "radius: lg"
+     ],
+     "answer": 2,
+     "explain": "border sets a 1px width; colour is separate. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does shadow-md use in v4?\n```html\n<div class=\"shadow-md\">\n```\n",
+     "options": [
+      "drop-shadow: md",
+      "box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow)",
+      "box-shadow: 0 4px 6px",
+      "filter: shadow"
+     ],
+     "answer": 1,
+     "explain": "Shadows compose through variables so rings and shadows can stack. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    }
+   ]
+  },
+  "level-1/06-flexbox-layout": {
+   "questions": [
+    {
+     "q": "What does flex items-center justify-between compile to?\n```html\n<div class=\"flex items-center justify-between\">\n```\n",
+     "options": [
+      "display: inline; justify-content: center",
+      "display: block; align-items: middle",
+      "display: flex; align-items: center; justify-content: space-between",
+      "flex: 1"
+     ],
+     "answer": 2,
+     "explain": "Main-axis alignment is justify-*; cross-axis is items-*. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does flex-1 compile to?\n```html\n<div class=\"flex-1\">\n```\n",
+     "options": [
+      "width: 100%",
+      "flex-grow: 0",
+      "flex: none",
+      "flex: 1"
+     ],
+     "answer": 3,
+     "explain": "Grow and shrink to fill available space. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does gap-4 compile to?\n```html\n<div class=\"gap-4\">\n```\n",
+     "options": [
+      "space: 4",
+      "padding: 4rem",
+      "margin: 4px",
+      "gap: calc(var(--spacing) * 4)"
+     ],
+     "answer": 3,
+     "explain": "gap works in flex and grid containers. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "Which utility changes the main axis to vertical?",
+     "options": [
+      "flex-col",
+      "direction-col",
+      "items-col",
+      "flex-vertical"
+     ],
+     "answer": 0,
+     "explain": "flex-row is the default."
+    }
+   ]
+  },
+  "level-1/07-grid": {
+   "questions": [
+    {
+     "q": "What does grid grid-cols-3 gap-4 compile to?\n```html\n<div class=\"grid grid-cols-3 gap-4\">\n```\n",
+     "options": [
+      "display: table; columns: 3",
+      "grid-columns: 3 equal",
+      "grid: 3",
+      "display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(var(--spacing) * 4)"
+     ],
+     "answer": 3,
+     "explain": "Equal-width columns via minmax(0, 1fr). Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does col-span-2 do?\n```html\n<div class=\"col-span-2\">\n```\n",
+     "options": [
+      "column-count: 2",
+      "grid-column: 2",
+      "width: 2",
+      "grid-column: span 2 / span 2"
+     ],
+     "answer": 3,
+     "explain": "The item spans two tracks. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "How do you build a responsive auto-fit grid with an arbitrary minimum width?",
+     "options": [
+      "grid-auto-16",
+      "grid-cols-[repeat(auto-fit,minmax(16rem,1fr))]",
+      "grid-fit-16",
+      "cols-auto-16"
+     ],
+     "answer": 1,
+     "explain": "Arbitrary values accept any CSS value."
+    },
+    {
+     "q": "When is grid better than flex?",
+     "options": [
+      "Only for text",
+      "Always",
+      "Never",
+      "When layout is two-dimensional (rows and columns) rather than a single line of items"
+     ],
+     "answer": 3,
+     "explain": "Choose per layout."
+    }
+   ]
+  },
+  "level-1/08-states-variants": {
+   "questions": [
+    {
+     "q": "What does hover:bg-red-500 compile to?\n```html\n<div class=\"hover:bg-red-500\">\n```\n",
+     "options": [
+      "&:hover alone with no media query",
+      "&:active",
+      "onmouseover handler",
+      "@media (hover: hover) { &:hover { background-color: var(--color-red-500)"
+     ],
+     "answer": 3,
+     "explain": "v4 wraps hover styles in @media (hover: hover) so touch devices don't get sticky hover. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does focus-visible:ring-2 do?\n```html\n<div class=\"focus-visible:ring-2\">\n```\n",
+     "options": [
+      "&:focus-visible",
+      "&:focus",
+      "&:hover",
+      "&:active"
+     ],
+     "answer": 0,
+     "explain": "Only shows for keyboard-style focus. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does the group / group-hover: pair do?",
+     "options": [
+      "Groups classes",
+      "Groups media queries",
+      "Styles a child when a marked ancestor (class group) is hovered",
+      "Selects siblings"
+     ],
+     "answer": 2,
+     "explain": "peer and peer-checked: do the same for siblings."
+    },
+    {
+     "q": "What does disabled:opacity-50 target?\n```html\n<div class=\"disabled:opacity-50\">\n```\n",
+     "options": [
+      "&:disabled",
+      "&:hover",
+      "[disabled=false]",
+      "&.disabled"
+     ],
+     "answer": 0,
+     "explain": "State variants map to pseudo-classes. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    }
+   ]
+  },
+  "level-1/09-responsive": {
+   "questions": [
+    {
+     "q": "What does md:flex compile to (v4 default)?\n```html\n<div class=\"md:flex\">\n```\n",
+     "options": [
+      "@media (max-width: 768px)",
+      "@media (min-width: 768px)",
+      "@media screen and (width >= 768px)",
+      "@media (width >= 48rem) { .md\\:flex { display: flex"
+     ],
+     "answer": 3,
+     "explain": "Breakpoints are rem-based and mobile-first: md is 48rem. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does mobile-first mean in Tailwind?",
+     "options": [
+      "Unprefixed utilities apply to all sizes and prefixed ones (sm:, md:) apply from that breakpoint up",
+      "Prefixed apply downward",
+      "Desktop first",
+      "Only mobile"
+     ],
+     "answer": 0,
+     "explain": "Start with the small layout."
+    },
+    {
+     "q": "What does max-md:hidden do?\n```html\n<div class=\"max-md:hidden\">\n```\n",
+     "options": [
+      "@media (width >= 48rem)",
+      "@media (max-width: 48rem) only",
+      "@media print",
+      "@media (width < 48rem)"
+     ],
+     "answer": 3,
+     "explain": "max-* variants apply below the breakpoint. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "Which tag is needed for responsive layouts to work on phones?",
+     "options": [
+      "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+      "<base>",
+      "<link rel=responsive>",
+      "<meta charset>"
+     ],
+     "answer": 0,
+     "explain": "Without it phones render a desktop-width page."
+    }
+   ]
+  },
+  "level-1/10-project-landing-page": {
+   "questions": [
+    {
+     "q": "What is a good order for building a landing page?",
+     "options": [
+      "Animations first",
+      "Colours first",
+      "Structure and content first, then spacing and typography, then colour and polish, mobile first",
+      "Desktop only"
+     ],
+     "answer": 2,
+     "explain": "Iterate."
+    },
+    {
+     "q": "How do you keep repeated markup like cards manageable?",
+     "options": [
+      "Extract a component (partial, template or framework component) rather than @apply-ing everything",
+      "Global CSS",
+      "Copy",
+      "Inline"
+     ],
+     "answer": 0,
+     "explain": "Utility repetition lives in components."
+    },
+    {
+     "q": "Why use semantic HTML with Tailwind?",
+     "options": [
+      "Law",
+      "Utilities style appearance only; elements and ARIA provide meaning and accessibility",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 1,
+     "explain": "Use header, main, nav, button."
+    },
+    {
+     "q": "How do you check the page is responsive?",
+     "options": [
+      "Resize or use device emulation at each breakpoint and test real content",
+      "Desktop only",
+      "Screenshots",
+      "Guess"
+     ],
+     "answer": 0,
+     "explain": "Content breaks layouts, not widths alone."
+    }
+   ]
+  },
+  "level-2/01-theme-directive": {
+   "questions": [
+    {
+     "q": "What does the @theme directive let you do in v4?\n```html\n@theme {\n  --color-brand: oklch(0.6 0.2 250);\n}\n\n<div class=\"bg-brand\">\n```\n",
+     "options": [
+      "theme() function only",
+      "@apply brand",
+      "tailwind.config.js",
+      "--color-brand: oklch(0.6 0.2 250)"
+     ],
+     "answer": 3,
+     "explain": "Variables defined in @theme generate matching utilities such as bg-brand. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does defining --color-brand in @theme create?",
+     "options": [
+      "Only a variable",
+      "Utilities like bg-brand, text-brand and border-brand, plus a CSS variable usable anywhere",
+      "Only a class",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Theme variables are the design tokens."
+    },
+    {
+     "q": "How do you add a custom breakpoint in v4?",
+     "options": [
+      "Define --breakpoint-3xl: 120rem in @theme, generating the 3xl: variant",
+      "@breakpoint",
+      "tailwind.config.js screens",
+      "media query only"
+     ],
+     "answer": 0,
+     "explain": "Variants follow variable names."
+    },
+    {
+     "q": "What is the effect of --color-*: initial in @theme?",
+     "options": [
+      "Nothing",
+      "Resets the default colour palette so you can define your own",
+      "Deletes CSS",
+      "Sets initial colour"
+     ],
+     "answer": 1,
+     "explain": "Use to restrict a design system."
+    }
+   ]
+  },
+  "level-2/02-customizing-theme": {
+   "questions": [
+    {
+     "q": "A theme sets --spacing: 0.5rem. What does p-4 become?\n```html\n@theme {\n  --spacing: 0.5rem;\n}\n\n<div class=\"p-4\">\n```\n",
+     "options": [
+      "padding: 2rem hard-coded",
+      "padding: calc(var(--spacing) * 4)",
+      "padding: 0.5rem",
+      "padding: 4px"
+     ],
+     "answer": 1,
+     "explain": "The calc multiplies the variable, so the value is 2rem with that theme. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "How do you extend rather than replace the default theme?",
+     "options": [
+      "Rebuild Tailwind",
+      "Use extend{}",
+      "Edit node_modules",
+      "Add new variables in @theme; only the namespaces you reset (like --color-*: initial) are replaced"
+     ],
+     "answer": 3,
+     "explain": "v4 merges by default."
+    },
+    {
+     "q": "Where can you reference a theme token outside utilities?",
+     "options": [
+      "Nowhere",
+      "Only HTML",
+      "As a CSS variable such as var(--color-brand) in custom CSS or arbitrary values",
+      "Only JS"
+     ],
+     "answer": 2,
+     "explain": "Tokens are real custom properties."
+    },
+    {
+     "q": "How do you organise a large theme?",
+     "options": [
+      "Keep tokens in a dedicated CSS file imported into your entry, grouped by namespace",
+      "Inline",
+      "JS only",
+      "One long file"
+     ],
+     "answer": 0,
+     "explain": "Version tokens like code."
+    }
+   ]
+  },
+  "level-2/03-dark-mode": {
+   "questions": [
+    {
+     "q": "What does dark:bg-gray-900 compile to by default?\n```html\n<div class=\"dark:bg-gray-900\">\n```\n",
+     "options": [
+      "@media (prefers-color-scheme: dark)",
+      "@media (dark)",
+      "&:where(.dark, .dark *)",
+      "[data-theme=dark]"
+     ],
+     "answer": 0,
+     "explain": "The default dark variant follows the OS setting. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "How do you make dark mode class-based in v4?\n```html\n@custom-variant dark (&:where(.dark, .dark *));\n\n<div class=\"dark:bg-black\">\n```\n",
+     "options": [
+      "theme('dark')",
+      "&:where(.dark, .dark *)",
+      "@dark-mode",
+      "@media (prefers-color-scheme: dark)"
+     ],
+     "answer": 1,
+     "explain": "Override with @custom-variant dark (&:where(.dark, .dark *)). Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "Why avoid a flash of the wrong theme on load?",
+     "options": [
+      "Wait",
+      "Apply the stored theme class before first paint with a tiny inline script in the head",
+      "CSS only",
+      "Server only"
+     ],
+     "answer": 1,
+     "explain": "Respect system preference as the default."
+    },
+    {
+     "q": "How can semantic tokens simplify dark mode?",
+     "options": [
+      "Inline",
+      "Define --color-surface and change its value per theme so components need fewer dark: variants",
+      "Images",
+      "More dark:"
+     ],
+     "answer": 1,
+     "explain": "Theme variables switch under .dark."
+    }
+   ]
+  },
+  "level-2/04-arbitrary-values": {
+   "questions": [
+    {
+     "q": "What does w-[13px] compile to?\n```html\n<div class=\"w-[13px]\">\n```\n",
+     "options": [
+      "width: 13",
+      "width: 13px",
+      "width: 13rem",
+      "width: var(--13px)"
+     ],
+     "answer": 1,
+     "explain": "Square brackets accept arbitrary values. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does bg-(--brand) do in v4?\n```html\n<div class=\"bg-(--brand)\">\n```\n",
+     "options": [
+      "background-color: var(--brand)",
+      "color: var(--brand)",
+      "background: brand",
+      "background-color: --brand"
+     ],
+     "answer": 0,
+     "explain": "Parentheses are shorthand for a CSS variable value. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does [mask-type:luminance] do?\n```html\n<div class=\"[mask-type:luminance]\">\n```\n",
+     "options": [
+      "Error",
+      "mask-type: luminance",
+      "mask: luminance",
+      "No effect"
+     ],
+     "answer": 1,
+     "explain": "Arbitrary properties emit any declaration. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What is a good reason to avoid arbitrary values everywhere?",
+     "options": [
+      "Law",
+      "They bypass the design system, so prefer theme tokens for anything reused",
+      "Speed",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Use for one-offs."
+    }
+   ]
+  },
+  "level-2/05-reusing-styles": {
+   "questions": [
+    {
+     "q": "What is the recommended way to reuse a button style?",
+     "options": [
+      "@apply everywhere",
+      "A component in your framework or template engine",
+      "Copy",
+      "Global CSS"
+     ],
+     "answer": 1,
+     "explain": "Keep utilities in one place."
+    },
+    {
+     "q": "When is @apply reasonable?",
+     "options": [
+      "Components",
+      "Never",
+      "For styling third-party markup you cannot add classes to, or small base rules",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "It loses the utility-first benefits."
+    },
+    {
+     "q": "What does @utility let you define in v4?\n```html\n@utility card-contain {\n  contain: layout paint;\n}\n\n<div class=\"card-contain\">\n```\n",
+     "options": [
+      "A plugin file",
+      "A component",
+      "contain: layout paint",
+      "A variant"
+     ],
+     "answer": 2,
+     "explain": "Custom utilities work with variants automatically. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What is the cost of heavy @apply use?",
+     "options": [
+      "Speed",
+      "Law",
+      "None",
+      "Larger CSS and hidden coupling, undermining the point of utilities"
+     ],
+     "answer": 3,
+     "explain": "Prefer components."
+    }
+   ]
+  },
+  "level-2/06-advanced-variants": {
+   "questions": [
+    {
+     "q": "What does group-hover:underline compile to?\n```html\n<div class=\"group-hover:underline\">\n```\n",
+     "options": [
+      "&.group-hover",
+      "+ .group",
+      "&:hover",
+      "&:is(:where(.group):hover *)"
+     ],
+     "answer": 3,
+     "explain": "The variant matches descendants of a hovered .group. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does has-[:checked]:bg-blue-50 target?\n```html\n<div class=\"has-[:checked]:bg-blue-50\">\n```\n",
+     "options": [
+      "&:checked",
+      "[checked]",
+      "&:has-checked",
+      "&:has(:checked)"
+     ],
+     "answer": 3,
+     "explain": "Style a parent that contains a checked input. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does data-[state=open]:rotate-180 target?\n```html\n<div class=\"data-[state=open]:rotate-180\">\n```\n",
+     "options": [
+      "&[data-state=\"open\"]",
+      "[state=open]",
+      "&.open",
+      "&:open"
+     ],
+     "answer": 0,
+     "explain": "Style based on data attributes set by headless UI libraries. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does not-hover:opacity-75 do?\n```html\n<div class=\"not-hover:opacity-75\">\n```\n",
+     "options": [
+      "&:not(.hover)",
+      "&:not(*:hover)",
+      "&.not-hover",
+      "&:hover"
+     ],
+     "answer": 1,
+     "explain": "not-* negates another variant. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    }
+   ]
+  },
+  "level-2/07-container-queries": {
+   "questions": [
+    {
+     "q": "What does @md:flex do with a @container parent?\n```html\n<div class=\"@md:flex\">\n```\n",
+     "options": [
+      "@media (width >= 28rem)",
+      "@media (min-width: 28rem)",
+      "@container (width >= 28rem)",
+      "&:container"
+     ],
+     "answer": 2,
+     "explain": "Container query variants respond to the nearest @container ancestor's width. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "How do you mark an element as a query container?",
+     "options": [
+      "container-type",
+      "@media",
+      "query",
+      "Add the @container class"
+     ],
+     "answer": 3,
+     "explain": "The class sets container-type: inline-size."
+    },
+    {
+     "q": "Why use container queries for components?",
+     "options": [
+      "Colour",
+      "Speed",
+      "The component adapts to the space it is given, not the viewport",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Great for reusable cards."
+    },
+    {
+     "q": "What does @max-md: do?",
+     "options": [
+      "Never",
+      "Viewport",
+      "Above",
+      "Applies below the container breakpoint"
+     ],
+     "answer": 3,
+     "explain": "Range variants exist too."
+    }
+   ]
+  },
+  "level-2/08-forms": {
+   "questions": [
+    {
+     "q": "What does the @tailwindcss/forms plugin do?",
+     "options": [
+      "Submits",
+      "Resets form controls to a consistent, easily styled baseline",
+      "Animates",
+      "Validates"
+     ],
+     "answer": 1,
+     "explain": "Load with @plugin."
+    },
+    {
+     "q": "How do you style invalid inputs?",
+     "options": [
+      "Use invalid: or aria-invalid: variants",
+      "Never",
+      "Server only",
+      "JS only"
+     ],
+     "answer": 0,
+     "explain": "Pair with visible error text."
+    },
+    {
+     "q": "What does focus:outline-2 focus:outline-blue-500 add?\n```html\n<div class=\"focus:outline-2 focus:outline-blue-500\">\n```\n",
+     "options": [
+      "&:hover",
+      "&:active",
+      "&:focus",
+      "&:visited"
+     ],
+     "answer": 2,
+     "explain": "Keep a visible focus indicator for accessibility. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "Why associate labels with inputs?",
+     "options": [
+      "Law",
+      "Style",
+      "So screen readers and clicks work: use for/id or wrap the input in the label",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Placeholders are not labels."
+    }
+   ]
+  },
+  "level-2/09-transitions-animation": {
+   "questions": [
+    {
+     "q": "What does transition duration-200 ease-out compile to?\n```html\n<div class=\"transition duration-200 ease-out\">\n```\n",
+     "options": [
+      "transition-time: 200",
+      "transition-duration: var(--tw-duration, var(--default-transition-duration))",
+      "transition: 200ms",
+      "animation: 200"
+     ],
+     "answer": 1,
+     "explain": "The duration utility sets a variable and a transition property group. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "Which animation utility spins an element?",
+     "options": [
+      "spin",
+      "animate-turn",
+      "rotate-loop",
+      "animate-spin"
+     ],
+     "answer": 3,
+     "explain": "Use motion-reduce: to respect user preferences."
+    },
+    {
+     "q": "Why add motion-reduce: variants?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Law",
+      "Users who prefer reduced motion should not get large animations"
+     ],
+     "answer": 3,
+     "explain": "Accessibility."
+    },
+    {
+     "q": "What does starting:opacity-0 enable?\n```html\n<div class=\"starting:opacity-0\">\n```\n",
+     "options": [
+      "@media motion",
+      "@keyframes",
+      "&:first",
+      "@starting-style"
+     ],
+     "answer": 3,
+     "explain": "Animate elements as they enter the DOM without JS. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    }
+   ]
+  },
+  "level-2/10-project-dashboard": {
+   "questions": [
+    {
+     "q": "What does the dashboard project combine?",
+     "options": [
+      "Layout (grid and flex), components, dark mode, responsive design and a custom theme",
+      "Only grids",
+      "Only colours",
+      "Only forms"
+     ],
+     "answer": 0,
+     "explain": "Level 2 capstone."
+    },
+    {
+     "q": "How do you make a data table responsive?",
+     "options": [
+      "Ignore",
+      "Shrink font",
+      "Hide",
+      "Wrap it in an overflow-x-auto container or reflow into cards on small screens"
+     ],
+     "answer": 3,
+     "explain": "Keep headers readable."
+    },
+    {
+     "q": "How do you keep contrast accessible?",
+     "options": [
+      "Colour names",
+      "Check text and background colours against WCAG ratios, including in dark mode",
+      "Brand only",
+      "Guess"
+     ],
+     "answer": 1,
+     "explain": "Test with tooling."
+    },
+    {
+     "q": "How should you organise components?",
+     "options": [
+      "Giant files",
+      "Copies",
+      "Global",
+      "Small, composable and styled with theme tokens"
+     ],
+     "answer": 3,
+     "explain": "Consistency scales."
+    }
+   ]
+  },
+  "level-3/01-how-the-engine-works": {
+   "questions": [
+    {
+     "q": "How does the v4 engine produce CSS?",
+     "options": [
+      "Runtime",
+      "Server only",
+      "It scans sources for candidate class names and compiles only the matching utilities (plus theme variables used)",
+      "Ships everything"
+     ],
+     "answer": 2,
+     "explain": "Written for speed in Rust-based tooling."
+    },
+    {
+     "q": "Why must class names appear as complete strings in source?",
+     "options": [
+      "Style",
+      "The scanner matches whole tokens, so dynamically built names like `bg-${color}-500` are not found",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Map to full class names."
+    },
+    {
+     "q": "What does @source do?",
+     "options": [
+      "Adds extra paths or inline safelists for the scanner (and can exclude paths)",
+      "Adds plugins",
+      "Imports CSS",
+      "Sets theme"
+     ],
+     "answer": 0,
+     "explain": "Use for classes outside detected files."
+    },
+    {
+     "q": "What does the compiled output contain besides utilities?",
+     "options": [
+      "Theme variables, preflight base styles and cascade layers",
+      "Only utilities",
+      "Only reset",
+      "JS"
+     ],
+     "answer": 0,
+     "explain": "Layers: theme, base, components, utilities."
+    }
+   ]
+  },
+  "level-3/02-layers-preflight": {
+   "questions": [
+    {
+     "q": "What are CSS cascade layers used for in Tailwind v4?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Predictable ordering: theme, base, components, utilities so utilities win over base and components",
+      "Syntax"
+     ],
+     "answer": 2,
+     "explain": "Real @layer rules."
+    },
+    {
+     "q": "What does Preflight do?",
+     "options": [
+      "Applies a modern CSS reset (box-sizing, margins, headings) as base styles",
+      "Prefetch",
+      "Compile",
+      "Minify"
+     ],
+     "answer": 0,
+     "explain": "Customise in @layer base."
+    },
+    {
+     "q": "Where should you put custom base styles?",
+     "options": [
+      "In HTML",
+      "After utilities",
+      "Inline",
+      "In @layer base so utilities can still override them"
+     ],
+     "answer": 3,
+     "explain": "Order matters."
+    },
+    {
+     "q": "What is the benefit of layers for third-party CSS?",
+     "options": [
+      "Law",
+      "Colour",
+      "Speed",
+      "You can place it in a lower layer so utilities override it without !important"
+     ],
+     "answer": 3,
+     "explain": "Control specificity."
+    }
+   ]
+  },
+  "level-3/03-custom-utilities-plugins": {
+   "questions": [
+    {
+     "q": "What does @plugin do in v4?",
+     "options": [
+      "Config",
+      "Imports CSS",
+      "Loads a Tailwind plugin (such as typography or forms) from CSS",
+      "Adds JS"
+     ],
+     "answer": 2,
+     "explain": "No config file needed."
+    },
+    {
+     "q": "What can a plugin add?",
+     "options": [
+      "Servers",
+      "Databases",
+      "Fonts only",
+      "Utilities, variants and base styles"
+     ],
+     "answer": 3,
+     "explain": "Written with the plugin API."
+    },
+    {
+     "q": "When should you write a plugin instead of @utility?",
+     "options": [
+      "Never",
+      "One-offs",
+      "When you need programmatic generation (many values) or shared distribution",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "Simple one-offs use @utility."
+    },
+    {
+     "q": "How do you add a custom variant in CSS?",
+     "options": [
+      "JS",
+      "plugin only",
+      "@variant only",
+      "@custom-variant name (selector);"
+     ],
+     "answer": 3,
+     "explain": "For example themes or states."
+    }
+   ]
+  },
+  "level-3/04-accessibility": {
+   "questions": [
+    {
+     "q": "What does sr-only do?",
+     "options": [
+      "Bold",
+      "Shows",
+      "Hides content visually but keeps it available to screen readers",
+      "Hides everywhere"
+     ],
+     "answer": 2,
+     "explain": "Use for labels and skip links."
+    },
+    {
+     "q": "Why prefer native elements like <button> over styled divs?",
+     "options": [
+      "Speed",
+      "Style",
+      "Law",
+      "They provide semantics, keyboard support and focus behaviour for free"
+     ],
+     "answer": 3,
+     "explain": "Add ARIA only when needed."
+    },
+    {
+     "q": "What should focus styles guarantee?",
+     "options": [
+      "Animated",
+      "Nothing",
+      "A clearly visible indicator for keyboard users",
+      "Hidden"
+     ],
+     "answer": 2,
+     "explain": "Don't remove outlines without replacement."
+    },
+    {
+     "q": "What does the motion-safe: variant do?",
+     "options": [
+      "Applies styles only when the user has not requested reduced motion",
+      "Speed",
+      "Always",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Pair with motion-reduce."
+    }
+   ]
+  },
+  "level-3/05-typography-plugin": {
+   "questions": [
+    {
+     "q": "What does the typography plugin's prose class do?",
+     "options": [
+      "Compiles",
+      "Applies beautiful defaults to unstyled HTML such as markdown content",
+      "Adds classes",
+      "Adds fonts"
+     ],
+     "answer": 1,
+     "explain": "Use prose-lg, dark:prose-invert."
+    },
+    {
+     "q": "Why use prose for CMS or markdown output?",
+     "options": [
+      "You cannot add utilities to generated HTML",
+      "Law",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Style once at the container."
+    },
+    {
+     "q": "How do you customise prose?",
+     "options": [
+      "Element modifiers like prose-a:text-blue-600 or theme variables",
+      "JS",
+      "Not possible",
+      "Edit plugin"
+     ],
+     "answer": 0,
+     "explain": "Keep it consistent."
+    },
+    {
+     "q": "How do you opt an element out of prose styles?",
+     "options": [
+      "none",
+      "unprose",
+      "Wrap it in not-prose",
+      "reset"
+     ],
+     "answer": 2,
+     "explain": "Useful for embedded components."
+    }
+   ]
+  },
+  "level-3/06-frameworks-class-merging": {
+   "questions": [
+    {
+     "q": "Why use a class-merging helper such as tailwind-merge?",
+     "options": [
+      "Law",
+      "Colour",
+      "Speed",
+      "Later conflicting utilities should win (for example p-2 overriding p-4) which plain concatenation cannot guarantee"
+     ],
+     "answer": 3,
+     "explain": "CSS order, not class order, decides."
+    },
+    {
+     "q": "What does clsx or cn() do?",
+     "options": [
+      "Compiles",
+      "Merges CSS",
+      "Builds class strings conditionally from arrays, objects and falsy values",
+      "Scans"
+     ],
+     "answer": 2,
+     "explain": "Combine with tailwind-merge."
+    },
+    {
+     "q": "What does a variants helper like cva provide?",
+     "options": [
+      "Build",
+      "Animations",
+      "Typed component variants (size, intent) mapped to class lists",
+      "Themes"
+     ],
+     "answer": 2,
+     "explain": "Keeps components consistent."
+    },
+    {
+     "q": "Why not build class names by string concatenation?",
+     "options": [
+      "Style",
+      "Law",
+      "The scanner cannot see partial names, so styles go missing",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Use complete class strings."
+    }
+   ]
+  },
+  "level-3/07-design-systems": {
+   "questions": [
+    {
+     "q": "What is a design system built on Tailwind?",
+     "options": [
+      "A CDN",
+      "Random classes",
+      "A plugin",
+      "Tokens in @theme plus shared components and documented usage rules"
+     ],
+     "answer": 3,
+     "explain": "Tokens are the contract."
+    },
+    {
+     "q": "Why constrain the palette and spacing scale?",
+     "options": [
+      "Law",
+      "Colour",
+      "Speed",
+      "Consistency and faster decisions"
+     ],
+     "answer": 3,
+     "explain": "Reset defaults you don't want."
+    },
+    {
+     "q": "How do you document components?",
+     "options": [
+      "Comments",
+      "Code only",
+      "Examples with usage, variants and accessibility notes (Storybook or similar)",
+      "Email"
+     ],
+     "answer": 2,
+     "explain": "Make it discoverable."
+    },
+    {
+     "q": "How should design tokens change over time?",
+     "options": [
+      "Versioned and communicated, with deprecations before removal",
+      "Anytime",
+      "Never",
+      "Silently"
+     ],
+     "answer": 0,
+     "explain": "Treat as an API."
+    }
+   ]
+  },
+  "level-3/08-migrating-v3-v4": {
+   "questions": [
+    {
+     "q": "What replaced the three @tailwind directives in v4?",
+     "options": [
+      "@use",
+      "@include",
+      "A single @import \"tailwindcss\"",
+      "@require"
+     ],
+     "answer": 2,
+     "explain": "Migrate with the upgrade tool."
+    },
+    {
+     "q": "Where does configuration live in v4?",
+     "options": [
+      "JS only",
+      "In CSS (@theme, @plugin, @source); tailwind.config.js is optional via @config",
+      "JSON",
+      "YAML"
+     ],
+     "answer": 1,
+     "explain": "CSS-first configuration."
+    },
+    {
+     "q": "What happened to bg-opacity-50 style utilities?",
+     "options": [
+      "Renamed",
+      "Same",
+      "They were removed; use the slash opacity modifier such as bg-black/50",
+      "Kept"
+     ],
+     "answer": 2,
+     "explain": "Check the upgrade guide."
+    },
+    {
+     "q": "What should you do before upgrading a large project?",
+     "options": [
+      "Big bang",
+      "Skip",
+      "Hope",
+      "Run the official upgrade tool on a branch, review the diff and test visually"
+     ],
+     "answer": 3,
+     "explain": "Several defaults changed."
+    }
+   ]
+  },
+  "level-3/09-production-performance": {
+   "questions": [
+    {
+     "q": "What affects production CSS size most?",
+     "options": [
+      "Plugins",
+      "Only used utilities are emitted, so size grows with distinct classes, not with the framework",
+      "Fonts",
+      "Framework"
+     ],
+     "answer": 1,
+     "explain": "Typically small."
+    },
+    {
+     "q": "Which step minimises CSS for production?",
+     "options": [
+      "Inline",
+      "Concatenate",
+      "Build with minification (the CLI --minify or bundler) and serve compressed",
+      "Dev build"
+     ],
+     "answer": 2,
+     "explain": "Gzip or Brotli."
+    },
+    {
+     "q": "How do you avoid layout shift from fonts?",
+     "options": [
+      "Preload critical fonts and use font-display: swap with sensible fallbacks",
+      "Ignore",
+      "Bigger",
+      "Hide"
+     ],
+     "answer": 0,
+     "explain": "Measure with Lighthouse."
+    },
+    {
+     "q": "Why cache static CSS aggressively?",
+     "options": [
+      "Style",
+      "Colour",
+      "Fingerprinted filenames let browsers cache for a long time",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Bust on change."
+    }
+   ]
+  },
+  "level-3/10-project-component-library": {
+   "questions": [
+    {
+     "q": "What does the component library project produce?",
+     "options": [
+      "A framework",
+      "A theme",
+      "A site",
+      "A set of accessible, themeable components built from utilities and tokens"
+     ],
+     "answer": 3,
+     "explain": "Level 3 capstone."
+    },
+    {
+     "q": "Which tests help a component library?",
+     "options": [
+      "Visual regression, accessibility checks and unit tests of variant logic",
+      "Only visual",
+      "Only unit",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Automate in CI."
+    },
+    {
+     "q": "How do you version a library?",
+     "options": [
+      "None",
+      "Semantic versioning with a changelog",
+      "Random",
+      "Dates"
+     ],
+     "answer": 1,
+     "explain": "Communicate breaking changes."
+    },
+    {
+     "q": "What belongs in a component's API?",
+     "options": [
+      "Colours only",
+      "Props for variants, sizes, states and an escape hatch for classes",
+      "Nothing",
+      "Everything"
+     ],
+     "answer": 1,
+     "explain": "Keep it small."
+    }
+   ]
+  },
+  "level-4/01-conventions-at-scale": {
+   "questions": [
+    {
+     "q": "How do you keep class lists readable at scale?",
+     "options": [
+      "Minify",
+      "Use the official Prettier plugin to sort classes and extract components",
+      "Ignore",
+      "Long lines"
+     ],
+     "answer": 1,
+     "explain": "Consistent ordering reduces diffs."
+    },
+    {
+     "q": "What is a good linting practice?",
+     "options": [
+      "Prettier only",
+      "Manual",
+      "None",
+      "Lint for conflicting or unknown classes with an ESLint plugin"
+     ],
+     "answer": 3,
+     "explain": "Catch typos early."
+    },
+    {
+     "q": "What belongs in contribution guidelines?",
+     "options": [
+      "Naming, token usage, component structure and review checklist",
+      "Nothing",
+      "Slogans",
+      "Colours"
+     ],
+     "answer": 0,
+     "explain": "Shared conventions."
+    },
+    {
+     "q": "Why define when to extract a component?",
+     "options": [
+      "Colour",
+      "Law",
+      "Prevent both premature abstraction and copy-paste sprawl",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Rule of three."
+    }
+   ]
+  },
+  "level-4/02-multi-brand-theming": {
+   "questions": [
+    {
+     "q": "How can multiple brands reuse the same components?\n```html\n@theme {\n  --color-brand: oklch(0.6 0.2 250);\n}\n\n/* each brand overrides the variable on a wrapper: [data-brand=\"b\"] { --color-brand: ... } */\n<div class=\"bg-brand\">\n```\n",
+     "options": [
+      "Different classes per brand",
+      "Separate builds",
+      "background-color: var(--color-brand)",
+      "Copies"
+     ],
+     "answer": 2,
+     "explain": "Components use semantic tokens whose values switch per brand scope. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What is the benefit of CSS variables for theming?",
+     "options": [
+      "Values can change at runtime per scope without rebuilding CSS",
+      "Colour",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Per-tenant themes."
+    },
+    {
+     "q": "How do you scope a theme to part of the page?",
+     "options": [
+      "Global",
+      "Inline",
+      "JS",
+      "Set the variables on a wrapper element via data attribute or class"
+     ],
+     "answer": 3,
+     "explain": "Children inherit."
+    },
+    {
+     "q": "What should components avoid hard-coding?",
+     "options": [
+      "Text",
+      "Layout",
+      "Brand colours and spacing; use tokens",
+      "Markup"
+     ],
+     "answer": 2,
+     "explain": "Tokens carry brand."
+    }
+   ]
+  },
+  "level-4/03-rtl-logical": {
+   "questions": [
+    {
+     "q": "What does ps-4 compile to?\n```html\n<div class=\"ps-4\">\n```\n",
+     "options": [
+      "padding-inline-start: calc(var(--spacing) * 4)",
+      "padding: 4px start",
+      "padding-left: 4",
+      "padding-start: 4"
+     ],
+     "answer": 0,
+     "explain": "Logical utilities adapt to writing direction. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does ms-auto compile to?\n```html\n<div class=\"ms-auto\">\n```\n",
+     "options": [
+      "margin-left: auto",
+      "margin: auto start",
+      "margin-inline-start: auto",
+      "margin-start: auto"
+     ],
+     "answer": 2,
+     "explain": "Use instead of ml-* for RTL support. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does rtl:space-x-reverse relate to?\n```html\n<div class=\"rtl:flex-row-reverse\">\n```\n",
+     "options": [
+      "[rtl]",
+      "html.rtl only",
+      "&:where(:dir(rtl), [dir=\"rtl\"], [dir=\"rtl\"] *)",
+      "&:rtl"
+     ],
+     "answer": 2,
+     "explain": "rtl: and ltr: variants target direction. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "Why prefer logical properties for international sites?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Law",
+      "Layouts mirror automatically for right-to-left languages"
+     ],
+     "answer": 3,
+     "explain": "start/end beat left/right."
+    }
+   ]
+  },
+  "level-4/04-media-variants": {
+   "questions": [
+    {
+     "q": "What does print:hidden compile to?\n```html\n<div class=\"print:hidden\">\n```\n",
+     "options": [
+      "@media print",
+      "@print",
+      "&:print",
+      "@media screen"
+     ],
+     "answer": 0,
+     "explain": "Hide navigation when printing. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does motion-reduce:transition-none use?\n```html\n<div class=\"motion-reduce:transition-none\">\n```\n",
+     "options": [
+      "@reduce",
+      "@media (motion: none)",
+      "@media (prefers-reduced-motion: reduce)",
+      "&:reduce"
+     ],
+     "answer": 2,
+     "explain": "Honour user preference. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does contrast-more:border-2 use?\n```html\n<div class=\"contrast-more:border-2\">\n```\n",
+     "options": [
+      "@media (prefers-contrast: more)",
+      "@media (contrast: high)",
+      "@contrast",
+      "&:high-contrast"
+     ],
+     "answer": 0,
+     "explain": "Support high contrast preferences. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does portrait:flex-col respond to?\n```html\n<div class=\"portrait:flex-col\">\n```\n",
+     "options": [
+      "@media (width < height) only",
+      "@media (orientation: portrait)",
+      "&:portrait",
+      "@orientation"
+     ],
+     "answer": 1,
+     "explain": "Orientation variant. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    }
+   ]
+  },
+  "level-4/05-modern-css-features": {
+   "questions": [
+    {
+     "q": "What does text-balance compile to?\n```html\n<div class=\"text-balance\">\n```\n",
+     "options": [
+      "word-break: balance",
+      "text-align: balance",
+      "hyphens: balance",
+      "text-wrap: balance"
+     ],
+     "answer": 3,
+     "explain": "Evens out line lengths in headings. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does aspect-video compile to?\n```html\n<div class=\"aspect-video\">\n```\n",
+     "options": [
+      "width: 16/9",
+      "height: 56%",
+      "aspect-ratio: var(--aspect-video)",
+      "ratio: 16/9"
+     ],
+     "answer": 2,
+     "explain": "Reserve space for media without padding hacks. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "What does inset-0 produce?\n```html\n<div class=\"inset-0\">\n```\n",
+     "options": [
+      "inset: 0px",
+      "position: 0",
+      "margin: 0",
+      "top: 0 only"
+     ],
+     "answer": 0,
+     "explain": "Shorthand for top, right, bottom and left. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+    },
+    {
+     "q": "When can you rely on newer CSS features like :has()?",
+     "options": [
+      "When your browser support policy covers them, with graceful fallbacks otherwise",
+      "Rarely",
+      "Never",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Check support data."
+    }
+   ]
+  },
+  "level-4/06-interop-existing-css": {
+   "questions": [
+    {
+     "q": "How do you mix Tailwind with existing CSS?",
+     "options": [
+      "Remove",
+      "Import it into layers so existing rules and utilities have predictable precedence",
+      "Ignore",
+      "Replace all"
+     ],
+     "answer": 1,
+     "explain": "@layer controls order."
+    },
+    {
+     "q": "What does the important modifier look like in v4?",
+     "options": [
+      "A trailing exclamation mark such as p-4!",
+      "important:p-4",
+      "p-4 !important",
+      "!p-4"
+     ],
+     "answer": 0,
+     "explain": "The leading form is deprecated."
+    },
+    {
+     "q": "How do you migrate gradually from legacy CSS?",
+     "options": [
+      "Big bang",
+      "Never",
+      "Rewrite all",
+      "Introduce Tailwind for new components and refactor old ones as you touch them"
+     ],
+     "answer": 3,
+     "explain": "Avoid long-lived branches."
+    },
+    {
+     "q": "What prefix option avoids clashes with existing class names?",
+     "options": [
+      "Nothing",
+      "@import \"tailwindcss\" prefix(tw); giving tw:flex",
+      "Rename old",
+      "Config"
+     ],
+     "answer": 1,
+     "explain": "v4 uses a variant-style prefix."
+    }
+   ]
+  },
+  "level-4/07-server-templates": {
+   "questions": [
+    {
+     "q": "How do you use Tailwind with server templates (Rails, Django, Blade)?",
+     "options": [
+      "JS only",
+      "Point @source at template paths and use complete class names in templates",
+      "Not possible",
+      "CDN only"
+     ],
+     "answer": 1,
+     "explain": "The scanner reads any text."
+    },
+    {
+     "q": "What do you do about classes built from backend variables?",
+     "options": [
+      "Interpolate",
+      "Concatenate",
+      "Ignore",
+      "Map each value to a full class string or safelist it with @source inline()"
+     ],
+     "answer": 3,
+     "explain": "Static strings are required."
+    },
+    {
+     "q": "Why include the built CSS in the deployment artifact?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Law",
+      "Production needs compiled CSS; the build runs in CI"
+     ],
+     "answer": 3,
+     "explain": "Don't compile at runtime."
+    },
+    {
+     "q": "How do you handle partials and components across templates?",
+     "options": [
+      "Inline",
+      "Global CSS",
+      "Keep utility strings inside partials so changes happen in one place",
+      "Copy"
+     ],
+     "answer": 2,
+     "explain": "Reuse via includes."
+    }
+   ]
+  },
+  "level-4/08-debugging": {
+   "questions": [
+    {
+     "q": "A class doesn't apply. What is the first thing to check?",
+     "options": [
+      "Browser",
+      "Colours",
+      "Reinstall",
+      "That the class name appears as a complete string in a scanned file and the build is running"
+     ],
+     "answer": 3,
+     "explain": "Check @source and DevTools for the rule."
+    },
+    {
+     "q": "How can you find where a utility is overridden?",
+     "options": [
+      "Re-run",
+      "Inspect the element in DevTools to see which rule and layer wins",
+      "Guess",
+      "Clear"
+     ],
+     "answer": 1,
+     "explain": "Check specificity and order."
+    },
+    {
+     "q": "Why might a styled element appear unstyled in production only?",
+     "options": [
+      "Fonts",
+      "Browser",
+      "Dynamic class names or paths missing from @source were not scanned",
+      "Cache"
+     ],
+     "answer": 2,
+     "explain": "Compare builds."
+    },
+    {
+     "q": "What does `--watch` do in the CLI?",
+     "options": [
+      "Rebuilds CSS when files change during development",
+      "Deploys",
+      "Lints",
+      "Minifies"
+     ],
+     "answer": 0,
+     "explain": "Not for production."
+    }
+   ]
+  },
+  "level-4/09-testing": {
+   "questions": [
+    {
+     "q": "What can you test about Tailwind styles?",
+     "options": [
+      "Behaviour via accessibility and visual regression tests, not individual utility output",
+      "Every class",
+      "Only unit",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Test outcomes."
+    },
+    {
+     "q": "What is visual regression testing?",
+     "options": [
+      "Lint",
+      "Comparing screenshots against baselines to catch unintended changes",
+      "Unit",
+      "Types"
+     ],
+     "answer": 1,
+     "explain": "Use stable fonts and data."
+    },
+    {
+     "q": "Why run axe or similar accessibility checks in CI?",
+     "options": [
+      "Colour",
+      "Catch contrast, label and ARIA issues early",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Complement manual testing."
+    },
+    {
+     "q": "How do you make visual tests stable?",
+     "options": [
+      "Ignore",
+      "Randomise",
+      "Skip",
+      "Freeze data and time, disable animations and use consistent rendering environments"
+     ],
+     "answer": 3,
+     "explain": "Reduce flake."
+    }
+   ]
+  },
+  "level-4/10-capstone": {
+   "questions": [
+    {
+     "q": "What is the capstone's aim?",
+     "options": [
+      "A plugin",
+      "A toy",
+      "A production-ready design system or app with tokens, components, accessibility, theming and docs",
+      "A page"
+     ],
+     "answer": 2,
+     "explain": "Bring it together."
+    },
+    {
+     "q": "What evidence shows quality?",
+     "options": [
+      "Accessibility audits, visual tests, performance budgets and documentation",
+      "Screenshots",
+      "It builds",
+      "Looks good"
+     ],
+     "answer": 0,
+     "explain": "Measure."
+    },
+    {
+     "q": "What belongs in the README?",
+     "options": [
+      "Setup, tokens, component usage, contribution and release process",
+      "Logo",
+      "Nothing",
+      "Slogan"
+     ],
+     "answer": 0,
+     "explain": "Handover."
+    },
+    {
+     "q": "How do you manage change in the system?",
+     "options": [
+      "Semantic versions, a changelog and deprecation policy",
+      "Random",
+      "None",
+      "Silent"
+     ],
+     "answer": 0,
+     "explain": "Treat as a product."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this compile to?\n```html\n<div class=\"p-4 gap-2\">\n```\n",
+    "options": [
+     "padding: calc(var(--spacing) * 4); gap: calc(var(--spacing) * 2)",
+     "padding: 4rem; gap: 2rem",
+     "padding: 4px; gap: 2px",
+     "padding: 1rem; gap: 0.5rem"
+    ],
+    "answer": 0,
+    "explain": "Utilities multiply the --spacing theme variable, so the final size follows the theme. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+   },
+   {
+    "q": "Which breakpoint rule does md:flex emit in v4?\n```html\n<div class=\"md:flex\">\n```\n",
+    "options": [
+     "@media (width >= 48rem) { .md\\:flex { display: flex",
+     "@media (min-width: 768px)",
+     "@media (max-width: 768px)",
+     "@media screen and (width >= 768px)"
+    ],
+    "answer": 0,
+    "explain": "Breakpoints are mobile-first and rem-based. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+   },
+   {
+    "q": "How is dark mode applied by default?\n```html\n<div class=\"dark:bg-gray-900\">\n```\n",
+    "options": [
+     "@media (dark)",
+     "&:where(.dark, .dark *)",
+     "@media (prefers-color-scheme: dark)",
+     "[data-theme=dark]"
+    ],
+    "answer": 2,
+    "explain": "The default dark variant follows the OS preference; override it with @custom-variant for a manual toggle. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+   },
+   {
+    "q": "What does w-[13px] produce?\n```html\n<div class=\"w-[13px]\">\n```\n",
+    "options": [
+     "width: var(--13px)",
+     "width: 13",
+     "width: 13px",
+     "width: 13rem"
+    ],
+    "answer": 2,
+    "explain": "Arbitrary values are emitted as written. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+   },
+   {
+    "q": "What does bg-black/50 compile to?\n```html\n<div class=\"bg-black/50\">\n```\n",
+    "options": [
+     "rgba(0,0,0,.5) only",
+     "background-opacity: 50",
+     "opacity: 0.5",
+     "background-color: color-mix(in oklab, var(--color-black) 50%, transparent)"
+    ],
+    "answer": 3,
+    "explain": "The slash modifier sets the colour's alpha. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+   },
+   {
+    "q": "What does hover:bg-red-500 do on touch devices?\n```html\n<div class=\"hover:bg-red-500\">\n```\n",
+    "options": [
+     "@media (hover: hover) { &:hover { background-color: var(--color-red-500)",
+     "Applies on tap",
+     "Never applies",
+     "Always applies"
+    ],
+    "answer": 0,
+    "explain": "v4 only applies hover styles where hover is supported. Verified by compiling it with Tailwind CSS v4.3 and checking the generated CSS."
+   },
+   {
+    "q": "What do you put in a CSS file to start Tailwind v4?",
+    "options": [
+     "require('tailwindcss')",
+     "@use tailwind;",
+     "@tailwind base; @tailwind utilities;",
+     "@import \"tailwindcss\";"
+    ],
+    "answer": 3,
+    "explain": "One import replaces the three v3 directives."
+   },
+   {
+    "q": "Why does `bg-${color}-500` fail to produce a style?",
+    "options": [
+     "It needs @apply",
+     "It is deprecated",
+     "Tailwind forbids variables",
+     "The scanner looks for complete class names, so partial strings are not found"
+    ],
+    "answer": 3,
+    "explain": "Map values to full class names or safelist them with @source inline()."
+   },
+   {
+    "q": "When should you use @apply?",
+    "options": [
+     "Never",
+     "Sparingly, for styling markup you cannot add classes to; prefer components for reuse",
+     "For every component",
+     "Always"
+    ],
+    "answer": 1,
+    "explain": "Heavy @apply undermines utility-first."
+   },
+   {
+    "q": "Where do design tokens live in v4?",
+    "options": [
+     "In CSS custom properties defined in @theme, which also generate utilities",
+     "JSON",
+     "tailwind.config.js only",
+     "HTML"
+    ],
+    "answer": 0,
+    "explain": "CSS-first configuration."
+   },
+   {
+    "q": "How do you reuse a button style across an app?",
+    "options": [
+     "Copy the classes",
+     "Extract a framework component or template partial and keep utilities there",
+     "Global CSS",
+     "Inline styles"
+    ],
+    "answer": 1,
+    "explain": "One source of truth."
+   },
+   {
+    "q": "Why use tailwind-merge with a component's class prop?",
+    "options": [
+     "Law",
+     "Speed",
+     "Conflicting utilities (p-2 vs p-4) are resolved by CSS order, not class order, so merging picks the intended one",
+     "Colour"
+    ],
+    "answer": 2,
+    "explain": "cn() = clsx + tailwind-merge."
+   },
+   {
+    "q": "What does motion-reduce: let you do?",
+    "options": [
+     "Turn off or soften animations for users who prefer reduced motion",
+     "Speed up",
+     "Hide",
+     "Preload"
+    ],
+    "answer": 0,
+    "explain": "Accessibility."
+   },
+   {
+    "q": "What makes a form control accessible?",
+    "options": [
+     "Placeholder only",
+     "A real label tied to the input, visible focus styles and clear error text",
+     "Colour only",
+     "Icons"
+    ],
+    "answer": 1,
+    "explain": "Utilities style, semantics inform."
+   },
+   {
+    "q": "How should you keep utility class order consistent?",
+    "options": [
+     "By hand",
+     "Alphabetically",
+     "Use the official Prettier plugin to sort classes",
+     "Random"
+    ],
+    "answer": 2,
+    "explain": "Reduces noisy diffs."
+   },
+   {
+    "q": "What does the container query variant @md: respond to?",
+    "options": [
+     "The viewport",
+     "The screen",
+     "The width of the nearest @container ancestor, not the viewport",
+     "The device"
+    ],
+    "answer": 2,
+    "explain": "Components adapt to the space they get."
+   },
+   {
+    "q": "What does rtl: help with and what is better?",
+    "options": [
+     "Fonts",
+     "Nothing",
+     "Direction-specific overrides; prefer logical utilities such as ps-4 and ms-auto that adapt automatically",
+     "Colours"
+    ],
+    "answer": 2,
+    "explain": "Logical properties mirror for RTL."
+   },
+   {
+    "q": "How do you theme several brands with the same components?",
+    "options": [
+     "Inline",
+     "Separate builds",
+     "Components use semantic tokens (such as bg-brand) whose variable values are switched per scope",
+     "Copy components"
+    ],
+    "answer": 2,
+    "explain": "CSS variables change at runtime."
+   },
+   {
+    "q": "What should you check when a class does not apply?",
+    "options": [
+     "That it appears as a complete string in a scanned file, then inspect the generated rule in DevTools",
+     "Reinstall",
+     "Change browser",
+     "Clear colours"
+    ],
+    "answer": 0,
+    "explain": "Check @source and layer order."
+   },
+   {
+    "q": "What shows a Tailwind design system is production-ready?",
+    "options": [
+     "Accessibility and visual-regression tests in CI, documentation and a versioned release process",
+     "It looks good",
+     "It builds",
+     "Screenshots"
+    ],
+    "answer": 0,
+    "explain": "Treat tokens as an API."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A responsive card: classes and the CSS they generate",
+    "prompt": "Write the class list for a card (rounded, white, padded, shadowed; a row from the md breakpoint with a gap; gray hover and dark-mode backgrounds), then build it with the Tailwind v4 CLI and read the utilities layer of the generated CSS. The expected output below is the generated utilities layer from a real build; compare the order of rules and the shape of the variants.",
+    "starter": "/* input.css */\n@import \"tailwindcss\" source(none);\n@source \"./index.html\";\n\n<!-- index.html: TODO - write the one-line class list for a card that\n     - has extra-large rounded corners, a white background, 1.5rem padding (p-6) and a medium shadow\n     - from the md breakpoint up is a row (flex) with vertically centred items and a 1.5rem gap (6 spacing steps)\n     - gets a gray-50 background on hover and a gray-900 background in dark mode -->\n<article class=\"TODO\">\n  ...\n</article>\n\n/* build */\nnpx @tailwindcss/cli -i input.css -o out.css\n\n/* Then read the utilities layer of out.css: what rules did Tailwind generate for your classes, in what order? */",
+    "expected": "@layer utilities {\n  .rounded-xl {\n    border-radius: var(--radius-xl);\n  }\n  .bg-white {\n    background-color: var(--color-white);\n  }\n  .p-6 {\n    padding: calc(var(--spacing) * 6);\n  }\n  .shadow-md {\n    --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));\n    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);\n  }\n  @media (hover: hover) {\n    .hover\\:bg-gray-50:hover {\n      background-color: var(--color-gray-50);\n    }\n  }\n  @media (width >= 48rem) {\n    .md\\:flex {\n      display: flex;\n    }\n    .md\\:items-center {\n      align-items: center;\n    }\n    .md\\:gap-6 {\n      gap: calc(var(--spacing) * 6);\n    }\n  }\n  @media (prefers-color-scheme: dark) {\n    .dark\\:bg-gray-900 {\n      background-color: var(--color-gray-900);\n    }\n  }\n}",
+    "solution": "/* input.css */\n@import \"tailwindcss\" source(none);\n@source \"./index.html\";\n\n<!-- index.html -->\n<article class=\"rounded-xl bg-white p-6 shadow-md md:flex md:items-center md:gap-6 hover:bg-gray-50 dark:bg-gray-900\">\n  ...\n</article>\n\n/* build */\nnpx @tailwindcss/cli -i input.css -o out.css",
+    "explain": "Each class becomes one rule; variants wrap or qualify the selector (a media query for md:, :hover inside @media (hover: hover), and a prefers-color-scheme query for dark:). Verified by compiling the classes with Tailwind CSS v4.3 and printing the utilities layer."
+   },
+   {
+    "title": "Design tokens, a custom utility and a custom variant",
+    "prompt": "Define theme tokens, a custom breakpoint and spacing base in @theme, add a custom utility with @utility and a custom variant with @custom-variant, then compile classes that use them. The expected output shows the generated utilities and the theme variables Tailwind kept because they were used.",
+    "starter": "/* input.css */\n@import \"tailwindcss\" source(none);\n@source \"./index.html\";\n\n/* TODO: in an @theme block define\n     --color-brand: oklch(0.62 0.19 255);  --color-brand-dark: oklch(0.45 0.17 255);\n     --breakpoint-3xl: 120rem;             --spacing: 0.5rem;\n   TODO: a custom utility text-pretty-balance that sets text-wrap: balance (@utility)\n   TODO: a custom variant theme-night that matches [data-theme=night] and its descendants (@custom-variant)  */\n\n<!-- index.html -->\n<div class=\"bg-brand text-brand-dark p-4 3xl:p-8 theme-night:bg-brand-dark text-pretty-balance\">...</div>\n\n/* Then read out.css: which rules and which theme variables were generated, and what does p-4 become with the new --spacing? */",
+    "expected": "@layer utilities {\n  .bg-brand {\n    background-color: var(--color-brand);\n  }\n  .p-4 {\n    padding: calc(var(--spacing) * 4);\n  }\n  .text-pretty-balance {\n    text-wrap: balance;\n  }\n  .text-brand-dark {\n    color: var(--color-brand-dark);\n  }\n  @media (width >= 120rem) {\n    .\\33 xl\\:p-8 {\n      padding: calc(var(--spacing) * 8);\n    }\n  }\n  .theme-night\\:bg-brand-dark:where([data-theme=night], [data-theme=night] *) {\n    background-color: var(--color-brand-dark);\n  }\n}\n\n/* theme variables emitted (only those used) */\n--spacing: 0.5rem\n--color-brand: oklch(0.62 0.19 255)\n--color-brand-dark: oklch(0.45 0.17 255)",
+    "solution": "/* input.css */\n@import \"tailwindcss\" source(none);\n@source \"./index.html\";\n@theme {\n  --color-brand: oklch(0.62 0.19 255);\n  --color-brand-dark: oklch(0.45 0.17 255);\n  --breakpoint-3xl: 120rem;\n  --spacing: 0.5rem;\n}\n@utility text-pretty-balance { text-wrap: balance; }\n@custom-variant theme-night (&:where([data-theme=night], [data-theme=night] *));\n\n<!-- index.html -->\n<div class=\"bg-brand text-brand-dark p-4 3xl:p-8 theme-night:bg-brand-dark text-pretty-balance\">...</div>",
+    "explain": "Variables in @theme become real CSS custom properties and generate matching utilities (bg-brand, 3xl:p-8); @utility and @custom-variant add your own. Only the variables actually used are emitted, and p-4 is now calc(var(--spacing) * 4) with the 0.5rem base. Verified by compiling with Tailwind CSS v4.3."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
