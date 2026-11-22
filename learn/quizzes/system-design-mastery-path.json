@@ -1,0 +1,2159 @@
+{
+ "course": "system-design-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-system-design": {
+   "questions": [
+    {
+     "q": "What is the main goal of system design?",
+     "options": [
+      "Draw boxes",
+      "Maximise features",
+      "Meet functional and non-functional requirements (scale, latency, availability, cost) with explicit trade-offs",
+      "Pick the newest tools"
+     ],
+     "answer": 2,
+     "explain": "There is no single best design, only trade-offs against requirements."
+    },
+    {
+     "q": "Which step should come first in a design discussion?",
+     "options": [
+      "Pick a language",
+      "Clarify requirements and constraints, then estimate scale",
+      "Draw the architecture",
+      "Choose a database"
+     ],
+     "answer": 1,
+     "explain": "Requirements drive every later choice."
+    },
+    {
+     "q": "What is a non-functional requirement?",
+     "options": [
+      "A button",
+      "A table",
+      "A quality such as latency, availability, durability or cost",
+      "A feature"
+     ],
+     "answer": 2,
+     "explain": "They often decide the architecture."
+    },
+    {
+     "q": "Why state assumptions explicitly?",
+     "options": [
+      "Law",
+      "So estimates and trade-offs can be checked and challenged",
+      "Speed",
+      "To look careful"
+     ],
+     "answer": 1,
+     "explain": "Unstated assumptions hide risk."
+    }
+   ]
+  },
+  "level-1/02-client-server-http": {
+   "questions": [
+    {
+     "q": "What does HTTP being stateless mean?",
+     "options": [
+      "No caching",
+      "No errors",
+      "No cookies",
+      "Each request carries all the information the server needs; the server keeps no client session by default"
+     ],
+     "answer": 3,
+     "explain": "State lives in tokens, cookies or backing stores."
+    },
+    {
+     "q": "Which status class means a client error?",
+     "options": [
+      "2xx",
+      "3xx",
+      "4xx",
+      "5xx"
+     ],
+     "answer": 2,
+     "explain": "5xx means server errors."
+    },
+    {
+     "q": "A request needs DNS 20 ms, TCP 30 ms, TLS 60 ms and 50 ms of server time. Assuming nothing is reused or cached, what is the minimum time to first byte (ms)?\n```python\nprint(20+30+60+50)\n```\n",
+     "options": [
+      "190",
+      "50",
+      "160",
+      "110"
+     ],
+     "answer": 2,
+     "explain": "Connection reuse and caching remove the setup costs on later requests. Verified by running it."
+    },
+    {
+     "q": "What does keep-alive (connection reuse) save?",
+     "options": [
+      "DNS only",
+      "Bandwidth only",
+      "Repeated TCP and TLS handshakes",
+      "Server time"
+     ],
+     "answer": 2,
+     "explain": "HTTP/2 multiplexes many requests on one connection."
+    }
+   ]
+  },
+  "level-1/03-latency-throughput-estimation": {
+   "questions": [
+    {
+     "q": "A service handles 50 million requests per day. What is the average queries per second (rounded)?\n```python\nprint(round(50_000_000/86_400))\n```\n",
+     "options": [
+      "58",
+      "5787",
+      "50",
+      "579"
+     ],
+     "answer": 3,
+     "explain": "There are 86,400 seconds in a day; peaks are usually 2-10x the average. Verified by running it."
+    },
+    {
+     "q": "With a 3x peak factor, what peak QPS do you plan for?\n```python\nprint(round(50_000_000/86_400*3))\n```\n",
+     "options": [
+      "1736",
+      "579",
+      "3472",
+      "5787"
+     ],
+     "answer": 0,
+     "explain": "Plan for peak, not average. Verified by running it."
+    },
+    {
+     "q": "Each record is 2 KB and you store 100 million records. How many GB (using 1 GB = 10^9 bytes)?\n```python\nprint(100_000_000*2_000/1e9)\n```\n",
+     "options": [
+      "2.0",
+      "20.0",
+      "200.0",
+      "2000.0"
+     ],
+     "answer": 2,
+     "explain": "Then multiply by replicas and growth. Verified by running it."
+    },
+    {
+     "q": "Which latency number is roughly right: reading 1 MB sequentially from SSD or a network round trip within one datacentre?",
+     "options": [
+      "They are both on the order of a millisecond or less; cross-continent round trips are around 100 ms",
+      "Microseconds",
+      "Hours",
+      "Seconds"
+     ],
+     "answer": 0,
+     "explain": "Know orders of magnitude, not exact values."
+    }
+   ]
+  },
+  "level-1/04-vertical-horizontal-scaling": {
+   "questions": [
+    {
+     "q": "What is vertical scaling?",
+     "options": [
+      "Adding regions",
+      "Adding caches",
+      "Adding machines",
+      "Adding more power (CPU, RAM) to a single machine"
+     ],
+     "answer": 3,
+     "explain": "Simple but limited and a single point of failure."
+    },
+    {
+     "q": "What is horizontal scaling?",
+     "options": [
+      "Sharding only",
+      "Caching",
+      "Adding more machines and spreading load across them",
+      "Bigger server"
+     ],
+     "answer": 2,
+     "explain": "Requires stateless services or partitioned state."
+    },
+    {
+     "q": "Why make web servers stateless?",
+     "options": [
+      "Colour",
+      "Law",
+      "Speed",
+      "Any instance can serve any request, so you can add or remove instances freely"
+     ],
+     "answer": 3,
+     "explain": "Store sessions in a shared store or token."
+    },
+    {
+     "q": "What limits horizontal scaling of a single-primary database?",
+     "options": [
+      "Colour",
+      "Write throughput on the primary; reads scale with replicas, writes need sharding",
+      "Network",
+      "Reads"
+     ],
+     "answer": 1,
+     "explain": "Plan for the write path."
+    }
+   ]
+  },
+  "level-1/05-load-balancing": {
+   "questions": [
+    {
+     "q": "Round-robin over 4 servers: which server index (0-based) handles request 10?\n```python\nprint(10 % 4)\n```\n",
+     "options": [
+      "2",
+      "1",
+      "0",
+      "3"
+     ],
+     "answer": 0,
+     "explain": "Index = request number mod server count. Verified by running it."
+    },
+    {
+     "q": "What do health checks let a load balancer do?",
+     "options": [
+      "Encrypt",
+      "Stop sending traffic to failed instances",
+      "Route DNS",
+      "Cache"
+     ],
+     "answer": 1,
+     "explain": "Active or passive."
+    },
+    {
+     "q": "What is a downside of sticky sessions?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Uneven load and lost sessions if the server dies",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Prefer shared session stores or tokens."
+    },
+    {
+     "q": "What is the difference between L4 and L7 load balancing?",
+     "options": [
+      "Same",
+      "L4 routes by IP and port; L7 understands HTTP and can route by path, header or cookie",
+      "L4 is HTTP",
+      "L7 is TCP"
+     ],
+     "answer": 1,
+     "explain": "L7 costs more CPU but is smarter."
+    }
+   ]
+  },
+  "level-1/06-caching-fundamentals": {
+   "questions": [
+    {
+     "q": "A cache has a 90% hit rate. Cache reads take 1 ms and database reads 20 ms. What is the average read time (ms)?\n```python\nprint(0.9*1+0.1*20)\n```\n",
+     "options": [
+      "10.5",
+      "1.0",
+      "2.9",
+      "19.0"
+     ],
+     "answer": 2,
+     "explain": "Average = hit rate x hit time + miss rate x miss time. Verified by running it."
+    },
+    {
+     "q": "What is cache-aside?",
+     "options": [
+      "Read-only",
+      "Write-through",
+      "Database-managed",
+      "The app checks the cache first, loads from the database on a miss and populates the cache"
+     ],
+     "answer": 3,
+     "explain": "The most common pattern."
+    },
+    {
+     "q": "What does TTL do?",
+     "options": [
+      "Locks",
+      "Encrypts",
+      "Bounds how long an entry may be stale and limits memory use",
+      "Compresses"
+     ],
+     "answer": 2,
+     "explain": "A safety net for invalidation."
+    },
+    {
+     "q": "What is an LRU cache?",
+     "options": [
+      "Evicts random",
+      "Evicts oldest",
+      "It evicts the least recently used entry when full",
+      "Never evicts"
+     ],
+     "answer": 2,
+     "explain": "Good for temporal locality."
+    }
+   ]
+  },
+  "level-1/07-sql-vs-nosql": {
+   "questions": [
+    {
+     "q": "When is SQL a strong default?",
+     "options": [
+      "Relational data needing joins, constraints and transactions",
+      "Caches",
+      "Huge unstructured logs",
+      "Key-value only"
+     ],
+     "answer": 0,
+     "explain": "Relational databases scale further than most think."
+    },
+    {
+     "q": "What do many NoSQL stores trade for scale?",
+     "options": [
+      "Speed",
+      "Network",
+      "Storage",
+      "Rich queries, joins and sometimes strong consistency"
+     ],
+     "answer": 3,
+     "explain": "Model data around access patterns."
+    },
+    {
+     "q": "What is a wide-column or key-value store good at?",
+     "options": [
+      "Very high write throughput and simple lookups by key at large scale",
+      "Ad hoc SQL",
+      "Complex joins",
+      "Reports"
+     ],
+     "answer": 0,
+     "explain": "Examples: Cassandra, DynamoDB."
+    },
+    {
+     "q": "What should drive the database choice?",
+     "options": [
+      "Cost only",
+      "Access patterns, consistency needs and operational maturity, not fashion",
+      "Popularity",
+      "Logo"
+     ],
+     "answer": 1,
+     "explain": "Often use more than one."
+    }
+   ]
+  },
+  "level-1/08-cdns": {
+   "questions": [
+    {
+     "q": "What does a CDN do?",
+     "options": [
+      "Compiles",
+      "Caches content at edge locations close to users",
+      "Encrypts",
+      "Runs databases"
+     ],
+     "answer": 1,
+     "explain": "Lower latency and origin load."
+    },
+    {
+     "q": "Which content suits a CDN best?",
+     "options": [
+      "Writes",
+      "Static, cacheable assets such as images, scripts and video segments",
+      "Payments",
+      "Private data"
+     ],
+     "answer": 1,
+     "explain": "Dynamic content can be cached with care."
+    },
+    {
+     "q": "What is cache invalidation on a CDN?",
+     "options": [
+      "Encrypting",
+      "Purging or versioning objects so users get updated content",
+      "Compressing",
+      "Deleting origin"
+     ],
+     "answer": 1,
+     "explain": "Prefer versioned URLs."
+    },
+    {
+     "q": "What is origin shielding?",
+     "options": [
+      "A VPN",
+      "A DB",
+      "A middle cache tier that reduces requests reaching the origin",
+      "A firewall"
+     ],
+     "answer": 2,
+     "explain": "Protects the origin under load."
+    }
+   ]
+  },
+  "level-1/09-api-styles": {
+   "questions": [
+    {
+     "q": "What is REST organised around?",
+     "options": [
+      "Resources identified by URLs and manipulated with standard HTTP methods",
+      "Procedures",
+      "Messages",
+      "Queries"
+     ],
+     "answer": 0,
+     "explain": "Stateless interactions."
+    },
+    {
+     "q": "When is GraphQL attractive?",
+     "options": [
+      "When clients need to shape responses and avoid over- or under-fetching",
+      "Always",
+      "Never",
+      "File upload"
+     ],
+     "answer": 0,
+     "explain": "Watch out for expensive queries."
+    },
+    {
+     "q": "What is gRPC good for?",
+     "options": [
+      "Email",
+      "Files",
+      "Efficient, typed service-to-service calls over HTTP/2 with Protocol Buffers",
+      "Browsers only"
+     ],
+     "answer": 2,
+     "explain": "Streaming support."
+    },
+    {
+     "q": "Why paginate list endpoints?",
+     "options": [
+      "Law",
+      "Colour",
+      "To bound response size and cost; cursor pagination is stable under inserts",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Offset pagination gets slow at depth."
+    }
+   ]
+  },
+  "level-1/10-project-url-shortener": {
+   "questions": [
+    {
+     "q": "A URL shortener issues 7-character base62 codes (a-z, A-Z, 0-9). How many distinct codes exist?\n```python\nprint(62**7)\n```\n",
+     "options": [
+      "3521614606",
+      "351616460620",
+      "62000000",
+      "3521614606208"
+     ],
+     "answer": 3,
+     "explain": "62^7 is about 3.5 trillion, plenty for most services. Verified by running it."
+    },
+    {
+     "q": "At 100 million new URLs per year, how many years until 3.5 trillion codes are used?\n```python\nprint(round(3_521_614_606_208/100_000_000))\n```\n",
+     "options": [
+      "35216",
+      "3522",
+      "352",
+      "352161"
+     ],
+     "answer": 0,
+     "explain": "Capacity is not the issue; avoiding collisions and hot keys is. Verified by running it."
+    },
+    {
+     "q": "How can you generate unique short codes without collisions?",
+     "options": [
+      "A counter or ID generator encoded in base62, or random codes with a uniqueness check",
+      "Timestamps only",
+      "Names",
+      "Hash only"
+     ],
+     "answer": 0,
+     "explain": "Pre-generate ranges per server."
+    },
+    {
+     "q": "Why is a URL shortener read-heavy and how does that shape the design?",
+     "options": [
+      "Balanced",
+      "Compute heavy",
+      "Many more redirects than creations, so cache hot mappings and use replicas",
+      "Write heavy"
+     ],
+     "answer": 2,
+     "explain": "Optimise the read path."
+    }
+   ]
+  },
+  "level-2/01-replication": {
+   "questions": [
+    {
+     "q": "What is replication?",
+     "options": [
+      "Caching",
+      "Sharding",
+      "Backups",
+      "Keeping copies of data on multiple nodes for availability and read scaling"
+     ],
+     "answer": 3,
+     "explain": "Does not by itself increase write capacity."
+    },
+    {
+     "q": "What is replication lag?",
+     "options": [
+      "Disk",
+      "CPU",
+      "The delay before a replica reflects a primary's writes, causing stale reads",
+      "Network"
+     ],
+     "answer": 2,
+     "explain": "Read-your-writes needs care."
+    },
+    {
+     "q": "What is the difference between sync and async replication?",
+     "options": [
+      "Synchronous waits for replicas before acknowledging (safer, slower); asynchronous does not (faster, can lose recent writes)",
+      "Same",
+      "Async is safer",
+      "Sync is faster"
+     ],
+     "answer": 0,
+     "explain": "Semi-sync is a compromise."
+    },
+    {
+     "q": "With 3 replicas and a quorum of W=2 writes and R=2 reads, do reads always overlap the latest write? (R + W > N)\n```python\nN,W,R=3,2,2\nprint(R+W>N)\n```\n",
+     "options": [
+      "None",
+      "False",
+      "True",
+      "3"
+     ],
+     "answer": 2,
+     "explain": "Overlapping read and write quorums guarantee seeing the latest acknowledged write. Verified by running it."
+    }
+   ]
+  },
+  "level-2/02-sharding-partitioning": {
+   "questions": [
+    {
+     "q": "What is sharding?",
+     "options": [
+      "Caching",
+      "Splitting data across nodes so each holds a subset",
+      "Copying",
+      "Indexing"
+     ],
+     "answer": 1,
+     "explain": "Scales writes and storage."
+    },
+    {
+     "q": "What is a hot shard?",
+     "options": [
+      "A shard receiving disproportionate load, often from a skewed key",
+      "A backup",
+      "A fast one",
+      "A new one"
+     ],
+     "answer": 0,
+     "explain": "Choose keys that distribute evenly."
+    },
+    {
+     "q": "Hash-modulo sharding with 4 shards: which shard holds key 1234567?\n```python\nprint(1234567 % 4)\n```\n",
+     "options": [
+      "2",
+      "1",
+      "0",
+      "3"
+     ],
+     "answer": 3,
+     "explain": "Adding a shard remaps most keys, which is why consistent hashing exists. Verified by running it."
+    },
+    {
+     "q": "What makes cross-shard queries hard?",
+     "options": [
+      "Law",
+      "Colour",
+      "Joins and transactions span nodes, so they need scatter-gather or denormalisation",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Design to keep related data together."
+    }
+   ]
+  },
+  "level-2/03-consistent-hashing": {
+   "questions": [
+    {
+     "q": "Consistent hashing on a ring of 10 nodes: when you add one node, what fraction of keys moves on average?\n```python\nprint(round(1/11,3))\n```\n",
+     "options": [
+      "0.5",
+      "0.091",
+      "1.0",
+      "0.1"
+     ],
+     "answer": 1,
+     "explain": "About K/N keys move, versus nearly all with modulo hashing. Verified by running it."
+    },
+    {
+     "q": "With modulo hashing, going from 4 to 5 nodes remaps what fraction of 1000 keys?\n```python\nmoved=sum(1 for k in range(1000) if k%4 != k%5)\nprint(moved/1000)\n```\n",
+     "options": [
+      "0.8",
+      "1.0",
+      "0.2",
+      "0.5"
+     ],
+     "answer": 0,
+     "explain": "Modulo hashing reshuffles most keys on a resize. Verified by running it."
+    },
+    {
+     "q": "What do virtual nodes add to consistent hashing?",
+     "options": [
+      "More even key distribution and smoother rebalancing",
+      "Speed",
+      "Caching",
+      "Encryption"
+     ],
+     "answer": 0,
+     "explain": "Each physical node owns many ring positions."
+    },
+    {
+     "q": "Where is consistent hashing used?",
+     "options": [
+      "UIs",
+      "Distributed caches, sharded stores and load balancers",
+      "Compilers",
+      "Email"
+     ],
+     "answer": 1,
+     "explain": "E.g. Dynamo-style systems."
+    }
+   ]
+  },
+  "level-2/04-cap-pacelc": {
+   "questions": [
+    {
+     "q": "What does the CAP theorem say about partitions?",
+     "options": [
+      "Choose speed",
+      "During a network partition you must choose between consistency and availability",
+      "You can have all",
+      "Partitions never happen"
+     ],
+     "answer": 1,
+     "explain": "P is not optional in distributed systems."
+    },
+    {
+     "q": "What does PACELC add?",
+     "options": [
+      "Security",
+      "Cost",
+      "Nothing",
+      "Even without partitions there is a trade-off between latency and consistency"
+     ],
+     "answer": 3,
+     "explain": "Else Latency vs Consistency."
+    },
+    {
+     "q": "Which is a CP-style behaviour?",
+     "options": [
+      "Accept all writes",
+      "Cache",
+      "Refusing writes on the minority side of a partition to avoid divergence",
+      "Ignore"
+     ],
+     "answer": 2,
+     "explain": "Consensus systems often do this."
+    },
+    {
+     "q": "Which is an AP-style behaviour?",
+     "options": [
+      "Accepting writes on both sides and reconciling later (eventual consistency)",
+      "Stop",
+      "Refuse writes",
+      "Lock"
+     ],
+     "answer": 0,
+     "explain": "Conflicts need resolution rules."
+    }
+   ]
+  },
+  "level-2/05-message-queues": {
+   "questions": [
+    {
+     "q": "Why use a message queue?",
+     "options": [
+      "Storage",
+      "Decouple producers and consumers, absorb bursts and enable retries",
+      "Security",
+      "Speed only"
+     ],
+     "answer": 1,
+     "explain": "Async processing."
+    },
+    {
+     "q": "What delivery guarantee is typical?",
+     "options": [
+      "At-least-once, so consumers must be idempotent",
+      "Exactly once",
+      "At most once always",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Exactly-once is built from idempotency."
+    },
+    {
+     "q": "What is a dead-letter queue?",
+     "options": [
+      "Trash",
+      "Cache",
+      "Where messages go after repeated failures for inspection",
+      "Log"
+     ],
+     "answer": 2,
+     "explain": "Alert on it."
+    },
+    {
+     "q": "A queue gets 1000 msgs/s and consumers each handle 50 msgs/s. How many consumers keep up?\n```python\nimport math\nprint(math.ceil(1000/50))\n```\n",
+     "options": [
+      "100",
+      "50",
+      "20",
+      "10"
+     ],
+     "answer": 2,
+     "explain": "Add headroom for bursts. Verified by running it."
+    }
+   ]
+  },
+  "level-2/06-rate-limiting": {
+   "questions": [
+    {
+     "q": "A token bucket with capacity 10 refills 5 tokens/s. A client sends 10 requests at t=0 and 10 more at t=1. How many of the second burst are allowed?\n```python\ncap,rate=10,5\ntokens=cap-10\ntokens=min(cap,tokens+rate*1)\nprint(int(tokens))\n```\n",
+     "options": [
+      "0",
+      "5",
+      "10",
+      "1"
+     ],
+     "answer": 1,
+     "explain": "After the first burst the bucket is empty and refills 5 tokens in a second. Verified by running it."
+    },
+    {
+     "q": "What does a fixed-window limiter suffer from?",
+     "options": [
+      "Speed",
+      "Bursts at window boundaries can double the allowed rate",
+      "Law",
+      "Memory"
+     ],
+     "answer": 1,
+     "explain": "Sliding windows smooth this."
+    },
+    {
+     "q": "Where do you enforce rate limits in a distributed system?",
+     "options": [
+      "At the edge or gateway with a shared counter (for example Redis) keyed by client",
+      "Never",
+      "DB",
+      "Per server only"
+     ],
+     "answer": 0,
+     "explain": "Per-instance counters are inconsistent."
+    },
+    {
+     "q": "What should a rate-limited response include?",
+     "options": [
+      "429 and a Retry-After hint",
+      "404",
+      "500",
+      "200"
+     ],
+     "answer": 0,
+     "explain": "Be explicit."
+    }
+   ]
+  },
+  "level-2/07-indexing-query-patterns": {
+   "questions": [
+    {
+     "q": "What does a database index trade?",
+     "options": [
+      "Writes",
+      "Faster reads for slower writes and more storage",
+      "Both faster",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Index what you query."
+    },
+    {
+     "q": "What does a composite index (a, b) serve well?",
+     "options": [
+      "Any column",
+      "Queries filtering on a, or on a and b (the leftmost prefix)",
+      "None",
+      "Only b"
+     ],
+     "answer": 1,
+     "explain": "Order matters."
+    },
+    {
+     "q": "Why can LIKE '%term' not use a normal B-tree index?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Law",
+      "The leading wildcard prevents prefix lookups"
+     ],
+     "answer": 3,
+     "explain": "Use full-text or trigram indexes."
+    },
+    {
+     "q": "What is a covering index?",
+     "options": [
+      "A view",
+      "A primary key",
+      "A unique key",
+      "An index containing all columns a query needs, avoiding table lookups"
+     ],
+     "answer": 3,
+     "explain": "Faster reads."
+    }
+   ]
+  },
+  "level-2/08-cache-invalidation": {
+   "questions": [
+    {
+     "q": "What makes cache invalidation hard?",
+     "options": [
+      "Memory",
+      "Speed",
+      "Cost",
+      "Knowing when cached data is stale across many readers and writers"
+     ],
+     "answer": 3,
+     "explain": "Prefer TTLs plus explicit invalidation on writes."
+    },
+    {
+     "q": "What is write-through caching?",
+     "options": [
+      "Cache-aside",
+      "No cache",
+      "Write-behind",
+      "Writes go to the cache and the database together so the cache stays fresh"
+     ],
+     "answer": 3,
+     "explain": "Costs write latency."
+    },
+    {
+     "q": "What is a cache stampede and a fix?",
+     "options": [
+      "A bug",
+      "Many requests miss at once on a hot key; use single-flight locking or jittered TTLs",
+      "Cost",
+      "A crash"
+     ],
+     "answer": 1,
+     "explain": "Protect the database."
+    },
+    {
+     "q": "What does versioned keys give you?",
+     "options": [
+      "Encryption",
+      "Invalidation by changing the version so old entries are never read",
+      "Speed",
+      "Locks"
+     ],
+     "answer": 1,
+     "explain": "Old entries expire naturally."
+    }
+   ]
+  },
+  "level-2/09-object-storage": {
+   "questions": [
+    {
+     "q": "What is object storage good for?",
+     "options": [
+      "Large, immutable blobs such as images and backups, with high durability and cheap capacity",
+      "Joins",
+      "Transactions",
+      "Low-latency updates"
+     ],
+     "answer": 0,
+     "explain": "Examples: S3, GCS."
+    },
+    {
+     "q": "How do clients upload large files safely?",
+     "options": [
+      "Through app servers",
+      "Email",
+      "Direct to storage with pre-signed URLs and multipart uploads",
+      "FTP"
+     ],
+     "answer": 2,
+     "explain": "Keeps the app tier light."
+    },
+    {
+     "q": "A 5 GB file is uploaded in 100 MB parts. How many parts?\n```python\nimport math\nprint(math.ceil(5_000/100))\n```\n",
+     "options": [
+      "5",
+      "500",
+      "100",
+      "50"
+     ],
+     "answer": 3,
+     "explain": "Parts can be retried independently. Verified by running it."
+    },
+    {
+     "q": "Why store metadata in a database and bytes in object storage?",
+     "options": [
+      "Style",
+      "Law",
+      "Each system does what it is best at, and queries stay fast",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Keep a key reference."
+    }
+   ]
+  },
+  "level-2/10-project-news-feed": {
+   "questions": [
+    {
+     "q": "What is fan-out on write for a news feed?",
+     "options": [
+      "Sharding",
+      "Reading",
+      "Pushing a new post into followers' feeds at write time for fast reads",
+      "Caching"
+     ],
+     "answer": 2,
+     "explain": "Costly for users with many followers."
+    },
+    {
+     "q": "What is fan-out on read?",
+     "options": [
+      "Caches",
+      "Building a feed at read time by merging followed users' posts",
+      "Indexes",
+      "Writes"
+     ],
+     "answer": 1,
+     "explain": "Slower reads, cheaper writes."
+    },
+    {
+     "q": "How are celebrity accounts typically handled?",
+     "options": [
+      "A hybrid: push for normal users and pull for accounts with huge follower counts",
+      "Push all",
+      "Pull all",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Avoid write amplification."
+    },
+    {
+     "q": "A user with 2 million followers posts; fan-out on write creates how many feed entries?\n```python\nprint(2_000_000)\n```\n",
+     "options": [
+      "200000",
+      "20000",
+      "2000000",
+      "1"
+     ],
+     "answer": 2,
+     "explain": "That write amplification is why hybrids exist. Verified by running it."
+    }
+   ]
+  },
+  "level-3/01-consensus-raft": {
+   "questions": [
+    {
+     "q": "What problem does consensus solve?",
+     "options": [
+      "Caching",
+      "Sorting",
+      "Routing",
+      "Getting a group of nodes to agree on a value or log order despite failures"
+     ],
+     "answer": 3,
+     "explain": "Raft and Paxos."
+    },
+    {
+     "q": "A 5-node Raft cluster needs how many nodes for a majority?\n```python\nprint(5//2+1)\n```\n",
+     "options": [
+      "3",
+      "4",
+      "2",
+      "5"
+     ],
+     "answer": 0,
+     "explain": "It tolerates 2 failures. Verified by running it."
+    },
+    {
+     "q": "What does a Raft leader do?",
+     "options": [
+      "Elections only",
+      "Accepts writes and replicates log entries to followers, committing when a majority has them",
+      "Reads only",
+      "Stores backups"
+     ],
+     "answer": 1,
+     "explain": "Followers redirect clients."
+    },
+    {
+     "q": "Why use an odd number of nodes?",
+     "options": [
+      "Even counts tolerate no more failures than the next lower odd count",
+      "Speed",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "4 nodes tolerate 1, like 3."
+    }
+   ]
+  },
+  "level-3/02-distributed-transactions-sagas": {
+   "questions": [
+    {
+     "q": "Why are distributed transactions hard?",
+     "options": [
+      "Speed",
+      "Cost",
+      "Partial failures and network delays make atomic commit across services costly and blocking",
+      "Syntax"
+     ],
+     "answer": 2,
+     "explain": "Avoid when possible."
+    },
+    {
+     "q": "What is a saga?",
+     "options": [
+      "A queue",
+      "A DB lock",
+      "A cache",
+      "A sequence of local transactions with compensating actions to undo earlier steps on failure"
+     ],
+     "answer": 3,
+     "explain": "Eventual consistency across services."
+    },
+    {
+     "q": "What is a compensating action for 'charge card'?",
+     "options": [
+      "Delete DB",
+      "Refund the charge",
+      "Ignore",
+      "Retry"
+     ],
+     "answer": 1,
+     "explain": "It must itself be idempotent."
+    },
+    {
+     "q": "What is two-phase commit's main drawback?",
+     "options": [
+      "Coordinator failure can block participants holding locks",
+      "Cost",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Sagas avoid the lock holding."
+    }
+   ]
+  },
+  "level-3/03-idempotency-exactly-once": {
+   "questions": [
+    {
+     "q": "What does idempotent mean for an API?",
+     "options": [
+      "Cached",
+      "Fast",
+      "Secure",
+      "Repeating the same request has the same effect as sending it once"
+     ],
+     "answer": 3,
+     "explain": "PUT and DELETE are idempotent by definition."
+    },
+    {
+     "q": "How do you make a payment POST safe to retry?",
+     "options": [
+      "Locks",
+      "Timestamps",
+      "Require an idempotency key and store the result per key",
+      "Retry blindly"
+     ],
+     "answer": 2,
+     "explain": "The server returns the stored response."
+    },
+    {
+     "q": "A handler processes messages at-least-once. If message ids [1,2,2,3,1] arrive and duplicates are ignored, how many are processed?\n```python\nseen=set(); n=0\nfor i in [1,2,2,3,1]:\n    if i not in seen:\n        seen.add(i); n+=1\nprint(n)\n```\n",
+     "options": [
+      "3",
+      "5",
+      "4",
+      "2"
+     ],
+     "answer": 0,
+     "explain": "Deduplicate by a stable id. Verified by running it."
+    },
+    {
+     "q": "How is 'exactly once' usually achieved in practice?",
+     "options": [
+      "Retries",
+      "Magic",
+      "Locks",
+      "At-least-once delivery plus idempotent processing"
+     ],
+     "answer": 3,
+     "explain": "Effectively-once."
+    }
+   ]
+  },
+  "level-3/04-event-driven-cdc": {
+   "questions": [
+    {
+     "q": "What does change data capture (CDC) do?",
+     "options": [
+      "Locking",
+      "Streams database changes (from the log) to other systems",
+      "Backups",
+      "Caching"
+     ],
+     "answer": 1,
+     "explain": "Debezium reads the write-ahead log."
+    },
+    {
+     "q": "What is the outbox pattern?",
+     "options": [
+      "Writing the event to an outbox table in the same transaction as the state, then publishing it reliably",
+      "Cache",
+      "Email",
+      "Queues"
+     ],
+     "answer": 0,
+     "explain": "Avoids dual-write inconsistencies."
+    },
+    {
+     "q": "What is event sourcing?",
+     "options": [
+      "Logging",
+      "CRUD",
+      "Caching",
+      "Storing a sequence of events as the source of truth and deriving state by replay"
+     ],
+     "answer": 3,
+     "explain": "Gives audit and replay."
+    },
+    {
+     "q": "What is a downside of event-driven designs?",
+     "options": [
+      "Harder reasoning about ordering, duplicates and eventual consistency",
+      "Speed",
+      "None",
+      "Cost only"
+     ],
+     "answer": 0,
+     "explain": "Invest in observability."
+    }
+   ]
+  },
+  "level-3/05-search-systems": {
+   "questions": [
+    {
+     "q": "What data structure powers full-text search?",
+     "options": [
+      "An inverted index mapping terms to the documents containing them",
+      "Hash",
+      "B-tree only",
+      "Queue"
+     ],
+     "answer": 0,
+     "explain": "Built by Lucene, Elasticsearch."
+    },
+    {
+     "q": "Posting lists: 'cat' -> docs {1,2,4}, 'dog' -> docs {2,3,4}. Which docs match 'cat AND dog'?\n```python\nprint(sorted({1,2,4} & {2,3,4}))\n```\n",
+     "options": [
+      "[1, 2, 3, 4]",
+      "[2, 4]",
+      "[1, 3]",
+      "[2]"
+     ],
+     "answer": 1,
+     "explain": "AND intersects posting lists. Verified by running it."
+    },
+    {
+     "q": "Why keep search indexes separate from the primary database?",
+     "options": [
+      "Different access patterns, scaling and eventual consistency via CDC",
+      "Colour",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Search is a derived view."
+    },
+    {
+     "q": "What does ranking (e.g. BM25) do?",
+     "options": [
+      "Stores",
+      "Filters",
+      "Orders matching documents by relevance",
+      "Compresses"
+     ],
+     "answer": 2,
+     "explain": "Beyond simple matching."
+    }
+   ]
+  },
+  "level-3/06-real-time-systems": {
+   "questions": [
+    {
+     "q": "Which protocol suits server push to browsers?",
+     "options": [
+      "WebSockets (or Server-Sent Events for one-way streams)",
+      "SMTP",
+      "FTP",
+      "DNS"
+     ],
+     "answer": 0,
+     "explain": "Persistent connections."
+    },
+    {
+     "q": "What is a challenge of WebSocket scale?",
+     "options": [
+      "Law",
+      "Colour",
+      "Speed",
+      "Holding many long-lived connections, so state and routing need a shared pub/sub backbone"
+     ],
+     "answer": 3,
+     "explain": "Sticky routing and presence."
+    },
+    {
+     "q": "What does long polling do?",
+     "options": [
+      "Streams",
+      "Polls fast",
+      "Pushes",
+      "The client holds a request open until the server has data, then reconnects"
+     ],
+     "answer": 3,
+     "explain": "Simpler fallback."
+    },
+    {
+     "q": "What is a presence system?",
+     "options": [
+      "A cache",
+      "Tracking which users are online, typically with heartbeats and TTLs",
+      "A DB",
+      "A log"
+     ],
+     "answer": 1,
+     "explain": "Expire entries on missed heartbeats."
+    }
+   ]
+  },
+  "level-3/07-observability": {
+   "questions": [
+    {
+     "q": "What are the three pillars of observability?",
+     "options": [
+      "Metrics, logs and traces",
+      "Alerts, pages, tickets",
+      "CPU, RAM, disk",
+      "Dev, test, prod"
+     ],
+     "answer": 0,
+     "explain": "Each answers different questions."
+    },
+    {
+     "q": "A service has an SLO of 99.9% over 30 days. How many minutes of error budget is that? (rounded)\n```python\nprint(round(30*24*60*0.001))\n```\n",
+     "options": [
+      "4",
+      "43",
+      "526",
+      "432"
+     ],
+     "answer": 1,
+     "explain": "43,200 minutes x 0.1% = 43.2. Verified by running it."
+    },
+    {
+     "q": "What are the golden signals?",
+     "options": [
+      "Disk",
+      "Latency, traffic, errors and saturation",
+      "CPU",
+      "RAM"
+     ],
+     "answer": 1,
+     "explain": "Start dashboards there."
+    },
+    {
+     "q": "Why alert on symptoms rather than causes?",
+     "options": [
+      "Symptoms indicate user impact and reduce noise",
+      "Law",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Causes go on dashboards."
+    }
+   ]
+  },
+  "level-3/08-reliability-patterns": {
+   "questions": [
+    {
+     "q": "What is a circuit breaker?",
+     "options": [
+      "A retry",
+      "Stops calling a failing dependency for a while so it can recover and callers fail fast",
+      "A fuse",
+      "A cache"
+     ],
+     "answer": 1,
+     "explain": "Protects resources."
+    },
+    {
+     "q": "Exponential backoff starting at 100 ms doubling each retry: what is the wait before the 4th retry (ms)?\n```python\nprint(100*2**3)\n```\n",
+     "options": [
+      "400",
+      "800",
+      "1600",
+      "300"
+     ],
+     "answer": 1,
+     "explain": "100, 200, 400, 800. Verified by running it."
+    },
+    {
+     "q": "Why add jitter to retries?",
+     "options": [
+      "Colour",
+      "So clients do not retry in lockstep and overload a recovering service",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Random spread."
+    },
+    {
+     "q": "What is a bulkhead?",
+     "options": [
+      "Isolating resources so one failing component cannot exhaust everything",
+      "A queue",
+      "A cache",
+      "A wall"
+     ],
+     "answer": 0,
+     "explain": "Separate thread pools or pools per dependency."
+    }
+   ]
+  },
+  "level-3/09-multi-tenant-hot-keys": {
+   "questions": [
+    {
+     "q": "What is the noisy neighbour problem?",
+     "options": [
+      "Bug",
+      "Cache",
+      "Network",
+      "One tenant consuming shared resources and degrading others"
+     ],
+     "answer": 3,
+     "explain": "Use quotas and isolation."
+    },
+    {
+     "q": "What is a hot key?",
+     "options": [
+      "A secret",
+      "A fast key",
+      "A new key",
+      "A key receiving disproportionate traffic that overloads one node"
+     ],
+     "answer": 3,
+     "explain": "Mitigate with replication or key splitting."
+    },
+    {
+     "q": "How can you mitigate a hot cache key?",
+     "options": [
+      "Replicate it across nodes or add a short local cache in front",
+      "Longer TTL only",
+      "Ignore",
+      "Delete"
+     ],
+     "answer": 0,
+     "explain": "Split with random suffixes."
+    },
+    {
+     "q": "How do you isolate tenants?",
+     "options": [
+      "Logs",
+      "Passwords",
+      "Hope",
+      "Quotas, rate limits and, for large tenants, dedicated resources"
+     ],
+     "answer": 3,
+     "explain": "Fairness and security."
+    }
+   ]
+  },
+  "level-3/10-project-chat-system": {
+   "questions": [
+    {
+     "q": "What storage and flow does a chat system need for message history?",
+     "options": [
+      "A cache only",
+      "A queue only",
+      "A file",
+      "A durable, ordered store partitioned by conversation plus a push channel for live delivery"
+     ],
+     "answer": 3,
+     "explain": "Cassandra-style stores fit well."
+    },
+    {
+     "q": "How do you order messages in a conversation?",
+     "options": [
+      "Client time",
+      "Hash",
+      "Random",
+      "A per-conversation sequence number assigned by the server"
+     ],
+     "answer": 3,
+     "explain": "Clocks disagree."
+    },
+    {
+     "q": "How do offline users get messages?",
+     "options": [
+      "Lost",
+      "SMS only",
+      "Email",
+      "From stored history on reconnect, with push notifications as a nudge"
+     ],
+     "answer": 3,
+     "explain": "Track delivery and read receipts."
+    },
+    {
+     "q": "1 million active users send 40 messages/day each of 200 bytes. How many GB per day of raw message data? (10^9)\n```python\nprint(1_000_000*40*200/1e9)\n```\n",
+     "options": [
+      "8.0",
+      "80.0",
+      "0.8",
+      "800.0"
+     ],
+     "answer": 0,
+     "explain": "Plus metadata and replication. Verified by running it."
+    }
+   ]
+  },
+  "level-4/01-case-video-streaming": {
+   "questions": [
+    {
+     "q": "What does a video streaming pipeline do before delivery?",
+     "options": [
+      "Deletes",
+      "Encrypts only",
+      "Transcodes into multiple bitrates and segments for adaptive streaming",
+      "Compresses text"
+     ],
+     "answer": 2,
+     "explain": "HLS and DASH."
+    },
+    {
+     "q": "What is adaptive bitrate streaming?",
+     "options": [
+      "Download",
+      "Buffer",
+      "Fixed",
+      "The player switches quality per segment based on bandwidth"
+     ],
+     "answer": 3,
+     "explain": "Smooth playback."
+    },
+    {
+     "q": "Why does a CDN matter most for video?",
+     "options": [
+      "Colour",
+      "Bandwidth is huge and latency-sensitive; edges serve the bulk of traffic",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Reduces origin cost."
+    },
+    {
+     "q": "What is the biggest cost driver of a streaming service?",
+     "options": [
+      "CPU",
+      "Code",
+      "Egress bandwidth and storage, so efficiency and peering matter",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Optimise encoding."
+    }
+   ]
+  },
+  "level-4/02-case-ride-hailing": {
+   "questions": [
+    {
+     "q": "What does geospatial indexing (geohash, quadtree, S2) do?",
+     "options": [
+      "Sorts names",
+      "Caches",
+      "Encrypts",
+      "Maps locations to cells so nearby searches are efficient"
+     ],
+     "answer": 3,
+     "explain": "Find drivers near a rider."
+    },
+    {
+     "q": "How are driver locations updated at scale?",
+     "options": [
+      "SQL writes",
+      "Frequent lightweight updates into an in-memory geo store, with short TTLs",
+      "Files",
+      "Email"
+     ],
+     "answer": 1,
+     "explain": "Redis GEO is common."
+    },
+    {
+     "q": "What is a trade-off in matching riders and drivers?",
+     "options": [
+      "Cost",
+      "Law",
+      "Optimal global matching versus fast local greedy matching",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Latency matters."
+    },
+    {
+     "q": "How do you handle a surge of requests in one area?",
+     "options": [
+      "Ignore",
+      "Crash",
+      "Shard by region, rate limit and apply dynamic pricing as demand control",
+      "Queue forever"
+     ],
+     "answer": 2,
+     "explain": "Demand shaping."
+    }
+   ]
+  },
+  "level-4/03-case-distributed-file-storage": {
+   "questions": [
+    {
+     "q": "How are large files stored in a distributed file system?",
+     "options": [
+      "A DB row",
+      "One node",
+      "Split into chunks replicated across nodes, with a metadata service tracking locations",
+      "One file"
+     ],
+     "answer": 2,
+     "explain": "Like GFS/HDFS."
+    },
+    {
+     "q": "A 1 GB file in 64 MB chunks needs how many chunks? (round up, 1 GB = 1024 MB)\n```python\nimport math\nprint(math.ceil(1024/64))\n```\n",
+     "options": [
+      "32",
+      "8",
+      "64",
+      "16"
+     ],
+     "answer": 3,
+     "explain": "Each chunk is replicated, commonly 3 times. Verified by running it."
+    },
+    {
+     "q": "Why is the metadata service a bottleneck risk?",
+     "options": [
+      "Law",
+      "Colour",
+      "All lookups go through it, so it needs replication, caching and partitioning",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Keep it small and fast."
+    },
+    {
+     "q": "What is deduplication?",
+     "options": [
+      "Sharding",
+      "Compression",
+      "Encryption",
+      "Storing identical chunks once, referenced by content hash"
+     ],
+     "answer": 3,
+     "explain": "Saves space."
+    }
+   ]
+  },
+  "level-4/04-case-payment-system": {
+   "questions": [
+    {
+     "q": "What is the most important property of a payment system?",
+     "options": [
+      "Features",
+      "Looks",
+      "Speed",
+      "Correctness and consistency of money movement, including idempotency and auditability"
+     ],
+     "answer": 3,
+     "explain": "Never lose or double-charge."
+    },
+    {
+     "q": "Why use a double-entry ledger?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Every transaction records equal debits and credits, making errors detectable",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Immutable entries."
+    },
+    {
+     "q": "What does reconciliation do?",
+     "options": [
+      "Compares internal records with external provider statements to find mismatches",
+      "Caches",
+      "Refunds",
+      "Encrypts"
+     ],
+     "answer": 0,
+     "explain": "Run daily."
+    },
+    {
+     "q": "Why is the idempotency key essential for payment APIs?",
+     "options": [
+      "Colour",
+      "Law",
+      "Retries after timeouts must not charge twice",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Store key to result."
+    }
+   ]
+  },
+  "level-4/05-multi-region-dr": {
+   "questions": [
+    {
+     "q": "What is the difference between multi-AZ and multi-region?",
+     "options": [
+      "AZ bigger",
+      "Multi-AZ protects against a data centre failure; multi-region protects against regional failure",
+      "Same",
+      "Region smaller"
+     ],
+     "answer": 1,
+     "explain": "Region adds latency and cost."
+    },
+    {
+     "q": "What are RPO and RTO?",
+     "options": [
+      "Acceptable data loss and acceptable time to recover",
+      "Speeds",
+      "Sizes",
+      "Costs"
+     ],
+     "answer": 0,
+     "explain": "Drive the DR strategy."
+    },
+    {
+     "q": "Which DR strategy has the fastest recovery at highest cost?",
+     "options": [
+      "Active-active across regions",
+      "Cold",
+      "Pilot light",
+      "Backup/restore"
+     ],
+     "answer": 0,
+     "explain": "Warm standby is in between."
+    },
+    {
+     "q": "Why test failover regularly?",
+     "options": [
+      "Untested recovery plans fail when needed",
+      "Colour",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Game days."
+    }
+   ]
+  },
+  "level-4/06-cost-aware-design": {
+   "questions": [
+    {
+     "q": "A service runs 20 instances at $0.10/hour. What is the monthly cost (30 days)?\n```python\nprint(20*0.10*24*30)\n```\n",
+     "options": [
+      "14400.0",
+      "720.0",
+      "144.0",
+      "1440.0"
+     ],
+     "answer": 3,
+     "explain": "Rightsize and use autoscaling. Verified by running it."
+    },
+    {
+     "q": "Which saves most for steady baseline load?",
+     "options": [
+      "Larger instances",
+      "Spot only",
+      "Reserved or committed-use capacity",
+      "On-demand"
+     ],
+     "answer": 2,
+     "explain": "Use spot for tolerant jobs."
+    },
+    {
+     "q": "What hidden cost surprises teams?",
+     "options": [
+      "Cross-AZ and egress data transfer",
+      "RAM",
+      "CPU",
+      "Disk"
+     ],
+     "answer": 0,
+     "explain": "Design for locality."
+    },
+    {
+     "q": "What is cost-aware design?",
+     "options": [
+      "After launch",
+      "Making cost a design constraint and measuring it per feature or request",
+      "Cheapest always",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Tag and attribute."
+    }
+   ]
+  },
+  "level-4/07-security-architecture": {
+   "questions": [
+    {
+     "q": "What is defence in depth?",
+     "options": [
+      "Encryption only",
+      "Layered controls so one failure does not expose everything",
+      "One firewall",
+      "Passwords"
+     ],
+     "answer": 1,
+     "explain": "Network, identity, data."
+    },
+    {
+     "q": "What does least privilege mean?",
+     "options": [
+      "All",
+      "Admin",
+      "None",
+      "Granting only the permissions needed"
+     ],
+     "answer": 3,
+     "explain": "Scope service accounts."
+    },
+    {
+     "q": "Where do you terminate TLS?",
+     "options": [
+      "Nowhere",
+      "DB",
+      "Client",
+      "At the edge and re-encrypt internally for sensitive systems (mTLS)"
+     ],
+     "answer": 3,
+     "explain": "Encrypt in transit."
+    },
+    {
+     "q": "What belongs in a threat model?",
+     "options": [
+      "Costs",
+      "Colours",
+      "Logos",
+      "Assets, entry points, attackers and mitigations"
+     ],
+     "answer": 3,
+     "explain": "STRIDE is one aid."
+    }
+   ]
+  },
+  "level-4/08-interview-framework": {
+   "questions": [
+    {
+     "q": "What is a good order for a design interview?",
+     "options": [
+      "Requirements, estimates, API and data model, high-level design, deep dives, trade-offs",
+      "Database first",
+      "Diagram first",
+      "Code first"
+     ],
+     "answer": 0,
+     "explain": "Show structured thinking."
+    },
+    {
+     "q": "What do interviewers look for?",
+     "options": [
+      "Clarifying questions, trade-off reasoning and handling of scale and failure",
+      "Jargon",
+      "Memorised answers",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Justify choices."
+    },
+    {
+     "q": "What should you do when requirements are ambiguous?",
+     "options": [
+      "Guess silently",
+      "Stall",
+      "Ask and state assumptions explicitly",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Narrow scope."
+    },
+    {
+     "q": "Why discuss failure modes?",
+     "options": [
+      "Style",
+      "Real systems fail; resilience is part of the design",
+      "Colour",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Mention monitoring."
+    }
+   ]
+  },
+  "level-4/09-design-reviews-tradeoffs": {
+   "questions": [
+    {
+     "q": "What is an ADR?",
+     "options": [
+      "A diagram",
+      "A ticket",
+      "An architecture decision record capturing context, decision and consequences",
+      "A test"
+     ],
+     "answer": 2,
+     "explain": "Keep a trail."
+    },
+    {
+     "q": "How should a design review be run?",
+     "options": [
+      "Slides only",
+      "Share the doc early, focus on risks and trade-offs and record decisions",
+      "Opinions",
+      "Surprise meeting"
+     ],
+     "answer": 1,
+     "explain": "Blameless and constructive."
+    },
+    {
+     "q": "What is a good way to compare options?",
+     "options": [
+      "Gut",
+      "A table of criteria (cost, risk, complexity, fit) with weights or notes",
+      "Vote",
+      "Fashion"
+     ],
+     "answer": 1,
+     "explain": "Make trade-offs visible."
+    },
+    {
+     "q": "What does reversibility mean for decisions?",
+     "options": [
+      "Speed",
+      "Prefer choices that are cheap to change and take care over one-way doors",
+      "Cost",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Two-way vs one-way doors."
+    }
+   ]
+  },
+  "level-4/10-capstone-design-doc": {
+   "questions": [
+    {
+     "q": "What belongs in a design doc?",
+     "options": [
+      "Only diagrams",
+      "Code",
+      "Context, goals and non-goals, design, alternatives, risks and rollout plan",
+      "Only text"
+     ],
+     "answer": 2,
+     "explain": "Write for reviewers."
+    },
+    {
+     "q": "Why include non-goals?",
+     "options": [
+      "Style",
+      "They limit scope and prevent misunderstandings",
+      "Law",
+      "Colour"
+     ],
+     "answer": 1,
+     "explain": "Be explicit."
+    },
+    {
+     "q": "Why include a rollout and rollback plan?",
+     "options": [
+      "Law",
+      "Style",
+      "Colour",
+      "Changes can fail; recovery must be planned"
+     ],
+     "answer": 3,
+     "explain": "Feature flags and canaries."
+    },
+    {
+     "q": "How do you show a design works?",
+     "options": [
+      "Diagrams only",
+      "Capacity estimates, failure analysis and a plan to measure with SLOs",
+      "Opinions",
+      "Claims"
+     ],
+     "answer": 1,
+     "explain": "Evidence over assertion."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this estimate print for peak QPS and daily storage?\n```python\nreqs=200_000_000\navg=reqs/86_400\npeak=avg*4\nstore_gb=reqs*0.5/1e6\nprint(round(avg), round(peak), store_gb)\n```\n",
+    "options": [
+     "2315 2315 100.0",
+     "2315 9259 1000.0",
+     "23148 92593 100.0",
+     "2315 9259 100.0"
+    ],
+    "answer": 3,
+    "explain": "Average QPS is requests over 86,400 seconds; peak uses a multiplier; 0.5 KB per request is 100 GB per day. Verified by running it."
+   },
+   {
+    "q": "A cache with a 95% hit rate has 1 ms hits and 40 ms misses. What is the mean read time (ms)?\n```python\nprint(0.95*1+0.05*40)\n```\n",
+    "options": [
+     "1.0",
+     "2.95",
+     "20.5",
+     "40.0"
+    ],
+    "answer": 1,
+    "explain": "Hit rate dominates average latency. Verified by running it."
+   },
+   {
+    "q": "With N=5 replicas, which (W, R) pairs guarantee read-after-write overlap (R + W > N)?\n```python\nN=5\nprint([(w,r) for w in range(1,6) for r in range(1,6) if r+w>N and w==3])\n```\n",
+    "options": [
+     "[(3, 3)]",
+     "[(3, 3), (3, 4), (3, 5)]",
+     "[(1, 1), (2, 2)]",
+     "[(3, 1), (3, 2)]"
+    ],
+    "answer": 1,
+    "explain": "With W=3 any R of at least 3 overlaps every write quorum. Verified by running it."
+   },
+   {
+    "q": "Hash-modulo sharding from 4 to 5 shards moves what fraction of keys 0..999?\n```python\nprint(sum(1 for k in range(1000) if k%4!=k%5)/1000)\n```\n",
+    "options": [
+     "0.2",
+     "0.8",
+     "0.5",
+     "0.05"
+    ],
+    "answer": 1,
+    "explain": "Modulo resharding remaps most keys; consistent hashing moves about 1/N. Verified by running it."
+   },
+   {
+    "q": "A 3-node Raft cluster has one node down. Can it still commit writes?\n```python\nnodes,down=3,1\nprint(nodes-down >= nodes//2+1)\n```\n",
+    "options": [
+     "True",
+     "None",
+     "Only reads",
+     "False"
+    ],
+    "answer": 0,
+    "explain": "Two of three is a majority. Verified by running it."
+   },
+   {
+    "q": "A service sees double charges after client timeouts and retries. What is the fix?",
+    "options": [
+     "Require an idempotency key and return the stored result for repeated keys",
+     "Disable retries",
+     "Increase the timeout only",
+     "Add a cache"
+    ],
+    "answer": 0,
+    "explain": "Retries must be safe."
+   },
+   {
+    "q": "Which pattern keeps a database write and an event publish consistent without distributed transactions?",
+    "options": [
+     "Publish first",
+     "The outbox: write the event in the same local transaction and publish it from there",
+     "Hope",
+     "Write twice"
+    ],
+    "answer": 1,
+    "explain": "CDC or a relay publishes the outbox."
+   },
+   {
+    "q": "Why do hot keys matter in sharded caches?",
+    "options": [
+     "One node absorbs disproportionate traffic and becomes a bottleneck",
+     "Speed",
+     "Law",
+     "Cost"
+    ],
+    "answer": 0,
+    "explain": "Replicate or split the key."
+   },
+   {
+    "q": "What is the right response to a thundering herd on an expired hot key?",
+    "options": [
+     "Disable caching",
+     "Add a server",
+     "Longer database timeout",
+     "Single-flight rebuilds with jittered TTLs so only one request recomputes"
+    ],
+    "answer": 3,
+    "explain": "Protect the database."
+   },
+   {
+    "q": "When does a queue between services help most?",
+    "options": [
+     "To remove retries",
+     "To absorb bursts and decouple speeds, accepting asynchronous results",
+     "To avoid idempotency",
+     "For synchronous reads"
+    ],
+    "answer": 1,
+    "explain": "Monitor lag."
+   },
+   {
+    "q": "Why prefer cursor pagination over offset for large feeds?",
+    "options": [
+     "Offsets get slow with depth and shift when rows are inserted; cursors are stable",
+     "Smaller",
+     "Required",
+     "Shorter"
+    ],
+    "answer": 0,
+    "explain": "Use an indexed ordering key."
+   },
+   {
+    "q": "Which consistency does a CP system sacrifice during a partition?",
+    "options": [
+     "Availability: the minority side stops accepting writes",
+     "Durability",
+     "Latency only",
+     "Consistency"
+    ],
+    "answer": 0,
+    "explain": "CAP."
+   },
+   {
+    "q": "What does PACELC add to CAP?",
+    "options": [
+     "Security",
+     "Cost",
+     "Even without partitions you trade latency against consistency",
+     "Nothing"
+    ],
+    "answer": 2,
+    "explain": "Else-case trade-off."
+   },
+   {
+    "q": "What is the main benefit of virtual nodes in consistent hashing?",
+    "options": [
+     "More even load and smoother rebalancing",
+     "Fewer nodes",
+     "Encryption",
+     "Speed only"
+    ],
+    "answer": 0,
+    "explain": "The challenge shows the ratio improving."
+   },
+   {
+    "q": "A sliding-window limiter stops a boundary burst that a fixed window allows. What is the cost?",
+    "options": [
+     "None",
+     "Law",
+     "More memory and work per client to track timestamps (or approximations)",
+     "Less accuracy"
+    ],
+    "answer": 2,
+    "explain": "Token buckets are cheaper and allow controlled bursts."
+   },
+   {
+    "q": "How do you decide between fan-out on write and on read?",
+    "options": [
+     "Always push",
+     "Always pull",
+     "Random",
+     "By follower distribution: push for typical users, pull for celebrities (hybrid)"
+    ],
+    "answer": 3,
+    "explain": "Avoid write amplification."
+   },
+   {
+    "q": "What does an SLO error budget let you do?",
+    "options": [
+     "Trade reliability against change velocity with an explicit allowance for failures",
+     "Stop deploys always",
+     "Hide errors",
+     "Skip tests"
+    ],
+    "answer": 0,
+    "explain": "Spend it deliberately."
+   },
+   {
+    "q": "Which belongs in every design doc besides the design itself?",
+    "options": [
+     "Marketing",
+     "Goals and non-goals, alternatives considered, risks and a rollout/rollback plan",
+     "Code",
+     "Salaries"
+    ],
+    "answer": 1,
+    "explain": "Make decisions reviewable."
+   },
+   {
+    "q": "What is the weakest justification for a technology choice in a design review?",
+    "options": [
+     "Cost analysis",
+     "Measured fit",
+     "Operational maturity",
+     "It is popular or what we already know without evidence it fits the requirements"
+    ],
+    "answer": 3,
+    "explain": "Tie choices to requirements."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A consistent-hash ring with virtual nodes",
+    "prompt": "Implement a consistent-hashing ring (bisect over sorted virtual-node points) and use it to show how load balance improves with more virtual nodes, that adding a node moves only about 1/N of the keys (all to the new node) and that removing a node leaves nothing behind. This is a self-contained Python model of the idea used by distributed caches and Dynamo-style stores.",
+    "starter": "import bisect, hashlib\n\ndef h(s):\n    return int(hashlib.md5(s.encode()).hexdigest(), 16)\n\n# TODO: class Ring(nodes=(), vnodes=100)\n#   add(node) / remove(node): place `vnodes` points per node at h(f\"{node}#{i}\") on a sorted list (use bisect.insort), remember each point's owner\n#   lookup(key): the owner of the first point clockwise from h(key) (wrap around with % len)\n\nkeys = [f\"user:{i}\" for i in range(10_000)]\n\ndef spread(ring):\n    counts = {}\n    for k in keys:\n        n = ring.lookup(k)\n        counts[n] = counts.get(n, 0) + 1\n    return counts\n\nring = Ring([\"a\", \"b\", \"c\", \"d\"])\nbefore = {k: ring.lookup(k) for k in keys}\nc = spread(ring)\nprint(\"spread:\", {n: c[n] for n in sorted(c)})\nfor vn in (5, 100, 2000):\n    cc = spread(Ring([\"a\", \"b\", \"c\", \"d\"], vnodes=vn))\n    print(f\"vnodes={vn:4} max/min load ratio = {max(cc.values()) / min(cc.values()):.2f}\")\n\nring.add(\"e\")\nmoved = sum(1 for k in keys if ring.lookup(k) != before[k])\nprint(\"moved after adding e:\", round(100 * moved / len(keys)), \"% (ideal 20%)\")\nonly_to_new = all(ring.lookup(k) == \"e\" for k in keys if ring.lookup(k) != before[k])\nprint(\"every moved key went to the new node:\", only_to_new)\n\nmodulo_moved = sum(1 for k in keys if h(k) % 4 != h(k) % 5)\nprint(\"modulo hashing 4->5 would move:\", round(100 * modulo_moved / len(keys)), \"%\")\n\nring.remove(\"b\")\nafter_remove = {k: ring.lookup(k) for k in keys}\nprint(\"keys left on removed node:\", sum(1 for v in after_remove.values() if v == \"b\"))\n",
+    "expected": "spread: {'a': 2207, 'b': 2911, 'c': 2726, 'd': 2156}\nvnodes=   5 max/min load ratio = 2.74\nvnodes= 100 max/min load ratio = 1.35\nvnodes=2000 max/min load ratio = 1.09\nmoved after adding e: 21 % (ideal 20%)\nevery moved key went to the new node: True\nmodulo hashing 4->5 would move: 80 %\nkeys left on removed node: 0",
+    "solution": "import bisect, hashlib\n\ndef h(s):\n    return int(hashlib.md5(s.encode()).hexdigest(), 16)\n\nclass Ring:\n    def __init__(self, nodes=(), vnodes=100):\n        self.vnodes, self.keys, self.owner = vnodes, [], {}\n        for n in nodes:\n            self.add(n)\n\n    def add(self, node):\n        for i in range(self.vnodes):\n            p = h(f\"{node}#{i}\")\n            bisect.insort(self.keys, p)\n            self.owner[p] = node\n\n    def remove(self, node):\n        for i in range(self.vnodes):\n            p = h(f\"{node}#{i}\")\n            self.keys.remove(p)\n            del self.owner[p]\n\n    def lookup(self, key):\n        i = bisect.bisect(self.keys, h(key)) % len(self.keys)\n        return self.owner[self.keys[i]]\n\nkeys = [f\"user:{i}\" for i in range(10_000)]\n\ndef spread(ring):\n    counts = {}\n    for k in keys:\n        n = ring.lookup(k)\n        counts[n] = counts.get(n, 0) + 1\n    return counts\n\nring = Ring([\"a\", \"b\", \"c\", \"d\"])\nbefore = {k: ring.lookup(k) for k in keys}\nc = spread(ring)\nprint(\"spread:\", {n: c[n] for n in sorted(c)})\nfor vn in (5, 100, 2000):\n    cc = spread(Ring([\"a\", \"b\", \"c\", \"d\"], vnodes=vn))\n    print(f\"vnodes={vn:4} max/min load ratio = {max(cc.values()) / min(cc.values()):.2f}\")\n\nring.add(\"e\")\nmoved = sum(1 for k in keys if ring.lookup(k) != before[k])\nprint(\"moved after adding e:\", round(100 * moved / len(keys)), \"% (ideal 20%)\")\nonly_to_new = all(ring.lookup(k) == \"e\" for k in keys if ring.lookup(k) != before[k])\nprint(\"every moved key went to the new node:\", only_to_new)\n\nmodulo_moved = sum(1 for k in keys if h(k) % 4 != h(k) % 5)\nprint(\"modulo hashing 4->5 would move:\", round(100 * modulo_moved / len(keys)), \"%\")\n\nring.remove(\"b\")\nafter_remove = {k: ring.lookup(k) for k in keys}\nprint(\"keys left on removed node:\", sum(1 for v in after_remove.values() if v == \"b\"))\n",
+    "explain": "Each node owns many points on the ring; a key belongs to the first point clockwise from its hash. Adding a node only takes keys from neighbours, unlike modulo hashing which remaps about 80% of keys when going from 4 to 5 nodes. More virtual nodes smooth the load. Verified by running the solution (MD5 is deterministic, so the numbers are reproducible)."
+   },
+   {
+    "title": "Rate limiters compared on a boundary burst",
+    "prompt": "Implement fixed-window, sliding-window and token-bucket limiters with an explicit clock argument and compare them on a burst straddling a window boundary and on steady and heavy clients. This is a deterministic simulation, not a distributed limiter; production versions keep the counters in a shared store such as Redis.",
+    "starter": "# TODO: FixedWindow(limit, window).allow(t)   counter that resets at each window boundary (start = t - t % window)\n# TODO: TokenBucket(capacity, rate).allow(t)   refill (t - last) * rate tokens up to capacity, spend 1 per request\n# TODO: SlidingWindow(limit, window).allow(t)  keep timestamps newer than t - window; allow if fewer than limit\n\n# 10 requests per second allowed; a burst of 10 just before a window boundary and 10 right after\nburst = [0.90 + i * 0.005 for i in range(10)] + [1.00 + i * 0.005 for i in range(10)]\nfor name, lim in [(\"fixed window\", FixedWindow(10, 1.0)), (\"sliding window\", SlidingWindow(10, 1.0)), (\"token bucket\", TokenBucket(10, 10.0))]:\n    ok = sum(lim.allow(t) for t in burst)\n    print(f\"{name:15} allowed {ok} of {len(burst)}\")\n\n# steady 5 req/s for 4 seconds is fine for everyone; a client hammering 50 req/s is limited\nsteady = [i * 0.2 for i in range(20)]\nheavy = [i * 0.02 for i in range(200)]\nfor name, make in [(\"fixed window\", lambda: FixedWindow(10, 1.0)), (\"token bucket\", lambda: TokenBucket(10, 10.0))]:\n    print(f\"{name:15} steady {sum(make().allow(t) for t in steady)}/20  heavy {sum((lambda l: [l.allow(t) for t in heavy])(make()))}/200\")\n",
+    "expected": "fixed window    allowed 20 of 20\nsliding window  allowed 10 of 20\ntoken bucket    allowed 11 of 20\nfixed window    steady 20/20  heavy 40/200\ntoken bucket    steady 20/20  heavy 49/200",
+    "solution": "class FixedWindow:\n    def __init__(self, limit, window):\n        self.limit, self.window, self.start, self.count = limit, window, 0, 0\n\n    def allow(self, t):\n        if t - self.start >= self.window:\n            self.start, self.count = t - (t % self.window), 0\n        if self.count < self.limit:\n            self.count += 1\n            return True\n        return False\n\nclass TokenBucket:\n    def __init__(self, capacity, rate):\n        self.capacity, self.rate, self.tokens, self.last = capacity, rate, capacity, 0.0\n\n    def allow(self, t):\n        self.tokens = min(self.capacity, self.tokens + (t - self.last) * self.rate)\n        self.last = t\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\n\nclass SlidingWindow:\n    def __init__(self, limit, window):\n        self.limit, self.window, self.hits = limit, window, []\n\n    def allow(self, t):\n        self.hits = [x for x in self.hits if t - x < self.window]\n        if len(self.hits) < self.limit:\n            self.hits.append(t)\n            return True\n        return False\n\n# 10 requests per second allowed; a burst of 10 just before a window boundary and 10 right after\nburst = [0.90 + i * 0.005 for i in range(10)] + [1.00 + i * 0.005 for i in range(10)]\nfor name, lim in [(\"fixed window\", FixedWindow(10, 1.0)), (\"sliding window\", SlidingWindow(10, 1.0)), (\"token bucket\", TokenBucket(10, 10.0))]:\n    ok = sum(lim.allow(t) for t in burst)\n    print(f\"{name:15} allowed {ok} of {len(burst)}\")\n\n# steady 5 req/s for 4 seconds is fine for everyone; a client hammering 50 req/s is limited\nsteady = [i * 0.2 for i in range(20)]\nheavy = [i * 0.02 for i in range(200)]\nfor name, make in [(\"fixed window\", lambda: FixedWindow(10, 1.0)), (\"token bucket\", lambda: TokenBucket(10, 10.0))]:\n    print(f\"{name:15} steady {sum(make().allow(t) for t in steady)}/20  heavy {sum((lambda l: [l.allow(t) for t in heavy])(make()))}/200\")\n",
+    "explain": "The fixed window lets 20 requests through in 0.1 seconds because the counter resets at the boundary, the sliding window enforces the true rate, and the token bucket allows a controlled burst (11 here: the full bucket plus a little refill). Verified by running the solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
