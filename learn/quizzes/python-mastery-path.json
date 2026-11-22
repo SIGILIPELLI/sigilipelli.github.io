@@ -506,6 +506,1785 @@
     "solution": "import statistics\nscores = [70, 85, 90, 65, 85]\nprint(f\"mean={statistics.mean(scores)} median={statistics.median(scores)}\")",
     "explain": "The standard library ships ready-made tools; statistics.mean and statistics.median avoid writing the maths yourself."
    }
+  },
+  "level-1/10-project-todo-app": {
+   "questions": [
+    {
+     "q": "What does this todo-list logic print?\n```python\ntodos=[{'id':1,'title':'a','done':False},{'id':2,'title':'b','done':False}]\ndef complete(i):\n    for t in todos:\n        if t['id']==i:\n            t['done']=True; return True\n    return False\nprint(complete(2), complete(9), [t['title'] for t in todos if not t['done']])\n```\n",
+     "options": [
+      "True False ['a']",
+      "True True ['a']",
+      "False False ['a', 'b']",
+      "True False ['b']"
+     ],
+     "answer": 0,
+     "explain": "The function returns False for an unknown id and mutates the matching dict. Verified by running it."
+    },
+    {
+     "q": "What does saving and loading JSON round-trip give?\n```python\nimport json,tempfile,os\np=os.path.join(tempfile.mkdtemp(),'t.json')\njson.dump([{'id':1,'title':'x','done':True}],open(p,'w'))\nprint(json.load(open(p)))\n```\n",
+     "options": [
+      "{'id': 1}",
+      "[{'id': 1, 'title': 'x', 'done': True}]",
+      "[{'id': 1, 'title': 'x', 'done': 'True'}]",
+      "[]"
+     ],
+     "answer": 1,
+     "explain": "JSON preserves booleans, strings and numbers. Verified by running it."
+    },
+    {
+     "q": "How should the todo app handle a missing data file on first run?",
+     "options": [
+      "Ignore",
+      "Create a random file",
+      "Crash",
+      "Treat it as an empty list rather than crashing (catch FileNotFoundError)"
+     ],
+     "answer": 3,
+     "explain": "Handle the first-run case gracefully."
+    },
+    {
+     "q": "Why keep storage code separate from the command-line parsing?",
+     "options": [
+      "Speed",
+      "Python requires it",
+      "So each part can be tested and changed independently",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Separation of concerns."
+    }
+   ]
+  },
+  "level-2/01-oop": {
+   "questions": [
+    {
+     "q": "What does this class print?\n```python\nclass Animal:\n    def __init__(self,name): self.name=name\n    def speak(self): return f'{self.name} makes a sound'\nclass Dog(Animal):\n    def speak(self): return super().speak()+' - woof'\nd=Dog('Rex')\nprint(d.speak(), isinstance(d,Animal), Dog.__mro__[1].__name__)\n```\n",
+     "options": [
+      "Rex - woof True Animal",
+      "Rex makes a sound - woof False Dog",
+      "Rex makes a sound - woof True Animal",
+      "Rex makes a sound True Animal"
+     ],
+     "answer": 2,
+     "explain": "super() calls the parent method; Dog is an Animal. Verified by running it."
+    },
+    {
+     "q": "What do class and instance attributes do here?\n```python\nclass C:\n    count=0\n    def __init__(self): C.count+=1; self.id=C.count\na,b=C(),C()\nprint(C.count,a.id,b.id)\na.count=99\nprint(C.count,a.count,b.count)\n```\n",
+     "options": [
+      "1 1 1\n2 99 2",
+      "2 1 2\n2 99 2",
+      "2 1 2\n2 2 2",
+      "2 1 2\n99 99 99"
+     ],
+     "answer": 1,
+     "explain": "Assigning through an instance creates an instance attribute and shadows the class attribute. Verified by running it."
+    },
+    {
+     "q": "What does a dataclass generate?\n```python\nfrom dataclasses import dataclass\n@dataclass(order=True)\nclass P:\n    x:int\n    y:int=0\nprint(P(1,2), P(1,2)==P(1,2), P(1)<P(2))\n```\n",
+     "options": [
+      "P(x=1, y=2) True True",
+      "P(1,2) True False",
+      "<P object> True True",
+      "P(x=1, y=2) False True"
+     ],
+     "answer": 0,
+     "explain": "@dataclass adds __init__, __repr__, __eq__ and (with order=True) comparisons. Verified by running it."
+    },
+    {
+     "q": "What is the purpose of __repr__?",
+     "options": [
+      "Copying",
+      "Hashing",
+      "User-friendly text only",
+      "An unambiguous string representation for developers (used by the REPL and debugging)"
+     ],
+     "answer": 3,
+     "explain": "__str__ is for display."
+    }
+   ]
+  },
+  "level-2/02-comprehensions-generators": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nsq=[x*x for x in range(6) if x%2==0]\nd={w:len(w) for w in ['a','bb','ccc']}\ns={x%3 for x in range(10)}\ng=(x for x in range(3))\nprint(sq,d,sorted(s),next(g),next(g),list(g))\n```\n",
+     "options": [
+      "[0, 1, 4] {'a': 1, 'bb': 2, 'ccc': 3} [0, 1, 2] 0 1 [2]",
+      "[0, 4, 16] {'a': 1} [0, 1, 2] 0 1 [2]",
+      "[0, 4, 16] {'a': 1, 'bb': 2, 'ccc': 3} [0, 1, 2] 0 1 [0, 1, 2]",
+      "[0, 4, 16] {'a': 1, 'bb': 2, 'ccc': 3} [0, 1, 2] 0 1 [2]"
+     ],
+     "answer": 3,
+     "explain": "A generator is consumed as you iterate it. Verified by running it."
+    },
+    {
+     "q": "What is the memory difference between a list and a generator?\n```python\nimport sys\nprint(sys.getsizeof([i for i in range(1000)])>sys.getsizeof((i for i in range(1000))))\n```\n",
+     "options": [
+      "True",
+      "None",
+      "False",
+      "1000"
+     ],
+     "answer": 0,
+     "explain": "A generator expression stores no items, only its state. Verified by running it."
+    },
+    {
+     "q": "What does this generator function produce?\n```python\ndef fib(n):\n    a,b=0,1\n    for _ in range(n):\n        yield a\n        a,b=b,a+b\nprint(list(fib(8)), sum(fib(10)))\n```\n",
+     "options": [
+      "[0, 1, 1, 2, 3, 5, 8, 13] 143",
+      "[1, 1, 2, 3, 5, 8, 13, 21] 88",
+      "[0, 1, 1, 2, 3, 5, 8, 13] 88",
+      "[0, 1, 2, 3, 5, 8, 13, 21] 88"
+     ],
+     "answer": 2,
+     "explain": "yield pauses the function and resumes on the next request. Verified by running it."
+    },
+    {
+     "q": "When should you prefer a comprehension to a loop?",
+     "options": [
+      "For simple transform/filter that builds a collection; use a loop when logic is complex",
+      "Always",
+      "Never",
+      "Only for lists"
+     ],
+     "answer": 0,
+     "explain": "Readability first."
+    }
+   ]
+  },
+  "level-2/03-functional-programming": {
+   "questions": [
+    {
+     "q": "What does this functional pipeline print?\n```python\nfrom functools import reduce, partial\nnums=[1,2,3,4,5]\nprint(list(map(lambda x:x*2,nums)), list(filter(lambda x:x%2,nums)), reduce(lambda a,b:a*b,nums), partial(pow,2)(10))\n```\n",
+     "options": [
+      "[2, 4, 6, 8, 10] [1, 3, 5] 120 1024",
+      "[1, 4, 9, 16, 25] [1, 3, 5] 120 1024",
+      "[2, 4, 6, 8, 10] [2, 4] 120 1024",
+      "[2, 4, 6, 8, 10] [1, 3, 5] 15 1024"
+     ],
+     "answer": 0,
+     "explain": "map transforms, filter selects, reduce folds, partial fixes arguments. Verified by running it."
+    },
+    {
+     "q": "What does sorted with a key function do?\n```python\nwords=['pear','fig','banana','kiwi']\nprint(sorted(words,key=len), sorted(words,key=lambda w:(-len(w),w)))\n```\n",
+     "options": [
+      "['fig', 'pear', 'kiwi', 'banana'] ['banana', 'pear', 'kiwi', 'fig']",
+      "['banana', 'pear', 'kiwi', 'fig'] ['fig', 'pear', 'kiwi', 'banana']",
+      "['fig', 'kiwi', 'pear', 'banana'] ['banana', 'kiwi', 'pear', 'fig']",
+      "['fig', 'pear', 'kiwi', 'banana'] ['banana', 'kiwi', 'pear', 'fig']"
+     ],
+     "answer": 3,
+     "explain": "The sort is stable, so equal keys keep their original order; a tuple key adds tie-breaks. Verified by running it."
+    },
+    {
+     "q": "What is a closure here?\n```python\ndef counter():\n    n=0\n    def inc():\n        nonlocal n\n        n+=1\n        return n\n    return inc\na=counter(); b=counter()\nprint(a(),a(),b())\n```\n",
+     "options": [
+      "1 2 3",
+      "2 3 1",
+      "1 1 1",
+      "1 2 1"
+     ],
+     "answer": 3,
+     "explain": "Each call to counter() creates its own enclosed variable. Verified by running it."
+    },
+    {
+     "q": "What makes a function 'pure'?",
+     "options": [
+      "It is short",
+      "It has no arguments",
+      "Same inputs always give the same output with no side effects",
+      "It is fast"
+     ],
+     "answer": 2,
+     "explain": "Pure functions are easy to test."
+    }
+   ]
+  },
+  "level-2/04-exceptions-context-managers": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\nclass AppError(Exception): pass\nclass NotFound(AppError):\n    def __init__(self,key): super().__init__(f'missing {key}'); self.key=key\ntry:\n    raise NotFound('x')\nexcept AppError as e:\n    print(type(e).__name__, e, e.key)\nfinally:\n    print('cleanup')\n```\n",
+     "options": [
+      "NotFound missing x x",
+      "NotFound x x\ncleanup",
+      "AppError missing x x\ncleanup",
+      "NotFound missing x x\ncleanup"
+     ],
+     "answer": 3,
+     "explain": "Catching the base class catches subclasses; finally always runs. Verified by running it."
+    },
+    {
+     "q": "What does a context manager do on error?\n```python\nfrom contextlib import contextmanager\nlog=[]\n@contextmanager\ndef res(n):\n    log.append('open '+n)\n    try: yield n\n    finally: log.append('close '+n)\ntry:\n    with res('a'):\n        raise ValueError('boom')\nexcept ValueError: pass\nprint(log)\n```\n",
+     "options": [
+      "[]",
+      "['open a', 'close a']",
+      "['close a']",
+      "['open a']"
+     ],
+     "answer": 1,
+     "explain": "The finally block of a context manager runs even when the body raises. Verified by running it."
+    },
+    {
+     "q": "What does raise ... from do?\n```python\ntry:\n    try: int('x')\n    except ValueError as e: raise RuntimeError('bad config') from e\nexcept RuntimeError as r:\n    print(type(r.__cause__).__name__)\n```\n",
+     "options": [
+      "None",
+      "TypeError",
+      "ValueError",
+      "RuntimeError"
+     ],
+     "answer": 2,
+     "explain": "The original exception is kept as __cause__. Verified by running it."
+    },
+    {
+     "q": "Why define custom exception classes?",
+     "options": [
+      "Speed",
+      "Law",
+      "Colour",
+      "Callers can catch specific failures and the names document what can go wrong"
+     ],
+     "answer": 3,
+     "explain": "Inherit from Exception, not BaseException."
+    }
+   ]
+  },
+  "level-2/05-data-formats": {
+   "questions": [
+    {
+     "q": "What does csv.DictReader give you?\n```python\nimport csv,io\nr=csv.DictReader(io.StringIO('name,age\\nAda,36\\nGrace,85\\n'))\nrows=list(r)\nprint(rows[0], int(rows[1]['age'])+1)\n```\n",
+     "options": [
+      "{'name': 'Ada', 'age': '36'} 851",
+      "{'name': 'Ada', 'age': '36'} 86",
+      "['Ada', '36'] 86",
+      "{'name': 'Ada', 'age': 36} 86"
+     ],
+     "answer": 1,
+     "explain": "CSV values are strings, so convert numbers yourself. Verified by running it."
+    },
+    {
+     "q": "What does a JSON round trip do to a tuple and non-string keys?\n```python\nimport json\nd={'t':(1,2),'n':None,'ok':True,1:'one'}\ns=json.dumps(d)\nprint(s, json.loads(s))\n```\n",
+     "options": [
+      "error",
+      "{\"t\": (1, 2)} {'t': (1, 2)}",
+      "{\"t\": [1, 2]} {'t': [1, 2]}",
+      "{\"t\": [1, 2], \"n\": null, \"ok\": true, \"1\": \"one\"} {'t': [1, 2], 'n': None, 'ok': True, '1': 'one'}"
+     ],
+     "answer": 3,
+     "explain": "JSON has no tuples and only string keys. Verified by running it."
+    },
+    {
+     "q": "How do you parse XML with the standard library?\n```python\nimport xml.etree.ElementTree as ET\nroot=ET.fromstring('<users><u id=\"1\">Ada</u><u id=\"2\">Bo</u></users>')\nprint([(u.get('id'),u.text) for u in root.findall('u')])\n```\n",
+     "options": [
+      "[('Ada', '1'), ('Bo', '2')]",
+      "[('u', 'Ada')]",
+      "['Ada', 'Bo']",
+      "[('1', 'Ada'), ('2', 'Bo')]"
+     ],
+     "answer": 3,
+     "explain": "Attributes use .get; element text uses .text. Verified by running it."
+    },
+    {
+     "q": "Why open CSV files with newline='' in Python?",
+     "options": [
+      "Encoding",
+      "Speed",
+      "So the csv module handles line endings correctly, including newlines inside quoted fields",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Documented requirement."
+    }
+   ]
+  },
+  "level-2/06-regular-expressions": {
+   "questions": [
+    {
+     "q": "What do these regex calls return?\n```python\nimport re\ns='user=42 and user=7'\nprint(re.findall(r'user=(\\d+)',s), re.search(r'user=(\\d+)',s).span(), re.sub(r'\\d+','#',s))\n```\n",
+     "options": [
+      "['42', '7'] (0, 8) user=# and user=#",
+      "['42'] (0, 7) user=# and user=#",
+      "['42', '7'] (0, 7) user=# and user=#",
+      "['user=42', 'user=7'] (0, 7) user=# and user=#"
+     ],
+     "answer": 2,
+     "explain": "findall returns the groups; search returns the first match object. Verified by running it."
+    },
+    {
+     "q": "What does a named group give you?\n```python\nimport re\nm=re.match(r'(?P<y>\\d{4})-(?P<m>\\d{2})-(?P<d>\\d{2})','2026-03-05')\nprint(m.groupdict(), m['y'])\n```\n",
+     "options": [
+      "None 2026",
+      "{'y': 2026} 2026",
+      "{'y': '2026', 'm': '03', 'd': '05'} 2026",
+      "('2026', '03', '05') 2026"
+     ],
+     "answer": 2,
+     "explain": "Named groups read like dictionary keys. Verified by running it."
+    },
+    {
+     "q": "What is the difference between greedy and lazy?\n```python\nimport re\ns='<a><b>'\nprint(re.findall(r'<.+>',s), re.findall(r'<.+?>',s))\n```\n",
+     "options": [
+      "['<a>', '<b>'] ['<a><b>']",
+      "[] []",
+      "['<a>'] ['<b>']",
+      "['<a><b>'] ['<a>', '<b>']"
+     ],
+     "answer": 3,
+     "explain": "Greedy matches as much as possible; ? makes it lazy. Verified by running it."
+    },
+    {
+     "q": "When should you NOT use a regex?",
+     "options": [
+      "For logs",
+      "For emails",
+      "For digits",
+      "For nested or recursive structures like HTML; use a real parser"
+     ],
+     "answer": 3,
+     "explain": "Regexes are for regular patterns."
+    }
+   ]
+  },
+  "level-2/07-dates-times": {
+   "questions": [
+    {
+     "q": "What does this date arithmetic print?\n```python\nfrom datetime import date, datetime, timedelta\nd=date(2026,1,31)\nprint(d+timedelta(days=30), (date(2026,3,1)-date(2026,2,1)).days, d.strftime('%a %d %b %Y'), date.fromisoformat('2026-03-05').isoweekday())\n```\n",
+     "options": [
+      "2026-03-01 28 Sat 31 Jan 2026 4",
+      "2026-03-02 28 Sat 31 Jan 2026 4",
+      "2026-03-02 28 Sat 31 Jan 2026 3",
+      "2026-03-02 31 Sat 31 Jan 2026 4"
+     ],
+     "answer": 1,
+     "explain": "Subtracting dates gives a timedelta; isoweekday is 1=Monday. Verified by running it."
+    },
+    {
+     "q": "What is the difference between naive and aware datetimes?\n```python\nfrom datetime import datetime, timezone, timedelta\na=datetime(2026,1,1,12,tzinfo=timezone.utc)\nb=a.astimezone(timezone(timedelta(hours=5,minutes=30)))\nprint(b.isoformat(), a==b)\n```\n",
+     "options": [
+      "2026-01-01T17:30:00 True",
+      "2026-01-01T17:30:00+05:30 True",
+      "2026-01-01T17:30:00+05:30 False",
+      "2026-01-01T12:00:00+05:30 True"
+     ],
+     "answer": 1,
+     "explain": "Aware datetimes compare as the same instant across time zones. Verified by running it."
+    },
+    {
+     "q": "What does zoneinfo handle that fixed offsets cannot?\n```python\nfrom zoneinfo import ZoneInfo\nfrom datetime import datetime\nny=ZoneInfo('America/New_York')\nw=datetime(2026,1,15,12,tzinfo=ny); s=datetime(2026,7,15,12,tzinfo=ny)\nprint(w.utcoffset(), s.utcoffset())\n```\n",
+     "options": [
+      "-1 day, 20:00:00 -1 day, 19:00:00",
+      "0:00:00 0:00:00",
+      "-1 day, 19:00:00 -1 day, 20:00:00",
+      "-1 day, 19:00:00 -1 day, 19:00:00"
+     ],
+     "answer": 2,
+     "explain": "Daylight saving changes the offset; named zones know the rules. Verified by running it."
+    },
+    {
+     "q": "What is a safe way to store timestamps?",
+     "options": [
+      "Local time",
+      "As UTC (ISO 8601 or epoch), converting to local time only for display",
+      "Strings",
+      "Naive"
+     ],
+     "answer": 1,
+     "explain": "Avoids DST bugs."
+    }
+   ]
+  },
+  "level-2/08-venvs-dependencies": {
+   "questions": [
+    {
+     "q": "What does a virtual environment isolate?",
+     "options": [
+      "Network",
+      "Installed packages (and the Python interpreter link) per project, preventing version conflicts",
+      "The OS",
+      "Your code"
+     ],
+     "answer": 1,
+     "explain": "python -m venv .venv."
+    },
+    {
+     "q": "What does pip freeze > requirements.txt capture?",
+     "options": [
+      "The exact versions of all installed packages so others can reproduce the environment",
+      "Only top-level",
+      "Python version",
+      "Source code"
+     ],
+     "answer": 0,
+     "explain": "Pin versions for reproducibility."
+    },
+    {
+     "q": "Why not install project dependencies globally?",
+     "options": [
+      "Colour",
+      "Law",
+      "Different projects need different versions and global installs can break system tools",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Use a venv per project."
+    },
+    {
+     "q": "Which interpreter path does a venv use? (prefix differs from base_prefix inside one)\n```python\nimport sys\nprint(sys.prefix==sys.base_prefix)\n```\n",
+     "options": [
+      "venv",
+      "None",
+      "False",
+      "True"
+     ],
+     "answer": 3,
+     "explain": "Outside a venv they are the same; in a venv sys.prefix points at the environment. Verified by running it."
+    }
+   ]
+  },
+  "level-2/09-testing-basics": {
+   "questions": [
+    {
+     "q": "What does this pytest-style test logic show?\n```python\ndef add(a,b): return a+b\ndef test_add():\n    assert add(2,3)==5\ndef test_negative():\n    assert add(-1,1)==0\nfor t in (test_add,test_negative):\n    t()\nprint('passed')\n```\n",
+     "options": [
+      "None",
+      "passed",
+      "error",
+      "failed"
+     ],
+     "answer": 1,
+     "explain": "A test is a function with assertions; pytest finds and runs it. Verified by running it."
+    },
+    {
+     "q": "What does pytest.approx-style comparison avoid?\n```python\nprint(0.1+0.2==0.3, abs((0.1+0.2)-0.3)<1e-9)\n```\n",
+     "options": [
+      "True False",
+      "True True",
+      "False False",
+      "False True"
+     ],
+     "answer": 3,
+     "explain": "Compare floats with a tolerance. Verified by running it."
+    },
+    {
+     "q": "What does a fixture-like setup/teardown look like with a generator?\n```python\nlog=[]\ndef fixture():\n    log.append('setup'); yield 'db'; log.append('teardown')\nf=fixture(); v=next(f)\nlog.append('use '+v)\ntry: next(f)\nexcept StopIteration: pass\nprint(log)\n```\n",
+     "options": [
+      "['setup', 'teardown', 'use db']",
+      "['use db']",
+      "['setup', 'use db', 'teardown']",
+      "['setup', 'use db']"
+     ],
+     "answer": 2,
+     "explain": "pytest fixtures with yield run teardown after the test. Verified by running it."
+    },
+    {
+     "q": "What makes a test good?",
+     "options": [
+      "Long",
+      "Shared state",
+      "Random",
+      "Fast, isolated, deterministic and named for the behaviour it checks"
+     ],
+     "answer": 3,
+     "explain": "One behaviour per test."
+    }
+   ]
+  },
+  "level-2/10-project-weather-cli": {
+   "questions": [
+    {
+     "q": "What does this safe parsing of an API response do?\n```python\ndata={'main':{'temp':21.456},'name':'Oslo'}\ndef summary(d):\n    try: return f\"{d['name']}: {d['main']['temp']:.1f}C\"\n    except KeyError as e: return f'missing {e.args[0]}'\nprint(summary(data), summary({'name':'X'}))\n```\n",
+     "options": [
+      "Oslo: 21.456C missing main",
+      "Oslo: 21C missing main",
+      "Oslo: 21.5C missing main",
+      "Oslo: 21.5C None"
+     ],
+     "answer": 2,
+     "explain": "Handle missing keys explicitly and format output. Verified by running it."
+    },
+    {
+     "q": "How should the CLI handle a failed request?\n```python\ndef fetch(ok):\n    if not ok: raise ConnectionError('offline')\n    return 'data'\nfor ok in (True,False):\n    try: print(fetch(ok))\n    except ConnectionError as e: print('error:',e)\n```\n",
+     "options": [
+      "data",
+      "error: offline\ndata",
+      "data\ndata",
+      "data\nerror: offline"
+     ],
+     "answer": 3,
+     "explain": "Catch specific errors and show a friendly message. Verified by running it."
+    },
+    {
+     "q": "Where should the API key come from?",
+     "options": [
+      "The README",
+      "Hard-coded",
+      "An environment variable or config file kept out of version control",
+      "A comment"
+     ],
+     "answer": 2,
+     "explain": "Never commit secrets."
+    },
+    {
+     "q": "How do you test the client without the network?",
+     "options": [
+      "Delay",
+      "Inject or mock the HTTP layer and feed canned responses",
+      "Skip",
+      "Call the API"
+     ],
+     "answer": 1,
+     "explain": "Deterministic tests."
+    }
+   ]
+  },
+  "level-3/01-advanced-oop": {
+   "questions": [
+    {
+     "q": "What does this ABC enforce?\n```python\nfrom abc import ABC, abstractmethod\nclass Shape(ABC):\n    @abstractmethod\n    def area(self): ...\nclass Sq(Shape):\n    def __init__(s,a): s.a=a\n    def area(s): return s.a**2\ntry: Shape()\nexcept TypeError as e: print('abstract')\nprint(Sq(3).area())\n```\n",
+     "options": [
+      "abstract\nabstract",
+      "error\n9",
+      "9\n9",
+      "abstract\n9"
+     ],
+     "answer": 3,
+     "explain": "Abstract classes can't be instantiated until all abstract methods are implemented. Verified by running it."
+    },
+    {
+     "q": "What does __slots__ change?\n```python\nclass P:\n    __slots__=('x','y')\n    def __init__(s): s.x=1; s.y=2\np=P()\ntry: p.z=3\nexcept AttributeError: print('no dynamic attrs')\nprint(hasattr(p,'__dict__'))\n```\n",
+     "options": [
+      "ok\nFalse",
+      "no dynamic attrs\nFalse",
+      "ok\nTrue",
+      "no dynamic attrs\nTrue"
+     ],
+     "answer": 1,
+     "explain": "__slots__ removes the per-instance dict, saving memory and blocking new attributes. Verified by running it."
+    },
+    {
+     "q": "How does a property validate on set?\n```python\nclass T:\n    def __init__(s): s._c=0\n    @property\n    def c(s): return s._c\n    @c.setter\n    def c(s,v):\n        if v<-273.15: raise ValueError('too cold')\n        s._c=v\nt=T(); t.c=20\ntry: t.c=-300\nexcept ValueError as e: print(e)\nprint(t.c)\n```\n",
+     "options": [
+      "too cold\n-300",
+      "error\n20",
+      "20\n20",
+      "too cold\n20"
+     ],
+     "answer": 3,
+     "explain": "Properties let you add validation without changing the interface. Verified by running it."
+    },
+    {
+     "q": "What is the MRO?",
+     "options": [
+      "A module",
+      "The method resolution order: the order Python searches classes for an attribute (C3 linearisation)",
+      "A type",
+      "A decorator"
+     ],
+     "answer": 1,
+     "explain": "Check Class.__mro__."
+    }
+   ]
+  },
+  "level-3/02-iterators-generators-coroutines": {
+   "questions": [
+    {
+     "q": "What does a custom iterator do?\n```python\nclass Count:\n    def __init__(s,n): s.n=n; s.i=0\n    def __iter__(s): return s\n    def __next__(s):\n        if s.i>=s.n: raise StopIteration\n        s.i+=1; return s.i\nprint(list(Count(3)), sum(Count(4)))\n```\n",
+     "options": [
+      "[0, 1, 2] 10",
+      "[1, 2, 3, 4] 10",
+      "[1, 2, 3] 6",
+      "[1, 2, 3] 10"
+     ],
+     "answer": 3,
+     "explain": "An iterator implements __iter__ and __next__ and signals the end with StopIteration. Verified by running it."
+    },
+    {
+     "q": "What does send() do on a generator coroutine?\n```python\ndef acc():\n    total=0\n    while True:\n        x=yield total\n        total+=x\ng=acc(); next(g)\nprint(g.send(5), g.send(10))\n```\n",
+     "options": [
+      "15 15",
+      "5 15",
+      "5 10",
+      "0 15"
+     ],
+     "answer": 1,
+     "explain": "send resumes the generator with a value that becomes the result of yield. Verified by running it."
+    },
+    {
+     "q": "What does yield from do?\n```python\ndef inner():\n    yield 1; yield 2\n    return 'done'\ndef outer():\n    r=yield from inner()\n    yield r\nprint(list(outer()))\n```\n",
+     "options": [
+      "[1, 2]",
+      "['done']",
+      "[1, 2, 'done']",
+      "[1, 2, None]"
+     ],
+     "answer": 2,
+     "explain": "yield from delegates to a sub-generator and returns its return value. Verified by running it."
+    },
+    {
+     "q": "Why are generators good for large files?",
+     "options": [
+      "Speed",
+      "They stream items one at a time so memory use stays small",
+      "Colour",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Process line by line."
+    }
+   ]
+  },
+  "level-3/03-decorators-descriptors": {
+   "questions": [
+    {
+     "q": "What does this decorator with arguments do?\n```python\nimport functools\ndef repeat(n):\n    def deco(f):\n        @functools.wraps(f)\n        def w(*a,**k):\n            return [f(*a,**k) for _ in range(n)]\n        return w\n    return deco\n@repeat(3)\ndef hi(name): 'greet'; return f'hi {name}'\nprint(hi('a'), hi.__name__)\n```\n",
+     "options": [
+      "['hi a'] w",
+      "['hi a', 'hi a', 'hi a'] hi",
+      "['hi a', 'hi a', 'hi a'] w",
+      "hi a hi"
+     ],
+     "answer": 1,
+     "explain": "functools.wraps preserves the wrapped function's name and docstring. Verified by running it."
+    },
+    {
+     "q": "What does a descriptor do?\n```python\nclass Positive:\n    def __set_name__(s,o,n): s.n='_'+n\n    def __get__(s,o,t=None): return getattr(o,s.n)\n    def __set__(s,o,v):\n        if v<=0: raise ValueError('must be positive')\n        setattr(o,s.n,v)\nclass Item:\n    qty=Positive()\n    def __init__(s,q): s.qty=q\ni=Item(3)\ntry: i.qty=-1\nexcept ValueError as e: print(e)\nprint(i.qty)\n```\n",
+     "options": [
+      "must be positive\n-1",
+      "3\n3",
+      "must be positive\n3",
+      "error\n3"
+     ],
+     "answer": 2,
+     "explain": "Descriptors customise attribute access and are reusable across classes. Verified by running it."
+    },
+    {
+     "q": "What does lru_cache do here?\n```python\nfrom functools import lru_cache\ncalls=0\n@lru_cache(maxsize=None)\ndef f(n):\n    global calls; calls+=1\n    return n*n\nf(3);f(3);f(4)\nprint(calls, f.cache_info().hits)\n```\n",
+     "options": [
+      "2 2",
+      "3 0",
+      "1 1",
+      "2 1"
+     ],
+     "answer": 3,
+     "explain": "Repeated calls with the same arguments are served from the cache. Verified by running it."
+    },
+    {
+     "q": "What is a decorator, in one sentence?",
+     "options": [
+      "A class only",
+      "A comment",
+      "A callable that takes a function and returns a (usually wrapped) replacement",
+      "A loop"
+     ],
+     "answer": 2,
+     "explain": "@deco is sugar for f = deco(f)."
+    }
+   ]
+  },
+  "level-3/04-concurrency-threading-multiprocessing": {
+   "questions": [
+    {
+     "q": "What does the GIL limit in CPython?",
+     "options": [
+      "I/O",
+      "Processes",
+      "Memory",
+      "Only one thread executes Python bytecode at a time, so threads do not speed up CPU-bound pure-Python code"
+     ],
+     "answer": 3,
+     "explain": "Use multiprocessing for CPU-bound work."
+    },
+    {
+     "q": "What does a lock protect here? (the result is deterministic with the lock)\n```python\nimport threading\nn=0; lock=threading.Lock()\ndef work():\n    global n\n    for _ in range(10000):\n        with lock: n+=1\nts=[threading.Thread(target=work) for _ in range(4)]\n[t.start() for t in ts]; [t.join() for t in ts]\nprint(n)\n```\n",
+     "options": [
+      "10000",
+      "39999",
+      "40000",
+      "0"
+     ],
+     "answer": 2,
+     "explain": "The lock makes the read-modify-write atomic. Verified by running it."
+    },
+    {
+     "q": "What does ThreadPoolExecutor.map return?\n```python\nfrom concurrent.futures import ThreadPoolExecutor\nimport time\ndef slow(x): time.sleep(0.05); return x*2\nwith ThreadPoolExecutor(4) as ex:\n    print(list(ex.map(slow,[1,2,3,4])))\n```\n",
+     "options": [
+      "[2]",
+      "[1, 2, 3, 4]",
+      "[2, 4, 6, 8]",
+      "[4, 2, 8, 6]"
+     ],
+     "answer": 2,
+     "explain": "map preserves input order even though tasks run concurrently. Verified by running it."
+    },
+    {
+     "q": "Which is better for many slow network calls: threads or processes?",
+     "options": [
+      "Loops",
+      "Processes",
+      "Neither",
+      "Threads (or asyncio), because the work is I/O-bound and releases the GIL while waiting"
+     ],
+     "answer": 3,
+     "explain": "Processes are for CPU-bound work."
+    }
+   ]
+  },
+  "level-3/05-concurrency-asyncio": {
+   "questions": [
+    {
+     "q": "What does asyncio.gather do here?\n```python\nimport asyncio,time\nasync def job(n):\n    await asyncio.sleep(0.2); return n\nasync def main():\n    t=time.perf_counter()\n    r=await asyncio.gather(job(1),job(2),job(3))\n    print(r, time.perf_counter()-t<0.5)\nasyncio.run(main())\n```\n",
+     "options": [
+      "[1, 2, 3] False",
+      "[3, 2, 1] True",
+      "[1, 2, 3] True",
+      "[1] True"
+     ],
+     "answer": 2,
+     "explain": "The three sleeps overlap, so total time is about one sleep, and results keep argument order. Verified by running it."
+    },
+    {
+     "q": "What does a timeout look like?\n```python\nimport asyncio\nasync def slow(): await asyncio.sleep(1)\nasync def main():\n    try: await asyncio.wait_for(slow(),0.05)\n    except asyncio.TimeoutError: print('timeout')\nasyncio.run(main())\n```\n",
+     "options": [
+      "None",
+      "timeout",
+      "done",
+      "error"
+     ],
+     "answer": 1,
+     "explain": "wait_for cancels the awaitable and raises TimeoutError. Verified by running it."
+    },
+    {
+     "q": "What does a semaphore limit?\n```python\nimport asyncio\ncur=0; peak=0\nsem=asyncio.Semaphore(2)\nasync def w():\n    global cur,peak\n    async with sem:\n        cur+=1; peak=max(peak,cur)\n        await asyncio.sleep(0.02)\n        cur-=1\nasync def main(): await asyncio.gather(*[w() for _ in range(6)])\nasyncio.run(main())\nprint(peak)\n```\n",
+     "options": [
+      "1",
+      "0",
+      "6",
+      "2"
+     ],
+     "answer": 3,
+     "explain": "A semaphore caps how many tasks run a section at once. Verified by running it."
+    },
+    {
+     "q": "What blocks the event loop?",
+     "options": [
+      "await",
+      "async def",
+      "gather",
+      "CPU-heavy work or blocking calls (time.sleep, requests) inside a coroutine"
+     ],
+     "answer": 3,
+     "explain": "Use run_in_executor or async libraries."
+    }
+   ]
+  },
+  "level-3/06-databases": {
+   "questions": [
+    {
+     "q": "What does parameterised SQL protect against?\n```python\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table u(name text)')\nc.execute('insert into u values (?)',(\"Robert'); DROP TABLE u;--\",))\nprint(c.execute('select count(*) from u').fetchone()[0], c.execute('select name from u').fetchone()[0][:6])\n```\n",
+     "options": [
+      "1 DROP T",
+      "error",
+      "1 Robert",
+      "0 Robert"
+     ],
+     "answer": 2,
+     "explain": "Placeholders keep data separate from SQL, so injection text is just a string. Verified by running it."
+    },
+    {
+     "q": "What does a transaction rollback do?\n```python\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table a(x int)')\ntry:\n    with c:\n        c.execute('insert into a values (1)')\n        raise RuntimeError('fail')\nexcept RuntimeError: pass\nprint(c.execute('select count(*) from a').fetchone()[0])\n```\n",
+     "options": [
+      "None",
+      "2",
+      "0",
+      "1"
+     ],
+     "answer": 2,
+     "explain": "The connection context manager rolls back on exceptions. Verified by running it."
+    },
+    {
+     "q": "What does a JOIN with GROUP BY return?\n```python\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table u(id int,name text);create table o(uid int,amt int);insert into u values (1,\"a\"),(2,\"b\");insert into o values (1,10),(1,20),(2,5);')\nprint(c.execute('select name,sum(amt) from u join o on u.id=o.uid group by name order by name').fetchall())\n```\n",
+     "options": [
+      "[(1, 30), (2, 5)]",
+      "[('a', 30), ('b', 5)]",
+      "[('a', 30)]",
+      "[('a', 10), ('b', 5)]"
+     ],
+     "answer": 1,
+     "explain": "Join then aggregate per group. Verified by running it."
+    },
+    {
+     "q": "What does an ORM like SQLAlchemy give you?",
+     "options": [
+      "No SQL",
+      "Python classes mapped to tables and a query API, at the cost of an abstraction layer",
+      "Faster SQL",
+      "A database"
+     ],
+     "answer": 1,
+     "explain": "Know the SQL it generates."
+    }
+   ]
+  },
+  "level-3/07-consuming-apis": {
+   "questions": [
+    {
+     "q": "How do you build query strings safely?\n```python\nfrom urllib.parse import urlencode, urlparse, parse_qs\nu='https://api.example.com/search?'+urlencode({'q':'a b&c','page':2})\nprint(u, parse_qs(urlparse(u).query))\n```\n",
+     "options": [
+      "error",
+      "https://api.example.com/search?q=a+b%26c&page=2 {'q': ['a b&c'], 'page': ['2']}",
+      "https://api.example.com/search?q=a+b%26c&page=2 {'q': 'a b&c', 'page': 2}",
+      "https://api.example.com/search?q=a b&c&page=2 {'q': ['a b']}"
+     ],
+     "answer": 1,
+     "explain": "urlencode escapes special characters; parse_qs returns lists. Verified by running it."
+    },
+    {
+     "q": "What does response handling look like with a stub?\n```python\nclass R:\n    status_code=429; headers={'Retry-After':'2'}\n    def json(s): return {}\ndef handle(r):\n    if r.status_code==429: return f\"wait {int(r.headers['Retry-After'])}s\"\n    return r.json()\nprint(handle(R()))\n```\n",
+     "options": [
+      "429",
+      "{}",
+      "wait 2s",
+      "error"
+     ],
+     "answer": 2,
+     "explain": "Honour rate-limit responses and Retry-After. Verified by running it."
+    },
+    {
+     "q": "What does exponential backoff produce?\n```python\ndelays=[min(30,0.5*2**i) for i in range(7)]\nprint(delays)\n```\n",
+     "options": [
+      "[0.5, 1, 2, 3, 4, 5, 6]",
+      "[0.5, 0.5, 0.5]",
+      "[1, 2, 4, 8, 16, 32, 64]",
+      "[0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 30]"
+     ],
+     "answer": 3,
+     "explain": "Double the wait each retry up to a cap, usually with jitter. Verified by running it."
+    },
+    {
+     "q": "Why always set a timeout on HTTP requests?",
+     "options": [
+      "Colour",
+      "Law",
+      "Speed",
+      "Without one a hung server can block your program forever"
+     ],
+     "answer": 3,
+     "explain": "requests.get(url, timeout=5)."
+    }
+   ]
+  },
+  "level-3/08-building-apis": {
+   "questions": [
+    {
+     "q": "What does this Flask-like route table model do?\n```python\nroutes={}\ndef route(path,method='GET'):\n    def d(f): routes[(method,path)]=f; return f\n    return d\n@route('/ping')\ndef ping(): return {'ok':True},200\n@route('/items','POST')\ndef add(): return {'id':1},201\nprint(routes[('GET','/ping')](), routes[('POST','/items')]()[1], ('GET','/nope') in routes)\n```\n",
+     "options": [
+      "({'ok': True}, 200) 201 False",
+      "error",
+      "({'ok': True}, 200) 200 False",
+      "{'ok': True} 201 True"
+     ],
+     "answer": 0,
+     "explain": "Decorators register handlers by method and path. Verified by running it."
+    },
+    {
+     "q": "What does request validation return for bad input?\n```python\ndef create(body):\n    errs=[]\n    if not isinstance(body.get('name'),str) or not body['name'].strip(): errs.append('name required')\n    if not isinstance(body.get('qty'),int) or body['qty']<1: errs.append('qty must be >=1')\n    return (422,{'errors':errs}) if errs else (201,body)\nprint(create({'name':'a','qty':2})[0], create({'name':' ','qty':0}))\n```\n",
+     "options": [
+      "422 (422, {'errors': []})",
+      "201 (422, {'errors': ['name required', 'qty must be >=1']})",
+      "200 (400, {})",
+      "201 (201, {})"
+     ],
+     "answer": 1,
+     "explain": "Validate at the boundary and return all errors with 422. Verified by running it."
+    },
+    {
+     "q": "What does REST say about resource URLs?",
+     "options": [
+      "They identify things (nouns), and HTTP methods express the action",
+      "Verbs in URLs",
+      "No structure",
+      "One URL"
+     ],
+     "answer": 0,
+     "explain": "GET /users/1 not /getUser?id=1."
+    },
+    {
+     "q": "What status should a successful creation return?",
+     "options": [
+      "200",
+      "204",
+      "404",
+      "201 Created with a Location header or the new resource"
+     ],
+     "answer": 3,
+     "explain": "Be precise with status codes."
+    }
+   ]
+  },
+  "level-3/09-packaging-distribution": {
+   "questions": [
+    {
+     "q": "What does pyproject.toml hold?",
+     "options": [
+      "Project metadata, dependencies and build-system configuration",
+      "Logs",
+      "Tests",
+      "Source code"
+     ],
+     "answer": 0,
+     "explain": "The modern standard for packaging."
+    },
+    {
+     "q": "What does `pip install -e .` do?",
+     "options": [
+      "Tests",
+      "Uninstalls",
+      "Installs the project in editable mode so code changes take effect without reinstalling",
+      "Builds docs"
+     ],
+     "answer": 2,
+     "explain": "Useful during development."
+    },
+    {
+     "q": "What does __name__ == '__main__' guard?\n```python\nimport io, contextlib\nsrc=\"def main(): print('running')\\nif __name__=='__main__': main()\"\ng={'__name__':'lib'}; exec(src,g)\nb={'__name__':'__main__'}\nbuf=io.StringIO()\nwith contextlib.redirect_stdout(buf): exec(src,b)\nprint(repr(buf.getvalue()))\n```\n",
+     "options": [
+      "'main'",
+      "''",
+      "'lib'",
+      "'running\\n'"
+     ],
+     "answer": 3,
+     "explain": "The block runs only when executed as a script, not when imported. Verified by running it."
+    },
+    {
+     "q": "What distinguishes a wheel from an sdist?",
+     "options": [
+      "Sdist is binary",
+      "Wheel is source",
+      "Same",
+      "A wheel is a prebuilt binary distribution; an sdist is source that needs building"
+     ],
+     "answer": 3,
+     "explain": "Wheels install faster."
+    }
+   ]
+  },
+  "level-3/10-profiling-performance": {
+   "questions": [
+    {
+     "q": "What does timeit show about list vs set membership?\n```python\nimport timeit\nl=list(range(5000)); s=set(l)\nt1=timeit.timeit('4999 in l',globals={'l':l},number=2000)\nt2=timeit.timeit('4999 in s',globals={'s':s},number=2000)\nprint(t1>t2*10)\n```\n",
+     "options": [
+      "None",
+      "False",
+      "True",
+      "0"
+     ],
+     "answer": 2,
+     "explain": "Set lookups are O(1) on average versus O(n) for lists. Verified by running it."
+    },
+    {
+     "q": "What does cProfile-style counting tell you?\n```python\nimport cProfile,pstats,io\ndef a(): return sum(range(1000))\ndef b():\n    for _ in range(50): a()\npr=cProfile.Profile(); pr.runcall(b)\ns=io.StringIO(); pstats.Stats(pr,stream=s).sort_stats('cumulative')\nprint(pstats.Stats(pr).total_calls>50)\n```\n",
+     "options": [
+      "None",
+      "True",
+      "0",
+      "False"
+     ],
+     "answer": 1,
+     "explain": "Profilers count calls and time per function. Verified by running it."
+    },
+    {
+     "q": "What is the first rule of optimisation?",
+     "options": [
+      "Guess",
+      "Measure first: profile to find the real bottleneck before changing code",
+      "Rewrite in C",
+      "Add threads"
+     ],
+     "answer": 1,
+     "explain": "Don't optimise blind."
+    },
+    {
+     "q": "Why prefer algorithmic fixes to micro-optimisations?",
+     "options": [
+      "Style",
+      "Law",
+      "Colour",
+      "Changing O(n^2) to O(n log n) beats shaving constant factors"
+     ],
+     "answer": 3,
+     "explain": "Big-O dominates for large inputs."
+    }
+   ]
+  },
+  "level-3/11-project-rest-api-db": {
+   "questions": [
+    {
+     "q": "What does this repository pattern return?\n```python\nimport sqlite3\nclass Repo:\n    def __init__(s): s.c=sqlite3.connect(':memory:'); s.c.execute('create table t(id integer primary key, title text)')\n    def add(s,title): return s.c.execute('insert into t(title) values (?)',(title,)).lastrowid\n    def get(s,i):\n        r=s.c.execute('select id,title from t where id=?',(i,)).fetchone()\n        return {'id':r[0],'title':r[1]} if r else None\nr=Repo(); i=r.add('x')\nprint(i, r.get(i), r.get(99))\n```\n",
+     "options": [
+      "0 None None",
+      "1 {'id': 1, 'title': 'x'} None",
+      "1 {'id': 1} None",
+      "1 (1, 'x') None"
+     ],
+     "answer": 1,
+     "explain": "Hide SQL behind methods that return plain data. Verified by running it."
+    },
+    {
+     "q": "Where should business rules live?",
+     "options": [
+      "In a service layer separate from HTTP handlers and SQL",
+      "Handlers",
+      "Templates",
+      "SQL"
+     ],
+     "answer": 0,
+     "explain": "Easier to test."
+    },
+    {
+     "q": "How do you test the API without a server?",
+     "options": [
+      "Use the framework's test client against the app object",
+      "Skip",
+      "Browser",
+      "Real server"
+     ],
+     "answer": 0,
+     "explain": "Fast and isolated."
+    },
+    {
+     "q": "How do you evolve the schema safely?",
+     "options": [
+      "Manual",
+      "Edit DB",
+      "Drop",
+      "Versioned migrations (Alembic or similar)"
+     ],
+     "answer": 3,
+     "explain": "Track every change."
+    }
+   ]
+  },
+  "level-4/01-design-patterns": {
+   "questions": [
+    {
+     "q": "What does the Strategy pattern look like in Python?\n```python\ndef tax_us(a): return a*0.07\ndef tax_eu(a): return a*0.2\nclass Cart:\n    def __init__(s,tax): s.tax=tax\n    def total(s,a): return round(a+s.tax(a),2)\nprint(Cart(tax_us).total(100), Cart(tax_eu).total(100))\n```\n",
+     "options": [
+      "100 100",
+      "107.0 120.0",
+      "107.0 107.0",
+      "120.0 107.0"
+     ],
+     "answer": 1,
+     "explain": "Behaviour is a swappable callable. Verified by running it."
+    },
+    {
+     "q": "What does a simple Observer do?\n```python\nclass Subject:\n    def __init__(s): s.subs=[]\n    def on(s,f): s.subs.append(f)\n    def emit(s,x): [f(x) for f in s.subs]\nout=[]\ns=Subject(); s.on(out.append); s.on(lambda x: out.append(x*2))\ns.emit(5)\nprint(out)\n```\n",
+     "options": [
+      "[5]",
+      "[5, 10]",
+      "[10, 5]",
+      "[]"
+     ],
+     "answer": 1,
+     "explain": "Subscribers are called when the subject emits. Verified by running it."
+    },
+    {
+     "q": "What does a registry/factory return?\n```python\nREG={}\ndef register(n):\n    def d(c): REG[n]=c; return c\n    return d\n@register('csv')\nclass Csv: kind='csv'\n@register('json')\nclass Js: kind='json'\ndef make(n): return REG[n]()\nprint(make('json').kind, sorted(REG))\n```\n",
+     "options": [
+      "json ['csv', 'json']",
+      "csv ['csv', 'json']",
+      "error",
+      "json ['json']"
+     ],
+     "answer": 0,
+     "explain": "A decorator-built registry maps names to classes. Verified by running it."
+    },
+    {
+     "q": "When is a pattern a mistake?",
+     "options": [
+      "Never",
+      "Always",
+      "When it adds complexity the problem does not need; Python's functions and modules often suffice",
+      "Rarely"
+     ],
+     "answer": 2,
+     "explain": "Prefer the simplest design."
+    }
+   ]
+  },
+  "level-4/02-advanced-asyncio": {
+   "questions": [
+    {
+     "q": "What does a TaskGroup (3.11+) do on failure?\n```python\nimport asyncio\nasync def ok(): await asyncio.sleep(0.05); return 1\nasync def bad(): raise ValueError('x')\nasync def main():\n    try:\n        async with asyncio.TaskGroup() as tg:\n            tg.create_task(ok()); tg.create_task(bad())\n    except* ValueError as eg:\n        print(type(eg).__name__, len(eg.exceptions))\nasyncio.run(main())\n```\n",
+     "options": [
+      "ExceptionGroup 1",
+      "None 0",
+      "ExceptionGroup 2",
+      "ValueError 1"
+     ],
+     "answer": 0,
+     "explain": "One failing task cancels the others and raises an ExceptionGroup. Verified by running it."
+    },
+    {
+     "q": "How do you bound concurrency with a queue of workers?\n```python\nimport asyncio\nasync def main():\n    q=asyncio.Queue(); res=[]\n    for i in range(6): q.put_nowait(i)\n    async def worker():\n        while not q.empty():\n            i=q.get_nowait(); await asyncio.sleep(0.01); res.append(i*i); q.task_done()\n    await asyncio.gather(*[worker() for _ in range(3)])\n    print(sorted(res))\nasyncio.run(main())\n```\n",
+     "options": [
+      "[0, 1, 4, 9, 16, 25]",
+      "[]",
+      "[0, 1, 4]",
+      "[0, 1, 2, 3, 4, 5]"
+     ],
+     "answer": 0,
+     "explain": "A fixed number of workers pull jobs from a shared queue. Verified by running it."
+    },
+    {
+     "q": "What does cancellation look like?\n```python\nimport asyncio\nasync def main():\n    t=asyncio.create_task(asyncio.sleep(10))\n    await asyncio.sleep(0)\n    t.cancel()\n    try: await t\n    except asyncio.CancelledError: print('cancelled', t.cancelled())\nasyncio.run(main())\n```\n",
+     "options": [
+      "done False",
+      "cancelled False",
+      "cancelled True",
+      "error"
+     ],
+     "answer": 2,
+     "explain": "Cancelling raises CancelledError inside the task. Verified by running it."
+    },
+    {
+     "q": "Why not call blocking code directly in a coroutine?",
+     "options": [
+      "It freezes the entire event loop; use run_in_executor or an async API",
+      "Speed",
+      "Syntax",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "One slow call stalls everything."
+    }
+   ]
+  },
+  "level-4/03-metaprogramming": {
+   "questions": [
+    {
+     "q": "What does a metaclass hook do?\n```python\nclass Meta(type):\n    def __new__(m,n,b,d):\n        d['registered']=True\n        return super().__new__(m,n,b,d)\nclass A(metaclass=Meta): pass\nprint(A.registered, type(A).__name__)\n```\n",
+     "options": [
+      "False type",
+      "True type",
+      "error",
+      "True Meta"
+     ],
+     "answer": 3,
+     "explain": "Metaclasses customise class creation. Verified by running it."
+    },
+    {
+     "q": "What does __init_subclass__ give you (a simpler hook)?\n```python\nregistry=[]\nclass Base:\n    def __init_subclass__(cls,**kw):\n        super().__init_subclass__(**kw); registry.append(cls.__name__)\nclass A(Base): pass\nclass B(Base): pass\nprint(registry)\n```\n",
+     "options": [
+      "['Base', 'A', 'B']",
+      "['A', 'B']",
+      "[]",
+      "['B']"
+     ],
+     "answer": 1,
+     "explain": "Runs whenever a subclass is defined. Verified by running it."
+    },
+    {
+     "q": "What do getattr and dynamic attribute access allow?\n```python\nclass Dyn:\n    def __getattr__(s,n):\n        if n.startswith('get_'): return lambda: n[4:]\n        raise AttributeError(n)\nd=Dyn()\nprint(d.get_name(), hasattr(d,'zzz'))\n```\n",
+     "options": [
+      "error",
+      "name False",
+      "name True",
+      "get_name True"
+     ],
+     "answer": 1,
+     "explain": "__getattr__ runs only when normal lookup fails. Verified by running it."
+    },
+    {
+     "q": "What is the risk of metaprogramming?",
+     "options": [
+      "Hard-to-read, hard-to-debug code; use it where it removes real duplication",
+      "Law",
+      "Speed",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Prefer decorators and plain code."
+    }
+   ]
+  },
+  "level-4/04-production-apis": {
+   "questions": [
+    {
+     "q": "What does a health-check style readiness function return?\n```python\ndef ready(db_ok,cache_ok):\n    status={'db':db_ok,'cache':cache_ok}\n    return (200 if all(status.values()) else 503), status\nprint(ready(True,True), ready(True,False))\n```\n",
+     "options": [
+      "(503, {}) (503, {})",
+      "200 503",
+      "(200, {}) (200, {})",
+      "(200, {'db': True, 'cache': True}) (503, {'db': True, 'cache': False})"
+     ],
+     "answer": 3,
+     "explain": "Readiness reflects dependencies so load balancers stop routing to unready instances. Verified by running it."
+    },
+    {
+     "q": "What does structured logging look like?\n```python\nimport json,logging,io\nbuf=io.StringIO(); h=logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter('%(message)s'))\nl=logging.getLogger('x'); l.addHandler(h); l.setLevel(logging.INFO)\nl.info(json.dumps({'event':'order','id':7,'ms':12}))\nprint(json.loads(buf.getvalue())['id'])\n```\n",
+     "options": [
+      "None",
+      "order",
+      "12",
+      "7"
+     ],
+     "answer": 3,
+     "explain": "JSON log lines are machine-searchable. Verified by running it."
+    },
+    {
+     "q": "What belongs in production configuration?",
+     "options": [
+      "Source",
+      "Comments",
+      "README",
+      "Environment variables for secrets and settings, never hard-coded in source"
+     ],
+     "answer": 3,
+     "explain": "Twelve-factor style."
+    },
+    {
+     "q": "Why add rate limiting and timeouts?",
+     "options": [
+      "Law",
+      "Style",
+      "Protect the service from abuse and slow clients",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Return 429 with Retry-After."
+    }
+   ]
+  },
+  "level-4/05-testing-at-scale": {
+   "questions": [
+    {
+     "q": "What does parametrised testing do?\n```python\ncases=[(1,1),(2,4),(3,9)]\ndef sq(n): return n*n\nprint(all(sq(a)==b for a,b in cases), len(cases))\n```\n",
+     "options": [
+      "True 1",
+      "False 3",
+      "True 3",
+      "False 0"
+     ],
+     "answer": 2,
+     "explain": "One test body, many inputs. Verified by running it."
+    },
+    {
+     "q": "What does a fake (test double) enable?\n```python\nclass FakeClock:\n    def __init__(s): s.t=0\n    def now(s): return s.t\n    def advance(s,x): s.t+=x\ndef expired(c,start,ttl): return c.now()-start>=ttl\nc=FakeClock()\nprint(expired(c,0,10)); c.advance(10); print(expired(c,0,10))\n```\n",
+     "options": [
+      "False\nFalse",
+      "False\nTrue",
+      "True\nTrue",
+      "True\nFalse"
+     ],
+     "answer": 1,
+     "explain": "Controlling time makes time-based logic testable. Verified by running it."
+    },
+    {
+     "q": "What does property-based testing (Hypothesis) do?",
+     "options": [
+      "Manual",
+      "Unit tests",
+      "Generates many inputs to check that a property always holds and shrinks failures",
+      "Benchmarks"
+     ],
+     "answer": 2,
+     "explain": "Finds edge cases."
+    },
+    {
+     "q": "How do you keep a large test suite fast?",
+     "options": [
+      "Merge",
+      "Isolate units, parallelise (pytest-xdist), use fakes and keep slow tests separate",
+      "Skip",
+      "More sleeps"
+     ],
+     "answer": 1,
+     "explain": "Tier the suite."
+    }
+   ]
+  },
+  "level-4/06-data-engineering": {
+   "questions": [
+    {
+     "q": "What does this ETL step print?\n```python\nraw=[{'id':1,'amt':'10.5'},{'id':2,'amt':'x'},{'id':1,'amt':'10.5'},{'id':3,'amt':'7'}]\nseen=set(); good=[]; bad=[]\nfor r in raw:\n    try: v=float(r['amt'])\n    except ValueError: bad.append(r['id']); continue\n    if r['id'] in seen: continue\n    seen.add(r['id']); good.append((r['id'],v))\nprint(good, bad, sum(v for _,v in good))\n```\n",
+     "options": [
+      "[(1, 10.5), (3, 7.0)] [2] 28.0",
+      "[(1, 10.5), (3, 7.0)] [] 17.5",
+      "[(1, 10.5), (3, 7.0)] [2] 17.5",
+      "[(1, 10.5), (1, 10.5), (3, 7.0)] [2] 28.0"
+     ],
+     "answer": 2,
+     "explain": "Validate, quarantine bad rows and deduplicate. Verified by running it."
+    },
+    {
+     "q": "What does chunked processing look like?\n```python\ndef chunks(it,n):\n    b=[]\n    for x in it:\n        b.append(x)\n        if len(b)==n: yield b; b=[]\n    if b: yield b\nprint([sum(c) for c in chunks(range(10),4)])\n```\n",
+     "options": [
+      "[6, 22]",
+      "[10, 35]",
+      "[45]",
+      "[6, 22, 17]"
+     ],
+     "answer": 3,
+     "explain": "Process big data in bounded batches. Verified by running it."
+    },
+    {
+     "q": "What makes a pipeline idempotent?",
+     "options": [
+      "Re-running it with the same input leaves the same result (upserts, overwrite partitions)",
+      "Cached",
+      "Secure",
+      "Fast"
+     ],
+     "answer": 0,
+     "explain": "Safe retries."
+    },
+    {
+     "q": "Why validate data at the pipeline boundary?",
+     "options": [
+      "Law",
+      "Colour",
+      "Style",
+      "Bad data is cheapest to catch before it spreads"
+     ],
+     "answer": 3,
+     "explain": "Schema checks."
+    }
+   ]
+  },
+  "level-4/07-ml-foundations": {
+   "questions": [
+    {
+     "q": "What does a train/test split protect against?\n```python\nimport random\nrandom.seed(1)\ndata=list(range(10)); random.shuffle(data)\ntrain,test=data[:8],data[8:]\nprint(len(train),len(test),set(train)&set(test))\n```\n",
+     "options": [
+      "10 10 set()",
+      "8 2 set()",
+      "5 5 set()",
+      "8 2 {1}"
+     ],
+     "answer": 1,
+     "explain": "Evaluate on data the model has not seen. Verified by running it."
+    },
+    {
+     "q": "How do you compute accuracy and a confusion count?\n```python\ny=[1,0,1,1,0,0,1,0]; p=[1,0,0,1,0,1,1,0]\nacc=sum(a==b for a,b in zip(y,p))/len(y)\ntp=sum(a==1 and b==1 for a,b in zip(y,p)); fp=sum(a==0 and b==1 for a,b in zip(y,p)); fn=sum(a==1 and b==0 for a,b in zip(y,p))\nprint(acc,tp,fp,fn)\n```\n",
+     "options": [
+      "0.5 3 1 1",
+      "0.75 3 1 1",
+      "0.75 3 2 0",
+      "0.75 4 1 1"
+     ],
+     "answer": 1,
+     "explain": "Accuracy is the fraction correct; precision and recall use tp, fp, fn. Verified by running it."
+    },
+    {
+     "q": "What does a simple linear fit find?\n```python\nxs=[1,2,3,4]; ys=[2,4,6,8]\nn=len(xs); mx=sum(xs)/n; my=sum(ys)/n\nb=sum((x-mx)*(y-my) for x,y in zip(xs,ys))/sum((x-mx)**2 for x in xs)\nprint(b, my-b*mx)\n```\n",
+     "options": [
+      "2.0 0.0",
+      "2.0 1.0",
+      "0.5 0.0",
+      "1.0 2.0"
+     ],
+     "answer": 0,
+     "explain": "Least squares slope and intercept. Verified by running it."
+    },
+    {
+     "q": "What is overfitting?",
+     "options": [
+      "Large",
+      "Slow",
+      "A model memorises training data and performs worse on new data",
+      "Underfitting"
+     ],
+     "answer": 2,
+     "explain": "Use validation data and regularisation."
+    }
+   ]
+  },
+  "level-4/08-deployment-devops": {
+   "questions": [
+    {
+     "q": "Why containerise a Python service?",
+     "options": [
+      "Package code and dependencies for identical runs across environments",
+      "Speed",
+      "Law",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Docker images."
+    },
+    {
+     "q": "What goes in a production Dockerfile for Python?",
+     "options": [
+      "Copy all",
+      "Root",
+      "A slim base image, pinned dependencies, a non-root user and a clear command",
+      "Latest"
+     ],
+     "answer": 2,
+     "explain": "Layer caching: copy requirements first."
+    },
+    {
+     "q": "What does a graceful shutdown handler do?\n```python\nimport signal,os\nflag={'stop':False}\nsignal.signal(signal.SIGTERM,lambda *a: flag.update(stop=True))\nos.kill(os.getpid(),signal.SIGTERM)\nprint(flag['stop'])\n```\n",
+     "options": [
+      "error",
+      "None",
+      "False",
+      "True"
+     ],
+     "answer": 3,
+     "explain": "Handle SIGTERM to finish in-flight work before exiting. Verified by running it."
+    },
+    {
+     "q": "What belongs in a CI pipeline for Python?",
+     "options": [
+      "Deploy only",
+      "Test only",
+      "Build only",
+      "Lint, type-check, test with coverage, build the image and deploy on success"
+     ],
+     "answer": 3,
+     "explain": "Automate everything."
+    }
+   ]
+  },
+  "level-4/09-security-best-practices": {
+   "questions": [
+    {
+     "q": "What does hashing a password correctly involve?\n```python\nimport hashlib,os\nsalt=os.urandom(16)\nh=hashlib.scrypt(b'pw',salt=salt,n=2**14,r=8,p=1)\nh2=hashlib.scrypt(b'pw',salt=salt,n=2**14,r=8,p=1)\nprint(h==h2, len(h)==64, hashlib.scrypt(b'other',salt=salt,n=2**14,r=8,p=1)==h)\n```\n",
+     "options": [
+      "True False False",
+      "True True False",
+      "True True True",
+      "False True False"
+     ],
+     "answer": 1,
+     "explain": "A salted, slow key-derivation function; compare with a constant-time check in real code. Verified by running it."
+    },
+    {
+     "q": "Why compare secrets with hmac.compare_digest?\n```python\nimport hmac\nprint(hmac.compare_digest('abc','abc'), hmac.compare_digest('abc','abd'))\n```\n",
+     "options": [
+      "True False",
+      "False False",
+      "True True",
+      "error"
+     ],
+     "answer": 0,
+     "explain": "It avoids timing leaks that early-exit comparisons have. Verified by running it."
+    },
+    {
+     "q": "What does parameterised input prevent?\n```python\nimport sqlite3\nc=sqlite3.connect(':memory:'); c.execute('create table u(n text)'); c.execute(\"insert into u values ('ana')\")\nevil=\"x' OR '1'='1\"\nbad=c.execute(\"select count(*) from u where n='\"+evil+\"'\").fetchone()[0]\nok=c.execute('select count(*) from u where n=?',(evil,)).fetchone()[0]\nprint(bad,ok)\n```\n",
+     "options": [
+      "1 1",
+      "0 0",
+      "0 1",
+      "1 0"
+     ],
+     "answer": 3,
+     "explain": "String-built SQL was tricked into matching; the placeholder treated the input as data. Verified by running it."
+    },
+    {
+     "q": "Which is the safe way to load untrusted YAML or pickle data?",
+     "options": [
+      "Use yaml.safe_load and avoid pickle for untrusted data (it can run code)",
+      "yaml.load",
+      "pickle.loads",
+      "eval"
+     ],
+     "answer": 0,
+     "explain": "Never eval input."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What does the capstone project demonstrate?",
+     "options": [
+      "A quiz",
+      "A complete, tested, documented application using the course's skills end to end",
+      "A snippet",
+      "A script"
+     ],
+     "answer": 1,
+     "explain": "Design, build, test and ship."
+    },
+    {
+     "q": "What belongs in the README?",
+     "options": [
+      "Nothing",
+      "Purpose, setup, usage, design decisions and how to run tests",
+      "Slogan",
+      "Logo"
+     ],
+     "answer": 1,
+     "explain": "Others should run it in minutes."
+    },
+    {
+     "q": "What makes it production-ready?",
+     "options": [
+      "Tests in CI, error handling, logging, configuration and a deployment path",
+      "Small",
+      "Fast",
+      "It runs"
+     ],
+     "answer": 0,
+     "explain": "Evidence over claims."
+    },
+    {
+     "q": "How do you handle residual risks?",
+     "options": [
+      "Delay",
+      "Document them and decide to accept, mitigate or transfer",
+      "Ignore",
+      "Hide"
+     ],
+     "answer": 1,
+     "explain": "Record decisions."
+    }
+   ]
   }
- }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```python\ndef f(x, acc=[]):\n    acc.append(x)\n    return acc\nprint(f(1), f(2), f(3, []))\n```\n",
+    "options": [
+     "[1, 2] [1, 2] [3]",
+     "[1] [1, 2] [3]",
+     "[1] [2] [3]",
+     "[1, 2] [1, 2] [1, 2, 3]"
+    ],
+    "answer": 0,
+    "explain": "A mutable default argument is created once and shared between calls; the first two results are the same list object. Verified by running it."
+   },
+   {
+    "q": "What does this comprehension and unpacking print?\n```python\na,*mid,z=range(6)\nd={k:v for k,v in zip('abc',[1,2,3]) if v!=2}\nprint(a,mid,z,d)\n```\n",
+    "options": [
+     "0 [1, 2, 3, 4] 5 {'a': 1, 'c': 3}",
+     "0 (1, 2, 3, 4) 5 {'a': 1}",
+     "0 [1, 2, 3] 5 {'a': 1, 'c': 3}",
+     "0 [1, 2, 3, 4] 5 {'a': 1, 'b': 2, 'c': 3}"
+    ],
+    "answer": 0,
+    "explain": "Starred assignment collects the middle as a list. Verified by running it."
+   },
+   {
+    "q": "What does this late-binding closure print?\n```python\nfs=[lambda: i for i in range(3)]\ngs=[lambda i=i: i for i in range(3)]\nprint([f() for f in fs],[g() for g in gs])\n```\n",
+    "options": [
+     "[2, 2, 2] [2, 2, 2]",
+     "[2, 2, 2] [0, 1, 2]",
+     "[0, 1, 2] [0, 1, 2]",
+     "[0, 1, 2] [2, 2, 2]"
+    ],
+    "answer": 1,
+    "explain": "Closures capture variables, not values; a default argument captures the value now. Verified by running it."
+   },
+   {
+    "q": "What does this generator pipeline print?\n```python\ndef evens(it):\n    for x in it:\n        if x%2==0: yield x\ndef squares(it):\n    for x in it: yield x*x\np=squares(evens(range(10)))\nprint(next(p), sum(p))\n```\n",
+    "options": [
+     "4 116",
+     "0 120",
+     "0 116",
+     "0 140"
+    ],
+    "answer": 1,
+    "explain": "Generators are lazy and consumed in order: next took 0 and sum took the remaining 4+16+36+64. Verified by running it."
+   },
+   {
+    "q": "What does this context manager print?\n```python\nfrom contextlib import contextmanager\nout=[]\n@contextmanager\ndef cm(n):\n    out.append(f'enter {n}')\n    try: yield\n    finally: out.append(f'exit {n}')\nwith cm('a'), cm('b'):\n    out.append('body')\nprint(out)\n```\n",
+    "options": [
+     "['enter b', 'enter a', 'body', 'exit a', 'exit b']",
+     "['body']",
+     "['enter a', 'enter b', 'body', 'exit a', 'exit b']",
+     "['enter a', 'enter b', 'body', 'exit b', 'exit a']"
+    ],
+    "answer": 3,
+    "explain": "Context managers exit in reverse order. Verified by running it."
+   },
+   {
+    "q": "What does this dataclass do with defaults?\n```python\nfrom dataclasses import dataclass, field\n@dataclass\nclass Cart:\n    items: list = field(default_factory=list)\na,b=Cart(),Cart()\na.items.append(1)\nprint(a.items,b.items)\n```\n",
+    "options": [
+     "[1] [1]",
+     "error",
+     "[1] []",
+     "[] []"
+    ],
+    "answer": 2,
+    "explain": "default_factory creates a fresh list per instance. Verified by running it."
+   },
+   {
+    "q": "What does this datetime/timezone code print?\n```python\nfrom datetime import datetime, timezone, timedelta\nt=datetime(2026,3,5,23,30,tzinfo=timezone.utc)\nlocal=t.astimezone(timezone(timedelta(hours=2)))\nprint(local.date(), local.hour, t.date())\n```\n",
+    "options": [
+     "2026-03-05 1 2026-03-05",
+     "2026-03-05 23 2026-03-05",
+     "2026-03-06 1 2026-03-05",
+     "2026-03-06 23 2026-03-05"
+    ],
+    "answer": 2,
+    "explain": "Converting zones can change the date. Verified by running it."
+   },
+   {
+    "q": "What does this asyncio code print?\n```python\nimport asyncio\nasync def a(): await asyncio.sleep(0.02); return 'a'\nasync def b(): return 'b'\nasync def main():\n    print(await asyncio.gather(a(),b()), await b())\nasyncio.run(main())\n```\n",
+    "options": [
+     "['a', 'b'] b",
+     "error",
+     "['b', 'a'] b",
+     "['a'] b"
+    ],
+    "answer": 0,
+    "explain": "gather preserves the order of its arguments. Verified by running it."
+   },
+   {
+    "q": "What does a parameterised query avoid?\n```python\nimport sqlite3\nc=sqlite3.connect(':memory:'); c.execute('create table t(a)')\nc.execute('insert into t values (?)',(\"x'); DROP TABLE t;--\",))\nprint(c.execute('select count(*) from t').fetchone()[0])\n```\n",
+    "options": [
+     "error",
+     "1",
+     "0",
+     "2"
+    ],
+    "answer": 1,
+    "explain": "The malicious text was stored as data, not executed. Verified by running it."
+   },
+   {
+    "q": "When is multiprocessing a better fit than threading in CPython?",
+    "options": [
+     "For CPU-bound work, because processes are not limited by the GIL",
+     "I/O-bound",
+     "Always",
+     "Never"
+    ],
+    "answer": 0,
+    "explain": "Threads suit I/O waits."
+   },
+   {
+    "q": "What does `if __name__ == '__main__':` do?",
+    "options": [
+     "Imports",
+     "Tests",
+     "Runs the block only when the file is executed directly, not when imported",
+     "Defines main"
+    ],
+    "answer": 2,
+    "explain": "Keeps import side effects away."
+   },
+   {
+    "q": "Why prefer `with open(...)` to a bare open()?",
+    "options": [
+     "Law",
+     "Speed",
+     "The file is closed automatically even if an exception occurs",
+     "Encoding"
+    ],
+    "answer": 2,
+    "explain": "Context managers handle cleanup."
+   },
+   {
+    "q": "What is the difference between a list and a tuple?",
+    "options": [
+     "Same",
+     "Tuples are slower",
+     "Lists are hashable",
+     "Lists are mutable; tuples are immutable (and hashable if their items are)"
+    ],
+    "answer": 3,
+    "explain": "Use tuples for fixed records."
+   },
+   {
+    "q": "Why use virtual environments?",
+    "options": [
+     "Speed",
+     "Isolate each project's dependencies and versions",
+     "Law",
+     "Colour"
+    ],
+    "answer": 1,
+    "explain": "python -m venv .venv."
+   },
+   {
+    "q": "What does pytest discover by default?",
+    "options": [
+     "Files named test_*.py and functions named test_*",
+     "Only classes",
+     "Any file",
+     "All files"
+    ],
+    "answer": 0,
+    "explain": "Naming conventions matter."
+   },
+   {
+    "q": "What is the safest way to compare two floats in a test?",
+    "options": [
+     "==",
+     "With a tolerance (math.isclose or pytest.approx)",
+     "<",
+     "is"
+    ],
+    "answer": 1,
+    "explain": "Floating-point rounding."
+   },
+   {
+    "q": "What is a decorator?",
+    "options": [
+     "A class only",
+     "A comment",
+     "A loop",
+     "A callable that takes a function and returns a replacement, applied with @"
+    ],
+    "answer": 3,
+    "explain": "@d above def f is f = d(f)."
+   },
+   {
+    "q": "What does EAFP mean?",
+    "options": [
+     "Never use try",
+     "Use asserts",
+     "Check first always",
+     "Easier to ask forgiveness than permission: try the operation and handle the exception"
+    ],
+    "answer": 3,
+    "explain": "Pythonic style."
+   },
+   {
+    "q": "What should you never do with untrusted input?",
+    "options": [
+     "eval or exec it, or unpickle it",
+     "Escape it",
+     "Validate it",
+     "Parse it with json"
+    ],
+    "answer": 0,
+    "explain": "Arbitrary code execution."
+   },
+   {
+    "q": "Why measure before optimising?",
+    "options": [
+     "Law",
+     "Colour",
+     "The bottleneck is often not where you expect; profile first",
+     "Style"
+    ],
+    "answer": 2,
+    "explain": "cProfile and timeit."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A log analyser with regex, dataclasses and generators",
+    "prompt": "Parse web-service log lines into immutable Entry objects with a regex with named groups, skipping garbage lines lazily with a generator, then report level counts, slowest paths, the server-error rate, affected users, the time window and the busiest minute using Counter, defaultdict and datetime.",
+    "starter": "import re\nfrom collections import Counter, defaultdict\nfrom dataclasses import dataclass\nfrom datetime import datetime\nfrom typing import Iterator\n\nLOG = \"\"\"\\\n2026-03-01T10:00:01Z INFO  web  GET /home 200 35ms user=ana\n2026-03-01T10:00:02Z ERROR api  POST /pay 500 910ms user=bo\n2026-03-01T10:00:03Z INFO  web  GET /cart 200 48ms user=ana\n2026-03-01T10:01:10Z WARN  api  GET /items 200 700ms user=cy\n2026-03-01T10:01:11Z ERROR api  POST /pay 500 880ms user=bo\nthis line is garbage\n2026-03-01T10:02:00Z INFO  web  GET /home 404 12ms user=di\n2026-03-01T10:02:30Z INFO  api  GET /items 200 95ms user=ana\n\"\"\"\n\n# TODO: PATTERN - a compiled regex with named groups ts, level, svc, method, path, status, ms, user\n# TODO: @dataclass(frozen=True) class Entry (ts as datetime, level, service, method, path, status:int, ms:int, user)\n# TODO: parse(lines) -> generator of Entry, silently skipping lines that do not match\n# Then print, in this order:\n#   \"parsed N of M lines\", level counts (sorted dict), the two slowest paths by average ms (rounded),\n#   the server error rate (status >= 500) with one decimal, users with errors, the time window (last - first) and the busiest HH:MM minute\n\nentries = list(parse(LOG.splitlines()))\nprint(\"parsed\", len(entries), \"of\", len(LOG.splitlines()), \"lines\")\nprint(\"levels:\", dict(sorted(Counter(e.level for e in entries).items())))\n\nby_path = defaultdict(list)\nfor e in entries:\n    by_path[e.path].append(e.ms)\nslowest = sorted(((sum(v) / len(v), p) for p, v in by_path.items()), reverse=True)[:2]\nprint(\"slowest paths:\", [(p, round(avg)) for avg, p in slowest])\n\nerrors = [e for e in entries if e.status >= 500]\nprint(\"server error rate: {:.1f}%\".format(100 * len(errors) / len(entries)))\nprint(\"users with errors:\", sorted({e.user for e in errors}))\nfirst, last = entries[0].ts, entries[-1].ts\nprint(\"window:\", last - first)\nbusiest = Counter(e.ts.strftime(\"%H:%M\") for e in entries).most_common(1)[0]\nprint(\"busiest minute:\", busiest)\n",
+    "expected": "parsed 7 of 8 lines\nlevels: {'ERROR': 2, 'INFO': 4, 'WARN': 1}\nslowest paths: [('/pay', 895), ('/items', 398)]\nserver error rate: 28.6%\nusers with errors: ['bo']\nwindow: 0:02:29\nbusiest minute: ('10:00', 3)",
+    "solution": "import re\nfrom collections import Counter, defaultdict\nfrom dataclasses import dataclass\nfrom datetime import datetime\nfrom typing import Iterator\n\nLOG = \"\"\"\\\n2026-03-01T10:00:01Z INFO  web  GET /home 200 35ms user=ana\n2026-03-01T10:00:02Z ERROR api  POST /pay 500 910ms user=bo\n2026-03-01T10:00:03Z INFO  web  GET /cart 200 48ms user=ana\n2026-03-01T10:01:10Z WARN  api  GET /items 200 700ms user=cy\n2026-03-01T10:01:11Z ERROR api  POST /pay 500 880ms user=bo\nthis line is garbage\n2026-03-01T10:02:00Z INFO  web  GET /home 404 12ms user=di\n2026-03-01T10:02:30Z INFO  api  GET /items 200 95ms user=ana\n\"\"\"\n\nPATTERN = re.compile(\n    r\"(?P<ts>\\S+Z) (?P<level>[A-Z]+)\\s+(?P<svc>\\w+)\\s+(?P<method>[A-Z]+) (?P<path>\\S+) (?P<status>\\d{3}) (?P<ms>\\d+)ms user=(?P<user>\\w+)\"\n)\n\n@dataclass(frozen=True)\nclass Entry:\n    ts: datetime\n    level: str\n    service: str\n    method: str\n    path: str\n    status: int\n    ms: int\n    user: str\n\ndef parse(lines) -> Iterator[Entry]:\n    for line in lines:\n        m = PATTERN.match(line)\n        if not m:\n            continue\n        g = m.groupdict()\n        yield Entry(datetime.fromisoformat(g[\"ts\"].replace(\"Z\", \"+00:00\")), g[\"level\"], g[\"svc\"], g[\"method\"], g[\"path\"], int(g[\"status\"]), int(g[\"ms\"]), g[\"user\"])\n\nentries = list(parse(LOG.splitlines()))\nprint(\"parsed\", len(entries), \"of\", len(LOG.splitlines()), \"lines\")\nprint(\"levels:\", dict(sorted(Counter(e.level for e in entries).items())))\n\nby_path = defaultdict(list)\nfor e in entries:\n    by_path[e.path].append(e.ms)\nslowest = sorted(((sum(v) / len(v), p) for p, v in by_path.items()), reverse=True)[:2]\nprint(\"slowest paths:\", [(p, round(avg)) for avg, p in slowest])\n\nerrors = [e for e in entries if e.status >= 500]\nprint(\"server error rate: {:.1f}%\".format(100 * len(errors) / len(entries)))\nprint(\"users with errors:\", sorted({e.user for e in errors}))\nfirst, last = entries[0].ts, entries[-1].ts\nprint(\"window:\", last - first)\nbusiest = Counter(e.ts.strftime(\"%H:%M\") for e in entries).most_common(1)[0]\nprint(\"busiest minute:\", busiest)\n",
+    "explain": "A frozen dataclass gives a cheap, hashable record; the generator keeps parsing lazy and skips bad lines; Counter and defaultdict do the aggregation. The timestamp's trailing Z is replaced because fromisoformat needs an explicit offset on older Pythons. Verified by running the solution."
+   },
+   {
+    "title": "An async job runner with retry decorator and bounded concurrency",
+    "prompt": "Write an async retry decorator with exponential backoff (keeping the function name and counting retries), then run eight flaky jobs with a semaphore limiting concurrency to three. Job 7 never succeeds within three attempts and must be reported as failed without stopping the others.",
+    "starter": "import asyncio, functools, random, time\n\ndef retry(attempts=3, base=0.01, exceptions=(ConnectionError,)):\n    def deco(fn):\n        @functools.wraps(fn)\n        async def wrapper(*args, **kwargs):\n            for i in range(attempts):\n                try:\n                    return await fn(*args, **kwargs)\n                except exceptions as e:\n                    if i == attempts - 1:\n                        raise\n                    wrapper.retries += 1\n                    await asyncio.sleep(base * 2 ** i)\n        wrapper.retries = 0\n        return wrapper\n    return deco\n\n# TODO: retry(attempts=3, base=0.01, exceptions=(ConnectionError,)) - an async decorator with exponential backoff (base * 2**i),\n#       re-raising on the last attempt, keeping the wrapped function's name (functools.wraps) and counting retries on wrapper.retries\nrandom.seed(3)\nfailures = {2: 2, 5: 1, 7: 9}   # job id -> how many times it fails before succeeding (7 never succeeds within 3 attempts)\nattempts_seen = {}\n\n# TODO: @retry(attempts=3) async def fetch(job_id): record the attempt, sleep 0.01, raise ConnectionError while attempts <= failures.get(job_id, 0), else return job_id * 10\n# TODO: async def run(ids, limit): a semaphore bounds concurrency; each worker stores (\"ok\", value) or (\"failed\", message); return (results, peak concurrency, elapsed)\n\nresults, peak, elapsed = asyncio.run(run(range(1, 9), limit=3))\nfor i in sorted(results):\n    print(i, *results[i])\nprint(\"peak concurrency:\", peak)\nprint(\"retries performed:\", fetch.retries)\nprint(\"finished fast enough:\", elapsed < 1.0)\nprint(\"attempts per job:\", dict(sorted(attempts_seen.items())))\n",
+    "expected": "1 ok 10\n2 ok 20\n3 ok 30\n4 ok 40\n5 ok 50\n6 ok 60\n7 failed job 7 flaky\n8 ok 80\npeak concurrency: 3\nretries performed: 5\nfinished fast enough: True\nattempts per job: {1: 1, 2: 3, 3: 1, 4: 1, 5: 2, 6: 1, 7: 3, 8: 1}",
+    "solution": "import asyncio, functools, random, time\n\ndef retry(attempts=3, base=0.01, exceptions=(ConnectionError,)):\n    def deco(fn):\n        @functools.wraps(fn)\n        async def wrapper(*args, **kwargs):\n            for i in range(attempts):\n                try:\n                    return await fn(*args, **kwargs)\n                except exceptions as e:\n                    if i == attempts - 1:\n                        raise\n                    wrapper.retries += 1\n                    await asyncio.sleep(base * 2 ** i)\n        wrapper.retries = 0\n        return wrapper\n    return deco\n\nrandom.seed(3)\nfailures = {2: 2, 5: 1, 7: 9}   # job id -> how many times it fails before succeeding (7 never succeeds within 3 attempts)\nattempts_seen = {}\n\n@retry(attempts=3)\nasync def fetch(job_id):\n    attempts_seen[job_id] = attempts_seen.get(job_id, 0) + 1\n    await asyncio.sleep(0.01)\n    if attempts_seen[job_id] <= failures.get(job_id, 0):\n        raise ConnectionError(f\"job {job_id} flaky\")\n    return job_id * 10\n\nasync def run(ids, limit):\n    sem = asyncio.Semaphore(limit)\n    running = peak = 0\n    results = {}\n    async def worker(i):\n        nonlocal running, peak\n        async with sem:\n            running += 1\n            peak = max(peak, running)\n            try:\n                results[i] = (\"ok\", await fetch(i))\n            except ConnectionError as e:\n                results[i] = (\"failed\", str(e))\n            finally:\n                running -= 1\n    t = time.perf_counter()\n    await asyncio.gather(*(worker(i) for i in ids))\n    return results, peak, time.perf_counter() - t\n\nresults, peak, elapsed = asyncio.run(run(range(1, 9), limit=3))\nfor i in sorted(results):\n    print(i, *results[i])\nprint(\"peak concurrency:\", peak)\nprint(\"retries performed:\", fetch.retries)\nprint(\"finished fast enough:\", elapsed < 1.0)\nprint(\"attempts per job:\", dict(sorted(attempts_seen.items())))\n",
+    "explain": "The decorator re-raises on the final attempt, the semaphore bounds concurrency and each worker converts the final failure into a result instead of letting gather abort. Retries total 5 (2 + 1 + 2). Verified by running the solution (timings are tiny sleeps; only deterministic facts are printed)."
+   }
+  ]
+ },
+ "final_pass_pct": 70
 }
