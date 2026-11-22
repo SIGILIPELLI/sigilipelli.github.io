@@ -1,0 +1,2159 @@
+{
+ "course": "scala-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What does the JVM give Scala programs?",
+     "options": [
+      "Native compilation only",
+      "A browser",
+      "A portable runtime with garbage collection and access to the Java library ecosystem",
+      "An interpreter without types"
+     ],
+     "answer": 2,
+     "explain": "Scala compiles to JVM bytecode (also JS and native targets exist)."
+    },
+    {
+     "q": "What does sbt do?",
+     "options": [
+      "Edits code",
+      "Formats only",
+      "Deploys to cloud",
+      "Builds Scala projects: compiles, manages dependencies, runs tests and packages"
+     ],
+     "answer": 3,
+     "explain": "build.sbt defines the project."
+    },
+    {
+     "q": "What does @main do in Scala 3?",
+     "options": [
+      "Marks a top-level method as a program entry point",
+      "Imports",
+      "Creates a class",
+      "Starts sbt"
+     ],
+     "answer": 0,
+     "explain": "No object with main(args) needed."
+    },
+    {
+     "q": "What is the Scala REPL for?",
+     "options": [
+      "Trying expressions interactively",
+      "Linting",
+      "Deploying",
+      "Packaging"
+     ],
+     "answer": 0,
+     "explain": "Great for exploring the standard library."
+    }
+   ]
+  },
+  "level-1/02-variables-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\n@main def m() =\n  val x = 5\n  var y = 1\n  y += x\n  val s: String = s\"x=$x y=$y\"\n  lazy val boom = { println(\"computed\"); 42 }\n  println(s)\n  println(boom + boom)\n```\n",
+     "options": [
+      "x=5 y=6\ncomputed\n84",
+      "x=5 y=5\ncomputed\n84",
+      "x=5 y=6\n84",
+      "x=5 y=6\ncomputed\ncomputed\n84"
+     ],
+     "answer": 0,
+     "explain": "lazy val is evaluated once on first use. Verified by compiling and running it."
+    },
+    {
+     "q": "What happens if you reassign a val?",
+     "options": [
+      "Runtime error",
+      "Warning",
+      "Works",
+      "Compile error"
+     ],
+     "answer": 3,
+     "explain": "Use var for mutable bindings, though immutability is preferred."
+    },
+    {
+     "q": "What does this print?\n```scala\n@main def m() =\n  println(7 / 2)\n  println(7 / 2.0)\n  println(7 % 3)\n  println(\"ab\" * 3)\n  println((1 to 4).sum)\n```\n",
+     "options": [
+      "3\n3.5\n1\nababab\n10",
+      "3\n3\n1\nababab\n10",
+      "3\n3.5\n1\nababab\n4",
+      "3.5\n3.5\n1\nababab\n10"
+     ],
+     "answer": 0,
+     "explain": "Integer division truncates; String * repeats. Verified by compiling and running it."
+    },
+    {
+     "q": "What is Scala's top type?",
+     "options": [
+      "Top",
+      "Object only",
+      "Any (with AnyVal and AnyRef below it)",
+      "Base"
+     ],
+     "answer": 2,
+     "explain": "Nothing is the bottom type."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\n@main def m() =\n  val n = 15\n  val r = if n % 15 == 0 then \"FizzBuzz\" else if n % 3 == 0 then \"Fizz\" else n.toString\n  println(r)\n  val xs = for i <- 1 to 5 if i % 2 == 1 yield i * i\n  println(xs)\n  var i = 0\n  while i < 3 do i += 1\n  println(i)\n```\n",
+     "options": [
+      "FizzBuzz\nList(1, 9, 25)\n3",
+      "FizzBuzz\nVector(1, 9, 25)\n3",
+      "15\nVector(1, 9, 25)\n3",
+      "FizzBuzz\nVector(1, 9, 25)\n2"
+     ],
+     "answer": 1,
+     "explain": "if is an expression; a for-yield over a Range gives an IndexedSeq (Vector). Verified by compiling and running it."
+    },
+    {
+     "q": "What does for ... yield return?",
+     "options": [
+      "A new collection of the yielded values",
+      "The last value",
+      "Iterator only",
+      "Unit"
+     ],
+     "answer": 0,
+     "explain": "Without yield it is only for side effects."
+    },
+    {
+     "q": "What is the type of the expression println(\"hi\")?",
+     "options": [
+      "Nothing",
+      "Boolean",
+      "Unit",
+      "String"
+     ],
+     "answer": 2,
+     "explain": "Unit has the single value ()."
+    },
+    {
+     "q": "What does the match expression return?",
+     "options": [
+      "Nothing",
+      "The value of the chosen case",
+      "Always String",
+      "Unit"
+     ],
+     "answer": 1,
+     "explain": "It is an expression."
+    }
+   ]
+  },
+  "level-1/04-functions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\ndef add(a: Int, b: Int = 10): Int = a + b\ndef sum(xs: Int*): Int = xs.sum\ndef curried(a: Int)(b: Int) = a * b\n@main def m() =\n  println(add(1))\n  println(add(b = 1, a = 5))\n  println(sum(1, 2, 3))\n  println(curried(3)(4))\n  val f = (x: Int) => x + 1\n  println(List(1, 2).map(f))\n```\n",
+     "options": [
+      "11\n6\n3\n12\nList(2, 3)",
+      "11\n6\n6\n12\nList(2, 3)",
+      "1\n6\n6\n12\nList(2, 3)",
+      "11\n15\n6\n12\nList(2, 3)"
+     ],
+     "answer": 1,
+     "explain": "Default and named arguments, varargs and curried parameter lists. Verified by compiling and running it."
+    },
+    {
+     "q": "What does a method return if it has no explicit return?",
+     "options": [
+      "Nothing",
+      "Unit",
+      "The value of its last expression",
+      "null"
+     ],
+     "answer": 2,
+     "explain": "Avoid return in Scala."
+    },
+    {
+     "q": "What is a higher-order function?",
+     "options": [
+      "A fast one",
+      "A pure one",
+      "A function that takes or returns functions",
+      "Recursive"
+     ],
+     "answer": 2,
+     "explain": "map and filter are examples."
+    },
+    {
+     "q": "What does def f(x: => Int) mean?",
+     "options": [
+      "Optional",
+      "x is a by-name parameter evaluated each time it is used",
+      "Implicit",
+      "Reference"
+     ],
+     "answer": 1,
+     "explain": "Evaluated lazily at use."
+    }
+   ]
+  },
+  "level-1/05-collections-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\n@main def m() =\n  val xs = List(3, 1, 2)\n  println(xs.sorted)\n  println(xs.map(_ * 2).filter(_ > 2))\n  println(xs.foldLeft(0)(_ + _))\n  println(xs :+ 4)\n  println(0 :: xs)\n  val m = Map(\"a\" -> 1, \"b\" -> 2)\n  println(m.getOrElse(\"z\", 0))\n  println(m + (\"c\" -> 3))\n  println(xs.zipWithIndex)\n```\n",
+     "options": [
+      "List(1, 2, 3)\nList(6, 4)\n6\nList(3, 1, 2, 4)\nList(0, 3, 1, 2)\n0\nMap(a -> 1, b -> 2, c -> 3)\nList((3,0), (1,1), (2,2))",
+      "List(1, 2, 3)\nList(6, 4)\n6\nList(3, 1, 2, 4)\nList(3, 1, 2, 0)\n0\nMap(a -> 1, b -> 2, c -> 3)\nList((3,0), (1,1), (2,2))",
+      "List(1, 2, 3)\nList(6, 4)\n6\nList(3, 1, 2, 4)\nList(0, 3, 1, 2)\nNone\nMap(a -> 1, b -> 2, c -> 3)\nList((3,0), (1,1), (2,2))",
+      "List(3, 1, 2)\nList(6, 4)\n6\nList(3, 1, 2, 4)\nList(0, 3, 1, 2)\n0\nMap(a -> 1, b -> 2, c -> 3)\nList((3,0), (1,1), (2,2))"
+     ],
+     "answer": 0,
+     "explain": "Immutable collections return new collections; :: prepends, :+ appends. Verified by compiling and running it."
+    },
+    {
+     "q": "What is the difference between List and Vector?",
+     "options": [
+      "List is an array",
+      "Vector is mutable",
+      "No difference",
+      "List is a linked list (fast prepend); Vector has fast random access and updates"
+     ],
+     "answer": 3,
+     "explain": "Choose by access pattern."
+    },
+    {
+     "q": "What does the immutable Map return when you add a pair?",
+     "options": [
+      "Unit",
+      "Error",
+      "Mutates",
+      "A new Map; the original is unchanged"
+     ],
+     "answer": 3,
+     "explain": "Use mutable.Map explicitly if you need mutation."
+    },
+    {
+     "q": "What does flatMap do on a list?",
+     "options": [
+      "Reduces",
+      "Sorts",
+      "Filters",
+      "Maps each element to a collection and flattens the results"
+     ],
+     "answer": 3,
+     "explain": "The basis of for-comprehensions."
+    }
+   ]
+  },
+  "level-1/06-classes-objects": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\nclass Counter(private var n: Int = 0):\n  def inc(): Unit = n += 1\n  def value: Int = n\nobject Counter:\n  def apply(start: Int): Counter = new Counter(start)\n@main def m() =\n  val c = Counter(5)\n  c.inc(); c.inc()\n  println(c.value)\n  println(Counter(0).value)\n```\n",
+     "options": [
+      "5\n0",
+      "7\n0",
+      "2\n0",
+      "7\n7"
+     ],
+     "answer": 1,
+     "explain": "The companion's apply works like a factory; the private var is hidden. Verified by compiling and running it."
+    },
+    {
+     "q": "What is a companion object?",
+     "options": [
+      "A thread",
+      "An interface",
+      "A second class",
+      "An object with the same name as a class in the same file, holding static-like members and factories"
+     ],
+     "answer": 3,
+     "explain": "Scala has no static keyword."
+    },
+    {
+     "q": "What does object Foo define?",
+     "options": [
+      "A trait",
+      "A singleton instance",
+      "A class",
+      "A type alias"
+     ],
+     "answer": 1,
+     "explain": "Created lazily on first use."
+    },
+    {
+     "q": "What is the primary constructor?",
+     "options": [
+      "A factory",
+      "A method",
+      "The class parameter list in the class header",
+      "A trait"
+     ],
+     "answer": 2,
+     "explain": "Auxiliary constructors use this(...)."
+    }
+   ]
+  },
+  "level-1/07-case-classes": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\ncase class Point(x: Int, y: Int)\n@main def m() =\n  val p = Point(1, 2)\n  val q = p.copy(y = 5)\n  println(p)\n  println(q)\n  println(p == Point(1, 2))\n  val Point(a, b) = q\n  println(a + b)\n  println(p.hashCode == Point(1, 2).hashCode)\n```\n",
+     "options": [
+      "Point(1,2)\nPoint(1,2)\ntrue\n6\ntrue",
+      "Point(x=1, y=2)\nPoint(1,5)\ntrue\n6\ntrue",
+      "Point(1,2)\nPoint(1,5)\ntrue\n6\ntrue",
+      "Point(1,2)\nPoint(1,5)\nfalse\n6\ntrue"
+     ],
+     "answer": 2,
+     "explain": "Case classes give structural equality, copy, toString and extractors. Verified by compiling and running it."
+    },
+    {
+     "q": "Do you need new to create a case class instance?",
+     "options": [
+      "Yes",
+      "Only if generic",
+      "No, the generated apply method is used",
+      "Only in Scala 2"
+     ],
+     "answer": 2,
+     "explain": "Point(1, 2)."
+    },
+    {
+     "q": "Why are case class fields immutable by default?",
+     "options": [
+      "Encourages safe, shareable values; use copy to derive changes",
+      "Speed",
+      "Law",
+      "Syntax"
+     ],
+     "answer": 0,
+     "explain": "Mutable fields are possible with var but discouraged."
+    },
+    {
+     "q": "What other features come free with a case class?",
+     "options": [
+      "Threads",
+      "Serialisation only",
+      "equals, hashCode, toString and pattern-matching support",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "A concise data holder."
+    }
+   ]
+  },
+  "level-1/08-pattern-matching-intro": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\ndef describe(x: Any): String = x match\n  case 0 => \"zero\"\n  case n: Int if n < 0 => \"neg\"\n  case n: Int => s\"int $n\"\n  case s: String => s\"str ${s.length}\"\n  case (a, b) => s\"pair $a,$b\"\n  case _ => \"other\"\n@main def m() =\n  println(List(0, -3, 7, \"hey\", (1, 2), 2.5).map(describe))\n```\n",
+     "options": [
+      "List(zero, neg, int 7, str 3, pair 1,2, int 2)",
+      "List(zero, neg, int 7, str 3, pair 1,2, other)",
+      "List(0, neg, int 7, str 3, pair 1,2, other)",
+      "List(zero, neg, int 7, str 3, (1,2), other)"
+     ],
+     "answer": 1,
+     "explain": "Cases are tried top to bottom; guards add conditions. Verified by compiling and running it."
+    },
+    {
+     "q": "What happens if a match on a sealed trait misses a case?",
+     "options": [
+      "Runtime error always",
+      "Syntax error",
+      "Nothing",
+      "The compiler warns that the match may not be exhaustive"
+     ],
+     "answer": 3,
+     "explain": "Seal ADTs for exhaustiveness checking."
+    },
+    {
+     "q": "What does case _ do?",
+     "options": [
+      "Matches anything (wildcard)",
+      "Nothing",
+      "Imports",
+      "Fails"
+     ],
+     "answer": 0,
+     "explain": "Usually last."
+    },
+    {
+     "q": "What does case x @ Some(_) do?",
+     "options": [
+      "Imports",
+      "Casts",
+      "Binds the whole matched value to x while matching the pattern",
+      "Loops"
+     ],
+     "answer": 2,
+     "explain": "Pattern binders."
+    }
+   ]
+  },
+  "level-1/09-traits-basics": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\ntrait Greeter:\n  def name: String\n  def greet: String = s\"Hello, $name\"\ntrait Loud extends Greeter:\n  override def greet: String = super.greet.toUpperCase + \"!\"\nclass Bob extends Greeter:\n  def name = \"Bob\"\nclass LoudBob extends Bob, Loud\n@main def m() =\n  println(Bob().greet)\n  println(LoudBob().greet)\n```\n",
+     "options": [
+      "Hello, Bob\nHello, Bob",
+      "Hello, Bob\nHELLO, BOB",
+      "Hello, Bob\nHELLO, BOB!",
+      "HELLO, BOB!\nHELLO, BOB!"
+     ],
+     "answer": 2,
+     "explain": "Traits mix in behaviour; linearisation puts Loud's override first. Verified by compiling and running it."
+    },
+    {
+     "q": "What is the difference between a trait and an abstract class?",
+     "options": [
+      "None",
+      "Traits are slower",
+      "A class can mix in many traits but extend only one class; traits can't take constructor args in Scala 2",
+      "Abstract classes are interfaces"
+     ],
+     "answer": 2,
+     "explain": "Scala 3 traits can take parameters."
+    },
+    {
+     "q": "What does sealed do?",
+     "options": [
+      "Restricts subclasses to the same file so matches can be checked exhaustively",
+      "Hides",
+      "Makes immutable",
+      "Seals bytecode"
+     ],
+     "answer": 0,
+     "explain": "Great for ADTs."
+    },
+    {
+     "q": "How do you model 'a payment is Card, Cash or Transfer'?",
+     "options": [
+      "Ints",
+      "Maps",
+      "Strings",
+      "A sealed trait with case class or case object variants (an ADT)"
+     ],
+     "answer": 3,
+     "explain": "Make illegal states unrepresentable."
+    }
+   ]
+  },
+  "level-1/10-project-todo-app": {
+   "questions": [
+    {
+     "q": "What is a good structure for the todo app?",
+     "options": [
+      "Reflection",
+      "Mutable globals",
+      "Immutable case classes and pure functions for logic, with IO at the edges",
+      "One object"
+     ],
+     "answer": 2,
+     "explain": "Easy to test."
+    },
+    {
+     "q": "How do you update an immutable todo in a list?",
+     "options": [
+      "Create a changed copy with copy and rebuild the list (map)",
+      "var",
+      "Index set",
+      "Mutate"
+     ],
+     "answer": 0,
+     "explain": "todos.map(t => if t.id == id then t.copy(done = true) else t)."
+    },
+    {
+     "q": "How would you persist the todos?",
+     "options": [
+      "Nothing",
+      "Serialise to a file (for example JSON) at the edges",
+      "Global",
+      "Env"
+     ],
+     "answer": 1,
+     "explain": "Keep persistence separate from logic."
+    },
+    {
+     "q": "Why write tests for the pure functions first?",
+     "options": [
+      "No setup needed, so they are fast and reliable",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Functional core, imperative shell."
+    }
+   ]
+  },
+  "level-2/01-oop-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\ntrait Shape { def area: Double }\ncase class Circle(r: Double) extends Shape { def area = 3 * r * r }\ncase class Rect(w: Double, h: Double) extends Shape { def area = w * h }\nabstract class Animal(val name: String):\n  def sound: String\n  override def toString = s\"$name says $sound\"\nclass Dog extends Animal(\"Rex\"):\n  def sound = \"woof\"\n@main def m() =\n  println(List(Circle(1), Rect(2, 3)).map(_.area).sum)\n  println(Dog())\n```\n",
+     "options": [
+      "9.0\nRex says woof",
+      "9\nRex says woof",
+      "9.0\nDog",
+      "6.0\nRex says woof"
+     ],
+     "answer": 0,
+     "explain": "Polymorphism through the Shape trait; toString overrides in the abstract class. Verified by compiling and running it."
+    },
+    {
+     "q": "What does override require in Scala?",
+     "options": [
+      "The override keyword when replacing a concrete member",
+      "abstract",
+      "Nothing",
+      "final"
+     ],
+     "answer": 0,
+     "explain": "Catches accidental overrides."
+    },
+    {
+     "q": "What does final on a class do?",
+     "options": [
+      "Prevents subclassing",
+      "Seals",
+      "Locks",
+      "Stops compile"
+     ],
+     "answer": 0,
+     "explain": "Use for value types."
+    },
+    {
+     "q": "What is the difference between val and def in a trait member?",
+     "options": [
+      "def is stored",
+      "None",
+      "val is lazy",
+      "val is computed once; def is computed on each call"
+     ],
+     "answer": 3,
+     "explain": "Beware initialisation order with val."
+    }
+   ]
+  },
+  "level-2/02-pattern-matching-advanced": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\nenum Expr:\n  case Num(n: Int)\n  case Add(a: Expr, b: Expr)\n  case Mul(a: Expr, b: Expr)\nimport Expr.*\ndef eval(e: Expr): Int = e match\n  case Num(n) => n\n  case Add(a, b) => eval(a) + eval(b)\n  case Mul(a, b) => eval(a) * eval(b)\n@main def m() =\n  println(eval(Add(Num(2), Mul(Num(3), Num(4)))))\n  val xs = List(1, 2, 3, 4)\n  xs match\n    case h :: t => println(s\"$h | $t\")\n    case Nil => println(\"empty\")\n```\n",
+     "options": [
+      "14\n1 | List(2, 3, 4)",
+      "14\n1 | 2",
+      "20\n1 | List(2, 3, 4)",
+      "14\nempty"
+     ],
+     "answer": 0,
+     "explain": "Enums define ADTs; :: destructures a list. Verified by compiling and running it."
+    },
+    {
+     "q": "What do extractors (unapply) allow?",
+     "options": [
+      "Threads",
+      "Faster code",
+      "Imports",
+      "Custom patterns in match expressions"
+     ],
+     "answer": 3,
+     "explain": "Case classes get them for free."
+    },
+    {
+     "q": "What does a pattern guard (if ...) do?",
+     "options": [
+      "Nothing",
+      "Imports",
+      "Types",
+      "Adds a boolean condition to a case"
+     ],
+     "answer": 3,
+     "explain": "The case matches only if the guard holds."
+    },
+    {
+     "q": "What does the pipe in case 1 | 2 do?",
+     "options": [
+      "Bitwise or",
+      "Syntax error",
+      "Pipes IO",
+      "Matches either alternative"
+     ],
+     "answer": 3,
+     "explain": "Alternative patterns."
+    }
+   ]
+  },
+  "level-2/03-collections-deep-dive": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\n@main def m() =\n  val xs = List(1, 2, 3, 4, 5, 6)\n  println(xs.groupBy(_ % 3).toList.sortBy(_._1))\n  println(xs.partition(_ % 2 == 0))\n  println(xs.sliding(3).map(_.sum).toList)\n  println(xs.takeWhile(_ < 4) ++ xs.dropWhile(_ < 6))\n  println((xs.reduce(_ max _), xs.scan(0)(_ + _)))\n```\n",
+     "options": [
+      "List((0,List(3, 6)), (1,List(1, 4)), (2,List(2, 5)))\n(List(2, 4, 6),List(1, 3, 5))\nList(6, 9, 12, 15)\nList(1, 2, 3)\n(6,List(0, 1, 3, 6, 10, 15, 21))",
+      "List((1,List(1, 4)), (2,List(2, 5)), (0,List(3, 6)))\n(List(2, 4, 6),List(1, 3, 5))\nList(6, 9, 12, 15)\nList(1, 2, 3, 6)\n(6,List(0, 1, 3, 6, 10, 15, 21))",
+      "List((0,List(3, 6)), (1,List(1, 4)), (2,List(2, 5)))\n(List(2, 4, 6),List(1, 3, 5))\nList(6, 9, 12, 15)\nList(1, 2, 3, 6)\n(21,List(0, 1, 3, 6, 10, 15, 21))",
+      "List((0,List(3, 6)), (1,List(1, 4)), (2,List(2, 5)))\n(List(2, 4, 6),List(1, 3, 5))\nList(6, 9, 12, 15)\nList(1, 2, 3, 6)\n(6,List(0, 1, 3, 6, 10, 15, 21))"
+     ],
+     "answer": 3,
+     "explain": "groupBy returns a Map; sorting its entries gives stable output. Verified by compiling and running it."
+    },
+    {
+     "q": "What is the cost of appending to a List in a loop?",
+     "options": [
+      "O(1)",
+      "Free",
+      "O(log n)",
+      "O(n) each time; build with prepend and reverse, or use a builder or Vector"
+     ],
+     "answer": 3,
+     "explain": "Choose the right collection."
+    },
+    {
+     "q": "What does view do on a collection?",
+     "options": [
+      "Prints",
+      "Sorts",
+      "Copies",
+      "Makes transformations lazy so intermediate collections are not built"
+     ],
+     "answer": 3,
+     "explain": "Useful for long chains."
+    },
+    {
+     "q": "What does .iterator give you?",
+     "options": [
+      "A Map",
+      "A single-pass lazy traversal",
+      "A Set",
+      "A copy"
+     ],
+     "answer": 1,
+     "explain": "Consumed once."
+    }
+   ]
+  },
+  "level-2/04-option-either": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\ndef parse(s: String): Option[Int] = s.toIntOption\ndef div(a: Int, b: Int): Either[String, Int] = if b == 0 then Left(\"div by zero\") else Right(a / b)\n@main def m() =\n  println(parse(\"42\").map(_ + 1))\n  println(parse(\"x\").getOrElse(-1))\n  println(for a <- parse(\"10\"); b <- parse(\"2\") yield a / b)\n  println(div(1, 0))\n  println(div(8, 2).map(_ * 3))\n  println(div(1, 0).left.map(_.toUpperCase))\n  println(List(\"1\", \"x\", \"3\").flatMap(parse))\n```\n",
+     "options": [
+      "43\n-1\nSome(5)\nLeft(div by zero)\nRight(12)\nLeft(DIV BY ZERO)\nList(1, 3)",
+      "Some(43)\n-1\nSome(5)\nLeft(div by zero)\nRight(12)\nLeft(div by zero)\nList(1, 3)",
+      "Some(43)\n-1\nSome(5)\nLeft(div by zero)\nRight(12)\nLeft(DIV BY ZERO)\nList(1, 3)",
+      "Some(43)\nNone\nSome(5)\nLeft(div by zero)\nRight(12)\nLeft(DIV BY ZERO)\nList(1, 3)"
+     ],
+     "answer": 2,
+     "explain": "Option and Either replace nulls and exceptions with values; flatMap drops Nones. Verified by compiling and running it."
+    },
+    {
+     "q": "Why prefer Option over null?",
+     "options": [
+      "Shorter",
+      "Faster",
+      "Java needs it",
+      "The type forces callers to handle absence"
+     ],
+     "answer": 3,
+     "explain": "No NullPointerException from forgetting."
+    },
+    {
+     "q": "By convention, which side of Either holds the error?",
+     "options": [
+      "Right",
+      "Both",
+      "Neither",
+      "Left (Right is the success)"
+     ],
+     "answer": 3,
+     "explain": "Right-biased."
+    },
+    {
+     "q": "What does Try do?",
+     "options": [
+      "Logs",
+      "Catches nothing",
+      "Wraps code that may throw into Success or Failure",
+      "Retries"
+     ],
+     "answer": 2,
+     "explain": "Converts exceptions into values."
+    }
+   ]
+  },
+  "level-2/05-scalatest-testing": {
+   "questions": [
+    {
+     "q": "What does a ScalaTest FlatSpec/AnyFunSuite test look like?",
+     "options": [
+      "A trait",
+      "A named block with assertions such as assert(a == b) or a shouldBe b",
+      "A macro",
+      "A main method"
+     ],
+     "answer": 1,
+     "explain": "Run with sbt test."
+    },
+    {
+     "q": "What does sbt testOnly do?",
+     "options": [
+      "Runs only matching test suites",
+      "Builds jar",
+      "Compiles",
+      "Cleans"
+     ],
+     "answer": 0,
+     "explain": "Quick feedback."
+    },
+    {
+     "q": "Why prefer pure functions for testing?",
+     "options": [
+      "Law",
+      "Faster CPU",
+      "No mocks or setup; same input gives same output",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Easier reasoning."
+    },
+    {
+     "q": "What is a property-based test (ScalaCheck)?",
+     "options": [
+      "A test that checks a property over many generated inputs",
+      "A unit test",
+      "A benchmark",
+      "A manual test"
+     ],
+     "answer": 0,
+     "explain": "Failures shrink to a minimal case."
+    }
+   ]
+  },
+  "level-2/06-implicits-basics": {
+   "questions": [
+    {
+     "q": "What is an implicit/given value used for?",
+     "options": [
+      "Supplying context or type class instances automatically at call sites",
+      "Magic",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "In Scala 3: given and using."
+    },
+    {
+     "q": "Which Scala 3 keyword replaces the implicit parameter list?",
+     "options": [
+      "needs",
+      "given only",
+      "with",
+      "using"
+     ],
+     "answer": 3,
+     "explain": "def f(using ord: Ordering[Int])."
+    },
+    {
+     "q": "What is a risk of overusing implicits?",
+     "options": [
+      "Speed",
+      "Code that is hard to follow because behaviour comes from invisible imports",
+      "Law",
+      "Syntax"
+     ],
+     "answer": 1,
+     "explain": "Keep them to type classes and context."
+    },
+    {
+     "q": "What does an extension method do?",
+     "options": [
+      "Overrides",
+      "Adds a method to an existing type without modifying it",
+      "Subclasses",
+      "Deletes"
+     ],
+     "answer": 1,
+     "explain": "extension (s: String) def shout = ..."
+    }
+   ]
+  },
+  "level-2/07-working-with-json": {
+   "questions": [
+    {
+     "q": "Which library style is common for JSON in Scala?",
+     "options": [
+      "Manual strings",
+      "XML",
+      "Libraries such as circe or play-json with typed encoders/decoders",
+      "Regex"
+     ],
+     "answer": 2,
+     "explain": "Derive codecs from case classes."
+    },
+    {
+     "q": "What does decoding JSON into a case class give you?",
+     "options": [
+      "Speed",
+      "Type-safe access and errors for missing or malformed fields",
+      "Colour",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Return Either with errors."
+    },
+    {
+     "q": "Why not pattern match on raw JSON strings?",
+     "options": [
+      "Style",
+      "Law",
+      "JSON is structured; use a parser to avoid fragile hacks",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Parse, then validate."
+    },
+    {
+     "q": "What should you do with unexpected extra fields?",
+     "options": [
+      "Hide",
+      "Crash",
+      "Delete",
+      "Decide explicitly: ignore for forward compatibility or reject for strict APIs"
+     ],
+     "answer": 3,
+     "explain": "Document the choice."
+    }
+   ]
+  },
+  "level-2/08-sbt-deep-dive": {
+   "questions": [
+    {
+     "q": "What does libraryDependencies += ... do in sbt?",
+     "options": [
+      "Adds a dependency to the project",
+      "Packages",
+      "Runs tests",
+      "Cleans"
+     ],
+     "answer": 0,
+     "explain": "Use %% for Scala-versioned artifacts."
+    },
+    {
+     "q": "What does %% mean in an sbt dependency?",
+     "options": [
+      "Append the Scala binary version to the artifact name",
+      "Override",
+      "Both",
+      "Percent"
+     ],
+     "answer": 0,
+     "explain": "Cross-built libraries."
+    },
+    {
+     "q": "What are sbt tasks and settings?",
+     "options": [
+      "Files",
+      "Same",
+      "Settings hold values; tasks compute things like compile",
+      "Plugins"
+     ],
+     "answer": 2,
+     "explain": "Defined in build.sbt."
+    },
+    {
+     "q": "What does sbt assembly (plugin) produce?",
+     "options": [
+      "Tests",
+      "Docs",
+      "Image",
+      "A single fat jar with dependencies"
+     ],
+     "answer": 3,
+     "explain": "For deployment."
+    }
+   ]
+  },
+  "level-2/09-for-comprehensions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\n@main def m() =\n  val r = for\n    a <- List(1, 2)\n    b <- List(\"x\", \"y\")\n    if a != 2 || b != \"y\"\n  yield s\"$a$b\"\n  println(r)\n  val o = for\n    x <- Some(3)\n    y <- None: Option[Int]\n  yield x + y\n  println(o)\n```\n",
+     "options": [
+      "List(1x, 1y, 2x)\nNone",
+      "List(1x, 2x)\nNone",
+      "List(1x, 1y, 2x, 2y)\nNone",
+      "List(1x, 1y, 2x)\nSome(3)"
+     ],
+     "answer": 0,
+     "explain": "for-comprehensions desugar to flatMap, map and withFilter; one None short-circuits the whole thing. Verified by compiling and running it."
+    },
+    {
+     "q": "What does a for-comprehension desugar to?",
+     "options": [
+      "flatMap, map and withFilter calls",
+      "Loops",
+      "Threads",
+      "Macros"
+     ],
+     "answer": 0,
+     "explain": "Any type with those methods works."
+    },
+    {
+     "q": "Can you mix Option and List in one for?",
+     "options": [
+      "Always",
+      "Yes",
+      "Not directly; the generator types must be compatible (convert with toList)",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Types must line up."
+    },
+    {
+     "q": "Why use for-comprehension instead of nested flatMap?",
+     "options": [
+      "Memory",
+      "Readability",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Same behaviour."
+    }
+   ]
+  },
+  "level-2/10-project-weather-cli": {
+   "questions": [
+    {
+     "q": "How do you test a weather CLI that calls an API?",
+     "options": [
+      "Mock Scala",
+      "Call the API",
+      "Separate parsing from fetching and test parsing with sample JSON",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Deterministic tests."
+    },
+    {
+     "q": "Where should errors from the API surface?",
+     "options": [
+      "Loop",
+      "As Either or exceptions translated into a clear user message",
+      "Stack trace",
+      "Silently"
+     ],
+     "answer": 1,
+     "explain": "Exit with non-zero."
+    },
+    {
+     "q": "How can you model temperature units safely?",
+     "options": [
+      "Doubles",
+      "An enum or sealed trait for units and a case class for the reading",
+      "Maps",
+      "Strings"
+     ],
+     "answer": 1,
+     "explain": "Types prevent mix-ups."
+    },
+    {
+     "q": "Why cache responses briefly?",
+     "options": [
+      "Reduce calls and latency",
+      "Style",
+      "Law",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Respect API limits."
+    }
+   ]
+  },
+  "level-3/01-futures-concurrency": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\nimport scala.concurrent.{Future, Await}\nimport scala.concurrent.ExecutionContext.Implicits.global\nimport scala.concurrent.duration.*\n@main def m() =\n  val f1 = Future { 20 }\n  val f2 = Future { 22 }\n  val sum = for a <- f1; b <- f2 yield a + b\n  println(Await.result(sum, 2.seconds))\n  val bad = Future { 1 / 0 }.recover { case _: ArithmeticException => -1 }\n  println(Await.result(bad, 2.seconds))\n```\n",
+     "options": [
+      "42\nerror",
+      "42\n-1",
+      "42\n0",
+      "20\n-1"
+     ],
+     "answer": 1,
+     "explain": "Futures compose with for; recover turns a failure into a value. Verified by compiling and running it."
+    },
+    {
+     "q": "What is an ExecutionContext?",
+     "options": [
+      "A DB",
+      "A logger",
+      "A class loader",
+      "The thread pool on which futures run"
+     ],
+     "answer": 3,
+     "explain": "Provide one explicitly."
+    },
+    {
+     "q": "Why avoid Await.result in production code?",
+     "options": [
+      "Law",
+      "Speed",
+      "It blocks a thread; compose futures instead",
+      "Syntax"
+     ],
+     "answer": 2,
+     "explain": "Use it at the edge or in tests."
+    },
+    {
+     "q": "What does Future.sequence do?",
+     "options": [
+      "Cancels",
+      "Runs serially",
+      "Sorts",
+      "Turns a collection of futures into one future of a collection"
+     ],
+     "answer": 3,
+     "explain": "Fails if any fails."
+    }
+   ]
+  },
+  "level-3/02-building-apis": {
+   "questions": [
+    {
+     "q": "What does an HTTP API framework such as http4s or Play provide?",
+     "options": [
+      "DB",
+      "Logger",
+      "Compiler",
+      "Routing, request/response handling and JSON integration"
+     ],
+     "answer": 3,
+     "explain": "Pick one suited to your style."
+    },
+    {
+     "q": "Which status code means 'created'?",
+     "options": [
+      "404",
+      "200",
+      "201",
+      "204"
+     ],
+     "answer": 2,
+     "explain": "Return Location."
+    },
+    {
+     "q": "Why define request and response case classes?",
+     "options": [
+      "Speed",
+      "Law",
+      "Colour",
+      "Typed contracts and automatic codecs"
+     ],
+     "answer": 3,
+     "explain": "Validate input."
+    },
+    {
+     "q": "How should errors be returned?",
+     "options": [
+      "Stack traces",
+      "Empty",
+      "With the right status and a consistent JSON error body",
+      "200"
+     ],
+     "answer": 2,
+     "explain": "Don't leak internals."
+    }
+   ]
+  },
+  "level-3/03-databases": {
+   "questions": [
+    {
+     "q": "What does Slick or Doobie provide?",
+     "options": [
+      "JSON",
+      "HTTP",
+      "Testing",
+      "Typed database access for Scala"
+     ],
+     "answer": 3,
+     "explain": "Slick is FRM; Doobie is functional JDBC."
+    },
+    {
+     "q": "Why use connection pools?",
+     "options": [
+      "Style",
+      "Speed",
+      "Opening connections is expensive and limited",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "HikariCP is common."
+    },
+    {
+     "q": "How do you prevent SQL injection?",
+     "options": [
+      "Trust",
+      "Parameterised queries or typed query builders",
+      "Regex",
+      "Escape"
+     ],
+     "answer": 1,
+     "explain": "Never concatenate input."
+    },
+    {
+     "q": "What should DB calls return in a functional design?",
+     "options": [
+      "Unit",
+      "Exceptions only",
+      "null",
+      "Effects or Futures, with errors as values at the boundary"
+     ],
+     "answer": 3,
+     "explain": "Keep IO explicit."
+    }
+   ]
+  },
+  "level-3/04-functional-patterns": {
+   "questions": [
+    {
+     "q": "What is referential transparency?",
+     "options": [
+      "Immutability only",
+      "A style",
+      "Speed",
+      "An expression can be replaced by its value without changing behaviour"
+     ],
+     "answer": 3,
+     "explain": "Enables local reasoning."
+    },
+    {
+     "q": "What is a monad (informally)?",
+     "options": [
+      "A DB",
+      "A class",
+      "A type with flatMap and unit that sequences computations with context",
+      "A thread"
+     ],
+     "answer": 2,
+     "explain": "Option, Either, List and Future behave this way."
+    },
+    {
+     "q": "What does Functor's map guarantee?",
+     "options": [
+      "Mutation",
+      "Order change",
+      "Sorting",
+      "Transforms contents while preserving structure"
+     ],
+     "answer": 3,
+     "explain": "Laws: identity and composition."
+    },
+    {
+     "q": "Why push side effects to the edge?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Law",
+      "A pure core is easier to test and reason about"
+     ],
+     "answer": 3,
+     "explain": "Functional core, imperative shell."
+    }
+   ]
+  },
+  "level-3/05-testing-advanced": {
+   "questions": [
+    {
+     "q": "What is a mock used for?",
+     "options": [
+      "Replacing a collaborator to control and verify interactions",
+      "Compilation",
+      "DB",
+      "Logging"
+     ],
+     "answer": 0,
+     "explain": "Prefer fakes for simple cases."
+    },
+    {
+     "q": "Why use test containers for integration tests?",
+     "options": [
+      "Speed",
+      "Law",
+      "Real dependencies such as databases in disposable containers",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Closer to production."
+    },
+    {
+     "q": "What is a flaky test?",
+     "options": [
+      "Slow",
+      "One that sometimes fails without code changes",
+      "Big",
+      "Long"
+     ],
+     "answer": 1,
+     "explain": "Fix root causes: time, ordering, shared state."
+    },
+    {
+     "q": "What does a test pyramid recommend?",
+     "options": [
+      "None",
+      "Many unit tests, fewer integration and few end-to-end",
+      "Equal",
+      "All e2e"
+     ],
+     "answer": 1,
+     "explain": "Balance speed and confidence."
+    }
+   ]
+  },
+  "level-3/06-type-classes": {
+   "questions": [
+    {
+     "q": "What does this print?\n```scala\ntrait Show[A]:\n  def show(a: A): String\ngiven Show[Int] with\n  def show(a: Int) = s\"Int($a)\"\ngiven Show[String] with\n  def show(a: String) = s\"Str($a)\"\ngiven [A](using s: Show[A]): Show[List[A]] with\n  def show(xs: List[A]) = xs.map(s.show).mkString(\"[\", \",\", \"]\")\ndef render[A](a: A)(using s: Show[A]) = s.show(a)\n@main def m() =\n  println(render(5))\n  println(render(\"hi\"))\n  println(render(List(1, 2)))\n```\n",
+     "options": [
+      "5\nhi\n[1,2]",
+      "Int(5)\nhi\n[Int(1),Int(2)]",
+      "Int(5)\nStr(hi)\nList(Int(1),Int(2))",
+      "Int(5)\nStr(hi)\n[Int(1),Int(2)]"
+     ],
+     "answer": 3,
+     "explain": "The compiler selects the right given by type, including derived instances for List. Verified by compiling and running it."
+    },
+    {
+     "q": "What is a type class?",
+     "options": [
+      "A trait only",
+      "A set of operations defined for a type separately from the type itself",
+      "A macro",
+      "A class"
+     ],
+     "answer": 1,
+     "explain": "Ad hoc polymorphism."
+    },
+    {
+     "q": "What advantage do type classes have over inheritance?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Law",
+      "You can add behaviour to types you do not own"
+     ],
+     "answer": 3,
+     "explain": "For example Ordering for any type."
+    },
+    {
+     "q": "What does Ordering[T] enable?",
+     "options": [
+      "Printing",
+      "Hashing",
+      "Sorting and comparison for T",
+      "Parsing"
+     ],
+     "answer": 2,
+     "explain": "sorted uses it implicitly."
+    }
+   ]
+  },
+  "level-3/07-higher-kinded-types": {
+   "questions": [
+    {
+     "q": "What is a higher-kinded type?",
+     "options": [
+      "A big type",
+      "A type that takes a type constructor as a parameter, such as F[_]",
+      "A subclass",
+      "An enum"
+     ],
+     "answer": 1,
+     "explain": "Functor[F[_]]."
+    },
+    {
+     "q": "Why are HKTs useful?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Abstracting over containers like Option, List and Future",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Write generic code once."
+    },
+    {
+     "q": "What is the kind of Option?",
+     "options": [
+      "(* -> *) -> *",
+      "None",
+      "*",
+      "* -> * (it takes one type)"
+     ],
+     "answer": 3,
+     "explain": "Option[Int] is a proper type."
+    },
+    {
+     "q": "What risk comes with heavy abstraction?",
+     "options": [
+      "Law",
+      "Hard-to-read code and slow onboarding; use it where it pays off",
+      "None",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Balance."
+    }
+   ]
+  },
+  "level-3/08-performance-profiling": {
+   "questions": [
+    {
+     "q": "What is the first step in performance work?",
+     "options": [
+      "Guess",
+      "Rewrite",
+      "Measure with a profiler or JMH before changing code",
+      "Add threads"
+     ],
+     "answer": 2,
+     "explain": "Find the bottleneck."
+    },
+    {
+     "q": "What is JMH?",
+     "options": [
+      "A test",
+      "A JVM microbenchmark harness that handles warm-up and dead-code elimination",
+      "A DB",
+      "A logger"
+     ],
+     "answer": 1,
+     "explain": "Avoid naive timing loops."
+    },
+    {
+     "q": "Why can boxing hurt performance?",
+     "options": [
+      "Primitive values wrapped in objects cause allocation and indirection",
+      "Colour",
+      "Syntax",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Specialisation and arrays help."
+    },
+    {
+     "q": "What does tail recursion with @tailrec guarantee?",
+     "options": [
+      "The compiler turns it into a loop or errors",
+      "Parallel",
+      "Lazy",
+      "Faster always"
+     ],
+     "answer": 0,
+     "explain": "Avoids stack overflow."
+    }
+   ]
+  },
+  "level-3/09-akka-actors-basics": {
+   "questions": [
+    {
+     "q": "What does an actor encapsulate?",
+     "options": [
+      "DB",
+      "Files",
+      "State and behaviour, communicating only by asynchronous messages",
+      "Threads"
+     ],
+     "answer": 2,
+     "explain": "No shared mutable state."
+    },
+    {
+     "q": "What is a mailbox?",
+     "options": [
+      "An email",
+      "The queue of messages waiting for an actor",
+      "A DB",
+      "A thread"
+     ],
+     "answer": 1,
+     "explain": "Processed one at a time."
+    },
+    {
+     "q": "What is 'let it crash' supervision?",
+     "options": [
+      "A parent actor restarts or stops failing children by policy",
+      "Ignoring",
+      "Logging",
+      "Catching all"
+     ],
+     "answer": 0,
+     "explain": "Fault isolation."
+    },
+    {
+     "q": "What is the cost of messages to actors?",
+     "options": [
+      "Law",
+      "Asynchrony: results arrive later, so design for it",
+      "None",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Use ask carefully."
+    }
+   ]
+  },
+  "level-3/10-project-rest-api-db": {
+   "questions": [
+    {
+     "q": "In the REST API project, where should SQL live?",
+     "options": [
+      "In a repository layer separate from routes",
+      "Main",
+      "Tests",
+      "Routes"
+     ],
+     "answer": 0,
+     "explain": "Easier to test."
+    },
+    {
+     "q": "How do you test routes without a server?",
+     "options": [
+      "Call the routes with a request in-memory",
+      "Real port",
+      "Mock",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "Fast tests."
+    },
+    {
+     "q": "How should migrations be managed?",
+     "options": [
+      "Auto",
+      "None",
+      "Versioned migration scripts (Flyway or similar)",
+      "Manual SQL"
+     ],
+     "answer": 2,
+     "explain": "Reproducible schema."
+    },
+    {
+     "q": "What should the service log?",
+     "options": [
+      "Nothing",
+      "Everything",
+      "Structured request and error logs with correlation IDs",
+      "Secrets"
+     ],
+     "answer": 2,
+     "explain": "Help debugging."
+    }
+   ]
+  },
+  "level-4/01-advanced-functional-programming": {
+   "questions": [
+    {
+     "q": "What is the Free monad idea?",
+     "options": [
+      "Describing a program as data and interpreting it separately",
+      "Cheap monad",
+      "A thread",
+      "A pattern for DB"
+     ],
+     "answer": 0,
+     "explain": "Separate description from execution."
+    },
+    {
+     "q": "What does tagless final do?",
+     "options": [
+      "Tests",
+      "Macros",
+      "Writes code abstractly over F[_] and picks an effect type at the end",
+      "Types"
+     ],
+     "answer": 2,
+     "explain": "Common with cats-effect."
+    },
+    {
+     "q": "What is a Resource in cats-effect?",
+     "options": [
+      "A thread",
+      "A queue",
+      "A file",
+      "A safely acquired and released value (bracket pattern)"
+     ],
+     "answer": 3,
+     "explain": "Cleanup even on error."
+    },
+    {
+     "q": "Why use IO-style effects?",
+     "options": [
+      "Law",
+      "Colour",
+      "Speed",
+      "Referential transparency and explicit control of side effects and concurrency"
+     ],
+     "answer": 3,
+     "explain": "Compose descriptions of effects."
+    }
+   ]
+  },
+  "level-4/02-distributed-systems-akka": {
+   "questions": [
+    {
+     "q": "What is the CAP theorem's message?",
+     "options": [
+      "Law",
+      "Cost",
+      "During a partition, you must choose between consistency and availability",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Design accordingly."
+    },
+    {
+     "q": "What is idempotency in messaging?",
+     "options": [
+      "Order",
+      "Law",
+      "Processing the same message twice has the same effect as once",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "At-least-once delivery needs it."
+    },
+    {
+     "q": "What does a circuit breaker do?",
+     "options": [
+      "Stops calling a failing dependency for a while to let it recover",
+      "Logs",
+      "Fuses",
+      "Caches"
+     ],
+     "answer": 0,
+     "explain": "Protect resources."
+    },
+    {
+     "q": "What is event sourcing?",
+     "options": [
+      "Storing changes as an append-only log of events, deriving state by replay",
+      "CRUD",
+      "Cache",
+      "Logs"
+     ],
+     "answer": 0,
+     "explain": "Auditable."
+    }
+   ]
+  },
+  "level-4/03-production-apis": {
+   "questions": [
+    {
+     "q": "What belongs in a production API checklist?",
+     "options": [
+      "Nothing",
+      "Only routes",
+      "Validation, auth, rate limiting, timeouts, metrics and structured logs",
+      "UI"
+     ],
+     "answer": 2,
+     "explain": "Beyond happy paths."
+    },
+    {
+     "q": "Why set timeouts everywhere?",
+     "options": [
+      "Law",
+      "Colour",
+      "Style",
+      "A hung dependency would otherwise block resources"
+     ],
+     "answer": 3,
+     "explain": "Also retries with backoff."
+    },
+    {
+     "q": "What is a health endpoint for?",
+     "options": [
+      "Orchestrators need to know whether to route traffic or restart",
+      "SEO",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Liveness vs readiness."
+    },
+    {
+     "q": "What is graceful shutdown?",
+     "options": [
+      "Kill",
+      "Finish in-flight requests on SIGTERM before exiting",
+      "Restart",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Avoid dropped requests."
+    }
+   ]
+  },
+  "level-4/04-security-best-practices": {
+   "questions": [
+    {
+     "q": "How should secrets be handled?",
+     "options": [
+      "In logs",
+      "Injected via environment or a secret manager, never committed",
+      "In code",
+      "In git"
+     ],
+     "answer": 1,
+     "explain": "Rotate them."
+    },
+    {
+     "q": "What stops SQL injection?",
+     "options": [
+      "Escaping",
+      "Trust",
+      "Regex",
+      "Parameterised queries"
+     ],
+     "answer": 3,
+     "explain": "Use bind variables."
+    },
+    {
+     "q": "Why hash passwords with bcrypt/argon2?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Law",
+      "Slow, salted hashes resist brute force"
+     ],
+     "answer": 3,
+     "explain": "Never reversible encryption."
+    },
+    {
+     "q": "Why run dependency vulnerability scans?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Libraries carry known CVEs",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Automate in CI."
+    }
+   ]
+  },
+  "level-4/05-testing-at-scale-ci": {
+   "questions": [
+    {
+     "q": "What speeds up Scala CI builds?",
+     "options": [
+      "Nothing",
+      "More logs",
+      "Skipping tests",
+      "Caching dependencies and incremental compilation"
+     ],
+     "answer": 3,
+     "explain": "Keep feedback fast."
+    },
+    {
+     "q": "What does cross-building mean?",
+     "options": [
+      "Two jars",
+      "None",
+      "Two builds",
+      "Compiling and testing against several Scala versions"
+     ],
+     "answer": 3,
+     "explain": "Libraries need it."
+    },
+    {
+     "q": "What coverage should you chase?",
+     "options": [
+      "Any",
+      "0%",
+      "100%",
+      "Meaningful tests of behaviour, not a number for its own sake"
+     ],
+     "answer": 3,
+     "explain": "Coverage is a signal."
+    },
+    {
+     "q": "What should you do with failing flaky tests in CI?",
+     "options": [
+      "Quarantine and fix the cause",
+      "Ignore",
+      "Rerun",
+      "Delete"
+     ],
+     "answer": 0,
+     "explain": "Track them."
+    }
+   ]
+  },
+  "level-4/06-deployment-docker": {
+   "questions": [
+    {
+     "q": "Why multi-stage Docker builds for Scala?",
+     "options": [
+      "Build with sbt in one stage and ship only the jar on a small JRE image",
+      "Law",
+      "Style",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Smaller images."
+    },
+    {
+     "q": "Why set JVM memory flags in containers?",
+     "options": [
+      "Law",
+      "Style",
+      "The JVM must respect container memory limits",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Use container-aware defaults."
+    },
+    {
+     "q": "What does sbt-native-packager do?",
+     "options": [
+      "Builds Docker images and packages",
+      "Tests",
+      "Lints",
+      "Compiles"
+     ],
+     "answer": 0,
+     "explain": "Convenience."
+    },
+    {
+     "q": "Why run as non-root?",
+     "options": [
+      "Law",
+      "Limits damage if compromised",
+      "Speed",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Least privilege."
+    }
+   ]
+  },
+  "level-4/07-performance-at-scale": {
+   "questions": [
+    {
+     "q": "What should you do before tuning at scale?",
+     "options": [
+      "Scale up",
+      "Rewrite",
+      "Guess",
+      "Profile production-like load to find hot spots"
+     ],
+     "answer": 3,
+     "explain": "Measure first."
+    },
+    {
+     "q": "What causes GC pauses?",
+     "options": [
+      "Network",
+      "CPU",
+      "Large allocation rates and heaps; tune collectors and reduce garbage",
+      "Disk"
+     ],
+     "answer": 2,
+     "explain": "G1 or ZGC."
+    },
+    {
+     "q": "What is backpressure?",
+     "options": [
+      "Speed",
+      "Memory",
+      "Pressure",
+      "Signalling producers to slow down when consumers can't keep up"
+     ],
+     "answer": 3,
+     "explain": "Streams provide it."
+    },
+    {
+     "q": "Why prefer bounded queues?",
+     "options": [
+      "Unbounded queues hide overload until memory runs out",
+      "Style",
+      "Law",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Fail fast."
+    }
+   ]
+  },
+  "level-4/08-scala-3-features": {
+   "questions": [
+    {
+     "q": "What does this Scala 3 snippet print?\n```scala\nenum Color(val hex: String):\n  case Red extends Color(\"#f00\")\n  case Green extends Color(\"#0f0\")\nopaque type UserId = Long\nobject UserId:\n  def apply(n: Long): UserId = n\n  extension (u: UserId) def value: Long = u\n@main def m() =\n  println(Color.values.map(_.hex).mkString(\",\"))\n  println(UserId(7).value + 1)\n  val xs = List(1, 2, 3)\n  println(xs.map(x => x * 2).sum)\n  println(if xs.nonEmpty then \"yes\" else \"no\")\n```\n",
+     "options": [
+      "#f00,#0f0\n8\n12\nyes",
+      "Red,Green\n8\n12\nyes",
+      "#f00,#0f0\n7\n12\nyes",
+      "#f00,#0f0\n8\n6\nyes"
+     ],
+     "answer": 0,
+     "explain": "Scala 3 enums can carry parameters; opaque types give zero-cost distinct types. Verified by compiling and running it."
+    },
+    {
+     "q": "What does the indentation-based syntax in Scala 3 replace?",
+     "options": [
+      "Many curly braces (they remain optional)",
+      "Imports",
+      "Macros",
+      "Types"
+     ],
+     "answer": 0,
+     "explain": "Use consistent indentation."
+    },
+    {
+     "q": "What are union types?",
+     "options": [
+      "A type like Int | String meaning either",
+      "Join",
+      "Sum",
+      "Tuple"
+     ],
+     "answer": 0,
+     "explain": "Replace some Either uses."
+    },
+    {
+     "q": "What is the purpose of given/using?",
+     "options": [
+      "Syntax only",
+      "Macros",
+      "A clearer replacement for implicits",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Context abstractions."
+    }
+   ]
+  },
+  "level-4/09-build-tooling-at-scale": {
+   "questions": [
+    {
+     "q": "What is a multi-module sbt build for?",
+     "options": [
+      "Splitting code into modules with separate dependencies",
+      "Colour",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "core, api, cli."
+    },
+    {
+     "q": "Why share common settings in one place?",
+     "options": [
+      "Consistency across modules",
+      "Style",
+      "Law",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "ThisBuild settings."
+    },
+    {
+     "q": "What does a lockfile or dependency pinning give?",
+     "options": [
+      "Colour",
+      "Law",
+      "Reproducible builds",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Avoid surprise upgrades."
+    },
+    {
+     "q": "What is incremental compilation?",
+     "options": [
+      "Skipping",
+      "Full rebuild",
+      "Recompiling only changed files and dependents",
+      "Caching tests"
+     ],
+     "answer": 2,
+     "explain": "Zinc does this."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What is the capstone's goal?",
+     "options": [
+      "A script",
+      "A production-style Scala service with tests, CI, security, observability and a container image",
+      "A toy",
+      "A macro"
+     ],
+     "answer": 1,
+     "explain": "Show readiness."
+    },
+    {
+     "q": "What belongs in the README?",
+     "options": [
+      "Logo",
+      "Setup, run, test, deploy and design decisions",
+      "Licence",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Reviewers start there."
+    },
+    {
+     "q": "What evidence proves readiness?",
+     "options": [
+      "It compiles",
+      "Demo",
+      "CI passing, tests, security scan, load test and runbook",
+      "Looks fine"
+     ],
+     "answer": 2,
+     "explain": "Evidence."
+    },
+    {
+     "q": "Why add metrics and structured logs?",
+     "options": [
+      "Nothing",
+      "To see failures and latency in production",
+      "Style",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Observability."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```scala\n@main def m() =\n  val xs = List(1, 2, 3, 4)\n  println(xs.foldLeft(\"\")((acc, x) => acc + x))\n  println(xs.foldRight(\"\")((x, acc) => acc + x))\n  println(xs.map(_ + 1).filter(_ % 2 == 0).sum)\n```\n",
+    "options": [
+     "1234\n4321\n6",
+     "4321\n1234\n6",
+     "1234\n4321\n10",
+     "1234\n1234\n6"
+    ],
+    "answer": 0,
+    "explain": "foldLeft processes left to right; foldRight starts from the right. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```scala\nsealed trait Shape\ncase class Circle(r: Double) extends Shape\ncase class Sq(s: Double) extends Shape\ndef area(s: Shape) = s match\n  case Circle(r) => 3 * r * r\n  case Sq(x) => x * x\n@main def m() =\n  println(List(Circle(1), Sq(2)).map(area))\n  println(Circle(1) == Circle(1.0))\n```\n",
+    "options": [
+     "List(3, 4)\ntrue",
+     "List(3.0, 4.0)\ntrue",
+     "List(Circle(1.0), Sq(2.0))\ntrue",
+     "List(3.0, 4.0)\nfalse"
+    ],
+    "answer": 1,
+    "explain": "Case classes compare structurally; the match on a sealed trait is checked for exhaustiveness. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```scala\n@main def m() =\n  val r = scala.util.Try(\"12x\".toInt)\n  println(r.isFailure)\n  println(r.getOrElse(0))\n  println(scala.util.Try(10 / 2).toOption)\n  println(\"12\".toIntOption.map(_ * 2))\n```\n",
+    "options": [
+     "true\n0\nSome(5)\nSome(24)",
+     "true\nNone\nSome(5)\nSome(24)",
+     "false\n0\nSome(5)\nSome(24)",
+     "true\n0\n5\nSome(24)"
+    ],
+    "answer": 0,
+    "explain": "Try captures exceptions as values; toIntOption avoids them altogether. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```scala\ndef counter(): () => Int =\n  var n = 0\n  () => { n += 1; n }\n@main def m() =\n  val c = counter()\n  c(); c()\n  println(c())\n  val d = counter()\n  println(d())\n```\n",
+    "options": [
+     "3\n1",
+     "3\n3",
+     "3\n4",
+     "1\n1"
+    ],
+    "answer": 0,
+    "explain": "Each call to counter creates its own captured variable. Verified by compiling and running it."
+   },
+   {
+    "q": "What does this print?\n```scala\n@main def m() =\n  val words = List(\"apple\", \"bob\", \"cat\", \"apple\", \"bob\", \"apple\")\n  val freq = words.groupMapReduce(identity)(_ => 1)(_ + _)\n  println(freq.toList.sortBy((w, n) => (-n, w)))\n  println(words.distinct.size)\n```\n",
+    "options": [
+     "List((apple,3), (bob,2), (cat,1))\n3",
+     "List((apple,3), (bob,2), (cat,1))\n6",
+     "List((apple,3), (bob,2))\n3",
+     "List((cat,1), (bob,2), (apple,3))\n3"
+    ],
+    "answer": 0,
+    "explain": "groupMapReduce groups, maps and reduces in one pass. Verified by compiling and running it."
+   },
+   {
+    "q": "Why make domain types sealed ADTs?",
+    "options": [
+     "The compiler checks that matches are exhaustive, making illegal states unrepresentable",
+     "Smaller",
+     "Required",
+     "Faster"
+    ],
+    "answer": 0,
+    "explain": "New variants surface as warnings."
+   },
+   {
+    "q": "When should you use Either rather than throwing an exception?",
+    "options": [
+     "Always throw",
+     "Never",
+     "For bugs",
+     "For expected, recoverable failures that callers must handle"
+    ],
+    "answer": 3,
+    "explain": "Exceptions are for the exceptional."
+   },
+   {
+    "q": "What does Future.traverse do?",
+    "options": [
+     "Blocks",
+     "Sorts",
+     "Applies a function returning futures to each element and combines the results into one future",
+     "Cancels"
+    ],
+    "answer": 2,
+    "explain": "Parallel when the futures start eagerly."
+   },
+   {
+    "q": "Why avoid Await.result inside request handlers?",
+    "options": [
+     "It blocks threads and can exhaust the pool",
+     "Syntax",
+     "Law",
+     "Colour"
+    ],
+    "answer": 0,
+    "explain": "Compose futures instead."
+   },
+   {
+    "q": "What is the idiomatic way to share state between actors?",
+    "options": [
+     "Locks",
+     "Send immutable messages; do not share mutable state",
+     "Globals",
+     "Shared var"
+    ],
+    "answer": 1,
+    "explain": "The actor model."
+   },
+   {
+    "q": "What does a type class like Ordering[A] allow?",
+    "options": [
+     "Behaviour for a type chosen by an implicit/given instance, even for types you do not own",
+     "Reflection",
+     "Macros",
+     "Inheritance"
+    ],
+    "answer": 0,
+    "explain": "Ad hoc polymorphism."
+   },
+   {
+    "q": "What is the purpose of opaque types in Scala 3?",
+    "options": [
+     "Macros",
+     "Hiding code",
+     "Speed",
+     "Distinct, zero-cost wrapper types such as UserId over Long"
+    ],
+    "answer": 3,
+    "explain": "Avoid mixing IDs."
+   },
+   {
+    "q": "What is the point of idempotency for message handlers?",
+    "options": [
+     "At-least-once delivery means a message may be processed twice",
+     "Order",
+     "Speed",
+     "Law"
+    ],
+    "answer": 0,
+    "explain": "Use unique keys."
+   },
+   {
+    "q": "What does a circuit breaker protect?",
+    "options": [
+     "Logs",
+     "Your service and a failing dependency by temporarily stopping calls",
+     "Wires",
+     "Caches"
+    ],
+    "answer": 1,
+    "explain": "Fail fast."
+   },
+   {
+    "q": "How should secrets reach a Scala service in production?",
+    "options": [
+     "Through environment or a secret manager, never committed",
+     "In logs",
+     "In code",
+     "In git"
+    ],
+    "answer": 0,
+    "explain": "Rotate."
+   },
+   {
+    "q": "Why use a multi-stage Docker build?",
+    "options": [
+     "Style",
+     "Law",
+     "Speed",
+     "Compile with sbt in one stage, ship only the jar on a slim JRE image"
+    ],
+    "answer": 3,
+    "explain": "Smaller images."
+   },
+   {
+    "q": "What does sbt %% do?",
+    "options": [
+     "Override",
+     "Both",
+     "Percent",
+     "Appends the Scala binary version to the artifact name"
+    ],
+    "answer": 3,
+    "explain": "Cross-versioned artifacts."
+   },
+   {
+    "q": "What evidence shows a Scala service is production-ready?",
+    "options": [
+     "Compiles",
+     "CI with tests and scans, load testing, metrics, logs and a runbook",
+     "Few lines",
+     "Works locally"
+    ],
+    "answer": 1,
+    "explain": "Evidence over claims."
+   },
+   {
+    "q": "Which collection suits many appends and random reads?",
+    "options": [
+     "List",
+     "Stream",
+     "Array only",
+     "Vector"
+    ],
+    "answer": 3,
+    "explain": "List excels at prepend."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "An inventory with typed errors",
+    "prompt": "Implement apply and parse for a small inventory: commands update an immutable Map, failures are values (Either) and the fold keeps the last good stock when a command fails. This is ordinary Scala 3 code you run on your own machine.",
+    "starter": "enum Cmd:\n  case Add(sku: String, qty: Int)\n  case Remove(sku: String, qty: Int)\n\nenum InvError:\n  case BadQty(n: Int)\n  case Unknown(sku: String)\n  case Insufficient(sku: String, have: Int, want: Int)\n\nimport Cmd.*, InvError.*\n\ntype Stock = Map[String, Int]\n\n// TODO: def apply(stock: Stock, cmd: Cmd): Either[InvError, Stock]\n//   Add / Remove with qty <= 0 -> Left(BadQty(qty)); Remove of a missing sku -> Left(Unknown(sku));\n//   Remove of more than available -> Left(Insufficient(sku, have, want)); otherwise Right(updated stock)\n// TODO: def parse(line: String): Option[Cmd]   (\"add apple 10\" / \"remove apple 3\"; anything else, including non-numeric qty, is None)\n\n@main def run() =\n  val lines = List(\"add apple 10\", \"add pear 4\", \"remove apple 3\", \"remove kiwi 1\", \"remove pear 9\", \"add fig 0\", \"oops\", \"add apple 5\")\n  val (finalStock, errors) = lines.foldLeft((Map.empty: Stock, List.empty[String])) { case ((st, errs), line) =>\n    parse(line) match\n      case None => (st, errs :+ s\"unparsable: $line\")\n      case Some(c) => apply(st, c) match\n        case Right(s2) => (s2, errs)\n        case Left(e) => (st, errs :+ e.toString)\n  }\n  println(finalStock.toList.sortBy(_._1))\n  errors.foreach(println)\n  println(s\"errors=${errors.size}\")\n",
+    "expected": "List((apple,12), (pear,4))\nUnknown(kiwi)\nInsufficient(pear,4,9)\nBadQty(0)\nunparsable: oops\nerrors=4",
+    "solution": "enum Cmd:\n  case Add(sku: String, qty: Int)\n  case Remove(sku: String, qty: Int)\n\nenum InvError:\n  case BadQty(n: Int)\n  case Unknown(sku: String)\n  case Insufficient(sku: String, have: Int, want: Int)\n\nimport Cmd.*, InvError.*\n\ntype Stock = Map[String, Int]\n\ndef apply(stock: Stock, cmd: Cmd): Either[InvError, Stock] = cmd match\n  case Add(sku, q) if q <= 0 => Left(BadQty(q))\n  case Add(sku, q) => Right(stock.updated(sku, stock.getOrElse(sku, 0) + q))\n  case Remove(sku, q) if q <= 0 => Left(BadQty(q))\n  case Remove(sku, q) =>\n    stock.get(sku) match\n      case None => Left(Unknown(sku))\n      case Some(h) if h < q => Left(Insufficient(sku, h, q))\n      case Some(h) => Right(stock.updated(sku, h - q))\n\ndef parse(line: String): Option[Cmd] = line.split(\" \").toList match\n  case \"add\" :: sku :: q :: Nil => q.toIntOption.map(Add(sku, _))\n  case \"remove\" :: sku :: q :: Nil => q.toIntOption.map(Remove(sku, _))\n  case _ => None\n\n@main def run() =\n  val lines = List(\"add apple 10\", \"add pear 4\", \"remove apple 3\", \"remove kiwi 1\", \"remove pear 9\", \"add fig 0\", \"oops\", \"add apple 5\")\n  val (finalStock, errors) = lines.foldLeft((Map.empty: Stock, List.empty[String])) { case ((st, errs), line) =>\n    parse(line) match\n      case None => (st, errs :+ s\"unparsable: $line\")\n      case Some(c) => apply(st, c) match\n        case Right(s2) => (s2, errs)\n        case Left(e) => (st, errs :+ e.toString)\n  }\n  println(finalStock.toList.sortBy(_._1))\n  errors.foreach(println)\n  println(s\"errors=${errors.size}\")\n",
+    "explain": "Each command returns Either, so errors never throw. The foldLeft threads (stock, errors) through, keeping the previous stock when a command is rejected. Verified by compiling and running with Scala 3.3.1."
+   },
+   {
+    "title": "Parallel word count with retries",
+    "prompt": "Count words in several documents concurrently with Futures, retrying a flaky step with recoverWith, then merge the maps. Futures run on the global execution context; Await is used only at the program edge so the result can be printed.",
+    "starter": "import scala.concurrent.{Await, Future}\nimport scala.concurrent.ExecutionContext.Implicits.global\nimport scala.concurrent.duration.*\n\nval docs = Vector(\n  \"the quick brown fox\",\n  \"the lazy dog and the fox\",\n  \"quick quick slow\",\n  \"a dog a fox a cat\"\n)\n\n// TODO: def countWords(doc: String): Map[String, Int]\n// TODO: def merge(a: Map[String, Int], b: Map[String, Int]): Map[String, Int]   (sum counts)\n// TODO: def withRetry(doc: String, max: Int): Future[Map[String, Int]]   (retry flaky(doc, n) with n = 0, 1, ... up to max)\ndef flaky(doc: String, attempts: Int): Future[Map[String, Int]] =\n  Future { if doc.startsWith(\"quick\") && attempts < 2 then throw RuntimeException(\"busy\") else countWords(doc) }\n\n@main def run() =\n  val total = Await.result(Future.traverse(docs)(d => withRetry(d, 3)).map(_.reduce(merge)), 5.seconds)\n  println(total.toList.sortBy((w, n) => (-n, w)).take(4))\n  println(total.values.sum)\n  val failing = Await.result(withRetry(\"quick fail\", 1).failed.map(_.getMessage), 2.seconds)\n  println(failing)\n",
+    "expected": "List((a,3), (fox,3), (quick,3), (the,3))\n19\nbusy",
+    "solution": "import scala.concurrent.{Await, Future}\nimport scala.concurrent.ExecutionContext.Implicits.global\nimport scala.concurrent.duration.*\n\nval docs = Vector(\n  \"the quick brown fox\",\n  \"the lazy dog and the fox\",\n  \"quick quick slow\",\n  \"a dog a fox a cat\"\n)\n\ndef countWords(doc: String): Map[String, Int] =\n  doc.split(\" \").toList.groupBy(identity).view.mapValues(_.size).toMap\n\ndef merge(a: Map[String, Int], b: Map[String, Int]): Map[String, Int] =\n  b.foldLeft(a) { case (acc, (w, n)) => acc.updated(w, acc.getOrElse(w, 0) + n) }\n\ndef flaky(doc: String, attempts: Int): Future[Map[String, Int]] =\n  Future { if doc.startsWith(\"quick\") && attempts < 2 then throw RuntimeException(\"busy\") else countWords(doc) }\n\ndef withRetry(doc: String, max: Int): Future[Map[String, Int]] =\n  def go(n: Int): Future[Map[String, Int]] =\n    flaky(doc, n).recoverWith { case _ if n < max => go(n + 1) }\n  go(0)\n\n@main def run() =\n  val total = Await.result(Future.traverse(docs)(d => withRetry(d, 3)).map(_.reduce(merge)), 5.seconds)\n  println(total.toList.sortBy((w, n) => (-n, w)).take(4))\n  println(total.values.sum)\n  val failing = Await.result(withRetry(\"quick fail\", 1).failed.map(_.getMessage), 2.seconds)\n  println(failing)\n",
+    "explain": "Future.traverse starts all documents, recoverWith retries a failing future up to max times and merge sums counts. A document that keeps failing surfaces its exception as a failed future. Verified by compiling and running with Scala 3.3.1."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
