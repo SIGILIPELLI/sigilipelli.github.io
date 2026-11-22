@@ -1,0 +1,2159 @@
+{
+ "course": "react-native-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-how-react-native-works": {
+   "questions": [
+    {
+     "q": "What does React Native create when you render <View><Text>Hello</Text></View>?",
+     "options": [
+      "Real native views (a UIView on iOS, a ViewGroup on Android) kept in sync with the component tree",
+      "An HTML div inside a hidden web view",
+      "A canvas the JS engine draws pixels onto",
+      "A compiled copy of your code in Swift and Kotlin"
+     ],
+     "answer": 0,
+     "explain": "React Native keeps a tree of real platform views in sync with your React tree; nothing is drawn in a browser."
+    },
+    {
+     "q": "Which thread keeps a native ScrollView scrolling even while your JavaScript is busy for 200 ms?",
+     "options": [
+      "The Hermes compiler thread",
+      "The JS thread",
+      "The UI (main) thread, because scrolling is handled natively",
+      "A Metro bundler thread"
+     ],
+     "answer": 2,
+     "explain": "Scrolling lives on the UI thread, so it does not need JavaScript. Taps that need new JS state do wait for the JS thread."
+    },
+    {
+     "q": "What is Expo Go?",
+     "options": [
+      "A pre-built app that loads your JavaScript without you compiling native code, limited to the native modules Expo ships",
+      "A cloud service that compiles your app for the stores",
+      "A library of UI components",
+      "A replacement for Hermes"
+     ],
+     "answer": 0,
+     "explain": "Expo Go is great for starting out, but it only contains Expo's own native modules. Development builds remove that limit."
+    },
+    {
+     "q": "What is Hermes?",
+     "options": [
+      "The JavaScript engine used by default in React Native, which compiles your JS to bytecode at build time",
+      "The Metro bundler's cache",
+      "A state management library",
+      "A native navigation library"
+     ],
+     "answer": 0,
+     "explain": "Hermes was built by Meta for React Native; precompiled bytecode means less parsing at launch."
+    }
+   ]
+  },
+  "level-1/02-core-components": {
+   "questions": [
+    {
+     "q": "What happens if you write <View>Hello</View>?",
+     "options": [
+      "It renders Hello only on Android",
+      "It fails with 'Text strings must be rendered within a <Text> component'",
+      "It renders Hello in the default font",
+      "It renders nothing and logs a warning"
+     ],
+     "answer": 1,
+     "explain": "In React Native every string must live inside a <Text>."
+    },
+    {
+     "q": "Given const unread = 0, what is wrong with <View>{unread && <Text>new</Text>}</View>?",
+     "options": [
+      "It renders false",
+      "The expression evaluates to the number 0, which is rendered as a bare string and crashes on native",
+      "Nothing, it renders nothing",
+      "It only fails in release builds"
+     ],
+     "answer": 1,
+     "explain": "Make the condition a real boolean, for example unread > 0 &&."
+    },
+    {
+     "q": "Why must a remote <Image source={{ uri }} /> be given a width and height?",
+     "options": [
+      "Hermes cannot decode them otherwise",
+      "React Native cannot know the size of a remote image at build time, so without a size it has zero size",
+      "It is only a style recommendation",
+      "Remote images are always square"
+     ],
+     "answer": 1,
+     "explain": "Bundled assets via require() have dimensions known to Metro; remote images do not."
+    },
+    {
+     "q": "Which props make nested <Text> inside <Text> inherit the parent's font size and colour?",
+     "options": [
+      "inherit={true}",
+      "style={{ inherit: 'all' }}",
+      "A cascade stylesheet",
+      "None needed: nested Text inherits style from its parent, the only place React Native styles inherit"
+     ],
+     "answer": 3,
+     "explain": "React Native has no CSS cascade except for nested Text."
+    }
+   ]
+  },
+  "level-1/03-stylesheet-styling": {
+   "questions": [
+    {
+     "q": "What unit do numeric style values like fontSize: 16 use?",
+     "options": [
+      "rem",
+      "Physical device pixels",
+      "em",
+      "Density-independent pixels (dp on Android, points on iOS)"
+     ],
+     "answer": 3,
+     "explain": "The same number gives the same physical size on low- and high-density screens."
+    },
+    {
+     "q": "Which style prop correctly adds a border?",
+     "options": [
+      "borderWidth together with borderColor (and optionally borderStyle)",
+      "outline",
+      "borderLine",
+      "border: '1px solid red'"
+     ],
+     "answer": 0,
+     "explain": "The CSS border shorthand does not exist in React Native."
+    },
+    {
+     "q": "What does style={[styles.card, selected && styles.cardSelected]} do?",
+     "options": [
+      "Only applies the first style",
+      "Applies both styles at the same time regardless of selected",
+      "Applies the card style, and also the selected style when selected is truthy (later entries win, falsy entries are ignored)",
+      "Throws if selected is false"
+     ],
+     "answer": 2,
+     "explain": "Style arrays replace CSS modifier classes."
+    },
+    {
+     "q": "How do you implement dark mode styling in React Native?",
+     "options": [
+      "By naming a file dark.css",
+      "It is automatic for every View",
+      "In JavaScript, for example with useColorScheme and a theme object, since there are no media queries",
+      "With @media (prefers-color-scheme) in a stylesheet"
+     ],
+     "answer": 2,
+     "explain": "There are no pseudo-classes or media queries; they are done with state and hooks."
+    }
+   ]
+  },
+  "level-1/04-flexbox-layout": {
+   "questions": [
+    {
+     "q": "What is the default flexDirection in React Native?",
+     "options": [
+      "row",
+      "It has no default",
+      "row-reverse",
+      "column"
+     ],
+     "answer": 3,
+     "explain": "Phones are tall, so the default differs from the web's row."
+    },
+    {
+     "q": "Your root View has no flex: 1 and its background only covers half the screen. Why?",
+     "options": [
+      "flexShrink is 1",
+      "Without flex: 1 it is only as tall as its content",
+      "The screen has a safe area",
+      "backgroundColor is not supported on root views"
+     ],
+     "answer": 1,
+     "explain": "flex: 1 makes a view fill the available space."
+    },
+    {
+     "q": "Siblings with flex: 2 and flex: 1 share the remaining space in what ratio?",
+     "options": [
+      "1:2",
+      "1:1",
+      "3:1",
+      "2:1"
+     ],
+     "answer": 3,
+     "explain": "flex with a positive number n behaves like flexGrow n, flexShrink 1 and flexBasis 0."
+    },
+    {
+     "q": "Which property positions children along the cross axis?",
+     "options": [
+      "flexWrap",
+      "justifyContent",
+      "alignContent only",
+      "alignItems"
+     ],
+     "answer": 3,
+     "explain": "justifyContent works on the main axis; alignItems on the cross axis."
+    }
+   ]
+  },
+  "level-1/05-pressable-touch": {
+   "questions": [
+    {
+     "q": "Why is Pressable preferred over TouchableOpacity in new code?",
+     "options": [
+      "TouchableOpacity was removed from the language",
+      "It is the single modern component, with pressed state functions, Android ripple and hitSlop, replacing the older Touchable family",
+      "Pressable runs natively and the others run in JS",
+      "Pressable needs no onPress"
+     ],
+     "answer": 1,
+     "explain": "Pressable replaces the older components you still see in old code."
+    },
+    {
+     "q": "For a long press, what happens after delayLongPress elapses?",
+     "options": [
+      "The press is cancelled silently",
+      "Only onPressOut fires",
+      "Both onLongPress and onPress fire",
+      "onLongPress fires and onPress does not"
+     ],
+     "answer": 3,
+     "explain": "Press-and-hold triggers onLongPress instead of onPress."
+    },
+    {
+     "q": "A 20-point icon is hard to tap. What is the idiomatic fix that does not change layout?",
+     "options": [
+      "Increase fontSize",
+      "Set flex: 1",
+      "Add hitSlop to extend the touch area invisibly",
+      "Wrap it in a ScrollView"
+     ],
+     "answer": 2,
+     "explain": "Platform guidance suggests at least about 44x44 points (Apple) or 48x48 dp (Android)."
+    },
+    {
+     "q": "What does android_ripple do on iOS?",
+     "options": [
+      "It is ignored",
+      "It throws an error",
+      "It dims the view",
+      "It shows a ripple anyway"
+     ],
+     "answer": 0,
+     "explain": "Combine it with a pressed style for iOS."
+    }
+   ]
+  },
+  "level-1/06-textinput-forms": {
+   "questions": [
+    {
+     "q": "Which keyboard type shows a numeric pad without a decimal point?",
+     "options": [
+      "keyboardType=\"default\"",
+      "keyboardType=\"number-pad\"",
+      "keyboardType=\"url\"",
+      "keyboardType=\"email-address\""
+     ],
+     "answer": 1,
+     "explain": "decimal-pad adds the decimal separator."
+    },
+    {
+     "q": "Why should an email field set autoCapitalize=\"none\"?",
+     "options": [
+      "Android crashes otherwise",
+      "It hides the keyboard",
+      "iOS would otherwise capitalise the first letter and login can fail",
+      "It enables autofill"
+     ],
+     "answer": 2,
+     "explain": "Also turn off autoCorrect for emails and usernames."
+    },
+    {
+     "q": "How do you move focus to the next field when the user presses the return key?",
+     "options": [
+      "Call Keyboard.next()",
+      "Set tabIndex",
+      "Use refs and call nextRef.current?.focus() in onSubmitEditing, with returnKeyType=\"next\"",
+      "The OS does it automatically for every TextInput"
+     ],
+     "answer": 2,
+     "explain": "You handle submit behaviour with refs."
+    },
+    {
+     "q": "What does onChangeText give you?",
+     "options": [
+      "A Promise",
+      "A native event only",
+      "The new text as a string directly",
+      "A debounced value"
+     ],
+     "answer": 2,
+     "explain": "onChange gives a native event whose nativeEvent.text holds the same thing."
+    }
+   ]
+  },
+  "level-1/07-flatlist-sectionlist": {
+   "questions": [
+    {
+     "q": "Why use FlatList instead of mapping 2,000 items inside a ScrollView?",
+     "options": [
+      "FlatList is the only component that can show text",
+      "FlatList virtualizes, rendering only items near the screen and saving memory",
+      "ScrollView cannot scroll vertically",
+      "It makes the data load faster from the network"
+     ],
+     "answer": 1,
+     "explain": "Mounting thousands of native views is slow and can get the app killed."
+    },
+    {
+     "q": "When is it wrong to use the item's index as keyExtractor?",
+     "options": [
+      "When items can be inserted, removed or reordered, because React will reuse the wrong row's state",
+      "Only for sections",
+      "Only on Android",
+      "Never, indexes are always best"
+     ],
+     "answer": 0,
+     "explain": "Use a stable unique ID."
+    },
+    {
+     "q": "Why should a vertical FlatList not be nested inside a vertical ScrollView?",
+     "options": [
+      "It crashes on iOS",
+      "The outer ScrollView gives it unlimited height so it renders everything and virtualization is lost",
+      "FlatList cannot render in a ScrollView at all",
+      "It disables pull to refresh only"
+     ],
+     "answer": 1,
+     "explain": "Use ListHeaderComponent and ListFooterComponent for extra content."
+    },
+    {
+     "q": "Which prop shows a message when the list has no items?",
+     "options": [
+      "onEndReached",
+      "ListEmptyComponent",
+      "emptyText",
+      "ListFooterComponent"
+     ],
+     "answer": 1,
+     "explain": "It renders when data is empty."
+    }
+   ]
+  },
+  "level-1/08-safe-area-platform": {
+   "questions": [
+    {
+     "q": "What is the safe area?",
+     "options": [
+      "A region reserved for ads",
+      "The part of the screen not covered by system UI such as the notch, status bar and home indicator",
+      "The memory region for the JS engine",
+      "The area where touches always register"
+     ],
+     "answer": 1,
+     "explain": "Use react-native-safe-area-context to respect it."
+    },
+    {
+     "q": "Which hook reads safe-area insets in react-native-safe-area-context?",
+     "options": [
+      "useSafeAreaInsets",
+      "useInsets",
+      "useWindowDimensions",
+      "useSafeArea"
+     ],
+     "answer": 0,
+     "explain": "It is handy for headers and footers that paint under system UI."
+    },
+    {
+     "q": "Which is the right way to branch on platform for a small value?",
+     "options": [
+      "A CSS media query",
+      "process.platform in components",
+      "if (navigator.platform)",
+      "Platform.select({ ios: ..., android: ... }) or Platform.OS === 'ios'"
+     ],
+     "answer": 3,
+     "explain": "For larger differences use .ios.tsx and .android.tsx files."
+    },
+    {
+     "q": "Which hook gives the current screen size and updates on rotation?",
+     "options": [
+      "Dimensions.get once at module load",
+      "useScreenSize",
+      "useWindowDimensions",
+      "StyleSheet.dimensions"
+     ],
+     "answer": 2,
+     "explain": "The hook re-renders when dimensions change."
+    }
+   ]
+  },
+  "level-1/09-debugging": {
+   "questions": [
+    {
+     "q": "How do you open React Native DevTools from the terminal running Expo?",
+     "options": [
+      "Press d",
+      "Press j",
+      "Press r",
+      "Press q"
+     ],
+     "answer": 1,
+     "explain": "It connects Chrome DevTools to the Hermes engine."
+    },
+    {
+     "q": "In a LogBox error overlay, how should you read the component stack?",
+     "options": [
+      "Bottom-up: the bottom component rendered the one above it, so the cause is near the top entry",
+      "Top-down only",
+      "Only the JS stack matters",
+      "It is not useful"
+     ],
+     "answer": 0,
+     "explain": "The component stack often tells you more than the JS stack."
+    },
+    {
+     "q": "What happened to the old 'Remote JS Debugging' mode?",
+     "options": [
+      "It is now the default",
+      "It is available only on Android",
+      "It is gone from current React Native; DevTools attaches to Hermes on the device instead",
+      "It was renamed LogBox"
+     ],
+     "answer": 2,
+     "explain": "Running JS in Chrome changed timing and hid real bugs."
+    },
+    {
+     "q": "A bug appears only in a release build. What is the correct first move?",
+     "options": [
+      "Assume it is Metro",
+      "Reproduce it in a release build and read native logs and crash reports, since release differs from development",
+      "Only test in Expo Go",
+      "Disable Hermes"
+     ],
+     "answer": 1,
+     "explain": "Release builds minify, optimise and skip development checks."
+    }
+   ]
+  },
+  "level-1/10-project-habit-tracker": {
+   "questions": [
+    {
+     "q": "Today is 2026-03-05 and doneDates are 03-05, 03-04 and 03-03. What does this print?\n```js\nconst dayKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;\nconst addDays=(k,n)=>{const [y,m,d]=k.split('-').map(Number);return dayKey(new Date(y,m-1,d+n));};\nfunction currentStreak(doneDates,today){\n  const done=new Set(doneDates);\n  let cur=done.has(today)?today:addDays(today,-1);\n  let s=0;\n  while(done.has(cur)){s++;cur=addDays(cur,-1);}\n  return s;\n}\n\nconsole.log(currentStreak(['2026-03-05','2026-03-04','2026-03-03'],'2026-03-05'));\n```\n",
+     "options": [
+      "2",
+      "4",
+      "0",
+      "3"
+     ],
+     "answer": 3,
+     "explain": "Three consecutive days ending today. Verified by running it in Node."
+    },
+    {
+     "q": "Today is 2026-03-05 and the habit was done on 03-04 and 03-03 but not yet today. What does this print?\n```js\nconst dayKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;\nconst addDays=(k,n)=>{const [y,m,d]=k.split('-').map(Number);return dayKey(new Date(y,m-1,d+n));};\nfunction currentStreak(doneDates,today){\n  const done=new Set(doneDates);\n  let cur=done.has(today)?today:addDays(today,-1);\n  let s=0;\n  while(done.has(cur)){s++;cur=addDays(cur,-1);}\n  return s;\n}\n\nconsole.log(currentStreak(['2026-03-04','2026-03-03'],'2026-03-05'));\n```\n",
+     "options": [
+      "0",
+      "3",
+      "2",
+      "1"
+     ],
+     "answer": 2,
+     "explain": "The streak counts from yesterday if today is not done yet, so it is not broken until the day ends. Verified by running it in Node."
+    },
+    {
+     "q": "A habit was done on 2026-02-28 and 2026-03-01 (no leap day). With today = 2026-03-01, what does this print?\n```js\nconst dayKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;\nconst addDays=(k,n)=>{const [y,m,d]=k.split('-').map(Number);return dayKey(new Date(y,m-1,d+n));};\nfunction currentStreak(doneDates,today){\n  const done=new Set(doneDates);\n  let cur=done.has(today)?today:addDays(today,-1);\n  let s=0;\n  while(done.has(cur)){s++;cur=addDays(cur,-1);}\n  return s;\n}\n\nconsole.log(currentStreak(['2026-02-28','2026-03-01'],'2026-03-01'));\n```\n",
+     "options": [
+      "0",
+      "3",
+      "2",
+      "1"
+     ],
+     "answer": 2,
+     "explain": "addDays goes through new Date(y, m-1, d+delta), so month boundaries are handled. Verified by running it in Node."
+    },
+    {
+     "q": "Why does the project store dates as local YYYY-MM-DD strings instead of Date objects?",
+     "options": [
+      "Because AsyncStorage rejects numbers",
+      "Strings are faster to sort in SQL only",
+      "Date does not exist in Hermes",
+      "It avoids time-zone surprises from comparing Date objects created at different times of day"
+     ],
+     "answer": 3,
+     "explain": "A day key is the same however and whenever it is created."
+    }
+   ]
+  },
+  "level-2/01-navigation-concepts": {
+   "questions": [
+    {
+     "q": "What happens to the List screen when you push Details onto a stack?",
+     "options": [
+      "List stays mounted underneath, keeping its state and scroll position",
+      "It is destroyed",
+      "It unmounts and re-fetches when you come back",
+      "It is paused and cannot hold state"
+     ],
+     "answer": 0,
+     "explain": "Screens under the top of a stack stay mounted."
+    },
+    {
+     "q": "What is the usual structure for a tab navigator?",
+     "options": [
+      "One shared stack for all tabs",
+      "Each tab holds its own stack so each keeps an independent history",
+      "Tabs cannot contain stacks",
+      "Tabs always unmount when you leave them"
+     ],
+     "answer": 1,
+     "explain": "Switching tabs keeps each tab's place."
+    },
+    {
+     "q": "What is a modal screen for?",
+     "options": [
+      "A self-contained task presented over everything else, such as composing or adding an item, which is dismissed rather than navigated back from",
+      "A background process",
+      "A replacement for tabs",
+      "The main home screen"
+     ],
+     "answer": 0,
+     "explain": "Modals rise from the bottom and are dismissed downward."
+    },
+    {
+     "q": "Why does a stack keeping screens mounted matter for state design?",
+     "options": [
+      "It makes Context faster",
+      "Hidden screens cannot read state",
+      "A state change can re-render screens the user cannot see, so subscribe narrowly",
+      "It forces you to use Redux"
+     ],
+     "answer": 2,
+     "explain": "This idea returns in the app-state lesson."
+    }
+   ]
+  },
+  "level-2/02-expo-router": {
+   "questions": [
+    {
+     "q": "In Expo Router, what does a file app/settings/notifications.tsx define?",
+     "options": [
+      "The route /settings/notifications",
+      "A component named notifications only",
+      "A native module",
+      "A layout"
+     ],
+     "answer": 0,
+     "explain": "Every file in app/ is a route."
+    },
+    {
+     "q": "What does _layout.tsx define?",
+     "options": [
+      "A global stylesheet",
+      "The navigator (for example Stack or Tabs) for its folder",
+      "A database migration",
+      "A page with the URL /_layout"
+     ],
+     "answer": 1,
+     "explain": "Layouts default-export a navigator."
+    },
+    {
+     "q": "Which element shows unmatched URLs?",
+     "options": [
+      "+not-found.tsx",
+      "404.tsx",
+      "_error.tsx",
+      "index.tsx"
+     ],
+     "answer": 0,
+     "explain": "It is a special file in app/."
+    },
+    {
+     "q": "What is the difference between router.push and router.replace?",
+     "options": [
+      "push only works on tabs",
+      "replace opens a modal",
+      "push adds a screen to the stack; replace swaps the current screen without growing history",
+      "They are identical"
+     ],
+     "answer": 2,
+     "explain": "Use replace for flows like sign-in where back should not return."
+    }
+   ]
+  },
+  "level-2/03-params-deep-links": {
+   "questions": [
+    {
+     "q": "What does the file app/habit/[id].tsx mean?",
+     "options": [
+      "An optional file",
+      "A catch-all",
+      "A dynamic route where id is a parameter, such as /habit/42",
+      "A literal route named [id]"
+     ],
+     "answer": 2,
+     "explain": "Read it with useLocalSearchParams."
+    },
+    {
+     "q": "If you navigate with params: { count: 3 }, what type is count on the receiving screen?",
+     "options": [
+      "It depends on the TypeScript generic",
+      "boolean",
+      "string, because URL params are strings",
+      "number"
+     ],
+     "answer": 2,
+     "explain": "The generic is a promise to TypeScript, not a runtime check; parse and validate."
+    },
+    {
+     "q": "What belongs in route params?",
+     "options": [
+      "Large images",
+      "A whole habit object serialised to JSON",
+      "Identifiers and view state such as an id, tab, filter or sort",
+      "Passwords and tokens"
+     ],
+     "answer": 2,
+     "explain": "Objects in URLs bloat them and go stale."
+    },
+    {
+     "q": "Why prefer useLocalSearchParams over useGlobalSearchParams?",
+     "options": [
+      "Global params are deprecated",
+      "Local params are typed and global are not",
+      "Local params work offline",
+      "Global params re-render background screens whenever the user navigates anywhere"
+     ],
+     "answer": 3,
+     "explain": "Screens stay mounted, so global params cause extra renders."
+    }
+   ]
+  },
+  "level-2/04-app-state": {
+   "questions": [
+    {
+     "q": "What does this print?\n```js\nfunction reducer(state,a){\n  switch(a.type){\n    case 'added': return [...state,{id:a.id,name:a.name,doneDates:[],archived:false}];\n    case 'toggled': return state.map(h=>h.id!==a.id?h:{...h,doneDates:h.doneDates.includes(a.day)?h.doneDates.filter(d=>d!==a.day):[...h.doneDates,a.day]});\n    default: return state;\n  }\n}\n\nlet s=[];s=reducer(s,{type:'added',id:'a',name:'Run'});s=reducer(s,{type:'toggled',id:'a',day:'d1'});s=reducer(s,{type:'toggled',id:'a',day:'d1'});s=reducer(s,{type:'toggled',id:'a',day:'d2'});console.log(JSON.stringify(s[0].doneDates));\n```\n",
+     "options": [
+      "[\"d1\"]",
+      "[\"d1\",\"d2\"]",
+      "[]",
+      "[\"d2\"]"
+     ],
+     "answer": 3,
+     "explain": "Toggling twice removes d1; d2 is then added. Verified by running it in Node."
+    },
+    {
+     "q": "Where should a search box's text live?",
+     "options": [
+      "In local useState in the component, not in a global store",
+      "In a global store",
+      "In SQLite",
+      "In the navigation state"
+     ],
+     "answer": 0,
+     "explain": "Putting keystrokes in global state re-renders the whole app."
+    },
+    {
+     "q": "Why do Zustand selectors help in React Native apps?",
+     "options": [
+      "They make state persistent",
+      "A component re-renders only when the selected slice changes, which matters because screens stay mounted",
+      "They run on the UI thread",
+      "They replace reducers"
+     ],
+     "answer": 1,
+     "explain": "Subscribe to exactly what each screen needs."
+    },
+    {
+     "q": "Which kind of state belongs in a data-fetching cache such as TanStack Query?",
+     "options": [
+      "Whether a row is expanded",
+      "The current tab",
+      "Server state owned by a backend",
+      "Theme colour tokens"
+     ],
+     "answer": 2,
+     "explain": "Do not copy server data into a global store where it goes stale."
+    }
+   ]
+  },
+  "level-2/05-data-fetching": {
+   "questions": [
+    {
+     "q": "What does the queryKey identify?",
+     "options": [
+      "The cached data; components using the same key share one cache entry and request",
+      "The component name",
+      "The URL path",
+      "A database index"
+     ],
+     "answer": 0,
+     "explain": "Include every input of the query in the key, such as the search term."
+    },
+    {
+     "q": "Why must a queryFn throw on a non-OK response?",
+     "options": [
+      "fetch always throws",
+      "To avoid caching",
+      "Query ignores errors otherwise",
+      "fetch does not reject on HTTP errors like 500, so you must throw for Query to see an error"
+     ],
+     "answer": 3,
+     "explain": "Check res.ok and throw."
+    },
+    {
+     "q": "What does the API quirk 'meals: null' for no results mean for your client?",
+     "options": [
+      "Normalise it to an empty array in your API layer",
+      "Show an error",
+      "Cache forever",
+      "Retry"
+     ],
+     "answer": 0,
+     "explain": "Keep API oddities out of components."
+    },
+    {
+     "q": "What does staleTime control?",
+     "options": [
+      "How long a request can run",
+      "How long data stays in memory before deletion",
+      "How long fetched data is considered fresh before a background refetch is allowed",
+      "The retry delay"
+     ],
+     "answer": 2,
+     "explain": "Cached data renders instantly while stale data refetches in the background."
+    }
+   ]
+  },
+  "level-2/06-local-persistence": {
+   "questions": [
+    {
+     "q": "Where should an auth token be stored?",
+     "options": [
+      "A global variable only",
+      "A JSON file in the documents folder",
+      "AsyncStorage",
+      "In SecureStore (the Keychain / Keystore)"
+     ],
+     "answer": 3,
+     "explain": "AsyncStorage is unencrypted; treat it like a text file."
+    },
+    {
+     "q": "Which store suits records you filter, sort and join?",
+     "options": [
+      "SQLite via expo-sqlite",
+      "A Context value",
+      "SecureStore",
+      "AsyncStorage"
+     ],
+     "answer": 0,
+     "explain": "AsyncStorage is for small key-value data."
+    },
+    {
+     "q": "Why does the prefs example merge saved JSON with defaultPrefs?",
+     "options": [
+      "It is required by AsyncStorage",
+      "To encrypt values",
+      "To speed up reads",
+      "Adding a new preference in a later version does not break users who saved the old shape"
+     ],
+     "answer": 3,
+     "explain": "Defensive loading with try/catch also protects against corrupt JSON."
+    },
+    {
+     "q": "What is the purpose of a version in a key like 'prefs:v1' or in SQLite user_version?",
+     "options": [
+      "It lets a breaking change migrate data from one schema to the next",
+      "It is cosmetic",
+      "It makes storage faster",
+      "It encrypts data"
+     ],
+     "answer": 0,
+     "explain": "Versioned migrations keep existing users' data safe."
+    }
+   ]
+  },
+  "level-2/07-forms-validation": {
+   "questions": [
+    {
+     "q": "What does z.coerce.number() do in a form schema?",
+     "options": [
+      "Rejects all strings",
+      "Rounds to integers",
+      "Turns the string from a TextInput into a number, then validates it",
+      "Only runs on the server"
+     ],
+     "answer": 2,
+     "explain": "TextInput values are always strings."
+    },
+    {
+     "q": "What is .refine used for?",
+     "options": [
+      "Debouncing",
+      "Generating types",
+      "Cross-field or custom rules, with a path so the error attaches to the right field",
+      "Formatting output"
+     ],
+     "answer": 2,
+     "explain": "For example: end date must be after start date."
+    },
+    {
+     "q": "Why does comparing 'YYYY-MM-DD' strings with >= work?",
+     "options": [
+      "It does not work",
+      "It works only for leap years",
+      "The format sorts lexicographically in date order",
+      "JavaScript has date strings built in"
+     ],
+     "answer": 2,
+     "explain": "A neat benefit of ISO-style dates."
+    },
+    {
+     "q": "What do z.input and z.output give you?",
+     "options": [
+      "Two types: the raw form values and the parsed result",
+      "Nothing special",
+      "Input and output streams",
+      "Two schemas"
+     ],
+     "answer": 0,
+     "explain": "For example string vs number after coercion."
+    }
+   ]
+  },
+  "level-2/08-images-fonts-assets": {
+   "questions": [
+    {
+     "q": "What does an @2x and @3x file next to image.png do?",
+     "options": [
+      "They make the app larger on all devices",
+      "Metro picks the variant matching the device density automatically",
+      "They are ignored",
+      "They must be required separately"
+     ],
+     "answer": 1,
+     "explain": "Layout uses the 1x size in points."
+    },
+    {
+     "q": "Why can't you write require(`./icons/${name}.png`)?",
+     "options": [
+      "It needs a babel plugin",
+      "It works only on iOS",
+      "Template strings are banned",
+      "require paths must be static strings that Metro resolves at bundle time; use a map of requires"
+     ],
+     "answer": 3,
+     "explain": "Build an object of static requires."
+    },
+    {
+     "q": "What does cachePolicy=\"memory-disk\" give you in expo-image?",
+     "options": [
+      "Decoded images in memory and files on disk so scrolling back or reopening does not refetch",
+      "Server-side caching",
+      "Image compression",
+      "Only memory caching"
+     ],
+     "answer": 0,
+     "explain": "Plus placeholders like BlurHash and transitions."
+    },
+    {
+     "q": "What is a BlurHash?",
+     "options": [
+      "A caching key",
+      "A short string that decodes to a blurry preview shown while the real image loads",
+      "A security hash",
+      "An image format"
+     ],
+     "answer": 1,
+     "explain": "Generate it on the server when the image is uploaded."
+    }
+   ]
+  },
+  "level-2/09-keyboard-modals": {
+   "questions": [
+    {
+     "q": "On iOS, what does the software keyboard do to your layout?",
+     "options": [
+      "Nothing: the keyboard covers it and you must move content yourself",
+      "It rotates the screen",
+      "It resizes the window",
+      "It disables scrolling"
+     ],
+     "answer": 0,
+     "explain": "Use KeyboardAvoidingView or insets."
+    },
+    {
+     "q": "Which KeyboardAvoidingView behavior is the most predictable on iOS?",
+     "options": [
+      "position",
+      "padding",
+      "fill",
+      "none"
+     ],
+     "answer": 1,
+     "explain": "It adds bottom padding equal to the keyboard height."
+    },
+    {
+     "q": "What is keyboardVerticalOffset for?",
+     "options": [
+      "Setting keyboard size",
+      "Compensating for anything above the view, usually the navigation header",
+      "Moving the status bar",
+      "Hiding the keyboard"
+     ],
+     "answer": 1,
+     "explain": "Wrong values leave the composer hidden or floating."
+    },
+    {
+     "q": "Why is edge-to-edge relevant to keyboard handling on Android?",
+     "options": [
+      "It disables the keyboard",
+      "It makes adjustResize more reliable",
+      "The app draws behind system bars and the keyboard is reported as an inset, so you often must handle it explicitly",
+      "It only affects iOS"
+     ],
+     "answer": 2,
+     "explain": "Test on both platforms, ideally on a real device."
+    }
+   ]
+  },
+  "level-2/10-project-recipe-book": {
+   "questions": [
+    {
+     "q": "Why are favourites stored with the full recipe JSON in SQLite?",
+     "options": [
+      "To avoid migrations",
+      "SQLite cannot store IDs",
+      "To speed up search",
+      "So a favourited recipe opens offline"
+     ],
+     "answer": 3,
+     "explain": "Network first, local fallback."
+    },
+    {
+     "q": "What does the recipe detail deep link recipebook://recipe/52785 require?",
+     "options": [
+      "A native module",
+      "A web server only",
+      "A URL scheme configured in app.json and a route app/recipe/[id].tsx",
+      "Nothing at all"
+     ],
+     "answer": 2,
+     "explain": "Expo Router gives every screen a URL."
+    },
+    {
+     "q": "What is an optimistic update for the favourite heart?",
+     "options": [
+      "Update the UI immediately and roll back if the write fails",
+      "Refetch first",
+      "Disable the button",
+      "Wait for the database"
+     ],
+     "answer": 0,
+     "explain": "It feels instant."
+    },
+    {
+     "q": "Why is loadRecipe written as a pure function?",
+     "options": [
+      "SQLite requires it",
+      "It can be tested without React or a device",
+      "Pure functions are faster in Hermes",
+      "It avoids TypeScript"
+     ],
+     "answer": 1,
+     "explain": "Pure logic is the cheapest layer to test."
+    }
+   ]
+  },
+  "level-3/01-architecture-new-arch": {
+   "questions": [
+    {
+     "q": "Roughly how long is the per-frame budget at 60 Hz?",
+     "options": [
+      "About 1 ms",
+      "About 16.7 ms",
+      "About 1 second",
+      "About 100 ms"
+     ],
+     "answer": 1,
+     "explain": "Higher refresh rates leave less."
+    },
+    {
+     "q": "How did the old bridge communicate between JS and native?",
+     "options": [
+      "By HTTP",
+      "With C++ templates",
+      "Directly with shared memory",
+      "By serialising calls to JSON and flushing them asynchronously in a queue"
+     ],
+     "answer": 3,
+     "explain": "This caused overhead and prevented synchronous calls."
+    },
+    {
+     "q": "What does JSI let JavaScript do in the New Architecture?",
+     "options": [
+      "Replace Hermes",
+      "Hold direct references to native objects and call them, including synchronously, without JSON serialisation",
+      "Compile TypeScript",
+      "Run Java code"
+     ],
+     "answer": 1,
+     "explain": "JSI underpins Fabric and TurboModules."
+    },
+    {
+     "q": "Since which React Native version is the New Architecture the default?",
+     "options": [
+      "0.40",
+      "0.60",
+      "1.0",
+      "0.76 (late 2024)"
+     ],
+     "answer": 3,
+     "explain": "Older libraries may still need compatibility work."
+    }
+   ]
+  },
+  "level-3/02-device-apis": {
+   "questions": [
+    {
+     "q": "Which can you NOT test properly on the iOS Simulator?",
+     "options": [
+      "Layout",
+      "Navigation",
+      "Location simulation",
+      "Camera and haptics (use a real device)"
+     ],
+     "answer": 3,
+     "explain": "Simulators are not phones."
+    },
+    {
+     "q": "What is a good use of haptics?",
+     "options": [
+      "Use random patterns",
+      "Fire on every tap",
+      "Replace visual feedback entirely",
+      "Tie them to meaningful state changes such as a habit completed, using the semantic types"
+     ],
+     "answer": 3,
+     "explain": "Users can disable system haptics, in which case calls do nothing."
+    },
+    {
+     "q": "What does getLastKnownPositionAsync give you?",
+     "options": [
+      "A cheap, instant but possibly old position, good for a first guess",
+      "The device's address",
+      "The most accurate fix",
+      "A background stream"
+     ],
+     "answer": 0,
+     "explain": "getCurrentPositionAsync with accuracy Balanced gets a fresh fix."
+    },
+    {
+     "q": "What battery trade-off applies to location?",
+     "options": [
+      "Only the camera uses battery",
+      "Lower accuracy uses more",
+      "No cost",
+      "Higher accuracy and continuous updates use more battery, so pick the lowest accuracy that works"
+     ],
+     "answer": 3,
+     "explain": "Choose accuracy for the feature."
+    }
+   ]
+  },
+  "level-3/03-permissions": {
+   "questions": [
+    {
+     "q": "On iOS, how many times is a permission's system prompt shown?",
+     "options": [
+      "Twice",
+      "At most once; later requests return denied immediately",
+      "Until granted",
+      "Every launch"
+     ],
+     "answer": 1,
+     "explain": "After that only Settings can change it."
+    },
+    {
+     "q": "What does canAskAgain: false mean?",
+     "options": [
+      "The permission expired",
+      "The user granted permission",
+      "Retry immediately",
+      "The system will not show a prompt again, so send the user to Settings"
+     ],
+     "answer": 3,
+     "explain": "Explain why and link to Settings."
+    },
+    {
+     "q": "When should you ask for notification permission?",
+     "options": [
+      "When the user turns on a reminder, with context, not at first launch",
+      "On first launch",
+      "During splash",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Ask at the moment of value."
+    },
+    {
+     "q": "What happens on iOS if an app requests a permission without a usage description string?",
+     "options": [
+      "Nothing",
+      "The prompt shows in English",
+      "A default string is used",
+      "It crashes (and App Review rejects vague strings)"
+     ],
+     "answer": 3,
+     "explain": "Set strings in config plugins."
+    }
+   ]
+  },
+  "level-3/04-notifications": {
+   "questions": [
+    {
+     "q": "What is a local notification?",
+     "options": [
+      "Shown only in the foreground",
+      "One scheduled on the device by your app, with no server needed",
+      "Sent from APNs",
+      "Sent by FCM only"
+     ],
+     "answer": 1,
+     "explain": "Remote push comes from a server."
+    },
+    {
+     "q": "What do Android notification channels do?",
+     "options": [
+      "Speed up delivery",
+      "Encrypt them",
+      "Group notifications so users can control them separately in system settings",
+      "Route to iOS"
+     ],
+     "answer": 2,
+     "explain": "Create a channel before requesting permission on Android 13+."
+    },
+    {
+     "q": "By default, what happens to a notification that arrives while your app is open?",
+     "options": [
+      "It is not shown unless you set a notification handler",
+      "It queues forever",
+      "It crashes",
+      "It shows a banner"
+     ],
+     "answer": 0,
+     "explain": "Use setNotificationHandler once at startup."
+    },
+    {
+     "q": "Where can remote push be tested?",
+     "options": [
+      "On a physical device, using a development build rather than Expo Go on Android",
+      "In a browser",
+      "On any simulator",
+      "Only in Expo Go"
+     ],
+     "answer": 0,
+     "explain": "iOS also needs an Apple Developer account for APNs credentials."
+    }
+   ]
+  },
+  "level-3/05-animations": {
+   "questions": [
+    {
+     "q": "Which properties can the Animated native driver animate?",
+     "options": [
+      "Any style",
+      "width and height",
+      "top and left",
+      "Non-layout properties such as transform and opacity"
+     ],
+     "answer": 3,
+     "explain": "Layout properties need the JS driver."
+    },
+    {
+     "q": "What are Reanimated worklets?",
+     "options": [
+      "Web workers",
+      "Native Swift functions",
+      "Small JavaScript functions run on the UI thread in a separate JS runtime",
+      "CSS animations"
+     ],
+     "answer": 2,
+     "explain": "useAnimatedStyle's callback is one."
+    },
+    {
+     "q": "What is a shared value?",
+     "options": [
+      "A prop",
+      "State both threads can read and write, used to drive animations",
+      "A database row",
+      "A Context"
+     ],
+     "answer": 1,
+     "explain": "Created with useSharedValue."
+    },
+    {
+     "q": "Which function describes a spring-style move of a shared value?",
+     "options": [
+      "animate",
+      "withSpring",
+      "moveTo",
+      "withTween"
+     ],
+     "answer": 1,
+     "explain": "Others include withTiming, withDecay, withSequence."
+    }
+   ]
+  },
+  "level-3/06-gestures": {
+   "questions": [
+    {
+     "q": "Why does Gesture Handler feel smoother than the built-in responder system?",
+     "options": [
+      "It uses a bigger bundle",
+      "It runs in the cloud",
+      "It recognises gestures natively on the UI thread, so a busy JS thread does not make gestures sticky",
+      "It disables scrolling"
+     ],
+     "answer": 2,
+     "explain": "Paired with Reanimated, the loop avoids JS."
+    },
+    {
+     "q": "What must wrap your app to use Gesture Handler?",
+     "options": [
+      "A Modal",
+      "SafeAreaProvider",
+      "QueryClientProvider",
+      "GestureHandlerRootView as close to the root as possible"
+     ],
+     "answer": 3,
+     "explain": "With flex: 1."
+    },
+    {
+     "q": "How do you attach a gesture to a view?",
+     "options": [
+      "useGesture(ref)",
+      "addEventListener",
+      "Build it with Gesture.Pan() etc. and pass it to GestureDetector",
+      "onGesture prop"
+     ],
+     "answer": 2,
+     "explain": "The 2.x builder API."
+    },
+    {
+     "q": "Why should you let npx expo install choose the Gesture Handler version?",
+     "options": [
+      "It is required by Git",
+      "It is faster",
+      "It is free",
+      "It picks the version matching your SDK, which may differ from npm's latest major"
+     ],
+     "answer": 3,
+     "explain": "APIs differ between majors."
+    }
+   ]
+  },
+  "level-3/07-accessibility": {
+   "questions": [
+    {
+     "q": "What does a screen reader announce for a focused element, roughly in order?",
+     "options": [
+      "Position",
+      "Label, role, state, then optional hint",
+      "Colour",
+      "Hint only"
+     ],
+     "answer": 1,
+     "explain": "Give each interactive element all four."
+    },
+    {
+     "q": "Which prop sets the spoken name of an icon-only button?",
+     "options": [
+      "testID",
+      "accessibilityHint",
+      "accessibilityLabel",
+      "title"
+     ],
+     "answer": 2,
+     "explain": "It defaults to text content."
+    },
+    {
+     "q": "Which prop describes checked or disabled?",
+     "options": [
+      "accessibilityState",
+      "accessibilityValue",
+      "accessibilityLabel",
+      "accessibilityRole"
+     ],
+     "answer": 0,
+     "explain": "Keep it in sync with the visual state."
+    },
+    {
+     "q": "What should you do for users who enable Reduce Motion?",
+     "options": [
+      "Disable the screen",
+      "Reduce or skip non-essential animation, for example by checking the setting",
+      "Ignore it",
+      "Speed animations up"
+     ],
+     "answer": 1,
+     "explain": "Respect the OS accessibility settings."
+    }
+   ]
+  },
+  "level-3/08-native-modules": {
+   "questions": [
+    {
+     "q": "When should you write a native module?",
+     "options": [
+      "For every API",
+      "When you need a platform capability that no maintained library provides",
+      "Never",
+      "To make JS faster without profiling"
+     ],
+     "answer": 1,
+     "explain": "Check Expo SDK and React Native Directory first."
+    },
+    {
+     "q": "What does the Expo Modules API let you write?",
+     "options": [
+      "Only JS",
+      "Only C++",
+      "Native modules in Swift and Kotlin with a declarative DSL",
+      "Only Objective-C"
+     ],
+     "answer": 2,
+     "explain": "It generates the JSI bindings for you."
+    },
+    {
+     "q": "What does create-expo-module --local do?",
+     "options": [
+      "Publishes to npm",
+      "Deletes ios/",
+      "Starts Metro",
+      "Scaffolds a module inside your app's modules/ folder, autolinked"
+     ],
+     "answer": 3,
+     "explain": "Local modules live in your repo."
+    },
+    {
+     "q": "Why does a native module require a rebuild?",
+     "options": [
+      "Types",
+      "Metro is slow",
+      "Hermes",
+      "Native code changes are compiled into the binary and cannot be hot-reloaded or sent over the air"
+     ],
+     "answer": 3,
+     "explain": "Use a development build."
+    }
+   ]
+  },
+  "level-3/09-dev-builds-prebuild": {
+   "questions": [
+    {
+     "q": "What is a development build?",
+     "options": [
+      "An emulator",
+      "Your own debug app containing exactly your native dependencies, with the same dev tools as Expo Go",
+      "A web page",
+      "A production release"
+     ],
+     "answer": 1,
+     "explain": "Use expo-dev-client."
+    },
+    {
+     "q": "What does npx expo prebuild do?",
+     "options": [
+      "Generates the ios/ and android/ projects from a template, app config and config plugins",
+      "Builds the APK",
+      "Lints the code",
+      "Deploys OTA"
+     ],
+     "answer": 0,
+     "explain": "Continuous Native Generation lets you not commit them."
+    },
+    {
+     "q": "When do you rebuild the development build?",
+     "options": [
+      "Every day",
+      "Every JS change",
+      "Never",
+      "When the native side changes: dependencies or config"
+     ],
+     "answer": 3,
+     "explain": "JS changes use Fast Refresh."
+    },
+    {
+     "q": "What is a config plugin?",
+     "options": [
+      "Code that edits native project files such as Info.plist or the manifest during prebuild",
+      "A test runner",
+      "A UI library",
+      "A Metro plugin"
+     ],
+     "answer": 0,
+     "explain": "Library authors and you can write them."
+    }
+   ]
+  },
+  "level-3/10-project-field-notes": {
+   "questions": [
+    {
+     "q": "In Field Notes, why is every note saved locally first?",
+     "options": [
+      "Saving must never depend on the network; syncing happens afterwards",
+      "It avoids permissions",
+      "Apple requires it",
+      "SQLite is faster than servers"
+     ],
+     "answer": 0,
+     "explain": "Offline-first design."
+    },
+    {
+     "q": "Why are photos copied out of the cache into the document directory?",
+     "options": [
+      "The OS can delete cache files; documents persist",
+      "Cache is encrypted",
+      "Documents are faster",
+      "To rename them"
+     ],
+     "answer": 0,
+     "explain": "Persist what matters."
+    },
+    {
+     "q": "What is exponential backoff in sync retries?",
+     "options": [
+      "Never retrying",
+      "Retrying all at once",
+      "Retrying instantly",
+      "Waiting progressively longer after each failure before retrying"
+     ],
+     "answer": 3,
+     "explain": "It avoids hammering a struggling server."
+    },
+    {
+     "q": "How do you avoid uploading the same note version twice?",
+     "options": [
+      "Use timestamps only",
+      "Delete after upload",
+      "Hope",
+      "Track sync state and version per note and make the upload idempotent"
+     ],
+     "answer": 3,
+     "explain": "Never upload twice for the same version."
+    }
+   ]
+  },
+  "level-4/01-performance-profiling": {
+   "questions": [
+    {
+     "q": "Where should you measure performance?",
+     "options": [
+      "Expo Go only",
+      "Development build on the newest iPhone",
+      "Simulator only",
+      "In a release build on a low-to-mid-range Android phone"
+     ],
+     "answer": 3,
+     "explain": "Development builds are much slower."
+    },
+    {
+     "q": "JS frame rate drops but UI frame rate is fine. What does that suggest?",
+     "options": [
+      "Too many images",
+      "JavaScript is doing too much, such as heavy renders or big parsing",
+      "The GPU is busy",
+      "The network is slow"
+     ],
+     "answer": 1,
+     "explain": "Taps feel delayed; scrolling stays smooth."
+    },
+    {
+     "q": "Which tool shows why a component re-rendered?",
+     "options": [
+      "React DevTools Profiler with 'Record why each component rendered'",
+      "Flipper",
+      "LogBox",
+      "Metro"
+     ],
+     "answer": 0,
+     "explain": "Open DevTools with j."
+    },
+    {
+     "q": "A whole list re-renders when one item changes. Typical fix?",
+     "options": [
+      "A bigger windowSize",
+      "Disable keys",
+      "More Views",
+      "memo the row, use stable callbacks and keep item identity stable"
+     ],
+     "answer": 3,
+     "explain": "Measure again after the change."
+    }
+   ]
+  },
+  "level-4/02-list-performance": {
+   "questions": [
+    {
+     "q": "What does getItemLayout enable?",
+     "options": [
+      "Dynamic heights",
+      "Skips measurement and makes scrollToIndex exact, for fixed or computable row heights",
+      "Pagination",
+      "Sections"
+     ],
+     "answer": 1,
+     "explain": "It tells the list size and offset up front."
+    },
+    {
+     "q": "What does windowSize control?",
+     "options": [
+      "Page size",
+      "Window width",
+      "The number of columns",
+      "How many screen-heights of content stay mounted (default 21)"
+     ],
+     "answer": 3,
+     "explain": "Lower saves memory but may show blanks on fast flings."
+    },
+    {
+     "q": "How does FlashList differ from FlatList?",
+     "options": [
+      "It uses WebGL",
+      "It is server-rendered",
+      "It removes keys",
+      "It recycles views instead of mounting and unmounting them"
+     ],
+     "answer": 3,
+     "explain": "Set recyclingKey and use item types."
+    },
+    {
+     "q": "What is the first step before tuning list props?",
+     "options": [
+      "Add shadows",
+      "Switch library",
+      "Fix the rows: memoise, keep them shallow, size images and avoid heavy render work",
+      "Increase windowSize"
+     ],
+     "answer": 2,
+     "explain": "No setting rescues a slow row."
+    }
+   ]
+  },
+  "level-4/03-testing-rntl": {
+   "questions": [
+    {
+     "q": "In RNTL 14, how do you call render?",
+     "options": [
+      "await render(...), because render is async",
+      "Use shallow()",
+      "It cannot be awaited",
+      "render(...) synchronously"
+     ],
+     "answer": 0,
+     "explain": "Forgetting await gives 'render function has not been called'."
+    },
+    {
+     "q": "What does the jest-expo preset do?",
+     "options": [
+      "Runs on a device",
+      "Replaces Jest",
+      "Configures Babel like Metro, sets up React Native mocks and mocks native Expo modules",
+      "Starts Metro"
+     ],
+     "answer": 2,
+     "explain": "Tests run in Node."
+    },
+    {
+     "q": "In which order should you prefer queries?",
+     "options": [
+      "By class name",
+      "By role, label and text as users find them, before testID",
+      "By index",
+      "testID first"
+     ],
+     "answer": 1,
+     "explain": "Query like a user."
+    },
+    {
+     "q": "What do component tests NOT tell you?",
+     "options": [
+      "Whether a function returns the right value",
+      "Whether state updates",
+      "Whether the compiled app launches, native modules link or the keyboard covers a button",
+      "Whether text renders"
+     ],
+     "answer": 2,
+     "explain": "That needs E2E."
+    }
+   ]
+  },
+  "level-4/04-e2e-testing": {
+   "questions": [
+    {
+     "q": "How does Maestro drive the app?",
+     "options": [
+      "From outside through the accessibility layer, with YAML flows",
+      "By editing source",
+      "With Jest mocks",
+      "Inside the app JS"
+     ],
+     "answer": 0,
+     "explain": "Black box."
+    },
+    {
+     "q": "How does Detox synchronise with the app?",
+     "options": [
+      "Polling the network only",
+      "It tracks the app's busy state and waits until idle",
+      "It does not",
+      "Fixed sleeps"
+     ],
+     "answer": 1,
+     "explain": "Grey box."
+    },
+    {
+     "q": "Why write few E2E tests?",
+     "options": [
+      "They are slower and more fragile, so cover journeys that must never break",
+      "They cost money",
+      "They need no app",
+      "They are unreliable by design"
+     ],
+     "answer": 0,
+     "explain": "Sign-in, core create flow, purchase."
+    },
+    {
+     "q": "What is testID for?",
+     "options": [
+      "Analytics only",
+      "Styling",
+      "A stable handle for elements without stable text, mapped to the accessibility identifier or resource-id",
+      "Localisation"
+     ],
+     "answer": 2,
+     "explain": "Prefer labels and visible text first."
+    }
+   ]
+  },
+  "level-4/05-security": {
+   "questions": [
+    {
+     "q": "What happens to a value set as EXPO_PUBLIC_MAPS_KEY?",
+     "options": [
+      "It is encrypted",
+      "It is only in Expo Go",
+      "It is inlined into the JS bundle and visible to anyone who unpacks the app",
+      "It stays on the build server"
+     ],
+     "answer": 2,
+     "explain": "The lesson found it as plain text in the Hermes bytecode."
+    },
+    {
+     "q": "Where must private keys such as payment secrets live?",
+     "options": [
+      "In AsyncStorage",
+      "In app.json",
+      "In the app",
+      "On your server, which the app calls after authenticating the user"
+     ],
+     "answer": 3,
+     "explain": "Hiding a button does not protect an endpoint."
+    },
+    {
+     "q": "Where does mobile security ultimately live?",
+     "options": [
+      "In Hermes",
+      "In the app icon",
+      "In obfuscation",
+      "On the server, because the attacker controls the device"
+     ],
+     "answer": 3,
+     "explain": "The app protects user data on the device."
+    },
+    {
+     "q": "What should you do with deep-link parameters?",
+     "options": [
+      "Execute them",
+      "Validate them as untrusted input",
+      "Trust them",
+      "Log secrets"
+     ],
+     "answer": 1,
+     "explain": "Treat links like any external input."
+    }
+   ]
+  },
+  "level-4/06-eas-build-signing": {
+   "questions": [
+    {
+     "q": "What does an iOS .ipa vs Android .aab refer to?",
+     "options": [
+      "Source maps",
+      "Config files",
+      "The signed release binaries for the App Store and Google Play",
+      "Test reports"
+     ],
+     "answer": 2,
+     "explain": "Play uses Android App Bundles."
+    },
+    {
+     "q": "What is the eas.json preview profile typically used for?",
+     "options": [
+      "Docs",
+      "Store submission",
+      "Internal release-mode builds for QA and performance testing",
+      "Local dev"
+     ],
+     "answer": 2,
+     "explain": "An APK on Android."
+    },
+    {
+     "q": "What does appVersionSource: remote mean?",
+     "options": [
+      "Local only",
+      "No versions",
+      "EAS manages build numbers remotely",
+      "Versions live in git only"
+     ],
+     "answer": 2,
+     "explain": "With autoIncrement for production."
+    },
+    {
+     "q": "Why keep your keystore and credentials safe?",
+     "options": [
+      "Losing signing credentials can block updates to an existing app (Play App Signing reduces the risk)",
+      "They are optional",
+      "They are public",
+      "They expire daily"
+     ],
+     "answer": 0,
+     "explain": "Let EAS manage credentials."
+    }
+   ]
+  },
+  "level-4/07-store-submission": {
+   "questions": [
+    {
+     "q": "What does TestFlight give you?",
+     "options": [
+      "Analytics",
+      "A beta stage where internal testers install immediately and external testers need a lightweight review",
+      "Production release",
+      "Crash symbolication"
+     ],
+     "answer": 1,
+     "explain": "The closest thing to production."
+    },
+    {
+     "q": "What must apps with account creation also provide?",
+     "options": [
+      "Email-only deletion",
+      "A web form only",
+      "Nothing",
+      "A way to delete the account in the app"
+     ],
+     "answer": 3,
+     "explain": "Apple and Google both require a path."
+    },
+    {
+     "q": "What do you give reviewers if your app needs login?",
+     "options": [
+      "A video",
+      "Nothing",
+      "A demo account in the review notes",
+      "Your password"
+     ],
+     "answer": 2,
+     "explain": "Reviewers must reach all features."
+    },
+    {
+     "q": "Why use staged rollouts?",
+     "options": [
+      "So a bad release reaches only a fraction of users first",
+      "Cheaper",
+      "Required",
+      "Faster review"
+     ],
+     "answer": 0,
+     "explain": "Watch crashes and ramp up."
+    }
+   ]
+  },
+  "level-4/08-ota-updates": {
+   "questions": [
+    {
+     "q": "What can an OTA update change?",
+     "options": [
+      "The JavaScript bundle and its assets",
+      "Permission strings",
+      "The native module set",
+      "The bundle ID"
+     ],
+     "answer": 0,
+     "explain": "Native changes need a new binary."
+    },
+    {
+     "q": "What is runtime version for?",
+     "options": [
+      "Speed",
+      "Sorting",
+      "A build only accepts updates with the same runtime version, protecting against JS/native mismatch",
+      "Marketing"
+     ],
+     "answer": 2,
+     "explain": "Mismatch would crash."
+    },
+    {
+     "q": "What does the fingerprint policy do?",
+     "options": [
+      "Hashes JS",
+      "Compresses",
+      "Signs the app",
+      "Hashes everything affecting the native build so the runtime version changes only when native code changes"
+     ],
+     "answer": 3,
+     "explain": "A JS-only change does not change it."
+    },
+    {
+     "q": "What are OTA updates NOT meant for?",
+     "options": [
+      "Bug fixes",
+      "Copy changes",
+      "Small improvements",
+      "Changing the app's primary purpose or swapping in a different app after review"
+     ],
+     "answer": 3,
+     "explain": "Stay within store rules."
+    }
+   ]
+  },
+  "level-4/09-monitoring": {
+   "questions": [
+    {
+     "q": "What do route ErrorBoundaries catch?",
+     "options": [
+      "Native crashes",
+      "Errors thrown while rendering a route's subtree",
+      "Rejected promises in useEffect",
+      "Errors in event handlers"
+     ],
+     "answer": 1,
+     "explain": "Handle the others in place and with a reporter."
+    },
+    {
+     "q": "Why upload source maps to Sentry?",
+     "options": [
+      "So production stack traces map back to your readable source",
+      "Faster app",
+      "Free crashes",
+      "Smaller bundle"
+     ],
+     "answer": 0,
+     "explain": "Tag releases to match builds."
+    },
+    {
+     "q": "What is a sensible analytics approach?",
+     "options": [
+      "Collect a small amount, respectfully and with consent where required",
+      "Sell it",
+      "Collect everything",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Declare it in privacy labels."
+    },
+    {
+     "q": "What does __DEV__ allow in the error screen?",
+     "options": [
+      "Hot reload",
+      "Source maps",
+      "Faster builds",
+      "Show details in development and a friendly message in release"
+     ],
+     "answer": 3,
+     "explain": "Do not leak internals to users."
+    }
+   ]
+  },
+  "level-4/10-capstone": {
+   "questions": [
+    {
+     "q": "What is the capstone's deliverable?",
+     "options": [
+      "A logo",
+      "Evidence that the app is a release candidate: tests, accessibility, performance, release setup and monitoring",
+      "A new feature",
+      "A blog"
+     ],
+     "answer": 1,
+     "explain": "It is about readiness."
+    },
+    {
+     "q": "What goes in ARCHITECTURE.md?",
+     "options": [
+      "Where state lives, data flows, offline behaviour and the navigation tree",
+      "Marketing",
+      "Legal",
+      "Pricing"
+     ],
+     "answer": 0,
+     "explain": "One page a reviewer can follow."
+    },
+    {
+     "q": "What should E2E flows cover in the capstone?",
+     "options": [
+      "Add habit, complete it, relaunch and still completed; and the permission-denied reminder path",
+      "Only visuals",
+      "Nothing",
+      "Every screen"
+     ],
+     "answer": 0,
+     "explain": "Few, valuable flows."
+    },
+    {
+     "q": "What does a preflight script help with?",
+     "options": [
+      "Hiring",
+      "Checking the release gates automatically before you submit",
+      "Writing code",
+      "Design"
+     ],
+     "answer": 1,
+     "explain": "Catch mistakes early."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "A React Native app feels native mainly because...",
+    "options": [
+     "its component tree is mapped to real platform views, and scrolling, text and accessibility come from the OS",
+     "it runs Swift and Kotlin translations of your JS at runtime",
+     "it is compiled to a web page that looks like an app",
+     "it draws everything itself on a canvas"
+    ],
+    "answer": 0,
+    "explain": "Components map to native views; that is also why div, CSS files and onClick do not exist."
+   },
+   {
+    "q": "A tap handler updates state but the UI responds 300 ms late, while scrolling stays smooth. Which is the likely cause?",
+    "options": [
+     "The GPU is faulty",
+     "The UI thread is overloaded by shadows",
+     "The JS thread is busy (heavy render or computation); scrolling runs on the UI thread",
+     "Metro is too slow"
+    ],
+    "answer": 2,
+    "explain": "JS frame rate dropping with UI fine points to JavaScript work."
+   },
+   {
+    "q": "Which pair is the correct fix for 'my background only covers half the screen' and 'my list doesn't scroll'?",
+    "options": [
+     "Switch to ScrollView everywhere",
+     "Give the root View and the list's parent flex: 1 so they receive a bounded height",
+     "Use position: fixed",
+     "Set display: block"
+    ],
+    "answer": 1,
+    "explain": "Without flex: 1 a view is only as tall as its content."
+   },
+   {
+    "q": "What is the safest way to render a count badge only when unread > 0?",
+    "options": [
+     "{unread || <Text />}",
+     "Return the number directly in a View",
+     "{unread && <Text>{unread}</Text>}",
+     "{unread > 0 && <Text>{unread}</Text>}"
+    ],
+    "answer": 3,
+    "explain": "A 0 left of && is rendered as a bare string and crashes inside a View."
+   },
+   {
+    "q": "Which approach gives native-feeling press feedback on both platforms?",
+    "options": [
+     "A web hover style",
+     "TouchableWithoutFeedback only",
+     "Pressable with a pressed style (iOS) and android_ripple (Android), plus accessibilityRole and label",
+     "onClick on a View"
+    ],
+    "answer": 2,
+    "explain": "Pressable replaces the older Touchable family."
+   },
+   {
+    "q": "A search screen stores the text in a global store and the whole app re-renders on every keystroke. What is the better design?",
+    "options": [
+     "Add more global state",
+     "Use AsyncStorage",
+     "Debounce the whole app",
+     "Keep the text in local useState and put only shared data in the store, with narrow selectors"
+    ],
+    "answer": 3,
+    "explain": "Match each kind of state to the right place."
+   },
+   {
+    "q": "Which store holds a refresh token?",
+    "options": [
+     "AsyncStorage",
+     "SQLite without encryption",
+     "A bundled JSON file",
+     "expo-secure-store (Keychain/Keystore)"
+    ],
+    "answer": 3,
+    "explain": "AsyncStorage is unencrypted; treat it like a text file."
+   },
+   {
+    "q": "Why does data fetched with TanStack Query appear instantly when you return to a screen?",
+    "options": [
+     "Navigation freezes the network",
+     "It is cached by query key and renders from the cache while stale data refetches in the background",
+     "Hermes caches fetch calls",
+     "The server remembers you"
+    ],
+    "answer": 1,
+    "explain": "Server state is a cache you do not own."
+   },
+   {
+    "q": "A form field holds the string '3' but your schema needs a number. What does the schema do?",
+    "options": [
+     "Rejects every string",
+     "z.coerce.number() converts then validates it",
+     "Stores it as text",
+     "Ignores it"
+    ],
+    "answer": 1,
+    "explain": "TextInput values are always strings."
+   },
+   {
+    "q": "What is the correct pattern for an offline-friendly detail screen?",
+    "options": [
+     "Only work online",
+     "Try the network, fall back to the locally stored copy and tell the user it is an offline copy",
+     "Throw away local data",
+     "Always show a spinner"
+    ],
+    "answer": 1,
+    "explain": "Store the full record when favouriting."
+   },
+   {
+    "q": "Which statement about the New Architecture is true?",
+    "options": [
+     "It removes Hermes",
+     "JSI lets JS call native objects directly without JSON serialisation, enabling synchronous calls",
+     "It adds a faster JSON bridge",
+     "It only affects Android"
+    ],
+    "answer": 1,
+    "explain": "Fabric and TurboModules build on JSI."
+   },
+   {
+    "q": "An iOS user denied the camera permission last week. What can your app do?",
+    "options": [
+     "Request it again repeatedly",
+     "Silently ignore it",
+     "Explain the benefit and send the user to Settings, because the system will not prompt again",
+     "Re-prompt on every launch"
+    ],
+    "answer": 2,
+    "explain": "canAskAgain false means Settings only."
+   },
+   {
+    "q": "Which animation is safe to run with useNativeDriver: true?",
+    "options": [
+     "A transform scale or an opacity fade",
+     "Animating height",
+     "Animating flex",
+     "Animating top"
+    ],
+    "answer": 0,
+    "explain": "The native driver supports non-layout properties."
+   },
+   {
+    "q": "A swipe-to-complete gesture must stay smooth while JS is busy. What do you use?",
+    "options": [
+     "LayoutAnimation only",
+     "setInterval",
+     "Gesture Handler plus Reanimated, so recognition and animation run on the UI thread",
+     "setState in onTouchMove"
+    ],
+    "answer": 2,
+    "explain": "Callbacks are worklets."
+   },
+   {
+    "q": "What is the right accessibility setup for an icon-only delete button?",
+    "options": [
+     "Colour only",
+     "Only an emoji",
+     "accessibilityRole=\"button\" with accessibilityLabel=\"Delete\" and a large enough touch target",
+     "No label"
+    ],
+    "answer": 2,
+    "explain": "Label, role, state, then hint."
+   },
+   {
+    "q": "A teammate adds a library with native code. How do you test it?",
+    "options": [
+     "Reload Expo Go",
+     "Use the web",
+     "Edit node_modules",
+     "Create a development build; Expo Go only includes Expo's own native modules"
+    ],
+    "answer": 3,
+    "explain": "Rebuild only when native dependencies or config change."
+   },
+   {
+    "q": "A bug is only in the release build. What is your first step?",
+    "options": [
+     "Ignore it",
+     "Add console.log in development",
+     "Blame Metro",
+     "Reproduce it in a release build and check native crash logs and the Sentry report with source maps"
+    ],
+    "answer": 3,
+    "explain": "Development and release differ a lot."
+   },
+   {
+    "q": "Which JS-only fix can ship over the air, and which cannot?",
+    "options": [
+     "A copy or logic fix can; a new native module or permission string cannot",
+     "Both can",
+     "Neither can",
+     "Only permission strings can"
+    ],
+    "answer": 0,
+    "explain": "Runtime version ties updates to compatible binaries."
+   },
+   {
+    "q": "Which belongs in the app bundle?",
+    "options": [
+     "Admin tokens",
+     "Payment secret keys",
+     "Database passwords",
+     "Only keys that are safe to be public; real secrets stay on the server"
+    ],
+    "answer": 3,
+    "explain": "EXPO_PUBLIC_ values are inlined into the bundle and readable."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Habit statistics: current streak, longest streak and weekly rate",
+    "prompt": "Implement currentStreak, longestStreak and weeklyRate for habits whose check-ins are local YYYY-MM-DD strings. Handle duplicates, month boundaries and leap days. This is plain JavaScript logic — the kind you would put in a pure module and unit-test with Jest before wiring it into a React Native screen.",
+    "starter": "const dayKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;\nconst addDays=(k,n)=>{const [y,m,d]=k.split('-').map(Number);return dayKey(new Date(y,m-1,d+n));};\n\n// TODO: implement currentStreak(doneDates, today), longestStreak(doneDates), weeklyRate(doneDates, today)\n//  - currentStreak: consecutive days ending today, or yesterday if today is not done yet\n//  - longestStreak: longest run of consecutive days anywhere (ignore duplicates; handle month/leap-year boundaries)\n//  - weeklyRate: percentage (rounded) of the last 7 days, today included, that were done\nfunction summarize(h, today) {\n  return `${h.name}: current ${currentStreak(h.doneDates, today)}, longest ${longestStreak(h.doneDates)}, week ${weeklyRate(h.doneDates, today)}%`;\n}\nconst habits = [\n  { name: 'Read', doneDates: ['2026-02-26','2026-02-27','2026-02-28','2026-03-01','2026-03-02','2026-03-04','2026-03-05'] },\n  { name: 'Run', doneDates: ['2026-03-05'] },\n  { name: 'Stretch', doneDates: [] },\n  { name: 'Water', doneDates: ['2026-03-03','2026-03-04','2026-03-05','2026-03-05'] },\n];\nfor (const h of habits) console.log(summarize(h, '2026-03-05'));\nconsole.log(longestStreak(['2024-02-28','2024-02-29','2024-03-01']));\n",
+    "expected": "Read: current 2, longest 5, week 86%\nRun: current 1, longest 1, week 14%\nStretch: current 0, longest 0, week 0%\nWater: current 3, longest 3, week 43%\n3",
+    "solution": "const dayKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;\nconst addDays=(k,n)=>{const [y,m,d]=k.split('-').map(Number);return dayKey(new Date(y,m-1,d+n));};\n\nfunction currentStreak(doneDates, today) {\n  const done = new Set(doneDates);\n  let cur = done.has(today) ? today : addDays(today, -1);\n  let s = 0;\n  while (done.has(cur)) { s++; cur = addDays(cur, -1); }\n  return s;\n}\nfunction longestStreak(doneDates) {\n  const days = [...new Set(doneDates)].sort();\n  let best = 0, run = 0, prev = null;\n  for (const d of days) {\n    run = prev !== null && addDays(prev, 1) === d ? run + 1 : 1;\n    best = Math.max(best, run);\n    prev = d;\n  }\n  return best;\n}\nfunction weeklyRate(doneDates, today) {\n  const done = new Set(doneDates);\n  let n = 0;\n  for (let i = 0; i < 7; i++) if (done.has(addDays(today, -i))) n++;\n  return Math.round((n / 7) * 100);\n}\nfunction summarize(h, today) {\n  return `${h.name}: current ${currentStreak(h.doneDates, today)}, longest ${longestStreak(h.doneDates)}, week ${weeklyRate(h.doneDates, today)}%`;\n}\nconst habits = [\n  { name: 'Read', doneDates: ['2026-02-26','2026-02-27','2026-02-28','2026-03-01','2026-03-02','2026-03-04','2026-03-05'] },\n  { name: 'Run', doneDates: ['2026-03-05'] },\n  { name: 'Stretch', doneDates: [] },\n  { name: 'Water', doneDates: ['2026-03-03','2026-03-04','2026-03-05','2026-03-05'] },\n];\nfor (const h of habits) console.log(summarize(h, '2026-03-05'));\nconsole.log(longestStreak(['2024-02-28','2024-02-29','2024-03-01']));\n",
+    "explain": "Day keys are built with new Date(y, m-1, d+delta), which rolls over months and leap days correctly. longestStreak sorts unique keys and extends a run while the next day follows the previous one. Verified by running the solution in Node; React Native itself was not needed because this logic is deliberately independent of the UI."
+   },
+   {
+    "title": "Offline sync queue with exponential backoff",
+    "prompt": "Implement backoff and SyncQueue so notes saved offline upload later with retries, never upload the same id:version twice, and a re-saved note becomes a new version. Time is passed in as a number so the behaviour is deterministic; there is no real network here.",
+    "starter": "const BASE = 1000, CAP = 8000;\n// TODO: backoff(attempt) = min(BASE * 2^attempt, CAP)\n// TODO: class SyncQueue(upload) with save(id, body), async tick(now), and a log array\n//  - save increments the note's version if the id already exists (new version = new pending upload)\n//  - tick(now) tries every note that is not synced and whose nextAt <= now\n//  - never upload the same id:version twice (track sent keys)\n//  - on failure: attempts++, state 'failed', nextAt = now + backoff(attempts-1), log \"t=<now> <id>:<v> failed (retry at <nextAt>)\"\n//  - on success: log \"t=<now> <id>:<v> synced\"\nlet calls = 0;\nconst failures = { a: 3 };\nconst q = new SyncQueue(async (id) => { calls++; if (failures[id] > 0) { failures[id]--; throw new Error('offline'); } });\nq.save('a', 'first'); q.save('b', 'hello');\nfor (const t of [0, 500, 1000, 3000, 7000, 8000]) await q.tick(t);\nq.save('b', 'hello edited');\nawait q.tick(8000);\nawait q.tick(9000);\nconsole.log(q.log.join('\\n'));\nconsole.log('calls', calls, 'states', [...q.notes.values()].map(n => `${n.id}v${n.version}:${n.state}`).join(' '));\nconsole.log([0,1,2,3,4,5].map(backoff).join(','));\n",
+    "expected": "t=0 a:1 failed (retry at 1000)\nt=0 b:1 synced\nt=1000 a:1 failed (retry at 3000)\nt=3000 a:1 failed (retry at 7000)\nt=7000 a:1 synced\nt=8000 b:2 synced\ncalls 6 states av1:synced bv2:synced\n1000,2000,4000,8000,8000,8000",
+    "solution": "const BASE = 1000, CAP = 8000;\nfunction backoff(attempt) { return Math.min(BASE * 2 ** attempt, CAP); }\n\nclass SyncQueue {\n  constructor(upload) { this.upload = upload; this.notes = new Map(); this.sent = new Set(); this.log = []; }\n  save(id, body) {\n    const prev = this.notes.get(id);\n    this.notes.set(id, { id, body, version: prev ? prev.version + 1 : 1, attempts: 0, nextAt: 0, state: 'pending' });\n  }\n  async tick(now) {\n    for (const n of this.notes.values()) {\n      if (n.state === 'synced' || n.nextAt > now) continue;\n      const key = `${n.id}:${n.version}`;\n      if (this.sent.has(key)) { n.state = 'synced'; continue; }\n      try {\n        await this.upload(n.id, n.version, n.body);\n        this.sent.add(key); n.state = 'synced';\n        this.log.push(`t=${now} ${key} synced`);\n      } catch (e) {\n        n.attempts++; n.state = 'failed'; n.nextAt = now + backoff(n.attempts - 1);\n        this.log.push(`t=${now} ${key} failed (retry at ${n.nextAt})`);\n      }\n    }\n  }\n}\nlet calls = 0;\nconst failures = { a: 3 };\nconst q = new SyncQueue(async (id) => { calls++; if (failures[id] > 0) { failures[id]--; throw new Error('offline'); } });\nq.save('a', 'first'); q.save('b', 'hello');\nfor (const t of [0, 500, 1000, 3000, 7000, 8000]) await q.tick(t);\nq.save('b', 'hello edited');\nawait q.tick(8000);\nawait q.tick(9000);\nconsole.log(q.log.join('\\n'));\nconsole.log('calls', calls, 'states', [...q.notes.values()].map(n => `${n.id}v${n.version}:${n.state}`).join(' '));\nconsole.log([0,1,2,3,4,5].map(backoff).join(','));\n",
+    "explain": "Each failure doubles the wait up to a cap, nextAt gates retries, and the sent set keyed by id:version makes uploads idempotent. This is a simulation with a fake uploader and fake clock, not a real device or network; verified by running it in Node."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
