@@ -1,0 +1,2170 @@
+{
+ "course": "snowflake-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-architecture": {
+   "questions": [
+    {
+     "q": "What are Snowflake's three architecture layers?",
+     "options": [
+      "Web, app and database",
+      "Storage, compute (virtual warehouses) and cloud services",
+      "Edge, core and archive",
+      "Ingest, model and serve"
+     ],
+     "answer": 1,
+     "explain": "Storage and compute scale independently."
+    },
+    {
+     "q": "What is the practical benefit of separating storage from compute?",
+     "options": [
+      "Storage is free",
+      "Data is copied per query",
+      "Queries need no warehouse",
+      "Several warehouses can query the same data at once without competing, and each can be sized and suspended independently"
+     ],
+     "answer": 3,
+     "explain": "Workload isolation."
+    },
+    {
+     "q": "What does the cloud services layer handle?",
+     "options": [
+      "Query execution on data",
+      "Authentication, metadata, query parsing and optimisation, and access control",
+      "Network cabling",
+      "Data storage"
+     ],
+     "answer": 1,
+     "explain": "It coordinates the platform."
+    },
+    {
+     "q": "What kind of storage format does Snowflake use internally?",
+     "options": [
+      "Row files you manage",
+      "Plain CSV",
+      "Compressed, columnar micro-partitions managed by Snowflake",
+      "Block devices"
+     ],
+     "answer": 2,
+     "explain": "You do not manage files."
+    }
+   ]
+  },
+  "level-1/02-accounts-and-clients": {
+   "questions": [
+    {
+     "q": "What is a Snowflake account identifier made of?",
+     "options": [
+      "An organisation and account name (or locator plus region/cloud) that forms the account URL",
+      "A warehouse name",
+      "An IP address",
+      "A username"
+     ],
+     "answer": 0,
+     "explain": "Used by drivers and the web UI."
+    },
+    {
+     "q": "Which client is the browser interface?",
+     "options": [
+      "SnowSQL",
+      "Snowsight",
+      "Snowpark",
+      "SnowCD"
+     ],
+     "answer": 1,
+     "explain": "SnowSQL is the older command-line client; the Snowflake CLI is newer."
+    },
+    {
+     "q": "Why prefer key-pair or SSO authentication for services?",
+     "options": [
+      "Cheaper",
+      "Speed",
+      "No shared passwords, and credentials can be rotated or revoked centrally",
+      "Legacy"
+     ],
+     "answer": 2,
+     "explain": "Service users should not use passwords."
+    },
+    {
+     "q": "What does a driver connection need at minimum?",
+     "options": [
+      "A VPN only",
+      "Account identifier, user, authenticator or credentials, and a role/warehouse for queries",
+      "A database dump",
+      "A GPU"
+     ],
+     "answer": 1,
+     "explain": "Set default role and warehouse."
+    }
+   ]
+  },
+  "level-1/03-objects-and-types": {
+   "questions": [
+    {
+     "q": "What is the object hierarchy for tables?",
+     "options": [
+      "Account > database > schema > table",
+      "Account > table > schema",
+      "Warehouse > table",
+      "Database > account"
+     ],
+     "answer": 0,
+     "explain": "Fully qualified names are db.schema.object."
+    },
+    {
+     "q": "Which type stores JSON documents?",
+     "options": [
+      "BLOB",
+      "VARIANT",
+      "MAP",
+      "VARCHAR(JSON)"
+     ],
+     "answer": 1,
+     "explain": "Also OBJECT and ARRAY."
+    },
+    {
+     "q": "What is a transient table?",
+     "options": [
+      "A table with no Fail-safe period and at most 1 day of Time Travel, cheaper for staging data",
+      "A temporary table",
+      "A view",
+      "A copy"
+     ],
+     "answer": 0,
+     "explain": "Persists until dropped, unlike a temporary table."
+    },
+    {
+     "q": "What does a temporary table do?",
+     "options": [
+      "Persists",
+      "Is a view",
+      "Is shared",
+      "Exists only for the session and is dropped when it ends"
+     ],
+     "answer": 3,
+     "explain": "Good for intermediate results."
+    }
+   ]
+  },
+  "level-1/04-virtual-warehouses": {
+   "questions": [
+    {
+     "q": "A Medium warehouse (4 credits/hour) runs for 90 minutes. How many credits are used?\n```python\nprint(4*1.5)\n```\n",
+     "options": [
+      "4.0",
+      "3.0",
+      "6.0",
+      "9.0"
+     ],
+     "answer": 2,
+     "explain": "Credits = rate per hour x hours (per-second billing, 60-second minimum per resume). Verified by running it."
+    },
+    {
+     "q": "Warehouse sizes double their credit rate each step: XS=1, S=2, M=4, L=8. How many credits per hour for an XL?\n```python\nprint(1*2**4)\n```\n",
+     "options": [
+      "16",
+      "32",
+      "12",
+      "8"
+     ],
+     "answer": 0,
+     "explain": "XL is four doublings from XS. Verified by running it."
+    },
+    {
+     "q": "What happens to billing when a warehouse is suspended?",
+     "options": [
+      "Data is lost",
+      "Credits continue",
+      "Storage stops",
+      "Compute credits stop accruing (storage is billed separately)"
+     ],
+     "answer": 3,
+     "explain": "Use auto-suspend."
+    },
+    {
+     "q": "When is a larger warehouse most likely to help?",
+     "options": [
+      "Always",
+      "For idle time",
+      "Never",
+      "For a single large, complex query that benefits from more compute, not for many small concurrent queries"
+     ],
+     "answer": 3,
+     "explain": "Concurrency is addressed with multi-cluster warehouses."
+    }
+   ]
+  },
+  "level-1/05-loading-copy-into": {
+   "questions": [
+    {
+     "q": "What does COPY INTO <table> FROM @stage do?",
+     "options": [
+      "Clones",
+      "Bulk-loads staged files into a table using a file format",
+      "Exports",
+      "Deletes"
+     ],
+     "answer": 1,
+     "explain": "Tracks loaded files to avoid reloading."
+    },
+    {
+     "q": "What is a stage?",
+     "options": [
+      "A warehouse",
+      "A role",
+      "A named location (internal or external) where files are kept for loading and unloading",
+      "A table"
+     ],
+     "answer": 2,
+     "explain": "@~, @%table and named stages."
+    },
+    {
+     "q": "What does ON_ERROR = CONTINUE do in COPY INTO?",
+     "options": [
+      "Aborts",
+      "Loads valid rows and skips rows with errors instead of aborting",
+      "Retries",
+      "Rolls back"
+     ],
+     "answer": 1,
+     "explain": "Check the load results."
+    },
+    {
+     "q": "How does Snowflake avoid loading the same file twice?",
+     "options": [
+      "Load metadata tracks file names and ETags for about 64 days",
+      "Manual flags",
+      "Hash of rows",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "FORCE = TRUE overrides it."
+    }
+   ]
+  },
+  "level-1/06-snowflake-sql": {
+   "questions": [
+    {
+     "q": "What does this standard SQL, which also runs on Snowflake, return?\n```sql\ncreate table o(id int, cust text, amt numeric); insert into o values (1,'a',10),(2,'b',20),(3,'a',30),(4,'b',5);\n\nselect cust, sum(amt) as total, row_number() over (order by sum(amt) desc) rn from o group by cust order by rn;\n```\n",
+     "options": [
+      "b,25,1; a,40,2",
+      "a,10,1; b,20,2",
+      "a,40,1; b,25,2",
+      "a,40,2; b,25,1"
+     ],
+     "answer": 2,
+     "explain": "Aggregates inside window ordering work the same in both systems. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+    },
+    {
+     "q": "What does QUALIFY do in Snowflake SQL?",
+     "options": [
+      "Renames",
+      "Sorts",
+      "Filters the results of window functions, like HAVING does for aggregates",
+      "Joins"
+     ],
+     "answer": 2,
+     "explain": "Other engines need a subquery."
+    },
+    {
+     "q": "Which function parses a string into a date in Snowflake?",
+     "options": [
+      "TO_DATE (or TRY_TO_DATE to return NULL on failure)",
+      "DATE_OF",
+      "PARSE_DATE only",
+      "CAST_TIME"
+     ],
+     "answer": 0,
+     "explain": "TRY_ functions avoid errors on bad data."
+    },
+    {
+     "q": "What does this return (the same logic as Snowflake's IFF/NVL)?\n```sql\ncreate table t(x int); insert into t values (1),(null),(3);\n\nselect sum(coalesce(x,0)), count(x), count(*) from t;\n```\n",
+     "options": [
+      "4,3,3",
+      "1,2,3",
+      "4,2,3",
+      "4,2,2"
+     ],
+     "answer": 2,
+     "explain": "count(x) ignores NULL; count(*) does not. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+    }
+   ]
+  },
+  "level-1/07-semi-structured": {
+   "questions": [
+    {
+     "q": "Which syntax reads a JSON field in Snowflake?",
+     "options": [
+      "col.field()",
+      "col->field",
+      "JSON_VALUE only",
+      "col:path.field::type (for example v:user.name::string)"
+     ],
+     "answer": 3,
+     "explain": "Colon traverses, double-colon casts."
+    },
+    {
+     "q": "What does FLATTEN do?",
+     "options": [
+      "Compresses",
+      "Expands an array or object into rows (used with LATERAL)",
+      "Merges",
+      "Sorts"
+     ],
+     "answer": 1,
+     "explain": "Use for nested arrays."
+    },
+    {
+     "q": "Why cast values from VARIANT?",
+     "options": [
+      "Security",
+      "Speed only",
+      "Values are typed as VARIANT and compare/aggregate better after ::string or ::number",
+      "Required by law"
+     ],
+     "answer": 2,
+     "explain": "Avoid implicit surprises."
+    },
+    {
+     "q": "What does this JSON-style extraction return in standard PostgreSQL (the idea Snowflake does with :)?\n```sql\ncreate table e(v jsonb); insert into e values ('{\"user\":{\"name\":\"Ana\"},\"items\":[1,2,3]}');\n\nselect v->'user'->>'name', jsonb_array_length(v->'items') from e;\n```\n",
+     "options": [
+      "user,3",
+      "Ana,3",
+      "Ana,2",
+      "name,3"
+     ],
+     "answer": 1,
+     "explain": "Path access plus array length; Snowflake uses v:user.name::string and ARRAY_SIZE(v:items). Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+    }
+   ]
+  },
+  "level-1/08-time-travel-failsafe": {
+   "questions": [
+    {
+     "q": "What is Time Travel?",
+     "options": [
+      "Querying or restoring data as it was within a retention period (for example AT or BEFORE, UNDROP)",
+      "Caching",
+      "Backups",
+      "Cloning"
+     ],
+     "answer": 0,
+     "explain": "Standard edition default is 1 day; Enterprise can extend up to 90."
+    },
+    {
+     "q": "What is Fail-safe?",
+     "options": [
+      "Time Travel",
+      "A backup tool",
+      "A stage",
+      "A non-configurable 7-day recovery period after Time Travel ends, accessible only through Snowflake support"
+     ],
+     "answer": 3,
+     "explain": "Not for routine recovery."
+    },
+    {
+     "q": "How do you undo an accidental DROP TABLE within retention?",
+     "options": [
+      "ROLLBACK",
+      "COPY",
+      "RESTORE",
+      "UNDROP TABLE name"
+     ],
+     "answer": 3,
+     "explain": "Also UNDROP SCHEMA and DATABASE."
+    },
+    {
+     "q": "A table has 1 day Time Travel plus 7 days Fail-safe. How many days after deletion can Snowflake still potentially recover the data?\n```python\nprint(1+7)\n```\n",
+     "options": [
+      "8",
+      "1",
+      "7",
+      "90"
+     ],
+     "answer": 0,
+     "explain": "Only the Time Travel part is self-service. Verified by running it."
+    }
+   ]
+  },
+  "level-1/09-zero-copy-cloning": {
+   "questions": [
+    {
+     "q": "What does CREATE TABLE ... CLONE copy?",
+     "options": [
+      "Nothing",
+      "All data",
+      "Only schema",
+      "Metadata only at first, sharing the underlying micro-partitions (zero-copy)"
+     ],
+     "answer": 3,
+     "explain": "Storage grows only as the clone diverges."
+    },
+    {
+     "q": "What are common uses for clones?",
+     "options": [
+      "Archiving",
+      "Billing",
+      "Encryption",
+      "Dev/test copies, safe experiments and point-in-time snapshots"
+     ],
+     "answer": 3,
+     "explain": "Cheap and fast."
+    },
+    {
+     "q": "What happens to a source table when you change the clone?",
+     "options": [
+      "Both change",
+      "Source locks",
+      "The source is unchanged; modified data is stored separately",
+      "Clone fails"
+     ],
+     "answer": 2,
+     "explain": "Copy-on-write."
+    },
+    {
+     "q": "Can you clone using Time Travel?",
+     "options": [
+      "Yes, with AT/BEFORE to clone a past state",
+      "No",
+      "Only databases",
+      "Only schemas"
+     ],
+     "answer": 0,
+     "explain": "Within retention."
+    }
+   ]
+  },
+  "level-1/10-project-sales-analytics": {
+   "questions": [
+    {
+     "q": "What does the sales analytics project practise?",
+     "options": [
+      "Only tuning",
+      "Only cost",
+      "Only security",
+      "Loading, modelling and querying data end to end with warehouses, stages and SQL analytics"
+     ],
+     "answer": 3,
+     "explain": "Level 1 capstone."
+    },
+    {
+     "q": "Which query finds each customer's latest order (a typical analytics pattern)?\n```sql\ncreate table o(id int, cust text, ts date); insert into o values (1,'a','2026-01-01'),(2,'a','2026-02-01'),(3,'b','2026-01-15');\n\nselect cust, id from (select cust, id, row_number() over (partition by cust order by ts desc) rn from o) x where rn = 1 order by cust;\n```\n",
+     "options": [
+      "a,2; b,3",
+      "a,2; b,3; a,1",
+      "a,2",
+      "a,1; b,3"
+     ],
+     "answer": 0,
+     "explain": "In Snowflake you could write this with QUALIFY row_number() = 1. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+    },
+    {
+     "q": "Why define a clustering or loading convention early?",
+     "options": [
+      "Colour",
+      "Style",
+      "Consistent structures keep loads and queries predictable and cheap",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Plan before data grows."
+    },
+    {
+     "q": "What should you check after loading?",
+     "options": [
+      "Fonts",
+      "Row counts, rejected rows and sample values",
+      "Colours",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Reconcile with the source."
+    }
+   ]
+  },
+  "level-2/01-micro-partitions-pruning": {
+   "questions": [
+    {
+     "q": "What are micro-partitions?",
+     "options": [
+      "Views",
+      "Indexes",
+      "Contiguous units of 50-500 MB (uncompressed) of columnar data, immutable and with metadata on value ranges",
+      "Shards you create"
+     ],
+     "answer": 2,
+     "explain": "Snowflake maintains them automatically."
+    },
+    {
+     "q": "What is partition pruning?",
+     "options": [
+      "Compressing",
+      "Sorting",
+      "Deleting",
+      "Skipping micro-partitions whose min/max metadata shows they cannot match the filter"
+     ],
+     "answer": 3,
+     "explain": "Reduces scanned data."
+    },
+    {
+     "q": "A table has 1,000 micro-partitions and a filter matches data in 25 of them. What fraction is scanned?\n```python\nprint(25/1000)\n```\n",
+     "options": [
+      "0.25",
+      "25",
+      "0.025",
+      "0.0025"
+     ],
+     "answer": 2,
+     "explain": "Good pruning scans a small fraction. Verified by running it."
+    },
+    {
+     "q": "Why does data order affect pruning?",
+     "options": [
+      "Law",
+      "Speed",
+      "Colour",
+      "Well-clustered ranges let metadata exclude many partitions; random order spreads values everywhere"
+     ],
+     "answer": 3,
+     "explain": "Clustering keys help."
+    }
+   ]
+  },
+  "level-2/02-clustering": {
+   "questions": [
+    {
+     "q": "When is a clustering key worth considering?",
+     "options": [
+      "Small tables",
+      "Every table",
+      "Temp tables",
+      "On large tables with queries that filter or join on a few columns and where pruning is poor"
+     ],
+     "answer": 3,
+     "explain": "It costs credits to maintain."
+    },
+    {
+     "q": "What does SYSTEM$CLUSTERING_INFORMATION tell you?",
+     "options": [
+      "Queries",
+      "How well the table is clustered on the given columns (depth and overlap)",
+      "Cost",
+      "Users"
+     ],
+     "answer": 1,
+     "explain": "Lower average depth is better."
+    },
+    {
+     "q": "What is the cost of automatic clustering?",
+     "options": [
+      "Network",
+      "Free",
+      "Warehouse only",
+      "Serverless compute credits for reclustering, plus extra storage"
+     ],
+     "answer": 3,
+     "explain": "Measure the benefit."
+    },
+    {
+     "q": "Which columns suit clustering keys?",
+     "options": [
+      "Random",
+      "Columns frequently used in filters with moderate cardinality (for example a date)",
+      "Unique IDs",
+      "All"
+     ],
+     "answer": 1,
+     "explain": "Very high or very low cardinality is poor."
+    }
+   ]
+  },
+  "level-2/03-query-profile-tuning": {
+   "questions": [
+    {
+     "q": "Where do you look for why a query is slow?",
+     "options": [
+      "Billing page",
+      "Logs",
+      "The Query Profile (operators, data scanned, spilling, pruning)",
+      "Stage"
+     ],
+     "answer": 2,
+     "explain": "Find the dominant operator."
+    },
+    {
+     "q": "What does 'spilling to remote storage' indicate?",
+     "options": [
+      "A clone",
+      "The warehouse ran out of memory for an operation; a larger warehouse or query rewrite may help",
+      "A cache hit",
+      "Success"
+     ],
+     "answer": 1,
+     "explain": "Local then remote spilling."
+    },
+    {
+     "q": "What does a poor partitions scanned / total ratio mean?",
+     "options": [
+      "The filter is not pruning well",
+      "Cached",
+      "Great pruning",
+      "Idle"
+     ],
+     "answer": 0,
+     "explain": "Consider clustering or better predicates."
+    },
+    {
+     "q": "What is a common cause of exploding joins?",
+     "options": [
+      "Time travel",
+      "Caching",
+      "A join on non-unique keys multiplying rows",
+      "Clone"
+     ],
+     "answer": 2,
+     "explain": "Check join cardinality."
+    }
+   ]
+  },
+  "level-2/04-caching-layers": {
+   "questions": [
+    {
+     "q": "What does the result cache do?",
+     "options": [
+      "Stores data",
+      "Compresses",
+      "Returns an identical, still-valid query result without using a warehouse, for up to 24 hours",
+      "Speeds writes"
+     ],
+     "answer": 2,
+     "explain": "Invalidated by underlying data changes."
+    },
+    {
+     "q": "What is the warehouse (local disk) cache?",
+     "options": [
+      "Metadata",
+      "Stage",
+      "Result cache",
+      "Cached micro-partition data on the warehouse's storage that speeds repeat scans while it runs"
+     ],
+     "answer": 3,
+     "explain": "Lost when the warehouse suspends."
+    },
+    {
+     "q": "What does the metadata cache answer?",
+     "options": [
+      "Queries such as COUNT(*) or MIN/MAX from metadata without scanning",
+      "Joins",
+      "Loads",
+      "Updates"
+     ],
+     "answer": 0,
+     "explain": "Cloud services layer."
+    },
+    {
+     "q": "Why can aggressive auto-suspend hurt performance?",
+     "options": [
+      "It costs more",
+      "It deletes data",
+      "It is slower storage",
+      "The local cache is lost on suspend, so the next query re-reads data"
+     ],
+     "answer": 3,
+     "explain": "Balance suspend time and cost."
+    }
+   ]
+  },
+  "level-2/05-snowpipe": {
+   "questions": [
+    {
+     "q": "What does Snowpipe do?",
+     "options": [
+      "Queries",
+      "Unloads",
+      "Clones",
+      "Loads files continuously shortly after they arrive in a stage, using serverless compute"
+     ],
+     "answer": 3,
+     "explain": "Event driven (auto-ingest) or REST."
+    },
+    {
+     "q": "How is Snowpipe billed?",
+     "options": [
+      "Warehouse hours",
+      "Per-second serverless compute plus a small per-file overhead",
+      "Free",
+      "Flat"
+     ],
+     "answer": 1,
+     "explain": "Avoid many tiny files."
+    },
+    {
+     "q": "What is the recommended file size for ingestion?",
+     "options": [
+      "Roughly 100-250 MB compressed, avoiding very many tiny files",
+      "10 GB",
+      "Any",
+      "1 KB"
+     ],
+     "answer": 0,
+     "explain": "Balance latency and efficiency."
+    },
+    {
+     "q": "How can you tell if a pipe loaded a file?",
+     "options": [
+      "Reboot",
+      "Restart",
+      "Check COPY_HISTORY or the pipe status functions",
+      "Guess"
+     ],
+     "answer": 2,
+     "explain": "Monitor failures."
+    }
+   ]
+  },
+  "level-2/06-streams-cdc": {
+   "questions": [
+    {
+     "q": "What is a Snowflake stream?",
+     "options": [
+      "A queue",
+      "A pipe",
+      "A data feed",
+      "An object that records changes (inserts, updates, deletes) to a table since it was last consumed"
+     ],
+     "answer": 3,
+     "explain": "Used for change data capture."
+    },
+    {
+     "q": "Which metadata columns does a stream expose?",
+     "options": [
+      "CHANGE_TYPE",
+      "STREAM_ID",
+      "METADATA$ACTION, METADATA$ISUPDATE and METADATA$ROW_ID",
+      "ACTION_ID"
+     ],
+     "answer": 2,
+     "explain": "An update appears as a delete plus insert with ISUPDATE true."
+    },
+    {
+     "q": "When does a stream's offset advance?",
+     "options": [
+      "On time",
+      "On commit only",
+      "On select",
+      "When it is consumed inside a DML transaction (for example INSERT ... SELECT)"
+     ],
+     "answer": 3,
+     "explain": "Plain SELECT does not advance it."
+    },
+    {
+     "q": "What is a risk of leaving a stream unconsumed?",
+     "options": [
+      "Cost",
+      "Nothing",
+      "It can go stale if the source's retention window passes",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Consume regularly."
+    }
+   ]
+  },
+  "level-2/07-tasks": {
+   "questions": [
+    {
+     "q": "What is a task?",
+     "options": [
+      "A role",
+      "A table",
+      "A scheduled (or triggered) SQL statement or procedure call run by Snowflake",
+      "A user"
+     ],
+     "answer": 2,
+     "explain": "Schedule via minutes or CRON."
+    },
+    {
+     "q": "How do you build a dependency chain of tasks?",
+     "options": [
+      "Use AFTER <predecessor> to form a DAG under a root task",
+      "Copy",
+      "Order by name",
+      "Views"
+     ],
+     "answer": 0,
+     "explain": "Resume child tasks before the root."
+    },
+    {
+     "q": "What does WHEN SYSTEM$STREAM_HAS_DATA('s') do in a task?",
+     "options": [
+      "Never",
+      "Deletes",
+      "Runs the task only if the stream has changes",
+      "Always runs"
+     ],
+     "answer": 2,
+     "explain": "Saves credits."
+    },
+    {
+     "q": "Why must tasks be explicitly resumed?",
+     "options": [
+      "New tasks are created suspended",
+      "Cost",
+      "Bug",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "ALTER TASK ... RESUME."
+    }
+   ]
+  },
+  "level-2/08-dynamic-tables": {
+   "questions": [
+    {
+     "q": "What does a dynamic table do?",
+     "options": [
+      "Cache",
+      "View only",
+      "Static copy",
+      "Materialises a query's result and keeps it refreshed within a TARGET_LAG"
+     ],
+     "answer": 3,
+     "explain": "Declarative pipelines."
+    },
+    {
+     "q": "What does TARGET_LAG = '5 minutes' mean?",
+     "options": [
+      "Waits 5 minutes",
+      "Limits cost",
+      "Runs every 5 minutes exactly",
+      "Snowflake tries to keep the data no more than about 5 minutes behind its sources"
+     ],
+     "answer": 3,
+     "explain": "A freshness goal."
+    },
+    {
+     "q": "What is an advantage over streams and tasks?",
+     "options": [
+      "No cost",
+      "Faster always",
+      "Cheaper always",
+      "You declare the result and Snowflake manages refresh, dependencies and incremental logic"
+     ],
+     "answer": 3,
+     "explain": "Less plumbing."
+    },
+    {
+     "q": "When might streams and tasks still be preferable?",
+     "options": [
+      "Rarely",
+      "Always",
+      "Never",
+      "When you need fine-grained custom logic or control over processing"
+     ],
+     "answer": 3,
+     "explain": "Choose the tool to fit."
+    }
+   ]
+  },
+  "level-2/09-unloading-iceberg": {
+   "questions": [
+    {
+     "q": "What does COPY INTO <location> do?",
+     "options": [
+      "Unloads query results to files in a stage or cloud storage",
+      "Loads",
+      "Clones",
+      "Merges"
+     ],
+     "answer": 0,
+     "explain": "Formats include CSV, JSON and Parquet."
+    },
+    {
+     "q": "Why unload as Parquet?",
+     "options": [
+      "Secure",
+      "A compact, columnar, widely supported format for lakes and engines",
+      "Readable",
+      "Small"
+     ],
+     "answer": 1,
+     "explain": "Good for sharing with other tools."
+    },
+    {
+     "q": "What is an Iceberg table in Snowflake?",
+     "options": [
+      "A cold table",
+      "A view",
+      "A clone",
+      "A table in the open Apache Iceberg format that other engines can also read"
+     ],
+     "answer": 3,
+     "explain": "Interoperability."
+    },
+    {
+     "q": "What is a benefit of open table formats?",
+     "options": [
+      "Avoid lock-in and let several engines share the same data",
+      "Cost",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Governance still matters."
+    }
+   ]
+  },
+  "level-2/10-project-incremental-pipeline": {
+   "questions": [
+    {
+     "q": "What does the incremental pipeline project combine?",
+     "options": [
+      "Only cloning",
+      "Only tasks",
+      "Only SQL",
+      "Stage and Snowpipe, streams, tasks (or dynamic tables) and merges"
+     ],
+     "answer": 3,
+     "explain": "An end-to-end flow."
+    },
+    {
+     "q": "Which MERGE-style upsert logic is shown here (standard SQL on PostgreSQL)?\n```sql\ncreate table t(id int primary key, v text); insert into t values (1,'old'),(2,'keep'); create table s(id int, v text); insert into s values (1,'new'),(3,'add');\n\ninsert into t select id, v from s on conflict (id) do update set v = excluded.v; select * from t order by id;\n```\n",
+     "options": [
+      "1,new; 2,keep; 3,add",
+      "1,new; 2,keep",
+      "1,old; 2,keep; 3,add",
+      "1,new; 3,add"
+     ],
+     "answer": 0,
+     "explain": "Snowflake uses MERGE INTO ... WHEN MATCHED ... WHEN NOT MATCHED; PostgreSQL's ON CONFLICT achieves the same upsert. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+    },
+    {
+     "q": "Why make the load idempotent?",
+     "options": [
+      "Law",
+      "Re-running after a failure must not duplicate rows",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 1,
+     "explain": "Use MERGE with keys."
+    },
+    {
+     "q": "How do you monitor the pipeline?",
+     "options": [
+      "Task history, pipe status, stream staleness and row-count checks",
+      "Guess",
+      "Nothing",
+      "Logs only"
+     ],
+     "answer": 0,
+     "explain": "Alert on failures."
+    }
+   ]
+  },
+  "level-3/01-rbac": {
+   "questions": [
+    {
+     "q": "What is RBAC in Snowflake?",
+     "options": [
+      "Group tags",
+      "User-level grants",
+      "IP rules",
+      "Privileges are granted to roles and roles are granted to users"
+     ],
+     "answer": 3,
+     "explain": "Roles can inherit from roles."
+    },
+    {
+     "q": "Which system role manages users and roles?",
+     "options": [
+      "ORGADMIN",
+      "SECURITYADMIN (USERADMIN creates users and roles)",
+      "SYSADMIN",
+      "PUBLIC"
+     ],
+     "answer": 1,
+     "explain": "SYSADMIN owns objects."
+    },
+    {
+     "q": "Why avoid using ACCOUNTADMIN for daily work?",
+     "options": [
+      "It is private",
+      "It is too powerful; reserve it for account-level tasks",
+      "It is slow",
+      "It is paid"
+     ],
+     "answer": 1,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "What are future grants?",
+     "options": [
+      "Clones",
+      "Views",
+      "Grants that apply automatically to objects created later in a schema or database",
+      "Backups"
+     ],
+     "answer": 2,
+     "explain": "Reduce manual work."
+    }
+   ]
+  },
+  "level-3/02-authentication": {
+   "questions": [
+    {
+     "q": "What is the recommended authentication for human users?",
+     "options": [
+      "Password only",
+      "Shared",
+      "None",
+      "SSO with MFA"
+     ],
+     "answer": 3,
+     "explain": "Add network policies."
+    },
+    {
+     "q": "What is key-pair authentication for?",
+     "options": [
+      "Humans",
+      "Browsers",
+      "Service accounts and drivers without passwords",
+      "Shares"
+     ],
+     "answer": 2,
+     "explain": "Rotate keys."
+    },
+    {
+     "q": "What do you do for a service account that must not log in interactively?",
+     "options": [
+      "Use TYPE = SERVICE (or restrict to key-pair and network policy)",
+      "Admin",
+      "Share password",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Limit exposure."
+    },
+    {
+     "q": "Why enforce MFA for privileged roles?",
+     "options": [
+      "Law",
+      "Speed",
+      "A stolen password alone cannot grant access",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Phishing resistance."
+    }
+   ]
+  },
+  "level-3/03-network-security": {
+   "questions": [
+    {
+     "q": "What does a network policy do?",
+     "options": [
+      "Routes",
+      "Caches",
+      "Allows or blocks access by IP address ranges",
+      "Encrypts"
+     ],
+     "answer": 2,
+     "explain": "Applies at account or user level."
+    },
+    {
+     "q": "What is private connectivity (such as AWS PrivateLink) for?",
+     "options": [
+      "Speed",
+      "Law",
+      "Cost",
+      "Reaching Snowflake without traversing the public internet"
+     ],
+     "answer": 3,
+     "explain": "A higher-security option."
+    },
+    {
+     "q": "What is a risk of a too-narrow IP allow list?",
+     "options": [
+      "Speed",
+      "Locking out legitimate users or services",
+      "None",
+      "Cost"
+     ],
+     "answer": 1,
+     "explain": "Test and keep a break-glass path."
+    },
+    {
+     "q": "Where else should access controls be applied?",
+     "options": [
+      "Nowhere",
+      "Passwords",
+      "Network only",
+      "Roles, masking and row policies, not only the network"
+     ],
+     "answer": 3,
+     "explain": "Defence in depth."
+    }
+   ]
+  },
+  "level-3/04-masking-row-access": {
+   "questions": [
+    {
+     "q": "What does a masking policy do?",
+     "options": [
+      "Sorts",
+      "Returns masked or full column values depending on the querying role",
+      "Deletes",
+      "Encrypts"
+     ],
+     "answer": 1,
+     "explain": "Applied to columns."
+    },
+    {
+     "q": "What does a row access policy do?",
+     "options": [
+      "Masks columns",
+      "Sorts",
+      "Deletes",
+      "Filters which rows a role can see"
+     ],
+     "answer": 3,
+     "explain": "Based on role or mapping table."
+    },
+    {
+     "q": "The same idea as a role-based mask, on PostgreSQL: what does the analyst see?\n```sql\ncreate table c(name text, email text); insert into c values ('ana','ana@x.com'); create view c_masked as select name, case when current_user = 'postgres' then email else '***' end as email from c;\n\nselect * from c_masked;\n```\n",
+     "options": [
+      "ana,ana@x.com",
+      "ana,",
+      "***,***",
+      "ana,***"
+     ],
+     "answer": 0,
+     "explain": "Snowflake masking policies evaluate CURRENT_ROLE() similarly; here the current user is the admin so the real value shows. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+    },
+    {
+     "q": "Why prefer policies over copies of masked tables?",
+     "options": [
+      "One governed source avoids drift and duplicate data",
+      "Law",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Central policy."
+    }
+   ]
+  },
+  "level-3/05-tags-classification": {
+   "questions": [
+    {
+     "q": "What are object tags?",
+     "options": [
+      "Roles",
+      "Key-value metadata attached to objects for governance and cost allocation",
+      "Comments",
+      "Colours"
+     ],
+     "answer": 1,
+     "explain": "Tag-based masking possible."
+    },
+    {
+     "q": "What does data classification do?",
+     "options": [
+      "Encrypts",
+      "Detects and tags likely sensitive columns such as emails or national IDs",
+      "Clones",
+      "Sorts"
+     ],
+     "answer": 1,
+     "explain": "Review the results."
+    },
+    {
+     "q": "How can tags help cost control?",
+     "options": [
+      "Tag warehouses by team to attribute credits",
+      "Law",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Use account usage views."
+    },
+    {
+     "q": "Why combine tags with masking?",
+     "options": [
+      "Law",
+      "Speed",
+      "Apply protection automatically to every column carrying a sensitive tag",
+      "Cost"
+     ],
+     "answer": 2,
+     "explain": "Scales governance."
+    }
+   ]
+  },
+  "level-3/06-secure-views-udfs": {
+   "questions": [
+    {
+     "q": "What is a secure view?",
+     "options": [
+      "Encrypted",
+      "Temp",
+      "A view whose definition and optimisation internals are hidden, preventing data leakage through the optimiser",
+      "Cached"
+     ],
+     "answer": 2,
+     "explain": "Required for sharing."
+    },
+    {
+     "q": "Why are secure views required for shares?",
+     "options": [
+      "To avoid exposing underlying data through query optimisation side channels",
+      "Speed",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Consumers see only the view."
+    },
+    {
+     "q": "What is a SQL UDF?",
+     "options": [
+      "A role",
+      "A stage",
+      "A table",
+      "A user-defined function written in SQL that you call in queries"
+     ],
+     "answer": 3,
+     "explain": "Scalar or table functions."
+    },
+    {
+     "q": "What do you give consumers of a secure view?",
+     "options": [
+      "SELECT on the view only",
+      "Table access",
+      "Ownership",
+      "Admin"
+     ],
+     "answer": 0,
+     "explain": "Least privilege."
+    }
+   ]
+  },
+  "level-3/07-data-sharing": {
+   "questions": [
+    {
+     "q": "What is Snowflake data sharing?",
+     "options": [
+      "Exporting",
+      "Replication",
+      "Cloning",
+      "Granting another account read access to live data without copying it"
+     ],
+     "answer": 3,
+     "explain": "Providers and consumers."
+    },
+    {
+     "q": "Does a consumer pay for the provider's storage?",
+     "options": [
+      "Yes",
+      "Neither",
+      "No; the consumer pays for their own compute to query it",
+      "Both"
+     ],
+     "answer": 2,
+     "explain": "The data is not copied."
+    },
+    {
+     "q": "What are reader accounts for?",
+     "options": [
+      "Providing access to consumers who do not have a Snowflake account",
+      "Admins",
+      "Backups",
+      "Billing"
+     ],
+     "answer": 0,
+     "explain": "Provider pays compute."
+    },
+    {
+     "q": "What is the Marketplace?",
+     "options": [
+      "A role",
+      "A stage",
+      "A warehouse",
+      "A catalogue of shared datasets and apps"
+     ],
+     "answer": 3,
+     "explain": "Listings."
+    }
+   ]
+  },
+  "level-3/08-encryption-compliance": {
+   "questions": [
+    {
+     "q": "What is encryption at rest in Snowflake?",
+     "options": [
+      "Manual",
+      "Never",
+      "Optional",
+      "All data is encrypted by default with a hierarchical key model"
+     ],
+     "answer": 3,
+     "explain": "Tri-Secret Secure adds customer-managed keys."
+    },
+    {
+     "q": "Why rotate keys?",
+     "options": [
+      "Law",
+      "Colour",
+      "Limit exposure if a key is compromised",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Automatic rotation exists."
+    },
+    {
+     "q": "Which compliance frameworks does Snowflake support (examples)?",
+     "options": [
+      "None",
+      "SOC 2, ISO 27001 and others depending on edition and region",
+      "Only PCI",
+      "Only SOC"
+     ],
+     "answer": 1,
+     "explain": "Check the current compliance documentation."
+    },
+    {
+     "q": "What is your responsibility under shared responsibility?",
+     "options": [
+      "Everything",
+      "Nothing",
+      "Configuring access, policies and data handling correctly",
+      "Encryption algorithms"
+     ],
+     "answer": 2,
+     "explain": "Misconfiguration is the main risk."
+    }
+   ]
+  },
+  "level-3/09-auditing-account-usage": {
+   "questions": [
+    {
+     "q": "Where do you audit who queried what?",
+     "options": [
+      "Tasks",
+      "Roles",
+      "ACCOUNT_USAGE views such as QUERY_HISTORY and ACCESS_HISTORY",
+      "Stages"
+     ],
+     "answer": 2,
+     "explain": "They have some latency."
+    },
+    {
+     "q": "What is a limitation of ACCOUNT_USAGE views?",
+     "options": [
+      "Short",
+      "Real time",
+      "Free",
+      "Data can lag by up to a few hours and is retained for about a year"
+     ],
+     "answer": 3,
+     "explain": "Use INFORMATION_SCHEMA for near real time."
+    },
+    {
+     "q": "What does ACCESS_HISTORY show?",
+     "options": [
+      "Costs",
+      "Logins",
+      "Tasks",
+      "Which objects and columns were accessed by queries"
+     ],
+     "answer": 3,
+     "explain": "Useful for governance."
+    },
+    {
+     "q": "What should you alert on?",
+     "options": [
+      "Failed logins, privilege grants and unusual data exports",
+      "Colours",
+      "Nothing",
+      "Everything"
+     ],
+     "answer": 0,
+     "explain": "Practical detection."
+    }
+   ]
+  },
+  "level-3/10-project-governed-platform": {
+   "questions": [
+    {
+     "q": "What does the governed platform project assemble?",
+     "options": [
+      "Only tuning",
+      "Only loads",
+      "Only cost",
+      "RBAC, masking, row policies, tags, secure sharing and auditing"
+     ],
+     "answer": 3,
+     "explain": "Governance at scale."
+    },
+    {
+     "q": "Which comes first when designing access?",
+     "options": [
+      "Define roles by job function and grant least privilege",
+      "Mask",
+      "Tag",
+      "Grant admin"
+     ],
+     "answer": 0,
+     "explain": "Role hierarchy."
+    },
+    {
+     "q": "How do you prove controls work?",
+     "options": [
+      "Ask",
+      "Test with different roles and review audit logs",
+      "Assume",
+      "Read docs"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "Why document the role model?",
+     "options": [
+      "So reviewers and new admins understand and maintain it",
+      "Colour",
+      "Law",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Operational clarity."
+    }
+   ]
+  },
+  "level-4/01-udfs-procedures": {
+   "questions": [
+    {
+     "q": "What is a stored procedure for?",
+     "options": [
+      "Roles",
+      "Procedural logic with control flow, executed with the caller's or owner's rights",
+      "Tables",
+      "Views"
+     ],
+     "answer": 1,
+     "explain": "Languages include SQL scripting, JavaScript and Python."
+    },
+    {
+     "q": "What do UDFs return compared with procedures?",
+     "options": [
+      "UDFs return values used inside queries; procedures perform actions and can return a result",
+      "Same",
+      "UDF has side effects",
+      "Procedures are queries"
+     ],
+     "answer": 0,
+     "explain": "Different roles."
+    },
+    {
+     "q": "What does EXECUTE AS OWNER mean?",
+     "options": [
+      "Admin",
+      "The procedure runs with its owner's privileges",
+      "Caller",
+      "Public"
+     ],
+     "answer": 1,
+     "explain": "Careful with privilege escalation."
+    },
+    {
+     "q": "Why write set-based SQL instead of loops in procedures?",
+     "options": [
+      "Set-based statements use the engine's parallelism",
+      "Style",
+      "Law",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Row-by-row is slow."
+    }
+   ]
+  },
+  "level-4/02-snowpark-python": {
+   "questions": [
+    {
+     "q": "What is Snowpark?",
+     "options": [
+      "A cloud",
+      "A developer framework for running DataFrame-style code (Python, Java, Scala) inside Snowflake",
+      "A stage",
+      "A warehouse"
+     ],
+     "answer": 1,
+     "explain": "Code is pushed to the data."
+    },
+    {
+     "q": "Where does Snowpark Python code execute?",
+     "options": [
+      "On Snowflake's compute, translated to SQL or run in sandboxed Python",
+      "Locally only",
+      "Browser",
+      "Edge"
+     ],
+     "answer": 0,
+     "explain": "Avoid pulling data to the client."
+    },
+    {
+     "q": "What do lazy DataFrames mean?",
+     "options": [
+      "Eager",
+      "Operations build a query that runs only when an action like collect or show is called",
+      "Cached",
+      "Slow"
+     ],
+     "answer": 1,
+     "explain": "Similar to Spark."
+    },
+    {
+     "q": "Why avoid collect() on big tables?",
+     "options": [
+      "Law",
+      "Cost",
+      "Colour",
+      "It brings all rows to the client and defeats pushdown"
+     ],
+     "answer": 3,
+     "explain": "Aggregate in Snowflake."
+    }
+   ]
+  },
+  "level-4/03-python-udfs": {
+   "questions": [
+    {
+     "q": "What can a Python UDF do?",
+     "options": [
+      "Run servers",
+      "Open sockets freely",
+      "Run Python logic per row inside a query, with approved packages",
+      "Call any library"
+     ],
+     "answer": 2,
+     "explain": "Packages come from the Anaconda channel."
+    },
+    {
+     "q": "What is a vectorised UDF?",
+     "options": [
+      "A UDF that processes batches of rows (such as pandas) for better performance",
+      "Slow",
+      "Scalar",
+      "SQL"
+     ],
+     "answer": 0,
+     "explain": "Reduces per-row overhead."
+    },
+    {
+     "q": "Why prefer built-in SQL functions over Python UDFs when possible?",
+     "options": [
+      "They are faster and optimised",
+      "Law",
+      "Colour",
+      "Style"
+     ],
+     "answer": 0,
+     "explain": "Use UDFs where SQL cannot."
+    },
+    {
+     "q": "How are package dependencies handled?",
+     "options": [
+      "pip install",
+      "None",
+      "Declared with PACKAGES or imported from a stage",
+      "Manual"
+     ],
+     "answer": 2,
+     "explain": "Sandboxed environment."
+    }
+   ]
+  },
+  "level-4/04-cortex-ai": {
+   "questions": [
+    {
+     "q": "What is Snowflake Cortex?",
+     "options": [
+      "A role",
+      "A warehouse",
+      "A clone",
+      "AI functions and services (such as LLM functions and search) available in SQL"
+     ],
+     "answer": 3,
+     "explain": "Use under governance."
+    },
+    {
+     "q": "What should you consider before sending data to an LLM function?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Data governance, cost and where processing occurs",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Check policies."
+    },
+    {
+     "q": "Why validate LLM outputs in pipelines?",
+     "options": [
+      "Colour",
+      "They can be wrong or inconsistent; add checks and sampling",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Human review for critical use."
+    },
+    {
+     "q": "How can you control Cortex cost?",
+     "options": [
+      "Ignore",
+      "Less",
+      "More",
+      "Limit rows and models, monitor usage and set budgets"
+     ],
+     "answer": 3,
+     "explain": "Credits apply."
+    }
+   ]
+  },
+  "level-4/05-cost-management": {
+   "questions": [
+    {
+     "q": "Which items drive Snowflake cost?",
+     "options": [
+      "Compute (credits), storage and data transfer/serverless features",
+      "Only storage",
+      "Only queries",
+      "Only users"
+     ],
+     "answer": 0,
+     "explain": "Compute is usually the largest."
+    },
+    {
+     "q": "What is a resource monitor?",
+     "options": [
+      "A cache",
+      "A guardrail that notifies or suspends warehouses when credit thresholds are reached",
+      "A pipe",
+      "A role"
+     ],
+     "answer": 1,
+     "explain": "Set per warehouse or account."
+    },
+    {
+     "q": "What is the cheapest quick win for idle compute?",
+     "options": [
+      "Bigger",
+      "Never suspend",
+      "Set a short AUTO_SUSPEND and enable AUTO_RESUME",
+      "Clone"
+     ],
+     "answer": 2,
+     "explain": "Avoid paying for idle."
+    },
+    {
+     "q": "A Small warehouse (2 credits/hour) left running 24/7 for 30 days uses how many credits?\n```python\nprint(2*24*30)\n```\n",
+     "options": [
+      "1440",
+      "2880",
+      "720",
+      "60"
+     ],
+     "answer": 0,
+     "explain": "That is why auto-suspend matters. Verified by running it."
+    }
+   ]
+  },
+  "level-4/06-warehouse-scaling": {
+   "questions": [
+    {
+     "q": "What is multi-cluster warehouse scaling for?",
+     "options": [
+      "Storage",
+      "Handling concurrency by adding clusters when queries queue",
+      "Security",
+      "Bigger queries"
+     ],
+     "answer": 1,
+     "explain": "Scale out versus scale up."
+    },
+    {
+     "q": "When do you scale up (bigger size)?",
+     "options": [
+      "For slow individual queries limited by compute or memory",
+      "Idle",
+      "Many users",
+      "Costs"
+     ],
+     "answer": 0,
+     "explain": "Test sizes."
+    },
+    {
+     "q": "What is the Standard vs Economy scaling policy?",
+     "options": [
+      "Region",
+      "Same",
+      "Price",
+      "Standard favours starting clusters to avoid queuing; Economy favours conserving credits"
+     ],
+     "answer": 3,
+     "explain": "Choose by workload."
+    },
+    {
+     "q": "How do you right-size?",
+     "options": [
+      "Measure query times and queuing at different sizes and choose the cheapest that meets the SLA",
+      "Guess",
+      "Smallest",
+      "Max size"
+     ],
+     "answer": 0,
+     "explain": "Larger can finish faster at similar cost."
+    }
+   ]
+  },
+  "level-4/07-replication-bcdr": {
+   "questions": [
+    {
+     "q": "What does database replication provide?",
+     "options": [
+      "Backups",
+      "Caches",
+      "Clones",
+      "A read-only copy in another region or account for DR and sharing"
+     ],
+     "answer": 3,
+     "explain": "Refresh on a schedule."
+    },
+    {
+     "q": "What does failover add?",
+     "options": [
+      "Cost",
+      "Backup",
+      "Promoting the secondary to primary during an outage",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Plan and test it."
+    },
+    {
+     "q": "What are RPO and RTO?",
+     "options": [
+      "Acceptable data loss and acceptable recovery time",
+      "Sizes",
+      "Costs",
+      "Users"
+     ],
+     "answer": 0,
+     "explain": "Drive the design."
+    },
+    {
+     "q": "Why test failover regularly?",
+     "options": [
+      "An untested plan may fail when needed",
+      "Style",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Run drills."
+    }
+   ]
+  },
+  "level-4/08-dbt-cicd": {
+   "questions": [
+    {
+     "q": "What does dbt do with Snowflake?",
+     "options": [
+      "Transforms data with version-controlled SQL models, tests and documentation",
+      "Loads",
+      "Hosts",
+      "Bills"
+     ],
+     "answer": 0,
+     "explain": "Compiled to SQL."
+    },
+    {
+     "q": "What should CI do for a dbt project?",
+     "options": [
+      "Nothing",
+      "Deploy blind",
+      "Build changed models in a clone or dev schema and run tests before merging",
+      "Skip tests"
+     ],
+     "answer": 2,
+     "explain": "Zero-copy clones make this cheap."
+    },
+    {
+     "q": "How do you promote changes safely?",
+     "options": [
+      "Manual",
+      "Direct",
+      "Pull request, review, CI checks, then deploy via a pipeline",
+      "Emails"
+     ],
+     "answer": 2,
+     "explain": "Infrastructure as code."
+    },
+    {
+     "q": "Why use separate roles for CI and production?",
+     "options": [
+      "Speed",
+      "Least privilege and auditability",
+      "Law",
+      "Cost"
+     ],
+     "answer": 1,
+     "explain": "Limit blast radius."
+    }
+   ]
+  },
+  "level-4/09-migration": {
+   "questions": [
+    {
+     "q": "What is the first step of a migration to Snowflake?",
+     "options": [
+      "Buy",
+      "Copy data",
+      "Inventory sources, dependencies and requirements, then plan phases",
+      "Retire"
+     ],
+     "answer": 2,
+     "explain": "Know what you have."
+    },
+    {
+     "q": "Why validate migrated data?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Law",
+      "Row counts and checksums confirm nothing was lost or changed"
+     ],
+     "answer": 3,
+     "explain": "Reconcile before cutover."
+    },
+    {
+     "q": "What is a common migration risk?",
+     "options": [
+      "None",
+      "Dialect differences in SQL and procedural logic",
+      "Names",
+      "Colours"
+     ],
+     "answer": 1,
+     "explain": "Test code conversion."
+    },
+    {
+     "q": "How do you reduce cutover risk?",
+     "options": [
+      "Run old and new in parallel and cut over by workload",
+      "Big bang",
+      "Delay",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "Phased."
+    }
+   ]
+  },
+  "level-4/10-capstone-cost-aware-platform": {
+   "questions": [
+    {
+     "q": "What is the capstone's goal?",
+     "options": [
+      "A report",
+      "A script",
+      "A cost-aware, governed Snowflake platform design with pipelines, security and monitoring",
+      "A toy"
+     ],
+     "answer": 2,
+     "explain": "Bring Level 4 together."
+    },
+    {
+     "q": "Which evidence shows cost awareness?",
+     "options": [
+      "Claims",
+      "Guesses",
+      "None",
+      "Resource monitors, tagged warehouses, auto-suspend and usage dashboards"
+     ],
+     "answer": 3,
+     "explain": "Measure."
+    },
+    {
+     "q": "How do you handle residual risk?",
+     "options": [
+      "Document it and decide to accept, mitigate or transfer",
+      "Delay",
+      "Hide",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Risk register."
+    },
+    {
+     "q": "What belongs in the README?",
+     "options": [
+      "Logo",
+      "Nothing",
+      "Architecture, roles, pipelines, runbooks and costs",
+      "Slogan"
+     ],
+     "answer": 2,
+     "explain": "Handover."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this return?\n```sql\ncreate table t(id int, grp text, v int); insert into t values (1,'a',10),(2,'a',20),(3,'b',5);\n\nselect grp, sum(v), avg(v)::int, count(*) from t group by grp order by grp;\n```\n",
+    "options": [
+     "a,30,15,3; b,5,5,1",
+     "a,10,15,2; b,5,5,1",
+     "a,30,20,2; b,5,5,1",
+     "a,30,15,2; b,5,5,1"
+    ],
+    "answer": 3,
+    "explain": "Grouped aggregates; the same in Snowflake. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+   },
+   {
+    "q": "What does this window query return?\n```sql\ncreate table t(d int, v int); insert into t values (1,10),(2,20),(3,30);\n\nselect d, sum(v) over (order by d) running, lag(v) over (order by d) prev from t order by d;\n```\n",
+    "options": [
+     "1,10,; 2,20,10; 3,30,20",
+     "1,10,; 2,30,10; 3,60,20",
+     "1,10,10; 2,30,10; 3,60,20",
+     "1,10,; 2,30,10; 3,60,"
+    ],
+    "answer": 1,
+    "explain": "A running sum and the previous row's value (NULL first). Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+   },
+   {
+    "q": "What does this NULL-handling query return?\n```sql\ncreate table t(x int); insert into t values (1),(null),(3);\n\nselect count(*), count(x), sum(x), coalesce(max(x),0), avg(x)::numeric(3,1) from t;\n```\n",
+    "options": [
+     "2,2,4,3,2.0",
+     "3,3,4,3,1.3",
+     "3,2,4,3,1.3",
+     "3,2,4,3,2.0"
+    ],
+    "answer": 3,
+    "explain": "NULLs are ignored by aggregates; count(*) counts rows. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+   },
+   {
+    "q": "A table is 500 micro-partitions and your filter touches 20. What does pruning mean for cost?",
+    "options": [
+     "All 500 are scanned",
+     "Only the matching partitions are scanned, so the query reads far less data",
+     "Nothing is scanned",
+     "It cannot be known"
+    ],
+    "answer": 1,
+    "explain": "Min/max metadata excludes the rest."
+   },
+   {
+    "q": "Why is auto-suspend a main cost control?",
+    "options": [
+     "Queries speed up",
+     "Storage stops",
+     "Data is deleted",
+     "Compute credits accrue only while a warehouse runs, so idle warehouses should suspend"
+    ],
+    "answer": 3,
+    "explain": "Per-second billing with a 60-second minimum on resume."
+   },
+   {
+    "q": "An XL warehouse (16 credits/hour) runs 15 minutes. How many credits (per-second billing)?\n```python\nprint(16*0.25)\n```\n",
+    "options": [
+     "4.0",
+     "16.0",
+     "8.0",
+     "1.0"
+    ],
+    "answer": 0,
+    "explain": "Rate x hours. Verified by running it."
+   },
+   {
+    "q": "Which cache can answer an identical repeated query without using a warehouse?",
+    "options": [
+     "Metadata cache only",
+     "Local disk cache",
+     "The result cache (valid for 24 hours if data is unchanged)",
+     "Stage cache"
+    ],
+    "answer": 2,
+    "explain": "Cloud services return the stored result."
+   },
+   {
+    "q": "What is the difference between Time Travel and Fail-safe?",
+    "options": [
+     "Time Travel is user-accessible recovery within the retention period; Fail-safe is a 7-day last-resort period handled by Snowflake support",
+     "Fail-safe is self-service",
+     "No difference",
+     "Time Travel is 7 days always"
+    ],
+    "answer": 0,
+    "explain": "Fail-safe is not configurable or for routine recovery."
+   },
+   {
+    "q": "Why is a zero-copy clone cheap?",
+    "options": [
+     "It compresses data",
+     "It copies lazily on read",
+     "It is a view",
+     "It shares existing micro-partitions and stores only changes made afterwards"
+    ],
+    "answer": 3,
+    "explain": "Ideal for dev/test."
+   },
+   {
+    "q": "A stream shows an updated row as which pair of records?",
+    "options": [
+     "One UPDATE row",
+     "A DELETE and an INSERT with METADATA$ISUPDATE = TRUE",
+     "Two inserts",
+     "One insert"
+    ],
+    "answer": 1,
+    "explain": "Consume streams in DML to advance the offset."
+   },
+   {
+    "q": "Which object keeps a result continuously refreshed within a freshness goal?",
+    "options": [
+     "A clone",
+     "A dynamic table with TARGET_LAG",
+     "A view",
+     "A stage"
+    ],
+    "answer": 1,
+    "explain": "Declarative pipelines."
+   },
+   {
+    "q": "Why prefer role-based masking policies over duplicate masked tables?",
+    "options": [
+     "Required by SQL",
+     "Cheaper compute",
+     "Faster loads",
+     "One governed table avoids drift and extra storage while each role sees what it is allowed to"
+    ],
+    "answer": 3,
+    "explain": "Policies attach to columns."
+   },
+   {
+    "q": "Why are secure views used for data sharing?",
+    "options": [
+     "They hide definitions and prevent optimiser side-channel leakage of data consumers shouldn't see",
+     "Faster",
+     "Cheaper",
+     "Encrypted at rest only"
+    ],
+    "answer": 0,
+    "explain": "A requirement for shares."
+   },
+   {
+    "q": "What should a service account use for authentication?",
+    "options": [
+     "Key-pair (or OAuth) with a network policy, not a shared password",
+     "None",
+     "Shared password",
+     "Admin role"
+    ],
+    "answer": 0,
+    "explain": "Rotate keys."
+   },
+   {
+    "q": "Where do you audit which columns were accessed by whom?",
+    "options": [
+     "Roles",
+     "ACCOUNT_USAGE.ACCESS_HISTORY (with QUERY_HISTORY)",
+     "Tasks",
+     "Stages"
+    ],
+    "answer": 1,
+    "explain": "Views have some latency."
+   },
+   {
+    "q": "When should you scale a warehouse out (multi-cluster) instead of up?",
+    "options": [
+     "For loads",
+     "Always",
+     "Never",
+     "When many concurrent queries queue, not when a single query is slow"
+    ],
+    "answer": 3,
+    "explain": "Scale up for single heavy queries."
+   },
+   {
+    "q": "What does Snowpark pushdown mean for large DataFrames?",
+    "options": [
+     "Operations are translated to SQL and run in Snowflake instead of pulling data to the client",
+     "Data is copied locally",
+     "Nothing is pushed",
+     "Queries run in the browser"
+    ],
+    "answer": 0,
+    "explain": "Avoid collect() on big tables."
+   },
+   {
+    "q": "How do you make an incremental load safe to re-run?",
+    "options": [
+     "Run it once",
+     "Ignore errors",
+     "Make it idempotent with MERGE on a key so duplicates and re-processing change nothing",
+     "Truncate daily"
+    ],
+    "answer": 2,
+    "explain": "Verify with a second run."
+   },
+   {
+    "q": "What is the right use of Cortex or LLM functions in a pipeline?",
+    "options": [
+     "With governance, cost limits and validation of outputs, since results can be wrong",
+     "Trust blindly",
+     "Skip review",
+     "Run on all rows"
+    ],
+    "answer": 0,
+    "explain": "Sample and monitor."
+   },
+   {
+    "q": "What is the safest migration cutover approach?",
+    "options": [
+     "Big bang",
+     "Delete old first",
+     "Skip tests",
+     "Run old and new in parallel, reconcile results and cut over workload by workload"
+    ],
+    "answer": 3,
+    "explain": "Validate with row counts and checksums."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "Sales analytics with window functions",
+    "prompt": "Write three analytics queries over a small sales table: monthly revenue with a running total and share of region, the best rep per region and the month-over-month change. These run on PostgreSQL here because Snowflake is not available to me; the SQL is standard, and where Snowflake offers QUALIFY the comments say so.",
+    "starter": "create table sales(id int, region text, rep text, sold_on date, amount numeric);\ninsert into sales values\n (1,'north','ana','2026-01-05',120),(2,'north','bo','2026-01-09',80),(3,'north','ana','2026-02-02',200),\n (4,'south','cy','2026-01-07',150),(5,'south','di','2026-01-20',90),(6,'south','cy','2026-02-11',60),\n (7,'north','bo','2026-02-15',140),(8,'south','di','2026-02-28',300);\n\n-- TODO 1: monthly revenue per region (to_char(sold_on,'YYYY-MM')) with a running total per region and each month's % of the region total (1 decimal); order by region, month\n-- TODO 2: the best rep per region by total amount (ties by rep name) - Snowflake would use QUALIFY; here use a subquery with row_number()\n-- TODO 3: month-over-month change in revenue per region using lag(); the first month's change is NULL (printed as empty)\n",
+    "expected": "north | 2026-01 | 200 | 200 | 37.0\nnorth | 2026-02 | 340 | 540 | 63.0\nsouth | 2026-01 | 240 | 240 | 40.0\nsouth | 2026-02 | 360 | 600 | 60.0\nnorth | ana | 320\nsouth | di | 390\nnorth | 2026-01 | 200 | \nnorth | 2026-02 | 340 | 140\nsouth | 2026-01 | 240 | \nsouth | 2026-02 | 360 | 120",
+    "solution": "create table sales(id int, region text, rep text, sold_on date, amount numeric);\ninsert into sales values\n (1,'north','ana','2026-01-05',120),(2,'north','bo','2026-01-09',80),(3,'north','ana','2026-02-02',200),\n (4,'south','cy','2026-01-07',150),(5,'south','di','2026-01-20',90),(6,'south','cy','2026-02-11',60),\n (7,'north','bo','2026-02-15',140),(8,'south','di','2026-02-28',300);\n\n-- 1. monthly revenue per region with running total and share of the region's total\nselect region, to_char(sold_on,'YYYY-MM') as month, sum(amount) as revenue,\n       sum(sum(amount)) over (partition by region order by to_char(sold_on,'YYYY-MM')) as running,\n       round(100 * sum(amount) / sum(sum(amount)) over (partition by region), 1) as pct_of_region\nfrom sales group by region, to_char(sold_on,'YYYY-MM')\norder by region, month;\n\n-- 2. best rep per region (the Snowflake way would be QUALIFY row_number() = 1)\nselect region, rep, total from (\n  select region, rep, sum(amount) as total,\n         row_number() over (partition by region order by sum(amount) desc, rep) as rn\n  from sales group by region, rep\n) x where rn = 1 order by region;\n\n-- 3. month-over-month change for each region\nselect region, month, revenue, revenue - lag(revenue) over (partition by region order by month) as change from (\n  select region, to_char(sold_on,'YYYY-MM') as month, sum(amount) as revenue from sales group by 1, 2\n) m order by region, month;\n",
+    "explain": "Window functions can wrap aggregates (sum(sum(amount)) over ...), and row_number() in a subquery is exactly what QUALIFY expresses in Snowflake. lag() gives the previous month, NULL for the first. Verified by running it on PostgreSQL 18; not run on Snowflake."
+   },
+   {
+    "title": "An idempotent change-capture upsert",
+    "prompt": "Simulate a stream plus MERGE: find the new and changed staging rows, apply them to the target only when values really differ and prove a second run finds nothing left to do. PostgreSQL's ON CONFLICT stands in for Snowflake's MERGE; Snowflake itself was not used.",
+    "starter": "create table target(id int primary key, name text, plan text, updated date);\ninsert into target values (1,'ana','free','2026-01-01'),(2,'bo','pro','2026-01-01'),(3,'cy','free','2026-01-01');\ncreate table staging(id int, name text, plan text, updated date);\ninsert into staging values (2,'bo','free','2026-02-01'),(3,'cy','free','2026-02-01'),(4,'di','pro','2026-02-01');\n\n-- TODO 1: list the changes a stream would report: staging rows that are new (\"insert\") or whose (name, plan) differ from target (\"update\"), ordered by id\n-- TODO 2: apply them idempotently with INSERT ... ON CONFLICT (Snowflake: MERGE), changing a row only when (name, plan) really differ, then show target ordered by id\n-- TODO 3: count staging rows that still differ from target (should be 0 on a re-run)\n",
+    "expected": "2 | update\n4 | insert\n1 | ana | free | 2026-01-01\n2 | bo | free | 2026-02-01\n3 | cy | free | 2026-01-01\n4 | di | pro | 2026-02-01\n0",
+    "solution": "create table target(id int primary key, name text, plan text, updated date);\ninsert into target values (1,'ana','free','2026-01-01'),(2,'bo','pro','2026-01-01'),(3,'cy','free','2026-01-01');\ncreate table staging(id int, name text, plan text, updated date);\ninsert into staging values (2,'bo','free','2026-02-01'),(3,'cy','free','2026-02-01'),(4,'di','pro','2026-02-01');\n\n-- 1. the changes a stream would report: new rows and rows whose values differ\nselect s.id, case when t.id is null then 'insert' else 'update' end as action\nfrom staging s left join target t on t.id = s.id\nwhere t.id is null or (t.name, t.plan) is distinct from (s.name, s.plan)\norder by s.id;\n\n-- 2. apply them idempotently (Snowflake: MERGE INTO ... WHEN MATCHED / NOT MATCHED)\ninsert into target select * from staging\non conflict (id) do update set name = excluded.name, plan = excluded.plan, updated = excluded.updated\nwhere (target.name, target.plan) is distinct from (excluded.name, excluded.plan);\n\nselect * from target order by id;\n\n-- 3. running it again changes nothing: the change set is now empty\nselect count(*) as pending from staging s join target t on t.id = s.id\nwhere (t.name, t.plan) is distinct from (s.name, s.plan);\n",
+    "explain": "IS DISTINCT FROM compares row values null-safely, so unchanged rows are not rewritten and the pending count drops to zero. In Snowflake you would write MERGE INTO ... WHEN MATCHED AND (...) THEN UPDATE WHEN NOT MATCHED THEN INSERT. Verified by running it on PostgreSQL 18; not run on Snowflake."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
