@@ -1,0 +1,2170 @@
+{
+ "course": "tableau-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-is-tableau": {
+   "questions": [
+    {
+     "q": "What does Tableau do?",
+     "options": [
+      "Hosts websites",
+      "Stores data only",
+      "Connects to data and lets you build interactive visualisations and dashboards by dragging fields",
+      "Writes code only"
+     ],
+     "answer": 2,
+     "explain": "It is a visual analytics platform."
+    },
+    {
+     "q": "What is the difference between Tableau Desktop and Tableau Public?",
+     "options": [
+      "No difference",
+      "Public is a free edition whose workbooks are published to the public web, so it is unsuitable for sensitive data",
+      "Desktop is browser-only",
+      "Public is paid"
+     ],
+     "answer": 1,
+     "explain": "Never publish confidential data to Public."
+    },
+    {
+     "q": "What are the main Tableau products in a typical deployment?",
+     "options": [
+      "Only Server",
+      "Only Desktop",
+      "Desktop for authoring, Server or Cloud for sharing, and Prep for data preparation",
+      "Only Prep"
+     ],
+     "answer": 2,
+     "explain": "Plus Bridge for private data on Cloud."
+    },
+    {
+     "q": "What does 'visual analytics' emphasise?",
+     "options": [
+      "Coding apps",
+      "Writing SQL",
+      "Printing reports",
+      "Asking and answering questions interactively through visual exploration"
+     ],
+     "answer": 3,
+     "explain": "Flow of analysis."
+    }
+   ]
+  },
+  "level-1/02-connecting-data-sources": {
+   "questions": [
+    {
+     "q": "What is a Tableau extract (.hyper)?",
+     "options": [
+      "A PDF",
+      "A compressed snapshot of data stored in Tableau's Hyper engine for fast queries",
+      "A live link",
+      "A backup"
+     ],
+     "answer": 1,
+     "explain": "Refreshed on a schedule."
+    },
+    {
+     "q": "When is a live connection preferable?",
+     "options": [
+      "When data changes constantly and the source database can handle the query load",
+      "Never",
+      "For files only",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Extracts help when sources are slow."
+    },
+    {
+     "q": "What is a data source filter?",
+     "options": [
+      "A sort",
+      "A format",
+      "A filter applied at the data source that restricts rows before they reach any worksheet",
+      "A chart filter"
+     ],
+     "answer": 2,
+     "explain": "Applied early in the order of operations."
+    },
+    {
+     "q": "What does Data Interpreter help with?",
+     "options": [
+      "Cleaning messy Excel sheets by detecting headers, footers and sub-tables",
+      "Joins",
+      "Maps",
+      "Dashboards"
+     ],
+     "answer": 0,
+     "explain": "Review the result."
+    }
+   ]
+  },
+  "level-1/03-first-visualization": {
+   "questions": [
+    {
+     "q": "What colours distinguish dimensions and measures in the data pane?",
+     "options": [
+      "Green and red",
+      "Blue for dimensions and green for measures (by default)",
+      "Grey",
+      "Red and blue"
+     ],
+     "answer": 1,
+     "explain": "Dimensions are categories; measures are numbers."
+    },
+    {
+     "q": "What is the difference between discrete and continuous fields?",
+     "options": [
+      "Discrete fields create headers (blue pills); continuous fields create axes (green pills)",
+      "Same",
+      "Discrete makes axes",
+      "Continuous makes headers"
+     ],
+     "answer": 0,
+     "explain": "Colour of the pill matters."
+    },
+    {
+     "q": "What does dragging a date to Columns do by default?",
+     "options": [
+      "A table",
+      "Nothing",
+      "A map",
+      "Creates a discrete year header (you can change the date part or make it continuous)"
+     ],
+     "answer": 3,
+     "explain": "Right-click to choose."
+    },
+    {
+     "q": "What does the Marks card control?",
+     "options": [
+      "Colour, size, label, detail, tooltip and shape of marks",
+      "Data",
+      "Filters",
+      "Layout"
+     ],
+     "answer": 0,
+     "explain": "Detail adds granularity without visual encoding."
+    }
+   ]
+  },
+  "level-1/04-chart-types": {
+   "questions": [
+    {
+     "q": "Which chart suits a trend over time?",
+     "options": [
+      "Pie",
+      "Treemap",
+      "Scatter",
+      "A line chart"
+     ],
+     "answer": 3,
+     "explain": "Continuous date on the axis."
+    },
+    {
+     "q": "Which chart suits comparing categories?",
+     "options": [
+      "A bar chart",
+      "Gantt",
+      "Line",
+      "Map"
+     ],
+     "answer": 0,
+     "explain": "Sorted bars read easily."
+    },
+    {
+     "q": "When is a scatter plot appropriate?",
+     "options": [
+      "Totals",
+      "Parts",
+      "Trends",
+      "To show the relationship between two measures"
+     ],
+     "answer": 3,
+     "explain": "Add trend lines."
+    },
+    {
+     "q": "Why are pie charts often discouraged?",
+     "options": [
+      "Colours",
+      "Speed",
+      "Law",
+      "Humans compare angles poorly, so bars communicate better except with very few slices"
+     ],
+     "answer": 3,
+     "explain": "Use sparingly."
+    }
+   ]
+  },
+  "level-1/05-dashboards-basics": {
+   "questions": [
+    {
+     "q": "What is a dashboard in Tableau?",
+     "options": [
+      "A collection of sheets, objects and filters arranged on one canvas",
+      "A story",
+      "A data source",
+      "A Prep flow"
+     ],
+     "answer": 0,
+     "explain": "Add interactivity with actions."
+    },
+    {
+     "q": "What do dashboard actions allow?",
+     "options": [
+      "Edit data",
+      "Filter, highlight, go to URL or sheet, change a parameter or set values from clicks",
+      "Load data",
+      "Format cells"
+     ],
+     "answer": 1,
+     "explain": "Make dashboards interactive."
+    },
+    {
+     "q": "Why use layout containers?",
+     "options": [
+      "Data",
+      "They arrange objects horizontally or vertically so the dashboard resizes predictably",
+      "Speed",
+      "Colours"
+     ],
+     "answer": 1,
+     "explain": "Tiled layouts are easier to maintain."
+    },
+    {
+     "q": "What is a good dashboard principle?",
+     "options": [
+      "Use 3D",
+      "Show the most important view first, keep it uncluttered and answer a specific question",
+      "Add many colours",
+      "Show everything"
+     ],
+     "answer": 1,
+     "explain": "Design for the audience."
+    }
+   ]
+  },
+  "level-1/06-calculated-fields-basics": {
+   "questions": [
+    {
+     "q": "A calculated field computes profit ratio as SUM(profit)/SUM(sales). What is the ratio for these rows (percent, 1 decimal)?\n```python\nrows = [\n (\"East\",\"Furniture\",1200,180),(\"East\",\"Furniture\",800,60),(\"East\",\"Tech\",500,120),\n (\"West\",\"Tech\",450,90),(\"West\",\"Furniture\",300,-20),(\"West\",\"Tech\",900,200),\n (\"North\",\"Office\",150,30),(\"North\",\"Tech\",600,150),\n]  # (region, category, sales, profit)\ns=sum(r[2] for r in rows); p=sum(r[3] for r in rows)\nprint(round(100*p/s,1))\n```\n",
+     "options": [
+      "20.0",
+      "7.5",
+      "15.1",
+      "16.5"
+     ],
+     "answer": 3,
+     "explain": "A ratio of sums is not the average of row ratios. Verified by running it."
+    },
+    {
+     "q": "Why does the average of row-level ratios differ from the ratio of sums? (average of profit/sales per row, percent)\n```python\nrows = [\n (\"East\",\"Furniture\",1200,180),(\"East\",\"Furniture\",800,60),(\"East\",\"Tech\",500,120),\n (\"West\",\"Tech\",450,90),(\"West\",\"Furniture\",300,-20),(\"West\",\"Tech\",900,200),\n (\"North\",\"Office\",150,30),(\"North\",\"Tech\",600,150),\n]  # (region, category, sales, profit)\nprint(round(100*sum(r[3]/r[2] for r in rows)/len(rows),1))\n```\n",
+     "options": [
+      "15.9",
+      "12.0",
+      "16.5",
+      "20.0"
+     ],
+     "answer": 0,
+     "explain": "Aggregate first, then divide. Verified by running it."
+    },
+    {
+     "q": "What is the difference between a row-level and an aggregate calculation?",
+     "options": [
+      "Row-level is slower",
+      "Row-level calculations run per row before aggregation; aggregate calculations run on aggregated values",
+      "Same",
+      "Aggregates are per row"
+     ],
+     "answer": 1,
+     "explain": "You cannot mix aggregate and non-aggregate without care."
+    },
+    {
+     "q": "Which function handles NULLs gracefully?",
+     "options": [
+      "COUNT",
+      "IFNULL or ZN (zero if null)",
+      "LEN",
+      "ABS"
+     ],
+     "answer": 1,
+     "explain": "Prevents blanks propagating."
+    }
+   ]
+  },
+  "level-1/07-filters-parameters": {
+   "questions": [
+    {
+     "q": "What is a parameter?",
+     "options": [
+      "A workbook variable the user can change to drive calculations, filters or reference lines",
+      "A filter",
+      "A data source",
+      "A sheet"
+     ],
+     "answer": 0,
+     "explain": "Not tied to data values unless you configure it."
+    },
+    {
+     "q": "What is the difference between a filter and a parameter?",
+     "options": [
+      "Filters are inputs",
+      "A filter removes rows from the view; a parameter is a value that calculations and visuals can use",
+      "Same",
+      "Parameters filter automatically"
+     ],
+     "answer": 1,
+     "explain": "Use a parameter in a calculated field to filter."
+    },
+    {
+     "q": "What is a context filter used for?",
+     "options": [
+      "Speed",
+      "Format",
+      "Colour",
+      "Making a filter run before others (for example before Top N or FIXED LODs depending on version)"
+     ],
+     "answer": 3,
+     "explain": "Appears grey."
+    },
+    {
+     "q": "What is Top N filtering?",
+     "options": [
+      "Sorting",
+      "Random",
+      "Showing only the N highest or lowest members by a measure",
+      "Bottom"
+     ],
+     "answer": 2,
+     "explain": "Beware of order of operations with other filters."
+    }
+   ]
+  },
+  "level-1/08-table-calculations-basics": {
+   "questions": [
+    {
+     "q": "A running total of sales by order: [100, 200, 50, 150]. What is the cumulative sequence?\n```python\nfrom itertools import accumulate\nprint(list(accumulate([100,200,50,150])))\n```\n",
+     "options": [
+      "[100, 300, 350, 500]",
+      "[100, 200, 50, 150]",
+      "[500, 400, 200, 150]",
+      "[100, 300, 350, 400]"
+     ],
+     "answer": 0,
+     "explain": "RUNNING_SUM does this along the addressing direction. Verified by running it."
+    },
+    {
+     "q": "Percent of total for sales [100, 200, 50, 150]?\n```python\nv=[100,200,50,150]\nprint([round(100*x/sum(v),1) for x in v])\n```\n",
+     "options": [
+      "[100, 200, 50, 150]",
+      "[20.0, 40.0, 10.0, 30.0]",
+      "[25.0, 25.0, 25.0, 25.0]",
+      "[10.0, 20.0, 5.0, 15.0]"
+     ],
+     "answer": 1,
+     "explain": "A quick table calculation. Verified by running it."
+    },
+    {
+     "q": "What do addressing and partitioning mean for table calculations?",
+     "options": [
+      "Partitioning splits the data into groups; addressing is the direction calculated within each partition",
+      "Filters",
+      "Joins",
+      "Same"
+     ],
+     "answer": 0,
+     "explain": "Compute using Table (Across) etc."
+    },
+    {
+     "q": "When does a table calculation run?",
+     "options": [
+      "At extract",
+      "Before filters",
+      "In the database",
+      "After the query returns, on the aggregated data in the view"
+     ],
+     "answer": 3,
+     "explain": "So it only sees marks in the view."
+    }
+   ]
+  },
+  "level-1/09-maps-geographic-data": {
+   "questions": [
+    {
+     "q": "What do Tableau maps need to place data?",
+     "options": [
+      "IDs",
+      "Geographic roles on fields (country, state, city) or latitude and longitude",
+      "Colours",
+      "Names"
+     ],
+     "answer": 1,
+     "explain": "Check for unrecognised locations."
+    },
+    {
+     "q": "What is a filled map?",
+     "options": [
+      "Symbol map",
+      "Bar",
+      "Shapes (polygons) coloured by a measure, such as states by sales",
+      "Table"
+     ],
+     "answer": 2,
+     "explain": "Choropleth."
+    },
+    {
+     "q": "What is a common pitfall of choropleth maps?",
+     "options": [
+      "Law",
+      "Cost",
+      "Speed",
+      "Large low-population areas dominate visually; consider rates or symbols"
+     ],
+     "answer": 3,
+     "explain": "Normalise the measure."
+    },
+    {
+     "q": "How can you fix ambiguous location names?",
+     "options": [
+      "Use higher-level fields such as Country and State, or custom geocoding",
+      "Rename",
+      "Ignore",
+      "Delete"
+     ],
+     "answer": 0,
+     "explain": "Edit locations."
+    }
+   ]
+  },
+  "level-1/10-project-sales-performance-dashboard": {
+   "questions": [
+    {
+     "q": "What is a good project structure for a sales dashboard?",
+     "options": [
+      "Dense table",
+      "Many charts",
+      "KPIs at the top, trends, breakdowns and filters with clear titles and consistent colours",
+      "Random"
+     ],
+     "answer": 2,
+     "explain": "Answer business questions."
+    },
+    {
+     "q": "Which region has the largest total sales in the sample data?\n```python\nrows = [\n (\"East\",\"Furniture\",1200,180),(\"East\",\"Furniture\",800,60),(\"East\",\"Tech\",500,120),\n (\"West\",\"Tech\",450,90),(\"West\",\"Furniture\",300,-20),(\"West\",\"Tech\",900,200),\n (\"North\",\"Office\",150,30),(\"North\",\"Tech\",600,150),\n]  # (region, category, sales, profit)\nfrom collections import Counter\nc=Counter()\nfor r in rows: c[r[0]]+=r[2]\nprint(c.most_common(1)[0])\n```\n",
+     "options": [
+      "('West', 1650)",
+      "('North', 750)",
+      "('East', 2500)",
+      "('East', 360)"
+     ],
+     "answer": 2,
+     "explain": "Group by region and sum. Verified by running it."
+    },
+    {
+     "q": "How do you keep a dashboard performing well?",
+     "options": [
+      "Limit marks and filters, use extracts and avoid heavy calculations",
+      "More charts",
+      "Live always",
+      "More filters"
+     ],
+     "answer": 0,
+     "explain": "Measure with the performance recorder."
+    },
+    {
+     "q": "How do you share it?",
+     "options": [
+      "USB",
+      "Email",
+      "Print",
+      "Publish to Tableau Server, Cloud or Public (only for non-sensitive data)"
+     ],
+     "answer": 3,
+     "explain": "Permissions matter."
+    }
+   ]
+  },
+  "level-2/01-advanced-calculated-fields": {
+   "questions": [
+    {
+     "q": "A LOD-style calculation: average of region totals vs average of rows. What is each? (region totals average, row average)\n```python\nrows = [\n (\"East\",\"Furniture\",1200,180),(\"East\",\"Furniture\",800,60),(\"East\",\"Tech\",500,120),\n (\"West\",\"Tech\",450,90),(\"West\",\"Furniture\",300,-20),(\"West\",\"Tech\",900,200),\n (\"North\",\"Office\",150,30),(\"North\",\"Tech\",600,150),\n]  # (region, category, sales, profit)\nfrom collections import defaultdict\nt=defaultdict(int)\nfor r in rows: t[r[0]]+=r[2]\nprint(round(sum(t.values())/len(t),1), round(sum(r[2] for r in rows)/len(rows),1))\n```\n",
+     "options": [
+      "1237.5 618.8",
+      "1633.3 612.5",
+      "1633.3 1633.3",
+      "612.5 1633.3"
+     ],
+     "answer": 1,
+     "explain": "{FIXED [Region]: SUM([Sales])} gives a value per region regardless of the view's level. Verified by running it."
+    },
+    {
+     "q": "What does the IF/ELSEIF/END structure do?",
+     "options": [
+      "Joins",
+      "Filters",
+      "Returns different values by condition in a calculated field",
+      "Sorts"
+     ],
+     "answer": 2,
+     "explain": "CASE is cleaner for one field."
+    },
+    {
+     "q": "What do string functions like SPLIT and CONTAINS help with?",
+     "options": [
+      "Maps",
+      "Dates",
+      "Sorting",
+      "Cleaning and extracting parts of text fields"
+     ],
+     "answer": 3,
+     "explain": "Use before aggregation."
+    },
+    {
+     "q": "What does DATETRUNC do?",
+     "options": [
+      "Truncates a date to a given level such as month, keeping it as a date",
+      "Filters",
+      "Formats",
+      "Counts"
+     ],
+     "answer": 0,
+     "explain": "Different from DATEPART."
+    }
+   ]
+  },
+  "level-2/02-advanced-dashboard-design": {
+   "questions": [
+    {
+     "q": "What is the key design question for any dashboard?",
+     "options": [
+      "Which colours?",
+      "Which font?",
+      "Which chart?",
+      "Who is the audience and what decision should it support?"
+     ],
+     "answer": 3,
+     "explain": "Design backwards from decisions."
+    },
+    {
+     "q": "Why design for specific device sizes?",
+     "options": [
+      "Law",
+      "Layouts that fit desktops can be unreadable on phones; use device layouts",
+      "Colour",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Fixed vs automatic sizing."
+    },
+    {
+     "q": "What helps consistent look and feel?",
+     "options": [
+      "None",
+      "Random",
+      "Shared colour palettes, fonts and templates across dashboards",
+      "Defaults"
+     ],
+     "answer": 2,
+     "explain": "Document standards."
+    },
+    {
+     "q": "What is progressive disclosure?",
+     "options": [
+      "Everything",
+      "Show summary first and let users drill into detail on demand",
+      "Nothing",
+      "Popups"
+     ],
+     "answer": 1,
+     "explain": "Reduces clutter."
+    }
+   ]
+  },
+  "level-2/03-blending-joins-relationships": {
+   "questions": [
+    {
+     "q": "What does a relationship do compared with a join?",
+     "options": [
+      "Merges permanently",
+      "Duplicates rows",
+      "It keeps tables separate and joins them at query time at the right level of detail",
+      "Is slower always"
+     ],
+     "answer": 2,
+     "explain": "Avoids many fan-out problems."
+    },
+    {
+     "q": "What is data blending?",
+     "options": [
+      "A union",
+      "A join",
+      "A filter",
+      "Combining data from separate published/connected sources by linking fields, aggregating the secondary source"
+     ],
+     "answer": 3,
+     "explain": "Primary source drives the view."
+    },
+    {
+     "q": "An inner join of orders (3 rows with customer ids [1,1,2]) with customers (ids [1,2]) returns how many rows? And if customers had a duplicate id 1 row?\n```python\norders=[1,1,2]\ncust=[1,2]\ncust2=[1,1,2]\nprint(sum(1 for o in orders for c in cust if o==c), sum(1 for o in orders for c in cust2 if o==c))\n```\n",
+     "options": [
+      "3 5",
+      "3 3",
+      "2 3",
+      "5 5"
+     ],
+     "answer": 0,
+     "explain": "Duplicate keys multiply rows: the fan-out problem. Verified by running it."
+    },
+    {
+     "q": "What is a union?",
+     "options": [
+      "Filtering",
+      "Joining sideways",
+      "Stacking rows from tables with the same columns",
+      "Blending"
+     ],
+     "answer": 2,
+     "explain": "Useful for monthly files."
+    }
+   ]
+  },
+  "level-2/04-advanced-table-calculations": {
+   "questions": [
+    {
+     "q": "What is a moving average table calc used for?",
+     "options": [
+      "Smoothing noisy time series using a window of neighbouring marks",
+      "Totals",
+      "Ranks",
+      "Filters"
+     ],
+     "answer": 0,
+     "explain": "WINDOW_AVG with offsets."
+    },
+    {
+     "q": "3-point moving average of [10, 20, 30, 40, 50] (window of previous, current, next; edges use available points)?\n```python\nv=[10,20,30,40,50]\nout=[]\nfor i in range(len(v)):\n    w=v[max(0,i-1):i+2]\n    out.append(sum(w)/len(w))\nprint(out)\n```\n",
+     "options": [
+      "[10.0, 20.0, 30.0, 40.0, 50.0]",
+      "[15.0, 20.0, 30.0, 40.0, 50.0]",
+      "[15.0, 20.0, 30.0, 40.0, 45.0]",
+      "[20.0, 20.0, 30.0, 40.0, 40.0]"
+     ],
+     "answer": 2,
+     "explain": "WINDOW_AVG(SUM([Sales]), -1, 1). Verified by running it."
+    },
+    {
+     "q": "Rank of values [30, 10, 30, 20] with competition ranking (ties share a rank, next skips)?\n```python\nv=[30,10,30,20]\nprint([1+sum(1 for y in v if y>x) for x in v])\n```\n",
+     "options": [
+      "[1, 4, 1, 3]",
+      "[1, 3, 2, 4]",
+      "[1, 2, 1, 3]",
+      "[2, 4, 2, 3]"
+     ],
+     "answer": 0,
+     "explain": "RANK(SUM(x)) works like this; DENSE would give [1,3,1,2]. Verified by running it."
+    },
+    {
+     "q": "Why do table calculations depend on the layout of the view?",
+     "options": [
+      "Colour",
+      "Law",
+      "Speed",
+      "They operate on the marks present, so changing dimensions changes partitions and results"
+     ],
+     "answer": 3,
+     "explain": "Check the compute-using settings."
+    }
+   ]
+  },
+  "level-2/05-formatting-storytelling": {
+   "questions": [
+    {
+     "q": "What makes a story or narrative dashboard effective?",
+     "options": [
+      "Decoration",
+      "A clear takeaway in titles, annotation of key points and a logical flow",
+      "More colour",
+      "More data"
+     ],
+     "answer": 1,
+     "explain": "Guide the reader."
+    },
+    {
+     "q": "How should colour be used?",
+     "options": [
+      "Sparingly and consistently to highlight meaning, with accessible contrast and colour-blind-safe palettes",
+      "Rainbow",
+      "3D",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Avoid red-green contrast alone."
+    },
+    {
+     "q": "What do annotations add?",
+     "options": [
+      "Data",
+      "Context that explains why a mark matters",
+      "Speed",
+      "Filters"
+     ],
+     "answer": 1,
+     "explain": "Short and specific."
+    },
+    {
+     "q": "What is the data-ink idea (Tufte)?",
+     "options": [
+      "More ink",
+      "Shadows",
+      "Borders",
+      "Maximise the share of ink that conveys data and remove chartjunk"
+     ],
+     "answer": 3,
+     "explain": "Simplify."
+    }
+   ]
+  },
+  "level-2/06-tableau-prep-basics": {
+   "questions": [
+    {
+     "q": "What is Tableau Prep for?",
+     "options": [
+      "Visually cleaning, shaping and combining data before analysis",
+      "Maps",
+      "Dashboards",
+      "Servers"
+     ],
+     "answer": 0,
+     "explain": "Flows produce outputs."
+    },
+    {
+     "q": "What does a pivot step do?",
+     "options": [
+      "Filters",
+      "Sorts",
+      "Joins",
+      "Turns columns into rows (or rows into columns)"
+     ],
+     "answer": 3,
+     "explain": "Fix wide data."
+    },
+    {
+     "q": "What is an aggregate step?",
+     "options": [
+      "Output",
+      "Groups rows and computes summaries",
+      "Union",
+      "Clean"
+     ],
+     "answer": 1,
+     "explain": "Changes granularity."
+    },
+    {
+     "q": "Why schedule Prep flows?",
+     "options": [
+      "Law",
+      "Style",
+      "Keep prepared data fresh without manual runs (Prep Conductor)",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Needs Data Management."
+    }
+   ]
+  },
+  "level-2/07-multiple-data-sources": {
+   "questions": [
+    {
+     "q": "When would you use multiple data sources in one workbook?",
+     "options": [
+      "Never",
+      "When questions need data from different systems that cannot be combined in one connection",
+      "Always",
+      "For speed"
+     ],
+     "answer": 1,
+     "explain": "Use relationships or blends carefully."
+    },
+    {
+     "q": "What is cross-database join?",
+     "options": [
+      "Blend",
+      "Union",
+      "Joining tables from different connections in the data source tab",
+      "Filter"
+     ],
+     "answer": 2,
+     "explain": "Can be slower than same-database joins."
+    },
+    {
+     "q": "What is the risk of blending on different granularity?",
+     "options": [
+      "Aggregating mismatched levels can give misleading numbers",
+      "Speed",
+      "None",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Know the grain."
+    },
+    {
+     "q": "How do you verify a combined data source?",
+     "options": [
+      "Looks fine",
+      "Trust",
+      "Ask",
+      "Check row counts and totals against the source systems"
+     ],
+     "answer": 3,
+     "explain": "Reconcile."
+    }
+   ]
+  },
+  "level-2/08-performance-optimization-basics": {
+   "questions": [
+    {
+     "q": "What does the Performance Recorder show?",
+     "options": [
+      "Costs",
+      "Users",
+      "Logs only",
+      "Where time goes when a workbook loads or interacts (queries, layout, rendering)"
+     ],
+     "answer": 3,
+     "explain": "Start there."
+    },
+    {
+     "q": "Which tactic usually speeds up a slow dashboard?",
+     "options": [
+      "Live",
+      "More sheets",
+      "Use extracts, reduce marks and the number of sheets and filters",
+      "More filters"
+     ],
+     "answer": 2,
+     "explain": "Simplify."
+    },
+    {
+     "q": "Why can many quick filters slow a dashboard?",
+     "options": [
+      "Colour",
+      "Law",
+      "Each filter triggers queries to populate its values",
+      "Memory"
+     ],
+     "answer": 2,
+     "explain": "Use 'Only relevant values' sparingly or parameters."
+    },
+    {
+     "q": "What does aggregating an extract do?",
+     "options": [
+      "Locks",
+      "Stores data at a higher level so queries touch fewer rows",
+      "Sorts",
+      "Encrypts"
+     ],
+     "answer": 1,
+     "explain": "Fits dashboards that don't need row detail."
+    }
+   ]
+  },
+  "level-2/09-publishing-tableau-public-server": {
+   "questions": [
+    {
+     "q": "What is Tableau Public suitable for?",
+     "options": [
+      "Public portfolios and open data, since everything published is visible to anyone",
+      "Finance",
+      "Confidential data",
+      "HR data"
+     ],
+     "answer": 0,
+     "explain": "Never publish sensitive data."
+    },
+    {
+     "q": "What do permissions on Server or Cloud control?",
+     "options": [
+      "Speed",
+      "Colours",
+      "Who can view, edit and download content in projects",
+      "Fonts"
+     ],
+     "answer": 2,
+     "explain": "Grant to groups."
+    },
+    {
+     "q": "What is a project on Tableau Server/Cloud?",
+     "options": [
+      "A user",
+      "A workbook",
+      "A query",
+      "A folder that organises content and sets permissions"
+     ],
+     "answer": 3,
+     "explain": "Use hierarchies."
+    },
+    {
+     "q": "What should you do before publishing a workbook?",
+     "options": [
+      "Remove unused fields, test on the target, check data sources and permissions",
+      "Nothing",
+      "Print",
+      "Email"
+     ],
+     "answer": 0,
+     "explain": "Quality check."
+    }
+   ]
+  },
+  "level-2/10-project-executive-dashboard": {
+   "questions": [
+    {
+     "q": "What does an executive dashboard need?",
+     "options": [
+      "Raw tables",
+      "Every metric",
+      "Many charts",
+      "A few KPIs, clear trends and drill-downs answering key business questions at a glance"
+     ],
+     "answer": 3,
+     "explain": "Focus on decisions."
+    },
+    {
+     "q": "What should KPIs show?",
+     "options": [
+      "Names",
+      "Colour only",
+      "Value only",
+      "Value, comparison to target or prior period and direction"
+     ],
+     "answer": 3,
+     "explain": "Context makes numbers meaningful."
+    },
+    {
+     "q": "How do you handle data refresh expectations?",
+     "options": [
+      "Hide",
+      "Never",
+      "Show last refreshed time and schedule extracts appropriately",
+      "Daily blind"
+     ],
+     "answer": 2,
+     "explain": "Trust requires transparency."
+    },
+    {
+     "q": "What is a good way to test a dashboard with users?",
+     "options": [
+      "Skip",
+      "Survey colours",
+      "Observe them completing real tasks and ask what decisions they make",
+      "Show off"
+     ],
+     "answer": 2,
+     "explain": "Iterate."
+    }
+   ]
+  },
+  "level-3/01-advanced-lod-expressions": {
+   "questions": [
+    {
+     "q": "FIXED vs INCLUDE vs EXCLUDE: what does {FIXED [Region]: SUM([Sales])} return per row, and the percent of region total for the first row?\n```python\nrows = [\n (\"East\",\"Furniture\",1200,180),(\"East\",\"Furniture\",800,60),(\"East\",\"Tech\",500,120),\n (\"West\",\"Tech\",450,90),(\"West\",\"Furniture\",300,-20),(\"West\",\"Tech\",900,200),\n (\"North\",\"Office\",150,30),(\"North\",\"Tech\",600,150),\n]  # (region, category, sales, profit)\nfrom collections import defaultdict\nt=defaultdict(int)\nfor r in rows: t[r[0]]+=r[2]\nr0=rows[0]\nprint(t[r0[0]], round(100*r0[2]/t[r0[0]],1))\n```\n",
+     "options": [
+      "8000 15.0",
+      "1200 100.0",
+      "2500 100.0",
+      "2500 48.0"
+     ],
+     "answer": 3,
+     "explain": "FIXED computes at the stated dimension regardless of the view, so each row can be compared to its region total. Verified by running it."
+    },
+    {
+     "q": "Where do FIXED LODs sit in Tableau's order of operations?",
+     "options": [
+      "After context filters and before dimension filters",
+      "Last",
+      "Before extract",
+      "After table calcs"
+     ],
+     "answer": 0,
+     "explain": "Dimension filters don't affect FIXED unless in context."
+    },
+    {
+     "q": "What does INCLUDE do?",
+     "options": [
+      "Filters",
+      "Computes at the view's level plus the extra dimension(s) given",
+      "Fixes",
+      "Removes dimensions"
+     ],
+     "answer": 1,
+     "explain": "Then aggregates to the view."
+    },
+    {
+     "q": "What does EXCLUDE do?",
+     "options": [
+      "Filters",
+      "Computes at the view's level minus the specified dimension(s)",
+      "Fixes",
+      "Adds"
+     ],
+     "answer": 1,
+     "explain": "Useful for percent of total."
+    }
+   ]
+  },
+  "level-3/02-server-cloud-administration": {
+   "questions": [
+    {
+     "q": "What does a Tableau Server administrator manage?",
+     "options": [
+      "Users, groups, sites, licences, schedules and server resources",
+      "Data",
+      "Charts",
+      "Dashboards only"
+     ],
+     "answer": 0,
+     "explain": "Cloud is managed by Tableau."
+    },
+    {
+     "q": "What is a site on Server or Cloud?",
+     "options": [
+      "A node",
+      "A DB",
+      "A website",
+      "A separate area with its own users, projects and content"
+     ],
+     "answer": 3,
+     "explain": "Multi-tenancy."
+    },
+    {
+     "q": "What is Tableau Bridge for?",
+     "options": [
+      "Joins",
+      "Maps",
+      "Prep",
+      "Keeping Cloud content connected to data behind a firewall"
+     ],
+     "answer": 3,
+     "explain": "Refresh private data."
+    },
+    {
+     "q": "Why use groups for permissions?",
+     "options": [
+      "Easier administration than assigning individuals",
+      "Colour",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Sync from identity provider."
+    }
+   ]
+  },
+  "level-3/03-row-level-security": {
+   "questions": [
+    {
+     "q": "A row-level security rule: users see rows where Region matches their entitlement. Which regions can 'ana' (entitled to East and North) see in the sample, and how many rows?\n```python\nrows = [\n (\"East\",\"Furniture\",1200,180),(\"East\",\"Furniture\",800,60),(\"East\",\"Tech\",500,120),\n (\"West\",\"Tech\",450,90),(\"West\",\"Furniture\",300,-20),(\"West\",\"Tech\",900,200),\n (\"North\",\"Office\",150,30),(\"North\",\"Tech\",600,150),\n]  # (region, category, sales, profit)\nent={'ana':{'East','North'}}\nvis=[r for r in rows if r[0] in ent['ana']]\nprint(sorted({r[0] for r in vis}), len(vis))\n```\n",
+     "options": [
+      "['North'] 2",
+      "['East', 'North', 'West'] 8",
+      "['East', 'North'] 5",
+      "['East'] 3"
+     ],
+     "answer": 2,
+     "explain": "A user filter joins each user to the entitled values. Verified by running it."
+    },
+    {
+     "q": "Which Tableau function returns the current user?",
+     "options": [
+      "LOGIN()",
+      "USERNAME() (or FULLNAME())",
+      "USER()",
+      "ME()"
+     ],
+     "answer": 1,
+     "explain": "Use with an entitlement table."
+    },
+    {
+     "q": "Why prefer data-source-level RLS to a filter on a dashboard?",
+     "options": [
+      "Colours",
+      "Speed",
+      "Law",
+      "Filters can be removed by editors or bypassed by downloads; data source rules apply regardless"
+     ],
+     "answer": 3,
+     "explain": "Secure at the source."
+    },
+    {
+     "q": "What must you test with RLS?",
+     "options": [
+      "Colours",
+      "Speed",
+      "Fonts",
+      "Each role's view, including edge cases such as users with no entitlements"
+     ],
+     "answer": 3,
+     "explain": "Use impersonation."
+    }
+   ]
+  },
+  "level-3/04-advanced-prep-workflows": {
+   "questions": [
+    {
+     "q": "What is a Prep flow's main benefit over ad hoc cleaning?",
+     "options": [
+      "Repeatable, documented and schedulable steps",
+      "Law",
+      "Colour",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Version control matters too."
+    },
+    {
+     "q": "What does a join step with a mismatch show?",
+     "options": [
+      "Colours",
+      "Join results by category (matched, left-only, right-only) so you can inspect them",
+      "Speed",
+      "Errors"
+     ],
+     "answer": 1,
+     "explain": "Check before output."
+    },
+    {
+     "q": "What is an incremental refresh?",
+     "options": [
+      "Full",
+      "Appending only new rows instead of reloading everything",
+      "Delete",
+      "Rename"
+     ],
+     "answer": 1,
+     "explain": "Faster for large data."
+    },
+    {
+     "q": "What output options does Prep provide?",
+     "options": [
+      "Only CSV",
+      "Email",
+      "Print",
+      "Files (hyper, CSV), databases and published data sources"
+     ],
+     "answer": 3,
+     "explain": "Pick for the consumer."
+    }
+   ]
+  },
+  "level-3/05-custom-visualizations-extensions": {
+   "questions": [
+    {
+     "q": "What are Tableau extensions?",
+     "options": [
+      "Plug-ins for Excel",
+      "Web apps that add functionality to dashboards, using the Extensions API",
+      "A theme",
+      "A data source"
+     ],
+     "answer": 1,
+     "explain": "Review their permissions."
+    },
+    {
+     "q": "When use a custom visual (such as a Sankey) over a standard chart?",
+     "options": [
+      "For beauty",
+      "When the standard chart cannot show the relationship and the audience can read it",
+      "Always",
+      "Never"
+     ],
+     "answer": 1,
+     "explain": "Complexity has a cost."
+    },
+    {
+     "q": "What is a risk of third-party extensions?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Law",
+      "They can access dashboard data, so vet them and restrict allowed extensions"
+     ],
+     "answer": 3,
+     "explain": "Admin controls."
+    },
+    {
+     "q": "What is a viz extension?",
+     "options": [
+      "A filter",
+      "A story",
+      "A custom mark type added to the Marks card",
+      "A source"
+     ],
+     "answer": 2,
+     "explain": "Newer capability."
+    }
+   ]
+  },
+  "level-3/06-advanced-performance-tuning": {
+   "questions": [
+    {
+     "q": "What do context filters, extracts and fewer marks do?",
+     "options": [
+      "They reduce the work per query and speed up rendering",
+      "Colour",
+      "Nothing",
+      "Slow"
+     ],
+     "answer": 0,
+     "explain": "Measure each change."
+    },
+    {
+     "q": "Why can custom SQL hurt performance?",
+     "options": [
+      "The database cannot optimise it as well and it runs as a subquery for every query",
+      "Colour",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Use views or tables."
+    },
+    {
+     "q": "What does Tableau Server's Resource Monitoring Tool help with?",
+     "options": [
+      "Finding bottlenecks in server resources and slow content",
+      "Cost",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Proactive tuning."
+    },
+    {
+     "q": "What should you tune first?",
+     "options": [
+      "Random",
+      "Smallest",
+      "The slowest, most used workbooks identified by data",
+      "Newest"
+     ],
+     "answer": 2,
+     "explain": "Measure."
+    }
+   ]
+  },
+  "level-3/07-databases-at-scale": {
+   "questions": [
+    {
+     "q": "What is a good practice for large databases and Tableau?",
+     "options": [
+      "More filters",
+      "Live",
+      "Push work to the database with indexes, aggregates and extracts of aggregated data",
+      "Pull all rows"
+     ],
+     "answer": 2,
+     "explain": "Mind query cost."
+    },
+    {
+     "q": "What does initial SQL do?",
+     "options": [
+      "Sorts",
+      "Filters",
+      "Joins",
+      "Runs statements when a connection opens, such as setting a role"
+     ],
+     "answer": 3,
+     "explain": "Use with care."
+    },
+    {
+     "q": "Why use materialised or aggregate tables for dashboards?",
+     "options": [
+      "Pre-computation makes queries fast and predictable",
+      "Law",
+      "Style",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Match the grain."
+    },
+    {
+     "q": "What does query folding mean here?",
+     "options": [
+      "Formatting",
+      "The tool pushes operations down to the source database",
+      "Joins",
+      "Caching"
+     ],
+     "answer": 1,
+     "explain": "Reduces transferred data."
+    }
+   ]
+  },
+  "level-3/08-governance-certification": {
+   "questions": [
+    {
+     "q": "What does certifying a data source signal?",
+     "options": [
+      "It is trusted, reviewed and recommended for use",
+      "It is fast",
+      "It is large",
+      "It is new"
+     ],
+     "answer": 0,
+     "explain": "Governance."
+    },
+    {
+     "q": "What is a data quality warning?",
+     "options": [
+      "A visible notice on content when data is stale or under review",
+      "Log",
+      "Error",
+      "Alert email"
+     ],
+     "answer": 0,
+     "explain": "Transparency."
+    },
+    {
+     "q": "What does a governance model define?",
+     "options": [
+      "Speed",
+      "Colours",
+      "Fonts",
+      "Roles, standards, review processes and who can publish what"
+     ],
+     "answer": 3,
+     "explain": "Balance control and agility."
+    },
+    {
+     "q": "What is content lifecycle management?",
+     "options": [
+      "Reviewing, archiving and retiring unused or outdated content",
+      "Deleting all",
+      "Printing",
+      "Copying"
+     ],
+     "answer": 0,
+     "explain": "Reduces clutter."
+    }
+   ]
+  },
+  "level-3/09-embedding-dashboards": {
+   "questions": [
+    {
+     "q": "What is the safest way to embed a dashboard in an app?",
+     "options": [
+      "Screenshot",
+      "Public link",
+      "Share a password",
+      "Use the Embedding API with a connected app (JWT) so users get appropriate access"
+     ],
+     "answer": 3,
+     "explain": "Respect permissions."
+    },
+    {
+     "q": "What does the Embedding API v3 provide?",
+     "options": [
+      "A server",
+      "A data source",
+      "A plugin",
+      "A web component for embedding views with events and filters"
+     ],
+     "answer": 3,
+     "explain": "JavaScript."
+    },
+    {
+     "q": "Why not embed with shared credentials?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Law",
+      "Everyone would see the same data and auditing is lost"
+     ],
+     "answer": 3,
+     "explain": "Use per-user authentication."
+    },
+    {
+     "q": "What must you consider for embedded performance?",
+     "options": [
+      "Law",
+      "Cost",
+      "Colour",
+      "Load time, caching and the size of the view"
+     ],
+     "answer": 3,
+     "explain": "Test in the host app."
+    }
+   ]
+  },
+  "level-3/10-project-enterprise-dashboard-rls": {
+   "questions": [
+    {
+     "q": "What does the enterprise dashboard with RLS combine?",
+     "options": [
+      "Only maps",
+      "Only RLS",
+      "Governed data sources, row-level security, performance tuning and certified content",
+      "Only charts"
+     ],
+     "answer": 2,
+     "explain": "Level 3 capstone."
+    },
+    {
+     "q": "How do you demonstrate RLS works?",
+     "options": [
+      "Screenshots",
+      "Docs",
+      "Test as different users and show that each sees only entitled data",
+      "Assume"
+     ],
+     "answer": 2,
+     "explain": "Document tests."
+    },
+    {
+     "q": "What should the entitlement table contain?",
+     "options": [
+      "Users or groups mapped to the values they may see",
+      "Sales",
+      "Dates",
+      "Passwords"
+     ],
+     "answer": 0,
+     "explain": "Maintain it centrally."
+    },
+    {
+     "q": "What is a common RLS pitfall?",
+     "options": [
+      "Law",
+      "Speed",
+      "Users with no mapping seeing everything or nothing unexpectedly",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Define defaults."
+    }
+   ]
+  },
+  "level-4/01-enterprise-architecture": {
+   "questions": [
+    {
+     "q": "What does an enterprise BI architecture include?",
+     "options": [
+      "Data platform, governed data sources, Tableau deployment, security and support processes",
+      "Charts",
+      "Tools",
+      "Dashboards"
+     ],
+     "answer": 0,
+     "explain": "Beyond a single tool."
+    },
+    {
+     "q": "Why separate environments (dev, test, prod)?",
+     "options": [
+      "Law",
+      "Speed",
+      "Colour",
+      "To validate changes before users see them"
+     ],
+     "answer": 3,
+     "explain": "Promotion workflows."
+    },
+    {
+     "q": "What is a hub-and-spoke analytics model?",
+     "options": [
+      "All central",
+      "Random",
+      "Central governed data with decentralised departmental analysis",
+      "All local"
+     ],
+     "answer": 2,
+     "explain": "Balance control and agility."
+    },
+    {
+     "q": "What belongs in an architecture decision?",
+     "options": [
+      "Names",
+      "Requirements, options, trade-offs and ownership",
+      "Colours",
+      "Logos"
+     ],
+     "answer": 1,
+     "explain": "Record it."
+    }
+   ]
+  },
+  "level-4/02-bi-center-of-excellence": {
+   "questions": [
+    {
+     "q": "What is a BI Center of Excellence?",
+     "options": [
+      "A dashboard",
+      "A team that sets standards, enables users and promotes data culture",
+      "A data warehouse",
+      "A tool"
+     ],
+     "answer": 1,
+     "explain": "Training, governance, support."
+    },
+    {
+     "q": "What does a CoE do for adoption?",
+     "options": [
+      "Provides training, templates, office hours and a community",
+      "Fund",
+      "Block",
+      "Audit only"
+     ],
+     "answer": 0,
+     "explain": "Enablement beats control."
+    },
+    {
+     "q": "How do you measure CoE success?",
+     "options": [
+      "Hours",
+      "Adoption, trust, time to insight and business outcomes",
+      "Cost",
+      "Number of dashboards"
+     ],
+     "answer": 1,
+     "explain": "Outcomes over output."
+    },
+    {
+     "q": "Who should sponsor a CoE?",
+     "options": [
+      "IT only",
+      "Executive leadership tied to business value",
+      "Vendors",
+      "Interns"
+     ],
+     "answer": 1,
+     "explain": "Visible sponsorship."
+    }
+   ]
+  },
+  "level-4/03-advanced-governance-content-strategy": {
+   "questions": [
+    {
+     "q": "What does a content strategy decide?",
+     "options": [
+      "Colours",
+      "Fonts",
+      "Servers",
+      "What is certified, who owns it and how content is organised and retired"
+     ],
+     "answer": 3,
+     "explain": "Reduces duplication."
+    },
+    {
+     "q": "What is a certified vs sandbox space?",
+     "options": [
+      "Certified is governed and trusted; sandbox is for exploration",
+      "Same",
+      "Certified draft",
+      "Sandbox trusted"
+     ],
+     "answer": 0,
+     "explain": "Label clearly."
+    },
+    {
+     "q": "How do you prevent metric sprawl?",
+     "options": [
+      "Locks",
+      "Publish shared certified metrics and definitions",
+      "Ignore",
+      "Many versions"
+     ],
+     "answer": 1,
+     "explain": "One source of truth."
+    },
+    {
+     "q": "Why document data definitions?",
+     "options": [
+      "Style",
+      "So everyone interprets metrics the same way",
+      "Law",
+      "Colour"
+     ],
+     "answer": 1,
+     "explain": "A data dictionary."
+    }
+   ]
+  },
+  "level-4/04-advanced-analytics-integration": {
+   "questions": [
+    {
+     "q": "How can Tableau integrate with Python or R?",
+     "options": [
+      "Not possible",
+      "Only imports",
+      "Through TabPy or Rserve for calculated fields calling models",
+      "Via CSV"
+     ],
+     "answer": 2,
+     "explain": "Mind security and performance."
+    },
+    {
+     "q": "What is a risk of external scripts in calculations?",
+     "options": [
+      "Law",
+      "Latency and dependency on an external service",
+      "Memory",
+      "Colour"
+     ],
+     "answer": 1,
+     "explain": "Cache results where possible."
+    },
+    {
+     "q": "What does Einstein Discovery add (Tableau Pulse etc.)?",
+     "options": [
+      "Servers",
+      "Predictions and insights surfaced in dashboards and metrics",
+      "Colours",
+      "Data"
+     ],
+     "answer": 1,
+     "explain": "Explain results."
+    },
+    {
+     "q": "When should analytics be precomputed?",
+     "options": [
+      "When models are heavy; write results to a table and visualise them",
+      "Always live",
+      "In Excel",
+      "Never"
+     ],
+     "answer": 0,
+     "explain": "Dashboards stay fast."
+    }
+   ]
+  },
+  "level-4/05-scaling-server-deployments": {
+   "questions": [
+    {
+     "q": "How do you scale a Tableau Server deployment?",
+     "options": [
+      "Add nodes and distribute processes (VizQL, backgrounder, data engine) by workload",
+      "Bigger laptop",
+      "More users",
+      "Restart"
+     ],
+     "answer": 0,
+     "explain": "Monitor first."
+    },
+    {
+     "q": "What is high availability on Server?",
+     "options": [
+      "Cloud",
+      "Multiple nodes and a failover-ready repository and coordination service",
+      "Backups only",
+      "One node"
+     ],
+     "answer": 1,
+     "explain": "Test failover."
+    },
+    {
+     "q": "What does a backgrounder do?",
+     "options": [
+      "Auth",
+      "Store",
+      "Render",
+      "Runs scheduled extract refreshes and subscriptions"
+     ],
+     "answer": 3,
+     "explain": "Scale with refresh load."
+    },
+    {
+     "q": "Why plan capacity with load testing?",
+     "options": [
+      "Colour",
+      "Law",
+      "To know how many users and refreshes the deployment supports",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Tabjolt and similar tools."
+    }
+   ]
+  },
+  "level-4/06-data-strategy-self-service-bi": {
+   "questions": [
+    {
+     "q": "What is self-service BI's main risk?",
+     "options": [
+      "None",
+      "Speed",
+      "Cost",
+      "Inconsistent metrics and ungoverned data without guardrails"
+     ],
+     "answer": 3,
+     "explain": "Balance with governance."
+    },
+    {
+     "q": "What enables safe self-service?",
+     "options": [
+      "Certified data sources, clear definitions and training",
+      "Excel",
+      "Locks",
+      "No rules"
+     ],
+     "answer": 0,
+     "explain": "Guardrails."
+    },
+    {
+     "q": "What does a data strategy align?",
+     "options": [
+      "Tools",
+      "Charts",
+      "Data, technology and people with business goals",
+      "Servers"
+     ],
+     "answer": 2,
+     "explain": "Start from outcomes."
+    },
+    {
+     "q": "How do you drive adoption?",
+     "options": [
+      "Restrict",
+      "Mandates",
+      "Silence",
+      "Solve real problems, train users and show quick wins"
+     ],
+     "answer": 3,
+     "explain": "Champions help."
+    }
+   ]
+  },
+  "level-4/07-advanced-embedding-extensions-api": {
+   "questions": [
+    {
+     "q": "What can the Tableau REST API do?",
+     "options": [
+      "Write SQL",
+      "Draw charts",
+      "Clean data",
+      "Automate administration such as publishing, permissions and refreshes"
+     ],
+     "answer": 3,
+     "explain": "Script governance."
+    },
+    {
+     "q": "What does the Metadata API expose?",
+     "options": [
+      "Colours",
+      "Lineage and metadata about content, fields and data sources",
+      "Data",
+      "Users only"
+     ],
+     "answer": 1,
+     "explain": "Impact analysis."
+    },
+    {
+     "q": "How do you authenticate automation safely?",
+     "options": [
+      "Hard-coded",
+      "Personal access tokens or connected apps with least privilege, stored securely",
+      "Shared password",
+      "Email"
+     ],
+     "answer": 1,
+     "explain": "Rotate tokens."
+    },
+    {
+     "q": "What is webhooks' use?",
+     "options": [
+      "Joins",
+      "Maps",
+      "Colours",
+      "Triggering actions when events such as refresh failures occur"
+     ],
+     "answer": 3,
+     "explain": "Integrate with alerts."
+    }
+   ]
+  },
+  "level-4/08-cost-license-management": {
+   "questions": [
+    {
+     "q": "What drives Tableau licence cost?",
+     "options": [
+      "Data",
+      "Time",
+      "Charts",
+      "Role types (Creator, Explorer, Viewer) and deployment size"
+     ],
+     "answer": 3,
+     "explain": "Right-size roles."
+    },
+    {
+     "q": "How can you reduce licence waste?",
+     "options": [
+      "Buy more",
+      "Review usage, reassign inactive users and match roles to needs",
+      "Cut all",
+      "Ignore"
+     ],
+     "answer": 1,
+     "explain": "Use admin insights."
+    },
+    {
+     "q": "What other costs matter?",
+     "options": [
+      "None",
+      "Only licences",
+      "Infrastructure, data platform, training and support",
+      "Only cloud"
+     ],
+     "answer": 2,
+     "explain": "Total cost of ownership."
+    },
+    {
+     "q": "How do you show value from BI?",
+     "options": [
+      "Link dashboards to decisions and measurable outcomes",
+      "Counts",
+      "Colours",
+      "Hours"
+     ],
+     "answer": 0,
+     "explain": "ROI stories."
+    }
+   ]
+  },
+  "level-4/09-career-growth-analyst-to-bi-leader": {
+   "questions": [
+    {
+     "q": "What skills move an analyst toward BI leadership?",
+     "options": [
+      "Only charts",
+      "Only SQL",
+      "Only tools",
+      "Data storytelling, stakeholder management, governance and mentoring"
+     ],
+     "answer": 3,
+     "explain": "Beyond technical skill."
+    },
+    {
+     "q": "What builds a credible portfolio?",
+     "options": [
+      "Resumes",
+      "Screenshots",
+      "Certificates only",
+      "Real, well-documented projects showing questions, method and impact (without confidential data)"
+     ],
+     "answer": 3,
+     "explain": "Public datasets help."
+    },
+    {
+     "q": "Why mentor others?",
+     "options": [
+      "Style",
+      "Colour",
+      "It deepens your understanding and multiplies your impact",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Leaders grow people."
+    },
+    {
+     "q": "What is a sound way to plan career growth?",
+     "options": [
+      "Guess",
+      "Apply",
+      "Wait",
+      "Set goals, seek feedback and fill gaps with projects and learning"
+     ],
+     "answer": 3,
+     "explain": "Track progress."
+    }
+   ]
+  },
+  "level-4/10-capstone-full-bi-program-design": {
+   "questions": [
+    {
+     "q": "What does the capstone BI program design cover?",
+     "options": [
+      "Strategy, governance, architecture, enablement, adoption and measurement",
+      "Only data",
+      "Only charts",
+      "Only tools"
+     ],
+     "answer": 0,
+     "explain": "A complete operating model."
+    },
+    {
+     "q": "What should the roadmap show?",
+     "options": [
+      "Colours",
+      "Logos",
+      "Names",
+      "Phases, priorities, owners and success measures"
+     ],
+     "answer": 3,
+     "explain": "Deliver value early."
+    },
+    {
+     "q": "How do you handle risks?",
+     "options": [
+      "Identify, prioritise and mitigate or accept them explicitly",
+      "Hide",
+      "Delay",
+      "Ignore"
+     ],
+     "answer": 0,
+     "explain": "Risk register."
+    },
+    {
+     "q": "What is the strongest evidence of a successful program?",
+     "options": [
+      "Licences sold",
+      "Hours",
+      "Adoption, trusted metrics and decisions improved by data",
+      "Dashboards built"
+     ],
+     "answer": 2,
+     "explain": "Outcomes."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print for a FIXED-style total versus a view-level average?\n```python\nrows=[('E',100),('E',300),('W',200)]\nfrom collections import defaultdict\nt=defaultdict(int)\nfor r,s in rows: t[r]+=s\nprint(dict(t), round(sum(t.values())/len(t),1), round(sum(s for _,s in rows)/len(rows),1))\n```\n",
+    "options": [
+     "{'E': 400, 'W': 200} 300.0 200.0",
+     "{'E': 400, 'W': 200} 300.0 300.0",
+     "{'E': 200, 'W': 200} 300.0 200.0",
+     "{'E': 400, 'W': 200} 200.0 300.0"
+    ],
+    "answer": 0,
+    "explain": "The average of region totals differs from the average of rows because they aggregate at different levels. (A Python model of Tableau's calculation semantics; Tableau itself was not run.) Verified by running it."
+   },
+   {
+    "q": "What does this table-calculation model print?\n```python\nfrom itertools import accumulate\nv=[5,10,15,20]\nprint(list(accumulate(v)), [round(100*x/sum(v),1) for x in v], [None]+[v[i]-v[i-1] for i in range(1,4)])\n```\n",
+    "options": [
+     "[5, 10, 15, 20] [10.0, 20.0, 30.0, 40.0] [None, 5, 5, 5]",
+     "[5, 15, 30, 50] [25.0, 25.0, 25.0, 25.0] [None, 5, 5, 5]",
+     "[5, 15, 30, 50] [10.0, 20.0, 30.0, 40.0] [5, 5, 5, 5]",
+     "[5, 15, 30, 50] [10.0, 20.0, 30.0, 40.0] [None, 5, 5, 5]"
+    ],
+    "answer": 3,
+    "explain": "Running sum, percent of total and difference are table calculations along the addressing direction. (A Python model of Tableau's calculation semantics; Tableau itself was not run.) Verified by running it."
+   },
+   {
+    "q": "What does competition ranking give for [30, 10, 30, 20]?\n```python\nv=[30,10,30,20]\nprint([1+sum(1 for y in v if y>x) for x in v])\n```\n",
+    "options": [
+     "[2, 4, 2, 3]",
+     "[1, 3, 2, 4]",
+     "[1, 2, 1, 3]",
+     "[1, 4, 1, 3]"
+    ],
+    "answer": 3,
+    "explain": "Ties share a rank and the next rank is skipped; dense ranking would not skip. (A Python model of Tableau's calculation semantics; Tableau itself was not run.) Verified by running it."
+   },
+   {
+    "q": "A join of orders to a customer table with a duplicated key. What happens to totals?\n```python\norders=[('c1',100),('c2',200)]\ncust=[('c1','R'),('c2','C'),('c2','C')]\nj=[(o,c) for o in orders for c in cust if o[0]==c[0]]\nprint(len(j), sum(o[1] for o,_ in j), sum(o[1] for o in orders))\n```\n",
+    "options": [
+     "2 500 300",
+     "3 300 300",
+     "2 300 300",
+     "3 500 300"
+    ],
+    "answer": 3,
+    "explain": "Duplicate keys fan out rows and inflate SUM; relationships and deduplication avoid it. (A Python model of Tableau's calculation semantics; Tableau itself was not run.) Verified by running it."
+   },
+   {
+    "q": "A row-level security filter maps users to regions. What does ana (East, North) see?\n```python\norders=[('E',1),('W',2),('N',3),('E',4)]\nent={'ana':{'E','N'}}\nprint([o for o in orders if o[0] in ent.get('ana',set())], [o for o in orders if o[0] in ent.get('dan',set())])\n```\n",
+    "options": [
+     "[('E', 1), ('N', 3)] []",
+     "[('E', 1), ('W', 2), ('N', 3), ('E', 4)] []",
+     "[('E', 1), ('N', 3), ('E', 4)] []",
+     "[('E', 1), ('N', 3), ('E', 4)] [('W', 2)]"
+    ],
+    "answer": 2,
+    "explain": "A user with no entitlement should see nothing (fail closed). (A Python model of Tableau's calculation semantics; Tableau itself was not run.) Verified by running it."
+   },
+   {
+    "q": "Which order of operations is right for these Tableau filters, earliest first?",
+    "options": [
+     "Extract filters, data source filters, context filters, FIXED LODs, dimension filters, INCLUDE/EXCLUDE LODs, measure filters, table calculations",
+     "Dimension filters before context filters",
+     "Table calculations first",
+     "FIXED LODs last"
+    ],
+    "answer": 0,
+    "explain": "Context filters make a dimension filter run before FIXED LODs."
+   },
+   {
+    "q": "Why do table calculations change when you add a dimension to the view?",
+    "options": [
+     "They run on the marks in the view, so partitioning and addressing change with the layout",
+     "They use the database",
+     "They ignore filters",
+     "They are cached"
+    ],
+    "answer": 0,
+    "explain": "Check 'Compute using'."
+   },
+   {
+    "q": "When should you choose a relationship over a join?",
+    "options": [
+     "Never",
+     "For unions",
+     "When tables have different grains, so each aggregates at its own level and avoids fan-out",
+     "Always"
+    ],
+    "answer": 2,
+    "explain": "Relationships are evaluated at query time."
+   },
+   {
+    "q": "What is the main caution with data blending?",
+    "options": [
+     "Speed",
+     "Colour",
+     "The secondary source is aggregated by the linking fields and may mismatch the primary's grain",
+     "Law"
+    ],
+    "answer": 2,
+    "explain": "Prefer relationships where possible."
+   },
+   {
+    "q": "What is the safest place to implement row-level security?",
+    "options": [
+     "A dashboard filter",
+     "The data source (user filters, entitlement tables or data policies), not just a dashboard filter",
+     "A title",
+     "A tooltip"
+    ],
+    "answer": 1,
+    "explain": "Dashboard filters can be edited or bypassed."
+   },
+   {
+    "q": "Why show the extract refresh time on a dashboard?",
+    "options": [
+     "Law",
+     "Speed",
+     "Style",
+     "Users need to know how fresh the numbers are to trust them"
+    ],
+    "answer": 3,
+    "explain": "Transparency builds trust."
+   },
+   {
+    "q": "What most often makes a dashboard slow?",
+    "options": [
+     "Colour",
+     "Too many marks, sheets, quick filters and heavy calculations or custom SQL",
+     "Titles",
+     "Fonts"
+    ],
+    "answer": 1,
+    "explain": "Use the Performance Recorder."
+   },
+   {
+    "q": "What is a sound way to speed up a large dashboard?",
+    "options": [
+     "Live always",
+     "Add filters",
+     "Use an aggregated extract, reduce marks and filters and push work to the database",
+     "More sheets"
+    ],
+    "answer": 2,
+    "explain": "Measure each change."
+   },
+   {
+    "q": "Which chart best shows a trend over time?",
+    "options": [
+     "Treemap",
+     "A line chart with a continuous date axis",
+     "Pie chart",
+     "Packed bubbles"
+    ],
+    "answer": 1,
+    "explain": "Bars work for discrete periods."
+   },
+   {
+    "q": "What makes a dashboard effective for executives?",
+    "options": [
+     "Every metric",
+     "A few KPIs with comparisons to target and clear drill-downs that answer specific questions",
+     "Dense tables",
+     "Many colours"
+    ],
+    "answer": 1,
+    "explain": "Design backwards from decisions."
+   },
+   {
+    "q": "What does certifying a data source tell users?",
+    "options": [
+     "It is new",
+     "It has been reviewed and is trusted for use",
+     "It is fast",
+     "It is large"
+    ],
+    "answer": 1,
+    "explain": "Part of governance."
+   },
+   {
+    "q": "Why must you never publish sensitive data to Tableau Public?",
+    "options": [
+     "It is encrypted",
+     "It is paid",
+     "It is slow",
+     "Everything published there is visible to anyone"
+    ],
+    "answer": 3,
+    "explain": "Use Server or Cloud with permissions."
+   },
+   {
+    "q": "What is the safest way to embed a Tableau view in an app?",
+    "options": [
+     "A shared password",
+     "A public link",
+     "Embedding API with a connected app (JWT) so each user's permissions apply",
+     "A screenshot"
+    ],
+    "answer": 2,
+    "explain": "Never share credentials."
+   },
+   {
+    "q": "What does a BI Center of Excellence mainly do?",
+    "options": [
+     "Owns all data",
+     "Sets standards and enables users through training, templates and community",
+     "Builds every dashboard",
+     "Replaces IT"
+    ],
+    "answer": 1,
+    "explain": "Enablement beats control."
+   },
+   {
+    "q": "What shows that a BI program works?",
+    "options": [
+     "Licences sold",
+     "Dashboard count",
+     "Adoption, trusted metrics and decisions improved by data, not the number of dashboards built",
+     "Hours worked"
+    ],
+    "answer": 2,
+    "explain": "Measure outcomes."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "LOD-style totals and table calculations",
+    "prompt": "Model Tableau's calculation layers in Python on a small sales table: a FIXED total per region, percent of the region total, a cell's share of its month (EXCLUDE-style), then running sum, month-over-month change, rank and a moving average along the months. This teaches the semantics; Tableau itself was not run and you should rebuild these as real calculated fields in Tableau.",
+    "starter": "from collections import defaultdict\nfrom itertools import accumulate\n\n# (order_id, month, region, category, sales)\nrows = [\n    (1, \"2024-01\", \"East\", \"Furniture\", 1200), (2, \"2024-01\", \"East\", \"Tech\", 500),\n    (3, \"2024-01\", \"West\", \"Tech\", 450),      (4, \"2024-02\", \"East\", \"Furniture\", 800),\n    (5, \"2024-02\", \"West\", \"Furniture\", 300), (6, \"2024-02\", \"West\", \"Tech\", 900),\n    (7, \"2024-03\", \"East\", \"Tech\", 600),      (8, \"2024-03\", \"West\", \"Tech\", 750),\n    (9, \"2024-03\", \"East\", \"Furniture\", 400),\n]\n\n# TODO: fixed(dim_idx, measure_idx=4)   {FIXED [dim]: SUM([measure])} as a dict, independent of what the \"view\" shows\n# Then reproduce, in this order:\n#   FIXED region totals, percent of region total for the first three orders (1 decimal),\n#   the share of each (month, region) cell in its month's total (an EXCLUDE-style calculation),\n#   per region over the sorted months: the series, its running sum and the month-over-month change (None for the first month),\n#   the rank of each month by total sales (competition ranking), and a 3-month moving average (previous/current/next, fewer at the edges, 1 decimal)\n\n",
+    "expected": "FIXED region: {'East': 3500, 'West': 2400}\npercent of region total (orders 1-3): [34.3, 14.3, 18.8]\nregion share of month: {('2024-01', 'East'): 79.1, ('2024-01', 'West'): 20.9, ('2024-02', 'East'): 40.0, ('2024-02', 'West'): 60.0, ('2024-03', 'East'): 57.1, ('2024-03', 'West'): 42.9}\nEast [1700, 800, 1000] [1700, 2500, 3500] [None, -900, 200]\nWest [450, 1200, 750] [450, 1650, 2400] [None, 750, -450]\nrank of months by total sales: {'2024-01': 1, '2024-02': 2, '2024-03': 3}\n3-month moving average: [2075.0, 1966.7, 1875.0]",
+    "solution": "from collections import defaultdict\nfrom itertools import accumulate\n\n# (order_id, month, region, category, sales)\nrows = [\n    (1, \"2024-01\", \"East\", \"Furniture\", 1200), (2, \"2024-01\", \"East\", \"Tech\", 500),\n    (3, \"2024-01\", \"West\", \"Tech\", 450),      (4, \"2024-02\", \"East\", \"Furniture\", 800),\n    (5, \"2024-02\", \"West\", \"Furniture\", 300), (6, \"2024-02\", \"West\", \"Tech\", 900),\n    (7, \"2024-03\", \"East\", \"Tech\", 600),      (8, \"2024-03\", \"West\", \"Tech\", 750),\n    (9, \"2024-03\", \"East\", \"Furniture\", 400),\n]\n\ndef fixed(dim_idx, measure_idx=4):\n    \"\"\"{FIXED [dim]: SUM([measure])}: one total per dimension value, independent of the view.\"\"\"\n    t = defaultdict(int)\n    for r in rows:\n        t[r[dim_idx]] += r[measure_idx]\n    return dict(t)\n\nregion_total = fixed(2)\nprint(\"FIXED region:\", region_total)\n\nprint(\"percent of region total (orders 1-3):\",\n      [round(100 * r[4] / region_total[r[2]], 1) for r in rows[:3]])\n\n# EXCLUDE-style: percent of the month's total while the view shows region x month\nby_month = fixed(1)\ncell = defaultdict(int)\nfor r in rows:\n    cell[(r[1], r[2])] += r[4]\nprint(\"region share of month:\", {k: round(100 * v / by_month[k[0]], 1) for k, v in sorted(cell.items())})\n\n# table calcs along months for each region: running sum, month-over-month change and a rank\nmonths = sorted({r[1] for r in rows})\nfor region in sorted(region_total):\n    series = [cell.get((m, region), 0) for m in months]\n    running = list(accumulate(series))\n    change = [None] + [series[i] - series[i - 1] for i in range(1, len(series))]\n    print(region, series, running, change)\n\nmonth_rank = {m: 1 + sum(1 for x in by_month.values() if x > by_month[m]) for m in months}\nprint(\"rank of months by total sales:\", month_rank)\navg = [round(sum(v[max(0, i - 1):i + 2]) / len(v[max(0, i - 1):i + 2]), 1) for v in [[by_month[m] for m in months]] for i in range(len(months))]\nprint(\"3-month moving average:\", avg)\n",
+    "explain": "A FIXED value is computed at the named level and then reused on every row; table calculations run afterwards on the aggregated marks along the addressing direction, which is why their results depend on the view. Verified by running the Python solution."
+   },
+   {
+    "title": "Row-level security and join fan-out",
+    "prompt": "Model an entitlement-table row-level security rule and show how joining to a customer table with a duplicated key multiplies rows and inflates totals, then fix it by aggregating on a deduplicated table. It is a Python model of the logic behind user filters and relationships; Tableau Server and Cloud were not involved.",
+    "starter": "# Row-level security and join fan-out, modelled in plain Python (Tableau itself is not involved)\norders = [\n    (\"o1\", \"East\", \"c1\", 100), (\"o2\", \"East\", \"c2\", 250), (\"o3\", \"West\", \"c1\", 80),\n    (\"o4\", \"West\", \"c3\", 400), (\"o5\", \"North\", \"c4\", 60), (\"o6\", \"North\", \"c2\", 140),\n]\nentitlements = [(\"ana\", \"East\"), (\"ana\", \"North\"), (\"bo\", \"West\"), (\"cy\", \"*\")]\ncustomers = [(\"c1\", \"Retail\"), (\"c2\", \"Corporate\"), (\"c2\", \"Corporate\"), (\"c3\", \"Retail\"), (\"c4\", \"Home\")]  # c2 duplicated by mistake\n\n# TODO: visible(user)  rows the user may see: the entitled regions, everything for \"*\", nothing for unknown users\n# TODO: print each user's order count and total; show the fan-out of joining orders to the customer list that contains a duplicate key\n#       (joined rows, true total and inflated total); then aggregate by segment using the DEDUPLICATED customer list, and list duplicate keys\n# Expected shape: \"ana  sees 4 orders, total 550\" ... \"orders: 6 joined rows: 8\" ...\n",
+    "expected": "ana  sees 4 orders, total 550\nbo   sees 2 orders, total 480\ncy   sees 6 orders, total 1030\ndan  sees 0 orders, total 0\norders: 6 joined rows: 8\ntrue total: 1030 inflated total: 1420\nby segment (deduplicated): {'Corporate': 390, 'Home': 60, 'Retail': 580}\nduplicate keys: ['c2']",
+    "solution": "# Row-level security and join fan-out, modelled in plain Python (Tableau itself is not involved)\norders = [\n    (\"o1\", \"East\", \"c1\", 100), (\"o2\", \"East\", \"c2\", 250), (\"o3\", \"West\", \"c1\", 80),\n    (\"o4\", \"West\", \"c3\", 400), (\"o5\", \"North\", \"c4\", 60), (\"o6\", \"North\", \"c2\", 140),\n]\nentitlements = [(\"ana\", \"East\"), (\"ana\", \"North\"), (\"bo\", \"West\"), (\"cy\", \"*\")]\ncustomers = [(\"c1\", \"Retail\"), (\"c2\", \"Corporate\"), (\"c2\", \"Corporate\"), (\"c3\", \"Retail\"), (\"c4\", \"Home\")]  # c2 duplicated by mistake\n\ndef visible(user):\n    regions = {r for u, r in entitlements if u == user}\n    if \"*\" in regions:\n        return orders\n    return [o for o in orders if o[1] in regions]\n\nfor user in [\"ana\", \"bo\", \"cy\", \"dan\"]:\n    rows = visible(user)\n    print(f\"{user:4} sees {len(rows)} orders, total {sum(o[3] for o in rows)}\")\n\n# a join on a duplicated key multiplies rows (fan-out) and inflates SUM\njoined = [(o, c) for o in orders for c in customers if o[2] == c[0]]\nprint(\"orders:\", len(orders), \"joined rows:\", len(joined))\nprint(\"true total:\", sum(o[3] for o in orders), \"inflated total:\", sum(o[3] for o, _ in joined))\n\n# a relationship-style query aggregates each table at its own grain first, so duplicates do not inflate sales\ndistinct_customers = {c for c in customers}\nby_segment = {}\nfor o in orders:\n    seg = next((s for cid, s in distinct_customers if cid == o[2]), \"Unknown\")\n    by_segment[seg] = by_segment.get(seg, 0) + o[3]\nprint(\"by segment (deduplicated):\", dict(sorted(by_segment.items())))\nprint(\"duplicate keys:\", sorted({c[0] for c in customers if customers.count(c) > 1}))\n",
+    "explain": "Security fails closed (users without entitlements see nothing, wildcard users see all). The duplicated customer key turns 6 orders into 8 joined rows and inflates the sales total from 1030 to 1420, the classic fan-out that relationships avoid. Verified by running the Python solution."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
