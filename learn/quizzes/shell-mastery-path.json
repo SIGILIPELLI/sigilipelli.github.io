@@ -1,0 +1,2159 @@
+{
+ "course": "shell-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-setup": {
+   "questions": [
+    {
+     "q": "What does the first line #!/usr/bin/env bash do?",
+     "options": [
+      "Tells the OS which interpreter to run the script with, found via the PATH",
+      "Imports bash",
+      "Comments the file",
+      "Makes it executable"
+     ],
+     "answer": 0,
+     "explain": "The file also needs the executable bit (chmod +x)."
+    },
+    {
+     "q": "Which command makes a script runnable as ./script.sh?",
+     "options": [
+      "mkdir",
+      "chmod +x script.sh",
+      "bash -x",
+      "chmod 000"
+     ],
+     "answer": 1,
+     "explain": "Without it you must run bash script.sh."
+    },
+    {
+     "q": "What is the difference between sh and bash?",
+     "options": [
+      "sh is the POSIX shell interface (often dash or a bash in POSIX mode); bash adds extensions such as [[ ]] and arrays",
+      "bash is older",
+      "sh is faster always",
+      "Identical"
+     ],
+     "answer": 0,
+     "explain": "Use a bash shebang when you use bash features."
+    },
+    {
+     "q": "Which tool statically checks shell scripts for common mistakes?",
+     "options": [
+      "gcc",
+      "ShellCheck",
+      "pylint",
+      "make"
+     ],
+     "answer": 1,
+     "explain": "Run it in CI."
+    }
+   ]
+  },
+  "level-1/02-variables-data-types": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\nname='Ana Lee'\necho \"$name\" | wc -w | tr -d ' '\nset -- $name; echo $#\nset -- \"$name\"; echo $#\nreadonly PI=3; echo $PI\n```\n",
+     "options": [
+      "2\n2\n2\n3",
+      "2\n1\n1\n3",
+      "2\n2\n1\n3",
+      "1\n2\n1\n3"
+     ],
+     "answer": 2,
+     "explain": "Unquoted expansion word-splits; quoted keeps one argument. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does this print?\n```bash\nx=5; y=\"$x\"3; echo $y\necho $((x * 2 + 1))\nn=abc; echo $((n))\necho ${#n}\n```\n",
+     "options": [
+      "53\n11\nabc\n3",
+      "8\n11\n0\n3",
+      "53\n10\n0\n3",
+      "53\n11\n0\n3"
+     ],
+     "answer": 3,
+     "explain": "Shell variables are strings; arithmetic treats a non-numeric word as 0. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What is the correct way to assign a variable?",
+     "options": [
+      "name=value (no spaces around =)",
+      "name = value",
+      "$name=value",
+      "set name value"
+     ],
+     "answer": 0,
+     "explain": "Spaces make it a command."
+    },
+    {
+     "q": "What does ${var:-default} do?",
+     "options": [
+      "Assigns default",
+      "Errors",
+      "Deletes",
+      "Uses default when var is unset or empty"
+     ],
+     "answer": 3,
+     "explain": "${var:=default} also assigns it."
+    }
+   ]
+  },
+  "level-1/03-control-flow": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\nx=7\nif [[ $x -gt 5 && $x -lt 10 ]]; then echo mid; elif [ \"$x\" -ge 10 ]; then echo hi; else echo lo; fi\ncase \"hello\" in h*) echo starts-h;; *) echo other;; esac\n[ -z \"\" ] && echo empty\n[ -e /nonexistent ] || echo missing\n```\n",
+     "options": [
+      "mid\nstarts-h\nempty\nmissing",
+      "mid\nstarts-h\nmissing\nmissing",
+      "hi\nstarts-h\nempty\nmissing",
+      "mid\nother\nempty\nmissing"
+     ],
+     "answer": 0,
+     "explain": "Test operators and case patterns. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What is the difference between [ ] and [[ ]]?",
+     "options": [
+      "[[ ]] is a bash keyword with pattern matching and no word splitting; [ ] is the POSIX test command",
+      "[ ] is newer",
+      "[[ ]] is POSIX",
+      "No difference"
+     ],
+     "answer": 0,
+     "explain": "Quote variables in [ ]."
+    },
+    {
+     "q": "What does an exit code of 0 mean in shell conditions?",
+     "options": [
+      "Unknown",
+      "Success (true)",
+      "Error",
+      "Failure"
+     ],
+     "answer": 1,
+     "explain": "if runs the then branch when the command exits 0."
+    },
+    {
+     "q": "Why quote \"$var\" in tests like [ \"$var\" = x ]?",
+     "options": [
+      "Speed",
+      "Law",
+      "An empty or space-containing value would otherwise break the test",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Prevents word splitting and globbing."
+    }
+   ]
+  },
+  "level-1/04-loops": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\nfor i in 1 2 3; do [ $i -eq 2 ] && continue; echo -n \"$i \"; done; echo\ni=0; while [ $i -lt 3 ]; do i=$((i+1)); done; echo $i\nfor f in *.nomatch; do echo \"[$f]\"; done\nfor ((k=0;k<3;k++)); do echo -n $k; done; echo\n```\n",
+     "options": [
+      "1 3 \n2\n[*.nomatch]\n012",
+      "1 3 \n3\n\n012",
+      "1 2 3 \n3\n[*.nomatch]\n012",
+      "1 3 \n3\n[*.nomatch]\n012"
+     ],
+     "answer": 3,
+     "explain": "Unmatched globs stay literal unless nullglob is set. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does break do?",
+     "options": [
+      "Exits the script",
+      "Skips an iteration",
+      "Exits the innermost loop",
+      "Restarts"
+     ],
+     "answer": 2,
+     "explain": "continue skips to the next iteration."
+    },
+    {
+     "q": "What does while read -r line; do ...; done < file do?",
+     "options": [
+      "Reads the file line by line without mangling backslashes",
+      "Reads words",
+      "Reads once",
+      "Loops forever"
+     ],
+     "answer": 0,
+     "explain": "Use IFS= to preserve whitespace."
+    },
+    {
+     "q": "Why avoid for f in $(ls)?",
+     "options": [
+      "Law",
+      "Slow",
+      "Colour",
+      "It breaks on spaces and special characters; use globs"
+     ],
+     "answer": 3,
+     "explain": "for f in *."
+    }
+   ]
+  },
+  "level-1/05-functions-arguments": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\ngreet() { local who=${1:-world}; echo \"hi $who\"; }\ngreet; greet Ana\nargs() { echo \"$# [$*] [$@]\"; for a in \"$@\"; do echo \"<$a>\"; done; }\nargs 'a b' c\nret() { return 3; }; ret; echo $?\n```\n",
+     "options": [
+      "hi \nhi Ana\n2 [a b c] [a b c]\n<a b>\n<c>\n3",
+      "hi world\nhi Ana\n2 [a b c] [a b c]\n<a>\n<b>\n<c>\n3",
+      "hi world\nhi Ana\n2 [a b c] [a b c]\n<a b>\n<c>\n3",
+      "hi world\nhi Ana\n3 [a b c] [a b c]\n<a b>\n<c>\n3"
+     ],
+     "answer": 2,
+     "explain": "\"$@\" preserves each argument; $* joins them. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does local do?",
+     "options": [
+      "Limits a variable's scope to the function",
+      "Makes global",
+      "Deletes",
+      "Exports"
+     ],
+     "answer": 0,
+     "explain": "Prevents clobbering globals."
+    },
+    {
+     "q": "How does a function return data?",
+     "options": [
+      "global only",
+      "return value",
+      "By printing it (captured with $(...)) and a numeric status via return",
+      "exit"
+     ],
+     "answer": 2,
+     "explain": "Return codes are 0-255."
+    },
+    {
+     "q": "What is $0?",
+     "options": [
+      "First arg",
+      "The name of the script (or function context shell name)",
+      "Exit code",
+      "PID"
+     ],
+     "answer": 1,
+     "explain": "$1 is the first argument."
+    }
+   ]
+  },
+  "level-1/06-files-directories": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\nd=$(mktemp -d); cd $d\nmkdir -p a/b/c && touch a/b/c/f.txt a/x.log\nfind a -type f | sort\nls a | head -n 2 | tr '\\n' ' '; echo\ncp a/x.log a/y.log; mv a/y.log a/z.log; ls a | tr '\\n' ' '; echo\nrm -r a/b; [ -d a/b ] || echo gone\n```\n",
+     "options": [
+      "a/b/c/f.txt\na/x.log\nx.log b \nb x.log z.log \ngone",
+      "a/b/c/f.txt\na/x.log\nb x.log \nb x.log y.log z.log \ngone",
+      "a/b/c/f.txt\na/x.log\nb x.log \nb x.log z.log \ngone",
+      "a/x.log\na/b/c/f.txt\nb x.log \nb x.log z.log \ngone"
+     ],
+     "answer": 2,
+     "explain": "mkdir -p creates parents; find lists files; mv renames. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does rm -rf $dir/ risk when dir is empty or unset?",
+     "options": [
+      "Prompt",
+      "Slow",
+      "Nothing",
+      "It can expand to rm -rf / (use set -u and \"${dir:?}\")"
+     ],
+     "answer": 3,
+     "explain": "Guard destructive commands."
+    },
+    {
+     "q": "What does mktemp -d give you?",
+     "options": [
+      "A file",
+      "A unique, safely created temporary directory",
+      "A copy",
+      "A link"
+     ],
+     "answer": 1,
+     "explain": "Clean up with trap."
+    },
+    {
+     "q": "What does test -f path check?",
+     "options": [
+      "Link",
+      "Directory",
+      "Executable",
+      "That path exists and is a regular file"
+     ],
+     "answer": 3,
+     "explain": "-d is directory."
+    }
+   ]
+  },
+  "level-1/07-pipes-redirection": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\nprintf 'b\\na\\nb\\n' | sort | uniq -c | awk '{print $2\":\"$1}'\necho hi > f; echo there >> f; cat f | tr '\\n' ' '; echo\nls /nonexistent 2>/dev/null; echo \"rc=$?\"\nprintf 'x\\ny\\n' | tee out.txt | wc -l | tr -d ' '\n```\n",
+     "options": [
+      "b:2\na:1\nhi there \nrc=1\n2",
+      "a:1\nb:2\nhi there \nrc=0\n2",
+      "a:1\nb:2\nthere \nrc=1\n2",
+      "a:1\nb:2\nhi there \nrc=1\n2"
+     ],
+     "answer": 3,
+     "explain": "> truncates, >> appends, 2>/dev/null hides errors but not the exit code. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does 2>&1 do?",
+     "options": [
+      "Sends stderr to the same place as stdout",
+      "Swaps",
+      "Hides errors",
+      "Closes"
+     ],
+     "answer": 0,
+     "explain": "Order matters: cmd >file 2>&1."
+    },
+    {
+     "q": "What does a pipe connect?",
+     "options": [
+      "Functions",
+      "Variables",
+      "Files",
+      "The stdout of one command to the stdin of the next"
+     ],
+     "answer": 3,
+     "explain": "Each stage runs concurrently."
+    },
+    {
+     "q": "What does command > file do to an existing file?",
+     "options": [
+      "Appends",
+      "Fails",
+      "Prompts",
+      "Truncates it first (use >> to append)"
+     ],
+     "answer": 3,
+     "explain": "set -o noclobber protects."
+    }
+   ]
+  },
+  "level-1/08-text-processing": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\nprintf 'ana,30,NY\\nbo,25,LA\\ncy,41,NY\\n' > d.csv\nawk -F, '$3==\"NY\" {s+=$2; n++} END {print s/n}' d.csv\ncut -d, -f1 d.csv | paste -sd' ' -\nsed 's/NY/New York/' d.csv | head -1\ngrep -c ',NY' d.csv\ntr a-z A-Z <<< hello\n```\n",
+     "options": [
+      "35.5\nana bo cy\nana,30,New York\n2\nHELLO",
+      "35\nana bo cy\nana,30,New York\n2\nHELLO",
+      "35.5\nana,bo,cy\nana,30,New York\n2\nhello",
+      "35.5\nana bo cy\nana,30,NY\n2\nHELLO"
+     ],
+     "answer": 0,
+     "explain": "awk, cut, sed, grep and tr cover most text tasks. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does grep -v do?",
+     "options": [
+      "Version",
+      "Verbose",
+      "Prints lines that do NOT match",
+      "Validate"
+     ],
+     "answer": 2,
+     "explain": "-i ignores case."
+    },
+    {
+     "q": "When use awk instead of cut?",
+     "options": [
+      "Never",
+      "For speed",
+      "When you need conditions, arithmetic or variable-width separators",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "awk is a mini language."
+    },
+    {
+     "q": "What does sed -n '2,4p' do?",
+     "options": [
+      "Prints only lines 2 to 4",
+      "Counts",
+      "Replaces",
+      "Deletes"
+     ],
+     "answer": 0,
+     "explain": "-n suppresses automatic printing."
+    }
+   ]
+  },
+  "level-1/09-exit-codes-error-handling": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\nok() { return 0; }; bad() { return 2; }\nok && echo A; bad || echo \"B$?\"\nfalse; echo $?\n( false; echo not ) || echo sub\ncmd=notacommand; $cmd 2>/dev/null; echo $?\n```\n",
+     "options": [
+      "A\nB2\n1\nsub\n127",
+      "A\nB1\n1\nnot\n127",
+      "A\nB2\n0\nnot\n127",
+      "A\nB2\n1\nnot\n127"
+     ],
+     "answer": 3,
+     "explain": "127 means command not found; $? holds the last status; a subshell's status is that of its last command (echo succeeded), so || does not run. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does set -u do?",
+     "options": [
+      "Unsets",
+      "Uses",
+      "Treats unset variables as errors",
+      "Updates"
+     ],
+     "answer": 2,
+     "explain": "Catches typos."
+    },
+    {
+     "q": "What does set -o pipefail do?",
+     "options": [
+      "Makes a pipeline fail if any stage fails, not just the last",
+      "Quiet",
+      "Pipes",
+      "Faster"
+     ],
+     "answer": 0,
+     "explain": "Combine with -e and -u."
+    },
+    {
+     "q": "What does trap 'cleanup' EXIT do?",
+     "options": [
+      "Runs cleanup when the script exits, however it exits",
+      "Catches errors only",
+      "Stops",
+      "Logs"
+     ],
+     "answer": 0,
+     "explain": "Use for temp files."
+    }
+   ]
+  },
+  "level-1/10-project-backup-script": {
+   "questions": [
+    {
+     "q": "What is the aim of the backup script project?",
+     "options": [
+      "A toy",
+      "A script that copies files into dated archives with logging, error handling and cleanup of old backups",
+      "A game",
+      "A server"
+     ],
+     "answer": 1,
+     "explain": "Combine the level."
+    },
+    {
+     "q": "What does this print?\n```bash\nd=$(mktemp -d); cd $d; mkdir src; echo data > src/a.txt\nstamp=2026-01-02\ntar -czf backup-$stamp.tar.gz src && echo made\ntar -tzf backup-$stamp.tar.gz | sort | tr '\\n' ' '; echo\n[ -s backup-$stamp.tar.gz ] && echo nonempty\n```\n",
+     "options": [
+      "made\nsrc/a.txt src/ \nnonempty",
+      "made\nsrc/a.txt \nnonempty",
+      "src/ src/a.txt \nempty",
+      "made\nsrc/ src/a.txt \nnonempty"
+     ],
+     "answer": 3,
+     "explain": "tar lists directories too; -s tests for a non-empty file. Verified by running it in Bash 5."
+    },
+    {
+     "q": "Why verify a backup after creating it?",
+     "options": [
+      "A corrupt or empty archive is useless when you need it",
+      "Colour",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "List or test the archive."
+    },
+    {
+     "q": "How should old backups be pruned?",
+     "options": [
+      "Never",
+      "Delete all",
+      "Keep a defined number or age and log what is removed",
+      "Randomly"
+     ],
+     "answer": 2,
+     "explain": "Retention policy."
+    }
+   ]
+  },
+  "level-2/01-arrays": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\narr=(one two 'three four')\necho ${#arr[@]}\narr+=(five)\necho \"${arr[2]}\" \"${arr[-1]}\"\nfor x in \"${arr[@]:1:2}\"; do echo \"[$x]\"; done\ndeclare -A cap=([fr]=Paris [de]=Berlin)\necho ${cap[de]} ${#cap[@]}\n```\n",
+     "options": [
+      "3\nthree four five\n[two]\n[three four]\nBerlin 2",
+      "4\nthree four five\n[two]\n[three four]\nBerlin 2",
+      "3\nthree four five\n[two]\n[three four]\nParis 2",
+      "3\nthree five\n[two]\n[three]\nBerlin 2"
+     ],
+     "answer": 0,
+     "explain": "Quote \"${arr[@]}\" to keep elements intact; associative arrays need declare -A (bash 4+). Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does \"${arr[@]}\" do?",
+     "options": [
+      "Length",
+      "Indexes",
+      "Expands to each element as a separate word, preserving spaces",
+      "One string"
+     ],
+     "answer": 2,
+     "explain": "\"${arr[*]}\" joins them."
+    },
+    {
+     "q": "What does ${!arr[@]} give?",
+     "options": [
+      "Values",
+      "The indexes (or keys) of the array",
+      "Sorted",
+      "Length"
+     ],
+     "answer": 1,
+     "explain": "Useful for associative arrays."
+    },
+    {
+     "q": "Which macOS default bash lacks associative arrays?",
+     "options": [
+      "Bash 3.2 (install a newer bash)",
+      "zsh",
+      "dash",
+      "Bash 5"
+     ],
+     "answer": 0,
+     "explain": "Check bash --version."
+    }
+   ]
+  },
+  "level-2/02-string-manipulation": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\ns='Hello, World'\necho ${#s} ${s^^} ${s,,}\necho ${s:7:5} ${s/World/Bash} ${s%%,*} ${s#*, }\nf=report.final.tar.gz; echo ${f%%.*} ${f%.*} ${f##*.}\nprintf '%05.1f|%-6s|%x\\n' 3.14159 ab 255\n```\n",
+     "options": [
+      "13 HELLO, WORLD hello, world\nWorld Hello, Bash Hello World\nreport report.final.tar gz\n003.1|ab    |ff",
+      "12 HELLO, WORLD hello, world\nWorld Hello, Bash Hello World\nreport report.final gz\n003.1|ab    |ff",
+      "12 HELLO, WORLD hello, world\nWorld Hello, Bash Hello World\nreport report.final.tar gz\n3.14|ab|ff",
+      "12 HELLO, WORLD hello, world\nWorld Hello, Bash Hello World\nreport report.final.tar gz\n003.1|ab    |ff"
+     ],
+     "answer": 3,
+     "explain": "Parameter expansion trims prefixes and suffixes without external tools. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What do ${var%pattern} and ${var#pattern} remove?",
+     "options": [
+      "% removes the shortest suffix match; # removes the shortest prefix match",
+      "Both suffix",
+      "Same",
+      "Both prefix"
+     ],
+     "answer": 0,
+     "explain": "Doubled (%% ##) remove the longest."
+    },
+    {
+     "q": "Why is parameter expansion preferred over calling sed or cut in a loop?",
+     "options": [
+      "Colour",
+      "Law",
+      "Style",
+      "It avoids spawning a process per line"
+     ],
+     "answer": 3,
+     "explain": "Faster and simpler."
+    },
+    {
+     "q": "What does printf '%s\\n' \"$var\" avoid compared with echo?",
+     "options": [
+      "Speed",
+      "Nothing",
+      "Newlines",
+      "echo's inconsistent handling of backslashes and leading dashes"
+     ],
+     "answer": 3,
+     "explain": "printf is portable."
+    }
+   ]
+  },
+  "level-2/03-regular-expressions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\n[[ 'abc123' =~ ^([a-z]+)([0-9]+)$ ]] && echo \"${BASH_REMATCH[1]} ${BASH_REMATCH[2]}\"\necho 'a1b22c333' | grep -oE '[0-9]+' | tr '\\n' ' '; echo\necho 'foo bar' | sed -E 's/(foo) (bar)/\\2 \\1/'\n[[ 'file.txt' == *.txt ]] && echo glob\necho 'x@y.com' | grep -cE '^[^@]+@[^@]+\\.[a-z]+$'\n```\n",
+     "options": [
+      "abc123 123\n1 22 333 \nbar foo\nglob\n1",
+      "abc 123\n1 22 333 \nfoo bar\nglob\n1",
+      "abc 123\n1 22 333 \nbar foo\nglob\n0",
+      "abc 123\n1 22 333 \nbar foo\nglob\n1"
+     ],
+     "answer": 3,
+     "explain": "=~ uses POSIX ERE and fills BASH_REMATCH; globs are different from regexes. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What is the difference between a glob and a regex?",
+     "options": [
+      "Same",
+      "Globs match filenames with * and ?; regexes match text patterns with a richer syntax",
+      "Regex is for files",
+      "Glob is richer"
+     ],
+     "answer": 1,
+     "explain": "Different languages."
+    },
+    {
+     "q": "What does grep -E enable?",
+     "options": [
+      "Exact",
+      "Extended regular expressions (+, ?, |, ())",
+      "Everything",
+      "Errors"
+     ],
+     "answer": 1,
+     "explain": "-F is fixed strings."
+    },
+    {
+     "q": "Why quote regex patterns?",
+     "options": [
+      "Colour",
+      "Speed",
+      "The shell would otherwise expand * and ? as globs first",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Use single quotes."
+    }
+   ]
+  },
+  "level-2/04-process-management": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\nsleep 0.2 & pid=$!\nwait $pid; echo \"rc=$?\"\n(exit 3) & wait $!; echo \"rc=$?\"\nsleep 5 & p=$!; kill $p; wait $p 2>/dev/null; echo \"killed=$?\"\njobs | wc -l | tr -d ' '\n```\n",
+     "options": [
+      "rc=0\nrc=3\nkilled=143\n1",
+      "rc=0\nrc=3\nkilled=143\n0",
+      "rc=0\nrc=0\nkilled=143\n0",
+      "rc=0\nrc=3\nkilled=0\n0"
+     ],
+     "answer": 1,
+     "explain": "$! is the last background PID; a SIGTERM kill gives status 128+15 = 143. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does & at the end of a command do?",
+     "options": [
+      "Pipes",
+      "Quotes",
+      "Runs it in the background",
+      "Ands"
+     ],
+     "answer": 2,
+     "explain": "Use wait to join."
+    },
+    {
+     "q": "What signal does kill send by default?",
+     "options": [
+      "SIGKILL",
+      "SIGTERM (15), which can be handled",
+      "SIGHUP",
+      "SIGINT"
+     ],
+     "answer": 1,
+     "explain": "kill -9 cannot be caught."
+    },
+    {
+     "q": "What does nohup do?",
+     "options": [
+      "Speeds",
+      "Keeps a command running after the terminal closes",
+      "Stops",
+      "Hides"
+     ],
+     "answer": 1,
+     "explain": "Output goes to nohup.out."
+    }
+   ]
+  },
+  "level-2/05-best-practices": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\nset -u\nf() { local d; d=$(mktemp -d) || return 1; trap 'rm -rf \"$d\"' RETURN; echo \"$d\" > path.txt; [ -d \"$d\" ] && echo created; }\nf\n[ -d \"$(cat path.txt)\" ] || echo cleaned\nx=\"a b\"; printf '[%s]\\n' $x \"$x\"\n```\n",
+     "options": [
+      "created\ncleaned\n[a]\n[b]\n[a b]",
+      "created\n[a]\n[b]\n[a b]",
+      "created\ncleaned\n[a b]\n[a b]",
+      "created\ncleaned\n[a]\n[a b]"
+     ],
+     "answer": 0,
+     "explain": "Unquoted $x splits into two arguments; quoted stays one. A RETURN trap cleans up. Verified by running it in Bash 5."
+    },
+    {
+     "q": "Why use set -euo pipefail?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Law",
+      "Fail fast on errors, unset variables and broken pipelines"
+     ],
+     "answer": 3,
+     "explain": "But understand its exceptions."
+    },
+    {
+     "q": "What do you do instead of parsing ls output?",
+     "options": [
+      "awk",
+      "sed",
+      "Use globs or find -print0 with read -d ''",
+      "Parse ls"
+     ],
+     "answer": 2,
+     "explain": "Filenames may contain spaces and newlines."
+    },
+    {
+     "q": "Which naming convention avoids clobbering environment variables?",
+     "options": [
+      "All upper",
+      "Digits",
+      "Lowercase for locals and uppercase for exported constants",
+      "Random"
+     ],
+     "answer": 2,
+     "explain": "Style guides agree."
+    }
+   ]
+  },
+  "level-2/06-debugging": {
+   "questions": [
+    {
+     "q": "What does bash -x script.sh do?",
+     "options": [
+      "Runs fast",
+      "Removes",
+      "Checks syntax",
+      "Prints each command as it runs, with expansions"
+     ],
+     "answer": 3,
+     "explain": "set -x inside scripts."
+    },
+    {
+     "q": "What does bash -n script.sh do?",
+     "options": [
+      "Names",
+      "Runs",
+      "Checks syntax without executing",
+      "Counts"
+     ],
+     "answer": 2,
+     "explain": "A quick lint."
+    },
+    {
+     "q": "What does this print with a custom PS4?\n```bash\nPS4='+ '; exec 2>&1; set -x; a=1; b=$((a+1)); set +x; echo $b\n```\n",
+     "options": [
+      "+ b=2\n2",
+      "+ a=1\n+ b=2\n+ set +x\n2",
+      "+ a=1\n+ b=2\n2",
+      "a=1\nb=2\n2"
+     ],
+     "answer": 1,
+     "explain": "set -x traces each command to stderr, including the set +x that turns it off. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What helps pinpoint the failing line?",
+     "options": [
+      "sleep",
+      "echo",
+      "exit",
+      "trap 'echo failed at line $LINENO' ERR"
+     ],
+     "answer": 3,
+     "explain": "Also use set -x selectively."
+    }
+   ]
+  },
+  "level-2/07-scheduling-automation": {
+   "questions": [
+    {
+     "q": "What does the crontab entry 0 3 * * 0 mean?",
+     "options": [
+      "Hourly",
+      "Daily 3am",
+      "At 03:00 every Sunday",
+      "Monthly"
+     ],
+     "answer": 2,
+     "explain": "Fields: minute hour dom month dow."
+    },
+    {
+     "q": "Why do cron jobs need absolute paths?",
+     "options": [
+      "Law",
+      "Colour",
+      "Cron runs with a minimal PATH and working directory",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Set PATH or use full paths."
+    },
+    {
+     "q": "What does flock add to a scheduled job?",
+     "options": [
+      "Prevents overlapping runs",
+      "Speed",
+      "Logging",
+      "Mail"
+     ],
+     "answer": 0,
+     "explain": "flock -n lockfile cmd."
+    },
+    {
+     "q": "Where do cron job outputs go by default?",
+     "options": [
+      "Emailed to the user (or lost); redirect to a log",
+      "Nowhere",
+      "Terminal",
+      "/dev/null"
+     ],
+     "answer": 0,
+     "explain": ">> log 2>&1."
+    }
+   ]
+  },
+  "level-2/08-environment-config": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\nexport APP_ENV=prod\nenv_file=cfg.env; printf 'A=1\\nB=two words\\n# comment\\n' > $env_file\nwhile IFS='=' read -r k v; do [[ $k =~ ^[A-Z_]+$ ]] && export \"$k=$v\"; done < $env_file\necho \"$A|$B|$APP_ENV\"\nbash -c 'echo ${A:-unset}'\nunset A; echo ${A:-gone}\n```\n",
+     "options": [
+      "1|two words|prod\nunset\ngone",
+      "1|two|prod\n1\ngone",
+      "1|two words|prod\n1\ngone",
+      "1|two words|prod\n1\n1"
+     ],
+     "answer": 2,
+     "explain": "Exported variables are inherited by child processes; unset removes them. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What is the difference between a shell variable and an environment variable?",
+     "options": [
+      "Environment variables are exported to child processes",
+      "Same",
+      "Shell is exported",
+      "Env is local"
+     ],
+     "answer": 0,
+     "explain": "export marks them."
+    },
+    {
+     "q": "Where should secrets for scripts come from?",
+     "options": [
+      "In comments",
+      "The environment or a secrets manager, never hard-coded",
+      "In git",
+      "In the script"
+     ],
+     "answer": 1,
+     "explain": "Mind ps and shell history."
+    },
+    {
+     "q": "What does source file.sh do?",
+     "options": [
+      "Runs the file's commands in the current shell, so variables persist",
+      "Subshell",
+      "Compile",
+      "Copy"
+     ],
+     "answer": 0,
+     "explain": "Also written as . file.sh."
+    }
+   ]
+  },
+  "level-2/09-testing-shell-scripts": {
+   "questions": [
+    {
+     "q": "What is a unit test for a shell function?",
+     "options": [
+      "Source the script and call the function with controlled inputs, asserting output and status",
+      "Run the script",
+      "Read it",
+      "Lint"
+     ],
+     "answer": 0,
+     "explain": "bats makes it tidy."
+    },
+    {
+     "q": "What is bats?",
+     "options": [
+      "A Bash Automated Testing System",
+      "A tool for cricket",
+      "A linter",
+      "A shell"
+     ],
+     "answer": 0,
+     "explain": "Tests are @test blocks."
+    },
+    {
+     "q": "What does this tiny test harness print?\n```bash\nassert_eq() { [ \"$1\" = \"$2\" ] && echo pass || echo \"FAIL: expected $2 got $1\"; }\nadd() { echo $(($1 + $2)); }\nassert_eq \"$(add 2 3)\" 5\nassert_eq \"$(add 2 3)\" 6\n```\n",
+     "options": [
+      "pass\npass",
+      "pass\nFAIL",
+      "FAIL\nFAIL",
+      "pass\nFAIL: expected 6 got 5"
+     ],
+     "answer": 3,
+     "explain": "Test status and output. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What should tests avoid?",
+     "options": [
+      "Functions",
+      "Assertions",
+      "Touching real files, networks or the real system",
+      "Temp dirs"
+     ],
+     "answer": 2,
+     "explain": "Use mktemp and fakes."
+    }
+   ]
+  },
+  "level-2/10-project-log-monitor": {
+   "questions": [
+    {
+     "q": "What does this log summariser print?\n```bash\nprintf '2026-01-01 INFO ok\\n2026-01-01 ERROR db down\\n2026-01-02 ERROR db down\\n2026-01-02 WARN slow\\n' > app.log\nawk '{c[$2]++} END {for (l in c) print l, c[l]}' app.log | sort\ngrep ERROR app.log | cut -d' ' -f3- | sort | uniq -c | awk '{print $1, $2, $3}'\ntail -n 1 app.log\n```\n",
+     "options": [
+      "ERROR 2\nINFO 1\nWARN 2\n2 db down\n2026-01-02 WARN slow",
+      "INFO 1\nERROR 2\nWARN 1\n2 db down\n2026-01-02 WARN slow",
+      "ERROR 2\nINFO 1\nWARN 1\n1 db down\n2026-01-02 WARN slow",
+      "ERROR 2\nINFO 1\nWARN 1\n2 db down\n2026-01-02 WARN slow"
+     ],
+     "answer": 3,
+     "explain": "A small pipeline for log triage. Verified by running it in Bash 5."
+    },
+    {
+     "q": "How would a log monitor avoid re-alerting on the same line?",
+     "options": [
+      "Mail",
+      "Ignore",
+      "Track the last read position or use a state file",
+      "Reread all"
+     ],
+     "answer": 2,
+     "explain": "Offset or inode tracking."
+    },
+    {
+     "q": "What should a monitor do on a threshold breach?",
+     "options": [
+      "Spam",
+      "Crash",
+      "Nothing",
+      "Send one clear alert with context and a rate limit"
+     ],
+     "answer": 3,
+     "explain": "Avoid alert storms."
+    },
+    {
+     "q": "What does tail -F do that -f does not?",
+     "options": [
+      "Colour",
+      "Faster",
+      "Follows by name, surviving log rotation",
+      "Reverse"
+     ],
+     "answer": 2,
+     "explain": "Useful for rotated logs."
+    }
+   ]
+  },
+  "level-3/01-advanced-sed-awk": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\nprintf '1 a\\n2 b\\n3 c\\n' > f\nsed -n '2p' f\nsed -E 's/^([0-9]) (.)$/\\2\\1/' f | tr '\\n' ' '; echo\nsed '/2/d' f | wc -l | tr -d ' '\nawk 'NR>1 {print $2}' f | paste -sd, -\nawk '{a[NR]=$2} END {for (i=NR;i>0;i--) printf \"%s\", a[i]; print \"\"}' f\n```\n",
+     "options": [
+      "2 b\na1 b2 c3 \n2\nb,c\nabc",
+      "2 b\na1 b2 c3 \n2\nb,c\ncba",
+      "2 b\n1a 2b 3c \n2\nb,c\ncba",
+      "2 b\na1 b2 c3 \n3\nb,c\ncba"
+     ],
+     "answer": 1,
+     "explain": "sed handles line edits; awk handles fields and state. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does the awk BEGIN block run?",
+     "options": [
+      "Never",
+      "After",
+      "Per line",
+      "Before reading any input"
+     ],
+     "answer": 3,
+     "explain": "END runs after the last line."
+    },
+    {
+     "q": "What does sed -i do?",
+     "options": [
+      "Ignore",
+      "Index",
+      "Edits the file in place (BSD sed needs an argument like -i '')",
+      "Insert"
+     ],
+     "answer": 2,
+     "explain": "Portability gotcha."
+    },
+    {
+     "q": "When is awk better than sed?",
+     "options": [
+      "When you need fields, variables or arithmetic",
+      "Never",
+      "For deletes",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Different tools."
+    }
+   ]
+  },
+  "level-3/02-process-substitution-heredocs": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\ndiff <(printf 'a\\nb\\n') <(printf 'a\\nc\\n') | grep -c '^[<>]'\nwhile read -r l; do echo \"got $l\"; done <<EOF\none\ntwo\nEOF\ncat <<'EOF'\n$HOME stays literal\nEOF\nmapfile -t lines < <(printf 'x\\ny\\n'); echo ${#lines[@]}\n```\n",
+     "options": [
+      "2\ngot one\ngot two\n/Users stays literal\n2",
+      "2\ngot one\ngot two\n$HOME stays literal\n1",
+      "2\ngot one\ngot two\n$HOME stays literal\n2",
+      "1\ngot one\ngot two\n$HOME stays literal\n2"
+     ],
+     "answer": 2,
+     "explain": "<(...) is process substitution; a quoted here-doc delimiter disables expansion. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does <(command) provide?",
+     "options": [
+      "A file-like path containing the command's output",
+      "A variable",
+      "A pipe back",
+      "A file"
+     ],
+     "answer": 0,
+     "explain": "Avoids temp files."
+    },
+    {
+     "q": "Why use mapfile or while read instead of for i in $(...)?",
+     "options": [
+      "They preserve whole lines and avoid word splitting",
+      "Colour",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Safer parsing."
+    },
+    {
+     "q": "What is a here-document?",
+     "options": [
+      "Inline multi-line input fed to a command's stdin",
+      "A pipe",
+      "A file",
+      "A comment"
+     ],
+     "answer": 0,
+     "explain": "Quote the delimiter to prevent expansion."
+    }
+   ]
+  },
+  "level-3/03-signal-handling": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\ncleanup() { echo cleanup; }\ntrap cleanup EXIT\ntrap 'echo got-term; exit 4' TERM\nsleep 5 & p=$!\n( sleep 0.1; kill -TERM $$ ) &\nwait\necho not-reached\n```\n",
+     "options": [
+      "cleanup\ngot-term",
+      "got-term\ncleanup",
+      "got-term\nnot-reached",
+      "cleanup"
+     ],
+     "answer": 1,
+     "explain": "A handled TERM runs its trap, then exit triggers the EXIT trap. Verified by running it in Bash 5."
+    },
+    {
+     "q": "Which signal can't be trapped?",
+     "options": [
+      "SIGTERM",
+      "SIGHUP",
+      "SIGINT",
+      "SIGKILL (and SIGSTOP)"
+     ],
+     "answer": 3,
+     "explain": "Use SIGTERM for graceful stops."
+    },
+    {
+     "q": "What does trap '' INT do?",
+     "options": [
+      "Ignores Ctrl-C",
+      "Exits",
+      "Handles",
+      "Logs"
+     ],
+     "answer": 0,
+     "explain": "Use with care."
+    },
+    {
+     "q": "Why set traps for cleanup?",
+     "options": [
+      "Speed",
+      "Law",
+      "Colour",
+      "Temp files and locks are released even on failure or interruption"
+     ],
+     "answer": 3,
+     "explain": "EXIT, INT and TERM."
+    }
+   ]
+  },
+  "level-3/04-parallelism": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\nstart=$SECONDS\nfor i in 1 2 3; do ( sleep 0.3; echo \"job$i\" ) & done | sort\nwait\n[ $((SECONDS - start)) -lt 2 ] && echo parallel\nprintf '1\\n2\\n3\\n' | xargs -P 3 -I{} sh -c 'echo run{}' | sort | tr '\\n' ' '; echo\n```\n",
+     "options": [
+      "job1\njob2\njob3\nparallel\nrun1 run2 run3",
+      "job1\njob2\njob3\nparallel\nrun1 ",
+      "job3\njob2\njob1\nparallel\nrun1 run2 run3 ",
+      "job1\njob2\njob3\nserial\nrun1 run2 run3 "
+     ],
+     "answer": 0,
+     "explain": "Background jobs and xargs -P run work concurrently. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does xargs -P 4 do?",
+     "options": [
+      "Prints 4",
+      "Pauses",
+      "Runs up to four processes at once",
+      "Prioritises"
+     ],
+     "answer": 2,
+     "explain": "Limit concurrency."
+    },
+    {
+     "q": "Why limit parallelism?",
+     "options": [
+      "To avoid exhausting CPU, memory or remote services",
+      "Speed",
+      "Law",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Use a pool size."
+    },
+    {
+     "q": "What does GNU parallel add?",
+     "options": [
+      "Sorting",
+      "Job control, output grouping and retries",
+      "Colour",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Optional tool."
+    }
+   ]
+  },
+  "level-3/05-robust-production-scripts": {
+   "questions": [
+    {
+     "q": "What does this robust-script skeleton print?\n```bash\nset -euo pipefail\nIFS=$'\\n\\t'\ntmp=$(mktemp -d); trap 'rm -rf \"$tmp\"' EXIT\ndie() { echo \"error: $*\" >&2; exit 2; }\n(\n  [ -n \"${REQUIRED:-}\" ] || die 'REQUIRED not set'\n) 2>&1 || echo \"rc=$?\"\nREQUIRED=x; echo ok\n```\n",
+     "options": [
+      "error: REQUIRED not set\nok",
+      "rc=2\nok",
+      "error: REQUIRED not set\nrc=2\nok",
+      "ok"
+     ],
+     "answer": 2,
+     "explain": "Fail clearly, with a non-zero status, on bad input. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What should a production script log?",
+     "options": [
+      "Everything",
+      "Nothing",
+      "What it does, with timestamps, and errors to stderr",
+      "Secrets"
+     ],
+     "answer": 2,
+     "explain": "Helps operations."
+    },
+    {
+     "q": "Why validate inputs at the top of a script?",
+     "options": [
+      "Law",
+      "Colour",
+      "Fail early before doing damage",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Check args and paths."
+    },
+    {
+     "q": "What is a lock file used for?",
+     "options": [
+      "Logging",
+      "Security",
+      "Speed",
+      "Preventing concurrent runs of the same job"
+     ],
+     "answer": 3,
+     "explain": "Use flock or mkdir."
+    }
+   ]
+  },
+  "level-3/06-git-hooks-ci": {
+   "questions": [
+    {
+     "q": "What does a pre-commit hook do?",
+     "options": [
+      "On merge",
+      "On clone",
+      "Runs checks before a commit is created and can block it",
+      "After push"
+     ],
+     "answer": 2,
+     "explain": "Located in .git/hooks or managed by a tool."
+    },
+    {
+     "q": "What should a CI shell step do on failure?",
+     "options": [
+      "Ignore",
+      "Exit non-zero so the job fails",
+      "Retry",
+      "Print"
+     ],
+     "answer": 1,
+     "explain": "set -e."
+    },
+    {
+     "q": "Why keep hook scripts fast?",
+     "options": [
+      "Colour",
+      "Slow hooks tempt developers to skip them",
+      "Law",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "Check only changed files."
+    },
+    {
+     "q": "Can client-side hooks be relied on for enforcement?",
+     "options": [
+      "Always",
+      "Sometimes",
+      "No, they can be bypassed; enforce on the server or in CI",
+      "Yes"
+     ],
+     "answer": 2,
+     "explain": "Use CI as the gate."
+    }
+   ]
+  },
+  "level-3/07-security-considerations": {
+   "questions": [
+    {
+     "q": "What is the risk of eval \"$user_input\"?",
+     "options": [
+      "None",
+      "Colour",
+      "Speed",
+      "Arbitrary command injection"
+     ],
+     "answer": 3,
+     "explain": "Never eval untrusted input."
+    },
+    {
+     "q": "How do you safely pass untrusted values to commands?",
+     "options": [
+      "Quote them and use -- to end option parsing",
+      "Eval",
+      "Backticks",
+      "Unquoted"
+     ],
+     "answer": 0,
+     "explain": "cmd -- \"$arg\"."
+    },
+    {
+     "q": "Why avoid putting secrets in command-line arguments?",
+     "options": [
+      "Law",
+      "Speed",
+      "Colour",
+      "They are visible in ps and shell history"
+     ],
+     "answer": 3,
+     "explain": "Use environment or stdin."
+    },
+    {
+     "q": "What does umask 077 do?",
+     "options": [
+      "Public",
+      "Hidden",
+      "Locked",
+      "New files are private to the owner"
+     ],
+     "answer": 3,
+     "explain": "Set before creating secrets."
+    }
+   ]
+  },
+  "level-3/08-packaging-distributing": {
+   "questions": [
+    {
+     "q": "What makes a script easy to distribute?",
+     "options": [
+      "Nothing",
+      "A shebang, usage help, versioning and an install path",
+      "Size",
+      "Comments"
+     ],
+     "answer": 1,
+     "explain": "Support --help."
+    },
+    {
+     "q": "How can you package a script?",
+     "options": [
+      "As a single file, a tarball or a package (brew, deb)",
+      "Zip",
+      "Image",
+      "PDF"
+     ],
+     "answer": 0,
+     "explain": "Choose by audience."
+    },
+    {
+     "q": "What does shellcheck catch?",
+     "options": [
+      "Style only",
+      "Syntax only",
+      "Security only",
+      "Quoting, portability and logic mistakes"
+     ],
+     "answer": 3,
+     "explain": "Run in CI."
+    },
+    {
+     "q": "What should install scripts avoid?",
+     "options": [
+      "Logs",
+      "Requiring root unnecessarily or piping unknown code to sh",
+      "Prompts",
+      "Checks"
+     ],
+     "answer": 1,
+     "explain": "Least privilege."
+    }
+   ]
+  },
+  "level-3/09-networking": {
+   "questions": [
+    {
+     "q": "Which tool tests whether a port is open?",
+     "options": [
+      "cat",
+      "nc -z host port (or bash /dev/tcp)",
+      "cd",
+      "ls"
+     ],
+     "answer": 1,
+     "explain": "Add a timeout."
+    },
+    {
+     "q": "What does this print?\n```bash\ncode=$(curl -s -o /dev/null -w '%{http_code}' --max-time 2 http://127.0.0.1:1 || true); echo \"code=${code:-none}\"\n(exec 3<>/dev/tcp/127.0.0.1/1) 2>/dev/null && echo open || echo closed\n```\n",
+     "options": [
+      "code=200\nopen",
+      "code=000\nclosed",
+      "code=000\nopen",
+      "code=none\nopen"
+     ],
+     "answer": 1,
+     "explain": "curl reports 000 when the connection fails; /dev/tcp tests a port. Verified by running it in Bash 5."
+    },
+    {
+     "q": "Why add --max-time or timeouts to network calls in scripts?",
+     "options": [
+      "Law",
+      "A hung call would block the script forever",
+      "Colour",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Also use --retry."
+    },
+    {
+     "q": "What does curl -fsS do?",
+     "options": [
+      "Saves",
+      "Sorts",
+      "Fails on HTTP errors, stays quiet but shows errors",
+      "Speeds"
+     ],
+     "answer": 2,
+     "explain": "Good defaults in scripts."
+    }
+   ]
+  },
+  "level-3/10-project-cli-tool": {
+   "questions": [
+    {
+     "q": "What does a well-designed CLI tool provide?",
+     "options": [
+      "Colour only",
+      "A GUI",
+      "Magic",
+      "Usage help, options, exit codes and predictable output"
+     ],
+     "answer": 3,
+     "explain": "Follow Unix conventions."
+    },
+    {
+     "q": "What does getopts do?",
+     "options": [
+      "Gets opts from net",
+      "Gets file",
+      "Gets options",
+      "Parses short options in a script"
+     ],
+     "answer": 3,
+     "explain": "For long options write a loop."
+    },
+    {
+     "q": "Where should errors go?",
+     "options": [
+      "stdout",
+      "Nowhere",
+      "Standard error with a non-zero exit code",
+      "A file"
+     ],
+     "answer": 2,
+     "explain": "Keep stdout clean for pipes."
+    },
+    {
+     "q": "What does the project demonstrate?",
+     "options": [
+      "Speed",
+      "Law",
+      "Colour",
+      "Combining parsing, functions, error handling and tests in one tool"
+     ],
+     "answer": 3,
+     "explain": "A capstone for Level 3."
+    }
+   ]
+  },
+  "level-4/01-building-cli-tools": {
+   "questions": [
+    {
+     "q": "What does --help output help with?",
+     "options": [
+      "Law",
+      "Colour",
+      "Discoverability for users",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Describe options and examples."
+    },
+    {
+     "q": "What is a subcommand style CLI?",
+     "options": [
+      "Many files",
+      "Menus",
+      "Aliases",
+      "One command with verbs such as tool add, tool list"
+     ],
+     "answer": 3,
+     "explain": "Like git."
+    },
+    {
+     "q": "What does this tiny dispatcher print?\n```bash\ncmd_add() { echo \"add $*\"; }\ncmd_list() { echo list; }\nmain() { local c=${1:-help}; shift || true; if declare -F \"cmd_$c\" >/dev/null; then \"cmd_$c\" \"$@\"; else echo \"unknown: $c\"; return 1; fi; }\nmain add x y; main list; main nope || echo \"rc=$?\"\n```\n",
+     "options": [
+      "add x y\nlist\nrc=1",
+      "add x y\nlist\nunknown: nope\nrc=1",
+      "add\nlist\nunknown: nope\nrc=1",
+      "add x y\nlist\nunknown: nope\nrc=0"
+     ],
+     "answer": 1,
+     "explain": "declare -F tests whether a function exists. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What should a CLI do when given bad arguments?",
+     "options": [
+      "Ignore",
+      "Print a usage message to stderr and exit non-zero",
+      "Exit 0",
+      "Crash"
+     ],
+     "answer": 1,
+     "explain": "Exit code 2 is conventional."
+    }
+   ]
+  },
+  "level-4/02-advanced-patterns": {
+   "questions": [
+    {
+     "q": "What does this print?\n```bash\ndeclare -A seen; out=()\nfor w in a b a c b; do [[ -n ${seen[$w]:-} ]] || { seen[$w]=1; out+=(\"$w\"); }; done\necho \"${out[*]}\"\nname=ref; declare -n r=name; r=changed; echo $name\nf() { local -n arr=$1; arr+=(z); }; list=(x); f list; echo \"${list[*]}\"\n```\n",
+     "options": [
+      "a b c\nref\nx z",
+      "a b a c b\nchanged\nx z",
+      "a b c\nchanged\nx",
+      "a b c\nchanged\nx z"
+     ],
+     "answer": 3,
+     "explain": "Associative arrays dedupe; namerefs (declare -n) alias variables. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does coproc do?",
+     "options": [
+      "Copy",
+      "Compile",
+      "Cron",
+      "Runs a command as a coprocess with pipes to talk to it"
+     ],
+     "answer": 3,
+     "explain": "Advanced."
+    },
+    {
+     "q": "What is a safe way to handle filenames with newlines?",
+     "options": [
+      "ls",
+      "xargs",
+      "find -print0 | while IFS= read -r -d '' f",
+      "for"
+     ],
+     "answer": 2,
+     "explain": "NUL-delimited."
+    },
+    {
+     "q": "When should you rewrite a shell script in another language?",
+     "options": [
+      "Always",
+      "Rarely",
+      "Never",
+      "When it needs complex data structures, large logic or heavy testing"
+     ],
+     "answer": 3,
+     "explain": "Pick the right tool."
+    }
+   ]
+  },
+  "level-4/03-performance-optimization": {
+   "questions": [
+    {
+     "q": "What does this timing comparison show?\n```bash\nn=2000\ns=$SECONDS; for ((i=0;i<n;i++)); do x=$((i%7)); done; a=$((SECONDS-s))\ns=$SECONDS; for ((i=0;i<300;i++)); do x=$(echo $((i%7))); done; b=$((SECONDS-s))\necho builtin-fast\n[ \"$a\" -le \"$b\" ] && echo ok\n```\n",
+     "options": [
+      "builtin-fast\nok",
+      "builtin-fast\nslow",
+      "subshell-fast\nok",
+      "ok"
+     ],
+     "answer": 0,
+     "explain": "Builtins avoid forking processes. (Only the relative result is checked here, not exact timings.) Verified by running it in Bash 5."
+    },
+    {
+     "q": "What is the biggest shell performance cost?",
+     "options": [
+      "Comments",
+      "Variables",
+      "Functions",
+      "Forking external processes in loops"
+     ],
+     "answer": 3,
+     "explain": "Use builtins and one awk pass."
+    },
+    {
+     "q": "Why prefer one awk call over many cut/grep calls per line?",
+     "options": [
+      "One process instead of thousands",
+      "Style",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Process spawn dominates."
+    },
+    {
+     "q": "What does time give you?",
+     "options": [
+      "Clock",
+      "Date",
+      "Sleep",
+      "Elapsed, user and system time of a command"
+     ],
+     "answer": 3,
+     "explain": "Measure before optimising."
+    }
+   ]
+  },
+  "level-4/04-devops-automation": {
+   "questions": [
+    {
+     "q": "What is infrastructure automation with shell good for?",
+     "options": [
+      "GUIs",
+      "Games",
+      "Glue: orchestrating CLIs, files and services",
+      "Compilers"
+     ],
+     "answer": 2,
+     "explain": "Keep it simple."
+    },
+    {
+     "q": "Why make deploy scripts idempotent?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Law",
+      "Safe to re-run after partial failure"
+     ],
+     "answer": 3,
+     "explain": "Check before change."
+    },
+    {
+     "q": "What does this idempotent step print?\n```bash\nf=$(mktemp)\nfor i in 1 2 3; do grep -qx 'listen 80' \"$f\" || echo 'listen 80' >> \"$f\"; done\nwc -l < \"$f\" | tr -d ' '\nmkdir -p x/y; mkdir -p x/y; ln -sfn x link; ln -sfn x link; ls -l link | awk '{print $NF}'\n```\n",
+     "options": [
+      "0\nx",
+      "3\nx",
+      "1\nx",
+      "1\nlink"
+     ],
+     "answer": 2,
+     "explain": "Check-then-write and -p/-f options make steps repeatable. Verified by running it in Bash 5."
+    },
+    {
+     "q": "How should automation report failures?",
+     "options": [
+      "Colours",
+      "Non-zero exit codes and clear messages for the pipeline",
+      "Silence",
+      "Emails only"
+     ],
+     "answer": 1,
+     "explain": "CI relies on status."
+    }
+   ]
+  },
+  "level-4/05-cross-shell-compatibility": {
+   "questions": [
+    {
+     "q": "What is POSIX sh?",
+     "options": [
+      "The portable shell standard, without bash extensions",
+      "A new shell",
+      "Bash 5",
+      "Zsh"
+     ],
+     "answer": 0,
+     "explain": "Use it for maximum portability."
+    },
+    {
+     "q": "Which is NOT POSIX sh?",
+     "options": [
+      "[ ]",
+      "case",
+      "[[ ]] and arrays",
+      "for in"
+     ],
+     "answer": 2,
+     "explain": "Bash extensions."
+    },
+    {
+     "q": "What does this print in POSIX-style code?\n```bash\nf() { [ \"$1\" = a ] && echo yes || echo no; }\nf a; f b\nset -- x y; for a in \"$@\"; do printf '%s\\n' \"$a\"; done | tr '\\n' ' '; echo\ni=0; while [ \"$i\" -lt 3 ]; do i=$((i+1)); done; echo $i\n```\n",
+     "options": [
+      "yes\nno\nx y \n3",
+      "yes\nyes\nx y \n3",
+      "yes\nno\nx y \n2",
+      "yes\nno\nxy \n3"
+     ],
+     "answer": 0,
+     "explain": "[ ], case, $(( )) and printf are POSIX. Verified by running it in Bash 5."
+    },
+    {
+     "q": "How do you stay portable between BSD and GNU tools?",
+     "options": [
+      "Use GNU",
+      "Avoid GNU-only flags or detect and adapt (for example sed -i, date -d)",
+      "Ignore",
+      "Use BSD"
+     ],
+     "answer": 1,
+     "explain": "Test on both."
+    }
+   ]
+  },
+  "level-4/06-text-processing-pipelines": {
+   "questions": [
+    {
+     "q": "What does this pipeline print?\n```bash\nprintf 'GET /a 200\\nGET /b 500\\nPOST /a 200\\nGET /a 404\\n' |\n awk '{p[$2]++; if ($3>=400) e[$2]++} END {for (k in p) printf \"%s %d %d\\n\", k, p[k], e[k]+0}' | sort | column -t\n```\n",
+     "options": [
+      "/a 3 1\n/b 1 1",
+      "/a  3  0\n/b  1  1",
+      "/a  3  1",
+      "/a  3  1\n/b  1  1"
+     ],
+     "answer": 3,
+     "explain": "Counting totals and errors per key with awk; column -t aligns. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What does sort -u do?",
+     "options": [
+      "Upper",
+      "Unique only",
+      "Unsafe",
+      "Sorts and removes duplicates"
+     ],
+     "answer": 3,
+     "explain": "Equivalent to sort | uniq."
+    },
+    {
+     "q": "When does join help?",
+     "options": [
+      "Lines",
+      "Merge dirs",
+      "Zip",
+      "Combining two sorted files on a common field"
+     ],
+     "answer": 3,
+     "explain": "Both inputs must be sorted."
+    },
+    {
+     "q": "What does tr -d '\\r' do?",
+     "options": [
+      "Reverses",
+      "Deletes r",
+      "Removes Windows carriage returns",
+      "Replaces"
+     ],
+     "answer": 2,
+     "explain": "Fix CRLF files."
+    }
+   ]
+  },
+  "level-4/07-sysadmin-scripting": {
+   "questions": [
+    {
+     "q": "What should sysadmin scripts do before destructive actions?",
+     "options": [
+      "Hide",
+      "Rush",
+      "Confirm, dry-run option and log what they will do",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Support --dry-run."
+    },
+    {
+     "q": "Why run scripts as least privilege?",
+     "options": [
+      "Mistakes have smaller blast radius",
+      "Colour",
+      "Law",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Use sudo only where needed."
+    },
+    {
+     "q": "What does df -h and du -sh show?",
+     "options": [
+      "Users",
+      "Memory",
+      "Filesystem and directory usage in human-readable form",
+      "CPU"
+     ],
+     "answer": 2,
+     "explain": "Basic capacity checks."
+    },
+    {
+     "q": "Why log script actions to syslog or a file?",
+     "options": [
+      "Law",
+      "Colour",
+      "Auditing and troubleshooting",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "logger writes to syslog."
+    }
+   ]
+  },
+  "level-4/08-logging-observability": {
+   "questions": [
+    {
+     "q": "What does this logging helper print?\n```bash\nlog() { local lvl=$1; shift; printf '%s [%s] %s\\n' LEVEL \"$lvl\" \"$*\" >&2; }\nlog INFO starting 2>&1\nlog ERROR 'disk full' 2>&1 | sed 's/^LEVEL //'\nexec 3>&1; echo data >&3\n```\n",
+     "options": [
+      "[INFO] starting\n[ERROR] disk full\ndata",
+      "LEVEL [INFO] starting\n[ERROR] disk full\ndata",
+      "LEVEL [INFO] starting\n[ERROR] disk full",
+      "LEVEL [INFO] starting\nLEVEL [ERROR] disk full\ndata"
+     ],
+     "answer": 1,
+     "explain": "Logs go to stderr so stdout stays clean for data. Verified by running it in Bash 5."
+    },
+    {
+     "q": "What is structured logging?",
+     "options": [
+      "Colourful",
+      "Pretty",
+      "Key=value or JSON lines that tools can parse",
+      "Verbose"
+     ],
+     "answer": 2,
+     "explain": "Easier to search."
+    },
+    {
+     "q": "Why include timestamps and levels?",
+     "options": [
+      "Speed",
+      "Colour",
+      "Law",
+      "To order events and filter severity"
+     ],
+     "answer": 3,
+     "explain": "Use ISO 8601 UTC."
+    },
+    {
+     "q": "What should never be logged?",
+     "options": [
+      "Times",
+      "Errors",
+      "Paths",
+      "Secrets and personal data"
+     ],
+     "answer": 3,
+     "explain": "Scrub them."
+    }
+   ]
+  },
+  "level-4/09-security-hardening": {
+   "questions": [
+    {
+     "q": "What is a safe default for permissions on a script holding secrets?",
+     "options": [
+      "666",
+      "chmod 600 (owner read/write only)",
+      "644 world",
+      "777"
+     ],
+     "answer": 1,
+     "explain": "Least privilege."
+    },
+    {
+     "q": "What does quoting prevent in security terms?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Injection through spaces and special characters in values",
+      "Style"
+     ],
+     "answer": 2,
+     "explain": "Always quote expansions."
+    },
+    {
+     "q": "Why prefer absolute paths for commands in privileged scripts?",
+     "options": [
+      "A manipulated PATH could run a malicious binary",
+      "Speed",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Set PATH explicitly."
+    },
+    {
+     "q": "Why validate inputs with an allowlist?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Reject anything not explicitly expected",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Better than blocklists."
+    }
+   ]
+  },
+  "level-4/10-capstone-project": {
+   "questions": [
+    {
+     "q": "What is the capstone's aim?",
+     "options": [
+      "A server",
+      "A production-quality shell tool with tests, help, logging and safe defaults",
+      "A toy",
+      "A game"
+     ],
+     "answer": 1,
+     "explain": "Bring it together."
+    },
+    {
+     "q": "What belongs in the README?",
+     "options": [
+      "Nothing",
+      "Install, usage, options, exit codes and examples",
+      "Slogan",
+      "Logo"
+     ],
+     "answer": 1,
+     "explain": "Users start there."
+    },
+    {
+     "q": "What proves the tool is reliable?",
+     "options": [
+      "Works once",
+      "Tests, ShellCheck clean, idempotent runs and clear failure behaviour",
+      "Looks fine",
+      "Fast"
+     ],
+     "answer": 1,
+     "explain": "Evidence."
+    },
+    {
+     "q": "How do you handle platform differences?",
+     "options": [
+      "Ignore",
+      "Hope",
+      "Detect OS and tools and document requirements",
+      "Assume"
+     ],
+     "answer": 2,
+     "explain": "Test on target platforms."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```bash\nset -u\nargs() { echo \"$#\"; for a in \"$@\"; do echo \"<$a>\"; done; }\nv='a b'\nargs $v\nargs \"$v\"\nargs\n```\n",
+    "options": [
+     "2\n<a>\n<b>\n1\n<a b>\n0",
+     "1\n<a b>\n1\n<a b>\n0",
+     "2\n<a>\n<b>\n1\n<a b>\n1",
+     "2\n<a>\n<b>\n2\n<a>\n<b>\n0"
+    ],
+    "answer": 0,
+    "explain": "Unquoted expansion word-splits into two arguments; quoted stays one. Verified by running it in Bash 5."
+   },
+   {
+    "q": "What does this print?\n```bash\nn=0\nprintf '1\\n2\\n3\\n' | while read -r x; do n=$((n + x)); done\necho \"n=$n\"\nn=0\nwhile read -r x; do n=$((n + x)); done < <(printf '1\\n2\\n3\\n')\necho \"n=$n\"\n```\n",
+    "options": [
+     "n=0\nn=6",
+     "n=0\nn=0",
+     "n=6\nn=0",
+     "n=6\nn=6"
+    ],
+    "answer": 0,
+    "explain": "A pipeline runs the loop in a subshell, so the variable change is lost; process substitution keeps the loop in the current shell. Verified by running it in Bash 5."
+   },
+   {
+    "q": "What does this print?\n```bash\nf=archive.tar.gz\necho ${f%.gz} ${f%%.*} ${f##*.}\ns='  pad  '; s=${s#\"${s%%[![:space:]]*}\"}; echo \"[$s]\"\nx=${UNSET:-fallback}; echo $x ${#x}\n```\n",
+    "options": [
+     "archive.tar archive tar.gz\n[pad  ]\nfallback 8",
+     "archive.tar.gz archive gz\n[pad  ]\nfallback 8",
+     "archive.tar archive gz\n[pad  ]\nfallback 8",
+     "archive.tar archive gz\n[pad]\nfallback 9"
+    ],
+    "answer": 2,
+    "explain": "% and # trim suffixes and prefixes. Verified by running it in Bash 5."
+   },
+   {
+    "q": "What does this print?\n```bash\ndeclare -A m=([b]=2 [a]=1 [c]=3)\nfor k in $(printf '%s\\n' \"${!m[@]}\" | sort); do printf '%s=%s ' $k ${m[$k]}; done; echo\necho ${#m[@]} ${m[z]:-none}\n```\n",
+    "options": [
+     "a=1 b=2 c=3 \n3 0",
+     "a=1 b=2 c=3 \n2 none",
+     "b=2 a=1 c=3 \n3 none",
+     "a=1 b=2 c=3 \n3 none"
+    ],
+    "answer": 3,
+    "explain": "Associative array order is unspecified, so sort the keys. Verified by running it in Bash 5."
+   },
+   {
+    "q": "What does this print?\n```bash\ncleanup() { echo bye; }\ntrap cleanup EXIT\nfalse || echo recovered\n( exit 5 ); echo \"sub=$?\"\n```\n",
+    "options": [
+     "recovered\nbye\nsub=5",
+     "recovered\nsub=5\nbye",
+     "bye\nrecovered\nsub=5",
+     "recovered\nsub=0\nbye"
+    ],
+    "answer": 1,
+    "explain": "The EXIT trap fires last, when the shell exits. Verified by running it in Bash 5."
+   },
+   {
+    "q": "A script runs rm -rf \"$BUILD_DIR/\"* and BUILD_DIR is accidentally empty. What protects you?",
+    "options": [
+     "Quotes alone",
+     "set -u or \"${BUILD_DIR:?}\" so an unset or empty variable aborts the script",
+     "Nothing",
+     "Using sudo"
+    ],
+    "answer": 1,
+    "explain": "An empty variable would expand to /*."
+   },
+   {
+    "q": "Why does set -e not make every failure stop a script?",
+    "options": [
+     "It needs root",
+     "It only works in zsh",
+     "It is buggy",
+     "It is ignored in conditions, || and && lists, and some function contexts, so explicit checks are still needed"
+    ],
+    "answer": 3,
+    "explain": "Handle errors deliberately."
+   },
+   {
+    "q": "Why is parsing ls output unsafe?",
+    "options": [
+     "ls needs root",
+     "ls is slow",
+     "ls is removed",
+     "Filenames can contain spaces and newlines; use globs or find -print0 with read -d ''"
+    ],
+    "answer": 3,
+    "explain": "Globs preserve names."
+   },
+   {
+    "q": "What does 2>&1 | tee log do?",
+    "options": [
+     "Logs only stdout",
+     "Hides errors",
+     "Swaps streams",
+     "Sends both stdout and stderr through the pipe so they are shown and logged"
+    ],
+    "answer": 3,
+    "explain": "Order matters: redirect before piping."
+   },
+   {
+    "q": "Why trap EXIT for temp-file cleanup rather than cleaning at the end?",
+    "options": [
+     "The trap runs on errors and interruptions too, not just on the happy path",
+     "It is required",
+     "It is shorter",
+     "It is faster"
+    ],
+    "answer": 0,
+    "explain": "Also handle INT and TERM."
+   },
+   {
+    "q": "What makes a cron job safe from overlapping itself?",
+    "options": [
+     "Run it more often",
+     "A lock such as flock -n so a new run exits if the previous one is still running",
+     "Use sudo",
+     "Use sleep"
+    ],
+    "answer": 1,
+    "explain": "Overlaps corrupt state."
+   },
+   {
+    "q": "How should a script treat untrusted input in commands?",
+    "options": [
+     "Eval it",
+     "Strip spaces only",
+     "Quote it, validate against an allowlist and pass -- before it; never eval it",
+     "Trust it"
+    ],
+    "answer": 2,
+    "explain": "Command injection is the risk."
+   },
+   {
+    "q": "Why should scripts avoid secrets in command-line arguments?",
+    "options": [
+     "Colour",
+     "Length limits only",
+     "They show up in ps output and shell history",
+     "Speed"
+    ],
+    "answer": 2,
+    "explain": "Prefer environment variables, files with strict permissions or stdin."
+   },
+   {
+    "q": "What is the macOS default bash version problem?",
+    "options": [
+     "It ships Bash 3.2, which lacks associative arrays, mapfile and ${var^^}; install a newer bash or target POSIX",
+     "It is too new",
+     "It has no pipes",
+     "It has no bash"
+    ],
+    "answer": 0,
+    "explain": "Check bash --version and document requirements."
+   },
+   {
+    "q": "What does the exit status of a pipeline normally reflect without pipefail?",
+    "options": [
+     "The average",
+     "Any failure",
+     "The first command",
+     "Only the last command"
+    ],
+    "answer": 3,
+    "explain": "set -o pipefail changes this."
+   },
+   {
+    "q": "When is it time to rewrite a shell script in another language?",
+    "options": [
+     "When it needs complex data structures, heavy logic or serious unit testing",
+     "Never",
+     "After 10 lines",
+     "Always"
+    ],
+    "answer": 0,
+    "explain": "Shell is great glue, poor general-purpose language."
+   },
+   {
+    "q": "Which exit code convention signals 'command not found'?",
+    "options": [
+     "0",
+     "127",
+     "1",
+     "255"
+    ],
+    "answer": 1,
+    "explain": "126 means found but not executable."
+   },
+   {
+    "q": "What does ShellCheck do for you?",
+    "options": [
+     "Installs packages",
+     "Formats code",
+     "Runs tests",
+     "Finds quoting, portability and logic mistakes statically"
+    ],
+    "answer": 3,
+    "explain": "Run it in CI and locally."
+   },
+   {
+    "q": "Why does the first run of a deploy script need to be repeatable?",
+    "options": [
+     "Colour",
+     "Speed",
+     "Re-running after a partial failure must reach the same end state (idempotency)",
+     "Law"
+    ],
+    "answer": 2,
+    "explain": "Check before creating; use -p and -f flags."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A tiny subcommand CLI",
+    "prompt": "Build taskbook, a subcommand tool (add, done, list, stats) that keeps tasks in a file, uses declare -F for dispatch, reports errors on stderr with exit status 2 and cleans up with a trap. Run it with 2>&1 to see messages in order. It runs against a temporary file, so nothing on your system is touched.",
+    "starter": "#!/usr/bin/env bash\n# taskbook: a tiny subcommand CLI storing tasks in a file (runs in a temp dir)\nset -euo pipefail\nDB=$(mktemp)\ntrap 'rm -f \"$DB\"' EXIT\n\ndie() { echo \"error: $*\" >&2; return 2; }\n\n# TODO: cmd_add <title...>   append \"<id>|open|<title>\" (id = number of lines + 1), print \"added #<id>\"; with no title call die and return its status\n# TODO: cmd_done <id>        mark open -> done with sed (write a new file, then mv); \"completed #<id>\", \"#<id> already done\" (status 0),\n#                            or die \"no task #<id>\" for an unknown id; wrong argument count -> die \"done needs one id\"\n# TODO: cmd_list [all|open|done]   print \"<id> [x] title\" for done tasks and \"<id> [ ] title\" for open ones\n# TODO: cmd_stats            print \"open=N done=M\" with awk\n# TODO: main                 dispatch \"<cmd>\" to cmd_<cmd> with declare -F, unknown -> die \"unknown command: <cmd>\"\n\nmain add Buy milk\nmain add Write report\nmain add Call Ana\nmain done 2\nmain done 2\nmain done 9 || echo \"rc=$?\"\nmain add || echo \"rc=$?\"\nmain list\nmain list open\nmain stats\nmain frobnicate || echo \"rc=$?\"\n",
+    "expected": "added #1\nadded #2\nadded #3\ncompleted #2\n#2 already done\nerror: no task #9\nrc=2\nerror: add needs a title\nrc=2\n1 [ ] Buy milk\n2 [x] Write report\n3 [ ] Call Ana\n1 [ ] Buy milk\n3 [ ] Call Ana\nopen=2 done=1\nerror: unknown command: frobnicate\nrc=2",
+    "solution": "#!/usr/bin/env bash\n# taskbook: a tiny subcommand CLI storing tasks in a file (runs in a temp dir)\nset -euo pipefail\nDB=$(mktemp)\ntrap 'rm -f \"$DB\"' EXIT\n\ndie() { echo \"error: $*\" >&2; return 2; }\n\ncmd_add() {\n  [ $# -ge 1 ] || { die \"add needs a title\"; return; }\n  local id=$(( $(wc -l < \"$DB\") + 1 ))\n  printf '%d|open|%s\\n' \"$id\" \"$*\" >> \"$DB\"\n  echo \"added #$id\"\n}\n\ncmd_done() {\n  [ $# -eq 1 ] || { die \"done needs one id\"; return; }\n  grep -q \"^$1|\" \"$DB\" || { die \"no task #$1\"; return; }\n  grep -q \"^$1|done|\" \"$DB\" && { echo \"#$1 already done\"; return 0; }\n  sed \"s/^$1|open|/$1|done|/\" \"$DB\" > \"$DB.new\" && mv \"$DB.new\" \"$DB\"\n  echo \"completed #$1\"\n}\n\ncmd_list() {\n  local filter=${1:-all}\n  while IFS='|' read -r id state title; do\n    [[ $filter == all || $filter == \"$state\" ]] && printf '%s [%s] %s\\n' \"$id\" \"$([[ $state == done ]] && echo x || echo ' ')\" \"$title\"\n  done < \"$DB\"\n  return 0\n}\n\ncmd_stats() {\n  awk -F'|' '{n[$2]++} END {printf \"open=%d done=%d\\n\", n[\"open\"], n[\"done\"]}' \"$DB\"\n}\n\nmain() {\n  local c=${1:-help}; shift || true\n  if declare -F \"cmd_$c\" > /dev/null; then \"cmd_$c\" \"$@\"; else die \"unknown command: $c\"; fi\n}\n\nmain add Buy milk\nmain add Write report\nmain add Call Ana\nmain done 2\nmain done 2\nmain done 9 || echo \"rc=$?\"\nmain add || echo \"rc=$?\"\nmain list\nmain list open\nmain stats\nmain frobnicate || echo \"rc=$?\"\n",
+    "explain": "Each subcommand is a function, the dispatcher checks for it with declare -F and unknown commands fail with a message and status. The sed-to-new-file-then-mv pattern avoids the non-portable sed -i. Verified by running it with Bash 5.3 on macOS (output captured with 2>&1)."
+   },
+   {
+    "title": "A validated sales report with associative arrays",
+    "prompt": "Read a small CSV, skip and report invalid rows on stderr, total amounts per region with a Bash 4+ associative array (arithmetic in awk for decimals) and print regions ranked by total. Run it with Bash 4 or later (macOS ships 3.2, so install a newer bash) and with 2>&1.",
+    "starter": "#!/usr/bin/env bash\n# sales report: validate rows, total per region with an associative array, rank regions\nset -euo pipefail\nTMP=$(mktemp -d); trap 'rm -rf \"$TMP\"' EXIT\ncat > \"$TMP/sales.csv\" <<'CSV'\nregion,rep,amount\nnorth,ana,1200.50\nsouth,bo,800\nnorth,cy,300.25\neast,di,abc\nwest,ed,\nsouth,fy,450.75\nnorth,gu,-20\neast,hy,950\nCSV\n\n# TODO: read the CSV (skip the header) and for each row\n#   - if the amount is not a non-negative number, print \"skip line <n>: invalid amount '<value>' for <rep>\" to stderr and count it\n#   - otherwise add the amount to total[<region>] (two decimals, use awk for the arithmetic) and count[<region>]\n# TODO: print one line per region, highest total first:  printf '%-6s %9s (%d sales)\\n'\n# TODO: finish with \"skipped: <n>\"\n# Run with 2>&1 to see the skip messages in order.\n",
+    "expected": "skip line 5: invalid amount 'abc' for di\nskip line 6: invalid amount '' for ed\nskip line 8: invalid amount '-20' for gu\nnorth    1500.75 (2 sales)\nsouth    1250.75 (2 sales)\neast      950.00 (1 sales)\nskipped: 3",
+    "solution": "#!/usr/bin/env bash\n# sales report: validate rows, total per region with an associative array, rank regions\nset -euo pipefail\nTMP=$(mktemp -d); trap 'rm -rf \"$TMP\"' EXIT\ncat > \"$TMP/sales.csv\" <<'CSV'\nregion,rep,amount\nnorth,ana,1200.50\nsouth,bo,800\nnorth,cy,300.25\neast,di,abc\nwest,ed,\nsouth,fy,450.75\nnorth,gu,-20\neast,hy,950\nCSV\n\ndeclare -A total count\nbad=0 line=0\nwhile IFS=, read -r region rep amount; do\n  line=$((line + 1))\n  [ \"$line\" -eq 1 ] && continue\n  if [[ ! $amount =~ ^[0-9]+(\\.[0-9]+)?$ ]]; then\n    echo \"skip line $line: invalid amount '${amount}' for $rep\" >&2\n    bad=$((bad + 1)); continue\n  fi\n  total[$region]=$(awk -v a=\"${total[$region]:-0}\" -v b=\"$amount\" 'BEGIN {printf \"%.2f\", a + b}')\n  count[$region]=$(( ${count[$region]:-0} + 1 ))\ndone < \"$TMP/sales.csv\"\n\nfor r in \"${!total[@]}\"; do echo \"$r ${total[$r]} ${count[$r]}\"; done | sort -k2,2nr | while read -r r t c; do\n  printf '%-6s %9s (%d sales)\\n' \"$r\" \"$t\" \"$c\"\ndone\necho \"skipped: $bad\"\n",
+    "explain": "Validation with a regex stops bad data early, awk does the decimal arithmetic bash cannot, and sorting a generated listing gives a stable ranking because associative array order is unspecified. Verified by running it with Bash 5.3 on macOS (output captured with 2>&1)."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
