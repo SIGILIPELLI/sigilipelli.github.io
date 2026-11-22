@@ -1,0 +1,2159 @@
+{
+ "course": "selenium-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-webdriver-does": {
+   "questions": [
+    {
+     "q": "What does the WebDriver protocol let a test do?",
+     "options": [
+      "Compile JavaScript",
+      "Read the browser's memory directly",
+      "Replace the browser",
+      "Send standard HTTP commands to a browser driver, which controls a real browser"
+     ],
+     "answer": 3,
+     "explain": "Selenium's client libraries speak the W3C WebDriver protocol to a driver such as chromedriver."
+    },
+    {
+     "q": "Which component sits between your test code and Chrome?",
+     "options": [
+      "chromedriver (a browser driver process)",
+      "The JVM",
+      "pytest",
+      "The OS kernel"
+     ],
+     "answer": 0,
+     "explain": "Each browser has its own driver, managed automatically by Selenium Manager in recent versions."
+    },
+    {
+     "q": "Is Selenium a testing framework?",
+     "options": [
+      "No, it is a browser automation library; you pair it with a runner such as pytest",
+      "Yes, with assertions built in",
+      "Yes, only for Java",
+      "It is a browser"
+     ],
+     "answer": 0,
+     "explain": "Assertions and test structure come from pytest or unittest."
+    },
+    {
+     "q": "What is Selenium Manager?",
+     "options": [
+      "A test runner",
+      "A cloud service",
+      "A tool bundled with Selenium that finds or downloads the matching browser driver",
+      "A Grid UI"
+     ],
+     "answer": 2,
+     "explain": "It removes the need to manually install chromedriver."
+    }
+   ]
+  },
+  "level-1/02-webdriver-session-setup": {
+   "questions": [
+    {
+     "q": "Why should every test quit its driver in a finally block or fixture teardown?",
+     "options": [
+      "It saves the screenshot",
+      "Otherwise browser and driver processes leak and accumulate",
+      "It speeds up the test",
+      "The page needs it"
+     ],
+     "answer": 1,
+     "explain": "driver.quit() ends the session; close() only closes a window."
+    },
+    {
+     "q": "What is the difference between driver.close() and driver.quit()?",
+     "options": [
+      "quit() closes one tab",
+      "No difference",
+      "close() ends the driver process",
+      "close() closes the current window; quit() ends the session and all windows"
+     ],
+     "answer": 3,
+     "explain": "Always quit at the end."
+    },
+    {
+     "q": "What does the --headless=new Chrome argument do?",
+     "options": [
+      "Disables JavaScript",
+      "Uses a fake browser",
+      "Runs Chrome without a visible window",
+      "Skips page loads"
+     ],
+     "answer": 2,
+     "explain": "Useful on CI machines."
+    },
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <title>Hello page</title><p>x</p>\nprint(driver.title)\nprint(driver.current_url.startswith('data:'))\n```\n",
+     "options": [
+      "data\nTrue",
+      "Hello page\nTrue",
+      "\nTrue",
+      "Hello page\nFalse"
+     ],
+     "answer": 1,
+     "explain": "driver.title is the document title and current_url is the data URL. Verified by running it with Selenium and headless Chrome."
+    }
+   ]
+  },
+  "level-1/03-locators-basic": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <h1 id=a>One</h1><ul><li class=item>x</li><li class=item>y</li></ul><input name=q placeholder=Search>\nprint(driver.find_element(By.ID, 'a').text)\nprint(len(driver.find_elements(By.CLASS_NAME, 'item')))\nprint(driver.find_element(By.NAME, 'q').get_attribute('placeholder'))\n```\n",
+     "options": [
+      "One\n2\nSearch",
+      "One\n3\nSearch",
+      "One\n2\nq",
+      "a\n2\nSearch"
+     ],
+     "answer": 0,
+     "explain": "find_elements returns a list; find_element returns the first match. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <p>nothing here</p>\ntry:\n    driver.find_element(By.ID, 'missing')\nexcept NoSuchElementException:\n    print('none')\nprint(driver.find_elements(By.ID, 'missing'))\n```\n",
+     "options": [
+      "[]\n[]",
+      "none\n[]",
+      "Error\n[]",
+      "none\nNone"
+     ],
+     "answer": 1,
+     "explain": "find_element raises NoSuchElementException; find_elements returns an empty list. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "Why are IDs usually the best locators?",
+     "options": [
+      "They are always present",
+      "They are meant to be unique and are the fastest and most stable",
+      "Selenium requires them",
+      "They are short"
+     ],
+     "answer": 1,
+     "explain": "Fall back to CSS or XPath when there is no stable ID."
+    },
+    {
+     "q": "What does By.LINK_TEXT match?",
+     "options": [
+      "Any text",
+      "Partial links only",
+      "Anchor elements whose visible text matches exactly",
+      "Buttons"
+     ],
+     "answer": 2,
+     "explain": "PARTIAL_LINK_TEXT matches substrings."
+    }
+   ]
+  },
+  "level-1/04-locators-css": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <ul class=menu><li class=active><a href=/>Home</a></li><li><a href=/about>About</a></li><li><a href=/g.pdf>Guide</a></li></ul>\nprint(driver.find_element(By.CSS_SELECTOR, 'ul.menu > li.active a').text)\nprint(len(driver.find_elements(By.CSS_SELECTOR, 'li:not(.active)')))\nprint(driver.find_element(By.CSS_SELECTOR, 'a[href$=\".pdf\"]').text)\n```\n",
+     "options": [
+      "Home\n3\nGuide",
+      "Home\n2\nAbout",
+      "Home\n2\nGuide",
+      "About\n2\nGuide"
+     ],
+     "answer": 2,
+     "explain": "Child combinator, :not() and attribute suffix selectors. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What does #login .btn[type=submit] select?",
+     "options": [
+      "Any btn",
+      "A div",
+      "A submit element with class btn inside the element with id login",
+      "The login element"
+     ],
+     "answer": 2,
+     "explain": "Space is the descendant combinator."
+    },
+    {
+     "q": "Why is CSS often preferred over XPath for simple lookups?",
+     "options": [
+      "XPath is removed",
+      "Shorter, readable and fast in browsers",
+      "CSS is deeper",
+      "XPath is illegal"
+     ],
+     "answer": 1,
+     "explain": "XPath can still do things CSS cannot, like text and upward traversal."
+    },
+    {
+     "q": "What can CSS NOT do that XPath can?",
+     "options": [
+      "Select a parent element or match by text content",
+      "Select descendants",
+      "Select by class",
+      "Select by id"
+     ],
+     "answer": 0,
+     "explain": ":has() is available in modern browsers, but the text matching still needs XPath."
+    }
+   ]
+  },
+  "level-1/05-locators-xpath": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <table><tr><td class=n>Ana</td><td>25</td></tr><tr><td class=n>Bo</td><td>30</td></tr><tr><td class=n>Cy</td><td>41</td></tr></table><label>Email </label><input id=em>\nprint(driver.find_element(By.XPATH, \"//tr[td[text()='Bo']]/td[2]\").text)\nprint(driver.find_element(By.XPATH, \"//label[normalize-space()='Email']/following-sibling::input\").get_attribute('id'))\nprint(len(driver.find_elements(By.XPATH, '//td[contains(@class,\"n\")]')))\n```\n",
+     "options": [
+      "Bo\nem\n3",
+      "30\nname\n3",
+      "30\nem\n3",
+      "30\nem\n2"
+     ],
+     "answer": 2,
+     "explain": "XPath can select by text, siblings and attribute substrings. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What does // at the start of an XPath mean?",
+     "options": [
+      "Parent",
+      "Root only",
+      "Comment",
+      "Search anywhere in the document"
+     ],
+     "answer": 3,
+     "explain": "A single / means from the root."
+    },
+    {
+     "q": "What does the XPath function normalize-space() help with?",
+     "options": [
+      "Attributes",
+      "Matching text ignoring extra whitespace",
+      "Speed",
+      "Escaping"
+     ],
+     "answer": 1,
+     "explain": "Useful for labels with stray spaces."
+    },
+    {
+     "q": "What is a risk of absolute XPaths such as /html/body/div[2]/div[1]?",
+     "options": [
+      "Colour",
+      "They break whenever the page structure changes",
+      "Length",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Prefer relative paths anchored on stable attributes."
+    }
+   ]
+  },
+  "level-1/06-interacting-with-elements": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <input id=name><button id=go onclick=\"document.getElementById('out').textContent='clicked'\">Go</button><p id=out>nothing</p>\nbox = driver.find_element(By.ID, 'name')\nbox.send_keys('Ana')\nbox.send_keys(' Lee')\nprint(box.get_attribute('value'))\nbox.clear()\nprint(repr(box.get_attribute('value')))\ndriver.find_element(By.ID, 'go').click()\nprint(driver.find_element(By.ID, 'out').text)\n```\n",
+     "options": [
+      "Ana Lee\n''\nnothing",
+      "Ana Lee\n''\nclicked",
+      "Ana Lee\n'Ana Lee'\nclicked",
+      "Ana\n''\nclicked"
+     ],
+     "answer": 1,
+     "explain": "send_keys appends; clear() empties the field; click triggers handlers. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <form onsubmit=\"document.getElementById('out').textContent='submitted '+document.getElementById('f').value;return false\"><input id=f></form><p id=out></p>\nf = driver.find_element(By.ID, 'f')\nf.send_keys('hi' + Keys.ENTER)\nprint(driver.find_element(By.ID, 'out').text)\n```\n",
+     "options": [
+      "",
+      "submitted",
+      "submitted hi",
+      "hi"
+     ],
+     "answer": 2,
+     "explain": "Keys.ENTER in a form field submits via the page's own handler. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What does element.text return?",
+     "options": [
+      "The HTML source",
+      "All text including hidden",
+      "The visible, rendered text of the element",
+      "The value attribute"
+     ],
+     "answer": 2,
+     "explain": "Hidden text is not returned."
+    },
+    {
+     "q": "How do you read the current value typed in an input?",
+     "options": [
+      "element.html",
+      "element.get_attribute('value') (or get_property('value'))",
+      "element.value",
+      "element.text"
+     ],
+     "answer": 1,
+     "explain": "text is empty for inputs."
+    }
+   ]
+  },
+  "level-1/07-dropdowns-checkboxes-radios": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <select id=c><option value=r>Red</option><option value=b>Blue</option></select>\ns = Select(driver.find_element(By.ID, 'c'))\ns.select_by_visible_text('Blue')\nprint(s.first_selected_option.get_attribute('value'))\ns.select_by_value('r')\nprint(s.first_selected_option.text)\nprint([o.text for o in s.options])\n```\n",
+     "options": [
+      "b\nRed\n['r', 'b']",
+      "b\nr\n['Red', 'Blue']",
+      "b\nRed\n['Red', 'Blue']",
+      "Blue\nRed\n['Red', 'Blue']"
+     ],
+     "answer": 2,
+     "explain": "Select can choose by visible text, value or index. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <input type=checkbox id=cb><input type=radio name=size value=s checked><input type=radio name=size value=l>\ncb = driver.find_element(By.ID, 'cb')\nprint(cb.is_selected())\ncb.click()\nprint(cb.is_selected())\nradio = driver.find_element(By.CSS_SELECTOR, 'input[name=size][value=l]')\nradio.click()\nprint(driver.find_element(By.CSS_SELECTOR, 'input[name=size][value=s]').is_selected(), radio.is_selected())\n```\n",
+     "options": [
+      "False\nTrue\nTrue True",
+      "False\nTrue\nFalse True",
+      "False\nFalse\nFalse True",
+      "True\nTrue\nFalse True"
+     ],
+     "answer": 1,
+     "explain": "Radios in a group are mutually exclusive. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "Which condition should you check before clicking a checkbox to make the state explicit?",
+     "options": [
+      "is_displayed",
+      "is_selected(), click only if it is not already in the desired state",
+      "size",
+      "text"
+     ],
+     "answer": 1,
+     "explain": "Clicking blindly toggles."
+    },
+    {
+     "q": "What does Select.deselect_all() require?",
+     "options": [
+      "A multi-select element (otherwise it raises)",
+      "A radio",
+      "Any select",
+      "A checkbox"
+     ],
+     "answer": 0,
+     "explain": "Single selects cannot be deselected."
+    }
+   ]
+  },
+  "level-1/08-browser-navigation": {
+   "questions": [
+    {
+     "q": "After driver.get(A), driver.get(B), what does driver.back() do?",
+     "options": [
+      "Returns to page A (the previous history entry); forward() would return to B",
+      "Closes the window",
+      "Goes to the first page ever visited",
+      "Reloads B"
+     ],
+     "answer": 0,
+     "explain": "back and forward move through the session history, and element references from the old page become stale."
+    },
+    {
+     "q": "What does driver.refresh() do?",
+     "options": [
+      "Clears cookies",
+      "Reloads the current page",
+      "Restarts the driver",
+      "Goes back"
+     ],
+     "answer": 1,
+     "explain": "Element references become stale."
+    },
+    {
+     "q": "What does driver.get(url) wait for by default?",
+     "options": [
+      "Nothing",
+      "All AJAX",
+      "Network idle",
+      "The page load event (readyState complete)"
+     ],
+     "answer": 3,
+     "explain": "Dynamic content may still need explicit waits."
+    },
+    {
+     "q": "How can you set the page load strategy?",
+     "options": [
+      "With the pageLoadStrategy capability (normal, eager, none)",
+      "time.sleep",
+      "Not possible",
+      "A CSS flag"
+     ],
+     "answer": 0,
+     "explain": "eager returns after DOMContentLoaded."
+    }
+   ]
+  },
+  "level-1/09-element-state": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <p id=a style='display:none'>secret</p><button id=b disabled>hidden</button><button id=c disabled style='color:red'>x</button>\ne = driver.find_element(By.ID, 'a')\nprint(e.is_displayed(), repr(e.text))\nb = driver.find_element(By.ID, 'b')\nprint(b.is_displayed(), b.is_enabled(), b.get_attribute('textContent'))\nc = driver.find_element(By.ID, 'c')\nprint(c.is_enabled(), c.value_of_css_property('color'))\n```\n",
+     "options": [
+      "False ''\nTrue False\nFalse red",
+      "False ''\nTrue True hidden\nTrue rgba(255, 0, 0, 1)",
+      "False ''\nTrue False hidden\nFalse rgba(255, 0, 0, 1)",
+      "True ''\nTrue False hidden\nFalse rgba(255, 0, 0, 1)"
+     ],
+     "answer": 2,
+     "explain": "Hidden elements report empty text; disabled controls are not enabled; CSS values are normalised. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What is the difference between is_displayed and is_enabled?",
+     "options": [
+      "Same",
+      "Enabled is visibility",
+      "Displayed is for inputs only",
+      "Displayed is about visibility; enabled is about whether a control can be interacted with"
+     ],
+     "answer": 3,
+     "explain": "Both are needed before some actions."
+    },
+    {
+     "q": "Why prefer get_attribute('textContent') for hidden text?",
+     "options": [
+      "Same",
+      "Cleaner",
+      "text returns empty for non-visible elements, textContent returns the raw content",
+      "Faster"
+     ],
+     "answer": 2,
+     "explain": "Rarely needed in tests of visible UI."
+    },
+    {
+     "q": "What does get_dom_attribute differ in?",
+     "options": [
+      "Nothing",
+      "Speed",
+      "It returns the attribute as written in the HTML, not the live property",
+      "Value"
+     ],
+     "answer": 2,
+     "explain": "get_attribute tries property first."
+    }
+   ]
+  },
+  "level-1/10-project-login-flow-test": {
+   "questions": [
+    {
+     "q": "What is a good first assertion in a login test?",
+     "options": [
+      "That the expected landing page or element appears after login",
+      "That the password is long",
+      "That sleep finished",
+      "That the browser is Chrome"
+     ],
+     "answer": 0,
+     "explain": "Assert on outcomes the user sees."
+    },
+    {
+     "q": "How should test credentials be handled?",
+     "options": [
+      "In the URL",
+      "Read from environment or a secrets store, never committed",
+      "In the README",
+      "In code"
+     ],
+     "answer": 1,
+     "explain": "Use test accounts."
+    },
+    {
+     "q": "What should a negative login test check?",
+     "options": [
+      "That an error message is shown and the user stays on the login page",
+      "That the app crashes",
+      "That nothing happens",
+      "That cookies are cleared"
+     ],
+     "answer": 0,
+     "explain": "Test failure paths too."
+    },
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <input id=u><input id=p type=password><button id=go onclick=\"document.getElementById('msg').textContent=document.getElementById('p').value=='secret'?'Welcome '+document.getElementById('u').value:'Invalid credentials'\">Login</button><p id=msg></p>\ndriver.find_element(By.ID, 'u').send_keys('ana')\ndriver.find_element(By.ID, 'p').send_keys('bad')\ndriver.find_element(By.ID, 'go').click()\nprint(driver.find_element(By.ID, 'msg').text)\n```\n",
+     "options": [
+      "",
+      "Error",
+      "Welcome ana",
+      "Invalid credentials"
+     ],
+     "answer": 3,
+     "explain": "A small page model: wrong password shows the error. Verified by running it with Selenium and headless Chrome."
+    }
+   ]
+  },
+  "level-2/01-the-real-race-condition": {
+   "questions": [
+    {
+     "q": "What does this print? (the text is added 300 ms after load)\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <div id=box></div><script>setTimeout(()=>{box.innerHTML='<p id=late>hi</p>'},300)</script>\nimport time\nprint(len(driver.find_elements(By.ID, 'late')))\ntime.sleep(0.8)\nprint(len(driver.find_elements(By.ID, 'late')))\n```\n",
+     "options": [
+      "1\n0",
+      "1\n1",
+      "0\n0",
+      "0\n1"
+     ],
+     "answer": 3,
+     "explain": "find_elements returns immediately; the element only exists after the delay, which is the race condition. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "Why is time.sleep a poor synchronisation strategy?",
+     "options": [
+      "It crashes",
+      "It is illegal",
+      "It is either too short (flaky) or too long (slow) and never adapts to the real state",
+      "It blocks the driver"
+     ],
+     "answer": 2,
+     "explain": "Wait for a condition instead."
+    },
+    {
+     "q": "What causes most 'flaky' UI test failures?",
+     "options": [
+      "Typos",
+      "Python version",
+      "Screen size",
+      "Race conditions between the test and asynchronous page updates"
+     ],
+     "answer": 3,
+     "explain": "Synchronise on observable conditions."
+    },
+    {
+     "q": "What is the right way to fix a race?",
+     "options": [
+      "Add sleep(10)",
+      "Wait for the specific condition the next step depends on",
+      "Disable the test",
+      "Retry the whole suite"
+     ],
+     "answer": 1,
+     "explain": "Explicit waits."
+    }
+   ]
+  },
+  "level-2/02-implicit-waits": {
+   "questions": [
+    {
+     "q": "What does this print with an implicit wait of 1 s?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <p id=here>ok</p>\nimport time\ndriver.implicitly_wait(1)\nt = time.time()\ntry:\n    driver.find_element(By.ID, 'nope')\nexcept NoSuchElementException:\n    print('missing', 1 <= round(time.time()-t, 1) <= 2)\ndriver.implicitly_wait(0)\nprint(driver.find_element(By.ID, 'here').text)\n```\n",
+     "options": [
+      "ok\nmissing True",
+      "missing True\nNone",
+      "missing True\nok",
+      "missing False\nok"
+     ],
+     "answer": 2,
+     "explain": "With an implicit wait, a failed lookup keeps polling until the timeout. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What is the problem with mixing implicit and explicit waits?",
+     "options": [
+      "Timeouts can combine unpredictably and make failures slower and confusing",
+      "Speed",
+      "They are the same",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Prefer explicit waits and keep implicit at 0."
+    },
+    {
+     "q": "What does an implicit wait apply to?",
+     "options": [
+      "One element",
+      "Only alerts",
+      "Only clicks",
+      "Every find_element call in the session"
+     ],
+     "answer": 3,
+     "explain": "It is global."
+    },
+    {
+     "q": "What does implicit wait NOT wait for?",
+     "options": [
+      "Conditions like visibility, clickability or text",
+      "Existence",
+      "Elements",
+      "Presence of an element"
+     ],
+     "answer": 0,
+     "explain": "It only waits for presence."
+    }
+   ]
+  },
+  "level-2/03-explicit-waits": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <div id=box></div><script>setTimeout(()=>{box.innerHTML='<p id=late>hi</p>'},400)</script>\nw = WebDriverWait(driver, 3)\nel = w.until(EC.visibility_of_element_located((By.ID, 'late')))\nprint(el.text)\ntry:\n    WebDriverWait(driver, 0.5).until(EC.presence_of_element_located((By.ID, 'never')))\nexcept TimeoutException:\n    print('timeout')\n```\n",
+     "options": [
+      "hi\ntimeout",
+      "hi\nNoSuchElementException",
+      "timeout\nhi",
+      "hi\nhi"
+     ],
+     "answer": 0,
+     "explain": "WebDriverWait polls until the condition is truthy or raises TimeoutException. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <button id=b disabled>Go</button><p id=out></p><script>setTimeout(()=>{b.disabled=false},300);b.onclick=()=>setTimeout(()=>{out.textContent='done'},200)</script>\nw = WebDriverWait(driver, 3)\nbtn = w.until(EC.element_to_be_clickable((By.ID, 'b')))\nbtn.click()\nprint(w.until(EC.text_to_be_present_in_element((By.ID, 'out'), 'done')))\nprint(driver.find_element(By.ID, 'out').text)\n```\n",
+     "options": [
+      "True\ndone",
+      "True\nclicked",
+      "done\ndone",
+      "None\ndone"
+     ],
+     "answer": 0,
+     "explain": "element_to_be_clickable waits until the control is visible and enabled; text_to_be_present returns True. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What is the polling interval default of WebDriverWait?",
+     "options": [
+      "Never",
+      "10 ms",
+      "5 s",
+      "0.5 seconds"
+     ],
+     "answer": 3,
+     "explain": "You can change it with poll_frequency."
+    },
+    {
+     "q": "Which exceptions can WebDriverWait ignore while polling by default?",
+     "options": [
+      "All",
+      "TimeoutException",
+      "None",
+      "NoSuchElementException"
+     ],
+     "answer": 3,
+     "explain": "Add others with ignored_exceptions."
+    }
+   ]
+  },
+  "level-2/04-custom-expected-conditions": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <p id=n>0</p><script>let i=0;let t=setInterval(()=>{n.textContent=++i;if(i==3)clearInterval(t)},150)</script>\nclass text_is_exactly:\n    def __init__(self, locator, text): self.locator, self.text = locator, text\n    def __call__(self, driver):\n        el = driver.find_element(*self.locator)\n        return el if el.text == self.text else False\nel = WebDriverWait(driver, 3).until(text_is_exactly((By.ID, 'n'), '3'))\nprint(el.text)\n```\n",
+     "options": [
+      "False",
+      "3",
+      "done",
+      "0"
+     ],
+     "answer": 1,
+     "explain": "A custom condition is any callable that returns a truthy value (here the element) when satisfied. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What should a custom condition return when it is not satisfied?",
+     "options": [
+      "A falsy value such as False or None (not raise for normal absence)",
+      "A string",
+      "True",
+      "An exception always"
+     ],
+     "answer": 0,
+     "explain": "WebDriverWait keeps polling."
+    },
+    {
+     "q": "What is a benefit of lambda conditions like lambda d: d.title == 'x'?",
+     "options": [
+      "Law",
+      "Quick one-off waits without a class",
+      "Colour",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "until accepts any callable taking the driver."
+    },
+    {
+     "q": "What should custom waits include for debugging?",
+     "options": [
+      "Nothing",
+      "A print loop",
+      "A helpful message= argument so timeouts explain themselves",
+      "A sleep"
+     ],
+     "answer": 2,
+     "explain": "until(cond, message='...')."
+    }
+   ]
+  },
+  "level-2/05-alerts-confirms-prompts": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <button id=b onclick=\"out.textContent=confirm('Proceed?')?'confirmed':'cancelled'\">x</button><p id=out></p>\ndriver.find_element(By.ID, 'b').click()\nal = WebDriverWait(driver, 2).until(EC.alert_is_present())\nprint(al.text)\nal.accept()\nprint(driver.find_element(By.ID, 'out').text)\n```\n",
+     "options": [
+      "\nconfirmed",
+      "confirmed\nProceed?",
+      "Proceed?\nconfirmed",
+      "Proceed?\ncancelled"
+     ],
+     "answer": 2,
+     "explain": "accept() clicks OK, which makes the page's confirm() return true. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <button id=b onclick=\"out.textContent='Hello '+prompt('Name?')\">x</button><p id=out></p>\ndriver.find_element(By.ID, 'b').click()\nal = driver.switch_to.alert\nal.send_keys('Ana')\nal.accept()\nprint(driver.find_element(By.ID, 'out').text)\n```\n",
+     "options": [
+      "Hello Ana",
+      "Hello null",
+      "Ana",
+      "Hello"
+     ],
+     "answer": 0,
+     "explain": "send_keys fills a prompt(). Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What happens if an alert is open and you call find_element?",
+     "options": [
+      "Works",
+      "UnexpectedAlertPresentException (handle the alert first)",
+      "Returns None",
+      "Hangs"
+     ],
+     "answer": 1,
+     "explain": "Switch to the alert and accept or dismiss it."
+    },
+    {
+     "q": "Which method clicks Cancel on a confirm?",
+     "options": [
+      "close()",
+      "cancel()",
+      "alert.dismiss()",
+      "accept()"
+     ],
+     "answer": 2,
+     "explain": "accept clicks OK."
+    }
+   ]
+  },
+  "level-2/06-handling-iframes": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <p id=outer>in page</p><iframe id=f srcdoc=\"<p id='inner'>in frame</p>\"></iframe>\nprint(len(driver.find_elements(By.ID, 'inner')))\nframe = driver.find_element(By.ID, 'f')\ndriver.switch_to.frame(frame)\nprint(driver.find_element(By.ID, 'inner').text)\ndriver.switch_to.default_content()\nprint(driver.find_element(By.ID, 'outer').text)\n```\n",
+     "options": [
+      "0\nin frame\nin frame",
+      "1\nin frame\nin page",
+      "0\nin page\nin page",
+      "0\nin frame\nin page"
+     ],
+     "answer": 3,
+     "explain": "Elements inside an iframe are invisible to the top-level document until you switch into the frame. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "How do you leave an iframe and return to the main document?",
+     "options": [
+      "driver.close()",
+      "switch_to.window",
+      "driver.switch_to.default_content()",
+      "driver.back()"
+     ],
+     "answer": 2,
+     "explain": "parent_frame() goes up one level."
+    },
+    {
+     "q": "What error occurs if you search for an iframe's content without switching?",
+     "options": [
+      "None",
+      "StaleElement",
+      "TimeoutException",
+      "NoSuchElementException"
+     ],
+     "answer": 3,
+     "explain": "Frame context matters."
+    },
+    {
+     "q": "Which wait helps with iframes that load later?",
+     "options": [
+      "EC.frame_to_be_available_and_switch_to_it",
+      "implicit",
+      "EC.alert_is_present",
+      "time.sleep"
+     ],
+     "answer": 0,
+     "explain": "It waits and switches in one step."
+    }
+   ]
+  },
+  "level-2/07-multiple-windows-tabs": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <h1>First</h1>\norig = driver.current_window_handle\ndriver.switch_to.new_window('tab')\ndriver.get('data:text/html,<h1>Second</h1>')\nprint(len(driver.window_handles), driver.find_element(By.TAG_NAME, 'h1').text)\ndriver.close()\ndriver.switch_to.window(orig)\nprint(len(driver.window_handles), driver.find_element(By.TAG_NAME, 'h1').text)\n```\n",
+     "options": [
+      "2 Second\n1 First",
+      "2 Second\n2 First",
+      "1 Second\n1 First",
+      "2 First\n1 First"
+     ],
+     "answer": 0,
+     "explain": "new_window opens and focuses a new tab; after close() you must switch back to a remaining handle. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "Why must you switch back after closing a window?",
+     "options": [
+      "None",
+      "Speed",
+      "The driver does not automatically choose a remaining window",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Otherwise commands fail with NoSuchWindowException."
+    },
+    {
+     "q": "What does driver.switch_to.new_window('tab') do?",
+     "options": [
+      "Closes",
+      "Opens and switches to a new tab",
+      "Nothing",
+      "Refreshes"
+     ],
+     "answer": 1,
+     "explain": "Selenium 4 API."
+    },
+    {
+     "q": "What identifies a window?",
+     "options": [
+      "An index",
+      "An id",
+      "A title",
+      "A window handle string"
+     ],
+     "answer": 3,
+     "explain": "Titles are not unique."
+    }
+   ]
+  },
+  "level-2/08-actions-api": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <div id=d ondblclick=\"out.textContent='double'\">d</div><div id=h onmouseover=\"out.textContent='hover'\" style='height:30px'>h</div><input id=f><p id=out></p>\na = ActionChains(driver)\na.double_click(driver.find_element(By.ID, 'd')).perform()\nprint(driver.find_element(By.ID, 'out').text)\nActionChains(driver).move_to_element(driver.find_element(By.ID, 'h')).perform()\nprint(driver.find_element(By.ID, 'out').text)\nActionChains(driver).click(driver.find_element(By.ID, 'f')).key_down(Keys.SHIFT).send_keys('ab').key_up(Keys.SHIFT).perform()\nprint(driver.find_element(By.ID, 'f').get_attribute('value'))\n```\n",
+     "options": [
+      "double\nhover\nAB",
+      "double\ndouble\nAB",
+      "double\nhover\nab",
+      "single\nhover\nAB"
+     ],
+     "answer": 0,
+     "explain": "ActionChains compose double clicks, hovers and modified key presses. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "When do you need the Actions API?",
+     "options": [
+      "Always",
+      "For forms",
+      "Never",
+      "For complex input like hover, drag and drop, double click or key chords"
+     ],
+     "answer": 3,
+     "explain": "Simple clicks use click()."
+    },
+    {
+     "q": "What does perform() do on an ActionChains?",
+     "options": [
+      "Builds",
+      "Cancels",
+      "Executes the queued actions",
+      "Waits"
+     ],
+     "answer": 2,
+     "explain": "Nothing runs until perform()."
+    },
+    {
+     "q": "Why can hover menus be flaky?",
+     "options": [
+      "Speed",
+      "The pointer movement and rendering race; wait for the submenu to be visible",
+      "Colour",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Use waits after the hover."
+    }
+   ]
+  },
+  "level-2/09-file-upload-stale-elements": {
+   "questions": [
+    {
+     "q": "What is a StaleElementReferenceException?",
+     "options": [
+      "The referenced element was removed or replaced in the DOM since it was found",
+      "Not found",
+      "Timeout",
+      "Alert"
+     ],
+     "answer": 0,
+     "explain": "Re-find the element."
+    },
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <div id=c><p id=x>old</p></div><button id=r onclick=\"c.innerHTML='<p id=x>new</p>'\">r</button>\nel = driver.find_element(By.ID, 'x')\ndriver.find_element(By.ID, 'r').click()\ntry:\n    el.text\nexcept StaleElementReferenceException:\n    print('stale')\nprint(driver.find_element(By.ID, 'x').text)\n```\n",
+     "options": [
+      "stale\nnew",
+      "stale\nold",
+      "new\nnew",
+      "old\nnew"
+     ],
+     "answer": 0,
+     "explain": "Replacing innerHTML detaches the old node. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "How do you upload a file with Selenium?",
+     "options": [
+      "execute_script only",
+      "click the dialog",
+      "send_keys the absolute file path to the <input type=file> element",
+      "drag"
+     ],
+     "answer": 2,
+     "explain": "Do not interact with the OS dialog."
+    },
+    {
+     "q": "Why not store WebElements long-term in page objects?",
+     "options": [
+      "Memory",
+      "Law",
+      "Speed",
+      "They go stale after DOM updates; store locators and find on use"
+     ],
+     "answer": 3,
+     "explain": "Locators are stable."
+    }
+   ]
+  },
+  "level-2/10-project-dynamic-content-suite": {
+   "questions": [
+    {
+     "q": "What is the best structure for a dynamic-content test suite?",
+     "options": [
+      "Reusable waits and helpers with clear assertions, no sleeps",
+      "Sleeps",
+      "Copy and paste",
+      "One giant test"
+     ],
+     "answer": 0,
+     "explain": "Consistent synchronisation."
+    },
+    {
+     "q": "How do you test content that appears after an AJAX call?",
+     "options": [
+      "Sleep",
+      "Retry",
+      "Wait for the specific element or text rather than a fixed time",
+      "Reload"
+     ],
+     "answer": 2,
+     "explain": "Explicit waits."
+    },
+    {
+     "q": "What makes tests independent?",
+     "options": [
+      "Shared state",
+      "Each creates its own state and does not rely on order",
+      "Order",
+      "Globals"
+     ],
+     "answer": 1,
+     "explain": "Run in any order or in parallel."
+    },
+    {
+     "q": "Why print or attach diagnostics on failure?",
+     "options": [
+      "Law",
+      "Speed",
+      "Screenshots and page source speed up debugging",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Use fixtures or hooks."
+    }
+   ]
+  },
+  "level-3/01-why-page-object-model": {
+   "questions": [
+    {
+     "q": "What problem does the Page Object Model solve?",
+     "options": [
+      "Duplicated locators and UI steps spread across tests",
+      "Python versions",
+      "Networking",
+      "Slow browsers"
+     ],
+     "answer": 0,
+     "explain": "Centralise changes."
+    },
+    {
+     "q": "What should tests contain in a POM design?",
+     "options": [
+      "Locators",
+      "Intent and assertions, not locators",
+      "Selectors",
+      "Waits"
+     ],
+     "answer": 1,
+     "explain": "Pages hold locators and actions."
+    },
+    {
+     "q": "What should a page object NOT contain?",
+     "options": [
+      "Waits",
+      "Methods",
+      "Locators",
+      "Assertions about test expectations (usually)"
+     ],
+     "answer": 3,
+     "explain": "Keep assertions in tests."
+    },
+    {
+     "q": "What does a change in the login button's selector require with POM?",
+     "options": [
+      "Rewrite",
+      "One edit in the page object",
+      "Nothing",
+      "Edit all tests"
+     ],
+     "answer": 1,
+     "explain": "Maintainability."
+    }
+   ]
+  },
+  "level-3/02-building-a-page-object": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <input id=u><button id=go onclick=\"msg.textContent='hi '+u.value\">go</button><p id=msg></p>\nclass LoginPage:\n    USER = (By.ID, 'u')\n    GO = (By.ID, 'go')\n    MSG = (By.ID, 'msg')\n    def __init__(self, d): self.d = d\n    def login(self, user):\n        self.d.find_element(*self.USER).send_keys(user)\n        self.d.find_element(*self.GO).click()\n        return self\n    def message(self): return self.d.find_element(*self.MSG).text\nprint(LoginPage(driver).login('ana').message())\n```\n",
+     "options": [
+      "hi",
+      "hi ana",
+      "LoginPage",
+      "ana"
+     ],
+     "answer": 1,
+     "explain": "Locators are class attributes and the page object exposes user-level actions. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "Why store locators as tuples (By, value)?",
+     "options": [
+      "Colour",
+      "Law",
+      "They can be unpacked with * in find_element and reused by waits",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "EC conditions accept tuples."
+    },
+    {
+     "q": "What should a page object method return when navigation happens?",
+     "options": [
+      "None",
+      "The next page object",
+      "The driver",
+      "A string"
+     ],
+     "answer": 1,
+     "explain": "Enables fluent flows."
+    },
+    {
+     "q": "Why pass the driver into the page object?",
+     "options": [
+      "Style",
+      "Speed",
+      "Law",
+      "So tests control browser lifetime and pages stay reusable"
+     ],
+     "answer": 3,
+     "explain": "Dependency injection."
+    }
+   ]
+  },
+  "level-3/03-fluent-page-objects": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <a id=a href='#x' onclick=\"document.body.innerHTML='<h1>About us</h1>'\">about</a>\nclass Home:\n    def __init__(self, d): self.d = d\n    def open_about(self):\n        self.d.find_element(By.ID, 'a').click()\n        return About(self.d)\nclass About:\n    def __init__(self, d): self.d = d\n    def heading(self): return self.d.find_element(By.TAG_NAME, 'h1').text\nprint(Home(driver).open_about().heading())\n```\n",
+     "options": [
+      "About us",
+      "None",
+      "About",
+      "Home"
+     ],
+     "answer": 0,
+     "explain": "Returning the next page object lets calls chain. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What is a fluent interface?",
+     "options": [
+      "Methods return objects so calls chain readably",
+      "A fast one",
+      "A pure one",
+      "A static one"
+     ],
+     "answer": 0,
+     "explain": "page.login().open_settings()."
+    },
+    {
+     "q": "What is a risk of fluent page objects?",
+     "options": [
+      "Long chains hide which step failed unless failures are reported clearly",
+      "None",
+      "Speed",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Keep steps meaningful."
+    },
+    {
+     "q": "Should every page method return self?",
+     "options": [
+      "Always",
+      "None",
+      "No, return the page the user lands on after the action",
+      "Never"
+     ],
+     "answer": 2,
+     "explain": "Model navigation honestly."
+    }
+   ]
+  },
+  "level-3/04-test-data-management": {
+   "questions": [
+    {
+     "q": "What is a good source for test data?",
+     "options": [
+      "Factories or fixtures creating unique data per test (API or DB setup)",
+      "Production",
+      "Shared accounts",
+      "Random"
+     ],
+     "answer": 0,
+     "explain": "Avoid cross-test coupling."
+    },
+    {
+     "q": "Why avoid sharing one user across parallel tests?",
+     "options": [
+      "Concurrent changes conflict and cause flakiness",
+      "Style",
+      "Cost",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Use unique users."
+    },
+    {
+     "q": "Where should test data cleanup happen?",
+     "options": [
+      "Never",
+      "In prod",
+      "By hand",
+      "In teardown (or by creating disposable data)"
+     ],
+     "answer": 3,
+     "explain": "Leave the system clean."
+    },
+    {
+     "q": "Why generate unique values (uuid) for names and emails?",
+     "options": [
+      "Style",
+      "Avoid collisions with data from earlier runs",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Unique per run."
+    }
+   ]
+  },
+  "level-3/05-pytest-fixtures-for-selenium": {
+   "questions": [
+    {
+     "q": "What does this pytest-style fixture return?\n```python\nimport contextlib\n@contextlib.contextmanager\ndef driver_fixture():\n    d = webdriver.Chrome(options=opts)\n    try:\n        yield d\n    finally:\n        d.quit()\nwith driver_fixture() as d2:\n    d2.get('data:text/html,<title>fx</title>')\n    print(d2.title)\n```\n",
+     "options": [
+      "None",
+      "fx",
+      "Error",
+      "fixture"
+     ],
+     "answer": 1,
+     "explain": "A fixture is a yield-based setup/teardown; here the context manager mimics what pytest does. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What does scope='session' do for a driver fixture?",
+     "options": [
+      "Shares one browser across all tests (faster but less isolated)",
+      "One per test",
+      "Disables",
+      "Headless"
+     ],
+     "answer": 0,
+     "explain": "Trade isolation for speed."
+    },
+    {
+     "q": "What does yield do in a pytest fixture?",
+     "options": [
+      "Skips",
+      "Raises",
+      "Returns",
+      "Provides the value to the test and runs the code after it as teardown"
+     ],
+     "answer": 3,
+     "explain": "Teardown runs even after failures."
+    },
+    {
+     "q": "What does a conftest.py file hold?",
+     "options": [
+      "Data",
+      "Docs",
+      "Shared fixtures and hooks available to tests in its directory",
+      "Tests"
+     ],
+     "answer": 2,
+     "explain": "No imports needed."
+    }
+   ]
+  },
+  "level-3/06-cross-browser-testing": {
+   "questions": [
+    {
+     "q": "What are the main browsers Selenium supports?",
+     "options": [
+      "IE only",
+      "Chrome, Firefox, Edge and Safari",
+      "Tor",
+      "Only Chrome"
+     ],
+     "answer": 1,
+     "explain": "Each has its own driver."
+    },
+    {
+     "q": "How can you parametrise tests across browsers?",
+     "options": [
+      "If",
+      "Copy tests",
+      "pytest parametrize over a browser name feeding a driver factory",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Keep tests identical."
+    },
+    {
+     "q": "What kind of bugs do cross-browser runs catch?",
+     "options": [
+      "Logic only",
+      "Rendering, CSS, JavaScript API and timing differences",
+      "None",
+      "Syntax"
+     ],
+     "answer": 1,
+     "explain": "Sample the matrix wisely."
+    },
+    {
+     "q": "What is a sensible cross-browser strategy?",
+     "options": [
+      "Run the full suite on one browser and a smoke subset on others",
+      "One only",
+      "None",
+      "All everywhere"
+     ],
+     "answer": 0,
+     "explain": "Balance time and risk."
+    }
+   ]
+  },
+  "level-3/07-headless-vs-headed": {
+   "questions": [
+    {
+     "q": "What does headless mode change?",
+     "options": [
+      "The browser runs without a visible window, which is faster and works on servers",
+      "Rendering engine",
+      "Test logic",
+      "Selectors"
+     ],
+     "answer": 0,
+     "explain": "Layout can differ slightly."
+    },
+    {
+     "q": "Why set an explicit window size in headless mode?",
+     "options": [
+      "Speed",
+      "Law",
+      "Responsive layouts depend on viewport size",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "--window-size=1280,800."
+    },
+    {
+     "q": "What does this print in headless Chrome with a 800x600 window?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <p>x</p>\ndriver.set_window_size(800, 600)\nprint(driver.execute_script('return [window.innerWidth > 0, navigator.webdriver]'))\n```\n",
+     "options": [
+      "[True, True]",
+      "[True, False]",
+      "[False, True]",
+      "[False, False]"
+     ],
+     "answer": 0,
+     "explain": "navigator.webdriver is true under automation; innerWidth is positive. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "When should you run headed?",
+     "options": [
+      "Never",
+      "Always",
+      "In CI",
+      "When debugging visually"
+     ],
+     "answer": 3,
+     "explain": "Switch with an environment flag."
+    }
+   ]
+  },
+  "level-3/08-screenshots-visual-debugging": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <div id=e style='width:100px;height:40px;background:#09f'>e</div>\npng = driver.get_screenshot_as_png()\nprint(png[:8] == b'\\x89PNG\\r\\n\\x1a\\n', len(png) > 100)\nel = driver.find_element(By.ID, 'e')\nprint(len(el.screenshot_as_png) > 50)\n```\n",
+     "options": [
+      "True True\nTrue",
+      "True False\nTrue",
+      "False True\nTrue",
+      "True True\nFalse"
+     ],
+     "answer": 0,
+     "explain": "Screenshots are PNG bytes, for the page or a single element. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "When should a screenshot be taken automatically?",
+     "options": [
+      "Always",
+      "On pass",
+      "Never",
+      "On test failure, attached to the report"
+     ],
+     "answer": 3,
+     "explain": "pytest hooks can do this."
+    },
+    {
+     "q": "What else is useful to capture on failure?",
+     "options": [
+      "Mouse",
+      "Cookies only",
+      "Nothing",
+      "Page source, console logs and URL"
+     ],
+     "answer": 3,
+     "explain": "Context speeds triage."
+    },
+    {
+     "q": "Why can screenshots differ between runs?",
+     "options": [
+      "Speed",
+      "Law",
+      "Fonts, animations and viewport size",
+      "Colour"
+     ],
+     "answer": 2,
+     "explain": "Visual diffing needs stable environments."
+    }
+   ]
+  },
+  "level-3/09-flaky-test-diagnosis": {
+   "questions": [
+    {
+     "q": "What is the first step when diagnosing a flaky test?",
+     "options": [
+      "Rerun",
+      "Delete",
+      "Skip",
+      "Reproduce it repeatedly and capture evidence (logs, screenshots, timing)"
+     ],
+     "answer": 3,
+     "explain": "Do not guess."
+    },
+    {
+     "q": "What is the most common cause of flakiness?",
+     "options": [
+      "Missing synchronisation with asynchronous UI",
+      "Ethernet",
+      "Chrome",
+      "Python"
+     ],
+     "answer": 0,
+     "explain": "Replace sleeps with explicit waits."
+    },
+    {
+     "q": "What does retrying a flaky test automatically do?",
+     "options": [
+      "Speeds",
+      "Fixes",
+      "Hides the problem and should be a last resort with tracking",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Fix the cause."
+    },
+    {
+     "q": "What other causes produce flakiness?",
+     "options": [
+      "Colours",
+      "Typos",
+      "Shared data, ordering, timing, environment and unstable locators",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Isolate tests."
+    }
+   ]
+  },
+  "level-3/10-project-pom-framework": {
+   "questions": [
+    {
+     "q": "What does a POM framework add on top of tests?",
+     "options": [
+      "Page objects, fixtures, configuration, reporting and logging",
+      "Compilers",
+      "Browsers",
+      "Servers"
+     ],
+     "answer": 0,
+     "explain": "Structure for growth."
+    },
+    {
+     "q": "Where should environment config (base URL, browser) live?",
+     "options": [
+      "Pages",
+      "In config files or environment variables, not in tests",
+      "Tests",
+      "Locators"
+     ],
+     "answer": 1,
+     "explain": "One place to change."
+    },
+    {
+     "q": "What belongs in a base page class?",
+     "options": [
+      "Test data",
+      "Secrets",
+      "Assertions",
+      "Common waits and helper methods"
+     ],
+     "answer": 3,
+     "explain": "Reduce duplication."
+    },
+    {
+     "q": "What does good reporting include?",
+     "options": [
+      "Colours",
+      "Pass/fail with screenshots and logs for failures",
+      "Counts only",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "Useful to humans."
+    }
+   ]
+  },
+  "level-4/01-selenium-grid-architecture": {
+   "questions": [
+    {
+     "q": "What does Selenium Grid do?",
+     "options": [
+      "Compiles",
+      "Writes tests",
+      "Hosts sites",
+      "Distributes browser sessions across machines and browser types"
+     ],
+     "answer": 3,
+     "explain": "Hub and nodes (or standalone)."
+    },
+    {
+     "q": "What is the role of the router/hub in Selenium 4 Grid?",
+     "options": [
+      "Accept new session requests and route them to a node with a matching capability",
+      "Run tests",
+      "Store results",
+      "Compile"
+     ],
+     "answer": 0,
+     "explain": "Components: Router, Distributor, Session Map, Node."
+    },
+    {
+     "q": "Why use Grid?",
+     "options": [
+      "Colour",
+      "Speed only",
+      "Law",
+      "Parallel runs and cross-browser coverage"
+     ],
+     "answer": 3,
+     "explain": "Scale test execution."
+    },
+    {
+     "q": "How does a test use Grid?",
+     "options": [
+      "A script",
+      "With webdriver.Remote pointing at the Grid URL and desired options",
+      "A different language",
+      "Local driver"
+     ],
+     "answer": 1,
+     "explain": "The same test code works."
+    }
+   ]
+  },
+  "level-4/02-running-a-real-grid": {
+   "questions": [
+    {
+     "q": "What is the quickest way to run a local Grid?",
+     "options": [
+      "The standalone Selenium server or docker images (selenium/standalone-chrome)",
+      "Compile",
+      "Never",
+      "Cloud only"
+     ],
+     "answer": 0,
+     "explain": "Standalone bundles all components."
+    },
+    {
+     "q": "What does the /status endpoint of a Grid report?",
+     "options": [
+      "Tests",
+      "Browsers only",
+      "Whether it is ready and its node and slot capacity",
+      "Logs"
+     ],
+     "answer": 2,
+     "explain": "Check before running."
+    },
+    {
+     "q": "What happens if all Grid slots are busy?",
+     "options": [
+      "Crash",
+      "Reject",
+      "New sessions queue until a slot is free (or time out)",
+      "Skip"
+     ],
+     "answer": 2,
+     "explain": "Size nodes to your parallelism."
+    },
+    {
+     "q": "Why run browsers in containers?",
+     "options": [
+      "Speed",
+      "Style",
+      "Reproducible environments with matching browser and driver versions",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Docker images."
+    }
+   ]
+  },
+  "level-4/03-parallel-test-execution": {
+   "questions": [
+    {
+     "q": "What makes tests safe to run in parallel?",
+     "options": [
+      "Luck",
+      "Order",
+      "Speed",
+      "Independence: separate data, separate browser sessions and no shared state"
+     ],
+     "answer": 3,
+     "explain": "pytest-xdist."
+    },
+    {
+     "q": "What does pytest -n 4 do with pytest-xdist?",
+     "options": [
+      "Four tabs",
+      "Four retries",
+      "Runs tests across four worker processes",
+      "Four browsers per test"
+     ],
+     "answer": 2,
+     "explain": "Each worker needs its own driver."
+    },
+    {
+     "q": "Why can shared files and databases break parallel tests?",
+     "options": [
+      "Concurrent writes conflict",
+      "Speed",
+      "Colour",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Use per-test data."
+    },
+    {
+     "q": "What should drive session creation in parallel runs?",
+     "options": [
+      "Shared",
+      "Global driver",
+      "None",
+      "A fixture creating a new driver per test or worker"
+     ],
+     "answer": 3,
+     "explain": "Avoid globals."
+    }
+   ]
+  },
+  "level-4/04-shadow-dom": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <div id=host></div><script>host.attachShadow({mode:'open'}).innerHTML='<p>inside</p>'</script>\nhost = driver.find_element(By.ID, 'host')\nroot = host.shadow_root\nprint(root.find_element(By.CSS_SELECTOR, 'p').text)\nprint(len(driver.find_elements(By.CSS_SELECTOR, 'p')))\n```\n",
+     "options": [
+      "inside\n0",
+      "None\n0",
+      "inside\nError",
+      "inside\n1"
+     ],
+     "answer": 0,
+     "explain": "Normal lookups cannot see into a shadow root; use element.shadow_root first. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What is Shadow DOM?",
+     "options": [
+      "A CSS file",
+      "A plugin",
+      "A cache",
+      "An encapsulated DOM subtree attached to an element, hidden from normal selectors"
+     ],
+     "answer": 3,
+     "explain": "Used by web components."
+    },
+    {
+     "q": "Which Selenium 4 API reaches into a shadow root?",
+     "options": [
+      "driver.shadow",
+      "find_shadow",
+      "iframe",
+      "element.shadow_root"
+     ],
+     "answer": 3,
+     "explain": "Then find within it."
+    },
+    {
+     "q": "What can't you do with a closed shadow root?",
+     "options": [
+      "Anything",
+      "Nothing",
+      "Access it via shadow_root (use JavaScript or application hooks)",
+      "Click"
+     ],
+     "answer": 2,
+     "explain": "Design for testability."
+    }
+   ]
+  },
+  "level-4/05-javascript-execution": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <p id=a>old</p>\nprint(driver.execute_script('return 2 + 3'))\nel = driver.find_element(By.ID, 'a')\ndriver.execute_script(\"arguments[0].textContent = arguments[1]\", el, 'changed')\nprint(el.text)\nprint(driver.execute_script('return document.readyState'))\n```\n",
+     "options": [
+      "None\nchanged\ncomplete",
+      "5\nchanged\nloading",
+      "5\nold\ncomplete",
+      "5\nchanged\ncomplete"
+     ],
+     "answer": 3,
+     "explain": "execute_script runs JavaScript in the page and returns serialisable values; arguments pass elements. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "When is execute_script appropriate?",
+     "options": [
+      "For things WebDriver cannot do directly, such as scrolling into view or reading JS state",
+      "Typing",
+      "Clicking",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Prefer real user interactions for tested behaviour."
+    },
+    {
+     "q": "Why is clicking via JavaScript risky in tests?",
+     "options": [
+      "Style",
+      "Slow",
+      "Law",
+      "It bypasses real user checks like visibility and overlays, hiding bugs"
+     ],
+     "answer": 3,
+     "explain": "Use it only as a diagnosed workaround."
+    },
+    {
+     "q": "What does arguments[0] refer to in execute_script?",
+     "options": [
+      "The window",
+      "The first argument passed after the script",
+      "The driver",
+      "The page"
+     ],
+     "answer": 1,
+     "explain": "Elements are converted to DOM nodes."
+    }
+   ]
+  },
+  "level-4/06-performance-insights": {
+   "questions": [
+    {
+     "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <p>x</p>\nt = driver.execute_script('return performance.getEntriesByType(\"navigation\")[0].type')\nprint(t)\nprint(driver.execute_script('return typeof performance.now()'))\n```\n",
+     "options": [
+      "navigate\nstring",
+      "navigate\nnumber",
+      "reload\nnumber",
+      "None\nnumber"
+     ],
+     "answer": 1,
+     "explain": "The Navigation Timing API is available through execute_script. Verified by running it with Selenium and headless Chrome."
+    },
+    {
+     "q": "What does the Navigation Timing API give you?",
+     "options": [
+      "Visual diffs",
+      "Logs",
+      "Screenshots",
+      "Timings of page load phases"
+     ],
+     "answer": 3,
+     "explain": "Useful for coarse performance checks."
+    },
+    {
+     "q": "Why is browser-based performance testing noisy?",
+     "options": [
+      "Variability in machine, network and scheduling",
+      "Law",
+      "Speed",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Use dedicated tools for load testing."
+    },
+    {
+     "q": "What can Chrome DevTools Protocol add in Selenium 4?",
+     "options": [
+      "Nothing",
+      "Edits",
+      "Network, performance and console events (Chromium browsers)",
+      "Packages"
+     ],
+     "answer": 2,
+     "explain": "driver.execute_cdp_cmd."
+    }
+   ]
+  },
+  "level-4/07-ci-integration": {
+   "questions": [
+    {
+     "q": "What should a CI run of Selenium tests do on failure?",
+     "options": [
+      "Rerun",
+      "Ignore",
+      "Upload screenshots, logs and reports as artefacts",
+      "Nothing"
+     ],
+     "answer": 2,
+     "explain": "Debug without access to the machine."
+    },
+    {
+     "q": "Why pin browser and driver versions in CI?",
+     "options": [
+      "Law",
+      "Reproducible results",
+      "Style",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Use containers or Selenium Manager with pinned versions."
+    },
+    {
+     "q": "How do you keep CI Selenium suites fast?",
+     "options": [
+      "Parallelise, run smoke on every commit and full suites nightly",
+      "Skip",
+      "Sleep",
+      "Slow"
+     ],
+     "answer": 0,
+     "explain": "Tiered suites."
+    },
+    {
+     "q": "Where should secrets for test accounts live in CI?",
+     "options": [
+      "In the CI secret store",
+      "In the repo",
+      "In logs",
+      "In code"
+     ],
+     "answer": 0,
+     "explain": "Never commit."
+    }
+   ]
+  },
+  "level-4/08-selenium-vs-playwright": {
+   "questions": [
+    {
+     "q": "What is a notable advantage of Playwright over Selenium?",
+     "options": [
+      "Paid",
+      "Slower",
+      "Built-in auto-waiting and tracing, with a single API across browsers",
+      "Older"
+     ],
+     "answer": 2,
+     "explain": "Selenium has a wider language and browser ecosystem."
+    },
+    {
+     "q": "What is a notable advantage of Selenium?",
+     "options": [
+      "Mature, standard W3C protocol with broad language and Grid support",
+      "Free CPU",
+      "Newer",
+      "Faster"
+     ],
+     "answer": 0,
+     "explain": "Many organisations already use it."
+    },
+    {
+     "q": "Does Selenium auto-wait for elements before actions?",
+     "options": [
+      "Always",
+      "Sometimes",
+      "No, you must synchronise explicitly",
+      "Yes"
+     ],
+     "answer": 2,
+     "explain": "Playwright does by default."
+    },
+    {
+     "q": "What decides which tool to use?",
+     "options": [
+      "Price only",
+      "Fashion",
+      "Team skills, existing assets, browser/language needs and maintenance cost",
+      "Logo"
+     ],
+     "answer": 2,
+     "explain": "No universal winner."
+    }
+   ]
+  },
+  "level-4/09-selenium-antipatterns": {
+   "questions": [
+    {
+     "q": "What is the sleep antipattern?",
+     "options": [
+      "Logging",
+      "Using time.sleep instead of waiting for a condition",
+      "Resting",
+      "Retrying"
+     ],
+     "answer": 1,
+     "explain": "Flaky and slow."
+    },
+    {
+     "q": "What is wrong with XPath indexes like (//div)[7]?",
+     "options": [
+      "Slow",
+      "Short",
+      "Fine",
+      "Brittle; any layout change breaks them"
+     ],
+     "answer": 3,
+     "explain": "Use semantic attributes."
+    },
+    {
+     "q": "Why avoid tests that depend on each other?",
+     "options": [
+      "Colour",
+      "Failures cascade and parallel runs break",
+      "Speed",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Independent tests."
+    },
+    {
+     "q": "Why not test everything through the UI?",
+     "options": [
+      "Colour",
+      "Style",
+      "UI tests are slow and brittle; push logic checks down to API or unit tests",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "Test pyramid."
+    }
+   ]
+  },
+  "level-4/10-capstone-complete-test-framework": {
+   "questions": [
+    {
+     "q": "What is the capstone's goal?",
+     "options": [
+      "One test",
+      "A script",
+      "A complete Selenium framework with POM, fixtures, reporting, parallel runs and CI",
+      "A toy"
+     ],
+     "answer": 2,
+     "explain": "Show maintainable engineering."
+    },
+    {
+     "q": "What belongs in the README?",
+     "options": [
+      "Setup, running tests, configuration and design decisions",
+      "Logo",
+      "Nothing",
+      "Licence"
+     ],
+     "answer": 0,
+     "explain": "Reviewers start there."
+    },
+    {
+     "q": "What evidence proves the framework is reliable?",
+     "options": [
+      "Repeated green runs, no sleeps and failure diagnostics in CI",
+      "Looks ok",
+      "Fast",
+      "It ran once"
+     ],
+     "answer": 0,
+     "explain": "Measure flakiness."
+    },
+    {
+     "q": "What should you log for each test?",
+     "options": [
+      "Steps, URL and artefacts on failure",
+      "Everything",
+      "Secrets",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "Helpful but safe."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <button id=b disabled>go</button><p id=out></p><script>setTimeout(()=>b.disabled=false,300);b.onclick=()=>setTimeout(()=>out.textContent='ok',200)</script>\nw = WebDriverWait(driver, 3)\nw.until(EC.element_to_be_clickable((By.ID, 'b'))).click()\nprint(w.until(EC.text_to_be_present_in_element((By.ID, 'out'), 'ok')))\n```\n",
+    "options": [
+     "False",
+     "True",
+     "ok",
+     "None"
+    ],
+    "answer": 1,
+    "explain": "An explicit wait polls the condition until it is truthy; text_to_be_present_in_element returns True. Verified by running it with Selenium and headless Chrome."
+   },
+   {
+    "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <p>top</p><iframe srcdoc=\"<p>a</p><p>b</p>\"></iframe>\nprint(len(driver.find_elements(By.CSS_SELECTOR, 'p')))\ndriver.switch_to.frame(driver.find_element(By.TAG_NAME, 'iframe'))\nprint(len(driver.find_elements(By.CSS_SELECTOR, 'p')))\n```\n",
+    "options": [
+     "3\n2",
+     "1\n1",
+     "2\n2",
+     "1\n2"
+    ],
+    "answer": 3,
+    "explain": "Elements inside an iframe are only visible after switching into it. Verified by running it with Selenium and headless Chrome."
+   },
+   {
+    "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <div id=c><b id=x>old</b></div><button id=r onclick=\"c.innerHTML='<b id=x>new</b>'\">r</button>\ne = driver.find_element(By.ID, 'x')\ndriver.find_element(By.ID, 'r').click()\nprint(driver.find_element(By.ID, 'x').text)\ntry:\n    e.click()\nexcept StaleElementReferenceException:\n    print('stale')\n```\n",
+    "options": [
+     "new\nnew",
+     "new\nstale",
+     "stale\nnew",
+     "old\nstale"
+    ],
+    "answer": 1,
+    "explain": "Re-rendering replaces the DOM node; the old reference goes stale. Verified by running it with Selenium and headless Chrome."
+   },
+   {
+    "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <ul><li>a</li><li>b</li><li>c</li></ul>\nprint(driver.execute_script('return arguments[0] * 2', 21))\nprint(driver.execute_script('return document.querySelectorAll(\"li\").length'))\n```\n",
+    "options": [
+     "21\n3",
+     "None\n3",
+     "42\n3",
+     "42\n0"
+    ],
+    "answer": 2,
+    "explain": "execute_script returns JSON-serialisable results and takes arguments. Verified by running it with Selenium and headless Chrome."
+   },
+   {
+    "q": "What does this print?\n```python\n# page (loaded with driver.get('data:text/html,...')):\n# <p>x</p>\nprint(len(driver.find_elements(By.ID, 'nope')))\ntry:\n    driver.find_element(By.ID, 'nope')\nexcept NoSuchElementException:\n    print('raised')\n```\n",
+    "options": [
+     "0\n0",
+     "0\nraised",
+     "raised\n0",
+     "None\nraised"
+    ],
+    "answer": 1,
+    "explain": "find_elements returns an empty list; find_element raises. Verified by running it with Selenium and headless Chrome."
+   },
+   {
+    "q": "Why is time.sleep(5) after a click a poor fix for a flaky test?",
+    "options": [
+     "Sleep is illegal",
+     "It is either too short (still flaky) or too long (slow) and never checks the real condition",
+     "It stops the driver",
+     "It clears cookies"
+    ],
+    "answer": 1,
+    "explain": "Wait for the condition the next step needs."
+   },
+   {
+    "q": "A test passes alone but fails in the full suite. What is the likeliest cause?",
+    "options": [
+     "The browser version",
+     "The monitor",
+     "Shared state or ordering dependence between tests",
+     "The Python version"
+    ],
+    "answer": 2,
+    "explain": "Make each test create and clean its own data."
+   },
+   {
+    "q": "Why keep locators in page objects rather than in tests?",
+    "options": [
+     "It is faster",
+     "Selenium requires it",
+     "It avoids waits",
+     "A UI change needs one edit instead of changing every test"
+    ],
+    "answer": 3,
+    "explain": "Tests state intent; pages know the UI."
+   },
+   {
+    "q": "Why not keep WebElement objects as long-lived page-object fields?",
+    "options": [
+     "They use memory",
+     "They are private",
+     "Selenium forbids it",
+     "They go stale when the DOM re-renders; store locators and look up on use"
+    ],
+    "answer": 3,
+    "explain": "Locators survive re-renders."
+   },
+   {
+    "q": "What does driver.quit() do that close() does not?",
+    "options": [
+     "Clears cookies only",
+     "Ends the whole session and driver process, closing all windows",
+     "Closes one tab",
+     "Takes a screenshot"
+    ],
+    "answer": 1,
+    "explain": "Always quit in teardown."
+   },
+   {
+    "q": "Why avoid mixing implicit and explicit waits?",
+    "options": [
+     "Their timeouts can combine unpredictably, making failures slow and confusing",
+     "They conflict in Python only",
+     "Implicit waits are removed",
+     "Explicit waits stop working"
+    ],
+    "answer": 0,
+    "explain": "Keep implicit at zero."
+   },
+   {
+    "q": "Which locator is usually the most stable?",
+    "options": [
+     "An index like (//div)[7]",
+     "A dedicated id or data-testid attribute",
+     "Visible text that marketing edits",
+     "An absolute XPath"
+    ],
+    "answer": 1,
+    "explain": "Agree stable test hooks with developers."
+   },
+   {
+    "q": "How do you handle a JavaScript confirm() dialog?",
+    "options": [
+     "Ignore it",
+     "find_element",
+     "click the OK button in the DOM",
+     "switch_to.alert then accept() or dismiss()"
+    ],
+    "answer": 3,
+    "explain": "Alerts are not part of the DOM."
+   },
+   {
+    "q": "How do you reach into an open shadow root?",
+    "options": [
+     "XPath //shadow",
+     "driver.find_element only",
+     "execute_script is forbidden",
+     "element.shadow_root, then find elements within it"
+    ],
+    "answer": 3,
+    "explain": "Normal lookups cannot cross the boundary."
+   },
+   {
+    "q": "What do you pass to a file input to upload a file?",
+    "options": [
+     "send_keys with the file's absolute path",
+     "Click the OS dialog",
+     "execute_script only",
+     "drag and drop"
+    ],
+    "answer": 0,
+    "explain": "Do not automate the native dialog."
+   },
+   {
+    "q": "What does Selenium Grid add?",
+    "options": [
+     "A faster browser",
+     "A test runner",
+     "Parallel sessions across machines and browsers behind one endpoint",
+     "Visual diffing"
+    ],
+    "answer": 2,
+    "explain": "Tests use webdriver.Remote."
+   },
+   {
+    "q": "Why capture screenshots and page source on failure?",
+    "options": [
+     "They fix flakiness",
+     "They speed up tests",
+     "Without them CI failures are hard to diagnose after the browser is gone",
+     "Required by Selenium"
+    ],
+    "answer": 2,
+    "explain": "Attach artefacts to the report."
+   },
+   {
+    "q": "What is the honest use of automatic test retries?",
+    "options": [
+     "A permanent fix",
+     "Faster tests",
+     "A temporary measure while tracking and fixing the root cause",
+     "A way to hide failures"
+    ],
+    "answer": 2,
+    "explain": "Retries mask flakiness."
+   },
+   {
+    "q": "Which test is best pushed down from the UI to an API or unit test?",
+    "options": [
+     "Login happy path",
+     "Checkout smoke test",
+     "Cross-browser rendering",
+     "Business-rule logic with many input combinations"
+    ],
+    "answer": 3,
+    "explain": "UI tests are slow; keep them for journeys."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A page object with a synchronised search",
+    "prompt": "Build a ShopPage page object for a small search page whose results appear 400 ms after you click Search. Locators live in the class, search() waits for the status text instead of sleeping, and tests only call page methods. This runs against real headless Chrome with Selenium, on a local data: page that this exercise provides.",
+    "starter": "import urllib.parse\nfrom selenium import webdriver\nfrom selenium.webdriver.common.by import By\nfrom selenium.webdriver.support.ui import WebDriverWait\nfrom selenium.webdriver.support import expected_conditions as EC\n\nHTML = \"\"\"\n<h1>Shop</h1>\n<input id=search placeholder='Search'>\n<button id=go>Search</button>\n<p id=st>idle</p>\n<ul id=res></ul>\n<script>\nconst ITEMS = ['apple pie', 'apple tart', 'banana bread', 'cherry pie'];\ngo.onclick = () => {\n  st.textContent = 'loading';\n  res.innerHTML = '';\n  setTimeout(() => {\n    const q = search.value.toLowerCase();\n    ITEMS.filter(i => i.includes(q)).forEach(i => { const li = document.createElement('li'); li.className = 'item'; li.textContent = i; res.appendChild(li); });\n    st.textContent = 'done';\n  }, 400);\n};\n</script>\n\"\"\"\n\n# TODO: class ShopPage (page object)\n#   locators as (By, value) tuples: SEARCH #search, GO #go, STATUS #st, ITEMS '#res li.item'\n#   open()        loads the data URL and returns self\n#   search(term)  clear, type, click Search, then WAIT until the status text contains \"done\" (no sleeps); return self\n#   results()     list of the visible result texts\n\nopts = webdriver.ChromeOptions()\nopts.add_argument('--headless=new')\ndriver = webdriver.Chrome(options=opts)\ntry:\n    page = ShopPage(driver).open()\n    print(page.search('apple').results())\n    print(page.search('pie').results())\n    print(page.search('zzz').results())\n    print(len(page.search('').results()))\nfinally:\n    driver.quit()\n",
+    "expected": "['apple pie', 'apple tart']\n['apple pie', 'cherry pie']\n[]\n4",
+    "solution": "import urllib.parse\nfrom selenium import webdriver\nfrom selenium.webdriver.common.by import By\nfrom selenium.webdriver.support.ui import WebDriverWait\nfrom selenium.webdriver.support import expected_conditions as EC\n\nHTML = \"\"\"\n<h1>Shop</h1>\n<input id=search placeholder='Search'>\n<button id=go>Search</button>\n<p id=st>idle</p>\n<ul id=res></ul>\n<script>\nconst ITEMS = ['apple pie', 'apple tart', 'banana bread', 'cherry pie'];\ngo.onclick = () => {\n  st.textContent = 'loading';\n  res.innerHTML = '';\n  setTimeout(() => {\n    const q = search.value.toLowerCase();\n    ITEMS.filter(i => i.includes(q)).forEach(i => { const li = document.createElement('li'); li.className = 'item'; li.textContent = i; res.appendChild(li); });\n    st.textContent = 'done';\n  }, 400);\n};\n</script>\n\"\"\"\n\nclass ShopPage:\n    SEARCH = (By.ID, 'search')\n    GO = (By.ID, 'go')\n    STATUS = (By.ID, 'st')\n    ITEMS = (By.CSS_SELECTOR, '#res li.item')\n\n    def __init__(self, driver):\n        self.d = driver\n        self.wait = WebDriverWait(driver, 5)\n\n    def open(self):\n        self.d.get('data:text/html;charset=utf-8,' + urllib.parse.quote(HTML))\n        return self\n\n    def search(self, term):\n        box = self.d.find_element(*self.SEARCH)\n        box.clear()\n        box.send_keys(term)\n        self.d.find_element(*self.GO).click()\n        self.wait.until(EC.text_to_be_present_in_element(self.STATUS, 'done'))\n        return self\n\n    def results(self):\n        return [e.text for e in self.d.find_elements(*self.ITEMS)]\n\nopts = webdriver.ChromeOptions()\nopts.add_argument('--headless=new')\ndriver = webdriver.Chrome(options=opts)\ntry:\n    page = ShopPage(driver).open()\n    print(page.search('apple').results())\n    print(page.search('pie').results())\n    print(page.search('zzz').results())\n    print(len(page.search('').results()))\nfinally:\n    driver.quit()\n",
+    "explain": "The click sets the status to 'loading' immediately, so waiting for 'done' with an explicit wait is race-free. Locators as (By, value) tuples work with both find_element(*loc) and expected conditions. Verified by running it with Selenium 4 and headless Chrome."
+   },
+   {
+    "title": "A resilient custom wait",
+    "prompt": "Write wait_until, a helper that polls a condition, tolerates stale-element errors during re-renders and raises a clear TimeoutException with context. Use it to wait for a toast and for a list to reach three items after an asynchronous re-render.",
+    "starter": "import time, urllib.parse\nfrom selenium import webdriver\nfrom selenium.webdriver.common.by import By\nfrom selenium.common.exceptions import StaleElementReferenceException, TimeoutException\n\nHTML = \"\"\"\n<ul id=list><li>one</li><li>two</li></ul>\n<button id=add>add</button>\n<div id=toast style='display:none'>saved</div>\n<script>\nadd.onclick = () => setTimeout(() => {\n  list.innerHTML = list.innerHTML + '<li>' + ['three','four','five'][list.children.length - 2] + '</li>';\n  toast.style.display = 'block';\n}, 300);\n</script>\n\"\"\"\n\n# TODO: wait_until(driver, condition, timeout=3.0, poll=0.1, message='condition not met')\n#   call condition(driver) until it returns something truthy and return that value;\n#   treat StaleElementReferenceException as \"not yet\" and remember it;\n#   on timeout raise TimeoutException with the message (and the last stale error's class name, if any)\ndef texts(driver):\n    return [e.text for e in driver.find_elements(By.CSS_SELECTOR, '#list li')]\n\nopts = webdriver.ChromeOptions()\nopts.add_argument('--headless=new')\ndriver = webdriver.Chrome(options=opts)\ntry:\n    driver.get('data:text/html;charset=utf-8,' + urllib.parse.quote(HTML))\n    first = driver.find_element(By.CSS_SELECTOR, '#list li')\n    driver.find_element(By.ID, 'add').click()\n    wait_until(driver, lambda d: d.find_element(By.ID, 'toast').is_displayed())\n    try:\n        first.text\n        print('first still attached')\n    except StaleElementReferenceException:\n        print('first went stale')\n    print(wait_until(driver, lambda d: len(texts(d)) == 3 and texts(d)))\n    try:\n        wait_until(driver, lambda d: len(texts(d)) == 9, timeout=0.5, message='nine items')\n    except TimeoutException as e:\n        print('timeout:', e.msg)\nfinally:\n    driver.quit()\n",
+    "expected": "first went stale\n['one', 'two', 'three']\ntimeout: nine items",
+    "solution": "import time, urllib.parse\nfrom selenium import webdriver\nfrom selenium.webdriver.common.by import By\nfrom selenium.common.exceptions import StaleElementReferenceException, TimeoutException\n\nHTML = \"\"\"\n<ul id=list><li>one</li><li>two</li></ul>\n<button id=add>add</button>\n<div id=toast style='display:none'>saved</div>\n<script>\nadd.onclick = () => setTimeout(() => {\n  list.innerHTML = list.innerHTML + '<li>' + ['three','four','five'][list.children.length - 2] + '</li>';\n  toast.style.display = 'block';\n}, 300);\n</script>\n\"\"\"\n\ndef wait_until(driver, condition, timeout=3.0, poll=0.1, message='condition not met'):\n    end = time.monotonic() + timeout\n    last = None\n    while time.monotonic() < end:\n        try:\n            value = condition(driver)\n            if value:\n                return value\n        except StaleElementReferenceException as e:\n            last = e\n        time.sleep(poll)\n    raise TimeoutException(message + (f' (last error: {type(last).__name__})' if last else ''))\n\ndef texts(driver):\n    return [e.text for e in driver.find_elements(By.CSS_SELECTOR, '#list li')]\n\nopts = webdriver.ChromeOptions()\nopts.add_argument('--headless=new')\ndriver = webdriver.Chrome(options=opts)\ntry:\n    driver.get('data:text/html;charset=utf-8,' + urllib.parse.quote(HTML))\n    first = driver.find_element(By.CSS_SELECTOR, '#list li')\n    driver.find_element(By.ID, 'add').click()\n    wait_until(driver, lambda d: d.find_element(By.ID, 'toast').is_displayed())\n    try:\n        first.text\n        print('first still attached')\n    except StaleElementReferenceException:\n        print('first went stale')\n    print(wait_until(driver, lambda d: len(texts(d)) == 3 and texts(d)))\n    try:\n        wait_until(driver, lambda d: len(texts(d)) == 9, timeout=0.5, message='nine items')\n    except TimeoutException as e:\n        print('timeout:', e.msg)\nfinally:\n    driver.quit()\n",
+    "explain": "Selenium's own WebDriverWait does the same job; writing it once shows the mechanics: poll, swallow expected transient errors, and explain the timeout. The re-render replaces the list, so the original element goes stale. Verified by running it with Selenium 4 and headless Chrome."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
