@@ -1,0 +1,2159 @@
+{
+ "course": "vue-mastery-path",
+ "version": 1,
+ "pass_pct": 70,
+ "lessons": {
+  "level-1/01-what-vue-is": {
+   "questions": [
+    {
+     "q": "What kind of framework is Vue?",
+     "options": [
+      "A CSS framework",
+      "A backend server",
+      "A progressive JavaScript framework for building user interfaces with a reactive, component-based model",
+      "A database"
+     ],
+     "answer": 2,
+     "explain": "You can adopt it incrementally."
+    },
+    {
+     "q": "What does 'progressive' mean for Vue?",
+     "options": [
+      "It updates itself",
+      "You can use it for a small widget or scale up to a full single-page app with routing and state management",
+      "It needs no JavaScript",
+      "It only works in new browsers"
+     ],
+     "answer": 1,
+     "explain": "Core is small; the ecosystem is optional."
+    },
+    {
+     "q": "Which style does the course use for components?",
+     "options": [
+      "Options API only",
+      "Class components",
+      "JSX only",
+      "Single-file components (.vue) with <script setup> and the Composition API"
+     ],
+     "answer": 3,
+     "explain": "SFCs keep template, logic and style together."
+    },
+    {
+     "q": "What does the template syntax render here?\n```js\nconst app = createSSRApp({ setup() { const n = ref(3); return { n } }, template: '<p>{{ n * 2 }}</p>' })\nconsole.log(await renderToString(app))\n```\n",
+     "options": [
+      "<p>n * 2</p>",
+      "<p>6</p>",
+      "<p>3</p>",
+      "<p>{{ n * 2 }}</p>"
+     ],
+     "answer": 1,
+     "explain": "Mustache interpolation evaluates a JavaScript expression. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    }
+   ]
+  },
+  "level-1/02-tooling-project-structure": {
+   "questions": [
+    {
+     "q": "Which tool is the standard way to scaffold a Vue 3 project?",
+     "options": [
+      "vue-cli only",
+      "npx react",
+      "create-vue (npm create vue@latest), which sets up Vite",
+      "webpack init"
+     ],
+     "answer": 2,
+     "explain": "Vite provides the dev server and build."
+    },
+    {
+     "q": "What does the Vite dev server give you?",
+     "options": [
+      "A database",
+      "Fast startup and hot module replacement using native ES modules",
+      "Server-side rendering only",
+      "Static hosting"
+     ],
+     "answer": 1,
+     "explain": "Edits appear instantly."
+    },
+    {
+     "q": "Where does a Vue SFC put its markup?",
+     "options": [
+      "<html>",
+      "<markup>",
+      "In the <template> block (logic in <script>, styles in <style>)",
+      "<view>"
+     ],
+     "answer": 2,
+     "explain": "Blocks compile to a render function and component options."
+    },
+    {
+     "q": "What file imports and mounts the app in a create-vue project?",
+     "options": [
+      "vite.config.js",
+      "App.vue only",
+      "main.js (or main.ts), which calls createApp(App).mount('#app')",
+      "index.css"
+     ],
+     "answer": 2,
+     "explain": "The root component is App.vue."
+    }
+   ]
+  },
+  "level-1/03-template-syntax": {
+   "questions": [
+    {
+     "q": "What does this template render?\n```js\nconst app = createSSRApp({ data: () => ({ items: ['a','b'], on: true, html: '<b>x</b>' }), template: '<ul><li v-for=\"(i, idx) in items\" :key=\"i\">{{ idx }}:{{ i }}</li></ul><p v-if=\"on\" :class=\"{ hot: on }\">yes</p><p v-else>no</p><span v-html=\"html\"></span>' })\nconsole.log(await renderToString(app))\n```\n",
+     "options": [
+      "<ul><li>0:a</li><li>1:b</li></ul><p class=\"hot\">no</p><span><b>x</b></span>",
+      "<ul><li>0:a</li></ul><p class=\"hot\">yes</p><span><b>x</b></span>",
+      "<ul><li>a</li><li>b</li></ul><p>yes</p><span>&lt;b&gt;x&lt;/b&gt;</span>",
+      "<ul><li>0:a</li><li>1:b</li></ul><p class=\"hot\">yes</p><span><b>x</b></span>"
+     ],
+     "answer": 3,
+     "explain": "v-for, v-if, class binding and v-html in one template. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What does :class=\"{ active: isActive }\" do?",
+     "options": [
+      "Calls a function",
+      "Adds the class active when isActive is truthy",
+      "Imports",
+      "Sets class text"
+     ],
+     "answer": 1,
+     "explain": "The colon is shorthand for v-bind."
+    },
+    {
+     "q": "What is the difference between v-if and v-show?",
+     "options": [
+      "v-if adds or removes the element; v-show toggles display: none",
+      "v-if hides with CSS",
+      "Same",
+      "v-show removes"
+     ],
+     "answer": 0,
+     "explain": "Use v-show for frequent toggling."
+    },
+    {
+     "q": "Why is :key needed on v-for lists?",
+     "options": [
+      "Styling",
+      "It gives Vue a stable identity per item so it can update, reorder and reuse elements correctly",
+      "Speed only",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Use a unique id, not the index, when items can move."
+    }
+   ]
+  },
+  "level-1/04-reactivity-ref-reactive-computed": {
+   "questions": [
+    {
+     "q": "What does this reactive code print?\n```js\nconst count = ref(1)\nconst double = computed(() => count.value * 2)\nconst state = reactive({ n: 1, nested: { x: 1 } })\ncount.value++\nstate.nested.x = 5\nconst { n } = state\nstate.n = 9\nconsole.log(count.value, double.value, state.nested.x, n, state.n)\n```\n",
+     "options": [
+      "2 4 5 9 9",
+      "2 2 5 1 9",
+      "1 2 1 1 1",
+      "2 4 5 1 9"
+     ],
+     "answer": 3,
+     "explain": "Destructuring a reactive object copies the primitive value, losing reactivity; use toRefs to keep it. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What does computed caching show here?\n```js\nlet runs = 0\nconst a = ref(2)\nconst sq = computed(() => { runs++; return a.value ** 2 })\nsq.value; sq.value; sq.value\na.value = 3\nsq.value\nconsole.log(runs, sq.value)\n```\n",
+     "options": [
+      "3 4",
+      "2 9",
+      "4 9",
+      "1 9"
+     ],
+     "answer": 1,
+     "explain": "A computed re-runs only when a dependency changes. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What does toRefs let you do?\n```js\nconst s = reactive({ a: 1, b: 2 })\nconst { a } = toRefs(s)\na.value = 10\nconsole.log(s.a, isRef(a))\n```\n",
+     "options": [
+      "10 true",
+      "1 true",
+      "1 false",
+      "10 false"
+     ],
+     "answer": 0,
+     "explain": "toRefs creates refs linked to the reactive object's properties. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "Why do refs need .value in script but not in templates?",
+     "options": [
+      "Bug",
+      "Optional",
+      "Old API",
+      "Templates automatically unwrap top-level refs"
+     ],
+     "answer": 3,
+     "explain": "Nested refs inside plain objects are not unwrapped."
+    }
+   ]
+  },
+  "level-1/05-watchers-lifecycle": {
+   "questions": [
+    {
+     "q": "In what order do watch and watchEffect callbacks run on change?\n```js\nconst n = ref(0)\nconst log = []\nwatch(n, (v, old) => log.push(`watch ${old}->${v}`))\nwatchEffect(() => log.push(`effect ${n.value}`))\nn.value = 1\nawait nextTick()\nconsole.log(log.join(' | '))\n```\n",
+     "options": [
+      "watch 0->1 | effect 0 | effect 1",
+      "effect 0 | effect 1 | watch 0->1",
+      "effect 0 | watch 0->1 | effect 1",
+      "watch 0->1 | effect 1"
+     ],
+     "answer": 2,
+     "explain": "watchEffect runs immediately; callbacks flush before render, in creation order. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What is the difference between watch and computed?",
+     "options": [
+      "watch caches",
+      "Same",
+      "computed has side effects",
+      "computed derives a cached value; watch runs side effects when a source changes"
+     ],
+     "answer": 3,
+     "explain": "Prefer computed for derived state."
+    },
+    {
+     "q": "Which hook is the first where the component's DOM is available?",
+     "options": [
+      "onMounted",
+      "onBeforeMount",
+      "setup",
+      "onCreated"
+     ],
+     "answer": 0,
+     "explain": "Fetching often starts in setup or onMounted."
+    },
+    {
+     "q": "Why clean up in onUnmounted or onWatcherCleanup?",
+     "options": [
+      "Style",
+      "Law",
+      "Speed only",
+      "Timers, listeners and subscriptions would otherwise leak after the component is gone"
+     ],
+     "answer": 3,
+     "explain": "Return a cleanup from watchers too."
+    }
+   ]
+  },
+  "level-1/06-props-emits": {
+   "questions": [
+    {
+     "q": "How does a child component send data up to its parent?",
+     "options": [
+      "localStorage",
+      "Mutating props",
+      "Global variable",
+      "By emitting an event with defineEmits that the parent listens to"
+     ],
+     "answer": 3,
+     "explain": "Props down, events up."
+    },
+    {
+     "q": "Why should a child not mutate a prop?",
+     "options": [
+      "It works fine",
+      "Props are one-way; mutating hides data flow and Vue warns about it",
+      "Syntax error",
+      "It is faster"
+     ],
+     "answer": 1,
+     "explain": "Copy to local state or emit an update."
+    },
+    {
+     "q": "What does this component render with props and an emit?\n```js\nconst Child = defineComponent({ props: { label: String, count: { type: Number, default: 0 } }, emits: ['bump'], template: '<button @click=\"$emit(\\'bump\\')\">{{ label }}: {{ count }}</button>' })\nconst app = createSSRApp({ components: { Child }, template: '<Child label=\"Clicks\" :count=\"2\" />' })\nconsole.log(await renderToString(app))\n```\n",
+     "options": [
+      "<child label=\"Clicks\">Clicks: 2</child>",
+      "<button>Clicks: 0</button>",
+      "<button>2</button>",
+      "<button>Clicks: 2</button>"
+     ],
+     "answer": 3,
+     "explain": "Props are declared with types and defaults; events are not rendered into HTML. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What does defineProps with TypeScript give you?",
+     "options": [
+      "CSS",
+      "Runtime only",
+      "Nothing",
+      "Compile-time prop types inferred from an interface or generic"
+     ],
+     "answer": 3,
+     "explain": "defineProps<{ title: string }>()."
+    }
+   ]
+  },
+  "level-1/07-forms-v-model": {
+   "questions": [
+    {
+     "q": "What does v-model on a text input and a checkbox produce here?\n```js\nconst app = createSSRApp({ data: () => ({ name: 'Ana', agree: true }), template: '<input v-model=\"name\"><input type=\"checkbox\" v-model=\"agree\">' })\nconsole.log(await renderToString(app))\n```\n",
+     "options": [
+      "<input value=\"Ana\"><input type=\"checkbox\" checked>",
+      "<input value=\"name\"><input type=\"checkbox\" checked>",
+      "<input value=\"Ana\"><input type=\"checkbox\">",
+      "<input><input type=\"checkbox\">"
+     ],
+     "answer": 0,
+     "explain": "v-model binds the value (or checked state) both ways. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What does v-model.trim do?",
+     "options": [
+      "Removes leading and trailing whitespace from the input value",
+      "Debounces",
+      "Validates",
+      "Uppercases"
+     ],
+     "answer": 0,
+     "explain": "Also .number and .lazy modifiers."
+    },
+    {
+     "q": "What does v-model on a component do under the hood?",
+     "options": [
+      "Passes a modelValue prop and listens for update:modelValue",
+      "Global state",
+      "Two-way magic",
+      "Nothing"
+     ],
+     "answer": 0,
+     "explain": "defineModel() simplifies it."
+    },
+    {
+     "q": "Why validate on the server as well as in the form?",
+     "options": [
+      "Colour",
+      "Law",
+      "Client validation can be bypassed",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Treat client checks as UX only."
+    }
+   ]
+  },
+  "level-1/08-slots": {
+   "questions": [
+    {
+     "q": "What do default and named slots render?\n```js\nconst Card = defineComponent({ template: '<div><h2><slot name=\"title\">Untitled</slot></h2><slot>No content</slot></div>' })\nconst app = createSSRApp({ components: { Card }, template: '<Card><template #title>Hi</template><p>Body</p></Card><Card />' })\nconsole.log(await renderToString(app))\n```\n",
+     "options": [
+      "<div><h2>Untitled</h2><p>Body</p></div><div><h2>Untitled</h2>No content</div>",
+      "<div><h2>Hi</h2><p>Body</p></div><div></div>",
+      "<div><h2>Hi</h2>No content</div><div><h2>Untitled</h2>No content</div>",
+      "<div><h2>Hi</h2><p>Body</p></div><div><h2>Untitled</h2>No content</div>"
+     ],
+     "answer": 3,
+     "explain": "Slots with fallback content render the fallback when nothing is provided. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What are scoped slots for?",
+     "options": [
+      "Styling",
+      "Events only",
+      "The child exposes data to the slot content provided by the parent",
+      "Routing"
+     ],
+     "answer": 2,
+     "explain": "<slot :item=\"item\"> with v-slot=\"{ item }\"."
+    },
+    {
+     "q": "What is the shorthand for v-slot:header?",
+     "options": [
+      "#header",
+      "&header",
+      ":header",
+      "@header"
+     ],
+     "answer": 0,
+     "explain": "The hash shorthand."
+    },
+    {
+     "q": "Why use slots rather than many props for layout?",
+     "options": [
+      "Speed",
+      "The parent controls the markup while the child controls structure and behaviour",
+      "Law",
+      "Colour"
+     ],
+     "answer": 1,
+     "explain": "Flexible composition."
+    }
+   ]
+  },
+  "level-1/09-styling-transitions": {
+   "questions": [
+    {
+     "q": "What does <style scoped> do?",
+     "options": [
+      "Global CSS",
+      "Limits CSS to the current component by adding data attributes to its elements",
+      "Minifies",
+      "Inline CSS"
+     ],
+     "answer": 1,
+     "explain": "Use :deep() to reach child internals."
+    },
+    {
+     "q": "What does <Transition> do?",
+     "options": [
+      "Caches",
+      "Routes",
+      "Fetches",
+      "Applies enter and leave CSS classes or hooks when an element is added or removed"
+     ],
+     "answer": 3,
+     "explain": "Name drives class names."
+    },
+    {
+     "q": "What does v-bind() in CSS allow?",
+     "options": [
+      "Media",
+      "Fonts",
+      "Using reactive component state inside style rules",
+      "Imports"
+     ],
+     "answer": 2,
+     "explain": "Compiled to CSS variables."
+    },
+    {
+     "q": "What does <TransitionGroup> add?",
+     "options": [
+      "Animations for lists that are added, removed or reordered",
+      "Slots",
+      "Routing",
+      "Teleport"
+     ],
+     "answer": 0,
+     "explain": "Needs keys."
+    }
+   ]
+  },
+  "level-1/10-project-habit-tracker": {
+   "questions": [
+    {
+     "q": "What does this habit-tracker logic print?\n```js\nconst habits = ref([{ id: 1, name: 'Read', done: false }, { id: 2, name: 'Run', done: true }])\nconst remaining = computed(() => habits.value.filter(h => !h.done).length)\nfunction toggle(id) { const h = habits.value.find(h => h.id === id); h.done = !h.done }\ntoggle(1); toggle(2)\nconsole.log(remaining.value, habits.value.map(h => `${h.name}:${h.done}`).join(','))\n```\n",
+     "options": [
+      "2 Read:true,Run:false",
+      "0 Read:true,Run:true",
+      "1 Read:false,Run:true",
+      "1 Read:true,Run:false"
+     ],
+     "answer": 3,
+     "explain": "Mutating items inside a ref array is reactive and computed values update. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "Where should the habits be persisted between page loads?",
+     "options": [
+      "localStorage (or a backend), saved from a watcher and read on startup",
+      "A cookie only",
+      "The DOM",
+      "Global"
+     ],
+     "answer": 0,
+     "explain": "Guard against bad stored JSON."
+    },
+    {
+     "q": "How do you structure the project's components?",
+     "options": [
+      "A list component, an item component and a form, with state in a composable",
+      "No components",
+      "One big file",
+      "Global JS"
+     ],
+     "answer": 0,
+     "explain": "Small units are easier to test."
+    },
+    {
+     "q": "How do you test the logic without the UI?",
+     "options": [
+      "Extract it into plain functions or composables and unit test them",
+      "Manual",
+      "Skip",
+      "UI only"
+     ],
+     "answer": 0,
+     "explain": "Fast tests."
+    }
+   ]
+  },
+  "level-2/01-composables": {
+   "questions": [
+    {
+     "q": "What does this composable print?\n```js\nfunction useCounter(start = 0) { const n = ref(start); const inc = () => n.value++; const double = computed(() => n.value * 2); return { n, inc, double } }\nconst a = useCounter(); const b = useCounter(10)\na.inc(); a.inc(); b.inc()\nconsole.log(a.n.value, a.double.value, b.n.value)\n```\n",
+     "options": [
+      "2 4 2",
+      "0 0 11",
+      "2 4 11",
+      "12 24 11"
+     ],
+     "answer": 2,
+     "explain": "Each call creates independent reactive state. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What is a composable?",
+     "options": [
+      "A plugin",
+      "A component",
+      "A directive",
+      "A function that encapsulates reusable stateful logic using the Composition API"
+     ],
+     "answer": 3,
+     "explain": "By convention named useSomething."
+    },
+    {
+     "q": "What should composables return?",
+     "options": [
+      "Refs and functions (not destructured plain values) so reactivity is preserved",
+      "Classes",
+      "Plain values",
+      "Promises"
+     ],
+     "answer": 0,
+     "explain": "Return an object of refs."
+    },
+    {
+     "q": "Where can composables be called?",
+     "options": [
+      "Synchronously inside setup or other composables so lifecycle hooks attach to the component",
+      "Anywhere",
+      "In loops",
+      "After await"
+     ],
+     "answer": 0,
+     "explain": "Context matters."
+    }
+   ]
+  },
+  "level-2/02-provide-inject": {
+   "questions": [
+    {
+     "q": "What does provide/inject give a deep child?\n```js\nconst Leaf = defineComponent({ setup() { const theme = inject('theme', 'light'); return { theme } }, template: '<i>{{ theme }}</i>' })\nconst Mid = defineComponent({ components: { Leaf }, template: '<Leaf />' })\nconst app = createSSRApp({ components: { Mid }, setup() { provide('theme', 'dark') }, template: '<Mid />' })\nconsole.log(await renderToString(app))\n```\n",
+     "options": [
+      "<i>theme</i>",
+      "<i></i>",
+      "<i>light</i>",
+      "<i>dark</i>"
+     ],
+     "answer": 3,
+     "explain": "Values flow down to any descendant without prop drilling; the default applies only when nothing is provided. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What is a downside of overusing provide/inject?",
+     "options": [
+      "Speed",
+      "Law",
+      "None",
+      "Implicit dependencies are harder to trace than explicit props"
+     ],
+     "answer": 3,
+     "explain": "Use for cross-cutting context such as theme."
+    },
+    {
+     "q": "How do you keep injected state reactive?",
+     "options": [
+      "Use localStorage",
+      "Provide primitives",
+      "Provide a ref or reactive object, not a plain value",
+      "Use props"
+     ],
+     "answer": 2,
+     "explain": "Prefer readonly for consumers."
+    },
+    {
+     "q": "What does a Symbol key avoid?",
+     "options": [
+      "None",
+      "Name collisions between provided values",
+      "Law",
+      "Speed"
+     ],
+     "answer": 1,
+     "explain": "Use an InjectionKey in TypeScript."
+    }
+   ]
+  },
+  "level-2/03-vue-router-basics": {
+   "questions": [
+    {
+     "q": "What does Vue Router map?",
+     "options": [
+      "URL paths to components (routes)",
+      "State to components",
+      "Events to handlers",
+      "Stores to views"
+     ],
+     "answer": 0,
+     "explain": "createRouter({ history, routes })."
+    },
+    {
+     "q": "Which component renders the matched route?",
+     "options": [
+      "<RouterView>",
+      "<RouterLink>",
+      "<Route>",
+      "<Outlet>"
+     ],
+     "answer": 0,
+     "explain": "<RouterLink> creates navigation links."
+    },
+    {
+     "q": "How do you read route params in a component?",
+     "options": [
+      "props only",
+      "document",
+      "window.location",
+      "useRoute().params (and useRouter() to navigate)"
+     ],
+     "answer": 3,
+     "explain": "Params are strings."
+    },
+    {
+     "q": "What does history mode (createWebHistory) require from the server?",
+     "options": [
+      "HTTPS",
+      "CORS",
+      "Nothing",
+      "A fallback to index.html for unknown paths so deep links work"
+     ],
+     "answer": 3,
+     "explain": "Otherwise refresh gives 404."
+    }
+   ]
+  },
+  "level-2/04-router-in-depth": {
+   "questions": [
+    {
+     "q": "What are navigation guards for?",
+     "options": [
+      "Fonts",
+      "Controlling navigation, for example redirecting unauthenticated users",
+      "Caching",
+      "Styling"
+     ],
+     "answer": 1,
+     "explain": "beforeEach and per-route guards."
+    },
+    {
+     "q": "How do you lazy-load a route component?",
+     "options": [
+      "script tag",
+      "fetch",
+      "require",
+      "component: () => import('./views/About.vue')"
+     ],
+     "answer": 3,
+     "explain": "Code splitting per route."
+    },
+    {
+     "q": "What are nested routes?",
+     "options": [
+      "Subdomains",
+      "Query params",
+      "Child routes rendered inside a parent's <RouterView>",
+      "Hashes"
+     ],
+     "answer": 2,
+     "explain": "Layouts."
+    },
+    {
+     "q": "Why use named routes?",
+     "options": [
+      "Law",
+      "Colour",
+      "Speed",
+      "Navigate by name and params without hard-coded paths"
+     ],
+     "answer": 3,
+     "explain": "Refactor-safe."
+    }
+   ]
+  },
+  "level-2/05-pinia-fundamentals": {
+   "questions": [
+    {
+     "q": "What does this Pinia setup store print?\n```js\nimport { createPinia, defineStore, setActivePinia } from 'pinia'\nsetActivePinia(createPinia())\nconst useCart = defineStore('cart', () => { const items = ref([]); const total = computed(() => items.value.reduce((s, i) => s + i.price * i.qty, 0)); function add(i) { items.value.push(i) }; return { items, total, add } })\nconst cart = useCart()\ncart.add({ price: 5, qty: 2 }); cart.add({ price: 3, qty: 1 })\nconsole.log(cart.total, useCart() === cart)\n```\n",
+     "options": [
+      "8 true",
+      "13 false",
+      "13 true",
+      "10 true"
+     ],
+     "answer": 2,
+     "explain": "A store is a singleton per Pinia instance; computed getters derive from state. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What is Pinia?",
+     "options": [
+      "A router",
+      "A test tool",
+      "A build tool",
+      "The official state management library for Vue"
+     ],
+     "answer": 3,
+     "explain": "Replaces Vuex."
+    },
+    {
+     "q": "What belongs in a store?",
+     "options": [
+      "State shared across components, with actions that change it",
+      "Routes",
+      "CSS",
+      "Local UI state"
+     ],
+     "answer": 0,
+     "explain": "Keep component-local state local."
+    },
+    {
+     "q": "Why not mutate store state from many places?",
+     "options": [
+      "Centralising changes in actions makes behaviour easier to trace and test",
+      "Law",
+      "Speed",
+      "None"
+     ],
+     "answer": 0,
+     "explain": "Use devtools to inspect."
+    }
+   ]
+  },
+  "level-2/06-pinia-in-depth": {
+   "questions": [
+    {
+     "q": "What does $patch do on a options-style store?\n```js\nimport { createPinia, defineStore, setActivePinia } from 'pinia'\nsetActivePinia(createPinia())\nconst useS = defineStore('s', { state: () => ({ a: 1, b: 2 }), getters: { sum: s => s.a + s.b }, actions: { bump() { this.a++ } } })\nconst s = useS()\ns.$patch({ b: 10 }); s.bump()\nconsole.log(s.sum, JSON.stringify(s.$state))\ns.$reset()\nconsole.log(s.sum)\n```\n",
+     "options": [
+      "12 {\"a\":1,\"b\":10}\n3",
+      "12 {\"a\":2,\"b\":10}\n3",
+      "13 {\"a\":2,\"b\":10}\n3",
+      "12 {\"a\":2,\"b\":10}\n12"
+     ],
+     "answer": 1,
+     "explain": "$patch batches updates; $reset restores the initial state (options stores). Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "How do you keep destructured store state reactive?",
+     "options": [
+      "toRef only",
+      "Nothing",
+      "Spread",
+      "Use storeToRefs"
+     ],
+     "answer": 3,
+     "explain": "Actions can be destructured directly."
+    },
+    {
+     "q": "How do you persist a store?",
+     "options": [
+      "DOM",
+      "Cookies only",
+      "Not possible",
+      "A plugin or manual subscribe that saves to localStorage and rehydrates on start"
+     ],
+     "answer": 3,
+     "explain": "Mind sensitive data."
+    },
+    {
+     "q": "How do you test a store?",
+     "options": [
+      "Create a fresh Pinia per test and call actions directly",
+      "Mock Vue",
+      "Mount UI",
+      "Skip"
+     ],
+     "answer": 0,
+     "explain": "Isolated and fast."
+    }
+   ]
+  },
+  "level-2/07-async-data": {
+   "questions": [
+    {
+     "q": "Which pattern fetches data in a composable?",
+     "options": [
+      "Blocking",
+      "Promises only",
+      "Expose data, error and loading refs and update them around an async call",
+      "Globals"
+     ],
+     "answer": 2,
+     "explain": "Handle all three states."
+    },
+    {
+     "q": "What should you do when a new request starts before an old one finishes?",
+     "options": [
+      "Ignore or abort the stale response (AbortController or a request token)",
+      "Use both",
+      "Ignore",
+      "Retry"
+     ],
+     "answer": 0,
+     "explain": "Avoid race conditions."
+    },
+    {
+     "q": "What is Suspense for?",
+     "options": [
+      "Styling",
+      "Showing fallback content while async components or setup() with await resolve",
+      "Forms",
+      "Routing"
+     ],
+     "answer": 1,
+     "explain": "Still experimental in some versions."
+    },
+    {
+     "q": "Why show loading and error states?",
+     "options": [
+      "Speed",
+      "Law",
+      "Colour",
+      "Users need feedback; blank screens look broken"
+     ],
+     "answer": 3,
+     "explain": "Include retry."
+    }
+   ]
+  },
+  "level-2/08-form-validation": {
+   "questions": [
+    {
+     "q": "What does this validation composable return?\n```js\nconst rules = { required: v => !!v.trim() || 'Required', min: n => v => v.length >= n || `Min ${n}` }\nfunction validate(value, fns) { const errs = fns.map(f => f(value)).filter(r => r !== true); return errs }\nconsole.log(validate('', [rules.required, rules.min(3)]), validate('abcd', [rules.required, rules.min(3)]))\n```\n",
+     "options": [
+      "[ 'Required' ] []",
+      "[ 'Required', 'Min 3' ] []",
+      "[ 'Required', 'Min 3' ] [ 'Min 3' ]",
+      "[] [ 'Min 3' ]"
+     ],
+     "answer": 1,
+     "explain": "Validation rules return true or a message. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "When should errors be shown?",
+     "options": [
+      "Never",
+      "On load",
+      "After the field is touched or on submit, not while the user is still typing the first character",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "Avoid noisy forms."
+    },
+    {
+     "q": "What libraries help with forms in Vue?",
+     "options": [
+      "Router",
+      "Pinia",
+      "Vite",
+      "VeeValidate or FormKit with schema validators like Zod or Yup"
+     ],
+     "answer": 3,
+     "explain": "Share schemas with the server."
+    },
+    {
+     "q": "How should errors be announced?",
+     "options": [
+      "Nothing",
+      "Colour only",
+      "Linked to inputs with aria-describedby and aria-invalid for assistive tech",
+      "Alert"
+     ],
+     "answer": 2,
+     "explain": "Accessibility."
+    }
+   ]
+  },
+  "level-2/09-typescript-with-vue": {
+   "questions": [
+    {
+     "q": "How do you type props with <script setup lang=\"ts\">?",
+     "options": [
+      "propTypes",
+      "@Prop",
+      "props: String",
+      "defineProps<{ title: string; count?: number }>()"
+     ],
+     "answer": 3,
+     "explain": "Compile-time types."
+    },
+    {
+     "q": "What type is a template ref to a component?",
+     "options": [
+      "number",
+      "string",
+      "any",
+      "InstanceType<typeof Component> or a helper such as useTemplateRef"
+     ],
+     "answer": 3,
+     "explain": "Use null as the initial value."
+    },
+    {
+     "q": "What tool type-checks .vue files?",
+     "options": [
+      "tsc",
+      "eslint",
+      "vite",
+      "vue-tsc"
+     ],
+     "answer": 3,
+     "explain": "Run it in CI."
+    },
+    {
+     "q": "What do generics in components allow?",
+     "options": [
+      "Nothing",
+      "Slower",
+      "Reusable typed components such as a typed list or table",
+      "CSS"
+     ],
+     "answer": 2,
+     "explain": "<script setup generic=\"T\">."
+    }
+   ]
+  },
+  "level-2/10-project-recipe-book": {
+   "questions": [
+    {
+     "q": "What does the recipe book project combine?",
+     "options": [
+      "One page",
+      "Router, Pinia, async data, forms and composables in a multi-view app",
+      "Only state",
+      "Only forms"
+     ],
+     "answer": 1,
+     "explain": "Level 2 capstone."
+    },
+    {
+     "q": "How do you search recipes without hammering the API?",
+     "options": [
+      "Every keystroke",
+      "Never",
+      "Debounce input and cancel stale requests",
+      "Poll"
+     ],
+     "answer": 2,
+     "explain": "Cache results."
+    },
+    {
+     "q": "Where should favourites live?",
+     "options": [
+      "Router",
+      "DOM",
+      "CSS",
+      "In a Pinia store persisted to localStorage"
+     ],
+     "answer": 3,
+     "explain": "Rehydrate on load."
+    },
+    {
+     "q": "How should the project be tested?",
+     "options": [
+      "None",
+      "Manual",
+      "UI only",
+      "Unit tests for composables and stores and component tests for key views"
+     ],
+     "answer": 3,
+     "explain": "Cover the logic."
+    }
+   ]
+  },
+  "level-3/01-reactivity-in-depth": {
+   "questions": [
+    {
+     "q": "What does shallowRef do compared to ref?\n```js\nconst deep = ref({ n: 1 }); const shallow = shallowRef({ n: 1 })\nconst seen = []\nwatch(deep, () => seen.push('deep'), { deep: true })\nwatch(shallow, () => seen.push('shallow'), { deep: true })\ndeep.value.n++; shallow.value.n++\nawait nextTick()\nconsole.log(seen.join(','))\nshallow.value = { n: 5 }\nawait nextTick()\nconsole.log(seen.join(','))\n```\n",
+     "options": [
+      "deep\ndeep,shallow",
+      "shallow\ndeep,shallow",
+      "deep,shallow\ndeep,shallow,shallow",
+      "deep\ndeep"
+     ],
+     "answer": 0,
+     "explain": "A shallowRef tracks only replacing .value, not mutations inside the object. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What does effectScope let you do?\n```js\nconst scope = effectScope()\nconst n = ref(0); const log = []\nscope.run(() => { watchEffect(() => log.push(n.value)) })\nawait nextTick()\nn.value = 1; await nextTick()\nscope.stop()\nn.value = 2; await nextTick()\nconsole.log(log.join(','))\n```\n",
+     "options": [
+      "0",
+      "0,1,2",
+      "0,1",
+      "0,2"
+     ],
+     "answer": 2,
+     "explain": "Stopping the scope disposes all effects created inside it. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What does readonly guard against?\n```js\nconst state = reactive({ a: 1 }); const ro = readonly(state)\nro.a = 99\nstate.a = 2\nconsole.log(ro.a, state.a)\n```\n",
+     "options": [
+      "99 99",
+      "1 2",
+      "99 2",
+      "2 2"
+     ],
+     "answer": 3,
+     "explain": "Writes through a readonly proxy are ignored (with a warning in dev), while the source stays writable. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "How does Vue 3 track reactivity?",
+     "options": [
+      "Polling",
+      "Dirty checking",
+      "With Proxies that record which effects read each property and trigger them on change",
+      "Observers only"
+     ],
+     "answer": 2,
+     "explain": "Dependencies are tracked automatically."
+    }
+   ]
+  },
+  "level-3/02-rendering-mechanism": {
+   "questions": [
+    {
+     "q": "What is the virtual DOM?",
+     "options": [
+      "A copy of CSS",
+      "A lightweight JavaScript tree of vnodes that Vue diffs to compute minimal DOM updates",
+      "The browser DOM",
+      "A server"
+     ],
+     "answer": 1,
+     "explain": "Templates compile to render functions."
+    },
+    {
+     "q": "What does the compiler optimise with patch flags?",
+     "options": [
+      "It marks dynamic parts at compile time so updates skip static content",
+      "Routing",
+      "Nothing",
+      "CSS"
+     ],
+     "answer": 0,
+     "explain": "Static hoisting."
+    },
+    {
+     "q": "What does a render function with h() produce?\n```js\nconst app = createSSRApp({ render() { return h('ul', { class: 'list' }, [1,2].map(n => h('li', { key: n }, `Item ${n}`))) } })\nconsole.log(await renderToString(app))\n```\n",
+     "options": [
+      "<ul class=\"list\"><li>1</li><li>2</li></ul>",
+      "<ul class=\"list\"><li>Item 1</li><li>Item 2</li></ul>",
+      "<ul><li>Item 1</li></ul>",
+      "<list><li>Item 1</li><li>Item 2</li></list>"
+     ],
+     "answer": 1,
+     "explain": "Templates compile to calls like this. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "Why prefer templates over render functions?",
+     "options": [
+      "The compiler can apply optimisations that hand-written render functions cannot",
+      "Colour",
+      "Style",
+      "Law"
+     ],
+     "answer": 0,
+     "explain": "Use h() for dynamic components."
+    }
+   ]
+  },
+  "level-3/03-directives-plugins": {
+   "questions": [
+    {
+     "q": "What is a custom directive for?",
+     "options": [
+      "State",
+      "Low-level direct DOM access reused across components (for example v-focus)",
+      "Routing",
+      "Styling"
+     ],
+     "answer": 1,
+     "explain": "Use composables for logic."
+    },
+    {
+     "q": "What does app.use(plugin) do?",
+     "options": [
+      "Installs a plugin that can add global components, directives or provide values",
+      "Routes",
+      "Imports",
+      "Mounts"
+     ],
+     "answer": 0,
+     "explain": "Plugins have an install function."
+    },
+    {
+     "q": "When should you avoid a plugin?",
+     "options": [
+      "When a composable or component would do, since globals make dependencies implicit",
+      "Never",
+      "Speed",
+      "Always"
+     ],
+     "answer": 0,
+     "explain": "Keep scope small."
+    },
+    {
+     "q": "What lifecycle hooks do directives have?",
+     "options": [
+      "setup only",
+      "None",
+      "created, beforeMount, mounted, beforeUpdate, updated, beforeUnmount, unmounted",
+      "onMounted only"
+     ],
+     "answer": 2,
+     "explain": "Receive the element and binding."
+    }
+   ]
+  },
+  "level-3/04-built-in-components": {
+   "questions": [
+    {
+     "q": "What does <Teleport> do?",
+     "options": [
+      "Routes",
+      "Caches",
+      "Renders its content to another place in the DOM, such as <body>, while keeping logical component hierarchy",
+      "Moves state"
+     ],
+     "answer": 2,
+     "explain": "Modals and tooltips."
+    },
+    {
+     "q": "What does <KeepAlive> do?",
+     "options": [
+      "Keeps server alive",
+      "Prefetches",
+      "Locks",
+      "Caches component instances when switching so state is preserved"
+     ],
+     "answer": 3,
+     "explain": "Use include and max."
+    },
+    {
+     "q": "What does <Suspense> coordinate?",
+     "options": [
+      "CSS",
+      "Routes",
+      "Forms",
+      "Async dependencies in a subtree, showing a fallback until they resolve"
+     ],
+     "answer": 3,
+     "explain": "Handle errors separately."
+    },
+    {
+     "q": "What does <component :is=\"x\"> do?",
+     "options": [
+      "Imports",
+      "Styles",
+      "Renders a dynamic component chosen at runtime",
+      "Loops"
+     ],
+     "answer": 2,
+     "explain": "Use markRaw for component objects in reactive state."
+    }
+   ]
+  },
+  "level-3/05-async-components-splitting": {
+   "questions": [
+    {
+     "q": "What does defineAsyncComponent do?",
+     "options": [
+      "Routes",
+      "Loads a component lazily when it is first rendered",
+      "Compiles",
+      "Fetches data"
+     ],
+     "answer": 1,
+     "explain": "Add loading and error components."
+    },
+    {
+     "q": "How does code splitting help?",
+     "options": [
+      "Colour",
+      "Law",
+      "Style",
+      "Users download only the code needed for the current view"
+     ],
+     "answer": 3,
+     "explain": "Dynamic import() creates chunks."
+    },
+    {
+     "q": "Where are good split points?",
+     "options": [
+      "Buttons",
+      "Routes and heavy rarely used components (charts, editors)",
+      "Icons",
+      "Every component"
+     ],
+     "answer": 1,
+     "explain": "Measure bundle size."
+    },
+    {
+     "q": "What should you show while an async component loads?",
+     "options": [
+      "Error",
+      "A skeleton or spinner with a delay to avoid flicker",
+      "Blank",
+      "Nothing"
+     ],
+     "answer": 1,
+     "explain": "loadingComponent and delay."
+    }
+   ]
+  },
+  "level-3/06-performance": {
+   "questions": [
+    {
+     "q": "What does v-memo / computed memoisation save here?\n```js\nlet runs = 0\nconst list = ref([1,2,3])\nconst evens = computed(() => { runs++; return list.value.filter(n => n % 2 === 0) })\nevens.value; evens.value\nlist.value = [...list.value, 4]\nevens.value; evens.value\nconsole.log(runs, evens.value)\n```\n",
+     "options": [
+      "2 [ 2 ]",
+      "4 [ 2, 4 ]",
+      "1 [ 2, 4 ]",
+      "2 [ 2, 4 ]"
+     ],
+     "answer": 3,
+     "explain": "Computed values cache until a dependency changes. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What reduces unnecessary re-renders of a big list?",
+     "options": [
+      "More watchers",
+      "Deep reactivity",
+      "Inline objects",
+      "Stable keys, splitting rows into components and avoiding reactive wrappers for huge static data (shallowRef/markRaw)"
+     ],
+     "answer": 3,
+     "explain": "Measure first."
+    },
+    {
+     "q": "When use virtual scrolling?",
+     "options": [
+      "Never",
+      "Small lists",
+      "For very long lists where rendering every row is too slow",
+      "Always"
+     ],
+     "answer": 2,
+     "explain": "Libraries such as vue-virtual-scroller."
+    },
+    {
+     "q": "What tool shows what is slow?",
+     "options": [
+      "Linter",
+      "Vue Devtools performance tab and the browser Performance panel",
+      "Console",
+      "Guess"
+     ],
+     "answer": 1,
+     "explain": "Measure before optimising."
+    }
+   ]
+  },
+  "level-3/07-testing": {
+   "questions": [
+    {
+     "q": "What is the recommended test runner for Vue projects?",
+     "options": [
+      "Vitest, with Vue Test Utils for mounting components",
+      "Cypress only",
+      "Mocha only",
+      "Jest only"
+     ],
+     "answer": 0,
+     "explain": "Shares Vite config."
+    },
+    {
+     "q": "What should component tests assert on?",
+     "options": [
+      "What the user sees and does (text, roles, events), not implementation details",
+      "Private methods",
+      "Class names",
+      "Internal state"
+     ],
+     "answer": 0,
+     "explain": "Testing Library encourages this."
+    },
+    {
+     "q": "Why mock the network in tests?",
+     "options": [
+      "Law",
+      "Tests stay fast and deterministic",
+      "Colour",
+      "Style"
+     ],
+     "answer": 1,
+     "explain": "MSW is popular."
+    },
+    {
+     "q": "When use end-to-end tests?",
+     "options": [
+      "Never",
+      "For a few critical user journeys across the real app (Playwright, Cypress)",
+      "Units",
+      "Everything"
+     ],
+     "answer": 1,
+     "explain": "They are slower."
+    }
+   ]
+  },
+  "level-3/08-accessibility": {
+   "questions": [
+    {
+     "q": "How do you make custom components keyboard accessible?",
+     "options": [
+      "Colour",
+      "Use native elements (button, a) and manage focus and ARIA roles for custom widgets",
+      "div with click",
+      "Title"
+     ],
+     "answer": 1,
+     "explain": "Test with keyboard only."
+    },
+    {
+     "q": "What should route changes do for screen readers?",
+     "options": [
+      "Hide",
+      "Reload",
+      "Nothing",
+      "Move focus or announce the new page title"
+     ],
+     "answer": 3,
+     "explain": "SPA navigation doesn't reload."
+    },
+    {
+     "q": "What does aria-live do?",
+     "options": [
+      "Announces dynamic content updates to assistive technology",
+      "Routes",
+      "Hides",
+      "Styles"
+     ],
+     "answer": 0,
+     "explain": "Use sparingly."
+    },
+    {
+     "q": "How do you check accessibility continuously?",
+     "options": [
+      "Automated checks (axe) in CI plus manual keyboard and screen-reader testing",
+      "None",
+      "Automated only",
+      "Manual only"
+     ],
+     "answer": 0,
+     "explain": "Both needed."
+    }
+   ]
+  },
+  "level-3/09-errors-security": {
+   "questions": [
+    {
+     "q": "What does app.config.errorHandler catch?",
+     "options": [
+      "Syntax",
+      "Network",
+      "Errors thrown in component render, lifecycle and event handlers",
+      "Build"
+     ],
+     "answer": 2,
+     "explain": "Send to monitoring."
+    },
+    {
+     "q": "Why is v-html dangerous with user input?",
+     "options": [
+      "Law",
+      "Colour",
+      "Speed",
+      "It inserts raw HTML, enabling XSS; sanitise or avoid"
+     ],
+     "answer": 3,
+     "explain": "Prefer text interpolation."
+    },
+    {
+     "q": "What does text interpolation do with HTML in user input?\n```js\nconst app = createSSRApp({ data: () => ({ input: '<img src=x onerror=alert(1)>' }), template: '<p>{{ input }}</p>' })\nconsole.log(await renderToString(app))\n```\n",
+     "options": [
+      "<p><img src=x onerror=alert(1)></p>",
+      "<p>&lt;img src=x onerror=alert(1)&gt;</p>",
+      "<p>input</p>",
+      "<p></p>"
+     ],
+     "answer": 1,
+     "explain": "Mustache escapes HTML, which is why it is safe by default. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "Why not store tokens in localStorage if avoidable?",
+     "options": [
+      "Speed",
+      "Any XSS can read them; prefer httpOnly cookies",
+      "Colour",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Defence in depth."
+    }
+   ]
+  },
+  "level-3/10-project-kanban": {
+   "questions": [
+    {
+     "q": "What does the kanban project practise?",
+     "options": [
+      "Drag and drop, derived state, persistence and component composition",
+      "Only forms",
+      "Only routing",
+      "Only styling"
+     ],
+     "answer": 0,
+     "explain": "Level 3 capstone."
+    },
+    {
+     "q": "How do you make drag and drop accessible?",
+     "options": [
+      "Hide",
+      "Provide keyboard alternatives (move buttons) and announce changes",
+      "Mouse only",
+      "Colour"
+     ],
+     "answer": 1,
+     "explain": "Test with keyboard."
+    },
+    {
+     "q": "Where should the board state live?",
+     "options": [
+      "DOM",
+      "CSS",
+      "In a store with actions that move cards immutably and persist",
+      "Router"
+     ],
+     "answer": 2,
+     "explain": "Single source of truth."
+    },
+    {
+     "q": "How do you keep ordering stable?",
+     "options": [
+      "Hash",
+      "Random",
+      "Store order explicitly (position or ids array) rather than relying on DOM order",
+      "DOM order"
+     ],
+     "answer": 2,
+     "explain": "Reorder in state."
+    }
+   ]
+  },
+  "level-4/01-ssr-from-scratch": {
+   "questions": [
+    {
+     "q": "What does server-side rendering produce for a component with async state?\n```js\nconst app = createSSRApp({ data: () => ({ items: ['x','y'] }), template: '<ul><li v-for=\"i in items\">{{ i }}</li></ul>' })\nconst html = await renderToString(app)\nconsole.log(html)\nconsole.log(html.startsWith('<ul>'))\n```\n",
+     "options": [
+      "<ul><li>x</li><li>y</li></ul>\ntrue",
+      "<ul><li>x</li></ul>\ntrue",
+      "<ul></ul>\nfalse",
+      "<div id=\"app\"></div>\ntrue"
+     ],
+     "answer": 0,
+     "explain": "SSR returns complete HTML that the client then hydrates. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+    },
+    {
+     "q": "What is hydration?",
+     "options": [
+      "The client attaching event listeners and state to server-rendered HTML",
+      "Fetching",
+      "Styling",
+      "Caching"
+     ],
+     "answer": 0,
+     "explain": "Mismatches cause warnings."
+    },
+    {
+     "q": "What causes hydration mismatches?",
+     "options": [
+      "Props",
+      "Server and client rendering different output, for example using Date.now() or window during render",
+      "Router",
+      "CSS"
+     ],
+     "answer": 1,
+     "explain": "Defer client-only work to onMounted."
+    },
+    {
+     "q": "Why share state carefully on the server?",
+     "options": [
+      "Colour",
+      "Law",
+      "Module-level singletons leak between requests; create a new app and store per request",
+      "Speed"
+     ],
+     "answer": 2,
+     "explain": "Isolation."
+    }
+   ]
+  },
+  "level-4/02-nuxt-overview": {
+   "questions": [
+    {
+     "q": "What does Nuxt add to Vue?",
+     "options": [
+      "A language",
+      "A UI kit",
+      "Conventions and tooling for routing by file structure, SSR, data fetching and deployment",
+      "A DB"
+     ],
+     "answer": 2,
+     "explain": "File-based routing."
+    },
+    {
+     "q": "What does useFetch do in Nuxt?",
+     "options": [
+      "Fetches data on the server and reuses it on the client during hydration",
+      "Prints",
+      "Caches CSS",
+      "Routes"
+     ],
+     "answer": 0,
+     "explain": "Avoids double fetch."
+    },
+    {
+     "q": "What are Nuxt's rendering modes?",
+     "options": [
+      "SSR, static generation (SSG), SPA and hybrid per route",
+      "SPA only",
+      "SSG only",
+      "SSR only"
+     ],
+     "answer": 0,
+     "explain": "Choose per page."
+    },
+    {
+     "q": "When might plain Vue be enough?",
+     "options": [
+      "SSR",
+      "For client-only apps behind login with no SEO needs",
+      "Never",
+      "Always"
+     ],
+     "answer": 1,
+     "explain": "Choose the lightest tool."
+    }
+   ]
+  },
+  "level-4/03-vite-production-builds": {
+   "questions": [
+    {
+     "q": "What does vite build produce?",
+     "options": [
+      "Types",
+      "Optimised, minified, code-split static assets with hashed filenames",
+      "Dev server",
+      "Docs"
+     ],
+     "answer": 1,
+     "explain": "Use for production."
+    },
+    {
+     "q": "Why hashed filenames?",
+     "options": [
+      "Style",
+      "Browsers can cache assets forever and updates change the name",
+      "Colour",
+      "Law"
+     ],
+     "answer": 1,
+     "explain": "Cache busting."
+    },
+    {
+     "q": "What does rollup-plugin-visualizer show?",
+     "options": [
+      "What contributes to bundle size",
+      "Cost",
+      "Tests",
+      "Speed"
+     ],
+     "answer": 0,
+     "explain": "Find heavy dependencies."
+    },
+    {
+     "q": "How are environment variables exposed?",
+     "options": [
+      "Secrets",
+      "Only those prefixed with VITE_ reach client code, and they are public",
+      "All",
+      "None"
+     ],
+     "answer": 1,
+     "explain": "Never put secrets in them."
+    }
+   ]
+  },
+  "level-4/04-component-libraries": {
+   "questions": [
+    {
+     "q": "What is a good way to build a component library?",
+     "options": [
+      "Vite library mode with typed props, documentation (Storybook) and tests",
+      "Zip",
+      "Copy",
+      "Inline"
+     ],
+     "answer": 0,
+     "explain": "Publish ESM and types."
+    },
+    {
+     "q": "What belongs in a library's dependencies?",
+     "options": [
+      "Everything",
+      "Vue as a peer dependency, not bundled",
+      "Nothing",
+      "Vue bundled"
+     ],
+     "answer": 1,
+     "explain": "Avoid duplicate Vue copies."
+    },
+    {
+     "q": "How should styles be shipped?",
+     "options": [
+      "Scoped or CSS variables with documented theming hooks",
+      "Inline",
+      "None",
+      "Globals"
+     ],
+     "answer": 0,
+     "explain": "Allow overrides."
+    },
+    {
+     "q": "How do you version a library?",
+     "options": [
+      "Random",
+      "Dates",
+      "Semantic versioning with a changelog",
+      "None"
+     ],
+     "answer": 2,
+     "explain": "Communicate breaking changes."
+    }
+   ]
+  },
+  "level-4/05-large-app-architecture": {
+   "questions": [
+    {
+     "q": "How do you structure a large Vue app?",
+     "options": [
+      "By file type",
+      "Feature-based modules with their own components, composables, stores and routes",
+      "One folder",
+      "Random"
+     ],
+     "answer": 1,
+     "explain": "Scale by feature."
+    },
+    {
+     "q": "What keeps coupling low?",
+     "options": [
+      "Everything shared",
+      "Globals",
+      "Clear public APIs per feature and no deep imports across features",
+      "Singletons"
+     ],
+     "answer": 2,
+     "explain": "Lint boundaries."
+    },
+    {
+     "q": "Where should API calls live?",
+     "options": [
+      "CSS",
+      "Components",
+      "In a service layer or composables, not scattered through components",
+      "Templates"
+     ],
+     "answer": 2,
+     "explain": "Easier to mock and change."
+    },
+    {
+     "q": "What do architecture decision records capture?",
+     "options": [
+      "Why key decisions were made, and their trade-offs",
+      "Bugs",
+      "Tests",
+      "Code"
+     ],
+     "answer": 0,
+     "explain": "Help future maintainers."
+    }
+   ]
+  },
+  "level-4/06-migration-staying-current": {
+   "questions": [
+    {
+     "q": "What changed from Vue 2 to Vue 3?",
+     "options": [
+      "Composition API, Proxy-based reactivity, fragments, Teleport and better TypeScript support",
+      "Only speed",
+      "Nothing",
+      "A new language"
+     ],
+     "answer": 0,
+     "explain": "Vue 2 is end of life."
+    },
+    {
+     "q": "How do you stay current safely?",
+     "options": [
+      "Never",
+      "Read release notes, upgrade regularly in small steps and keep tests green",
+      "Ignore",
+      "Big bang"
+     ],
+     "answer": 1,
+     "explain": "Small upgrades are easier."
+    },
+    {
+     "q": "What does the migration build help with?",
+     "options": [
+      "Nothing",
+      "Styling",
+      "Running Vue 2 code on Vue 3 with compatibility warnings",
+      "Testing"
+     ],
+     "answer": 2,
+     "explain": "A transitional tool."
+    },
+    {
+     "q": "Why track deprecations?",
+     "options": [
+      "Style",
+      "They signal future removals; fix them early",
+      "Law",
+      "Colour"
+     ],
+     "answer": 1,
+     "explain": "Treat warnings as work items."
+    }
+   ]
+  },
+  "level-4/07-i18n": {
+   "questions": [
+    {
+     "q": "What does vue-i18n manage?",
+     "options": [
+      "Routing",
+      "Build",
+      "Translations, locale switching, pluralisation and number/date formatting",
+      "State"
+     ],
+     "answer": 2,
+     "explain": "Lazy-load locale files."
+    },
+    {
+     "q": "Why not concatenate translated strings?",
+     "options": [
+      "Colour",
+      "Speed",
+      "Word order differs by language; use placeholders and plural rules",
+      "Law"
+     ],
+     "answer": 2,
+     "explain": "ICU-style messages."
+    },
+    {
+     "q": "What else should i18n consider?",
+     "options": [
+      "Right-to-left layouts, date and number formats and text expansion",
+      "Speed",
+      "Fonts",
+      "Colour"
+     ],
+     "answer": 0,
+     "explain": "Test with long strings."
+    },
+    {
+     "q": "How do you handle missing translations?",
+     "options": [
+      "Blank",
+      "Fall back to a default locale and log the missing keys",
+      "Ignore",
+      "Crash"
+     ],
+     "answer": 1,
+     "explain": "Track coverage."
+    }
+   ]
+  },
+  "level-4/08-deployment": {
+   "questions": [
+    {
+     "q": "What does an SPA deployment need?",
+     "options": [
+      "Static hosting with a fallback to index.html for client-side routes",
+      "A VM",
+      "A DB",
+      "FTP only"
+     ],
+     "answer": 0,
+     "explain": "Cache hashed assets, not index.html."
+    },
+    {
+     "q": "What cache headers suit hashed assets?",
+     "options": [
+      "Same",
+      "Long-lived immutable caching; keep index.html short-lived",
+      "Short",
+      "No cache"
+     ],
+     "answer": 1,
+     "explain": "Safe updates."
+    },
+    {
+     "q": "What does a CDN add?",
+     "options": [
+      "Builds",
+      "Security only",
+      "State",
+      "Edge caching close to users for faster loads"
+     ],
+     "answer": 3,
+     "explain": "Purge on deploy."
+    },
+    {
+     "q": "What belongs in a deploy pipeline?",
+     "options": [
+      "Manual",
+      "Build only",
+      "Install, lint, test, build, deploy and a smoke test with easy rollback",
+      "Test only"
+     ],
+     "answer": 2,
+     "explain": "Automate everything."
+    }
+   ]
+  },
+  "level-4/09-production-readiness": {
+   "questions": [
+    {
+     "q": "What does production readiness include?",
+     "options": [
+      "Error monitoring, performance budgets, accessibility checks, security headers and runbooks",
+      "A logo",
+      "Features",
+      "Docs only"
+     ],
+     "answer": 0,
+     "explain": "Beyond working code."
+    },
+    {
+     "q": "How do you track real-user errors?",
+     "options": [
+      "Ignore",
+      "Send errors from app.config.errorHandler to a monitoring service with source maps",
+      "Email",
+      "Console"
+     ],
+     "answer": 1,
+     "explain": "Release tagging."
+    },
+    {
+     "q": "What are performance budgets?",
+     "options": [
+      "Limits on bundle size and load metrics enforced in CI",
+      "Colours",
+      "Time sheets",
+      "Money"
+     ],
+     "answer": 0,
+     "explain": "Prevent regressions."
+    },
+    {
+     "q": "What is a security header example?",
+     "options": [
+      "Cache",
+      "Title",
+      "Content-Security-Policy restricting where scripts load from",
+      "Colour header"
+     ],
+     "answer": 2,
+     "explain": "Mitigates XSS."
+    }
+   ]
+  },
+  "level-4/10-capstone": {
+   "questions": [
+    {
+     "q": "What does the capstone combine?",
+     "options": [
+      "Only UI",
+      "Only state",
+      "Routing, state, async data, testing, accessibility, performance and deployment",
+      "Only router"
+     ],
+     "answer": 2,
+     "explain": "Show it all."
+    },
+    {
+     "q": "What proves quality?",
+     "options": [
+      "Passing CI with tests, accessibility audit, budgets and documentation",
+      "It runs",
+      "Screenshots",
+      "Looks good"
+     ],
+     "answer": 0,
+     "explain": "Evidence."
+    },
+    {
+     "q": "What belongs in the README?",
+     "options": [
+      "Setup, scripts, architecture, decisions and deployment steps",
+      "Logo",
+      "Nothing",
+      "Slogan"
+     ],
+     "answer": 0,
+     "explain": "Handover."
+    },
+    {
+     "q": "How do you handle residual risks?",
+     "options": [
+      "Hide",
+      "Document them and accept, mitigate or transfer",
+      "Ignore",
+      "Delay"
+     ],
+     "answer": 1,
+     "explain": "Risk register."
+    }
+   ]
+  }
+ },
+ "final": {
+  "questions": [
+   {
+    "q": "What does this reactive code print?\n```js\nconst a = ref(1)\nconst b = computed(() => a.value + 1)\nconst log = []\nwatch(b, (v, o) => log.push(`${o}->${v}`))\na.value = 2; a.value = 3\nawait nextTick()\nconsole.log(log.join(','), b.value)\n```\n",
+    "options": [
+     "2->3 3",
+     "2->3,3->4 4",
+     "2->4 4",
+     "4 4"
+    ],
+    "answer": 2,
+    "explain": "Watchers are batched: two synchronous changes produce one callback with the final value. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+   },
+   {
+    "q": "What does destructuring a reactive object do?\n```js\nconst s = reactive({ n: 1 })\nlet { n } = s\ns.n = 2\nconst { n: r } = toRefs(s)\ns.n = 3\nconsole.log(n, r.value)\n```\n",
+    "options": [
+     "2 3",
+     "3 3",
+     "1 3",
+     "1 1"
+    ],
+    "answer": 2,
+    "explain": "Plain destructuring copies the value; toRefs keeps a live link. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+   },
+   {
+    "q": "What does this component render with a scoped default?\n```js\nconst Item = defineComponent({ props: { label: { type: String, default: 'none' } }, template: '<i>{{ label }}</i>' })\nconst app = createSSRApp({ components: { Item }, template: '<Item /><Item label=\"x\" />' })\nconsole.log(await renderToString(app))\n```\n",
+    "options": [
+     "<i>none</i><i>none</i>",
+     "<i></i><i>x</i>",
+     "<i>none</i><i>x</i>",
+     "<i>label</i><i>x</i>"
+    ],
+    "answer": 2,
+    "explain": "Props can declare defaults. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+   },
+   {
+    "q": "What does Vue's text interpolation do with markup?\n```js\nconst app = createSSRApp({ data: () => ({ s: '<b>hi</b>' }), template: '<p>{{ s }}</p><p v-html=\"s\"></p>' })\nconsole.log(await renderToString(app))\n```\n",
+    "options": [
+     "<p>&lt;b&gt;hi&lt;/b&gt;</p><p>&lt;b&gt;hi&lt;/b&gt;</p>",
+     "<p><b>hi</b></p><p><b>hi</b></p>",
+     "<p>&lt;b&gt;hi&lt;/b&gt;</p><p><b>hi</b></p>",
+     "<p>hi</p><p>hi</p>"
+    ],
+    "answer": 2,
+    "explain": "Mustache escapes; v-html inserts raw HTML, so never use it with untrusted input. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+   },
+   {
+    "q": "What does shallowRef track?\n```js\nconst s = shallowRef({ n: 1 })\nconst seen = []\nwatch(s, () => seen.push('changed'))\ns.value.n = 2\nawait nextTick()\nseen.push(seen.length)\ns.value = { n: 3 }\nawait nextTick()\nconsole.log(seen.join(','))\n```\n",
+    "options": [
+     "changed,1",
+     "0",
+     "changed,changed",
+     "0,changed"
+    ],
+    "answer": 3,
+    "explain": "Only replacing .value triggers a shallowRef. Verified by running it with Vue 3.5 in Node (server renderer for templates; the SSR hydration comment markers are stripped for readability)."
+   },
+   {
+    "q": "A parent passes an object as a prop and the child edits a field. What is wrong?",
+    "options": [
+     "It is faster",
+     "Props are one-way; mutating them hides data flow, so emit an event or copy to local state",
+     "Vue forbids objects",
+     "Nothing"
+    ],
+    "answer": 1,
+    "explain": "Mutating nested props even works silently, which is why it is discouraged."
+   },
+   {
+    "q": "Why do v-for lists need a stable :key?",
+    "options": [
+     "Law",
+     "Speed only",
+     "So Vue can reuse and reorder elements correctly instead of patching them in place",
+     "Styling"
+    ],
+    "answer": 2,
+    "explain": "Use unique ids, not the array index, if items can move."
+   },
+   {
+    "q": "When is computed better than watch?",
+    "options": [
+     "Logging",
+     "When you derive a value from other state, because it caches and stays declarative",
+     "Fetching",
+     "Side effects"
+    ],
+    "answer": 1,
+    "explain": "Use watch for side effects."
+   },
+   {
+    "q": "What does <script setup> compile to?",
+    "options": [
+     "Component setup code where top-level bindings are exposed to the template automatically",
+     "Options API",
+     "A module system",
+     "A class"
+    ],
+    "answer": 0,
+    "explain": "Less boilerplate."
+   },
+   {
+    "q": "What is the right place to fetch data for a view?",
+    "options": [
+     "CSS",
+     "The template",
+     "A directive",
+     "A composable returning data, error and loading refs, called from setup"
+    ],
+    "answer": 3,
+    "explain": "Handle all three states."
+   },
+   {
+    "q": "A route works when navigated to but 404s on refresh in production. Why?",
+    "options": [
+     "Cache",
+     "A router bug",
+     "The server has no fallback to index.html for history-mode routes",
+     "Vue bug"
+    ],
+    "answer": 2,
+    "explain": "Configure the host fallback."
+   },
+   {
+    "q": "What is Pinia's role?",
+    "options": [
+     "Build",
+     "Testing",
+     "Shared state outside components, with actions and getters",
+     "Routing"
+    ],
+    "answer": 2,
+    "explain": "Keep local state local."
+   },
+   {
+    "q": "How do you test a Pinia store in isolation?",
+    "options": [
+     "Create a fresh Pinia per test and call actions directly",
+     "Skip",
+     "Mock Vue",
+     "Mount the app"
+    ],
+    "answer": 0,
+    "explain": "Fast, deterministic."
+   },
+   {
+    "q": "What does hydration mean in SSR?",
+    "options": [
+     "Styling",
+     "Caching",
+     "The client attaching reactivity and listeners to server-rendered HTML",
+     "Fetching"
+    ],
+    "answer": 2,
+    "explain": "Mismatches produce warnings."
+   },
+   {
+    "q": "What commonly causes hydration mismatches?",
+    "options": [
+     "Router",
+     "CSS",
+     "Rendering different output on server and client, for example Date.now() or window during render",
+     "Props"
+    ],
+    "answer": 2,
+    "explain": "Defer client-only work to onMounted."
+   },
+   {
+    "q": "Why is a module-level store dangerous in SSR?",
+    "options": [
+     "Colour",
+     "Speed",
+     "State leaks between requests; create a new app and store per request",
+     "Law"
+    ],
+    "answer": 2,
+    "explain": "Isolation per request."
+   },
+   {
+    "q": "Which assets can be cached forever in production?",
+    "options": [
+     "Nothing",
+     "Hashed build assets (the file name changes with content)",
+     "index.html",
+     "Everything"
+    ],
+    "answer": 1,
+    "explain": "Keep index.html short-lived."
+   },
+   {
+    "q": "How do you secure a Vue app against XSS?",
+    "options": [
+     "Minify",
+     "Avoid v-html with user input, sanitise when needed, and set a Content-Security-Policy",
+     "Hide it",
+     "Use v-show"
+    ],
+    "answer": 1,
+    "explain": "Mustache escaping helps by default."
+   },
+   {
+    "q": "What proves a Vue app is production-ready?",
+    "options": [
+     "It runs",
+     "Few lines",
+     "CI with tests and accessibility checks, performance budgets, error monitoring and a rollback plan",
+     "Looks good"
+    ],
+    "answer": 2,
+    "explain": "Evidence."
+   }
+  ],
+  "challenges": [
+   {
+    "title": "A habit-tracker composable with persistence",
+    "prompt": "Write useHabits, a composable that restores habits from a storage object, adds (with trimming and duplicate checks), toggles days immutably, summarises today's progress, computes streaks and saves changes with a deep watcher. A fake storage object stands in for localStorage so it runs in Node; only Vue's reactivity package is used, no DOM or components.",
+    "starter": "import { ref, computed, watch, nextTick } from 'vue'\n\n// a fake localStorage so the script runs anywhere\nconst storage = { data: {}, writes: 0, getItem(k) { return this.data[k] ?? null }, setItem(k, v) { this.data[k] = v; this.writes++ } }\n\n// TODO: export function useHabits(store, key = 'habits')\n//   restore habits from store.getItem(key) (JSON; fall back to [] on bad data), keep them in a ref, compute nextId\n//   add(name): trim, reject empty or case-insensitive duplicates (return false/true), push { id, name, days: [] }\n//   toggle(id, day): add or remove the day immutably (return false for an unknown id)\n//   deleteHabit(id)\n//   summary (computed): \"<done>/<total> done today\" counting habits whose days include '2026-03-05'\n//   streak(habit, today): consecutive days ending today (use UTC dates)\n//   a deep watcher that saves JSON to the store (the watcher batches synchronous changes into one write)\n\nconst log = []\nconst app1 = useHabits(storage)\nlog.push(['add Read', app1.add('Read')], ['add read (dup)', app1.add('read')], ['add Run', app1.add('  Run ')], ['add empty', app1.add('   ')])\nfor (const d of ['2026-03-03', '2026-03-04', '2026-03-05']) app1.toggle(1, d)\napp1.toggle(2, '2026-03-05')\napp1.toggle(2, '2026-03-05')\nawait nextTick()\nconsole.log(log.map(([k, v]) => `${k}: ${v}`).join('\\n'))\nconsole.log(app1.summary.value, '| streak(Read) =', app1.streak(app1.habits.value[0], '2026-03-05'), '| streak(Run) =', app1.streak(app1.habits.value[1], '2026-03-05'))\nconsole.log('storage writes (batched by the watcher):', storage.writes)\n\nconst app2 = useHabits(storage)\nconsole.log('restored:', app2.habits.value.map(h => `${h.name}(${h.days.length})`).join(', '))\napp2.deleteHabit(2)\nawait nextTick()\nconsole.log('after delete:', JSON.parse(storage.getItem('habits')).map(h => h.name).join(','))\nconst broken = { getItem: () => '{not json', setItem() {} }\nconsole.log('corrupt storage ->', useHabits(broken).habits.value.length, 'habits')\n",
+    "expected": "add Read: true\nadd read (dup): false\nadd Run: true\nadd empty: false\n1/2 done today | streak(Read) = 3 | streak(Run) = 0\nstorage writes (batched by the watcher): 1\nrestored: Read(3), Run(0)\nafter delete: Read\ncorrupt storage -> 0 habits",
+    "solution": "import { ref, computed, watch, nextTick } from 'vue'\n\n// a fake localStorage so the script runs anywhere\nconst storage = { data: {}, writes: 0, getItem(k) { return this.data[k] ?? null }, setItem(k, v) { this.data[k] = v; this.writes++ } }\n\nexport function useHabits(store, key = 'habits') {\n  let initial = []\n  try { initial = JSON.parse(store.getItem(key)) ?? [] } catch { initial = [] }\n  const habits = ref(initial)\n  let nextId = habits.value.reduce((m, h) => Math.max(m, h.id), 0) + 1\n\n  const doneCount = computed(() => habits.value.filter(h => h.days.includes('2026-03-05')).length)\n  const summary = computed(() => `${doneCount.value}/${habits.value.length} done today`)\n  const streak = (h, today) => {\n    let n = 0\n    const d = new Date(today + 'T00:00:00Z')\n    while (h.days.includes(d.toISOString().slice(0, 10))) { n++; d.setUTCDate(d.getUTCDate() - 1) }\n    return n\n  }\n\n  function add(name) {\n    const trimmed = name.trim()\n    if (!trimmed || habits.value.some(h => h.name.toLowerCase() === trimmed.toLowerCase())) return false\n    habits.value.push({ id: nextId++, name: trimmed, days: [] })\n    return true\n  }\n  function toggle(id, day) {\n    const h = habits.value.find(h => h.id === id)\n    if (!h) return false\n    h.days = h.days.includes(day) ? h.days.filter(d => d !== day) : [...h.days, day]\n    return true\n  }\n  function deleteHabit(id) { habits.value = habits.value.filter(h => h.id !== id) }\n\n  watch(habits, v => store.setItem(key, JSON.stringify(v)), { deep: true })\n  return { habits, summary, streak, add, toggle, deleteHabit }\n}\n\nconst log = []\nconst app1 = useHabits(storage)\nlog.push(['add Read', app1.add('Read')], ['add read (dup)', app1.add('read')], ['add Run', app1.add('  Run ')], ['add empty', app1.add('   ')])\nfor (const d of ['2026-03-03', '2026-03-04', '2026-03-05']) app1.toggle(1, d)\napp1.toggle(2, '2026-03-05')\napp1.toggle(2, '2026-03-05')\nawait nextTick()\nconsole.log(log.map(([k, v]) => `${k}: ${v}`).join('\\n'))\nconsole.log(app1.summary.value, '| streak(Read) =', app1.streak(app1.habits.value[0], '2026-03-05'), '| streak(Run) =', app1.streak(app1.habits.value[1], '2026-03-05'))\nconsole.log('storage writes (batched by the watcher):', storage.writes)\n\nconst app2 = useHabits(storage)\nconsole.log('restored:', app2.habits.value.map(h => `${h.name}(${h.days.length})`).join(', '))\napp2.deleteHabit(2)\nawait nextTick()\nconsole.log('after delete:', JSON.parse(storage.getItem('habits')).map(h => h.name).join(','))\nconst broken = { getItem: () => '{not json', setItem() {} }\nconsole.log('corrupt storage ->', useHabits(broken).habits.value.length, 'habits')\n",
+    "explain": "Because the watcher is flushed asynchronously, the five synchronous edits cause a single storage write. Restoring runs through try/catch so corrupt data falls back to an empty list. Verified by running it with Vue 3.5 in Node."
+   },
+   {
+    "title": "Server-render a product list with props, slots and provide/inject",
+    "prompt": "Build ProductList, ProductCard and PriceView components and render the page to HTML on the server with createSSRApp and renderToString. Use props with defaults, named slots with fallback content, a computed filter and sort, and provide/inject for a money formatter. The hydration comment markers are stripped from the printed HTML; note the id attribute, which falls through from v-bind because it is not a declared prop.",
+    "starter": "import { createSSRApp, defineComponent, computed, provide, inject } from 'vue'\nimport { renderToString as _render } from 'vue/server-renderer'\nconst renderToString = async app => (await _render(app)).replace(/<!--[\\[\\]]-->/g, '')\n\n// TODO: PriceView (prop cents, injects 'money' with a default formatter, renders <b class=\"price\">)\n// TODO: ProductCard (props name, cents, stock default 0; slots \"title\" and \"badge\" with fallbacks; class sold when stock is 0)\n// TODO: ProductList (props products, query, sort; computed filtered + sorted list; empty-state paragraph)\n// Hint: v-bind=\"p\" on the card passes every product field, so non-prop fields such as id fall through as attributes\n\nconst products = [\n  { id: 1, name: 'Notebook', cents: 450, stock: 12 },\n  { id: 2, name: 'Pen', cents: 150, stock: 0 },\n  { id: 3, name: 'Notepad', cents: 300, stock: 3 },\n]\nconst money = c => `$${(c / 100).toFixed(2)}`\n\nasync function page(props) {\n  const app = createSSRApp({\n    components: { ProductList },\n    setup() { provide('money', money); return { props } },\n    template: '<ProductList v-bind=\"props\" />',\n  })\n  return renderToString(app)\n}\n\nconsole.log(await page({ products }))\nconsole.log(await page({ products, query: 'note', sort: 'price' }))\nconsole.log(await page({ products, query: 'zzz' }))\n",
+    "expected": "<ul><li class=\"\" id=\"1\">Notebook <b class=\"price\">$4.50</b><!----></li><li class=\"\" id=\"3\">Notepad <b class=\"price\">$3.00</b><!----></li><li class=\"sold\" id=\"2\">Pen <b class=\"price\">$1.50</b><span class=\"badge\">gone</span></li></ul>\n<ul><li class=\"\" id=\"3\">Notepad <b class=\"price\">$3.00</b><!----></li><li class=\"\" id=\"1\">Notebook <b class=\"price\">$4.50</b><!----></li></ul>\n<p class=\"empty\">No products match &quot;zzz&quot;</p>",
+    "solution": "import { createSSRApp, defineComponent, computed, provide, inject } from 'vue'\nimport { renderToString as _render } from 'vue/server-renderer'\nconst renderToString = async app => (await _render(app)).replace(/<!--[\\[\\]]-->/g, '')\n\nconst PriceView = defineComponent({\n  props: { cents: { type: Number, required: true } },\n  setup(props) {\n    const fmt = inject('money', c => String(c))\n    const text = computed(() => fmt(props.cents))\n    return { text }\n  },\n  template: '<b class=\"price\">{{ text }}</b>'\n})\n\nconst ProductCard = defineComponent({\n  components: { PriceView },\n  props: { name: String, cents: Number, stock: { type: Number, default: 0 } },\n  template: `<li :class=\"{ sold: stock === 0 }\"><slot name=\"title\">{{ name }}</slot> <PriceView :cents=\"cents\" /><slot v-if=\"stock === 0\" name=\"badge\"><em>sold out</em></slot></li>`\n})\n\nconst ProductList = defineComponent({\n  components: { ProductCard },\n  props: { products: Array, query: { type: String, default: '' }, sort: { type: String, default: 'name' } },\n  setup(props) {\n    const visible = computed(() => {\n      const q = props.query.toLowerCase()\n      const list = props.products.filter(p => p.name.toLowerCase().includes(q))\n      return [...list].sort((a, b) => (props.sort === 'price' ? a.cents - b.cents : a.name.localeCompare(b.name)))\n    })\n    return { visible }\n  },\n  template: `<ul v-if=\"visible.length\"><ProductCard v-for=\"p in visible\" :key=\"p.id\" v-bind=\"p\"><template #badge><span class=\"badge\">gone</span></template></ProductCard></ul><p v-else class=\"empty\">No products match \"{{ query }}\"</p>`\n})\n\nconst products = [\n  { id: 1, name: 'Notebook', cents: 450, stock: 12 },\n  { id: 2, name: 'Pen', cents: 150, stock: 0 },\n  { id: 3, name: 'Notepad', cents: 300, stock: 3 },\n]\nconst money = c => `$${(c / 100).toFixed(2)}`\n\nasync function page(props) {\n  const app = createSSRApp({\n    components: { ProductList },\n    setup() { provide('money', money); return { props } },\n    template: '<ProductList v-bind=\"props\" />',\n  })\n  return renderToString(app)\n}\n\nconsole.log(await page({ products }))\nconsole.log(await page({ products, query: 'note', sort: 'price' }))\nconsole.log(await page({ products, query: 'zzz' }))\n",
+    "explain": "v-bind=\"p\" passes every product field; declared props are consumed and the undeclared id becomes an attribute on the card's root element (attribute fallthrough). The scoped badge slot replaces the fallback only for sold-out items, and an empty filter shows the empty state. Verified by running it with Vue 3.5 in Node."
+   }
+  ]
+ },
+ "final_pass_pct": 70
+}
