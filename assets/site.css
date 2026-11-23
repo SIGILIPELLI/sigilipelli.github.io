@@ -1,0 +1,107 @@
+/* Mastery Path shared hub styles: the homepage design system (tokens, header, footer, buttons) for every
+   other hub page. Pages add their own component CSS after this file. Header/footer markup is inserted by
+   tools/site_chrome.py, so it stays the same everywhere. */
+:root {
+  --bg: #f6f8f7; --surface: #ffffff; --surface-2: #eef3f1; --ink: #0f1d19; --sub: #4c5d57; --line: #dbe4e0;
+  --brand: #13785f; --brand-ink: #ffffff; --brand-soft: #e1f2ec; --amber: #c98a12; --amber-soft: #fbf1dc;
+  --good: #13785f; --bad: #b4462f; --bad-soft: #fbe9e4;
+  --shadow-sm: 0 1px 2px rgba(15, 29, 25, .06); --shadow-md: 0 8px 24px rgba(15, 29, 25, .08); --shadow-lg: 0 18px 48px rgba(15, 29, 25, .12);
+  --radius: 14px; --font: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* names used by older page styles, mapped onto the new palette */
+  --card: var(--surface); --border: var(--line); --accent: var(--brand); --accent-2: var(--amber); --link: var(--brand);
+  --soft: var(--surface-2); --chip: var(--surface-2); --mark: var(--amber-soft); --good-soft: var(--brand-soft);
+  --font-head: var(--font); --shadow: var(--shadow-md);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1412; --surface: #141d1a; --surface-2: #19241f; --ink: #e9f1ee; --sub: #a5b5ae; --line: #26332e;
+    --brand: #4fd1ae; --brand-ink: #062019; --brand-soft: #173a30; --amber: #f0b851; --amber-soft: #3a2d12;
+    --good: #4fd1ae; --bad: #f08a72; --bad-soft: #3a1d16;
+    --shadow-sm: none; --shadow-md: 0 8px 24px rgba(0, 0, 0, .35); --shadow-lg: 0 18px 48px rgba(0, 0, 0, .45);
+  }
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-padding-top: 76px; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--font) !important; -webkit-font-smoothing: antialiased; }
+a { color: var(--brand); }
+img, svg { max-width: 100%; }
+h1, h2, h3 { line-height: 1.2; text-wrap: balance; letter-spacing: -0.01em; }
+.container { width: 100%; max-width: 1180px; margin: 0 auto; padding-inline: 20px; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: 12px; top: -48px; background: var(--brand); color: var(--brand-ink); padding: 10px 14px; border-radius: 8px; z-index: 100; font-weight: 700; }
+.skip:focus { top: 12px; }
+:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; border-radius: 6px; }
+.eyebrow { margin: 0 0 8px; font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--brand); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 12px; border: 0; font: 700 1rem var(--font); text-decoration: none; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
+.btn-primary { background: var(--brand); color: var(--brand-ink); box-shadow: var(--shadow-sm); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-primary:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.btn-ghost { background: var(--surface); color: var(--ink); border: 1.5px solid var(--line); }
+.btn-ghost:hover { border-color: var(--brand); color: var(--brand); }
+
+/* header */
+.site-header { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: saturate(160%) blur(10px); border-bottom: 1px solid var(--line); }
+.nav-row { display: flex; align-items: center; gap: 20px; min-height: 64px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.08rem; color: var(--ink); text-decoration: none; }
+.brand-mark { width: 34px; height: 34px; flex: none; }
+.nav-links { display: flex; gap: 2px; margin-left: auto; }
+.nav-links a { padding: 8px 12px; border-radius: 8px; color: var(--sub); font-weight: 600; font-size: .93rem; text-decoration: none; }
+.nav-links a:hover, .nav-links a[aria-current] { color: var(--ink); background: var(--surface-2); }
+.nav-search { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 10px; border: 1.5px solid var(--line); color: var(--ink); font-weight: 600; font-size: .92rem; text-decoration: none; background: var(--surface); }
+.nav-search:hover { border-color: var(--brand); color: var(--brand); }
+.nav-menu { display: none; position: relative; }
+.nav-menu summary { list-style: none; cursor: pointer; width: 44px; height: 44px; display: grid; place-content: center; gap: 5px; border-radius: 10px; border: 1.5px solid var(--line); }
+.nav-menu summary::-webkit-details-marker { display: none; }
+.nav-menu summary span { display: block; width: 18px; height: 2px; background: var(--ink); border-radius: 2px; }
+.nav-menu nav { position: absolute; right: 0; top: 52px; width: min(280px, 86vw); background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow-lg); padding: 8px; display: grid; }
+.nav-menu nav a { padding: 12px 14px; border-radius: 8px; color: var(--ink); font-weight: 600; text-decoration: none; }
+.nav-menu nav a:hover { background: var(--surface-2); }
+
+/* page band + document layout for text pages */
+.page-hero { background: radial-gradient(700px 300px at 90% 0%, var(--brand-soft), transparent 70%), radial-gradient(500px 240px at 0% 100%, var(--amber-soft), transparent 70%), var(--bg); border-bottom: 1px solid var(--line); }
+.page-hero .container { padding-block: 40px 36px; }
+.page-hero h1 { font-size: clamp(1.9rem, 4vw, 2.7rem); font-weight: 800; margin: 0 0 8px; letter-spacing: -0.02em; }
+.page-hero p { margin: 0; color: var(--sub); font-size: 1.06rem; max-width: 62ch; }
+.crumbs { font-size: .88rem; margin: 0 0 14px; color: var(--sub); }
+.crumbs a { color: var(--sub); text-decoration: none; font-weight: 600; }
+.crumbs a:hover { color: var(--brand); text-decoration: underline; }
+.page-body { padding-block: 40px 72px; }
+.doc { max-width: 760px; overflow-wrap: anywhere; }
+.doc h2 { font-size: 1.3rem; font-weight: 800; margin: 36px 0 10px; }
+.doc h3 { font-size: 1.08rem; margin: 24px 0 8px; }
+.doc p, .doc li { color: var(--ink); }
+.doc ul, .doc ol { padding-left: 1.3em; }
+.doc li { margin: 4px 0; }
+.doc table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: .95rem; }
+.doc th, .doc td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.doc th { background: var(--surface-2); }
+.doc code { background: var(--surface-2); padding: 1px 6px; border-radius: 6px; font-size: .9em; }
+.doc .updated { display: none; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-sm); }
+.note { background: var(--amber-soft); border-radius: 12px; padding: 14px 16px; font-size: .94rem; }
+
+/* footer */
+.site-footer { background: #0e1a17; color: #c7d4cf; padding-top: 56px; margin-top: 0; font-size: 1rem; text-align: left; }
+.site-footer a { color: #e9f1ee; text-decoration: none; margin: 0; }
+.site-footer a:hover { text-decoration: underline; }
+.foot-grid { display: grid; grid-template-columns: 1.6fr repeat(4, 1fr); gap: 32px; }
+.foot-brand .brand { color: #fff; }
+.foot-brand p { font-size: .92rem; margin: 12px 0 0; max-width: 34ch; color: #c7d4cf; }
+.site-footer nav { display: grid; gap: 8px; align-content: start; font-size: .92rem; }
+.site-footer h3 { margin: 0 0 4px; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: #8fa59d; }
+.foot-bottom { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 40px; padding-block: 20px; border-top: 1px solid #22332e; font-size: .84rem; color: #8fa59d; }
+
+@media (max-width: 920px) {
+  .nav-links, .nav-search span { display: none; }
+  .nav-search { margin-left: auto; padding: 10px; }
+  .nav-menu { display: block; }
+  .foot-grid { grid-template-columns: 1fr 1fr; }
+  .foot-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 640px) {
+  .container { padding-inline: 16px; }
+  .page-hero .container { padding-block: 28px 26px; }
+  .page-body { padding-block: 28px 56px; }
+  .doc table { display: block; overflow-x: auto; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }

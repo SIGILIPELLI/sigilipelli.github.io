@@ -91,7 +91,7 @@ def load(cid):
     home = get(c['url'])
     title = re.search(r'<meta property="og:title" content="([^"]*)"', home)
     desc = re.search(r'<meta name="description" content="([^"]*)"', home)
-    name = re.search(r'"@type": "Course",\s*"name": "([^"]+)"', home)
+    name = re.search(r'"@type": "Course",\s*"name": ("(?:[^"\\]|\\.)+")', home)
     idx = json.loads(get(c['url'] + 'search/search_index.json'))['docs']
     lessons, heads, res = [], {}, []
     for d in idx:
@@ -113,7 +113,7 @@ def load(cid):
         out.append({'c': cid, 'l': les['level'], 't': les['title'], 'u': les['path'], 'd': clip(les['text'], 105),
                     'k': clip(' · '.join(dict.fromkeys(heads.get(les['path'], []))), 110)})
     c['res'] = res
-    return cid, {'name': html.unescape(name.group(1)) if name else c['short'] + ' Mastery Path',
+    return cid, {'name': html.unescape(json.loads(name.group(1))) if name else c['short'] + ' Mastery Path',
                  'desc': clip(html.unescape(desc.group(1)) if desc else '', 200), 'seo': html.unescape(title.group(1)) if title else ''}, out
 
 

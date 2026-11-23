@@ -13,7 +13,7 @@
   var metaEl = document.getElementById('mp-course-meta');
   if (!metaEl) return;
   var META; try { META = JSON.parse(metaEl.textContent); } catch (e) { return; }
-  var HUB = 'https://learnmasterypath.com/';
+  var HUB = window.MP_HUB || 'https://learnmasterypath.com/';
   var LEVEL_NAMES = { 1: 'Entry', 2: 'Intermediate', 3: 'Advanced', 4: 'Master' };
   // Same storage key scheme as progress-tracker.js (first path segment), so both stay in sync.
   var REPO = (location.pathname.match(/^\/([a-z0-9-]+)\//) || [])[1] || location.hostname;
@@ -407,10 +407,47 @@
     }).catch(function () {});
   }
 
+  // ================= CERTIFICATION EXAM =================
+  // Shared code in assets/cert.js: the exam on the Final Quiz page, a status card on the course home.
+  var certP;
+  function certLib() {
+    if (!certP) certP = new Promise(function (res, rej) {
+      if (window.MPCert) return res(window.MPCert);
+      var s = document.createElement('script'); s.src = HUB + 'assets/cert.js?v=1'; s.async = true;
+      s.onload = function () { res(window.MPCert); }; s.onerror = rej; document.head.appendChild(s);
+    });
+    return certP;
+  }
+  function courseTitle() { var m = document.querySelector('meta[property="og:site_name"]'); return m ? m.content : document.title; }
+  function renderExam() {
+    var host = content(); if (!host || host.dataset.mplExam) return;
+    host.dataset.mplExam = '1';
+    // Only courses with a question bank (learn/quizzes/<course>.json) have the exam.
+    Promise.all([certLib(), quizzes()]).then(function (r) {
+      var C = r[0]; if (!Object.keys(r[1].lessons || {}).length) return;
+      var box = document.createElement('div');
+      var anchor = endAnchor(host);
+      if (anchor && anchor.parentNode === host) host.insertBefore(box, anchor); else host.appendChild(box);
+      C.mountExam(box, { course: META.id, courseName: META.name || courseTitle() });
+      if (location.hash === '#certification') document.getElementById('certification').scrollIntoView();
+    }).catch(function () {});
+  }
+  function renderCertCard() {
+    var tries = 0;
+    (function wait() {
+      var card = $('.mpl-progress-card');
+      if (!card) { if (tries++ < 40) setTimeout(wait, 150); return; }
+      if (card.dataset.mplCert) return;
+      card.dataset.mplCert = '1';
+      Promise.all([certLib(), quizzes()]).then(function (r) { var C = r[0]; if (!Object.keys(r[1].lessons || {}).length) return; C.homeCard(card, { course: META.id, examUrl: META.url + 'quiz/#certification' }); }).catch(function () {});
+    })();
+  }
+
   // ---------- orchestration ----------
   function init() {
     var path = location.pathname.replace(/index\.html$/, '');
-    if (META.home) renderHome();
+    if (/\/quiz\/?$/.test(path)) renderExam();
+    if (META.home) { renderHome(); renderCertCard(); }
     else if (SLUG) renderLesson();
     else if (/\/level-\d+\/?$/.test(path)) renderLevel();
   }

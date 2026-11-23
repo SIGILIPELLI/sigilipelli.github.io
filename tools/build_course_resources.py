@@ -322,6 +322,11 @@ document.getElementById('filter').addEventListener('input', function (e) {{
 '''
     (HUB / 'interview-questions').mkdir(exist_ok=True)
     (HUB / 'interview-questions/index.html').write_text(page)
+    # same header, footer and design as the homepage (idempotent)
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('site_chrome', pathlib.Path(__file__).with_name('site_chrome.py'))
+    chrome = importlib.util.module_from_spec(spec); spec.loader.exec_module(chrome)
+    chrome.main(HUB)
     return len(rows)
 
 
