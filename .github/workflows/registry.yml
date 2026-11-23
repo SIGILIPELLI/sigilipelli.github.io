@@ -1,0 +1,47 @@
+name: Course registry audit
+
+# Re-measures every published course (counts, levels, lesson URLs, duplicates), rebuilds the registry-driven
+# pages and evidence files, runs the data-integrity tests, and commits the result. Counts on the site are only
+# ever changed by this job. Run it by hand with "archive" to keep a dated, checksummed copy of the evidence.
+on:
+  schedule:
+    - cron: "41 2 * * *"   # daily
+  workflow_dispatch:
+    inputs:
+      archive:
+        description: "Archive a dated evidence set under registry/audits/"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: course-registry
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Audit the live courses
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python tools/registry/build_registry.py --check-urls ${{ inputs.archive && '--archive' || '' }}
+      - name: Build registry-driven pages
+        run: python tools/registry/build_pages.py
+      - name: Data-integrity tests
+        run: python tools/registry/test_registry.py
+      - name: Commit if anything changed
+        run: |
+          git add registry course-catalogue quality-and-verification learning-impact world-record-attempt index.html about.html search/index.html 404.html sitemap-hub.xml
+          if git diff --cached --quiet; then echo "Registry unchanged."; exit 0; fi
+          git config user.name "mastery-path-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Course registry audit ($(date -u +%Y-%m-%dT%H:%MZ))"
+          git push

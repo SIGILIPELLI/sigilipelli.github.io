@@ -83,8 +83,11 @@
   function renderHome() {
     var host = content(); if (!host || host.dataset.mplHome) return;
     host.dataset.mplHome = '1';
-    Promise.all([model(), quizzes(), getJSON(HUB + 'search/courses.json').catch(function () { return []; }), getJSON(HUB + 'search/meta.json').catch(function () { return {}; })]).then(function (r) {
+    Promise.all([model(), quizzes(), getJSON(HUB + 'search/courses.json').catch(function () { return []; }), getJSON(HUB + 'search/meta.json').catch(function () { return {}; }),
+                 getJSON(HUB + 'registry/course-facts.json').catch(function () { return { courses: {} }; })]).then(function (r) {
       var M = r[0], Q = r[1], courses = r[2];
+      if (!M.lessons.length) host.classList.add('mpl-home-ready');
+      var F = (r[4].courses || {})[META.id] || null;  // registry record: the same counts as the catalogue and evidence files
       if (!M.lessons.length) return;
       var total = M.lessons.length, minutes = M.lessons.reduce(function (s, l) { return s + l.minutes; }, 0);
       var hours = Math.round(minutes / 60 / 5) * 5 || Math.round(minutes / 60);
@@ -119,7 +122,7 @@
         '<div class="mpl-facts">' +
           fact('Difficulty', 'Beginner → Expert', '4 levels') +
           fact('Estimated duration', '≈ ' + hours + ' hours', 'self-paced estimate') +
-          fact('Lessons', total, projects + ' projects') +
+          (F ? fact('Lessons', F.lesson_count, (F.project_count + F.capstone_count) + ' projects, counted separately') : fact('Lessons', total - projects, projects + ' projects, counted separately')) +
           fact('Assessments', quizCount ? quizCount + ' module quizzes' : 'Exercises in every lesson', quizCount ? 'with explanations' : 'quizzes coming') +
         '</div>' +
         '<div class="mpl-cols">' +
@@ -129,6 +132,9 @@
             '<a class="mpl-btn" href="' + esc(next ? next.url : M.lessons[0].url) + '">' + (done.length ? (next ? 'Continue: ' + esc(next.title) : 'Review the course') : 'Start Level 1') + ' →</a>' +
             '<p class="mpl-small">Progress is saved in this browser only. No account needed.</p></div>' +
         '</div>' +
+        (F ? '<p class="mpl-record">Course ID <b>' + esc(F.course_id) + '</b> · ' + (F.course_classification === 'professional' ? 'Professional development' : 'Technology') + ' · Author ' + esc(F.course_author) +
+          ' · Published ' + esc(F.publication_date || 'not recorded') + ' · Updated ' + esc(F.last_content_update || '—') + ' · ' + (F.last_reviewed_date ? 'Reviewed ' + esc(F.last_reviewed_date) : 'Human review pending') +
+          ' · <a href="' + HUB + 'quality-and-verification/">How courses are verified</a></p>' : '') +
         '<h2>Skills covered</h2><ul class="mpl-chips">' + skills.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ul>' +
         '<h2 id="curriculum">Curriculum</h2>' + curriculumHtml(M, Q, next);
       // Hero: title, intro and the main call to action in one band at the top; the overview follows it.
@@ -138,7 +144,8 @@
       if (!hero && after && after.nextElementSibling && after.nextElementSibling.tagName === 'P') after = after.nextElementSibling;
       if (after) host.insertBefore(sec, after.nextSibling); else host.prepend(sec);
       bindCurriculum(sec);
-    }).catch(function () {});
+      host.classList.add('mpl-home-ready');
+    }).catch(function () { host.classList.add('mpl-home-ready'); });
   }
   // Prerequisites when the course page states none: the courses just before this one on its career paths.
   function buildHero(host, me, M, next, doneCount, total, hours) {

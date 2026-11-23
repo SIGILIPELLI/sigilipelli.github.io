@@ -201,3 +201,13 @@ body { -webkit-font-smoothing: antialiased; }
   .mp-home .md-sidebar--primary, .mp-home .md-sidebar--secondary { display: none; }
   .mp-home .md-content { max-width: 54rem; margin: 0 auto; }
 }
+.md-typeset .mpl-record { margin: 1rem 0 0; padding: .6rem .8rem; border: 1px dashed var(--mp-line); border-radius: .6rem; font-size: .66rem; color: var(--md-default-fg-color--light); }
+/* accessibility: WCAG AA contrast for small helper text and code highlighting; links inside text are underlined */
+.md-typeset .mpl-fact small, .md-typeset .mpl-big small, .md-typeset .mpl-tags small, .md-typeset .mpl-lvl-t small, .md-typeset .mpl-small { color: var(--md-default-fg-color--light) !important; opacity: 1 !important; }
+body[data-md-color-scheme="default"] { --md-code-hl-keyword-color: #2a56a8 !important; --md-code-hl-number-color: #b02020 !important; --md-code-hl-special-color: #b02020 !important; --md-code-hl-function-color: #7a3e9d !important; --md-code-hl-constant-color: #5b3fa6 !important; --md-code-hl-string-color: #1f6f3f !important; --md-code-hl-comment-color: #5f6b67 !important; }
+.mp-foot .mp-license-note a, .md-typeset .mpl-record a { text-decoration: underline; }
+/* course home: hold the sections below the intro (invisible, still taking space) until learn.js has inserted the
+   overview, so nothing visible jumps (CLS). A CSS-only fallback reveals them after 2.5 s if the script never runs. */
+.md-content__inner:has(> #how-the-program-is-organized):not(.mpl-home-ready) > #how-the-program-is-organized,
+.md-content__inner:has(> #how-the-program-is-organized):not(.mpl-home-ready) > #how-the-program-is-organized ~ * { visibility: hidden; animation: mp-reveal 0s 2.5s forwards; }
+@keyframes mp-reveal { to { visibility: visible; } }

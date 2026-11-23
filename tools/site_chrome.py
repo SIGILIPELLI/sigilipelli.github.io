@@ -14,7 +14,8 @@ from pathlib import Path
 
 HUB = 'https://learnmasterypath.com/'
 TEXT_PAGES = ['about.html', 'contact.html', 'privacy.html', 'terms.html', 'refunds.html', 'delivery.html', 'license.html', '404.html']
-APP_PAGES = ['search/index.html', 'interview-pack/index.html', 'interview-questions/index.html', 'resume/index.html', 'verify/index.html']
+APP_PAGES = ['search/index.html', 'interview-pack/index.html', 'interview-questions/index.html', 'resume/index.html', 'verify/index.html',
+             'course-catalogue/index.html', 'quality-and-verification/index.html', 'learning-impact/index.html', 'world-record-attempt/index.html']
 APP_CSS = ['resume/style.css']
 
 LOGO = ('<svg class="brand-mark" aria-hidden="true" focusable="false" viewBox="0 0 160 160">'
@@ -22,12 +23,13 @@ LOGO = ('<svg class="brand-mark" aria-hidden="true" focusable="false" viewBox="0
         '<rect class="mp-bar mp-bar-1" x="36" y="90" width="17" height="24" rx="5" fill="#2FA98D"/><rect class="mp-bar mp-bar-2" x="59" y="74" width="17" height="40" rx="5" fill="#7FC9B7"/>'
         '<rect class="mp-bar mp-bar-3" x="82" y="56" width="17" height="58" rx="5" fill="#E0B457"/><rect class="mp-bar mp-bar-4" x="105" y="38" width="17" height="76" rx="5" fill="#C98B4A"/>'
         '<circle class="mp-dot" cx="44.5" cy="82" r="7" fill="#22261f"/></svg>')
-NAV = [('Courses', HUB + '#courses'), ('Learning Paths', HUB + '#paths'), ('Interview Prep', HUB + 'interview-questions/'),
-       ('Resume Tools', HUB + 'resume/'), ('Certificates', HUB + 'verify/'), ('About', HUB + 'about.html')]
+NAV = [('Courses', HUB + 'course-catalogue/'), ('Learning Paths', HUB + '#paths'), ('Career Tools', HUB + 'resume/'),
+       ('Impact', HUB + 'learning-impact/'), ('Quality', HUB + 'quality-and-verification/'), ('Record Journey', HUB + 'world-record-attempt/'),
+       ('About', HUB + 'about.html')]
 HEAD = ('<!-- mp-chrome:head -->'
         '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
         '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">'
-        '<link rel="stylesheet" href="/assets/site.css?v=1">'
+        '<link rel="stylesheet" href="/assets/site.css?v=3">'
         '<!-- /mp-chrome:head -->')
 
 
@@ -51,9 +53,9 @@ FOOTER = ('<!-- mp-chrome:footer --><footer class="site-footer"><div class="cont
           f'<div class="foot-brand"><a class="brand" href="{HUB}">{LOGO}<span>Mastery Path</span></a>'
           '<p>Free, structured courses from beginner to expert. Built and maintained by Vinod Bhanuja.</p>'
           '<p>Contact: <a href="mailto:contact@learnmasterypath.com">contact@learnmasterypath.com</a></p></div>'
-          f'<nav aria-label="Learn"><h3>Learn</h3><a href="{HUB}#courses">All courses</a><a href="{HUB}#paths">Learning paths</a><a href="{HUB}#projects">Projects</a><a href="/search/">Search</a></nav>'
+          f'<nav aria-label="Learn"><h3>Learn</h3><a href="{HUB}course-catalogue/">Course catalogue</a><a href="{HUB}course-catalogue/?class=technology">Technology disciplines</a><a href="{HUB}course-catalogue/?class=professional">Professional development</a><a href="{HUB}#paths">Learning paths</a><a href="/search/">Search</a></nav>'
           f'<nav aria-label="Career"><h3>Career</h3><a href="{HUB}resume/">Resume Tools</a><a href="{HUB}interview-pack/">Interview Pack</a><a href="{HUB}interview-questions/">Interview questions &amp; cheat sheets</a><a href="{HUB}verify/">Verify a certificate</a></nav>'
-          f'<nav aria-label="Company"><h3>Company</h3><a href="{HUB}about.html">About</a><a href="{HUB}contact.html">Contact</a><a href="{HUB}privacy.html">Privacy Policy</a><a href="{HUB}terms.html">Terms</a><a href="{HUB}refunds.html">Refunds</a><a href="{HUB}delivery.html">Delivery</a><a href="{HUB}license.html">License</a></nav>'
+          f'<nav aria-label="Company"><h3>Company</h3><a href="{HUB}about.html">About</a><a href="{HUB}quality-and-verification/">Quality &amp; verification</a><a href="{HUB}learning-impact/">Learning impact</a><a href="{HUB}world-record-attempt/">World record journey</a><a href="{HUB}contact.html">Contact</a><a href="{HUB}privacy.html">Privacy Policy</a><a href="{HUB}terms.html">Terms</a><a href="{HUB}refunds.html">Refunds</a><a href="{HUB}delivery.html">Delivery</a><a href="{HUB}license.html">License</a></nav>'
           '<nav aria-label="Follow"><h3>Follow</h3><a href="https://www.youtube.com/@learnmasterypath">YouTube</a><a href="https://github.com/sigilipelli">GitHub</a><a href="https://learnmasterypath.com/feed.xml">RSS feed</a></nav>'
           '</div><div class="container foot-bottom"><span>© 2026 Vinod Bhanuja · Mastery Path</span>'
           '<span>Except where otherwise noted, content is licensed <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code MIT.</span></div>'
