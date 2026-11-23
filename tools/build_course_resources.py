@@ -88,6 +88,18 @@ def section(md, heading_re):
     return rest[: end.start()].strip() if end else rest.strip()
 
 
+def parts(md):
+    """A merged lesson ("## Part 1 · …", "## Part 2 · …") as [(label, text with headings promoted)]; others as [(None, md)]."""
+    ms = list(re.finditer(r'^## Part (\d+) · (.+)$', md, re.M))
+    if len(ms) < 2:
+        return [(None, md)]
+    out = []
+    for i, m in enumerate(ms):
+        body = md[m.end(): ms[i + 1].start() if i + 1 < len(ms) else len(md)]
+        out.append((f'Part {m.group(1)} · {m.group(2).strip()}', re.sub(r'^#(#{2,}\s)', r'\1', body, flags=re.M)))
+    return out
+
+
 def first_table(md):
     """The lesson's first Markdown table with the nearest heading above it as a caption."""
     m = re.search(r'((?:^\|.*\|[ \t]*\n){2,})', md, re.M)
@@ -159,36 +171,42 @@ def interview_page(c, quiz, lessons, docs):
 
 def cheat_page(c, lessons, docs):
     items, mode = [], None
-    with_cs = [L for L in lessons if section(L['text'], r'[^\n]*cheat')]
+    with_cs = [L for L in lessons if any(section(t, r'[^\n]*cheat') for _, t in parts(L['text']))]
     if len(with_cs) >= MIN_CHEAT_SECTIONS:
         mode = 'cheat'
         for L in lessons:
-            s = section(L['text'], r'[^\n]*cheat')
-            if s and len(s) > 40:
-                items.append((L, None, rewrite_links(s, L['path'])))
+            for lab, t in parts(L['text']):
+                s = section(t, r'[^\n]*cheat')
+                if s and len(s) > 40:
+                    items.append((L, lab, rewrite_links(s, L['path'])))
     else:
         for L in lessons:
-            cap, tbl = first_table(L['text'])
-            if tbl:
-                items.append((L, cap, rewrite_links(tbl, L['path'])))
-        mode = 'tables' if len(items) >= MIN_TABLE_LESSONS else None
+            for lab, t in parts(L['text']):
+                cap, tbl = first_table(t)
+                if tbl:
+                    items.append((L, f'{lab}: {cap}' if lab and cap else (lab or cap), rewrite_links(tbl, L['path'])))
+        mode = 'tables' if len({x[0]['path'] for x in items}) >= MIN_TABLE_LESSONS else None
     if not mode:
         return None, 0
     topic = c['topic']
     n = len(items)
+    n_les = len({x[0]['path'] for x in items})
     lines = ['---',
              f'title: "{topic} Cheat Sheet: Quick Reference, Beginner to Advanced"',
              f'description: "A free {topic} cheat sheet: {n} quick-reference tables from every level of the {c["name"]}, each linked to its full lesson."',
              '---', '', f'# {topic} Cheat Sheet', '',
-             f'Quick-reference tables from **{n} lessons** of the free {c["name"]}, in course order from beginner to advanced. '
+             f'Quick-reference tables from **{n_les} lessons** of the free {c["name"]}, in course order from beginner to advanced. '
              'Each section links to the full lesson with explanations and runnable examples.', '']
     for lvl in (1, 2, 3, 4):
         group = [x for x in items if x[0]['level'] == lvl]
         if not group:
             continue
         lines += [f'## {level_title(docs, lvl)}', '']
+        last = None
         for L, cap, content in group:
-            lines += [f'### [{esc_text(L["title"])}]({L["path"]})', '']
+            if L['path'] != last:
+                lines += [f'### [{esc_text(L["title"])}]({L["path"]})', '']
+                last = L['path']
             if cap:
                 lines += [f'*{esc_text(cap)}*', '']
             lines += [content, '']

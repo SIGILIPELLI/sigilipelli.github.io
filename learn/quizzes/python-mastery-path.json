@@ -1,6 +1,6 @@
 {
  "course": "python-mastery-path",
- "version": 1,
+ "version": 2,
  "pass_pct": 70,
  "lessons": {
   "level-1/01-setup": {
@@ -1323,7 +1323,7 @@
     }
    ]
   },
-  "level-3/07-consuming-apis": {
+  "level-3/07-consuming-building-apis": {
    "questions": [
     {
      "q": "How do you build query strings safely?\n```python\nfrom urllib.parse import urlencode, urlparse, parse_qs\nu='https://api.example.com/search?'+urlencode({'q':'a b&c','page':2})\nprint(u, parse_qs(urlparse(u).query))\n```\n",
@@ -1368,11 +1368,7 @@
      ],
      "answer": 3,
      "explain": "requests.get(url, timeout=5)."
-    }
-   ]
-  },
-  "level-3/08-building-apis": {
-   "questions": [
+    },
     {
      "q": "What does this Flask-like route table model do?\n```python\nroutes={}\ndef route(path,method='GET'):\n    def d(f): routes[(method,path)]=f; return f\n    return d\n@route('/ping')\ndef ping(): return {'ok':True},200\n@route('/items','POST')\ndef add(): return {'id':1},201\nprint(routes[('GET','/ping')](), routes[('POST','/items')]()[1], ('GET','/nope') in routes)\n```\n",
      "options": [
@@ -1419,7 +1415,7 @@
     }
    ]
   },
-  "level-3/09-packaging-distribution": {
+  "level-3/08-packaging-distribution": {
    "questions": [
     {
      "q": "What does pyproject.toml hold?",
@@ -1467,7 +1463,7 @@
     }
    ]
   },
-  "level-3/10-profiling-performance": {
+  "level-3/09-profiling-performance": {
    "questions": [
     {
      "q": "What does timeit show about list vs set membership?\n```python\nimport timeit\nl=list(range(5000)); s=set(l)\nt1=timeit.timeit('4999 in l',globals={'l':l},number=2000)\nt2=timeit.timeit('4999 in s',globals={'s':s},number=2000)\nprint(t1>t2*10)\n```\n",
@@ -1515,7 +1511,7 @@
     }
    ]
   },
-  "level-3/11-project-rest-api-db": {
+  "level-3/10-project-rest-api-db": {
    "questions": [
     {
      "q": "What does this repository pattern return?\n```python\nimport sqlite3\nclass Repo:\n    def __init__(s): s.c=sqlite3.connect(':memory:'); s.c.execute('create table t(id integer primary key, title text)')\n    def add(s,title): return s.c.execute('insert into t(title) values (?)',(title,)).lastrowid\n    def get(s,i):\n        r=s.c.execute('select id,title from t where id=?',(i,)).fetchone()\n        return {'id':r[0],'title':r[1]} if r else None\nr=Repo(); i=r.add('x')\nprint(i, r.get(i), r.get(99))\n```\n",
