@@ -1,0 +1,147 @@
+/* Mastery Path course theme: the hub homepage's colours, type and feel for every MkDocs Material course.
+   Loaded from the shared course template (overrides/main.html) after each course's own CSS, so one change
+   here restyles all courses. Material re-declares its --md-* variables on <body> per palette, hence body
+   selectors with !important (matching where Material sets them). */
+:root {
+  --mp-bg: #f6f8f7; --mp-surface: #ffffff; --mp-surface-2: #eef3f1; --mp-ink: #0f1d19; --mp-sub: #4c5d57; --mp-line: #dbe4e0;
+  --mp-brand: #13785f; --mp-brand-ink: #ffffff; --mp-brand-soft: #e1f2ec; --mp-amber: #c98a12; --mp-amber-soft: #fbf1dc;
+  --mp-shadow: 0 1px 2px rgba(15, 29, 25, .06); --mp-shadow-md: 0 8px 24px rgba(15, 29, 25, .08);
+  --md-text-font: "Plus Jakarta Sans";
+}
+body, body[data-md-color-scheme="default"] {
+  --md-primary-fg-color: var(--mp-brand) !important;
+  --md-primary-fg-color--light: #4aa58c !important;
+  --md-primary-fg-color--dark: #0e5c49 !important;
+  --md-primary-bg-color: #ffffff !important;
+  --md-primary-bg-color--light: rgba(255, 255, 255, .72) !important;
+  --md-accent-fg-color: #0e5c49 !important;
+  --md-accent-fg-color--transparent: rgba(19, 120, 95, .1) !important;
+  --md-accent-bg-color: #ffffff !important;
+  --md-default-bg-color: var(--mp-bg) !important;
+  --md-default-fg-color: rgba(15, 29, 25, .9) !important;
+  --md-default-fg-color--light: rgba(15, 29, 25, .64) !important;
+  --md-default-fg-color--lighter: rgba(15, 29, 25, .36) !important;
+  --md-default-fg-color--lightest: rgba(15, 29, 25, .12) !important;
+  --md-typeset-color: var(--mp-ink) !important;
+  --md-typeset-a-color: var(--mp-brand) !important;
+  --md-code-bg-color: var(--mp-surface-2) !important;
+  --md-code-fg-color: #1d2f2a !important;
+  --md-typeset-mark-color: var(--mp-amber-soft) !important;
+  --md-footer-bg-color: #0e1a17 !important;
+  --md-footer-bg-color--dark: #0a1411 !important;
+  --md-mp-gold: var(--mp-amber);
+  --md-mp-copper: #c2683a;
+}
+body[data-md-color-scheme="slate"] {
+  --mp-bg: #0d1412; --mp-surface: #141d1a; --mp-surface-2: #19241f; --mp-ink: #e9f1ee; --mp-sub: #a5b5ae; --mp-line: #26332e;
+  --mp-brand: #4fd1ae; --mp-brand-ink: #062019; --mp-brand-soft: #173a30; --mp-amber: #f0b851; --mp-amber-soft: #3a2d12;
+  --mp-shadow: none; --mp-shadow-md: 0 8px 24px rgba(0, 0, 0, .35);
+  --md-hue: 160 !important;
+  --md-primary-fg-color: #2fb592 !important;
+  --md-primary-fg-color--light: #4fd1ae !important;
+  --md-primary-fg-color--dark: #1d8a6e !important;
+  --md-primary-bg-color: #062019 !important;
+  --md-accent-fg-color: #4fd1ae !important;
+  --md-accent-fg-color--transparent: rgba(79, 209, 174, .14) !important;
+  --md-default-bg-color: var(--mp-bg) !important;
+  --md-default-fg-color: rgba(233, 241, 238, .9) !important;
+  --md-default-fg-color--light: rgba(233, 241, 238, .64) !important;
+  --md-default-fg-color--lighter: rgba(233, 241, 238, .34) !important;
+  --md-default-fg-color--lightest: rgba(233, 241, 238, .12) !important;
+  --md-typeset-color: var(--mp-ink) !important;
+  --md-typeset-a-color: var(--mp-brand) !important;
+  --md-code-bg-color: #111a17 !important;
+  --md-code-fg-color: #d6e2dd !important;
+  --md-footer-bg-color: #0a110f !important;
+  --md-footer-bg-color--dark: #070d0b !important;
+  --md-mp-gold: var(--mp-amber);
+  --md-mp-copper: #e2996a;
+}
+body { -webkit-font-smoothing: antialiased; }
+
+/* ---------- header, tabs, announcement ---------- */
+.md-banner { background: #0e1a17 !important; color: #d9e6e1 !important; }
+.md-banner__inner { margin: .25rem auto !important; font-size: .64rem !important; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.md-banner a { color: #fff !important; }
+@media screen and (max-width: 44.9375em) {
+  .md-banner__inner { white-space: normal; line-height: 1.5; }
+  .md-banner__inner > span, .md-banner__inner > a:nth-of-type(2) { display: none; }
+  .md-banner__inner > a:nth-of-type(3) { display: block; }
+}
+.md-header { background: color-mix(in srgb, var(--mp-surface) 92%, transparent) !important; color: var(--mp-ink) !important; backdrop-filter: saturate(160%) blur(10px); box-shadow: 0 1px 0 var(--mp-line) !important; }
+.md-header--shadow { box-shadow: 0 1px 0 var(--mp-line), 0 6px 18px rgba(15, 29, 25, .06) !important; }
+.md-header__title { font-weight: 800; letter-spacing: -.01em; }
+.md-header__button.md-logo { padding: .3rem; margin: .2rem .1rem .2rem .4rem; }
+.md-header__button.md-logo svg, .md-header__button.md-logo img { width: 1.9rem; height: 1.9rem; }
+.md-header__button, .md-header__option, .md-source { color: var(--mp-ink) !important; }
+.md-source__repository, .md-source__facts { color: var(--mp-sub); }
+.md-tabs { background: var(--mp-surface) !important; color: var(--mp-sub) !important; border-bottom: 1px solid var(--mp-line); }
+.md-tabs__link { font-weight: 600; opacity: 1 !important; color: var(--mp-sub); font-size: .7rem; }
+.md-tabs__link:hover { color: var(--mp-brand) !important; }
+.md-tabs__item--active .md-tabs__link { color: var(--mp-ink) !important; box-shadow: inset 0 -2px 0 var(--mp-brand); padding-bottom: .55rem; }
+/* search in the header */
+.md-search__form { background: var(--mp-surface-2) !important; border: 1px solid var(--mp-line); border-radius: .5rem !important; }
+.md-search__form:hover { border-color: var(--mp-brand); }
+.md-search__input { color: var(--mp-ink) !important; }
+.md-search__input::placeholder, .md-search__icon { color: var(--mp-sub) !important; }
+[data-md-toggle="search"]:checked ~ .md-header .md-search__form { background: var(--mp-surface) !important; }
+
+/* ---------- typography ---------- */
+.md-typeset { color: var(--mp-ink); font-size: .84rem; }
+.md-typeset h1 { color: var(--mp-ink) !important; font-weight: 800 !important; letter-spacing: -.025em; line-height: 1.15; font-size: 2rem; margin-bottom: .8rem; }
+.md-typeset h2 { color: var(--mp-ink); font-weight: 800; letter-spacing: -.015em; font-size: 1.35rem; }
+.md-typeset h3 { font-weight: 700; letter-spacing: -.01em; }
+.md-typeset a { text-underline-offset: .15em; }
+.md-typeset code { border-radius: .3rem; }
+.md-typeset pre > code { border-radius: .6rem; }
+.md-typeset .highlight, .md-typeset pre { border-radius: .6rem; }
+.md-typeset table:not([class]) { border: 1px solid var(--mp-line); border-radius: .6rem; box-shadow: var(--mp-shadow); overflow: hidden; }
+.md-typeset table:not([class]) th { background: var(--mp-surface-2); color: var(--mp-ink); font-weight: 700; }
+.md-typeset .admonition, .md-typeset details { border-radius: .6rem; box-shadow: var(--mp-shadow); border-width: 1px; }
+.md-typeset .md-button { border-radius: .6rem; font-weight: 700; }
+.md-typeset .md-button--primary { background: var(--mp-brand); border-color: var(--mp-brand); color: var(--mp-brand-ink); }
+@media screen and (max-width: 44.9375em) {
+  .md-typeset h1 { font-size: 1.6rem; }
+  .md-typeset h2 { font-size: 1.2rem; }
+}
+
+/* ---------- sidebars ---------- */
+.md-nav { font-size: .7rem; }
+.md-nav__title { color: var(--mp-ink) !important; font-weight: 800; }
+.md-nav__link--active, .md-nav__item .md-nav__link--active { color: var(--mp-brand) !important; font-weight: 700; }
+.md-nav__link:hover { color: var(--mp-brand) !important; }
+@media screen and (max-width: 76.1875em) {
+  .md-nav--primary .md-nav__title[for="__drawer"] { background: var(--mp-surface) !important; color: var(--mp-ink) !important; }
+}
+
+/* ---------- course home hero (built by assets/learn.js) ---------- */
+.md-typeset .mpc-hero { position: relative; margin: -.6rem 0 1.6rem; padding: 1.6rem 1.6rem 1.4rem; border: 1px solid var(--mp-line); border-radius: 1rem;
+  background: radial-gradient(520px 220px at 95% 0%, var(--mp-brand-soft), transparent 70%), radial-gradient(420px 200px at 0% 100%, var(--mp-amber-soft), transparent 70%), var(--mp-surface); box-shadow: var(--mp-shadow-md); }
+.md-typeset .mpc-hero .mpc-hero-eyebrow { margin: 0 0 .5rem; font-size: .62rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--mp-brand); }
+.md-typeset .mpc-hero h1 { margin: 0 0 .6rem; font-size: 2.3rem; }
+.md-typeset .mpc-hero h1 .mpc-hero-icon { display: inline-grid; place-items: center; width: 1.25em; height: 1.25em; margin-right: .3em; vertical-align: -.2em; border-radius: .3em; background: var(--mp-brand-soft); font-size: .8em; }
+.md-typeset .mpc-hero > p { margin: 0 0 1rem; color: var(--mp-sub); font-size: .9rem; max-width: 62ch; }
+.md-typeset .mpc-hero-ctas { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0; }
+.md-typeset .mpc-hero-ctas .mpl-btn { font-size: .78rem; padding: .7em 1.2em; border-radius: .6rem; }
+.md-typeset .mpc-hero-chips { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; margin: 1rem 0 0 !important; padding: 0 !important; }
+.md-typeset .mpc-hero-chips li { margin: 0 !important; padding: .2rem .6rem; border-radius: 999px; background: var(--mp-surface-2); color: var(--mp-sub); font-size: .62rem; font-weight: 700; list-style: none; }
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .mpc-hero { padding: 1.1rem 1rem 1rem; margin-top: 0; }
+  .md-typeset .mpc-hero h1 { font-size: 1.7rem; }
+  .md-typeset .mpc-hero-ctas .mpl-btn { flex: 1 1 100%; justify-content: center; }
+}
+/* the old "Bootcamp" lockup, until a course's homepage is updated */
+.md-typeset .mp-hero-lockup { display: none !important; }
+.md-typeset .mpl-facts { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+@media screen and (max-width: 44.9375em) { .md-typeset .mpl-facts { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+.md-typeset .mpl-fact b { font-size: .9rem; line-height: 1.3; }
+.md-typeset .mpl-fact, .md-typeset .mpl-progress-card { background: var(--mp-surface) !important; border-color: var(--mp-line) !important; box-shadow: var(--mp-shadow); border-radius: .75rem !important; }
+
+/* ---------- lesson pages ---------- */
+.md-typeset .mpl-toolbar { background: var(--mp-surface) !important; border-color: var(--mp-line) !important; }
+.md-footer__link { padding-block: 1rem; }
+.md-footer__title { font-weight: 700; }
+.md-footer__direction { opacity: .8; }
+
+/* ---------- the course 404 page shows no lesson widgets ---------- */
+.mp-is-404 .mp-progress-bar, .mp-is-404 .mp-nav-row, .mp-is-404 .mpl-quiz, .mp-is-404 .mpl-notes, .mp-is-404 .mpl-toolbar, .mp-is-404 .mp-mark-done, .mp-is-404 .mpl-checklist, .mp-is-404 .mpl-exercise { display: none !important; }

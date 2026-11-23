@@ -131,15 +131,39 @@
         '</div>' +
         '<h2>Skills covered</h2><ul class="mpl-chips">' + skills.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ul>' +
         '<h2 id="curriculum">Curriculum</h2>' + curriculumHtml(M, Q, next);
-      // Place the overview right after the course intro: after the hero lockup (or the H1) and the first paragraph.
-      var after = $('.mp-hero-lockup', host) || $('h1', host);
+      // Hero: title, intro and the main call to action in one band at the top; the overview follows it.
+      var hero = buildHero(host, me, M, next, done.length, total, hours);
+      var after = hero || $('.mp-hero-lockup', host) || $('h1', host);
       while (after && after.parentNode !== host) after = after.parentNode;
-      if (after && after.nextElementSibling && after.nextElementSibling.tagName === 'P') after = after.nextElementSibling;
+      if (!hero && after && after.nextElementSibling && after.nextElementSibling.tagName === 'P') after = after.nextElementSibling;
       if (after) host.insertBefore(sec, after.nextSibling); else host.prepend(sec);
       bindCurriculum(sec);
     }).catch(function () {});
   }
   // Prerequisites when the course page states none: the courses just before this one on its career paths.
+  function buildHero(host, me, M, next, doneCount, total, hours) {
+    if ($('.mpc-hero', host)) return $('.mpc-hero', host);
+    var h1 = $('h1', host); if (!h1 || h1.parentNode !== host) return null;
+    var intro = h1.nextElementSibling;
+    while (intro && intro.tagName !== 'P' && intro.classList.contains('mp-hero-lockup')) intro = intro.nextElementSibling;
+    if (intro && intro.tagName !== 'P') intro = null;
+    var hero = document.createElement('section');
+    hero.className = 'mpc-hero';
+    hero.setAttribute('aria-label', 'Course introduction');
+    host.insertBefore(hero, h1);
+    var eyebrow = document.createElement('p');
+    eyebrow.className = 'mpc-hero-eyebrow';
+    eyebrow.textContent = 'Free course · 4 levels · Beginner to expert';
+    hero.appendChild(eyebrow);
+    if (me && me.emoji && !$('.mpc-hero-icon', h1)) h1.insertAdjacentHTML('afterbegin', '<span class="mpc-hero-icon" aria-hidden="true">' + esc(me.emoji) + '</span>');
+    hero.appendChild(h1);
+    if (intro) hero.appendChild(intro);
+    var start = next || M.lessons[0];
+    hero.insertAdjacentHTML('beforeend',
+      '<p class="mpc-hero-ctas"><a class="mpl-btn" href="' + esc(start.url) + '">' + (doneCount ? (next ? 'Continue: ' + esc(next.title) : 'Review the course') : 'Start Level 1') + ' →</a>' +
+      '<a class="mpl-btn ghost" href="#curriculum">See the curriculum</a></p>');
+    return hero;
+  }
   function prereqFromPaths(meta, courses) {
     var byId = {}; courses.forEach(function (c) { byId[c.id] = c; });
     var before = [];
@@ -446,6 +470,7 @@
   // ---------- orchestration ----------
   function init() {
     var path = location.pathname.replace(/index\.html$/, '');
+    if (META.src === '404.html' || $('.mp-404')) { document.body.classList.add('mp-is-404'); return; }
     if (/\/quiz\/?$/.test(path)) renderExam();
     if (META.home) { renderHome(); renderCertCard(); }
     else if (SLUG) renderLesson();
