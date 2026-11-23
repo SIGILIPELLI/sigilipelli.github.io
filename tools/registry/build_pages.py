@@ -300,7 +300,7 @@ details { border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px
     body = f'''<div class="note" style="margin:0 0 24px"><b>Status: {E(RECORD['current_status'])}.</b> {E(RECORD['status_note'])} Mastery Path is not affiliated with, sponsored or endorsed by Guinness World Records.</div>
 <div class="grid2">
 <div class="doc">
-<h2>What is Mastery Path?</h2><p>A free library of {STATS['courses']} structured courses, each in four levels, written and published by Vinod Bhanuja on one website. No account or payment is needed.</p>
+<h2>What is Mastery Path?</h2><p>A free library of {STATS['courses']} structured courses, each in four levels, created, directed and published by Vinod Bhanuja on one website. The lessons and quizzes are written with the help of AI (Claude, by Anthropic), as stated on the <a href="/about.html">About page</a>. No account or payment is needed.</p>
 <h2>Why apply for a record?</h2><p>To have the size and structure of the library measured by an independent body against published rules, instead of relying on our own claims.</p>
 <h2>Title applied for</h2><p><b>{E(RECORD['submitted_title'])}</b><br><span class="stamp">Submitted as a new-record-title application on {E(RECORD['submitted_on'])}. Wording is proposed by us; Guinness World Records decides whether a title exists and what its rules are.</span></p>
 <h2>How the count is measured</h2><p>Courses and lessons are counted by the open audit tool under the published <a href="/quality-and-verification/">quality &amp; verification rules</a>: one course counted once, projects and quizzes never counted as lessons, external links never counted, every lesson URL checked.</p>
