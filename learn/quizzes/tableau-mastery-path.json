@@ -254,7 +254,7 @@
       "16.5"
      ],
      "answer": 3,
-     "explain": "A ratio of sums is not the average of row ratios. Verified by running it."
+     "explain": "A ratio of sums is not the average of row ratios. (Checked with a Python model of the calculation; Tableau itself was not used.)"
     },
     {
      "q": "Why does the average of row-level ratios differ from the ratio of sums? (average of profit/sales per row, percent)\n```python\nrows = [\n (\"East\",\"Furniture\",1200,180),(\"East\",\"Furniture\",800,60),(\"East\",\"Tech\",500,120),\n (\"West\",\"Tech\",450,90),(\"West\",\"Furniture\",300,-20),(\"West\",\"Tech\",900,200),\n (\"North\",\"Office\",150,30),(\"North\",\"Tech\",600,150),\n]  # (region, category, sales, profit)\nprint(round(100*sum(r[3]/r[2] for r in rows)/len(rows),1))\n```\n",
@@ -265,7 +265,7 @@
       "20.0"
      ],
      "answer": 0,
-     "explain": "Aggregate first, then divide. Verified by running it."
+     "explain": "Aggregate first, then divide. (Checked with a Python model of the calculation; Tableau itself was not used.)"
     },
     {
      "q": "What is the difference between a row-level and an aggregate calculation?",
@@ -350,7 +350,7 @@
       "[100, 300, 350, 400]"
      ],
      "answer": 0,
-     "explain": "RUNNING_SUM does this along the addressing direction. Verified by running it."
+     "explain": "RUNNING_SUM does this along the addressing direction. (Checked with a Python model of the calculation; Tableau itself was not used.)"
     },
     {
      "q": "Percent of total for sales [100, 200, 50, 150]?\n```python\nv=[100,200,50,150]\nprint([round(100*x/sum(v),1) for x in v])\n```\n",
@@ -361,7 +361,7 @@
       "[10.0, 20.0, 5.0, 15.0]"
      ],
      "answer": 1,
-     "explain": "A quick table calculation. Verified by running it."
+     "explain": "A quick table calculation. (Checked with a Python model of the calculation; Tableau itself was not used.)"
     },
     {
      "q": "What do addressing and partitioning mean for table calculations?",
@@ -457,7 +457,7 @@
       "('East', 360)"
      ],
      "answer": 2,
-     "explain": "Group by region and sum. Verified by running it."
+     "explain": "Group by region and sum. (Checked with a Python model of the calculation; Tableau itself was not used.)"
     },
     {
      "q": "How do you keep a dashboard performing well?",
@@ -494,7 +494,7 @@
       "612.5 1633.3"
      ],
      "answer": 1,
-     "explain": "{FIXED [Region]: SUM([Sales])} gives a value per region regardless of the view's level. Verified by running it."
+     "explain": "{FIXED [Region]: SUM([Sales])} gives a value per region regardless of the view's level. (Checked with a Python model of the calculation; Tableau itself was not used.)"
     },
     {
      "q": "What does the IF/ELSEIF/END structure do?",
@@ -612,7 +612,7 @@
       "5 5"
      ],
      "answer": 0,
-     "explain": "Duplicate keys multiply rows: the fan-out problem. Verified by running it."
+     "explain": "Duplicate keys multiply rows: the fan-out problem. (Checked with a Python model of the calculation; Tableau itself was not used.)"
     },
     {
      "q": "What is a union?",
@@ -649,7 +649,7 @@
       "[20.0, 20.0, 30.0, 40.0, 40.0]"
      ],
      "answer": 2,
-     "explain": "WINDOW_AVG(SUM([Sales]), -1, 1). Verified by running it."
+     "explain": "WINDOW_AVG(SUM([Sales]), -1, 1). (Checked with a Python model of the calculation; Tableau itself was not used.)"
     },
     {
      "q": "Rank of values [30, 10, 30, 20] with competition ranking (ties share a rank, next skips)?\n```python\nv=[30,10,30,20]\nprint([1+sum(1 for y in v if y>x) for x in v])\n```\n",
@@ -660,7 +660,7 @@
       "[2, 4, 2, 3]"
      ],
      "answer": 0,
-     "explain": "RANK(SUM(x)) works like this; DENSE would give [1,3,1,2]. Verified by running it."
+     "explain": "RANK(SUM(x)) works like this; DENSE would give [1,3,1,2]. (Checked with a Python model of the calculation; Tableau itself was not used.)"
     },
     {
      "q": "Why do table calculations depend on the layout of the view?",
@@ -974,7 +974,7 @@
       "2500 48.0"
      ],
      "answer": 3,
-     "explain": "FIXED computes at the stated dimension regardless of the view, so each row can be compared to its region total. Verified by running it."
+     "explain": "FIXED computes at the stated dimension regardless of the view, so each row can be compared to its region total. (Checked with a Python model of the calculation; Tableau itself was not used.)"
     },
     {
      "q": "Where do FIXED LODs sit in Tableau's order of operations?",
@@ -1070,7 +1070,7 @@
       "['East'] 3"
      ],
      "answer": 2,
-     "explain": "A user filter joins each user to the entitled values. Verified by running it."
+     "explain": "A user filter joins each user to the entitled values. (Checked with a Python model of the calculation; Tableau itself was not used.)"
     },
     {
      "q": "Which Tableau function returns the current user?",
@@ -1935,7 +1935,7 @@
      "{'E': 400, 'W': 200} 200.0 300.0"
     ],
     "answer": 0,
-    "explain": "The average of region totals differs from the average of rows because they aggregate at different levels. (A Python model of Tableau's calculation semantics; Tableau itself was not run.) Verified by running it."
+    "explain": "The average of region totals differs from the average of rows because they aggregate at different levels. (A Python model of Tableau's calculation semantics; Tableau itself was not used.) The Python was run and its output checked."
    },
    {
     "q": "What does this table-calculation model print?\n```python\nfrom itertools import accumulate\nv=[5,10,15,20]\nprint(list(accumulate(v)), [round(100*x/sum(v),1) for x in v], [None]+[v[i]-v[i-1] for i in range(1,4)])\n```\n",
@@ -1946,7 +1946,7 @@
      "[5, 15, 30, 50] [10.0, 20.0, 30.0, 40.0] [None, 5, 5, 5]"
     ],
     "answer": 3,
-    "explain": "Running sum, percent of total and difference are table calculations along the addressing direction. (A Python model of Tableau's calculation semantics; Tableau itself was not run.) Verified by running it."
+    "explain": "Running sum, percent of total and difference are table calculations along the addressing direction. (A Python model of Tableau's calculation semantics; Tableau itself was not used.) The Python was run and its output checked."
    },
    {
     "q": "What does competition ranking give for [30, 10, 30, 20]?\n```python\nv=[30,10,30,20]\nprint([1+sum(1 for y in v if y>x) for x in v])\n```\n",
@@ -1957,7 +1957,7 @@
      "[1, 4, 1, 3]"
     ],
     "answer": 3,
-    "explain": "Ties share a rank and the next rank is skipped; dense ranking would not skip. (A Python model of Tableau's calculation semantics; Tableau itself was not run.) Verified by running it."
+    "explain": "Ties share a rank and the next rank is skipped; dense ranking would not skip. (A Python model of Tableau's calculation semantics; Tableau itself was not used.) The Python was run and its output checked."
    },
    {
     "q": "A join of orders to a customer table with a duplicated key. What happens to totals?\n```python\norders=[('c1',100),('c2',200)]\ncust=[('c1','R'),('c2','C'),('c2','C')]\nj=[(o,c) for o in orders for c in cust if o[0]==c[0]]\nprint(len(j), sum(o[1] for o,_ in j), sum(o[1] for o in orders))\n```\n",
@@ -1968,7 +1968,7 @@
      "3 500 300"
     ],
     "answer": 3,
-    "explain": "Duplicate keys fan out rows and inflate SUM; relationships and deduplication avoid it. (A Python model of Tableau's calculation semantics; Tableau itself was not run.) Verified by running it."
+    "explain": "Duplicate keys fan out rows and inflate SUM; relationships and deduplication avoid it. (A Python model of Tableau's calculation semantics; Tableau itself was not used.) The Python was run and its output checked."
    },
    {
     "q": "A row-level security filter maps users to regions. What does ana (East, North) see?\n```python\norders=[('E',1),('W',2),('N',3),('E',4)]\nent={'ana':{'E','N'}}\nprint([o for o in orders if o[0] in ent.get('ana',set())], [o for o in orders if o[0] in ent.get('dan',set())])\n```\n",
@@ -1979,7 +1979,7 @@
      "[('E', 1), ('N', 3), ('E', 4)] [('W', 2)]"
     ],
     "answer": 2,
-    "explain": "A user with no entitlement should see nothing (fail closed). (A Python model of Tableau's calculation semantics; Tableau itself was not run.) Verified by running it."
+    "explain": "A user with no entitlement should see nothing (fail closed). (A Python model of Tableau's calculation semantics; Tableau itself was not used.) The Python was run and its output checked."
    },
    {
     "q": "Which order of operations is right for these Tableau filters, earliest first?",

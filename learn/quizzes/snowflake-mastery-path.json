@@ -158,7 +158,7 @@
       "9.0"
      ],
      "answer": 2,
-     "explain": "Credits = rate per hour x hours (per-second billing, 60-second minimum per resume). Verified by running it."
+     "explain": "Credits = rate per hour x hours (per-second billing, 60-second minimum per resume). (Any standard SQL here was run on PostgreSQL 18; Snowflake itself was not used.)"
     },
     {
      "q": "Warehouse sizes double their credit rate each step: XS=1, S=2, M=4, L=8. How many credits per hour for an XL?\n```python\nprint(1*2**4)\n```\n",
@@ -169,7 +169,7 @@
       "8"
      ],
      "answer": 0,
-     "explain": "XL is four doublings from XS. Verified by running it."
+     "explain": "XL is four doublings from XS. (Any standard SQL here was run on PostgreSQL 18; Snowflake itself was not used.)"
     },
     {
      "q": "What happens to billing when a warehouse is suspended?",
@@ -254,7 +254,7 @@
       "a,40,2; b,25,1"
      ],
      "answer": 2,
-     "explain": "Aggregates inside window ordering work the same in both systems. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+     "explain": "Aggregates inside window ordering work the same in both systems. The standard-SQL part was run on PostgreSQL 18 and its output checked; Snowflake itself was not used, so any Snowflake-only syntax is untested here."
     },
     {
      "q": "What does QUALIFY do in Snowflake SQL?",
@@ -287,7 +287,7 @@
       "4,2,2"
      ],
      "answer": 2,
-     "explain": "count(x) ignores NULL; count(*) does not. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+     "explain": "count(x) ignores NULL; count(*) does not. The standard-SQL part was run on PostgreSQL 18 and its output checked; Snowflake itself was not used, so any Snowflake-only syntax is untested here."
     }
    ]
   },
@@ -335,7 +335,7 @@
       "name,3"
      ],
      "answer": 1,
-     "explain": "Path access plus array length; Snowflake uses v:user.name::string and ARRAY_SIZE(v:items). Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+     "explain": "Path access plus array length; Snowflake uses v:user.name::string and ARRAY_SIZE(v:items). The standard-SQL part was run on PostgreSQL 18 and its output checked; Snowflake itself was not used, so any Snowflake-only syntax is untested here."
     }
    ]
   },
@@ -383,7 +383,7 @@
       "90"
      ],
      "answer": 0,
-     "explain": "Only the Time Travel part is self-service. Verified by running it."
+     "explain": "Only the Time Travel part is self-service. (Any standard SQL here was run on PostgreSQL 18; Snowflake itself was not used.)"
     }
    ]
   },
@@ -457,7 +457,7 @@
       "a,1; b,3"
      ],
      "answer": 0,
-     "explain": "In Snowflake you could write this with QUALIFY row_number() = 1. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+     "explain": "In Snowflake you could write this with QUALIFY row_number() = 1. The standard-SQL part was run on PostgreSQL 18 and its output checked; Snowflake itself was not used, so any Snowflake-only syntax is untested here."
     },
     {
      "q": "Why define a clustering or loading convention early?",
@@ -516,7 +516,7 @@
       "0.0025"
      ],
      "answer": 2,
-     "explain": "Good pruning scans a small fraction. Verified by running it."
+     "explain": "Good pruning scans a small fraction. (Any standard SQL here was run on PostgreSQL 18; Snowflake itself was not used.)"
     },
     {
      "q": "Why does data order affect pruning?",
@@ -937,7 +937,7 @@
       "1,new; 3,add"
      ],
      "answer": 0,
-     "explain": "Snowflake uses MERGE INTO ... WHEN MATCHED ... WHEN NOT MATCHED; PostgreSQL's ON CONFLICT achieves the same upsert. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+     "explain": "Snowflake uses MERGE INTO ... WHEN MATCHED ... WHEN NOT MATCHED; PostgreSQL's ON CONFLICT achieves the same upsert. The standard-SQL part was run on PostgreSQL 18 and its output checked; Snowflake itself was not used, so any Snowflake-only syntax is untested here."
     },
     {
      "q": "Why make the load idempotent?",
@@ -1140,7 +1140,7 @@
       "ana,***"
      ],
      "answer": 0,
-     "explain": "Snowflake masking policies evaluate CURRENT_ROLE() similarly; here the current user is the admin so the real value shows. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+     "explain": "Snowflake masking policies evaluate CURRENT_ROLE() similarly; here the current user is the admin so the real value shows. The standard-SQL part was run on PostgreSQL 18 and its output checked; Snowflake itself was not used, so any Snowflake-only syntax is untested here."
     },
     {
      "q": "Why prefer policies over copies of masked tables?",
@@ -1679,7 +1679,7 @@
       "60"
      ],
      "answer": 0,
-     "explain": "That is why auto-suspend matters. Verified by running it."
+     "explain": "That is why auto-suspend matters. (Any standard SQL here was run on PostgreSQL 18; Snowflake itself was not used.)"
     }
    ]
   },
@@ -1935,7 +1935,7 @@
      "a,30,15,2; b,5,5,1"
     ],
     "answer": 3,
-    "explain": "Grouped aggregates; the same in Snowflake. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+    "explain": "Grouped aggregates; the same in Snowflake. The standard-SQL part was run on PostgreSQL 18 and its output checked; Snowflake itself was not used, so any Snowflake-only syntax is untested here."
    },
    {
     "q": "What does this window query return?\n```sql\ncreate table t(d int, v int); insert into t values (1,10),(2,20),(3,30);\n\nselect d, sum(v) over (order by d) running, lag(v) over (order by d) prev from t order by d;\n```\n",
@@ -1946,7 +1946,7 @@
      "1,10,; 2,30,10; 3,60,"
     ],
     "answer": 1,
-    "explain": "A running sum and the previous row's value (NULL first). Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+    "explain": "A running sum and the previous row's value (NULL first). The standard-SQL part was run on PostgreSQL 18 and its output checked; Snowflake itself was not used, so any Snowflake-only syntax is untested here."
    },
    {
     "q": "What does this NULL-handling query return?\n```sql\ncreate table t(x int); insert into t values (1),(null),(3);\n\nselect count(*), count(x), sum(x), coalesce(max(x),0), avg(x)::numeric(3,1) from t;\n```\n",
@@ -1957,7 +1957,7 @@
      "3,2,4,3,2.0"
     ],
     "answer": 3,
-    "explain": "NULLs are ignored by aggregates; count(*) counts rows. Verified by running the standard-SQL part on PostgreSQL 18 (rows comma-separated, separated by semicolons); Snowflake itself was not available, so Snowflake-only syntax is not run here."
+    "explain": "NULLs are ignored by aggregates; count(*) counts rows. The standard-SQL part was run on PostgreSQL 18 and its output checked; Snowflake itself was not used, so any Snowflake-only syntax is untested here."
    },
    {
     "q": "A table is 500 micro-partitions and your filter touches 20. What does pruning mean for cost?",
@@ -1990,7 +1990,7 @@
      "1.0"
     ],
     "answer": 0,
-    "explain": "Rate x hours. Verified by running it."
+    "explain": "Rate x hours. (Any standard SQL here was run on PostgreSQL 18; Snowflake itself was not used.)"
    },
    {
     "q": "Which cache can answer an identical repeated query without using a warehouse?",

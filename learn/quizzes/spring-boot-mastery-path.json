@@ -110,7 +110,7 @@
       "t=0\nt=7"
      ],
      "answer": 0,
-     "explain": "Depending on an interface lets you inject a fake in tests; Spring does the wiring. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+     "explain": "Depending on an interface lets you inject a fake in tests; Spring does the wiring. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) The code was compiled, run and its output checked."
     },
     {
      "q": "What is Inversion of Control?",
@@ -302,7 +302,7 @@
       "[]\n[title must not be blank, priority must be 1-5]"
      ],
      "answer": 3,
-     "explain": "Spring does this with @NotBlank and @Min/@Max plus @Valid; failures become 400 responses. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+     "explain": "Spring does this with @NotBlank and @Min/@Max plus @Valid; failures become 400 responses. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) The code was compiled, run and its output checked."
     },
     {
      "q": "Which annotation triggers validation of a request body?",
@@ -457,7 +457,7 @@
       "[Task[id=1, title=a, done=false]]\nfalse"
      ],
      "answer": 1,
-     "explain": "Optional models a missing task; a controller would map the empty case to 404. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+     "explain": "Optional models a missing task; a controller would map the empty case to 404. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) The code was compiled, run and its output checked."
     },
     {
      "q": "Which HTTP verb replaces a whole resource idempotently?",
@@ -830,7 +830,7 @@
       "false false false"
      ],
      "answer": 2,
-     "explain": "A valid signature verifies only with the right key and untampered payload. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+     "explain": "A valid signature verifies only with the right key and untampered payload. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) The code was compiled, run and its output checked."
     },
     {
      "q": "What does an OAuth2 resource server do with a bearer JWT?",
@@ -1022,7 +1022,7 @@
       "before\nran job\nafter"
      ],
      "answer": 1,
-     "explain": "Spring wraps beans in proxies so advice (transactions, caching) runs around calls. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+     "explain": "Spring wraps beans in proxies so advice (transactions, caching) runs around calls. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) The code was compiled, run and its output checked."
     },
     {
      "q": "Why does self-invocation bypass AOP advice?",
@@ -1070,7 +1070,7 @@
       "n+1: 4\nbatched: 2"
      ],
      "answer": 0,
-     "explain": "One query for authors plus one per author versus two queries total. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+     "explain": "One query for authors plus one per author versus two queries total. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) The code was compiled, run and its output checked."
     },
     {
      "q": "What is the N+1 problem?",
@@ -1358,7 +1358,7 @@
       "[construct, inject, init, destroy]"
      ],
      "answer": 3,
-     "explain": "Instantiate, inject dependencies, run @PostConstruct, later @PreDestroy. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) Verified by compiling and running it."
+     "explain": "Instantiate, inject dependencies, run @PostConstruct, later @PreDestroy. (Plain-Java model of the idea; Spring itself was not run here, so framework behaviour such as annotations is described, not executed.) The code was compiled, run and its output checked."
     },
     {
      "q": "Which annotation runs initialisation after dependencies are injected?",
@@ -1935,7 +1935,7 @@
      "[]\n[]"
     ],
     "answer": 0,
-    "explain": "Spring runs equivalent checks from @NotBlank, @Min and @Email when a parameter is @Valid and answers 400 on violations. (Plain-Java model; Spring itself was not run here.) Verified by compiling and running it."
+    "explain": "Spring runs equivalent checks from @NotBlank, @Min and @Email when a parameter is @Valid and answers 400 on violations. (Plain-Java model; Spring itself was not used.) The code was compiled, run and its output checked."
    },
    {
     "q": "What does this idempotent-handler model print when the same event is delivered twice?\n```java\nimport java.util.*;\npublic class Main { static Set<String> seen = new HashSet<>(); static int total = 0; static void handle(String id, int amt) { if (!seen.add(id)) { System.out.println(\"duplicate \" + id); return; } total += amt; } public static void main(String[] a) { handle(\"e1\", 10); handle(\"e2\", 5); handle(\"e1\", 10); System.out.println(total); } }\n```\n",
@@ -1946,7 +1946,7 @@
      "duplicate e1\n15"
     ],
     "answer": 3,
-    "explain": "At-least-once delivery means handlers must tolerate duplicates, for example by recording processed IDs. (Plain-Java model; Spring itself was not run here.) Verified by compiling and running it."
+    "explain": "At-least-once delivery means handlers must tolerate duplicates, for example by recording processed IDs. (Plain-Java model; Spring itself was not used.) The code was compiled, run and its output checked."
    },
    {
     "q": "What does this JDK dynamic-proxy model of AOP print?\n```java\nimport java.lang.reflect.*;\npublic class Main { public static void main(String[] x) { Svc t = (a, b) -> a + b; Svc p = (Svc) Proxy.newProxyInstance(Svc.class.getClassLoader(), new Class<?>[]{Svc.class}, (pr, m, args) -> { System.out.println(\"tx begin\"); try { Object r = m.invoke(t, args); System.out.println(\"tx commit\"); return r; } catch (InvocationTargetException e) { System.out.println(\"tx rollback\"); throw e.getCause(); } }); System.out.println(p.add(2, 3)); } }\ninterface Svc { int add(int a, int b); }\n```\n",
@@ -1957,7 +1957,7 @@
      "5\ntx begin\ntx commit"
     ],
     "answer": 2,
-    "explain": "Transaction advice wraps the call: begin, invoke, commit (or rollback on an exception). (Plain-Java model; Spring itself was not run here.) Verified by compiling and running it."
+    "explain": "Transaction advice wraps the call: begin, invoke, commit (or rollback on an exception). (Plain-Java model; Spring itself was not used.) The code was compiled, run and its output checked."
    },
    {
     "q": "How many queries does the N+1 problem issue for a list of 100 authors with lazy books?",
@@ -1979,7 +1979,7 @@
      "48\ncalls=2"
     ],
     "answer": 1,
-    "explain": "The second lookup of 4 is served from the cache; @Cacheable does this keyed by arguments. (Plain-Java model; Spring itself was not run here.) Verified by compiling and running it."
+    "explain": "The second lookup of 4 is served from the cache; @Cacheable does this keyed by arguments. (Plain-Java model; Spring itself was not used.) The code was compiled, run and its output checked."
    },
    {
     "q": "What is the right layer for @Transactional?",

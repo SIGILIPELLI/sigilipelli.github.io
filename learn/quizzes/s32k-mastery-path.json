@@ -121,7 +121,7 @@
       "160 80 40 26.00"
      ],
      "answer": 0,
-     "explain": "8 MHz x 40 = 320 MHz VCO, /2 = 160 MHz SPLL output; the course divides by 2 for the 80 MHz core, 4 for the 40 MHz bus and 6 for the roughly 26.67 MHz flash clock. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "8 MHz x 40 = 320 MHz VCO, /2 = 160 MHz SPLL output; the course divides by 2 for the 80 MHz core, 4 for the 40 MHz bus and 6 for the roughly 26.67 MHz flash clock. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     },
     {
      "q": "Why does CAN need a crystal-grade clock rather than an internal RC oscillator?",
@@ -191,7 +191,7 @@
       "0x29"
      ],
      "answer": 2,
-     "explain": "Set bits 3 and 5, clear bit 3, toggle bit 0. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "Set bits 3 and 5, clear bit 3, toggle bit 0. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     }
    ]
   },
@@ -206,7 +206,7 @@
       "112500 2.34"
      ],
      "answer": 0,
-     "explain": "Baud = clock / (OSR x SBR); the 0.16% error is well within UART tolerance. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "Baud = clock / (OSR x SBR); the 0.16% error is well within UART tolerance. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     },
     {
      "q": "What does 8N1 mean?",
@@ -239,7 +239,7 @@
       "8.68 ms"
      ],
      "answer": 3,
-     "explain": "Each byte is 10 bits including start and stop. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "Each byte is 10 bits including start and stop. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     }
    ]
   },
@@ -254,7 +254,7 @@
       "2.500"
      ],
      "answer": 1,
-     "explain": "Counts = V/Vref x 4095, so V = counts x Vref / 4095. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "Counts = V/Vref x 4095, so V = counts x Vref / 4095. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     },
     {
      "q": "Why average several ADC samples?",
@@ -287,7 +287,7 @@
       "10000"
      ],
      "answer": 1,
-     "explain": "A 10 mV/degC sensor with a 500 mV offset gives 100.0 C at 1500 mV, i.e. 1000 tenths. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "A 10 mV/degC sensor with a 500 mV offset gives 100.0 C at 1500 mV, i.e. 1000 tenths. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     }
    ]
   },
@@ -324,7 +324,7 @@
       "108"
      ],
      "answer": 0,
-     "explain": "SOF, ID, RTR, IDE, r0, DLC, data, CRC, delimiters, ACK, EOF and interframe space add up to 111 before stuffing. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "SOF, ID, RTR, IDE, r0, DLC, data, CRC, delimiters, ACK, EOF and interframe space add up to 111 before stuffing. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     },
     {
      "q": "What does the ACK slot mean?",
@@ -350,7 +350,7 @@
       "999"
      ],
      "answer": 1,
-     "explain": "CnV = (MOD+1) x duty. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "CnV = (MOD+1) x duty. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     },
     {
      "q": "What is the PWM frequency for a 48 MHz timer clock, prescaler 1 and MOD 999?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){printf(\"%.0f\\n\",48e6/1000);}\n```\n",
@@ -361,7 +361,7 @@
       "4800"
      ],
      "answer": 0,
-     "explain": "f = clock / (MOD+1). (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "f = clock / (MOD+1). (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     },
     {
      "q": "What does an input-capture channel measure?",
@@ -468,7 +468,7 @@
       "2"
      ],
      "answer": 1,
-     "explain": "24 bits is exactly 3 bytes. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "24 bits is exactly 3 bytes. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     },
     {
      "q": "What should the node do if the ADC fails self-check?",
@@ -516,7 +516,7 @@
       "1 0"
      ],
      "answer": 3,
-     "explain": "Only masked bits are compared. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "Only masked bits are compared. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     },
     {
      "q": "What does the error passive state mean?",
@@ -719,7 +719,7 @@
       "0.050 mA"
      ],
      "answer": 2,
-     "explain": "Duty-weighted average. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "Duty-weighted average. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     }
    ]
   },
@@ -767,7 +767,7 @@
       "25"
      ],
      "answer": 3,
-     "explain": "Round up. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "Round up. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     }
    ]
   },
@@ -863,7 +863,7 @@
       "0x31"
      ],
      "answer": 0,
-     "explain": "A bit-by-bit CRC-8 as used for image or message checks. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "A bit-by-bit CRC-8 as used for image or message checks. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     }
    ]
   },
@@ -911,7 +911,7 @@
       "7F 22 90 41 42 43 "
      ],
      "answer": 0,
-     "explain": "Positive response = SID+0x40, DID echo, then data. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "Positive response = SID+0x40, DID echo, then data. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     }
    ]
   },
@@ -1081,7 +1081,7 @@
       "13"
      ],
      "answer": 2,
-     "explain": "DLC 9 to 15 map to 12, 16, 20, 24, 32, 48, 64. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "DLC 9 to 15 map to 12, 16, 20, 24, 32, 48, 64. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     },
     {
      "q": "What is a DBC file?",
@@ -1103,7 +1103,7 @@
       "0x3CA 970"
      ],
      "answer": 3,
-     "explain": "Little-endian assembling then shift and mask. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "Little-endian assembling then shift and mask. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     }
    ]
   },
@@ -1583,7 +1583,7 @@
       "4"
      ],
      "answer": 3,
-     "explain": "Unsigned arithmetic wraps modulo 256; MISRA asks you to make intent explicit. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "Unsigned arithmetic wraps modulo 256; MISRA asks you to make intent explicit. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     }
    ]
   },
@@ -1727,7 +1727,7 @@
       "0.70 ok"
      ],
      "answer": 3,
-     "explain": "Liu and Layland: n(2^(1/n)-1) is about 0.78 for three tasks. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+     "explain": "Liu and Layland: n(2^(1/n)-1) is about 0.78 for three tasks. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
     }
    ]
   },
@@ -1935,7 +1935,7 @@
      "44 300 200"
     ],
     "answer": 0,
-    "explain": "uint8_t arithmetic wraps modulo 256; casting 200 to int8_t gives -56 on two's complement targets. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    "explain": "uint8_t arithmetic wraps modulo 256; casting 200 to int8_t gives -56 on two's complement targets. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
    },
    {
     "q": "What does this print?\n```c\n#include <stdio.h>\n#include <stdint.h>\n#define BIT(n) (1u<<(n))\nint main(void){uint32_t reg=0xF0; reg&=~(BIT(7)|BIT(4)); reg|=BIT(1); printf(\"0x%02X %d\\n\",reg,(reg&BIT(5))!=0);}\n```\n",
@@ -1946,7 +1946,7 @@
      "0x62 1"
     ],
     "answer": 3,
-    "explain": "Clear bits 7 and 4, set bit 1; bit 5 remains set. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    "explain": "Clear bits 7 and 4, set bit 1; bit 5 remains set. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
    },
    {
     "q": "What is the CAN bus load for this schedule at 500 kbit/s? (frames are 111 bits, 10 per 10 ms)\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){double bits=111*10; double cap=500000*0.010; printf(\"%.1f%%\\n\",100*bits/cap);}\n```\n",
@@ -1957,7 +1957,7 @@
      "22.2%"
     ],
     "answer": 3,
-    "explain": "1110 bits in a 10 ms window with 5000 bits of capacity. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    "explain": "1110 bits in a 10 ms window with 5000 bits of capacity. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
    },
    {
     "q": "How many bits is the CAN bit time for 500 kbit/s, and how many time quanta at an 8 MHz time-quantum clock?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){double t=1e6/500000.0; printf(\"%.0f us %.0f tq\\n\",t,t*8);}\n```\n",
@@ -1968,7 +1968,7 @@
      "1 us 8 tq"
     ],
     "answer": 1,
-    "explain": "Bit time = 1/baud; tq count = bit time x tq clock. (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    "explain": "Bit time = 1/baud; tq count = bit time x tq clock. (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
    },
    {
     "q": "What is the sample point for 16 tq with sync 1, PROP+PS1 = 12 and PS2 = 3?\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void){printf(\"%.1f%%\\n\",100.0*(1+12)/16);}\n```\n",
@@ -1979,7 +1979,7 @@
      "81.2%"
     ],
     "answer": 3,
-    "explain": "Sample point = (sync + seg1) / total, here 13/16 (81.25%, printed as 81.2% by round-half-even). (Host-C model of the arithmetic; no S32K hardware was used.) Verified by compiling and running it."
+    "explain": "Sample point = (sync + seg1) / total, here 13/16 (81.25%, printed as 81.2% by round-half-even). (Host-C model of the arithmetic; no S32K hardware was used.) The code was compiled, run and its output checked."
    },
    {
     "q": "Why is a CRC alone not enough to secure a CAN message?",
