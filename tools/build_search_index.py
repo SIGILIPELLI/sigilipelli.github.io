@@ -93,9 +93,12 @@ def load(cid):
     desc = re.search(r'<meta name="description" content="([^"]*)"', home)
     name = re.search(r'"@type": "Course",\s*"name": "([^"]+)"', home)
     idx = json.loads(get(c['url'] + 'search/search_index.json'))['docs']
-    lessons, heads = [], {}
+    lessons, heads, res = [], {}, []
     for d in idx:
         loc = d['location']
+        if loc in ('interview-questions/', 'cheat-sheet/'):
+            res.append([clean(d['title']), loc])
+            continue
         m = re.match(r'^(level-(\d+)/([^/#]+)/)(#.*)?$', loc)
         if not m:
             continue
@@ -109,6 +112,7 @@ def load(cid):
     for les in lessons:
         out.append({'c': cid, 'l': les['level'], 't': les['title'], 'u': les['path'], 'd': clip(les['text'], 105),
                     'k': clip(' · '.join(dict.fromkeys(heads.get(les['path'], []))), 110)})
+    c['res'] = res
     return cid, {'name': html.unescape(name.group(1)) if name else c['short'] + ' Mastery Path',
                  'desc': clip(html.unescape(desc.group(1)) if desc else '', 200), 'seo': html.unescape(title.group(1)) if title else ''}, out
 
@@ -133,7 +137,7 @@ if errors:
 
 ids = [cid for cid in order if courses[cid].get('lessons')]
 pos = {cid: i for i, cid in enumerate(ids)}
-course_list = [{k: courses[cid][k] for k in ('id', 'name', 'short', 'emoji', 'url', 'desc', 'cat', 'catName', 'type', 'careers', 'aliases', 'lessons')} for cid in ids]
+course_list = [{k: courses[cid].get(k, []) for k in ('id', 'name', 'short', 'emoji', 'url', 'desc', 'cat', 'catName', 'type', 'careers', 'aliases', 'lessons', 'res')} for cid in ids]
 lessons.sort(key=lambda x: (pos.get(x['c'], 999), x['l'], x['u']))
 # path is stored without the 'level-N/' prefix (the level is its own field) to keep the file small
 lesson_list = [[pos[x['c']], x['l'], x['t'], x['u'].split('/', 1)[1], x['d'], x['k']] for x in lessons if x['c'] in pos]

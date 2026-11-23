@@ -53,6 +53,15 @@
         addField(d, c.name, 10); addField(d, c.short, 12); addField(d, c.aliases.join(' '), 9);
         addField(d, c.careers.join(' '), 5); addField(d, c.catName + ' ' + c.type, 3.5); addField(d, c.desc, 2);
       });
+      // Course resources (interview questions, cheat sheet): shown with lessons, ranked by their own title.
+      courses.forEach(function (c, i) {
+        (c.res || []).forEach(function (r) {
+          var d = docs.length;
+          docs.push({ kind: 'resource', c: i, title: r[0], url: c.url + r[1], desc: /interview/i.test(r[1]) ? 'Questions with answers and explanations, beginner to advanced.' : 'Quick-reference tables from every level of the course.', titleN: norm(r[0]) });
+          addField(d, r[0], 8); addField(d, c.short, 5); addField(d, c.aliases.join(' '), 2);
+          addField(d, /interview/i.test(r[1]) ? 'interview questions answers prep' : 'cheat sheet quick reference', 6);
+        });
+      });
       rebuildVocab();
     });
     return readyP;
@@ -127,7 +136,7 @@
     if (f.type && c.type !== f.type) return false;
     if (f.career && c.careers.indexOf(f.career) < 0) return false;
     if (f.tech && c.id !== f.tech) return false;
-    if (f.level && doc.kind === 'lesson' && String(doc.l) !== String(f.level)) return false;
+    if (f.level && doc.kind !== 'course' && String(doc.l) !== String(f.level)) return false;
     if (f.kind && doc.kind !== f.kind) return false;
     return true;
   }
@@ -176,7 +185,7 @@
       // filter-only browsing: list matching courses (and, with a level or course filter, their lessons)
       docs.forEach(function (doc, d) {
         if (!passes(doc, filters)) return;
-        if (doc.kind === 'lesson' && !(filters.level || filters.tech)) return;
+        if (doc.kind !== 'course' && !(filters.level || filters.tech)) return;
         list.push({ d: d, s: doc.kind === 'course' ? 2 : 1 - d / 1e6 });
       });
     }
@@ -192,7 +201,7 @@
     return {
       kind: doc.kind, title: doc.title, url: doc.url, desc: doc.desc, topics: doc.topics || '',
       course: c.name, courseShort: c.short, emoji: c.emoji, courseUrl: c.url, category: c.catName, type: c.type, careers: c.careers,
-      level: doc.kind === 'lesson' ? LEVELS[doc.l] : 'Beginner → Expert', levelN: doc.l || 0, lessons: c.lessons, terms: qts,
+      level: doc.kind === 'lesson' ? LEVELS[doc.l] : doc.kind === 'resource' ? 'All levels' : 'Beginner → Expert', levelN: doc.l || 0, lessons: c.lessons, terms: qts,
     };
   }
 

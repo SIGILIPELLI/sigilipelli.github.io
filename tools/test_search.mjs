@@ -86,6 +86,20 @@ ok(top('xqzzvbnm').courses.length + top('xqzzvbnm').lessons.length === 0, 'nonse
 S.history.add('docker'); S.history.add('python'); S.history.add('Docker');
 ok(S.history.get()[0] === 'Docker' && S.history.get().length === 2, 'history de-dupes, newest first');
 
+// 6. course resources (interview questions, cheat sheets) when the index has them
+const withRes = courses.filter((c) => (c.res || []).length);
+if (withRes.length) {
+  for (const c of withRes) {
+    for (const [title, path] of c.res) {
+      const kind = /interview/.test(path) ? 'interview questions' : 'cheat sheet';
+      const r = top(`${c.short} ${kind}`);
+      ok(r.lessons.slice(0, 3).some((x) => x.url === c.url + path), `"${c.short} ${kind}" should find ${path} (got ${r.lessons.slice(0, 3).map((x) => x.title)})`);
+    }
+  }
+  ok(top('sql', { level: '2' }).lessons.every((x) => x.levelN === 2), 'level filter excludes resources');
+  console.log(`resources: ${withRes.reduce((s, c) => s + c.res.length, 0)} pages checked`);
+}
+
 times.sort((a, b) => a - b);
 console.log(`courses: ${courses.length} (${courseChecks} checks) | lessons: ${lessons.length}, not found: ${lessonMiss}`);
 console.log(`query time over ${times.length} lesson searches: median ${times[times.length >> 1].toFixed(2)} ms, p95 ${times[Math.floor(times.length * 0.95)].toFixed(2)} ms, max ${times[times.length - 1].toFixed(1)} ms`);
