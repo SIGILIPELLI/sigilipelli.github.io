@@ -224,9 +224,9 @@ for d in course_dirs:
     cs, n_cs = cheat_page(c, lessons, docs)
     nav = []
     if iv:
-        nav.append(('💼 Interview Questions', 'interview-questions.md'))
+        nav.append(('Interview Questions', 'interview-questions.md'))
     if cs:
-        nav.append(('📋 Cheat Sheet', 'cheat-sheet.md'))
+        nav.append(('Cheat Sheet', 'cheat-sheet.md'))
     if not DRY:
         if iv:
             (docs / 'interview-questions.md').write_text(iv)

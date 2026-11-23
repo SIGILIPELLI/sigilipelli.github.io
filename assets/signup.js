@@ -16,20 +16,20 @@
   }
 
   var CSS = '' +
-    '.mp-su{margin:2.2em 0 1em;padding:20px 22px;border:1px solid rgba(47,169,141,.35);border-radius:14px;' +
-    'background:linear-gradient(135deg,rgba(47,169,141,.10),rgba(47,169,141,.03));font-size:15px;line-height:1.5}' +
+    '.mp-su{margin:2.2em 0 1em;padding:20px 22px;border:1px solid var(--mp-line,var(--line,rgba(19,120,95,.25)));border-radius:14px;box-shadow:var(--mp-shadow-md,0 8px 24px rgba(15,29,25,.08));' +
+    'background:radial-gradient(420px 180px at 100% 0%,var(--mp-brand-soft,var(--brand-soft,rgba(19,120,95,.10))),transparent 70%),var(--mp-surface,var(--surface,#fff));font-size:15px;line-height:1.5}' +
     '.mp-su h3{margin:0 0 6px!important;font-size:1.15em!important;font-weight:700}' +
     '.mp-su p{margin:0 0 12px!important}' +
     '.mp-su form{display:flex;flex-wrap:wrap;gap:8px}' +
     '.mp-su input[type=email]{flex:1 1 220px;min-width:0;padding:10px 12px;border-radius:9px;border:1px solid rgba(127,127,127,.45);' +
     'font:inherit;background:var(--md-default-bg-color,#fff);color:inherit}' +
-    '.mp-su button{padding:10px 16px;border:0;border-radius:9px;background:#2FA98D;color:#fff;font:inherit;font-weight:600;cursor:pointer}' +
+    '.mp-su button{padding:10px 16px;border:0;border-radius:9px;background:var(--mp-brand,var(--brand,#13785f));color:var(--mp-brand-ink,var(--brand-ink,#fff));font:inherit;font-weight:700;cursor:pointer}' +
     '.mp-su button[disabled]{opacity:.6;cursor:wait}' +
     '.mp-su .mp-su-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}' +
     '.mp-su small{display:block;margin-top:8px;opacity:.75;font-size:.82em}' +
     '.mp-su .mp-su-msg{margin-top:10px;font-weight:600}' +
     '.mp-su .mp-su-err{color:#c0392b}' +
-    '.mp-su a.mp-su-cta{display:inline-block;margin-top:4px;padding:9px 14px;border-radius:9px;background:#2FA98D;color:#fff!important;text-decoration:none;font-weight:600}';
+    '.mp-su a.mp-su-cta{display:inline-block;margin-top:4px;padding:9px 14px;border-radius:9px;background:var(--mp-brand,var(--brand,#13785f));color:var(--mp-brand-ink,var(--brand-ink,#fff))!important;text-decoration:none;font-weight:600}';
 
   function el(tag, attrs, html) {
     var e = document.createElement(tag);

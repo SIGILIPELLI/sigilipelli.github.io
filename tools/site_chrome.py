@@ -19,9 +19,9 @@ APP_CSS = ['resume/style.css']
 
 LOGO = ('<svg class="brand-mark" aria-hidden="true" focusable="false" viewBox="0 0 160 160">'
         '<circle cx="80" cy="80" r="74" fill="#FAF7EF" stroke="#2FA98D" stroke-width="4"/>'
-        '<rect x="36" y="90" width="17" height="24" rx="5" fill="#2FA98D"/><rect x="59" y="74" width="17" height="40" rx="5" fill="#7FC9B7"/>'
-        '<rect x="82" y="56" width="17" height="58" rx="5" fill="#E0B457"/><rect x="105" y="38" width="17" height="76" rx="5" fill="#C98B4A"/>'
-        '<circle cx="44.5" cy="82" r="7" fill="#22261f"/></svg>')
+        '<rect class="mp-bar mp-bar-1" x="36" y="90" width="17" height="24" rx="5" fill="#2FA98D"/><rect class="mp-bar mp-bar-2" x="59" y="74" width="17" height="40" rx="5" fill="#7FC9B7"/>'
+        '<rect class="mp-bar mp-bar-3" x="82" y="56" width="17" height="58" rx="5" fill="#E0B457"/><rect class="mp-bar mp-bar-4" x="105" y="38" width="17" height="76" rx="5" fill="#C98B4A"/>'
+        '<circle class="mp-dot" cx="44.5" cy="82" r="7" fill="#22261f"/></svg>')
 NAV = [('Courses', HUB + '#courses'), ('Learning Paths', HUB + '#paths'), ('Interview Prep', HUB + 'interview-questions/'),
        ('Resume Tools', HUB + 'resume/'), ('Certificates', HUB + 'verify/'), ('About', HUB + 'about.html')]
 HEAD = ('<!-- mp-chrome:head -->'

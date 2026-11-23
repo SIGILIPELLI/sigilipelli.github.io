@@ -105,3 +105,23 @@ h1, h2, h3 { line-height: 1.2; text-wrap: balance; letter-spacing: -0.01em; }
   .doc table { display: block; overflow-x: auto; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+/* ---------- brand mark animation (dot climbs the four level bars, each bar glows in turn) ---------- */
+.mp-bar { transform-origin: center bottom; }
+.mp-dot { transform-box: fill-box; transform-origin: center; animation: mp-dot-jump 4s ease-in-out infinite; }
+.mp-bar-1 { animation: mp-glow-1 4s ease-in-out infinite; }
+.mp-bar-2 { animation: mp-glow-2 4s ease-in-out infinite; }
+.mp-bar-3 { animation: mp-glow-3 4s ease-in-out infinite; }
+.mp-bar-4 { animation: mp-glow-4 4s ease-in-out infinite; }
+@keyframes mp-dot-jump {
+  0%, 18% { transform: translate(0, 0); opacity: 1; }
+  21.5% { transform: translate(11.5px, -30px); } 25%, 43% { transform: translate(23px, -16px); }
+  46.5% { transform: translate(34.5px, -50px); } 50%, 68% { transform: translate(46px, -34px); }
+  71.5% { transform: translate(57.5px, -68px); } 75%, 93% { transform: translate(69px, -52px); opacity: 1; }
+  96% { transform: translate(69px, -52px); opacity: 0; } 97% { transform: translate(0, 0); opacity: 0; } 100% { transform: translate(0, 0); opacity: 1; }
+}
+@keyframes mp-glow-1 { 0%, 20%, 100% { filter: brightness(1.35) drop-shadow(0 0 5px #2FA98D); } 25%, 97% { filter: none; } }
+@keyframes mp-glow-2 { 0%, 23%, 48%, 100% { filter: none; } 25%, 43% { filter: brightness(1.35) drop-shadow(0 0 5px #7FC9B7); } }
+@keyframes mp-glow-3 { 0%, 48.5%, 69.5%, 100% { filter: none; } 50%, 68% { filter: brightness(1.35) drop-shadow(0 0 5px #E0B457); } }
+@keyframes mp-glow-4 { 0%, 73.5%, 94.5%, 100% { filter: none; } 75%, 93% { filter: brightness(1.35) drop-shadow(0 0 5px #C97B4A); } }
+@media (prefers-reduced-motion: reduce) { .mp-dot, .mp-bar-1, .mp-bar-2, .mp-bar-3, .mp-bar-4 { animation: none; } }

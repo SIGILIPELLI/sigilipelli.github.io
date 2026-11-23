@@ -155,7 +155,8 @@
     eyebrow.className = 'mpc-hero-eyebrow';
     eyebrow.textContent = 'Free course · 4 levels · Beginner to expert';
     hero.appendChild(eyebrow);
-    if (me && me.emoji && !$('.mpc-hero-icon', h1)) h1.insertAdjacentHTML('afterbegin', '<span class="mpc-hero-icon" aria-hidden="true">' + esc(me.emoji) + '</span>');
+    var mark = document.querySelector('.md-header .md-logo svg');
+    if (mark) { var m = document.createElement('div'); m.className = 'mpc-hero-mark'; m.setAttribute('aria-hidden', 'true'); m.appendChild(mark.cloneNode(true)); hero.appendChild(m); }
     hero.appendChild(h1);
     if (intro) hero.appendChild(intro);
     var start = next || M.lessons[0];
@@ -472,7 +473,7 @@
     var path = location.pathname.replace(/index\.html$/, '');
     if (META.src === '404.html' || $('.mp-404')) { document.body.classList.add('mp-is-404'); return; }
     if (/\/quiz\/?$/.test(path)) renderExam();
-    if (META.home) { renderHome(); renderCertCard(); }
+    if (META.home) { document.body.classList.add('mp-home'); renderHome(); renderCertCard(); }
     else if (SLUG) renderLesson();
     else if (/\/level-\d+\/?$/.test(path)) renderLevel();
   }
