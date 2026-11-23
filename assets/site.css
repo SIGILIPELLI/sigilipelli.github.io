@@ -74,7 +74,7 @@ h1, h2, h3 { line-height: 1.2; text-wrap: balance; letter-spacing: -0.01em; }
 .doc li { margin: 4px 0; }
 .doc table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: .95rem; }
 .doc th, .doc td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
-.doc th { background: var(--surface-2); }
+.doc th { background: var(--surface-2); white-space: nowrap; overflow-wrap: normal; }
 .doc code { background: var(--surface-2); padding: 1px 6px; border-radius: 6px; font-size: .9em; }
 .doc .updated { display: none; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-sm); }
@@ -125,3 +125,5 @@ h1, h2, h3 { line-height: 1.2; text-wrap: balance; letter-spacing: -0.01em; }
 @keyframes mp-glow-3 { 0%, 48.5%, 69.5%, 100% { filter: none; } 50%, 68% { filter: brightness(1.35) drop-shadow(0 0 5px #E0B457); } }
 @keyframes mp-glow-4 { 0%, 73.5%, 94.5%, 100% { filter: none; } 75%, 93% { filter: brightness(1.35) drop-shadow(0 0 5px #C97B4A); } }
 @media (prefers-reduced-motion: reduce) { .mp-dot, .mp-bar-1, .mp-bar-2, .mp-bar-3, .mp-bar-4 { animation: none; } }
+/* accessibility: links inside text are underlined */
+.foot-bottom a, .doc p a, .doc li a, .doc td a, .stamp a, .note a { text-decoration: underline; }
