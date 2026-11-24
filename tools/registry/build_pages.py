@@ -264,10 +264,10 @@ def impact():
     body = f'''<h2>Published content</h2>
 <div class="kpis">
 {kpi(STATS['courses'], 'published courses')}{kpi(STATS['lessons'], 'lessons')}{kpi(n(P['projects']), 'level projects')}{kpi(n(P['capstones']), 'final capstones')}
-{kpi(STATS['exercises'], 'exercises')}{kpi(STATS['quizzes'], 'quizzes (module + final)')}{kpi(STATS['categories'], 'categories')}{kpi(STATS['paths'], 'career learning paths')}
+{kpi(STATS['exercises'], 'lesson exercises')}{kpi(STATS['quizzes'], 'quizzes (module + final)')}{kpi(STATS['categories'], 'categories')}{kpi(STATS['paths'], 'career learning paths')}
 {kpi('4', 'levels in every course')}{kpi(STATS['technology'], 'technology courses')}{kpi(STATS['professional'], 'professional-development courses')}{kpi(n(S['first_party_domains']), 'first-party domains')}
 </div>
-<p class="stamp">Last updated {STAMP} (audit {E(S['audit_id'])}). Lessons exclude projects, capstones, exercises and quizzes, which are counted separately. <a href="/quality-and-verification/">How these are counted</a>.</p>
+<p class="stamp">Last updated {STAMP} (audit {E(S['audit_id'])}). Lessons exclude projects, capstones, exercises and quizzes, which are counted separately: {n(P['module_quizzes'])} module quizzes ({n(P['module_quiz_questions'])} questions) and {n(P['final_quizzes'])} final quizzes ({n(P['final_quiz_questions'])} questions, {n(P['coding_challenges'])} coding challenges); exercises are counted on lessons only, and {n(P['lessons_with_exercise'])} of {n(P['lessons'])} lessons have one. <a href="/quality-and-verification/">How these are counted</a>.</p>
 
 <h2 style="margin-top:32px">Courses by category</h2>
 <div class="grid2"><div class="doc"><table><thead><tr><th>Category</th><th>Courses</th></tr></thead><tbody>{cats}</tbody></table></div>

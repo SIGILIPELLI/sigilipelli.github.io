@@ -7,15 +7,15 @@
   "learning_level": "One of four ordered stages of a course (Level 1 Entry/Foundation, Level 2 Intermediate, Level 3 Advanced, Level 4 Master), each with its own overview page.",
   "module": "One topic unit within a level. On Mastery Path each module is published as exactly one lesson page, so module and lesson counts are the same; module IDs record the level and position.",
   "lesson": "A published page under level-N/ that teaches one topic and is not a project or capstone (see 'project'). It counts as a qualifying lesson when it returns HTTP 200 and has at least the minimum number of words of published text.",
-  "exercise": "A practice task inside a lesson, identified by a section heading that starts with Exercise/Exercises/Practice/Try it. Counted per section; not counted as lessons.",
-  "quiz": "A module quiz (per lesson, from the hub's question bank) or a course's final quiz page. Not counted as lessons.",
+  "exercise": "A practice task inside a lesson, identified by a section heading that starts with Exercise, Exercises, Practice, Try it or Stretch goals. Counted on lessons only; practice sections on project pages are reported separately as project_exercise_sections. Not counted as lessons.",
+  "quiz": "A module quiz is attached to one page (a lesson or a project) and has 3 to 8 questions (8 for merged lessons); a course's final quiz is one page of 18 to 24 questions plus coding challenges. Module quizzes, final quizzes, questions and challenges are reported separately and never counted as lessons.",
   "project": "A build task published as its own page whose file name is NN-project-… or NN-capstone-… (the number is its position in the level). A lesson that merely has 'project' in its title (for example 'AI project lifecycles') is a lesson. Counted separately; never included in lesson counts.",
   "capstone": "The final project page of Level 4 (one per course at most). Counted separately from other projects and from lessons."
  },
  "rules": {
   "project_slug": "^\\d+-project\\b",
   "capstone_slug": "^\\d+-capstone\\b",
-  "exercise_heading": "^(exercise|exercises|practice|try it)\\b",
+  "exercise_heading": "^(exercise|exercises|practice|try it|stretch goals)\\b",
   "min_lesson_words": 300,
   "min_lessons_per_level": 5,
   "min_lessons_per_course": 20,

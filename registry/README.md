@@ -10,7 +10,9 @@ The single source of truth for every count published on learnmasterypath.com. Ge
 | `reviews.json` ✎ | Human content reviews (course_slug, reviewer, date, notes). Reviews recorded in the protected dashboard are merged from `api.learnmasterypath.com/api/reviews`. |
 | `record.json` ✎ | Guinness application status. Update only from written Guinness World Records correspondence. |
 | `courses.json` | One record per course (schema in the brief: IDs, URLs, classification, dates, counts, eligibility + reasons, check results). |
-| `lessons.json` | One record per lesson, project and capstone page (type, level, module, URL, word count, exercises, qualification). |
+| `lessons.json` | One record per teaching lesson only (level, module, URL, word count, exercise count, qualification). |
+| `projects.json` | One record per project or capstone page, kept apart from lessons (`project_type`, level, URL, word count, practice sections). IDs are page IDs shared with `lessons.json`; they never change. |
+| `mastery_path_project_inventory.csv`, `mastery_path_exercise_gaps.csv` | The project inventory as CSV, and the list of lessons that have no exercise (empty when every lesson has one). |
 | `summary.json` / `mastery_path_audit_summary.json` | Totals for this audit: registered/published/passed automated checks/qualified, lessons, projects, capstones, exercises, quizzes, categories, paths, domains, failures, duplicates. |
 | `course-facts.json` | Small per-course extract used by course pages (`assets/learn.js`). |
 | `websites.json` | Website ecosystem registry (owned, subdomain, accounts, external references). |
@@ -37,3 +39,6 @@ Or add an entry to `reviews.json`. The course becomes `qualified` at the next au
 
 ## Review packet (for the human reviewer)
 `python3 tools/registry/review_packet.py` writes `review-packet.csv`: per course, the automated facts, four sample pages (the first lesson of each level), the capstone and blank check columns. It records nothing; a course only becomes `qualified` after a named person reads it and adds a dated entry to `reviews.json`.
+
+## Check production against the audit
+`python3 tools/registry/check_live_sync.py` loads the published `summary.json`, the registry-driven pages and every course home page from learnmasterypath.com and exits 1 if any shows a different audit id or count. `test_registry.py` runs the same comparison on the files in the repository before each commit.

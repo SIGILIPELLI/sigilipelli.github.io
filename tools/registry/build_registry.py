@@ -166,8 +166,11 @@ def read_course(c, cfg, quizzes_dir):
     if finals:
         finals[-1]['type'] = 'capstone'
     q = load(quizzes_dir / f"{c['id']}.json", {})
+    fin = q.get('final') or {}
     out.update(ok=True, http_home=st_home, home_html=home, lessons=lessons, level_titles=levels,
-               module_quizzes=len((q.get('lessons') or {})), final_quiz='quiz/' in pages,
+               module_quizzes=len((q.get('lessons') or {})), quiz_keys={k.rstrip('/') for k in (q.get('lessons') or {})},
+               quiz_questions=sum(len(v.get('questions', [])) for v in (q.get('lessons') or {}).values()),
+               final_questions=len(fin.get('questions', [])), challenges=len(fin.get('challenges', [])), final_quiz='quiz/' in pages,
                syllabus=bool(re.search(r'href="level-1/', home)) and bool(re.search(r'href="level-4/', home)),
                noindex='name="robots" content="noindex' in home)
     return out
@@ -253,7 +256,7 @@ def main():
     # build records
     R = cfg['rules']
     prof = set(cfg['classification']['professional'])
-    course_recs, lesson_recs, verify_rows = [], [], []
+    course_recs, lesson_recs, project_recs, verify_rows = [], [], [], []
     for c in sorted(courses, key=lambda c: ids['courses'][c['id']]['id']):
         d = data[c['id']]
         cid = ids['courses'][c['id']]['id']
@@ -315,8 +318,16 @@ def main():
             'learning_level_count': len(levels_present), 'level_titles': {str(k): v for k, v in sorted(d.get('level_titles', {}).items())},
             'lesson_count': len(lessons), 'lessons_per_level': {str(k): v for k, v in per_level.items()},
             'project_count': len([p for p in projects if p['type'] == 'project']), 'capstone_count': len([p for p in projects if p['type'] == 'capstone']),
-            'exercise_count': sum(l['exercises'] for l in L), 'quiz_count': d.get('module_quizzes', 0) + (1 if d.get('final_quiz') else 0),
-            'module_quiz_count': d.get('module_quizzes', 0), 'final_quiz': bool(d.get('final_quiz')),
+            # exercises are counted on lessons only (a project page's practice sections are reported separately)
+            'exercise_count': sum(l['exercises'] for l in lessons), 'lessons_with_exercise': len([l for l in lessons if l['exercises']]),
+            'lessons_without_exercise': len([l for l in lessons if not l['exercises']]), 'project_exercise_sections': sum(l['exercises'] for l in projects),
+            # quizzes: a module quiz belongs to one page (lesson or project); a final quiz belongs to the course
+            'quiz_count': d.get('module_quizzes', 0) + (1 if d.get('final_quiz') else 0),
+            'module_quiz_count': d.get('module_quizzes', 0),
+            'module_quizzes_on_lessons': len([l for l in lessons if l['path'].rstrip('/') in d.get('quiz_keys', set())]),
+            'module_quizzes_on_projects': len([l for l in projects if l['path'].rstrip('/') in d.get('quiz_keys', set())]),
+            'module_quiz_questions': d.get('quiz_questions', 0), 'final_quiz': bool(d.get('final_quiz')),
+            'final_quiz_questions': d.get('final_questions', 0), 'coding_challenges': d.get('challenges', 0),
             'total_words': sum(l['words'] for l in L),
             'language': 'en', 'access_type': 'free, public', 'registration_required': False, 'payment_required': False,
             'record_eligibility_status': status_, 'record_eligibility_reason': '; '.join(reasons) or 'meets all criteria',
@@ -327,18 +338,19 @@ def main():
                             **{k: ('' if v is None else ('yes' if v else 'no')) for k, v in checks.items()},
                             'overall_result': status_, 'failure_reason': '; '.join(reasons)})
         for l in L:
+            is_proj = l['type'] != 'lesson'
             k = c['id'] + '|' + l['path']
             if k not in ids['lessons']:
                 n = 1 + sum(1 for x in ids['lessons'] if x.startswith(c['id'] + '|'))
                 ids['lessons'][k] = f'{cid}-{n:04d}'
             u = c['url'] + l['path']
-            lesson_recs.append({
-                'lesson_id': ids['lessons'][k], 'course_id': cid, 'course_title': c['name'], 'level_id': l['level'],
+            (project_recs if is_proj else lesson_recs).append({
+                ('project_id' if is_proj else 'lesson_id'): ids['lessons'][k], 'course_id': cid, 'course_title': c['name'], 'level_id': l['level'],
                 'level': f"Level {l['level']}", 'module_id': f"{cid}-L{l['level']}-M{l['ordinal']:02d}", 'module': f"Level {l['level']} · module {l['ordinal']:02d}",
-                'lesson_title': l['title'], 'lesson_slug': l['slug'], 'lesson_url': u, 'lesson_type': l['type'],
+                ('project_title' if is_proj else 'lesson_title'): l['title'], ('project_slug' if is_proj else 'lesson_slug'): l['slug'], ('project_url' if is_proj else 'lesson_url'): u, ('project_type' if is_proj else 'lesson_type'): l['type'],
                 'content_status': ('published' if (not args.check_urls or url_status.get(u) == 200) else f"http {url_status.get(u)}"),
                 'word_count': l['words'], 'exercise_count': l['exercises'],
-                'qualifies_as_lesson': l['type'] == 'lesson' and l['words'] >= R['min_lesson_words'] and (not args.check_urls or url_status.get(u) == 200),
+                **({} if is_proj else {'qualifies_as_lesson': l['words'] >= R['min_lesson_words'] and (not args.check_urls or url_status.get(u) == 200)}),
                 'publication_date': rec['publication_date'], 'last_content_update': last, 'last_reviewed_date': rec['last_reviewed_date'],
                 'author': cfg['author'], 'assessment_available': l['path'].rstrip('/') in {x.rstrip('/') for x in (load(ROOT / 'learn/quizzes' / f"{c['id']}.json", {}).get('lessons') or {})},
             })
@@ -348,6 +360,11 @@ def main():
             'courses': len(recs), 'lessons': sum(r['lesson_count'] for r in recs), 'projects': sum(r['project_count'] for r in recs),
             'capstones': sum(r['capstone_count'] for r in recs), 'exercises': sum(r['exercise_count'] for r in recs),
             'quizzes': sum(r['quiz_count'] for r in recs),
+            'module_quizzes': sum(r['module_quiz_count'] for r in recs), 'final_quizzes': sum(1 for r in recs if r['final_quiz']),
+            'module_quiz_questions': sum(r['module_quiz_questions'] for r in recs), 'final_quiz_questions': sum(r['final_quiz_questions'] for r in recs),
+            'coding_challenges': sum(r['coding_challenges'] for r in recs),
+            'lessons_with_exercise': sum(r['lessons_with_exercise'] for r in recs), 'lessons_without_exercise': sum(r['lessons_without_exercise'] for r in recs),
+            'project_exercise_sections': sum(r['project_exercise_sections'] for r in recs),
         }
     published = [r for r in course_recs if r['publication_status'] == 'published']
     passed = [r for r in course_recs if r['record_eligibility_status'] in ('qualified', 'passed_automated_checks')]
@@ -365,6 +382,7 @@ def main():
         'courses_qualified': len(qualified),
         'courses_needs_fixes': len([r for r in course_recs if r['record_eligibility_status'] == 'needs_fixes']),
         'courses_rejected': len([r for r in course_recs if r['record_eligibility_status'] == 'rejected']),
+        'lessons_without_exercise': sum(r['lessons_without_exercise'] for r in course_recs),
         'qualifying_lessons': sum(1 for l in lesson_recs if l['qualifies_as_lesson']),
         'classification': {k: len([r for r in published if r['course_classification'] == k]) for k in ('technology', 'professional')},
         'categories': len(cats), 'category_totals': dict(sorted(cats.items())), 'featured_categories': len(cfg['featured_categories']),
@@ -379,7 +397,8 @@ def main():
     REG.mkdir(exist_ok=True)
     (REG / 'ids.json').write_text(json.dumps(ids, indent=1, sort_keys=True) + '\n')
     (REG / 'courses.json').write_text(json.dumps(course_recs, indent=1, ensure_ascii=False) + '\n')
-    (REG / 'lessons.json').write_text(json.dumps(lesson_recs, separators=(',', ':'), ensure_ascii=False) + '\n')
+    (REG / 'lessons.json').write_text(json.dumps(lesson_recs, separators=(',', ':'), ensure_ascii=False) + '\n')   # teaching lessons only
+    (REG / 'projects.json').write_text(json.dumps(project_recs, separators=(',', ':'), ensure_ascii=False) + '\n')   # projects and capstones only
     (REG / 'summary.json').write_text(json.dumps(summary, indent=1) + '\n')
     (REG / 'websites.json').write_text(json.dumps(cfg['websites'], indent=1) + '\n')
 
@@ -390,12 +409,15 @@ def main():
                 author=r['course_author'], validation_status=r['record_eligibility_status']) for r in course_recs]
     write_csv('mastery_path_course_inventory.csv', inv, ['course_id', 'course_title', 'category', 'classification', 'course_url', 'publication_status', 'level_count', 'lesson_count', 'project_count', 'capstone_count', 'exercise_count', 'quiz_count', 'author', 'publication_date', 'last_content_update', 'last_reviewed_date', 'record_eligibility_status', 'validation_status'])
     write_csv('mastery_path_lesson_inventory.csv', lesson_recs, ['lesson_id', 'course_id', 'course_title', 'level', 'module', 'lesson_title', 'lesson_url', 'lesson_type', 'content_status', 'word_count', 'exercise_count', 'qualifies_as_lesson', 'publication_date', 'last_content_update', 'last_reviewed_date'])
+    write_csv('mastery_path_project_inventory.csv', project_recs, ['project_id', 'course_id', 'course_title', 'level', 'module', 'project_title', 'project_url', 'project_type', 'content_status', 'word_count', 'exercise_count', 'assessment_available', 'publication_date', 'last_content_update', 'last_reviewed_date'])
+    gaps = [dict(l) for l in lesson_recs if not l['exercise_count']]
+    write_csv('mastery_path_exercise_gaps.csv', gaps, ['lesson_id', 'course_id', 'course_title', 'level', 'lesson_title', 'lesson_url', 'word_count'])
     write_csv('mastery_path_course_verification_report.csv', verify_rows, ['course_id', 'course_title', 'course_url', 'page_accessible', 'four_levels_present', 'syllabus_present', 'substantive_content_present', 'lessons_verified', 'duplicate_check', 'publication_verified', 'project_present', 'overall_result', 'failure_reason'])
     write_csv('mastery_path_duplicate_candidates.csv', dup_rows, ['type', 'a', 'b', 'score', 'action'])
     (REG / 'mastery_path_audit_summary.json').write_text(json.dumps(summary, indent=1) + '\n')
 
     # evidence register with SHA-256 of each artefact
-    arte = ['mastery_path_course_inventory.csv', 'mastery_path_lesson_inventory.csv', 'mastery_path_course_verification_report.csv', 'mastery_path_duplicate_candidates.csv', 'mastery_path_audit_summary.json', 'courses.json', 'lessons.json', 'summary.json', 'config.json', 'ids.json']
+    arte = ['mastery_path_course_inventory.csv', 'mastery_path_lesson_inventory.csv', 'mastery_path_project_inventory.csv', 'mastery_path_exercise_gaps.csv', 'mastery_path_course_verification_report.csv', 'mastery_path_duplicate_candidates.csv', 'mastery_path_audit_summary.json', 'courses.json', 'lessons.json', 'projects.json', 'summary.json', 'config.json', 'ids.json']
     ev = []
     for i, name in enumerate(arte, 1):
         h = hashlib.sha256((REG / name).read_bytes()).hexdigest()

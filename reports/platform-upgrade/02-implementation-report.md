@@ -1,3 +1,5 @@
+> **Superseded (2026-11-24).** This is a dated record of the 2026-11-23 audit and is kept unchanged below. Its counts (3,660 lessons, 425 projects, status `eligible_pending_review`) used an earlier lesson/project rule and status names. The current figures and definitions are in [registry/summary.json](/registry/summary.json) and the [quality and verification page](/quality-and-verification/).
+
 # Stages 3–7: Implementation, QA and release report
 
 Branches: hub `platform-upgrade`, Worker `admin-verification`. Not deployed to production; awaiting the owner's approval.

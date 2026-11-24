@@ -1,3 +1,5 @@
+> **Superseded (2026-11-24).** This is a dated record of the 2026-11-23 audit and is kept unchanged below. Its counts (3,660 lessons, 425 projects, status `eligible_pending_review`) used an earlier lesson/project rule and status names. The current figures and definitions are in [registry/summary.json](/registry/summary.json) and the [quality and verification page](/quality-and-verification/).
+
 # Stage 1–2: Repository and live-site audit, baseline
 
 Audit date: 23 November 2026. Method: source inspection of all 102 repositories (cloned under `repos/`), plus live checks of https://learnmasterypath.com.

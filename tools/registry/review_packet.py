@@ -9,6 +9,7 @@ from pathlib import Path
 REG = Path(__file__).resolve().parents[2] / 'registry'
 courses = json.loads((REG / 'courses.json').read_text())
 lessons = json.loads((REG / 'lessons.json').read_text())
+projects = json.loads((REG / 'projects.json').read_text())
 by = {}
 for l in lessons:
     by.setdefault(l['course_id'], []).append(l)
@@ -21,9 +22,8 @@ for c in courses:
     ls = sorted(by[c['course_id']], key=lambda l: (l['level_id'], l['lesson_slug']))
     first = {}
     for l in ls:
-        if l['lesson_type'] == 'lesson':
-            first.setdefault(l['level_id'], l['lesson_url'])
-    cap = next((l['lesson_url'] for l in ls if l['lesson_type'] == 'capstone'), '')
+        first.setdefault(l['level_id'], l['lesson_url'])
+    cap = next((p['project_url'] for p in projects if p['course_id'] == c['course_id'] and p['project_type'] == 'capstone'), '')
     row = {k: '' for k in cols}
     row.update(course_slug=c['course_slug'], course_title=c['course_title'], course_url=c['course_url'], lessons=c['lesson_count'],
                projects_and_capstones=c['project_count'] + c['capstone_count'], module_quizzes=c['module_quiz_count'],
