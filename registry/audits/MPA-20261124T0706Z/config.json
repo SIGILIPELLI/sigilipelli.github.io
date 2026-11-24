@@ -1,0 +1,172 @@
+{
+ "methodology_version": "1.0 (2026-11-23)",
+ "owner": "Vinod Bhanuja (Mastery Path)",
+ "author": "Vinod Bhanuja",
+ "definitions": {
+  "course": "A self-contained, first-party learning programme published at learnmasterypath.com/<course>/ with its own syllabus, four progressive levels and lessons. One course is counted once, however many learning paths include it.",
+  "learning_level": "One of four ordered stages of a course (Level 1 Entry/Foundation, Level 2 Intermediate, Level 3 Advanced, Level 4 Master), each with its own overview page.",
+  "module": "One topic unit within a level. On Mastery Path each module is published as exactly one lesson page, so module and lesson counts are the same; module IDs record the level and position.",
+  "lesson": "A published page under level-N/ that teaches one topic and is not a project or capstone (see 'project'). It counts as a qualifying lesson when it returns HTTP 200 and has at least the minimum number of words of published text.",
+  "exercise": "A practice task inside a lesson, identified by a section heading that starts with Exercise/Exercises/Practice/Try it. Counted per section; not counted as lessons.",
+  "quiz": "A module quiz (per lesson, from the hub's question bank) or a course's final quiz page. Not counted as lessons.",
+  "project": "A build task published as its own page whose file name is NN-project-… or NN-capstone-… (the number is its position in the level). A lesson that merely has 'project' in its title (for example 'AI project lifecycles') is a lesson. Counted separately; never included in lesson counts.",
+  "capstone": "The final project page of Level 4 (one per course at most). Counted separately from other projects and from lessons."
+ },
+ "rules": {
+  "project_slug": "^\\d+-project\\b",
+  "capstone_slug": "^\\d+-capstone\\b",
+  "exercise_heading": "^(exercise|exercises|practice|try it)\\b",
+  "min_lesson_words": 300,
+  "min_lessons_per_level": 5,
+  "min_lessons_per_course": 20,
+  "max_thin_lessons": 2,
+  "near_duplicate_jaccard": 0.6,
+  "similar_title_ratio": 0.86
+ },
+ "classification": {
+  "rule": "Technology: the course teaches a programming language, software tool, platform, engineering or computing discipline. Professional development: the course teaches management, leadership, language, accounting/tax or marketing practice, even where software is used.",
+  "professional": [
+   "product-manager-mastery-path",
+   "product-lead-mastery-path",
+   "project-manager-mastery-path",
+   "ai-manager-mastery-path",
+   "servant-leadership-mastery-path",
+   "english-fluency-mastery-path",
+   "digital-marketing-mastery-path",
+   "tally-gst-mastery-path",
+   "agile-mastery-path"
+  ],
+  "notes": {
+   "tally-gst-mastery-path": "Accounting and Indian GST practice taught in TallyPrime software; classified professional because the subject is accounting/tax.",
+   "workday-mastery-path": "Enterprise HR/finance SaaS platform configuration; classified technology (software platform).",
+   "agile-mastery-path": "Software delivery process; classified professional (process/management), borderline.",
+   "ai-manager-mastery-path": "Managing AI products and teams; classified professional.",
+   "adobe-mastery-path": "Creative software suite; classified technology (software tools).",
+   "dsa-interview-mastery-path": "Algorithms and data structures; technology.",
+   "system-design-mastery-path": "Software architecture; technology."
+  }
+ },
+ "featured_categories": [
+  "languages",
+  "ai-ml-llm",
+  "cloud",
+  "embedded",
+  "data-analytics",
+  "security",
+  "testing-qa",
+  "infra-ops",
+  "leadership",
+  "web-frameworks",
+  "databases",
+  "professional-skills"
+ ],
+ "websites": [
+  {
+   "domain_id": "W-001",
+   "domain_name": "learnmasterypath.com",
+   "ownership_status": "owned",
+   "owner": "Vinod Bhanuja",
+   "hosting_provider": "GitHub Pages",
+   "platform_type": "static site (hub) + 102 MkDocs course sections",
+   "educational_purpose": "free structured courses, search, career tools",
+   "integration_type": "primary platform",
+   "integration_permission": "n/a (owner)",
+   "first_party_status": "first-party",
+   "classification": "A. Owned and operated by Mastery Path",
+   "content_inventory": "registry/courses.json, registry/lessons.json",
+   "evidence_reference": "DNS/CNAME file in the hub repo; GitHub repositories under SIGILIPELLI",
+   "verification_status": "verified by repository ownership"
+  },
+  {
+   "domain_id": "W-002",
+   "domain_name": "www.learnmasterypath.com",
+   "ownership_status": "owned",
+   "owner": "Vinod Bhanuja",
+   "hosting_provider": "GitHub Pages",
+   "platform_type": "redirect",
+   "educational_purpose": "301 redirect to learnmasterypath.com",
+   "integration_type": "alias",
+   "integration_permission": "n/a (owner)",
+   "first_party_status": "alias",
+   "classification": "B. First-party subdomain (alias only, not counted)",
+   "content_inventory": "none",
+   "evidence_reference": "HTTP 301 observed 2026-11-23",
+   "verification_status": "verified"
+  },
+  {
+   "domain_id": "W-003",
+   "domain_name": "api.learnmasterypath.com",
+   "ownership_status": "owned",
+   "owner": "Vinod Bhanuja",
+   "hosting_provider": "Cloudflare Workers",
+   "platform_type": "API",
+   "educational_purpose": "certification exam marking, certificate verification, email sign-up, resume tools",
+   "integration_type": "first-party service",
+   "integration_permission": "n/a (owner)",
+   "first_party_status": "first-party",
+   "classification": "B. First-party subdomain",
+   "content_inventory": "API only; no course content",
+   "evidence_reference": "mastery-resume-api repository, wrangler.toml route",
+   "verification_status": "verified by repository ownership"
+  },
+  {
+   "domain_id": "W-004",
+   "domain_name": "youtube.com/@learnmasterypath",
+   "ownership_status": "owned account on a third-party platform",
+   "owner": "Vinod Bhanuja",
+   "hosting_provider": "YouTube",
+   "platform_type": "video channel",
+   "educational_purpose": "lesson walkthrough videos",
+   "integration_type": "embedded videos and links",
+   "integration_permission": "n/a (owner)",
+   "first_party_status": "first-party account",
+   "classification": "A-adjacent: owned channel, not a website/domain (not counted)",
+   "content_inventory": "channel UChodtHaYLx6HldUwJKxdKOg",
+   "evidence_reference": "channel ownership (YouTube Studio)",
+   "verification_status": "owner-verified"
+  },
+  {
+   "domain_id": "W-005",
+   "domain_name": "github.com/SIGILIPELLI",
+   "ownership_status": "owned account on a third-party platform",
+   "owner": "Vinod Bhanuja",
+   "hosting_provider": "GitHub",
+   "platform_type": "source repositories",
+   "educational_purpose": "course source files and code examples",
+   "integration_type": "source of the published sites",
+   "integration_permission": "n/a (owner)",
+   "first_party_status": "first-party account",
+   "classification": "A-adjacent: source hosting, not counted as a website",
+   "content_inventory": "101 public repositories + 1 private API repository",
+   "evidence_reference": "repository list",
+   "verification_status": "verified"
+  },
+  {
+   "domain_id": "W-006",
+   "domain_name": "official documentation sites (python.org, postgresql.org, …)",
+   "ownership_status": "third-party",
+   "owner": "various",
+   "hosting_provider": "various",
+   "platform_type": "reference documentation",
+   "educational_purpose": "further reading linked from lessons",
+   "integration_type": "hyperlink only",
+   "integration_permission": "none needed (links)",
+   "first_party_status": "external",
+   "classification": "D. Externally referenced resource (never counted)",
+   "content_inventory": "learn/docs.json",
+   "evidence_reference": "learn/docs.json",
+   "verification_status": "n/a"
+  }
+ ],
+ "duplicate_reviews": [
+  {
+   "type": "similar_course_title",
+   "a": "product-manager-mastery-path",
+   "b": "project-manager-mastery-path",
+   "date": "2026-11-24",
+   "decision": "not a duplicate",
+   "by": "AI-assisted review at the owner's request; owner to confirm",
+   "note": "different professions (product vs project management); no exact or near-duplicate lesson text found by the audit"
+  }
+ ]
+}
