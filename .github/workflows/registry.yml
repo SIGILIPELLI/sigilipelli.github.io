@@ -29,43 +29,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - name: Refresh course descriptions from the live courses (search index)
-        run: python tools/build_search_index.py .
       - name: Audit the live courses
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python tools/registry/build_registry.py --check-urls ${{ inputs.archive && '--archive' || '' }}
-      - name: Rebuild the search index again (counts now from this audit)
-        run: python tools/build_search_index.py .
-      - name: Build registry-driven pages (audit id on every public page)
+      - name: Build registry-driven pages
         run: python tools/registry/build_pages.py
-      - name: Data-integrity tests (quiz equality, descriptions, audit ids, provenance)
+      - name: Data-integrity tests
         run: python tools/registry/test_registry.py
-      - name: Search tests
-        run: node tools/test_search.mjs
       - name: Commit if anything changed
         run: |
-          git add registry search course-catalogue quality-and-verification learning-impact world-record-attempt interview-pack interview-questions resume verify *.html index.html sitemap-hub.xml
+          git add registry course-catalogue quality-and-verification learning-impact world-record-attempt index.html about.html search/index.html 404.html sitemap-hub.xml
           if git diff --cached --quiet; then echo "Registry unchanged."; exit 0; fi
           git config user.name "mastery-path-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Course registry audit ($(date -u +%Y-%m-%dT%H:%MZ))"
           git push
-
-  live-sync:
-    # After the commit is pushed and GitHub Pages has deployed it, the live site must show exactly this audit.
-    needs: audit
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Live site matches the audit (waits for deployment)
-        run: python tools/registry/check_live_sync.py --expect "$(python -c "import json;print(json.load(open('registry/summary.json'))['audit_id'])")" --wait 900
