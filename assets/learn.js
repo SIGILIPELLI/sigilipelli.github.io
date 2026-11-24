@@ -37,7 +37,15 @@
   // Where lesson add-ons go: right after the lesson text, before related courses / sign-up / mark-complete.
   function endAnchor(host) { return $('.mp-related', host) || $('#mp-signup', host) || $('.mp-mark-done', host); }
   function isCapstone(l) { return !!l && l.level === 4 && /^\d+-capstone\b/i.test(l.slug || ''); }  // course capstone = Level 4 page named NN-capstone-…
-  function isProject(slug) { return /(^|\/)\d+-(project|capstone)\b/i.test(slug || ''); }  // same rule as registry/config.json: NN-project-… or NN-capstone-…
+  var LESSON_SLUG_EXCEPTIONS = {
+    'django-mastery-path': { '02-project-setup': true },
+    'project-manager-mastery-path': { '02-project-lifecycle-basics': true, '08-project-recovery': true }
+  };
+  function isProject(slug) {
+    var leaf = String(slug || '').replace(/\/+$/, '').split('/').pop();
+    if ((LESSON_SLUG_EXCEPTIONS[META.id] || {})[leaf]) return false;
+    return /(^|\/)\d+-(project|capstone)\b/i.test(slug || '');
+  }
 
   // ---------- course model from the course's own search index ----------
   var modelP = null;
