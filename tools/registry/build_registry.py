@@ -145,6 +145,7 @@ def read_course(c, cfg, quizzes_dir):
         else:
             p['title'] = clean(d['title'])
         p['text'].append(clean(d['text']))
+    lesson_slug_exceptions = set(cfg.get('rules', {}).get('lesson_slug_exceptions', {}).get(c['id'], []))
     lessons, levels = [], {}
     for base, p in pages.items():
         m = re.match(r'^level-(\d+)/([^/]+)/$', base)
@@ -156,7 +157,7 @@ def read_course(c, cfg, quizzes_dir):
         text = ' '.join(p['text'])
         slug = m.group(2)
         kind = 'lesson'
-        if re.search(cfg['rules']['project_slug'], slug, re.I) or re.search(cfg['rules']['capstone_slug'], slug, re.I):
+        if slug not in lesson_slug_exceptions and (re.search(cfg['rules']['project_slug'], slug, re.I) or re.search(cfg['rules']['capstone_slug'], slug, re.I)):
             kind = 'project'
         ex = [h for h in p['heads'] if re.match(cfg['rules']['exercise_heading'], h, re.I)]
         num = re.match(r'^(\d+)', slug)
@@ -183,7 +184,7 @@ def read_course(c, cfg, quizzes_dir):
 # ---------------------------------------------------------------- main
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--check-urls', action='store_true', help='HEAD-request every lesson URL')
+    ap.add_argument('--check-urls', action='store_true', help='GET-request every lesson URL')
     ap.add_argument('--repos', help='folder holding the course clones (all/, newcourses/) for git dates')
     ap.add_argument('--archive', action='store_true', help='also keep a dated copy of the evidence under registry/audits/')
     args = ap.parse_args()
