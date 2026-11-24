@@ -22,6 +22,7 @@ import urllib.request
 ROOT = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else '.')
 try:
     REGISTRY = {c['course_slug']: c for c in json.loads((ROOT / 'registry/courses.json').read_text())}
+CONFIG = json.loads((ROOT / 'registry/config.json').read_text())
 except Exception:  # noqa: BLE001
     REGISTRY = {}
 SITE = 'https://learnmasterypath.com/'
@@ -129,7 +130,8 @@ with cf.ThreadPoolExecutor(12) as ex:
         try:
             _, info, les = f.result()
             courses[cid].update(name=info['name'], desc=info['desc'])
-            is_proj = lambda x: re.search(r'/\d+-(project|capstone)\b', x['u'])   # same rule as registry/config.json
+            lesson_exceptions = set(CONFIG.get('rules', {}).get('lesson_slug_exceptions', {}).get(cid, []))
+            is_proj = lambda x: x['u'].rstrip('/').split('/')[-1] not in lesson_exceptions and bool(re.search(r'/\d+-(project|capstone)\b', x['u']))
             courses[cid]['lessons'] = len([x for x in les if not is_proj(x)])
             courses[cid]['projects'] = len([x for x in les if is_proj(x)])
             # course-specific counts come from the registry audit, not from this crawl (the crawl is only a cross-check)
