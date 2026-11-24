@@ -44,7 +44,7 @@ def page(rel):
     if re.findall(r'<meta name="mp-audit-id" content="([^"]+)"', h) != [sid]: out.append(f'{rel or "/"}: audit meta tag is not {sid}')
     ids = set(re.findall(r'MPA-\d{8}T\d{4}Z', h))
     if ids != {sid}: out.append(f'{rel or "/"}: shows audit ids {sorted(ids)}, summary is {sid}')
-    for key, want in (('courses', P['courses']), ('lessons', P['lessons']), ('projects', P['projects'] + P['capstones'])):
+    for key, want in (('courses', P['courses']), ('lessons', P['lessons']), ('projects', P['projects']), ('capstones', P['capstones'])):
         for got in re.findall(r'data-mp-stat="%s"[^>]*>([\d,]+)' % key, h):
             if int(got.replace(',', '')) != want: out.append(f'{rel or "/"}: {key} {got} != {want}')
     if rel in ('learning-impact/', 'world-record-attempt/'):

@@ -40,7 +40,7 @@ def lessons_label(c):
 
 
 STATS = {
-    'courses': n(P['courses']), 'lessons': n(P['lessons']), 'projects': n(P['projects'] + P['capstones']),
+    'courses': n(P['courses']), 'lessons': n(P['lessons']), 'projects': n(P['projects']), 'capstones': n(P['capstones']),
     'categories': n(S['categories']), 'featured_categories': n(S['featured_categories']), 'paths': n(S['learning_paths']),
     'exercises': n(P['exercises']), 'quizzes': n(P['quizzes']), 'technology': n(S['classification']['technology']),
     'professional': n(S['classification']['professional']), 'updated': STAMP, 'updated_day': DAY,
@@ -266,9 +266,9 @@ def impact():
 <div class="kpis">
 {kpi(STATS['courses'], 'published courses')}{kpi(STATS['lessons'], 'lessons')}{kpi(n(P['projects']), 'projects')}{kpi(n(P['capstones']), 'course capstones')}
 {kpi(STATS['exercises'], 'lesson exercises')}{kpi(STATS['quizzes'], 'quizzes (module + final)')}{kpi(STATS['categories'], 'categories')}{kpi(STATS['paths'], 'career learning paths')}
-{kpi('4', 'levels in every course')}{kpi(STATS['technology'], 'technology courses')}{kpi(STATS['professional'], 'professional-development courses')}{kpi(n(S['first_party_domains']), 'first-party domains')}
+{kpi('4', 'levels in every course')}{kpi(STATS['technology'], 'technology courses')}{kpi(STATS['professional'], 'professional-development courses')}{kpi(n(S['first_party_domains']), 'registered domain (learnmasterypath.com)')}{kpi(n(S['first_party_hostnames']), 'first-party hostnames (site + API)')}
 </div>
-<p class="stamp">Last updated {STAMP} (audit {E(S['audit_id'])}). Lessons exclude projects, capstones, exercises and quizzes, which are counted separately: {n(P['module_quizzes'])} module quizzes ({n(P['module_quiz_questions'])} questions) and {n(P['final_quizzes'])} final quizzes ({n(P['final_quiz_questions'])} questions, {n(P['coding_challenges'])} coding challenges); exercises are counted on lessons only, and {n(P['lessons_with_exercise'])} of {n(P['lessons'])} lessons have one. <a href="/quality-and-verification/">How these are counted</a>.</p>
+<p class="stamp">Last updated {STAMP} (audit {E(S['audit_id'])}). Lessons exclude projects, capstones, exercises and quizzes, which are counted separately: {n(P['module_quizzes'])} module quizzes ({n(P['module_quiz_questions'])} questions) and {n(P['final_quizzes'])} final quizzes ({n(P['final_quiz_questions'])} questions, {n(P['coding_challenges'])} coding challenges); exercises are counted on lessons only, and {n(P['lessons_with_exercise'])} of {n(P['lessons'])} lessons have one. One registered domain is owned: learnmasterypath.com. It serves {n(S['first_party_hostnames'])} first-party hostnames ({E(', '.join(S['first_party_hostname_list']))}); the www alias, our YouTube channel and our GitHub account are not counted as domains. <a href="/quality-and-verification/">How these are counted</a>.</p>
 
 <h2 style="margin-top:32px">Courses by category</h2>
 <div class="grid2"><div class="doc"><table><thead><tr><th>Category</th><th>Courses</th></tr></thead><tbody>{cats}</tbody></table></div>
@@ -301,7 +301,7 @@ details { border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px
     body = f'''<div class="note" style="margin:0 0 24px"><b>Status: {E(RECORD['current_status'])}.</b> {E(RECORD['status_note'])} Mastery Path is not affiliated with, sponsored or endorsed by Guinness World Records.</div>
 <div class="grid2">
 <div class="doc">
-<h2>What is Mastery Path?</h2><p>A free library of {STATS['courses']} structured courses, each in four levels, created, directed and published by Vinod Bhanuja on one website. The lessons and quizzes are written with the help of AI (Claude, by Anthropic), as stated on the <a href="/about.html">About page</a>. No account or payment is needed.</p>
+<h2>What is Mastery Path?</h2><p>A free library of {STATS['courses']} structured courses, each in four levels, created, directed and published by Vinod Kumar Sigilipelli on one website. The lessons and quizzes are written with the help of AI (Claude, by Anthropic), as stated on the <a href="/about.html">About page</a>. No account or payment is needed.</p>
 <h2>Why apply for a record?</h2><p>To have the size and structure of the library measured by an independent body against published rules, instead of relying on our own claims.</p>
 <h2>Title applied for</h2><p><b>{E(RECORD['submitted_title'])}</b><br><span class="stamp">Submitted as a new-record-title application on {E(RECORD['submitted_on'])}. Wording is proposed by us; Guinness World Records decides whether a title exists and what its rules are.</span></p>
 <h2>How the count is measured</h2><p>Courses and lessons are counted by the open audit tool under the published <a href="/quality-and-verification/">quality &amp; verification rules</a>: one course counted once, projects and quizzes never counted as lessons, external links never counted, every lesson URL checked.</p>

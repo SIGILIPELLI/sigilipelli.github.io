@@ -49,7 +49,7 @@ Their distinct learning objectives, course structures and capstone deliverables,
 
 ## 4. Exceptions and follow-up checks
 
-1. **Ethical Hacking source repository:** The GitHub source-tree request returned 404 during this assessment. The live course passed the registry's automated checks, but source-repository access/visibility should be confirmed and the source tree inspected.
+1. **Ethical Hacking source repository (resolved 2026-11-24):** The earlier 404 came from requesting the branch `main`; this repository's default branch is `master`. The source tree is public and readable (79 entries at commit 6dab8c0), owned by the owner's GitHub account, not a fork, with no third-party attribution notices. Evidence: `registry/ethical-hacking-source-ownership.json`. This confirms control and history of the source, not a human content review.
 2. **MCP and Vector Databases:** Both course sections are nested under the `python-mastery-path` repository. Their own course subdirectories must be used when sampling lesson and capstone content; the repository root is not their course content.
 3. **Runnable examples and current technical accuracy:** No comprehensive execution of code labs or independent verification against current vendor documentation was carried out across all courses.
 

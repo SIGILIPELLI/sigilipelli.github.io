@@ -46,17 +46,48 @@ def fetch(url, timeout=40):
         return r.status, r.read()
 
 
-def status(url):
-    """GET request (what a learner's browser sends; HEAD can differ) with retries: GitHub Pages answers 429/503 when hit hard,
-    which is not a missing page. Only the first bytes are read; the status code is the evidence."""
+# Negative-result codes returned by status() when HTTP 200 is not enough evidence that the right page is live.
+SOFT = {1001: 'redirected to a different URL', 1002: 'not an HTML page', 1003: 'soft 404 (error page served with 200)',
+        1004: 'page is bound to a different course (mp-course-meta id/url mismatch)', 1005: 'page is not the expected lesson (mp-course-meta src mismatch)'}
+
+
+def verify_body(url, final_url, ctype, body, expect):
+    """HTTP 200 alone is weak evidence (GitHub Pages can serve an error page with 200, a redirect can land on another course, and nested
+    courses share a parent repository). Return 200 only when the response is the expected page of the expected course."""
+    if final_url.rstrip('/') != url.rstrip('/'):
+        return 1001
+    if 'html' not in (ctype or '').lower():
+        return 1002
+    if 'mp-404' in body or re.search(r'<title>\s*(404|Page not found)', body, re.I):
+        return 1003
+    if expect:
+        m = re.search(r'id="mp-course-meta">(.*?)</script>', body, re.S)
+        try:
+            meta = json.loads(m.group(1)) if m else {}
+        except ValueError:
+            meta = {}
+        if meta.get('id') != expect['id'] or (meta.get('url') or '').rstrip('/') != expect['course_url'].rstrip('/'):
+            return 1004
+        want = expect['path'].strip('/')
+        src = (meta.get('src') or '').strip('/')
+        if want and not (src == want + '.md' or src.startswith(want + '/')):
+            return 1005
+    return 200
+
+
+def status(job):
+    """GET request (what a learner's browser sends; HEAD can differ) with retries: GitHub Pages answers 429/503 when hit hard, which is
+    not a missing page. job = (url, expect|None). Returns 200 only if the body also proves it is the expected page of the expected
+    course (see verify_body); otherwise the HTTP status or a 10xx code from SOFT."""
     import time
+    url, expect = job
     code = 0
     for attempt in range(5):
         try:
             req = urllib.request.Request(url, headers=UA, method='GET')
             with urllib.request.urlopen(req, timeout=30) as r:
-                r.read(512)
-                return r.status
+                body = r.read(120000).decode('utf-8', 'replace')
+                return verify_body(url, r.geturl(), r.headers.get('Content-Type'), body, expect) if r.status == 200 else r.status
         except urllib.error.HTTPError as e:
             code = e.code
             if code not in (429, 500, 502, 503, 504):
@@ -221,9 +252,9 @@ def main():
     # lesson URL checks
     url_status = {}
     if args.check_urls:
-        targets = [c['url'] + l['path'] for c in courses for l in data[c['id']].get('lessons', [])]
+        jobs = [(c['url'] + l['path'], {'id': c['id'], 'course_url': c['url'], 'path': l['path']}) for c in courses for l in data[c['id']].get('lessons', [])]
         with cf.ThreadPoolExecutor(12) as ex:
-            url_status = dict(zip(targets, ex.map(status, targets)))
+            url_status = dict(zip([j[0] for j in jobs], ex.map(status, jobs)))
 
     # duplicates: exact text fingerprints, then near-duplicate text among lessons with the same title, then similar course titles
     dup_rows, fp_seen, by_title = [], {}, {}
@@ -353,7 +384,7 @@ def main():
                 ('project_id' if is_proj else 'lesson_id'): ids['lessons'][k], 'course_id': cid, 'course_title': c['name'], 'level_id': l['level'],
                 'level': f"Level {l['level']}", 'module_id': f"{cid}-L{l['level']}-M{l['ordinal']:02d}", 'module': f"Level {l['level']} · module {l['ordinal']:02d}",
                 ('project_title' if is_proj else 'lesson_title'): l['title'], ('project_slug' if is_proj else 'lesson_slug'): l['slug'], ('project_url' if is_proj else 'lesson_url'): u, ('project_type' if is_proj else 'lesson_type'): l['type'],
-                'content_status': ('published' if (not args.check_urls or url_status.get(u) == 200) else f"http {url_status.get(u)}"),
+                'content_status': ('published' if (not args.check_urls or url_status.get(u) == 200) else (f"http {url_status.get(u)}" if url_status.get(u) < 1000 else 'failed: ' + SOFT.get(url_status.get(u), str(url_status.get(u))))),
                 'word_count': l['words'], 'exercise_count': l['exercises'],
                 **({} if is_proj else {'qualifies_as_lesson': l['words'] >= R['min_lesson_words'] and (not args.check_urls or url_status.get(u) == 200)}),
                 'publication_date': rec['publication_date'], 'last_content_update': last, 'last_reviewed_date': rec['last_reviewed_date'],
@@ -409,7 +440,11 @@ def main():
         'classification': {k: len([r for r in published if r['course_classification'] == k]) for k in ('technology', 'professional')},
         'categories': len(cats), 'category_totals': dict(sorted(cats.items())), 'featured_categories': len(cfg['featured_categories']),
         'learning_paths': len(meta.get('paths', {})), 'learning_levels': 4,
-        'first_party_domains': len([w for w in cfg['websites'] if w['first_party_status'] == 'first-party']),
+        # Clarified: a registered domain is not a hostname. learnmasterypath.com is the one first-party registered domain; its API subdomain
+        # is a second first-party hostname; www is an alias that is never counted; YouTube/GitHub are owned accounts, not domains.
+        'first_party_domains': len({w['domain_name'].split('.', 1)[1] if w['domain_name'].count('.') > 1 else w['domain_name'] for w in cfg['websites'] if w['first_party_status'] in ('first-party', 'alias') and '/' not in w['domain_name']}),
+        'first_party_hostnames': len([w for w in cfg['websites'] if w['first_party_status'] == 'first-party']),
+        'first_party_hostname_list': [w['domain_name'] for w in cfg['websites'] if w['first_party_status'] == 'first-party'],
         'failed_urls': sum(1 for v in url_status.values() if v != 200), 'duplicate_candidates': len(dup_rows), 'duplicates_unresolved': len([r for r in dup_rows if r['action'].startswith('review') and not r['action'].startswith('reviewed')]),
         'courses_with_review_record': len([r for r in course_recs if r['last_reviewed_date']]),
         'engagement': {'learners': None, 'completions': None, 'countries': None, 'note': 'Not currently measured as verifiable counts.'},

@@ -115,7 +115,7 @@ for page in ('learning-impact/index.html', 'quality-and-verification/index.html'
     check(ids_on_page <= {sid}, f'{page}: shows audit {sorted(ids_on_page)}, latest is {sid}')
 for page in ('index.html', 'about.html'):
     text = (ROOT / page).read_text()
-    for key, want in (('courses', summary['published']['courses']), ('lessons', summary['published']['lessons']), ('projects', summary['published']['projects'] + summary['published']['capstones'])):
+    for key, want in (('courses', summary['published']['courses']), ('lessons', summary['published']['lessons']), ('projects', summary['published']['projects']), ('capstones', summary['published']['capstones'])):
         for got in re.findall(r'data-mp-stat="%s">([\d,]+)' % key, text):
             check(int(got.replace(',', '')) == want, f'{page}: {key} shows {got}, registry says {want}')
 
@@ -176,6 +176,27 @@ for k in ('source_commit', 'audit_tool_commit', 'audit_tool_sha256', 'config_sha
 check(prov.get('url_check_method') == 'GET', 'lesson URLs must be checked with GET')
 check(summary['methodology_version'] == json.loads((REG / 'config.json').read_text())['methodology_version'], 'summary methodology version differs from config.json')
 check(summary['repository_commit'] == prov.get('source_commit'), 'repository_commit != provenance.source_commit')
+
+# ---- owner name, domain count, URL verification, source ownership ------------------------------------------------------------------
+cfg_ = json.loads((REG / 'config.json').read_text())
+check(cfg_['author'] == 'Vinod Kumar Sigilipelli' and cfg_['owner'].startswith('Vinod Kumar Sigilipelli'), 'owner/author must be Vinod Kumar Sigilipelli')
+check(all(c['course_author'] == 'Vinod Kumar Sigilipelli' and c['course_owner'].startswith('Vinod Kumar Sigilipelli') for c in courses), 'every course record must name Vinod Kumar Sigilipelli')
+for page in ALL_PAGES + ['registry/ai-review-register.json']:
+    check('Bhanuja' not in (ROOT_ / page).read_text(), f'{page}: old creator name still present')
+check(summary['first_party_domains'] == 1 and summary['first_party_hostnames'] == len(summary['first_party_hostname_list']) == 2, 'domain count: expected 1 registered domain and 2 first-party hostnames')
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_registry as BR
+exp = {'id': 'mcp-mastery-path', 'course_url': 'https://learnmasterypath.com/python-mastery-path/mcp-mastery-path/', 'path': 'level-1/01-x/'}
+good = '<title>x</title><script id="mp-course-meta">{"id":"mcp-mastery-path","url":"https://learnmasterypath.com/python-mastery-path/mcp-mastery-path/","src":"level-1/01-x/index.md"}</script>'
+U = exp['course_url'] + 'level-1/01-x/'
+check(BR.verify_body(U, U, 'text/html', good, exp) == 200, 'verify_body rejects a correct page')
+check(BR.verify_body(U, U + 'other/', 'text/html', good, exp) == 1001, 'verify_body accepts a redirect')
+check(BR.verify_body(U, U, 'application/json', good, exp) == 1002, 'verify_body accepts non-HTML')
+check(BR.verify_body(U, U, 'text/html', '<body class="mp-404">', exp) == 1003, 'verify_body accepts a soft 404')
+check(BR.verify_body(U, U, 'text/html', good.replace('"mcp-mastery-path","url"', '"python-mastery-path","url"'), exp) == 1004, 'verify_body accepts another course\'s page')
+check(BR.verify_body(U, U, 'text/html', good.replace('level-1/01-x/index.md', 'level-2/02-y/index.md'), exp) == 1005, 'verify_body accepts the wrong lesson')
+own = json.loads((REG / 'ethical-hacking-source-ownership.json').read_text())
+check(own['owner_login'] == 'SIGILIPELLI' and own['default_branch'] == 'master' and not own['is_fork'] and own['source_tree']['http_status'] == 200, 'ethical hacking source-ownership evidence incomplete')
 
 print(f"{len(courses)} courses, {len(lessons)} lessons + {len(projects)} projects: {'OK' if not fails else str(len(fails)) + ' failures'}")
 for f in fails[:30]:

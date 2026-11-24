@@ -406,7 +406,15 @@
     var items = tasks.length ? tasks.map(function (li) { return li.textContent.replace(/^\s*\[[ xX]\]\s*/, '').replace(/\s+/g, ' ').trim(); }) : steps.map(function (h) { return 'Completed: ' + title(h); });
     if (verify) items.push('Output matches: ' + title(verify));
     var key = 'mp-check:' + META.id + ':' + SLUG, saved = storeJSON(key) || {};
-    var src = META.repo && META.src ? META.repo.replace(/\/$/, '') + '/blob/main/docs/' + META.src : '';
+    // Source link: nested courses (MCP, Vector Databases) live in a sub-folder of the python-mastery-path repository, and some
+    // repositories (Ethical Hacking) use master, not main, so use HEAD (the default branch) and the course's own folder.
+    var src = '';
+    if (META.repo && META.src) {
+      var repoUrl = META.repo.replace(/\/$/, ''), repoName = repoUrl.split('/').pop().toLowerCase(), parts = [];
+      try { parts = new URL(META.url).pathname.split('/').filter(Boolean); } catch (e) { parts = []; }
+      var at = parts.map(function (x) { return x.toLowerCase(); }).indexOf(repoName), sub = at >= 0 ? parts.slice(at + 1).join('/') : '';
+      src = repoUrl + '/blob/HEAD/' + (sub ? sub + '/' : '') + 'docs/' + META.src;
+    }
     var box = document.createElement('section');
     box.className = 'mpl-project';
     box.setAttribute('aria-label', 'Project brief');

@@ -51,13 +51,13 @@ def header(page):
 
 FOOTER = ('<!-- mp-chrome:footer --><footer class="site-footer"><div class="container foot-grid">'
           f'<div class="foot-brand"><a class="brand" href="{HUB}">{LOGO}<span>Mastery Path</span></a>'
-          '<p>Free, structured courses from beginner to expert. Built and maintained by Vinod Bhanuja.</p>'
+          '<p>Free, structured courses from beginner to expert. Built and maintained by Vinod Kumar Sigilipelli.</p>'
           '<p>Contact: <a href="mailto:contact@learnmasterypath.com">contact@learnmasterypath.com</a></p></div>'
           f'<nav aria-label="Learn"><h3>Learn</h3><a href="{HUB}course-catalogue/">Course catalogue</a><a href="{HUB}course-catalogue/?class=technology">Technology disciplines</a><a href="{HUB}course-catalogue/?class=professional">Professional development</a><a href="{HUB}#paths">Learning paths</a><a href="/search/">Search</a></nav>'
           f'<nav aria-label="Career"><h3>Career</h3><a href="{HUB}resume/">Resume Tools</a><a href="{HUB}interview-pack/">Interview Pack</a><a href="{HUB}interview-questions/">Interview questions &amp; cheat sheets</a><a href="{HUB}verify/">Verify a certificate</a></nav>'
           f'<nav aria-label="Company"><h3>Company</h3><a href="{HUB}about.html">About</a><a href="{HUB}quality-and-verification/">Quality &amp; verification</a><a href="{HUB}learning-impact/">Learning impact</a><a href="{HUB}world-record-attempt/">World record journey</a><a href="{HUB}contact.html">Contact</a><a href="{HUB}privacy.html">Privacy Policy</a><a href="{HUB}terms.html">Terms</a><a href="{HUB}refunds.html">Refunds</a><a href="{HUB}delivery.html">Delivery</a><a href="{HUB}license.html">License</a></nav>'
           '<nav aria-label="Follow"><h3>Follow</h3><a href="https://www.youtube.com/@learnmasterypath">YouTube</a><a href="https://github.com/sigilipelli">GitHub</a><a href="https://learnmasterypath.com/feed.xml">RSS feed</a></nav>'
-          '</div><div class="container foot-bottom"><span>© 2026 Vinod Bhanuja · Mastery Path</span>'
+          '</div><div class="container foot-bottom"><span>© 2026 Vinod Kumar Sigilipelli · Mastery Path</span>'
           '<span>Except where otherwise noted, content is licensed <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code MIT.</span></div>'
           '</footer><!-- /mp-chrome:footer -->')
 
