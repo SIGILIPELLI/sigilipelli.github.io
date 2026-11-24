@@ -53,6 +53,15 @@ for l in lessons:
 for p in projects:
     by.setdefault(p['course_id'], Counter())[p['project_type']] += 1
 PAGE = re.compile(r'^\d+-(project|capstone)\b')
+LESSON_EXCEPTIONS = {
+    (c['course_id'], slug)
+    for c in courses
+    for slug in cfg.get('rules', {}).get('lesson_slug_exceptions', {}).get(c['course_slug'], [])
+}
+check(all(any((l['course_id'], l['lesson_slug']) == item for l in lessons) for item in LESSON_EXCEPTIONS), 'every configured lesson slug exception must appear in lessons.json')
+check(not any((p['course_id'], p['project_slug']) in LESSON_EXCEPTIONS for p in projects), 'a configured lesson exception appears in projects.json')
+learn_js = (REG.parent / 'assets' / 'learn.js').read_text()
+check(all(slug in learn_js for _, slug in LESSON_EXCEPTIONS), 'frontend must respect every configured teaching-lesson exception')
 for c in courses:
     t = by.get(c['course_id'], Counter())
     check(c['lesson_count'] == t['lesson'], f"{c['course_id']}: lesson_count {c['lesson_count']} != {t['lesson']} lesson records")
@@ -69,7 +78,7 @@ for c in courses:
           f"{c['course_id']}: 'qualified' needs a recorded human review, and a recorded review needs 'qualified'")
 check(all((p['project_type'] == 'capstone') == (p['level_id'] == 4 and re.match(r'^\d+-capstone\b', p['project_slug']) is not None) for p in projects), 'capstone = Level 4 page named NN-capstone-…, nothing else')
 check(all(PAGE.match(p['project_slug']) for p in projects), 'a project page is not named NN-project-/NN-capstone-')
-check(not any(PAGE.match(l['lesson_slug']) for l in lessons), 'a lesson is named like a project')
+check(not any(PAGE.match(l['lesson_slug']) and (l['course_id'], l['lesson_slug']) not in LESSON_EXCEPTIONS for l in lessons), 'a lesson is named like a project without an explicit course-specific exception')
 
 # summary equals the records
 pub = [c for c in courses if c['publication_status'] == 'published']
