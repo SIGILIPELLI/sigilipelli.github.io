@@ -4,6 +4,14 @@ name: Course registry audit
 # pages and evidence files, runs the data-integrity tests, and commits the result. Counts on the site are only
 # ever changed by this job. Run it by hand with "archive" to keep a dated, checksummed copy of the evidence.
 on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/registry/**"
+      - "tools/build_search_index.py"
+      - "assets/learn.js"
+      - "registry/config.json"
+      - ".github/workflows/registry.yml"
   schedule:
     - cron: "41 2 * * *"   # daily
   workflow_dispatch:
@@ -37,7 +45,7 @@ jobs:
       - name: Audit the live courses
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python tools/registry/build_registry.py --check-urls ${{ inputs.archive && '--archive' || '' }}
+        run: python tools/registry/build_registry.py --check-urls ${{ (github.event_name == 'push' || inputs.archive) && '--archive' || '' }}
       - name: Rebuild the search index again (counts now from this audit)
         run: python tools/build_search_index.py .
       - name: Build registry-driven pages (audit id on every public page)
