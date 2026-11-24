@@ -20,6 +20,10 @@ import sys
 import urllib.request
 
 ROOT = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else '.')
+try:
+    REGISTRY = {c['course_slug']: c for c in json.loads((ROOT / 'registry/courses.json').read_text())}
+except Exception:  # noqa: BLE001
+    REGISTRY = {}
 SITE = 'https://learnmasterypath.com/'
 UA = {'User-Agent': 'MasteryPathSearchIndexer/1.0 (+https://learnmasterypath.com/)'}
 LEVELS = {1: 'Beginner', 2: 'Intermediate', 3: 'Advanced', 4: 'Expert'}
@@ -128,6 +132,12 @@ with cf.ThreadPoolExecutor(12) as ex:
             is_proj = lambda x: re.search(r'/\d+-(project|capstone)\b', x['u'])   # same rule as registry/config.json
             courses[cid]['lessons'] = len([x for x in les if not is_proj(x)])
             courses[cid]['projects'] = len([x for x in les if is_proj(x)])
+            # course-specific counts come from the registry audit, not from this crawl (the crawl is only a cross-check)
+            reg = REGISTRY.get(cid)
+            if reg:
+                courses[cid]['lessons'] = reg['lesson_count']
+                courses[cid]['projects'] = reg['project_count']
+                courses[cid]['capstones'] = reg['capstone_count']
             lessons += les
         except Exception as e:  # noqa: BLE001
             errors.append(f'{cid}: {e}')
@@ -139,7 +149,7 @@ if errors:
 
 ids = [cid for cid in order if courses[cid].get('lessons')]
 pos = {cid: i for i, cid in enumerate(ids)}
-course_list = [{k: courses[cid].get(k, []) for k in ('id', 'name', 'short', 'emoji', 'url', 'desc', 'cat', 'catName', 'type', 'careers', 'aliases', 'lessons', 'projects', 'res')} for cid in ids]
+course_list = [{k: courses[cid].get(k, []) for k in ('id', 'name', 'short', 'emoji', 'url', 'desc', 'cat', 'catName', 'type', 'careers', 'aliases', 'lessons', 'projects', 'capstones', 'res')} for cid in ids]
 lessons.sort(key=lambda x: (pos.get(x['c'], 999), x['l'], x['u']))
 # path is stored without the 'level-N/' prefix (the level is its own field) to keep the file small
 lesson_list = [[pos[x['c']], x['l'], x['t'], x['u'].split('/', 1)[1], x['d'], x['k']] for x in lessons if x['c'] in pos]

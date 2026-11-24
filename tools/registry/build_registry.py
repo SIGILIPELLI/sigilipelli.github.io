@@ -26,6 +26,7 @@ import html
 import io
 import json
 import os
+import platform
 import re
 import subprocess
 import sys
@@ -46,13 +47,15 @@ def fetch(url, timeout=40):
 
 
 def status(url):
-    """HEAD request with retries: GitHub Pages answers 429/503 when hit hard, which is not a missing page."""
+    """GET request (what a learner's browser sends; HEAD can differ) with retries: GitHub Pages answers 429/503 when hit hard,
+    which is not a missing page. Only the first bytes are read; the status code is the evidence."""
     import time
     code = 0
     for attempt in range(5):
         try:
-            req = urllib.request.Request(url, headers=UA, method='HEAD')
+            req = urllib.request.Request(url, headers=UA, method='GET')
             with urllib.request.urlopen(req, timeout=30) as r:
+                r.read(512)
                 return r.status
         except urllib.error.HTTPError as e:
             code = e.code
@@ -374,9 +377,26 @@ def main():
     for r in published:
         cats.setdefault(r['course_category'], 0); cats[r['course_category']] += 1
     commit = subprocess.run(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
+    def git(*a):
+        return subprocess.run(['git', '-C', str(ROOT), *a], capture_output=True, text=True).stdout.strip()
+    tool_files = ['tools/registry/build_registry.py', 'tools/registry/build_pages.py', 'tools/registry/test_registry.py', 'tools/registry/check_live_sync.py', 'registry/config.json']
+    provenance = {
+        'source_repository': 'https://github.com/SIGILIPELLI/sigilipelli.github.io',
+        'source_commit': commit,
+        'source_tree_clean': git('status', '--porcelain', '--', ':!registry', ':!search') == '',
+        'audit_tool': 'tools/registry/build_registry.py',
+        'audit_tool_commit': git('log', '-1', '--format=%H', '--', *tool_files) or commit,
+        'audit_tool_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'config_sha256': hashlib.sha256((REG / 'config.json').read_bytes()).hexdigest(),
+        'run_mode': 'github-actions' if os.environ.get('GITHUB_ACTIONS') else 'local',
+        'workflow_run_url': (os.environ['GITHUB_SERVER_URL'] + '/' + os.environ['GITHUB_REPOSITORY'] + '/actions/runs/' + os.environ['GITHUB_RUN_ID']) if os.environ.get('GITHUB_RUN_ID') else None,
+        'url_check_method': 'GET',
+        'course_content_commits': 'per course in courses.json (content_version)',
+        'python_version': platform.python_version(),
+    }
     summary = {
         'audit_id': 'MPA-' + NOW.strftime('%Y%m%dT%H%MZ'), 'audit_timestamp': NOW.isoformat().replace('+00:00', 'Z'),
-        'methodology_version': cfg['methodology_version'], 'repository_commit': commit, 'urls_checked': bool(args.check_urls),
+        'methodology_version': cfg['methodology_version'], 'repository_commit': commit, 'provenance': provenance, 'urls_checked': bool(args.check_urls),
         'registered': tally(course_recs), 'published': tally(published), 'passed_automated_checks': tally(passed), 'qualified': tally(qualified),
         'courses_passing_automated_checks': len(passed),
         'courses_human_reviewed': len(qualified),

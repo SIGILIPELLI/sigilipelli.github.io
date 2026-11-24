@@ -61,7 +61,7 @@ for c in courses:
     check(sum(c['lessons_per_level'].values()) == c['lesson_count'], f"{c['course_id']}: level totals != lesson_count")
     check(c['exercise_count'] == t['ex'] and c['lessons_without_exercise'] == t['noex'], f"{c['course_id']}: exercise counts differ from the lesson records")
     check(c['lessons_with_exercise'] + c['lessons_without_exercise'] == c['lesson_count'], f"{c['course_id']}: exercise coverage does not add up")
-    check(c['module_quizzes_on_lessons'] + c['module_quizzes_on_projects'] <= c['module_quiz_count'], f"{c['course_id']}: quiz split exceeds quiz total")
+    check(c['module_quizzes_on_lessons'] + c['module_quizzes_on_projects'] == c['module_quiz_count'], f"{c['course_id']}: quiz split {c['module_quizzes_on_lessons']}+{c['module_quizzes_on_projects']} != module quizzes {c['module_quiz_count']} (a quiz is attached to no page, or to two)")
     check(c['quiz_count'] == c['module_quiz_count'] + (1 if c['final_quiz'] else 0), f"{c['course_id']}: quiz_count is not module + final")
     check(c['course_classification'] in ('technology', 'professional'), f"{c['course_id']}: bad classification")
     check(c['record_eligibility_status'] in ('qualified', 'passed_automated_checks', 'needs_fixes', 'rejected'), f"{c['course_id']}: unknown status {c['record_eligibility_status']}")
@@ -109,6 +109,64 @@ for page in ('index.html', 'about.html'):
     for key, want in (('courses', summary['published']['courses']), ('lessons', summary['published']['lessons']), ('projects', summary['published']['projects'] + summary['published']['capstones'])):
         for got in re.findall(r'data-mp-stat="%s">([\d,]+)' % key, text):
             check(int(got.replace(',', '')) == want, f'{page}: {key} shows {got}, registry says {want}')
+
+# ---- exact quiz reconciliation: records <-> course facts <-> the quiz banks themselves -------------------------------
+ROOT_ = Path(__file__).resolve().parents[2]
+lesson_q, project_q = Counter(), Counter()
+for l in lessons: lesson_q[l['course_id']] += 1 if l['assessment_available'] else 0
+for p in projects: project_q[p['course_id']] += 1 if p['assessment_available'] else 0
+for c in courses:
+    cid = c['course_id']
+    check(lesson_q[cid] == c['module_quizzes_on_lessons'], f"{cid}: lessons flagged with a quiz {lesson_q[cid]} != {c['module_quizzes_on_lessons']}")
+    check(project_q[cid] == c['module_quizzes_on_projects'], f"{cid}: projects flagged with a quiz {project_q[cid]} != {c['module_quizzes_on_projects']}")
+    qf = ROOT_ / 'learn' / 'quizzes' / (c['course_slug'] + '.json')
+    check(qf.exists(), f"{cid}: quiz bank {qf.name} missing")
+    if qf.exists():
+        qd = json.loads(qf.read_text()); ql = qd.get('lessons') or {}; fin = qd.get('final') or {}
+        check(len(ql) == c['module_quiz_count'], f"{cid}: quiz bank has {len(ql)} module quizzes, registry {c['module_quiz_count']}")
+        check(sum(len(v.get('questions', [])) for v in ql.values()) == c['module_quiz_questions'], f"{cid}: module quiz questions differ from the quiz bank")
+        check(len(fin.get('questions', [])) == c['final_quiz_questions'], f"{cid}: final quiz questions differ from the quiz bank")
+        check(len(fin.get('challenges', [])) == c['coding_challenges'], f"{cid}: coding challenges differ from the quiz bank")
+        check(bool(fin.get('questions')) == bool(c['final_quiz']), f"{cid}: final_quiz flag disagrees with the quiz bank")
+        check(c['quiz_count'] == len(ql) + (1 if fin.get('questions') else 0), f"{cid}: quiz_count != module quizzes + final quiz in the bank")
+P_ = summary['published']
+for k, f in (('module_quizzes', 'module_quiz_count'), ('module_quiz_questions', 'module_quiz_questions'), ('final_quiz_questions', 'final_quiz_questions'), ('coding_challenges', 'coding_challenges'), ('quizzes', 'quiz_count')):
+    check(P_[k] == sum(c[f] for c in courses if c['publication_status'] == 'published'), f'summary {k} != sum of course records')
+check(P_['final_quizzes'] == sum(1 for c in courses if c['publication_status'] == 'published' and c['final_quiz']), 'summary final_quizzes != courses with a final quiz')
+
+# ---- course descriptions: any count they state must be the course's own registry count --------------------------------
+for c in courses:
+    d = c['course_description']
+    for m in re.finditer(r'\b(\d+) (?:hands-on |real )?lessons\b', d):
+        check(int(m.group(1)) == c['lesson_count'], f"{c['course_slug']}: description says {m.group(0)}, registry {c['lesson_count']}")
+    for m in re.finditer(r'\b(\d+) (?:hands-on |real )?projects\b', d):
+        check(int(m.group(1)) == c['project_count'] and 'capstone' in d, f"{c['course_slug']}: description says {m.group(0)}; registry has {c['project_count']} projects + {c['capstone_count']} capstone, stated separately")
+    for m in re.finditer(r'\b(\d+) capstones?\b', d):
+        check(int(m.group(1)) == c['capstone_count'], f"{c['course_slug']}: description says {m.group(0)}")
+sc = json.loads((ROOT_ / 'search' / 'courses.json').read_text())
+sc = sc.get('courses', sc) if isinstance(sc, dict) else sc
+reg = {c['course_slug']: c for c in courses}
+for x in sc:
+    r = reg.get(x['id'])
+    if r:
+        check((x['lessons'], x['projects'], x.get('capstones')) == (r['lesson_count'], r['project_count'], r['capstone_count']), f"search index counts for {x['id']} differ from the registry")
+        check(x['desc'] == r['course_description'] or not re.search(r'\d+ (?:hands-on )?lessons', x['desc']), f"search description for {x['id']} states counts that differ from the registry description")
+
+# ---- every public hub page carries the current audit id, and nothing else ----------------------------------------------
+ALL_PAGES = ['404.html', 'about.html', 'contact.html', 'delivery.html', 'index.html', 'license.html', 'privacy.html', 'refunds.html', 'terms.html',
+             'course-catalogue/index.html', 'interview-pack/index.html', 'interview-questions/index.html', 'learning-impact/index.html',
+             'quality-and-verification/index.html', 'resume/index.html', 'search/index.html', 'verify/index.html', 'world-record-attempt/index.html']
+for page in ALL_PAGES:
+    text = (ROOT_ / page).read_text()
+    check(re.findall(r'<meta name="mp-audit-id" content="([^"]+)"', text) == [summary['audit_id']], f'{page}: audit meta tag missing or not {summary["audit_id"]}')
+    check(set(re.findall(r'MPA-\d{8}T\d{4}Z', text)) == {summary['audit_id']}, f'{page}: visible audit ids differ from {summary["audit_id"]}')
+    check('data-mp-audit-stamp' in text, f'{page}: no visible audit stamp')
+prov = summary.get('provenance', {})
+for k in ('source_commit', 'audit_tool_commit', 'audit_tool_sha256', 'config_sha256', 'run_mode', 'url_check_method'):
+    check(bool(prov.get(k)), f'provenance.{k} missing')
+check(prov.get('url_check_method') == 'GET', 'lesson URLs must be checked with GET')
+check(summary['methodology_version'] == json.loads((REG / 'config.json').read_text())['methodology_version'], 'summary methodology version differs from config.json')
+check(summary['repository_commit'] == prov.get('source_commit'), 'repository_commit != provenance.source_commit')
 
 print(f"{len(courses)} courses, {len(lessons)} lessons + {len(projects)} projects: {'OK' if not fails else str(len(fails)) + ' failures'}")
 for f in fails[:30]:

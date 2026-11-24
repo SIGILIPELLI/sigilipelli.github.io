@@ -237,11 +237,11 @@ def quality():
 <p>Courses are written in Markdown in public GitHub repositories and published automatically when changes are merged, so each lesson's history is public. A content review is recorded in <code>registry/reviews.json</code> with the course ID, reviewer, date and notes; the most recent review becomes the course's "last reviewed" date. Corrections from learners are welcome and are fixed in the source.</p>
 
 <h2>9. Verification and audit process</h2>
-<p>The audit tool (<code>tools/registry/build_registry.py</code>) reads the live published site, so it measures what learners can actually open: every course's published pages, every lesson's text, quiz banks and sitemaps. It then requests every lesson URL, applies the rules above, and writes dated evidence files with SHA-256 checksums. Audit IDs and timestamps are never edited afterwards; each archived audit lives in its own folder under <code>registry/audits/</code>.</p>
+<p>The audit tool (<code>tools/registry/build_registry.py</code>) reads the live published site, so it measures what learners can actually open: every course's published pages, every lesson's text, quiz banks and sitemaps. It then requests every lesson URL with a GET request (the request a browser sends), applies the rules above, and writes dated evidence files with SHA-256 checksums. Audit IDs and timestamps are never edited afterwards; each archived audit lives in its own folder under <code>registry/audits/</code>.</p>
 
 <h2>10. Latest audit</h2>
 <div class="kpis">{kpi(STATS['courses'], 'published courses')}{kpi(n(S['courses_passing_automated_checks']), 'pass all automated checks')}{kpi(n(S['courses_human_reviewed']), 'human-reviewed')}{kpi(STATS['lessons'], 'published lessons')}{kpi(n(S['qualifying_lessons']), 'qualifying lessons')}{kpi(n(S['failed_urls']), 'lesson URLs failing')}</div>
-<p class="stamp">Audit {E(S['audit_id'])} · {STAMP} · methodology {E(S['methodology_version'])} · repository commit <code>{E(S['repository_commit'][:7])}</code></p>
+<p class="stamp">Audit {E(S['audit_id'])} · {STAMP} · methodology {E(S['methodology_version'])} · source commit <code>{E(S['provenance']['source_commit'][:7])}</code> · audit tool commit <code>{E(S['provenance']['audit_tool_commit'][:7])}</code> · run: {E(S['provenance']['run_mode'])} · lesson URLs checked with {E(S['provenance']['url_check_method'])} requests</p>
 
 <h2>11. Data reporting and evidence files</h2>
 <ul>
@@ -359,6 +359,28 @@ def apply_stats():
         p.write_text(s)
 
 
+PUBLIC_PAGES = ['404.html', 'about.html', 'contact.html', 'delivery.html', 'index.html', 'license.html', 'privacy.html', 'refunds.html', 'terms.html',
+                'course-catalogue/index.html', 'interview-pack/index.html', 'interview-questions/index.html', 'learning-impact/index.html',
+                'quality-and-verification/index.html', 'resume/index.html', 'search/index.html', 'verify/index.html', 'world-record-attempt/index.html']
+
+
+def stamp_all():
+    """Every public hub page carries the current audit id: a machine-readable meta tag and a visible line. The same id and
+    date appear on all of them, so a stale page is detectable by tests/check_live_sync.py."""
+    meta = f'<meta name="mp-audit-id" content="{S["audit_id"]}"><meta name="mp-audit-date" content="{S["audit_timestamp"]}">'
+    line = (f'<!-- mp-audit --><p class="mp-audit-stamp" data-mp-audit-stamp style="text-align:center;font-size:.78rem;opacity:.7;margin:0;padding:10px 16px 18px">'
+            f'Counts on this site: audit <code>{S["audit_id"]}</code> · {S["audit_timestamp"][:10]} · methodology {E(S["methodology_version"])} · '
+            f'<a href="/quality-and-verification/">how we count</a></p><!-- /mp-audit -->')
+    for rel in PUBLIC_PAGES:
+        p = ROOT / rel
+        s = p.read_text()
+        s = re.sub(r'<meta name="mp-audit-id"[^>]*><meta name="mp-audit-date"[^>]*>', '', s)
+        s = s.replace('</head>', meta + '</head>', 1)
+        s = re.sub(r'<!-- mp-audit -->.*?<!-- /mp-audit -->', '', s, flags=re.S)
+        s = s.replace('</body>', line + '</body>', 1)
+        p.write_text(s)
+
+
 def sitemap():
     p = ROOT / 'sitemap-hub.xml'
     s = p.read_text()
@@ -375,4 +397,5 @@ if __name__ == '__main__':
     catalogue(); quality(); impact(); record(); about_redirect(); course_facts(); apply_stats(); sitemap()
     spec = importlib.util.spec_from_file_location('site_chrome', ROOT / 'tools/site_chrome.py')
     chrome = importlib.util.module_from_spec(spec); spec.loader.exec_module(chrome); chrome.main(ROOT)
+    stamp_all()
     print('pages built from', S['audit_id'])
