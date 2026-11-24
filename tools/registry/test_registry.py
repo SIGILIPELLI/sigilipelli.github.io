@@ -57,7 +57,7 @@ for c in courses:
     t = by.get(c['course_id'], Counter())
     check(c['lesson_count'] == t['lesson'], f"{c['course_id']}: lesson_count {c['lesson_count']} != {t['lesson']} lesson records")
     check(c['project_count'] == t['project'], f"{c['course_id']}: project_count mismatch")
-    check(c['capstone_count'] == t['capstone'] and t['capstone'] <= 1, f"{c['course_id']}: capstone count {t['capstone']}")
+    check(c['capstone_count'] == t['capstone'] == 1, f"{c['course_id']}: needs exactly one capstone, has {t['capstone']}")
     check(sum(c['lessons_per_level'].values()) == c['lesson_count'], f"{c['course_id']}: level totals != lesson_count")
     check(c['exercise_count'] == t['ex'] and c['lessons_without_exercise'] == t['noex'], f"{c['course_id']}: exercise counts differ from the lesson records")
     check(c['lessons_with_exercise'] + c['lessons_without_exercise'] == c['lesson_count'], f"{c['course_id']}: exercise coverage does not add up")
@@ -67,6 +67,7 @@ for c in courses:
     check(c['record_eligibility_status'] in ('qualified', 'passed_automated_checks', 'needs_fixes', 'rejected'), f"{c['course_id']}: unknown status {c['record_eligibility_status']}")
     check((c['record_eligibility_status'] == 'qualified') == bool(c['last_reviewed_date']) or c['record_eligibility_status'] in ('needs_fixes', 'rejected'),
           f"{c['course_id']}: 'qualified' needs a recorded human review, and a recorded review needs 'qualified'")
+check(all((p['project_type'] == 'capstone') == (p['level_id'] == 4 and re.match(r'^\d+-capstone\b', p['project_slug']) is not None) for p in projects), 'capstone = Level 4 page named NN-capstone-…, nothing else')
 check(all(PAGE.match(p['project_slug']) for p in projects), 'a project page is not named NN-project-/NN-capstone-')
 check(not any(PAGE.match(l['lesson_slug']) for l in lessons), 'a lesson is named like a project')
 

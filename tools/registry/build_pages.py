@@ -34,8 +34,7 @@ def n(x):
 
 
 def lessons_label(c):
-    extra = c['project_count'] + c['capstone_count']
-    return f"{c['lesson_count']} lessons + {extra} projects"
+    return f"{c['lesson_count']} lessons + {c['project_count']} projects + {c['capstone_count']} capstone"
 
 
 STATS = {
@@ -112,7 +111,7 @@ def catalogue():
   <div class="cc-head"><span class="pill">{E(c['course_id'])}</span><span class="pill {'ok' if c['course_classification'] == 'technology' else 'wait'}">{'Technology' if c['course_classification'] == 'technology' else 'Professional development'}</span></div>
   <h2><a href="{E(c['course_url'])}">{E(c['course_title'])}</a></h2>
   <p class="cc-desc">{E(c['course_description'].replace(' -- ', ' – '))}</p>
-  <ul class="cc-facts"><li><b>{c['lesson_count']}</b> lessons</li><li><b>{c['project_count'] + c['capstone_count']}</b> projects</li><li><b>{c['quiz_count']}</b> quizzes</li><li><b>4</b> levels</li></ul>
+  <ul class="cc-facts"><li><b>{c['lesson_count']}</b> lessons</li><li><b>{c['project_count']}</b> projects</li><li><b>{c['capstone_count']}</b> capstone</li><li><b>{c['quiz_count']}</b> quizzes</li><li><b>4</b> levels</li></ul>
   <p class="cc-meta">{E(c['course_category'])} · Free, no sign-up · {E(c['course_author'])}<br>Published {E(c['publication_date'] or 'not recorded')} · Updated {E(c['last_content_update'] or '—')} · {('Reviewed ' + E(c['last_reviewed_date'])) if c['last_reviewed_date'] else 'Human review pending'}</p>
   <p class="cc-levels">{''.join(f'<a href="{E(c["course_url"])}level-{k}/" data-level="{k}">L{k} · {E(re.sub(r"^Level \d+\s*·\s*", "", v))}</a>' for k, v in c['level_titles'].items())}</p>
 </article>''')
@@ -263,7 +262,7 @@ def impact():
             'engagement numbers are shown only when they are measured.</p>')
     body = f'''<h2>Published content</h2>
 <div class="kpis">
-{kpi(STATS['courses'], 'published courses')}{kpi(STATS['lessons'], 'lessons')}{kpi(n(P['projects']), 'level projects')}{kpi(n(P['capstones']), 'final capstones')}
+{kpi(STATS['courses'], 'published courses')}{kpi(STATS['lessons'], 'lessons')}{kpi(n(P['projects']), 'projects')}{kpi(n(P['capstones']), 'course capstones')}
 {kpi(STATS['exercises'], 'lesson exercises')}{kpi(STATS['quizzes'], 'quizzes (module + final)')}{kpi(STATS['categories'], 'categories')}{kpi(STATS['paths'], 'career learning paths')}
 {kpi('4', 'levels in every course')}{kpi(STATS['technology'], 'technology courses')}{kpi(STATS['professional'], 'professional-development courses')}{kpi(n(S['first_party_domains']), 'first-party domains')}
 </div>
@@ -305,7 +304,7 @@ details { border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px
 <h2>Title applied for</h2><p><b>{E(RECORD['submitted_title'])}</b><br><span class="stamp">Submitted as a new-record-title application on {E(RECORD['submitted_on'])}. Wording is proposed by us; Guinness World Records decides whether a title exists and what its rules are.</span></p>
 <h2>How the count is measured</h2><p>Courses and lessons are counted by the open audit tool under the published <a href="/quality-and-verification/">quality &amp; verification rules</a>: one course counted once, projects and quizzes never counted as lessons, external links never counted, every lesson URL checked.</p>
 <h2>Current published statistics</h2>
-<div class="kpis">{kpi(STATS['courses'], 'courses')}{kpi(STATS['lessons'], 'lessons')}{kpi(STATS['projects'], 'projects + capstones')}{kpi(n(S['courses_human_reviewed']), 'human-reviewed so far')}</div>
+<div class="kpis">{kpi(STATS['courses'], 'courses')}{kpi(STATS['lessons'], 'lessons')}{kpi(n(P['projects']), 'projects')}{kpi(n(P['capstones']), 'capstones')}{kpi(n(S['courses_human_reviewed']), 'human-reviewed so far')}</div>
 <p class="stamp">Audit {E(S['audit_id'])}, {STAMP}.</p>
 </div>
 <div>

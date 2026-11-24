@@ -161,10 +161,11 @@ def read_course(c, cfg, quizzes_dir):
                         'title': re.sub(r'^\d+\s*·\s*', '', p['title']), 'type': kind, 'words': words(text),
                         'exercises': len(ex), 'fp': fingerprint(text), 'sh': shingles(text) if kind == 'lesson' else set()})
     lessons.sort(key=lambda x: (x['level'], x['ordinal'], x['slug']))
-    # capstone = the final project page of the highest level (one per course at most)
-    finals = [l for l in lessons if l['type'] == 'project' and l['level'] == 4]
-    if finals:
-        finals[-1]['type'] = 'capstone'
+    # capstone = a Level 4 page named NN-capstone-... (explicit rule, see registry/config.json). Pages named
+    # capstone in Levels 1-3 are level projects, not course capstones. Exactly one capstone per course is required.
+    for l in lessons:
+        if l['type'] == 'project' and l['level'] == 4 and re.search(cfg['rules']['capstone_slug'], l['slug'], re.I):
+            l['type'] = 'capstone'
     q = load(quizzes_dir / f"{c['id']}.json", {})
     fin = q.get('final') or {}
     out.update(ok=True, http_home=st_home, home_html=home, lessons=lessons, level_titles=levels,
