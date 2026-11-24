@@ -22,9 +22,10 @@ import urllib.request
 ROOT = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else '.')
 try:
     REGISTRY = {c['course_slug']: c for c in json.loads((ROOT / 'registry/courses.json').read_text())}
-CONFIG = json.loads((ROOT / 'registry/config.json').read_text())
+    CONFIG = json.loads((ROOT / 'registry/config.json').read_text())
 except Exception:  # noqa: BLE001
     REGISTRY = {}
+    CONFIG = {}
 SITE = 'https://learnmasterypath.com/'
 UA = {'User-Agent': 'MasteryPathSearchIndexer/1.0 (+https://learnmasterypath.com/)'}
 LEVELS = {1: 'Beginner', 2: 'Intermediate', 3: 'Advanced', 4: 'Expert'}
