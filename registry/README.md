@@ -34,3 +34,6 @@ The GitHub Action "Course registry audit" runs this daily; run it by hand with "
 ## Record a human review
 Protected dashboard: `https://api.learnmasterypath.com/admin/course-verification` (password = Worker secret `ADMIN_TOKEN`) → "Record review".
 Or add an entry to `reviews.json`. The course becomes `qualified` at the next audit; until then it is `passed_automated_checks` (or `needs_fixes` / `rejected`).
+
+## Review packet (for the human reviewer)
+`python3 tools/registry/review_packet.py` writes `review-packet.csv`: per course, the automated facts, four sample pages (the first lesson of each level), the capstone and blank check columns. It records nothing; a course only becomes `qualified` after a named person reads it and adds a dated entry to `reviews.json`.
