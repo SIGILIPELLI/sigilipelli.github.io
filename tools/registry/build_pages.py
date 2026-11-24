@@ -12,7 +12,9 @@ import datetime as dt
 import html
 import importlib.util
 import json
+import os
 import re
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -379,6 +381,9 @@ def stamp_all():
         s = re.sub(r'<!-- mp-audit -->.*?<!-- /mp-audit -->', '', s, flags=re.S)
         s = s.replace('</body>', line + '</body>', 1)
         p.write_text(s)
+    if os.environ.get('GITHUB_ACTIONS'):
+        # the workflow's own `git add` list predates the audit stamp; stage every stamped page so one commit carries them all
+        subprocess.run(['git', 'add', *PUBLIC_PAGES], cwd=ROOT, check=True)
 
 
 def sitemap():
