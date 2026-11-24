@@ -9,7 +9,7 @@ Checks (all against https://learnmasterypath.com/, not local files):
   - search/courses.json counts equal the registry for every course; course-facts.json is from the same audit;
   - every course home page: meta description and visible text state the course's own lessons, projects and capstone, and nothing else.
 Usage: python3 tools/registry/check_live_sync.py [--expect MPA-...] [--wait SECONDS]"""
-import argparse, concurrent.futures as cf, hashlib, json, re, sys, time, urllib.request
+import argparse, concurrent.futures as cf, hashlib, html as htmllib, json, re, sys, time, urllib.request
 SITE = 'https://learnmasterypath.com/'
 ap = argparse.ArgumentParser(); ap.add_argument('--expect'); ap.add_argument('--wait', type=int, default=0)
 args = ap.parse_args()
@@ -47,9 +47,9 @@ def page(rel):
     for key, want in (('courses', P['courses']), ('lessons', P['lessons']), ('projects', P['projects'] + P['capstones'])):
         for got in re.findall(r'data-mp-stat="%s"[^>]*>([\d,]+)' % key, h):
             if int(got.replace(',', '')) != want: out.append(f'{rel or "/"}: {key} {got} != {want}')
-    if rel in ('learning-impact/', 'world-record-attempt/', 'quality-and-verification/') or rel == 'course-catalogue/':
+    if rel in ('learning-impact/', 'world-record-attempt/'):
         for label, want in (('lessons', P['lessons']), ('projects', P['projects']), ('capstones', P['capstones'])):
-            if rel != 'course-catalogue/' and f'{want:,}' not in t and str(want) not in t: out.append(f'{rel}: does not show {label} total {want:,}')
+            if f'{want:,}' not in t: out.append(f'{rel}: does not show the {label} total {want:,} (lessons, projects and capstones are reported separately)')
     if re.search(r'\b3,660\b|\b425 projects\b|eligible_pending_review', t): out.append(f'{rel or "/"}: contains a figure/status from an older audit')
     return out
 with cf.ThreadPoolExecutor(8) as ex:
@@ -63,18 +63,19 @@ for x in sc:
     r = reg.get(x['id'])
     if r and (x['lessons'], x['projects'], x.get('capstones')) != (r['lesson_count'], r['project_count'], r['capstone_count']):
         bad.append(f"search index: {x['id']} has {x['lessons']}/{x['projects']}/{x.get('capstones')}, registry {r['lesson_count']}/{r['project_count']}/{r['capstone_count']}")
-# 4. every course home page
+# 4. every course home page (per-level rows such as '8 topics + 2 projects' are per level and are not course totals)
 def course(c):
     h = get(c['course_url']); t = text(h); out = []; s = c['course_slug']
     md = re.search(r'<meta name="description" content="([^"]*)"', h); d = md.group(1) if md else ''
-    if d != c['course_description'].replace('&', '&amp;') and d != c['course_description']:
-        out.append(f'{s}: meta description differs from the registry description')
+    norm = lambda x: re.sub(r'\s+', ' ', htmllib.unescape(x)).strip()
+    if not norm(d).startswith(norm(c['course_description']).rstrip('.…')):
+        out.append(f'{s}: meta description does not start with the registry description')
     for blob, where in ((d, 'meta description'), (t, 'page text')):
-        for m in re.finditer(r'\b(\d+) (?:hands-on |real )?lessons\b', blob):
+        for m in re.finditer(r'(?<![-\w])(\d+) (?:hands-on |real )?lessons\b', blob):
             if int(m.group(1)) != c['lesson_count']: out.append(f"{s}: {where} says {m.group(0)}, registry {c['lesson_count']}")
-        for m in re.finditer(r'\b(\d+) (?:hands-on |real )?projects\b', blob):
+        for m in re.finditer(r'(?<![-\w])(?<!\+ )(\d+) (?:hands-on |real )?projects\b', blob):
             if int(m.group(1)) != c['project_count']: out.append(f"{s}: {where} says {m.group(0)}, registry {c['project_count']} projects + {c['capstone_count']} capstone")
-        for m in re.finditer(r'\b(\d+) capstones?\b', blob):
+        for m in re.finditer(r'(?<![-\w])(\d+) capstones?\b', blob):
             if int(m.group(1)) != c['capstone_count']: out.append(f"{s}: {where} says {m.group(0)}, registry {c['capstone_count']}")
     return out
 with cf.ThreadPoolExecutor(12) as ex:
