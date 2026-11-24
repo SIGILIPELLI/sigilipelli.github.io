@@ -434,7 +434,7 @@
       var p = document.createElement('div');
       p.className = 'mpl-toolbar';
       var nProj = ls.filter(function (l) { return isProject(l.slug); }).length;
-      p.innerHTML = '<span>📚 ' + (ls.length - nProj) + ' lessons' + (nProj ? ' + ' + nProj + ' project' + (nProj === 1 ? '' : 's') : '') + '</span>'<span>⏱ ≈ ' + Math.round(mins / 60) + ' hours</span>' + (Object.keys(Q.lessons || {}).some(function (s) { return s.indexOf('level-' + n + '/') === 0; }) ? '<span>📝 module quizzes</span>' : '') +
+      p.innerHTML = '<span>📚 ' + (ls.length - nProj) + ' lessons' + (nProj ? ' + ' + nProj + ' project' + (nProj === 1 ? '' : 's') : '') + '</span><span>⏱ ≈ ' + Math.round(mins / 60) + ' hours</span>' + (Object.keys(Q.lessons || {}).some(function (s) { return s.indexOf('level-' + n + '/') === 0; }) ? '<span>📝 module quizzes</span>' : '') +
         '<a class="mpl-btn sm" href="' + esc((next || ls[0]).url) + '">' + (next && ls.some(function (l) { return isDone(l.slug); }) ? 'Continue: ' + esc(next.title) : next ? 'Start this level' : 'Review this level') + ' →</a>';
       var h1 = $('h1', host); if (h1) h1.insertAdjacentElement('afterend', p);
     }).catch(function () {});
