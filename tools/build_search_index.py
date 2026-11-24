@@ -125,7 +125,9 @@ with cf.ThreadPoolExecutor(12) as ex:
         try:
             _, info, les = f.result()
             courses[cid].update(name=info['name'], desc=info['desc'])
-            courses[cid]['lessons'] = len(les)
+            is_proj = lambda x: re.search(r'/\d+-(project|capstone)\b', x['u'])   # same rule as registry/config.json
+            courses[cid]['lessons'] = len([x for x in les if not is_proj(x)])
+            courses[cid]['projects'] = len([x for x in les if is_proj(x)])
             lessons += les
         except Exception as e:  # noqa: BLE001
             errors.append(f'{cid}: {e}')
@@ -137,7 +139,7 @@ if errors:
 
 ids = [cid for cid in order if courses[cid].get('lessons')]
 pos = {cid: i for i, cid in enumerate(ids)}
-course_list = [{k: courses[cid].get(k, []) for k in ('id', 'name', 'short', 'emoji', 'url', 'desc', 'cat', 'catName', 'type', 'careers', 'aliases', 'lessons', 'res')} for cid in ids]
+course_list = [{k: courses[cid].get(k, []) for k in ('id', 'name', 'short', 'emoji', 'url', 'desc', 'cat', 'catName', 'type', 'careers', 'aliases', 'lessons', 'projects', 'res')} for cid in ids]
 lessons.sort(key=lambda x: (pos.get(x['c'], 999), x['l'], x['u']))
 # path is stored without the 'level-N/' prefix (the level is its own field) to keep the file small
 lesson_list = [[pos[x['c']], x['l'], x['t'], x['u'].split('/', 1)[1], x['d'], x['k']] for x in lessons if x['c'] in pos]

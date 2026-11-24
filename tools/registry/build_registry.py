@@ -46,14 +46,22 @@ def fetch(url, timeout=40):
 
 
 def status(url):
-    try:
-        req = urllib.request.Request(url, headers=UA, method='HEAD')
-        with urllib.request.urlopen(req, timeout=30) as r:
-            return r.status
-    except urllib.error.HTTPError as e:
-        return e.code
-    except Exception:
-        return 0
+    """HEAD request with retries: GitHub Pages answers 429/503 when hit hard, which is not a missing page."""
+    import time
+    code = 0
+    for attempt in range(5):
+        try:
+            req = urllib.request.Request(url, headers=UA, method='HEAD')
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return r.status
+        except urllib.error.HTTPError as e:
+            code = e.code
+            if code not in (429, 500, 502, 503, 504):
+                return code
+        except Exception:
+            code = 0
+        time.sleep(2 * (attempt + 1))
+    return code
 
 
 def clean(s):
@@ -206,7 +214,7 @@ def main():
     url_status = {}
     if args.check_urls:
         targets = [c['url'] + l['path'] for c in courses for l in data[c['id']].get('lessons', [])]
-        with cf.ThreadPoolExecutor(24) as ex:
+        with cf.ThreadPoolExecutor(12) as ex:
             url_status = dict(zip(targets, ex.map(status, targets)))
 
     # duplicates: exact text fingerprints, then near-duplicate text among lessons with the same title, then similar course titles
@@ -235,6 +243,11 @@ def main():
             r = difflib.SequenceMatcher(None, names[i][1].lower(), names[j][1].lower()).ratio()
             if r >= cfg['rules']['similar_title_ratio']:
                 dup_rows.append({'type': 'similar_course_title', 'a': names[i][0], 'b': names[j][0], 'score': f'{r:.2f}', 'action': 'review (titles only; not removed)'})
+    # candidates a person has assessed and recorded in config.json stay in the file, marked as reviewed, so the audit has no unresolved item
+    for row in dup_rows:
+        for rv_ in cfg.get('duplicate_reviews', []):
+            if {row['a'], row['b']} == {rv_['a'], rv_['b']} and row['type'] == rv_['type']:
+                row['action'] = f"reviewed {rv_['date']}: {rv_['decision']} ({rv_['by']}: {rv_['note']})"
     dup_courses = {row['a'].split('/')[0] for row in dup_rows if row['type'] != 'similar_course_title'} | {row['b'].split('/')[0] for row in dup_rows if row['type'] != 'similar_course_title'}
 
     # build records
@@ -279,10 +292,12 @@ def main():
         eligible = all(v is not False for v in checks.values())
         review = rv.get(c['id'])
         # automated checks alone never make a course "verified": a human content review must be recorded in registry/reviews.json
+        # status names: qualified = automated checks + recorded human review; passed_automated_checks = checks only (review still to do);
+        # needs_fixes = at least one check failed; rejected = the course is not publicly reachable/indexed
         if eligible:
-            status_ = 'eligible' if review else 'eligible_pending_review'
+            status_ = 'qualified' if review else 'passed_automated_checks'
         else:
-            status_ = 'rejected' if hard else 'pending'
+            status_ = 'rejected' if hard else 'needs_fixes'
         if c['id'] in prof:
             classification = 'professional'
         else:
@@ -335,7 +350,8 @@ def main():
             'quizzes': sum(r['quiz_count'] for r in recs),
         }
     published = [r for r in course_recs if r['publication_status'] == 'published']
-    eligible = [r for r in course_recs if r['record_eligibility_status'] in ('eligible', 'eligible_pending_review')]
+    passed = [r for r in course_recs if r['record_eligibility_status'] in ('qualified', 'passed_automated_checks')]
+    qualified = [r for r in course_recs if r['record_eligibility_status'] == 'qualified']
     cats = {}
     for r in published:
         cats.setdefault(r['course_category'], 0); cats[r['course_category']] += 1
@@ -343,17 +359,18 @@ def main():
     summary = {
         'audit_id': 'MPA-' + NOW.strftime('%Y%m%dT%H%MZ'), 'audit_timestamp': NOW.isoformat().replace('+00:00', 'Z'),
         'methodology_version': cfg['methodology_version'], 'repository_commit': commit, 'urls_checked': bool(args.check_urls),
-        'registered': tally(course_recs), 'published': tally(published), 'eligible': tally(eligible),
-        'courses_passing_automated_checks': len(eligible),
-        'courses_human_reviewed': len([r for r in course_recs if r['record_eligibility_status'] == 'eligible']),
-        'courses_pending': len([r for r in course_recs if r['record_eligibility_status'] == 'pending']),
+        'registered': tally(course_recs), 'published': tally(published), 'passed_automated_checks': tally(passed), 'qualified': tally(qualified),
+        'courses_passing_automated_checks': len(passed),
+        'courses_human_reviewed': len(qualified),
+        'courses_qualified': len(qualified),
+        'courses_needs_fixes': len([r for r in course_recs if r['record_eligibility_status'] == 'needs_fixes']),
         'courses_rejected': len([r for r in course_recs if r['record_eligibility_status'] == 'rejected']),
         'qualifying_lessons': sum(1 for l in lesson_recs if l['qualifies_as_lesson']),
         'classification': {k: len([r for r in published if r['course_classification'] == k]) for k in ('technology', 'professional')},
         'categories': len(cats), 'category_totals': dict(sorted(cats.items())), 'featured_categories': len(cfg['featured_categories']),
         'learning_paths': len(meta.get('paths', {})), 'learning_levels': 4,
         'first_party_domains': len([w for w in cfg['websites'] if w['first_party_status'] == 'first-party']),
-        'failed_urls': sum(1 for v in url_status.values() if v != 200), 'duplicate_candidates': len(dup_rows),
+        'failed_urls': sum(1 for v in url_status.values() if v != 200), 'duplicate_candidates': len(dup_rows), 'duplicates_unresolved': len([r for r in dup_rows if r['action'].startswith('review') and not r['action'].startswith('reviewed')]),
         'courses_with_review_record': len([r for r in course_recs if r['last_reviewed_date']]),
         'engagement': {'learners': None, 'completions': None, 'countries': None, 'note': 'Not currently measured as verifiable counts.'},
     }
@@ -384,7 +401,7 @@ def main():
         h = hashlib.sha256((REG / name).read_bytes()).hexdigest()
         ev.append({'evidence_id': f"{summary['audit_id']}-E{i:02d}", 'evidence_type': 'audit artefact', 'related_course_id': 'ALL',
                    'file': f'registry/{name}', 'collected_at': summary['audit_timestamp'], 'collector': 'tools/registry/build_registry.py (automated)',
-                   'verification_status': 'generated; human review pending', 'description': name, 'sha256': h})
+                   'verification_status': 'generated by script; not independently verified', 'description': name, 'sha256': h})
     write_csv('mastery_path_evidence_register.csv', ev, list(ev[0].keys()))
     (REG / 'SHA256SUMS').write_text(''.join(f"{e['sha256']}  {e['file'].split('/')[-1]}\n" for e in ev))
     if args.archive:
@@ -402,9 +419,9 @@ def main():
     if hist:
         (REG / 'audits' / 'index.json').write_text(json.dumps(hist[::-1], indent=1) + '\n')
 
-    p, e = summary['published'], summary['eligible']
+    p, e = summary['published'], summary['passed_automated_checks']
     print(f"{summary['audit_id']}: registered {summary['registered']['courses']}, published {p['courses']} courses / {p['lessons']} lessons / {p['projects']} projects / {p['capstones']} capstones, "
-          f"eligible {e['courses']}, pending {summary['courses_pending']}, rejected {summary['courses_rejected']}, duplicates {len(dup_rows)}, failed URLs {summary['failed_urls']}")
+          f"passed automated checks {e['courses']}, qualified (human-reviewed) {summary['courses_qualified']}, needs fixes {summary['courses_needs_fixes']}, rejected {summary['courses_rejected']}, duplicates {len(dup_rows)} ({summary['duplicates_unresolved']} unresolved), failed URLs {summary['failed_urls']}")
 
 
 if __name__ == '__main__':

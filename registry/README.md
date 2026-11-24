@@ -11,7 +11,7 @@ The single source of truth for every count published on learnmasterypath.com. Ge
 | `record.json` ✎ | Guinness application status. Update only from written Guinness World Records correspondence. |
 | `courses.json` | One record per course (schema in the brief: IDs, URLs, classification, dates, counts, eligibility + reasons, check results). |
 | `lessons.json` | One record per lesson, project and capstone page (type, level, module, URL, word count, exercises, qualification). |
-| `summary.json` / `mastery_path_audit_summary.json` | Totals for this audit: registered/published/eligible, lessons, projects, capstones, exercises, quizzes, categories, paths, domains, failures, duplicates. |
+| `summary.json` / `mastery_path_audit_summary.json` | Totals for this audit: registered/published/passed automated checks/qualified, lessons, projects, capstones, exercises, quizzes, categories, paths, domains, failures, duplicates. |
 | `course-facts.json` | Small per-course extract used by course pages (`assets/learn.js`). |
 | `websites.json` | Website ecosystem registry (owned, subdomain, accounts, external references). |
 | `mastery_path_course_inventory.csv` | Master course inventory. |
@@ -33,4 +33,4 @@ The GitHub Action "Course registry audit" runs this daily; run it by hand with "
 
 ## Record a human review
 Protected dashboard: `https://api.learnmasterypath.com/admin/course-verification` (password = Worker secret `ADMIN_TOKEN`) → "Record review".
-Or add an entry to `reviews.json`. The course becomes `eligible` at the next audit; until then it is `eligible_pending_review`.
+Or add an entry to `reviews.json`. The course becomes `qualified` at the next audit; until then it is `passed_automated_checks` (or `needs_fixes` / `rejected`).

@@ -6,15 +6,15 @@
   "course": "A self-contained, first-party learning programme published at learnmasterypath.com/<course>/ with its own syllabus, four progressive levels and lessons. One course is counted once, however many learning paths include it.",
   "learning_level": "One of four ordered stages of a course (Level 1 Entry/Foundation, Level 2 Intermediate, Level 3 Advanced, Level 4 Master), each with its own overview page.",
   "module": "One topic unit within a level. On Mastery Path each module is published as exactly one lesson page, so module and lesson counts are the same; module IDs record the level and position.",
-  "lesson": "A published page under level-N/ that teaches one topic and is not a project or capstone. It counts as a qualifying lesson when it returns HTTP 200 and has at least the minimum number of words of published text.",
+  "lesson": "A published page under level-N/ that teaches one topic and is not a project or capstone (see 'project'). It counts as a qualifying lesson when it returns HTTP 200 and has at least the minimum number of words of published text.",
   "exercise": "A practice task inside a lesson, identified by a section heading that starts with Exercise/Exercises/Practice/Try it. Counted per section; not counted as lessons.",
   "quiz": "A module quiz (per lesson, from the hub's question bank) or a course's final quiz page. Not counted as lessons.",
-  "project": "A build task published as its own page (slug contains 'project' or 'capstone'). Counted separately; never included in lesson counts.",
+  "project": "A build task published as its own page whose file name is NN-project-… or NN-capstone-… (the number is its position in the level). A lesson that merely has 'project' in its title (for example 'AI project lifecycles') is a lesson. Counted separately; never included in lesson counts.",
   "capstone": "The final project page of Level 4 (one per course at most). Counted separately from other projects and from lessons."
  },
  "rules": {
-  "project_slug": "project",
-  "capstone_slug": "capstone",
+  "project_slug": "^\\d+-project\\b",
+  "capstone_slug": "^\\d+-capstone\\b",
   "exercise_heading": "^(exercise|exercises|practice|try it)\\b",
   "min_lesson_words": 300,
   "min_lessons_per_level": 5,
@@ -156,6 +156,17 @@
    "content_inventory": "learn/docs.json",
    "evidence_reference": "learn/docs.json",
    "verification_status": "n/a"
+  }
+ ],
+ "duplicate_reviews": [
+  {
+   "type": "similar_course_title",
+   "a": "product-manager-mastery-path",
+   "b": "project-manager-mastery-path",
+   "date": "2026-11-24",
+   "decision": "not a duplicate",
+   "by": "AI-assisted review at the owner's request; owner to confirm",
+   "note": "different professions (product vs project management); no exact or near-duplicate lesson text found by the audit"
   }
  ]
 }

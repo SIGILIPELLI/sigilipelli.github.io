@@ -201,7 +201,7 @@
     return {
       kind: doc.kind, title: doc.title, url: doc.url, desc: doc.desc, topics: doc.topics || '',
       course: c.name, courseShort: c.short, emoji: c.emoji, courseUrl: c.url, category: c.catName, type: c.type, careers: c.careers,
-      level: doc.kind === 'lesson' ? LEVELS[doc.l] : doc.kind === 'resource' ? 'All levels' : 'Beginner → Expert', levelN: doc.l || 0, lessons: c.lessons, terms: qts,
+      level: doc.kind === 'lesson' ? LEVELS[doc.l] : doc.kind === 'resource' ? 'All levels' : 'Beginner → Expert', levelN: doc.l || 0, lessons: c.lessons, projects: c.projects || 0, terms: qts,
     };
   }
 
@@ -272,7 +272,7 @@
         var r = query(q, {}, { courseLimit: 4, limit: 6 });
         var i = 0, html = '';
         if (r.courses.length) html += '<div class="mps-head">Courses</div>' + r.courses.map(function (x) {
-          return opt(i++, x.url, '<span class="search-result-title">' + esc(x.emoji) + ' ' + highlight(x.courseShort, x.terms) + '</span><span class="search-result-site">' + esc(x.category) + ' · ' + x.lessons + ' lessons</span>', 'data-q="' + esc(q) + '"');
+          return opt(i++, x.url, '<span class="search-result-title">' + esc(x.emoji) + ' ' + highlight(x.courseShort, x.terms) + '</span><span class="search-result-site">' + esc(x.category) + ' · ' + x.lessons + ' lessons' + (x.projects ? ' + ' + x.projects + ' projects' : '') + '</span>', 'data-q="' + esc(q) + '"');
         }).join('');
         if (r.lessons.length) html += '<div class="mps-head">Lessons</div>' + r.lessons.map(function (x) {
           return opt(i++, x.url, '<span class="search-result-title">' + highlight(x.title, x.terms) + '</span><span class="search-result-site">' + esc(x.courseShort) + ' · ' + esc(x.level) + '</span>', 'data-q="' + esc(q) + '"');

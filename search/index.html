@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Search 100+ Free Courses &amp; 3,660 Lessons – Mastery Path</title>
+<title>Search 100+ Free Courses &amp; 3,669 Lessons – Mastery Path</title>
 <meta name="description" content="Search every Mastery Path course and lesson by course, language, technology, topic, skill or career role. Filter by level, category and career path. Free, no login.">
 <link rel="canonical" href="https://learnmasterypath.com/search/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Mastery Path">
-<meta property="og:title" content="Search 100+ Free Courses &amp; 3,660 Lessons – Mastery Path">
+<meta property="og:title" content="Search 100+ Free Courses &amp; 3,669 Lessons – Mastery Path">
 <meta property="og:description" content="Find the exact lesson you need across 102 free courses: search by topic, skill, technology or career role.">
 <meta property="og:url" content="https://learnmasterypath.com/search/">
 <meta property="og:image" content="https://learnmasterypath.com/og-image.png">
@@ -76,7 +76,7 @@ mark { background: var(--mark); color: inherit; border-radius: 2px; padding: 0 1
 <nav aria-label="Breadcrumb" class="crumbs"><a href="https://learnmasterypath.com/">Mastery Path</a> › <span aria-current="page">Search</span></nav>
 <main id="content">
   <h1>Search all courses and lessons</h1>
-  <p class="lede">Search 102 free courses and 4,000+ lessons by course, language, technology, topic, skill or career role.</p>
+  <p class="lede">Search 102 free courses and 4,000+ lessons and projects by course, language, technology, topic, skill or career role.</p>
   <form id="f" role="search" class="box" autocomplete="off">
     <label for="q" class="visually-hidden" style="position:absolute;left:-9999px">Search Mastery Path</label>
     <input id="q" name="q" type="search" placeholder="Try “python decorators”, “vlookup”, “data analyst”, “kubernetes”…" enterkeyhint="search" autocapitalize="off" spellcheck="false">
@@ -156,7 +156,7 @@ mark { background: var(--mark); color: inherit; border-radius: 2px; padding: 0 1
     }
     var html = '';
     if (r.courses.length) html += '<h2>Courses <span class="lede" style="font-weight:400">(' + r.totalCourses + ')</span></h2><div class="courses">' + r.courses.slice(0, text ? 6 : 200).map(courseCard).join('') + '</div>';
-    if (r.lessons.length) html += '<h2>Lessons <span class="lede" style="font-weight:400">(' + r.totalLessons.toLocaleString() + ')</span></h2><ol class="lessons">' + r.lessons.slice(0, shown).map(lessonItem).join('') + '</ol>' +
+    if (r.lessons.length) html += '<h2>Lessons and projects <span class="lede" style="font-weight:400">(' + r.totalLessons.toLocaleString() + ')</span></h2><ol class="lessons">' + r.lessons.slice(0, shown).map(lessonItem).join('') + '</ol>' +
       (r.totalLessons > shown ? '<button type="button" class="more" id="more">Show more lessons (' + (r.totalLessons - shown).toLocaleString() + ' more)</button>' : '');
     out.innerHTML = html;
     status.innerHTML = '<span>' + r.totalCourses + ' course' + (r.totalCourses === 1 ? '' : 's') + ' · ' + r.totalLessons.toLocaleString() + ' lesson' + (r.totalLessons === 1 ? '' : 's') + (r.corrected ? ' · including close spellings' : '') + ' · ' + Math.max(1, Math.round(r.ms)) + ' ms</span>' +

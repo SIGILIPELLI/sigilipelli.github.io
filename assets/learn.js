@@ -36,7 +36,7 @@
   function content() { return $('.md-content__inner'); }
   // Where lesson add-ons go: right after the lesson text, before related courses / sign-up / mark-complete.
   function endAnchor(host) { return $('.mp-related', host) || $('#mp-signup', host) || $('.mp-mark-done', host); }
-  function isProject(slug) { return /project|capstone/i.test(slug || ''); }
+  function isProject(slug) { return /(^|\/)\d+-(project|capstone)\b/i.test(slug || ''); }  // same rule as registry/config.json: NN-project-… or NN-capstone-…
 
   // ---------- course model from the course's own search index ----------
   var modelP = null;
@@ -191,7 +191,7 @@
   }
   function progressHtml(done, total, levelStats, avg, nScores) {
     var pct = total ? Math.round(100 * done / total) : 0;
-    return '<p class="mpl-big">' + pct + '%<small>' + done + ' of ' + total + ' lessons complete</small></p>' +
+    return '<p class="mpl-big">' + pct + '%<small>' + done + ' of ' + total + ' lessons and projects complete</small></p>' +
       levelStats.map(function (s) { return '<div class="mpl-lvl"><span>Level ' + s.n + ' · ' + LEVEL_NAMES[s.n] + '</span><div class="mpl-bar" role="progressbar" aria-valuenow="' + s.pct + '" aria-valuemin="0" aria-valuemax="100" aria-label="Level ' + s.n + ' progress"><i style="width:' + s.pct + '%"></i></div><small>' + s.done + '/' + s.total + '</small></div>'; }).join('') +
       (avg != null ? '<p class="mpl-small">Average best quiz score: <b>' + avg + '%</b> across ' + nScores + ' quiz' + (nScores === 1 ? '' : 'zes') + '.</p>' : '');
   }
@@ -433,7 +433,8 @@
       var next = ls.filter(function (l) { return !isDone(l.slug); })[0];
       var p = document.createElement('div');
       p.className = 'mpl-toolbar';
-      p.innerHTML = '<span>📚 ' + ls.length + ' lessons</span><span>⏱ ≈ ' + Math.round(mins / 60) + ' hours</span>' + (Object.keys(Q.lessons || {}).some(function (s) { return s.indexOf('level-' + n + '/') === 0; }) ? '<span>📝 module quizzes</span>' : '') +
+      var nProj = ls.filter(function (l) { return isProject(l.slug); }).length;
+      p.innerHTML = '<span>📚 ' + (ls.length - nProj) + ' lessons' + (nProj ? ' + ' + nProj + ' project' + (nProj === 1 ? '' : 's') : '') + '</span>'<span>⏱ ≈ ' + Math.round(mins / 60) + ' hours</span>' + (Object.keys(Q.lessons || {}).some(function (s) { return s.indexOf('level-' + n + '/') === 0; }) ? '<span>📝 module quizzes</span>' : '') +
         '<a class="mpl-btn sm" href="' + esc((next || ls[0]).url) + '">' + (next && ls.some(function (l) { return isDone(l.slug); }) ? 'Continue: ' + esc(next.title) : next ? 'Start this level' : 'Review this level') + ' →</a>';
       var h1 = $('h1', host); if (h1) h1.insertAdjacentElement('afterend', p);
     }).catch(function () {});

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Data-integrity tests for the course registry. Run after build_registry.py: python3 tools/registry/test_registry.py"""
-import csv
+import re, csv
 import hashlib
 import json
 import sys
@@ -51,17 +51,26 @@ for c in courses:
     check(c['capstone_count'] == t['capstone'] and t['capstone'] <= 1, f"{c['course_id']}: capstone count {t['capstone']}")
     check(sum(c['lessons_per_level'].values()) == c['lesson_count'], f"{c['course_id']}: level totals != lesson_count")
     check(c['course_classification'] in ('technology', 'professional'), f"{c['course_id']}: bad classification")
-    if c['record_eligibility_status'] == 'eligible':
-        check(bool(c['last_reviewed_date']), f"{c['course_id']}: 'eligible' without a recorded human review")
+    check(c['record_eligibility_status'] in ('qualified', 'passed_automated_checks', 'needs_fixes', 'rejected'), f"{c['course_id']}: unknown status {c['record_eligibility_status']}")
+    check((c['record_eligibility_status'] == 'qualified') == bool(c['last_reviewed_date']) or c['record_eligibility_status'] in ('needs_fixes', 'rejected'),
+          f"{c['course_id']}: 'qualified' needs a recorded human review, and a recorded review needs 'qualified'")
+    check(all(l['lesson_type'] == 'lesson' or re.match(r'^\d+-(project|capstone)\b', l['lesson_slug']) for l in lessons if l['course_id'] == c['course_id']), f"{c['course_id']}: a page is classed as a project without NN-project-/NN-capstone- in its name")
+    check(not any(l['lesson_type'] != 'lesson' and not re.match(r'^\d+-(project|capstone)\b', l['lesson_slug']) for l in lessons if l['course_id'] == c['course_id']), f"{c['course_id']}: project page misclassified")
 
 # summary equals the records
 pub = [c for c in courses if c['publication_status'] == 'published']
 check(summary['published']['courses'] == len(pub), 'summary course total')
 check(summary['published']['lessons'] == sum(c['lesson_count'] for c in pub), 'summary lesson total')
 check(summary['published']['projects'] == sum(c['project_count'] for c in pub), 'summary project total')
+check(summary['published']['capstones'] == sum(c['capstone_count'] for c in pub), 'summary capstone total')
+check(sum(summary['published'][k] for k in ('lessons', 'projects', 'capstones')) == len(lessons), 'lessons + projects + capstones must equal the page records')
+check(summary['courses_qualified'] == len([c for c in courses if c['record_eligibility_status'] == 'qualified']), 'qualified total')
+check(summary['courses_passing_automated_checks'] == len([c for c in courses if c['record_eligibility_status'] in ('qualified', 'passed_automated_checks')]), 'automated-check total')
+check(summary['failed_urls'] == 0 or not summary['urls_checked'] or summary['courses_needs_fixes'] > 0, 'failed URLs must show up as needs_fixes')
 check(summary['categories'] == len({c['course_category'] for c in pub}), 'summary category total')
 check(summary['classification']['technology'] + summary['classification']['professional'] == len(pub), 'classification totals')
 check(set(cfg['classification']['professional']) <= {c['course_slug'] for c in courses}, 'classification list names an unknown course')
+check(summary['duplicates_unresolved'] == 0, f"{summary['duplicates_unresolved']} duplicate candidates are unresolved")
 check(summary['engagement']['learners'] is None, 'engagement metrics must stay null until measured')
 
 # CSVs parse and agree; checksums match

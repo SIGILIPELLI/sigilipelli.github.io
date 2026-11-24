@@ -215,7 +215,7 @@ def quality():
 <li><b>Practical:</b> at least one project.</li>
 <li><b>Not a duplicate:</b> no exact or near-duplicate lesson text shared with another course (see 6).</li>
 <li><b>First-party and free:</b> hosted on learnmasterypath.com from the owner's repositories; no payment or registration.</li>
-<li><b>Human review:</b> a named reviewer has read the course and recorded a dated review. Until then the status is "eligible – human review pending".</li>
+<li><b>Human review:</b> a named reviewer has read the course and recorded a dated review. Until then the status is "passed automated checks" (review still to do); once recorded it becomes "qualified".</li>
 </ol>
 
 <h2>4. Course classification</h2>
@@ -241,7 +241,7 @@ def quality():
 <p>The audit tool (<code>tools/registry/build_registry.py</code>) reads the live published site, so it measures what learners can actually open: every course's published pages, every lesson's text, quiz banks and sitemaps. It then requests every lesson URL, applies the rules above, and writes dated evidence files with SHA-256 checksums. Audit IDs and timestamps are never edited afterwards; each archived audit lives in its own folder under <code>registry/audits/</code>.</p>
 
 <h2>10. Latest audit</h2>
-<div class="kpis">{kpi(STATS['courses'], 'published courses')}{kpi(n(S['courses_passing_automated_checks']), 'pass all automated checks')}{kpi(n(S['courses_human_reviewed']), 'human-reviewed')}{kpi(STATS['lessons'], 'qualifying lessons')}{kpi(n(S['failed_urls']), 'lesson URLs failing')}</div>
+<div class="kpis">{kpi(STATS['courses'], 'published courses')}{kpi(n(S['courses_passing_automated_checks']), 'pass all automated checks')}{kpi(n(S['courses_human_reviewed']), 'human-reviewed')}{kpi(STATS['lessons'], 'published lessons')}{kpi(n(S['qualifying_lessons']), 'qualifying lessons')}{kpi(n(S['failed_urls']), 'lesson URLs failing')}</div>
 <p class="stamp">Audit {E(S['audit_id'])} · {STAMP} · methodology {E(S['methodology_version'])} · repository commit <code>{E(S['repository_commit'][:7])}</code></p>
 
 <h2>11. Data reporting and evidence files</h2>
