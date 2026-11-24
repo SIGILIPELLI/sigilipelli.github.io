@@ -9,6 +9,7 @@ The single source of truth for every count published on learnmasterypath.com. Ge
 | `ids.json` | Stable IDs: courses `MP-001…`, lessons `MP-001-0001…`, plus first-publication dates. Append-only; an ID never changes when a title changes. |
 | `reviews.json` ✎ | Human content reviews (course_slug, reviewer, date, notes). Reviews recorded in the protected dashboard are merged from `api.learnmasterypath.com/api/reviews`. |
 | `ai-review-register.json` | Owner-requested AI-assisted assessment register for all 102 courses; it is separate from `reviews.json` and does not qualify courses as human-reviewed. |
+| `AI-ASSISTED-REVIEW-REPORT.md` | Human-readable summary of the AI-assisted assessment, duplicate decision, exceptions and human sign-off status. |
 | `record.json` ✎ | Guinness application status. Update only from written Guinness World Records correspondence. |
 | `courses.json` | One record per course (schema in the brief: IDs, URLs, classification, dates, counts, eligibility + reasons, check results). |
 | `lessons.json` | One record per teaching lesson only (level, module, URL, word count, exercise count, qualification). |
