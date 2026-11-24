@@ -126,6 +126,7 @@
           (F ? fact('Lessons', F.lesson_count, F.project_count + ' projects + ' + F.capstone_count + ' capstone, counted separately') : fact('Lessons', total - projects, (projects - 1) + ' projects + 1 capstone, counted separately')) +
           fact('Assessments', quizCount ? quizCount + ' module quizzes' : 'Exercises in every lesson', quizCount ? 'with explanations' : 'quizzes coming') +
         '</div>' +
+        (F && r[4].audit_id ? '<p class="mpl-small" data-mp-audit-stamp>Counts from audit <code>' + esc(r[4].audit_id) + '</code> · <a href="' + HUB + 'quality-and-verification/">how we count</a></p>' : '') +
         '<div class="mpl-cols">' +
           '<div><h2>What you will learn</h2><ul class="mpl-outcomes">' + outcomes + '</ul>' +
           '<h2>Prerequisites</h2><p>' + need + '</p>' + recommended(me, courses) + '</div>' +
