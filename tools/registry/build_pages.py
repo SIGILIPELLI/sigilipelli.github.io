@@ -238,6 +238,9 @@ def quality():
 <h2>8. Content review and publication</h2>
 <p>Courses are written in Markdown in public GitHub repositories and published automatically when changes are merged, so each lesson's history is public. A content review is recorded in <code>registry/reviews.json</code> with the course ID, reviewer, date and notes; the most recent review becomes the course's "last reviewed" date. Corrections from learners are welcome and are fixed in the source.</p>
 
+<h2>8a. Authorship and commit history</h2>
+<p>Git history can show several author names for one person. Every course is written with AI assistance (Claude) under the direction of Vinod Kumar Sigilipelli, and every commit in the Ethical Hacking source repository carries a Claude co-author trailer. The repository's commits appear under four git author names: three are the owner's own configurations (<code>SIGILIPELLI</code>, <code>vinodkumars</code>, <code>vinod kumar sigilipelli</code>) and one is <code>Claude</code>. No other person committed. The owner's signed attestation is not yet recorded. <a href="/registry/ethical-hacking-source-ownership.json">Read the evidence</a>.</p>
+
 <h2>9. Verification and audit process</h2>
 <p>The audit tool (<code>tools/registry/build_registry.py</code>) reads the live published site, so it measures what learners can actually open: every course's published pages, every lesson's text, quiz banks and sitemaps. It then requests every lesson URL with a GET request (the request a browser sends), applies the rules above, and writes dated evidence files with SHA-256 checksums. Audit IDs and timestamps are never edited afterwards; each archived audit lives in its own folder under <code>registry/audits/</code>.</p>
 
@@ -249,6 +252,7 @@ def quality():
 <ul>
 <li><a href="/registry/mastery_path_course_inventory.csv">Course inventory (CSV)</a> · <a href="/registry/mastery_path_lesson_inventory.csv">Lesson inventory (CSV)</a></li>
 <li><a href="/registry/mastery_path_course_verification_report.csv">Course verification report (CSV)</a> · <a href="/registry/mastery_path_audit_summary.json">Audit summary (JSON)</a></li>
+<li><a href="/registry/ethical-hacking-source-ownership.json">Ethical Hacking source-ownership evidence (JSON)</a> · <a href="/registry/AI-ASSISTED-REVIEW-REPORT.md">AI-assisted review report</a></li>
 <li><a href="/registry/mastery_path_evidence_register.csv">Evidence register (CSV)</a> · <a href="/registry/SHA256SUMS">SHA-256 checksums</a></li>
 </ul>
 </div>'''

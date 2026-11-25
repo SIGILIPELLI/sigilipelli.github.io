@@ -2,9 +2,9 @@
  "schema": "mastery-path-source-ownership/1",
  "course_id": "MP-034",
  "course_slug": "ethical-hacking-mastery-path",
- "verified_on": "2026-11-24",
+ "verified_on": "2026-11-25",
  "verified_by": "AI-assisted check (Claude) of public GitHub data; owner to confirm",
- "finding": "RESOLVED. The earlier 404 was caused by requesting the branch 'main'. This repository's default branch is 'master' (its own deploy workflow commit says so). The repository is public and owned by the Mastery Path owner's GitHub account.",
+ "finding": "RESOLVED. The earlier 404 came from requesting the branch 'main' while the default branch was 'master'. On 2026-11-25 the default branch was renamed master -> main (like the other 101 courses) and the deploy workflow trigger updated. The repository is public and owned by the Mastery Path owner's GitHub account.",
  "repository": "https://github.com/SIGILIPELLI/ethical-hacking-mastery-path",
  "owner_login": "SIGILIPELLI",
  "owner_type": "User",
@@ -12,31 +12,65 @@
  "parent": null,
  "visibility": "public",
  "created_at": "2026-10-10T11:22:19Z",
- "default_branch": "master",
+ "default_branch": "main",
  "source_tree": {
-  "url": "https://api.github.com/repos/SIGILIPELLI/ethical-hacking-mastery-path/git/trees/master?recursive=1",
+  "url": "https://api.github.com/repos/SIGILIPELLI/ethical-hacking-mastery-path/git/trees/main?recursive=1",
   "http_status": 200,
   "commit_sha": "6dab8c0adc6e549769afba81425b2284e52f5d89",
   "entries": 79,
   "truncated": false,
-  "main_branch_request": {
-   "url": "https://api.github.com/repos/SIGILIPELLI/ethical-hacking-mastery-path/git/trees/main?recursive=1",
+  "note": "Tree evidence captured 2026-11-24 on the branch then named master (commit 6dab8c0); the same history now lives on main.",
+  "pre_rename_main_request": {
    "http_status": 404,
-   "reason": "no branch named main"
+   "reason": "no branch named main existed before the 2026-11-25 rename"
   }
  },
  "history": {
-  "commits": 27,
+  "commits_at_review": 27,
   "first_commit": "2e6c225 2026-10-10 SIGILIPELLI 'Add Ethical Hacking Mastery Path: 40 lessons, lab-only authorized pentesting'",
-  "authorship": "13 commits under the owner's GitHub account (SIGILIPELLI) and 4 other identities used by the same owner, 10 commits co-authored by Claude (AI assistance, disclosed on the About and Quality pages)",
-  "contributors_api": {
+  "git_author_names_explained": [
+   {
+    "git_author_name": "SIGILIPELLI",
+    "commits": 6,
+    "what_it_is": "The owner's GitHub account name (git user.name used on the owner's machine and in the GitHub web editor); two different owner-controlled email addresses appear for it.",
+    "period": "2026-10-10 to 2026-11-21"
+   },
+   {
+    "git_author_name": "vinodkumars",
+    "commits": 8,
+    "what_it_is": "A second git user.name configured on the owner's computer; commits are linked to the same GitHub account.",
+    "period": "2026-11-18 to 2026-11-23"
+   },
+   {
+    "git_author_name": "vinod kumar sigilipelli",
+    "commits": 4,
+    "what_it_is": "A third git user.name, set on the owner's MacBook (author address is a local machine address, not a GitHub-linked email), used when the owner's Claude Code sessions committed on their computer.",
+    "period": "2026-11-21 to 2026-11-24"
+   },
+   {
+    "git_author_name": "Claude",
+    "commits": 10,
+    "what_it_is": "Commits made by the Claude AI assistant under its own git identity while the owner directed the work.",
+    "period": "2026-10-29 to 2026-11-01"
+   }
+  ],
+  "ai_assistance": "Every one of the 28 commits carries a 'Co-Authored-By: Claude \u2026' trailer (Sonnet 5, Opus 4.8, Opus 5.5, Sonnet 5.5). The lessons, quizzes and site code were written with AI assistance under the owner's direction; this is disclosed on the About and Quality pages. Authorship names differ only because of git configuration, not because of different people.",
+  "contributors_api_at_review": {
    "SIGILIPELLI": 13,
    "claude": 10
-  }
+  },
+  "other_humans": "None. No commit by any person other than the owner is present."
  },
  "third_party_material": "No 'adapted from', 'copied from', 'source:' or 'all rights reserved' notices found in docs/. No third-party contributors. Names such as OWASP, Kali Linux and MITRE ATT&CK are referenced as public subjects, not reproduced.",
  "licence": "Repository declares no separate licence; site-wide terms apply (content CC BY 4.0, code MIT, as stated in the site footer and /license.html).",
  "live_site": "https://learnmasterypath.com/ethical-hacking-mastery-path/",
  "limits": "This proves control and history of the source repository. It is not a plagiarism scan or a human content review; the course is still 'passed_automated_checks', not 'qualified'.",
- "follow_up": "Owner to confirm the repository and its history are their own work."
+ "follow_up": "Owner to add a dated attestation in owner_confirmation if they wish. Full content review remains a separate human-review task.",
+ "branch_history": "Default branch was 'master' from creation (2026-10-10) until renamed to 'main' on 2026-11-25 (GitHub branch-rename API; old URLs redirect). Pages still deploys to gh-pages via .github/workflows/deploy.yml.",
+ "owner_confirmation": {
+  "status": "owner-directed documentation; formal attestation not yet recorded",
+  "detail": "On 2026-11-25 the owner asked in chat that the identities and AI co-authorship be documented transparently and that the repository be fixed. This file is that documentation. The owner has not yet signed an attestation that every commit is their own work; add one with a date here when given. The statement above about which git names belong to the owner is based on the owner's request and repository evidence (same GitHub account, same machine configuration), not on a third party.",
+  "attested_by": null,
+  "attested_on": null
+ }
 }
