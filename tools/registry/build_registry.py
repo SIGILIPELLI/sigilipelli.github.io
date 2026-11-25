@@ -86,7 +86,7 @@ def status(job):
         try:
             req = urllib.request.Request(url, headers=UA, method='GET')
             with urllib.request.urlopen(req, timeout=30) as r:
-                body = r.read(120000).decode('utf-8', 'replace')
+                body = r.read(80000).decode('utf-8', 'replace')
                 return verify_body(url, r.geturl(), r.headers.get('Content-Type'), body, expect) if r.status == 200 else r.status
         except urllib.error.HTTPError as e:
             code = e.code
@@ -253,8 +253,20 @@ def main():
     url_status = {}
     if args.check_urls:
         jobs = [(c['url'] + l['path'], {'id': c['id'], 'course_url': c['url'], 'path': l['path']}) for c in courses for l in data[c['id']].get('lessons', [])]
-        with cf.ThreadPoolExecutor(12) as ex:
+        with cf.ThreadPoolExecutor(8) as ex:
             url_status = dict(zip([j[0] for j in jobs], ex.map(status, jobs)))
+        # GitHub Pages rate-limits a single client (HTTP 429/5xx). That is not a missing page, so retry only those URLs
+        # slowly, after a cool-down. Real failures (404, soft 404, wrong course) are never retried and still count.
+        import time
+        for cooldown in (45, 90, 150):
+            again = [j for j in jobs if url_status[j[0]] in (0, 429, 500, 502, 503, 504)]
+            if not again:
+                break
+            print(f'{len(again)} URLs were rate-limited; retrying slowly after {cooldown}s', flush=True)
+            time.sleep(cooldown)
+            with cf.ThreadPoolExecutor(2) as ex:
+                for j, code in zip(again, ex.map(status, again)):
+                    url_status[j[0]] = code
 
     # duplicates: exact text fingerprints, then near-duplicate text among lessons with the same title, then similar course titles
     dup_rows, fp_seen, by_title = [], {}, {}
