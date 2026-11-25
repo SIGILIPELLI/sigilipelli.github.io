@@ -208,6 +208,10 @@ for page in ('index.html', 'about.html', 'course-catalogue/index.html'):
 for slug in ('mcp-mastery-path', 'vector-databases-mastery-path'):
     check(re.search(r'data-mp-lessons="%s">%d lessons' % (slug, slugs_[slug]['lesson_count']), (ROOT_ / 'index.html').read_text()) is not None, f'index.html: {slug} card does not show its own lesson count')
 
+# ---- wording must match the registry: no 'four projects' for a course with 3 projects + 1 capstone ----
+for page in ('index.html', 'about.html', 'course-catalogue/index.html'):
+    check(not re.search(r'\b(four|4) (real |hands-on )?projects\b', (ROOT_ / page).read_text(), re.I), f'{page}: says four projects; courses have 3 projects + 1 capstone')
+
 print(f"{len(courses)} courses, {len(lessons)} lessons + {len(projects)} projects: {'OK' if not fails else str(len(fails)) + ' failures'}")
 for f in fails[:30]:
     print('  FAIL', f)
