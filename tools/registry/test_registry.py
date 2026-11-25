@@ -198,6 +198,16 @@ check(BR.verify_body(U, U, 'text/html', good.replace('level-1/01-x/index.md', 'l
 own = json.loads((REG / 'ethical-hacking-source-ownership.json').read_text())
 check(own['owner_login'] == 'SIGILIPELLI' and own['default_branch'] == 'main' and own['history']['git_author_names_explained'] and own['history']['ai_assistance'] and 'owner_confirmation' in own and not any('@' in str(x) for x in json.dumps(own).split('"')) and not own['is_fork'] and own['source_tree']['http_status'] == 200, 'ethical hacking source-ownership evidence incomplete')
 
+# ---- course cards: the lesson-count identifier must be the card's own course (nested MCP/Vector cards are not Python) ----
+slugs_ = {c['course_slug']: c for c in courses}
+for page in ('index.html', 'about.html', 'course-catalogue/index.html'):
+    text = (ROOT_ / page).read_text()
+    for m in re.finditer(r'<li><a href="https://learnmasterypath\.com/([^"]+?)/?">(?:(?!</li>).)*?data-mp-lessons="([^"]+)"', text, re.S):
+        check(m.group(1).split('/')[-1] == m.group(2), f'{page}: card for {m.group(1)} uses lesson-count identifier {m.group(2)}')
+        check(m.group(2) in slugs_, f'{page}: identifier {m.group(2)} is not a course record')
+for slug in ('mcp-mastery-path', 'vector-databases-mastery-path'):
+    check(re.search(r'data-mp-lessons="%s">%d lessons' % (slug, slugs_[slug]['lesson_count']), (ROOT_ / 'index.html').read_text()) is not None, f'index.html: {slug} card does not show its own lesson count')
+
 print(f"{len(courses)} courses, {len(lessons)} lessons + {len(projects)} projects: {'OK' if not fails else str(len(fails)) + ' failures'}")
 for f in fails[:30]:
     print('  FAIL', f)
