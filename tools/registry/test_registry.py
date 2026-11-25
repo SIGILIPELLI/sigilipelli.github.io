@@ -196,7 +196,7 @@ check(BR.verify_body(U, U, 'text/html', '<body class="mp-404">', exp) == 1003, '
 check(BR.verify_body(U, U, 'text/html', good.replace('"mcp-mastery-path","url"', '"python-mastery-path","url"'), exp) == 1004, 'verify_body accepts another course\'s page')
 check(BR.verify_body(U, U, 'text/html', good.replace('level-1/01-x/index.md', 'level-2/02-y/index.md'), exp) == 1005, 'verify_body accepts the wrong lesson')
 own = json.loads((REG / 'ethical-hacking-source-ownership.json').read_text())
-check(own['owner_login'] == 'SIGILIPELLI' and own['default_branch'] == 'main' and own['history']['git_author_names_explained'] and own['history']['ai_assistance'] and 'owner_confirmation' in own and not any('@' in str(x) for x in json.dumps(own).split('"')) and not own['is_fork'] and own['source_tree']['http_status'] == 200, 'ethical hacking source-ownership evidence incomplete')
+check(own['owner_login'] == 'SIGILIPELLI' and own['default_branch'] == 'main' and own['history']['git_author_names_now'] == [{'git_author_name': 'Vinod Kumar Sigilipelli', 'commits': 29, 'github_account': 'SIGILIPELLI'}] and own['history']['rewrite']['what_did_not_change'] and own['history']['ai_assistance'] and 'owner_confirmation' in own and not any('@' in str(x) for x in json.dumps(own).split('"')) and not own['is_fork'] and own['source_tree']['http_status'] == 200, 'ethical hacking source-ownership evidence incomplete')
 
 # ---- course cards: the lesson-count identifier must be the card's own course (nested MCP/Vector cards are not Python) ----
 slugs_ = {c['course_slug']: c for c in courses}
