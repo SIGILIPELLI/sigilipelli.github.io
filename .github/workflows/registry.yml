@@ -61,6 +61,7 @@ jobs:
           git config user.name "mastery-path-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Course registry audit ($(date -u +%Y-%m-%dT%H:%MZ))"
+          git pull --rebase -X theirs origin "${GITHUB_REF_NAME}" || { git rebase --abort; exit 1; }
           git push
 
   live-sync:
