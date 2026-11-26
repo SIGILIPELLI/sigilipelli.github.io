@@ -40,7 +40,8 @@ def lessons_label(c):
 
 
 STATS = {
-    'courses': n(P['courses']), 'lessons': n(P['lessons']), 'projects': n(P['projects']), 'capstones': n(P['capstones']),
+    'courses': n(P['courses']), 'lessons': n(P['lessons']), 'projects': n(P['projects']), 'capstones': n(P['capstones']), 'module_quizzes': n(P['module_quizzes']), 'final_quizzes': n(P['final_quizzes']),
+    'lpc': n(P['lessons'] + P['projects'] + P['capstones']),
     'categories': n(S['categories']), 'featured_categories': n(S['featured_categories']), 'paths': n(S['learning_paths']),
     'exercises': n(P['exercises']), 'quizzes': n(P['quizzes']), 'technology': n(S['classification']['technology']),
     'professional': n(S['classification']['professional']), 'updated': STAMP, 'updated_day': DAY,
@@ -269,7 +270,7 @@ def impact():
     body = f'''<h2>Published content</h2>
 <div class="kpis">
 {kpi(STATS['courses'], 'published courses')}{kpi(STATS['lessons'], 'lessons')}{kpi(n(P['projects']), 'projects')}{kpi(n(P['capstones']), 'course capstones')}
-{kpi(STATS['exercises'], 'lesson exercises')}{kpi(STATS['quizzes'], 'quizzes (module + final)')}{kpi(STATS['categories'], 'categories')}{kpi(STATS['paths'], 'career learning paths')}
+{kpi(STATS['exercises'], 'lesson exercises (a few lessons have two)')}{kpi(STATS['quizzes'], 'quizzes (module + final)')}{kpi(STATS['categories'], 'categories')}{kpi(STATS['paths'], 'career learning paths')}
 {kpi('4', 'levels in every course')}{kpi(STATS['technology'], 'technology courses')}{kpi(STATS['professional'], 'professional-development courses')}{kpi(n(S['first_party_domains']), 'registered domain (learnmasterypath.com)')}{kpi(n(S['first_party_hostnames']), 'first-party hostnames (site + API)')}
 </div>
 <p class="stamp">Last updated {STAMP} (audit {E(S['audit_id'])}). Lessons exclude projects, capstones, exercises and quizzes, which are counted separately: {n(P['module_quizzes'])} module quizzes ({n(P['module_quiz_questions'])} questions) and {n(P['final_quizzes'])} final quizzes ({n(P['final_quiz_questions'])} questions, {n(P['coding_challenges'])} coding challenges); exercises are counted on lessons only, and {n(P['lessons_with_exercise'])} of {n(P['lessons'])} lessons have one. One registered domain is owned: learnmasterypath.com. It serves {n(S['first_party_hostnames'])} first-party hostnames ({E(', '.join(S['first_party_hostname_list']))}); the www alias, our YouTube channel and our GitHub account are not counted as domains. <a href="/quality-and-verification/">How these are counted</a>.</p>
@@ -361,6 +362,7 @@ def apply_stats():
             head = s[:head_end]
             head = re.sub(r'\b\d{2,3}(?= (?:self-paced|free|structured|free, structured)\b[^"<]*?courses)', str(P['courses']), head)
             head = re.sub(r'\b\d{1,2},?\d{3}\+? (Lessons|lessons)\b', lambda m: f"{STATS['lessons']} {m.group(1)}", head)
+            head = re.sub(r'\b\d{2,3}\+?(?= Free Courses)', str(P['courses']), head)
             s = head + s[head_end:]
         p.write_text(s)
 

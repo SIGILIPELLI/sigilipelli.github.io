@@ -50,6 +50,12 @@ def page(rel):
     if rel in ('learning-impact/', 'world-record-attempt/'):
         for label, want in (('lessons', P['lessons']), ('projects', P['projects']), ('capstones', P['capstones'])):
             if f'{want:,}' not in t: out.append(f'{rel}: does not show the {label} total {want:,} (lessons, projects and capstones are reported separately)')
+    if rel in ('', 'about.html', 'search/', 'learning-impact/', 'world-record-attempt/'):
+        okset = {'lesson': {P['lessons'], P['lessons'] + P['projects'] + P['capstones']}, 'project': {P['projects'], P['projects'] + P['capstones']}, 'capstone': {P['capstones']}, 'course': {P['courses']},
+                 'quiz': {P['module_quizzes'] + P['final_quizzes'], P['module_quizzes'], P['final_quizzes']}, 'question': {P['module_quiz_questions'], P['final_quiz_questions'], 17900},
+                 'exercise': {P['exercises']}, 'challenge': {P['coding_challenges']}}
+        for m in re.finditer(r'(?<![\d,.])(\d{1,3}(?:,\d{3})+|\d{3,6})(?![\d,])\s+(?:module |final |coding |hands-on |course |lesson )?(lesson|project|capstone|course|quiz|question|exercise|challenge)', t):
+            if int(m.group(1).replace(',', '')) not in okset[m.group(2)]: out.append(f'{rel or "/"}: "{m.group(0)}" disagrees with the registry totals (home, impact, about, search and record pages must match)')
     if re.search(r'\b3,660\b|\b425 projects\b|eligible_pending_review', t): out.append(f'{rel or "/"}: contains a figure/status from an older audit')
     return out
 with cf.ThreadPoolExecutor(8) as ex:

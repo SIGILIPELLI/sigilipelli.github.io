@@ -216,6 +216,24 @@ arc = own['original_history_archive']
 check(len(arc['sha256']) == 64 and arc['size_bytes'] > 0 and arc['contents']['commits'] == 29, 'original-history archive record incomplete')
 check((REG / 'authorship-and-ai-disclosure.md').exists() and arc['sha256'] in (REG / 'authorship-and-ai-disclosure.md').read_text(), 'AI disclosure must state the archive SHA-256')
 
+# ---- every total on every public page reconciles with the registry (homepage = impact page = about = record page = search) ----
+import html as _html
+PUB = summary['published']
+ALLOWED = {'lesson': {PUB['lessons']}, 'project': {PUB['projects'], PUB['projects'] + PUB['capstones']}, 'capstone': {PUB['capstones']}, 'course': {PUB['courses']},
+           'quiz': {PUB['module_quizzes'] + PUB['final_quizzes'], PUB['module_quizzes'], PUB['final_quizzes']}, 'question': {PUB['module_quiz_questions'], PUB['final_quiz_questions']},
+           'exercise': {PUB['exercises']}, 'challenge': {PUB['coding_challenges']}}
+ALLOWED['lesson'] |= {PUB['lessons'] + PUB['projects'] + PUB['capstones']}
+for page in ('index.html', 'about.html', 'search/index.html', 'learning-impact/index.html', 'world-record-attempt/index.html', 'quality-and-verification/index.html'):
+    raw = (ROOT_ / page).read_text()
+    body = re.sub(r'<(script|style)[^>]*>.*?</\1>', ' ', raw, flags=re.S)
+    plain = _html.unescape(re.sub(r'<[^>]+>', ' ', body))
+    for m in re.finditer(r'(?<![\d,.])(\d{1,3}(?:,\d{3})+|\d{3,6})(?![\d,])\s+(?:module |final |coding |hands-on |course |lesson )?(lesson|project|capstone|course|quiz|question|exercise|challenge)', plain):
+        num = int(m.group(1).replace(',', '')); noun = m.group(2)
+        if page == 'index.html' and noun == 'question' and num == 17900: continue      # interview-question bank, a separate product
+        check(num in ALLOWED[noun], f'{page}: "{m.group(0)}" does not match the registry ({sorted(ALLOWED[noun])})')
+    check('4,000+' not in plain, f'{page}: vague "4,000+" figure; state the registry totals')
+check(f"{PUB['courses']} Free Courses" in (ROOT_ / 'index.html').read_text(), 'homepage title must state the exact course count')
+
 print(f"{len(courses)} courses, {len(lessons)} lessons + {len(projects)} projects: {'OK' if not fails else str(len(fails)) + ' failures'}")
 for f in fails[:30]:
     print('  FAIL', f)
