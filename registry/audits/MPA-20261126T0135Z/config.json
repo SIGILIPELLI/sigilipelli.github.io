@@ -1,0 +1,200 @@
+{
+  "methodology_version": "1.4 (2026-11-24)",
+  "methodology_changes": [
+    "1.4 (2026-11-24): owner/author name unified as Vinod Kumar Sigilipelli; homepage projects and capstones reported as separate counts; domain count clarified (1 registered domain, 2 first-party hostnames, www alias excluded); lesson URL checks now confirm the response is the expected page of the expected course (no redirect, HTML, not a soft 404, mp-course-meta id/url/src match) so nested MCP and Vector Databases pages are verified against their own course; source ownership of Ethical Hacking verified from repository evidence.",
+    "1.3 (2026-11-24): strengthened the Product Manager / Project Manager duplicate-decision evidence using independently fetched source Git trees; compared 40 instructional pages per course and confirmed zero identical blob hashes. Decision remains explicitly AI-assisted, not owner/human content sign-off.",
+    "1.2 (2026-11-24): added explicit course-specific teaching-lesson slug exceptions after content review found three instructional pages whose slugs begin NN-project-; registry, search index and frontend now classify them as lessons. Recorded an AI-assisted distinct-course decision for the Product Manager / Project Manager similarity candidate; this is not a human course content review.",
+    "1.1 (2026-11-24): lessons, projects and capstones counted in separate inventories; capstone = Level 4 page named NN-capstone-…; lesson URLs checked with GET; course descriptions must state registry counts; provenance (source commit, audit-tool commit, hashes, run URL) recorded in summary.json; quiz classification must reconcile exactly; every public page carries the audit id.",
+    "1.0 (2026-11-23): first published methodology."
+  ],
+  "owner": "Vinod Kumar Sigilipelli (Mastery Path)",
+  "author": "Vinod Kumar Sigilipelli",
+  "definitions": {
+    "course": "A self-contained, first-party learning programme published at learnmasterypath.com/<course>/ with its own syllabus, four progressive levels and lessons. One course is counted once, however many learning paths include it.",
+    "learning_level": "One of four ordered stages of a course (Level 1 Entry/Foundation, Level 2 Intermediate, Level 3 Advanced, Level 4 Master), each with its own overview page.",
+    "module": "One topic unit within a level. On Mastery Path each module is published as exactly one lesson page, so module and lesson counts are the same; module IDs record the level and position.",
+    "lesson": "A published page under level-N/ that teaches one topic and is not a project or capstone (see 'project'). It counts as a qualifying lesson when it returns HTTP 200 and has at least the minimum number of words of published text.",
+    "exercise": "A practice task inside a lesson, identified by a section heading that starts with Exercise, Exercises, Practice, Try it or Stretch goals. Counted on lessons only; practice sections on project pages are reported separately as project_exercise_sections. Not counted as lessons.",
+    "quiz": "A module quiz is attached to one page (a lesson or a project) and has 3 to 8 questions (8 for merged lessons); a course's final quiz is one page of 18 to 24 questions plus coding challenges. Module quizzes, final quizzes, questions and challenges are reported separately and never counted as lessons.",
+    "project": "A build task published as its own deliverable page whose file name follows the NN-project-… or NN-capstone-… convention. A teaching lesson whose slug happens to start with NN-project- (for example, project setup, project lifecycle basics or project recovery) remains a lesson when listed in rules.lesson_slug_exceptions. Projects are counted separately; never included in lesson counts.",
+    "capstone": "The course-ending build: the Level 4 page whose file name is NN-capstone-… (exactly one per course, identified by name and level, not by position). Pages named NN-capstone-… in Levels 1-3 are level projects and are counted as projects. Capstones are counted separately from projects and from lessons."
+  },
+  "rules": {
+    "project_slug": "^\\d+-project\\b",
+    "capstone_slug": "^\\d+-capstone\\b",
+    "exercise_heading": "^(exercise|exercises|practice|try it|stretch goals)\\b",
+    "min_lesson_words": 300,
+    "min_lessons_per_level": 5,
+    "min_lessons_per_course": 20,
+    "max_thin_lessons": 2,
+    "near_duplicate_jaccard": 0.6,
+    "similar_title_ratio": 0.86,
+    "lesson_slug_exceptions": {
+      "django-mastery-path": [
+        "02-project-setup"
+      ],
+      "project-manager-mastery-path": [
+        "02-project-lifecycle-basics",
+        "08-project-recovery"
+      ]
+    }
+  },
+  "classification": {
+    "rule": "Technology: the course teaches a programming language, software tool, platform, engineering or computing discipline. Professional development: the course teaches management, leadership, language, accounting/tax or marketing practice, even where software is used.",
+    "professional": [
+      "product-manager-mastery-path",
+      "product-lead-mastery-path",
+      "project-manager-mastery-path",
+      "ai-manager-mastery-path",
+      "servant-leadership-mastery-path",
+      "english-fluency-mastery-path",
+      "digital-marketing-mastery-path",
+      "tally-gst-mastery-path",
+      "agile-mastery-path"
+    ],
+    "notes": {
+      "tally-gst-mastery-path": "Accounting and Indian GST practice taught in TallyPrime software; classified professional because the subject is accounting/tax.",
+      "workday-mastery-path": "Enterprise HR/finance SaaS platform configuration; classified technology (software platform).",
+      "agile-mastery-path": "Software delivery process; classified professional (process/management), borderline.",
+      "ai-manager-mastery-path": "Managing AI products and teams; classified professional.",
+      "adobe-mastery-path": "Creative software suite; classified technology (software tools).",
+      "dsa-interview-mastery-path": "Algorithms and data structures; technology.",
+      "system-design-mastery-path": "Software architecture; technology."
+    }
+  },
+  "featured_categories": [
+    "languages",
+    "ai-ml-llm",
+    "cloud",
+    "embedded",
+    "data-analytics",
+    "security",
+    "testing-qa",
+    "infra-ops",
+    "leadership",
+    "web-frameworks",
+    "databases",
+    "professional-skills"
+  ],
+  "websites": [
+    {
+      "domain_id": "W-001",
+      "domain_name": "learnmasterypath.com",
+      "ownership_status": "owned",
+      "owner": "Vinod Kumar Sigilipelli",
+      "hosting_provider": "GitHub Pages",
+      "platform_type": "static site (hub) + 102 MkDocs course sections",
+      "educational_purpose": "free structured courses, search, career tools",
+      "integration_type": "primary platform",
+      "integration_permission": "n/a (owner)",
+      "first_party_status": "first-party",
+      "classification": "A. Owned and operated by Mastery Path",
+      "content_inventory": "registry/courses.json, registry/lessons.json",
+      "evidence_reference": "DNS/CNAME file in the hub repo; GitHub repositories under SIGILIPELLI",
+      "verification_status": "verified by repository ownership"
+    },
+    {
+      "domain_id": "W-002",
+      "domain_name": "www.learnmasterypath.com",
+      "ownership_status": "owned",
+      "owner": "Vinod Kumar Sigilipelli",
+      "hosting_provider": "GitHub Pages",
+      "platform_type": "redirect",
+      "educational_purpose": "301 redirect to learnmasterypath.com",
+      "integration_type": "alias",
+      "integration_permission": "n/a (owner)",
+      "first_party_status": "alias",
+      "classification": "B. First-party subdomain (alias only, not counted)",
+      "content_inventory": "none",
+      "evidence_reference": "HTTP 301 observed 2026-11-23",
+      "verification_status": "verified"
+    },
+    {
+      "domain_id": "W-003",
+      "domain_name": "api.learnmasterypath.com",
+      "ownership_status": "owned",
+      "owner": "Vinod Kumar Sigilipelli",
+      "hosting_provider": "Cloudflare Workers",
+      "platform_type": "API",
+      "educational_purpose": "certification exam marking, certificate verification, email sign-up, resume tools",
+      "integration_type": "first-party service",
+      "integration_permission": "n/a (owner)",
+      "first_party_status": "first-party",
+      "classification": "B. First-party subdomain",
+      "content_inventory": "API only; no course content",
+      "evidence_reference": "mastery-resume-api repository, wrangler.toml route",
+      "verification_status": "verified by repository ownership"
+    },
+    {
+      "domain_id": "W-004",
+      "domain_name": "youtube.com/@learnmasterypath",
+      "ownership_status": "owned account on a third-party platform",
+      "owner": "Vinod Kumar Sigilipelli",
+      "hosting_provider": "YouTube",
+      "platform_type": "video channel",
+      "educational_purpose": "lesson walkthrough videos",
+      "integration_type": "embedded videos and links",
+      "integration_permission": "n/a (owner)",
+      "first_party_status": "first-party account",
+      "classification": "A-adjacent: owned channel, not a website/domain (not counted)",
+      "content_inventory": "channel UChodtHaYLx6HldUwJKxdKOg",
+      "evidence_reference": "channel ownership (YouTube Studio)",
+      "verification_status": "owner-verified"
+    },
+    {
+      "domain_id": "W-005",
+      "domain_name": "github.com/SIGILIPELLI",
+      "ownership_status": "owned account on a third-party platform",
+      "owner": "Vinod Kumar Sigilipelli",
+      "hosting_provider": "GitHub",
+      "platform_type": "source repositories",
+      "educational_purpose": "course source files and code examples",
+      "integration_type": "source of the published sites",
+      "integration_permission": "n/a (owner)",
+      "first_party_status": "first-party account",
+      "classification": "A-adjacent: source hosting, not counted as a website",
+      "content_inventory": "101 public repositories + 1 private API repository",
+      "evidence_reference": "repository list",
+      "verification_status": "verified"
+    },
+    {
+      "domain_id": "W-006",
+      "domain_name": "official documentation sites (python.org, postgresql.org, …)",
+      "ownership_status": "third-party",
+      "owner": "various",
+      "hosting_provider": "various",
+      "platform_type": "reference documentation",
+      "educational_purpose": "further reading linked from lessons",
+      "integration_type": "hyperlink only",
+      "integration_permission": "none needed (links)",
+      "first_party_status": "external",
+      "classification": "D. Externally referenced resource (never counted)",
+      "content_inventory": "learn/docs.json",
+      "evidence_reference": "learn/docs.json",
+      "verification_status": "n/a"
+    }
+  ],
+  "duplicate_reviews": [
+    {
+      "type": "similar_course_title",
+      "a": "product-manager-mastery-path",
+      "b": "project-manager-mastery-path",
+      "date": "2026-11-24",
+      "decision": "not a duplicate",
+      "by": "Vinod Kumar Sigilipelli (owner decision, explicitly authorised 2026-11-24; AI-assisted source comparison)",
+      "note": "Owner confirms the courses are distinct professions and should remain separate catalogue entries. AI-assisted comparison reviewed the outlines, representative content across all four levels and capstones; source Git trees contained 40 instructional pages per course with zero identical instructional Markdown blob hashes.",
+      "evidence": {
+        "product_repository_tree": "f013aaeb4912c0b71adcc993aaf43a4a7cef1e94",
+        "project_repository_tree": "8befaea385cdef8f8a22f92da08e84e32d359096",
+        "product_level_markdown_pages": 40,
+        "project_level_markdown_pages": 40,
+        "identical_level_markdown_blob_hashes": 0,
+        "source_comparison_method": "GitHub Git Trees API; SHA comparison of 40 instructional docs/level-1..4 Markdown blobs per repository; level index/navigation pages excluded",
+        "identical_instructional_blob_hashes": 0,
+        "comparison_date": "2026-11-24",
+        "owner_confirmation": "Explicit owner instruction in ChatGPT conversation on 2026-11-24 to use the owner's name and complete the review; not an independent third-party review."
+      },
+      "owner_confirmation_date": "2026-11-24"
+    }
+  ]
+}
