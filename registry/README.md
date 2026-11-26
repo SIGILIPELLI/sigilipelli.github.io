@@ -10,6 +10,7 @@ The single source of truth for every count published on learnmasterypath.com. Ge
 | `reviews.json` ✎ | Human content reviews (course_slug, reviewer, date, notes). Reviews recorded in the protected dashboard are merged from `api.learnmasterypath.com/api/reviews`. |
 | `ai-review-register.json` | Owner-requested AI-assisted assessment register for all 102 courses; it is separate from `reviews.json` and does not qualify courses as human-reviewed. |
 | `ethical-hacking-source-ownership.json` | Evidence that the Ethical Hacking source repository is owned by the owner's GitHub account (default branch renamed to `main` on 2026-11-25; commit identities and AI co-authorship documented). |
+| `authorship-and-ai-disclosure.md` | Plain-language disclosure of AI-assisted creation, source history, the original-history archive hash, and what is not yet attested. |
 | `AI-ASSISTED-REVIEW-REPORT.md` | Human-readable summary of the AI-assisted assessment, duplicate decision, exceptions and human sign-off status. |
 | `record.json` ✎ | Guinness application status. Update only from written Guinness World Records correspondence. |
 | `courses.json` | One record per course (schema in the brief: IDs, URLs, classification, dates, counts, eligibility + reasons, check results). |

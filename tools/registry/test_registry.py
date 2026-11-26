@@ -212,6 +212,10 @@ for slug in ('mcp-mastery-path', 'vector-databases-mastery-path'):
 for page in ('index.html', 'about.html', 'course-catalogue/index.html'):
     check(not re.search(r'\b(four|4) (real |hands-on )?projects\b', (ROOT_ / page).read_text(), re.I), f'{page}: says four projects; courses have 3 projects + 1 capstone')
 
+arc = own['original_history_archive']
+check(len(arc['sha256']) == 64 and arc['size_bytes'] > 0 and arc['contents']['commits'] == 29, 'original-history archive record incomplete')
+check((REG / 'authorship-and-ai-disclosure.md').exists() and arc['sha256'] in (REG / 'authorship-and-ai-disclosure.md').read_text(), 'AI disclosure must state the archive SHA-256')
+
 print(f"{len(courses)} courses, {len(lessons)} lessons + {len(projects)} projects: {'OK' if not fails else str(len(fails)) + ' failures'}")
 for f in fails[:30]:
     print('  FAIL', f)

@@ -91,5 +91,34 @@
   "detail": "On 2026-11-25 the owner asked in chat that the identities and AI co-authorship be documented transparently and that the repository be fixed. This file is that documentation. The owner has not yet signed an attestation that every commit is their own work; add one with a date here when given. The statement above about which git names belong to the owner is based on the owner's request and repository evidence (same GitHub account, same machine configuration), not on a third party.",
   "attested_by": null,
   "attested_on": null
+ },
+ "original_history_archive": {
+  "purpose": "Preserve the original, un-rewritten Git history so reviewers can compare it with the re-attributed history.",
+  "file": "ethical-hacking-before-rewrite.bundle",
+  "format": "git bundle (all refs, sha1)",
+  "created": "2026-11-25",
+  "size_bytes": 1371135,
+  "sha256": "4ebe6229f9a5ba46a16a8152e5fe49a4e14e984956aaf773f89a6d985097e617",
+  "contents": {
+   "commits": 29,
+   "head_main": "2d50916fb7df28c3fb37fad6b241ae6aad5ffe52",
+   "head_master": "a1994167310583229435f8c0b4dbf2bd59daa7b7",
+   "first_commit": "2e6c225bdf90db245e062c1360023716095b5c67",
+   "author_names": {
+    "Claude": 10,
+    "SIGILIPELLI": 6,
+    "vinodkumars": 8,
+    "vinod kumar sigilipelli": 5
+   }
+  },
+  "verified": "2026-11-25/26: sha256 recomputed and matches; 'git bundle verify' reports a complete history; a clone shows the 29 original commits under the four original author names.",
+  "storage": "Two read-only copies on the owner's computer (~/MasteryPath/backups and the GWR evidence pack). The bundle is not published because it contains personal email addresses in commit metadata; it will be given to GWR or an auditor on request, who can check it against the SHA-256 above.",
+  "how_to_check": "shasum -a 256 ethical-hacking-before-rewrite.bundle  # must equal the sha256 above; then: git clone ethical-hacking-before-rewrite.bundle check && git -C check log --format='%h %an %s'",
+  "recommended": "Keep a third copy off this computer (cloud drive or external disk) and note its location here."
+ },
+ "owner_role_and_attestation": {
+  "statement_status": "drafted for the owner to confirm; not yet signed",
+  "draft_location": "owner's GWR evidence pack (04-authorship-statement.md, 08-owner-role-statement.md)",
+  "public_ai_disclosure": "registry/authorship-and-ai-disclosure.md"
  }
 }
