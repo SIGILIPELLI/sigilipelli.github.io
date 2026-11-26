@@ -234,6 +234,16 @@ for page in ('index.html', 'about.html', 'search/index.html', 'learning-impact/i
     check('4,000+' not in plain, f'{page}: vague "4,000+" figure; state the registry totals')
 check(f"{PUB['courses']} Free Courses" in (ROOT_ / 'index.html').read_text(), 'homepage title must state the exact course count')
 
+_about = (ROOT_ / 'about.html').read_text()
+check(re.search(r'data-mp-stat="reviewed">%d<' % summary['courses_human_reviewed'], _about) is not None, 'About page review count differs from the registry')
+check('Independent human content review' in _about and 'AI assistant Claude' in _about and 'Ownership and publication' in _about, 'About page must separate ownership, direction, AI drafting, editing and independent review')
+check(not re.search(r'every course is reviewed|reviewed and updated|each level ends with a project', _about, re.I), 'About page overstates review or project wording')
+for page in ('quality-and-verification/index.html', 'learning-impact/index.html', 'world-record-attempt/index.html'):
+    check(summary['methodology_version'] in (ROOT_ / page).read_text(), f'{page}: does not show methodology {summary["methodology_version"]}')
+_cat = (ROOT_ / 'course-catalogue/index.html').read_text()
+check(not re.search(r'\b\d+-course (?:free )?(?:learning )?library', _cat), 'catalogue: stale library-size wording (N-course library)')
+check(not re.search(r'\b40 (?:hands-on )?lessons\b', _cat), 'catalogue: a description still says 40 lessons')
+
 print(f"{len(courses)} courses, {len(lessons)} lessons + {len(projects)} projects: {'OK' if not fails else str(len(fails)) + ' failures'}")
 for f in fails[:30]:
     print('  FAIL', f)

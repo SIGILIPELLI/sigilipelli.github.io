@@ -41,7 +41,7 @@ def lessons_label(c):
 
 STATS = {
     'courses': n(P['courses']), 'lessons': n(P['lessons']), 'projects': n(P['projects']), 'capstones': n(P['capstones']), 'module_quizzes': n(P['module_quizzes']), 'final_quizzes': n(P['final_quizzes']),
-    'lpc': n(P['lessons'] + P['projects'] + P['capstones']),
+    'lpc': n(P['lessons'] + P['projects'] + P['capstones']), 'reviewed': n(S['courses_human_reviewed']),
     'categories': n(S['categories']), 'featured_categories': n(S['featured_categories']), 'paths': n(S['learning_paths']),
     'exercises': n(P['exercises']), 'quizzes': n(P['quizzes']), 'technology': n(S['classification']['technology']),
     'professional': n(S['classification']['professional']), 'updated': STAMP, 'updated_day': DAY,
